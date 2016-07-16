@@ -4,8 +4,6 @@ namespace backend\models;
 
 use Yii;
 use yii\helpers\Url;
-use backend\models\AdminRoleUser;
-use backend\models\AdminRolePermission;
 use common\models\Menu as CommonMenu;
 
 class Menu extends CommonMenu
@@ -88,56 +86,6 @@ EOF;
             return "";
         }
 
-    }
-
-    public static function getMenuArray($type=0)
-    {
-        $model = new self();
-        $menus = $model->find()->where(['type'=>$type])->orderBy("sort asc,parent_id asc")->asArray()->all();//var_dump($menus);die;
-        $data = [];
-        foreach ($menus as $key => $menu) {
-            if ($menu['parent_id'] != 0) continue;
-            $menu['level'] = 0;
-            $menu['name'] = $menu['name'];
-            $data[$menu['id']] = $menu;
-            unset($menus[$key]);
-            $temp = self::_getSubMenuArray($menus, $menu['id'], 1);
-            if(is_array($temp)) {
-                foreach ($temp as $v) {
-                    if (!is_array($v)) continue;
-                    $data[$v['id']] = $v;
-                }
-            }
-        }
-        return $data;
-    }
-    private static function _getSubMenuArray($menus, $cur_id, $level){
-        $return = '';
-        foreach($menus as $key => $menu){
-            if($menu['parent_id'] != $cur_id) continue;
-            $menu['level'] = $level;
-            $menu['name'] = $menu['name'];
-            $return[] = $menu;
-            unset($menus[$key]);
-            $subMenu = self::_getSubMenuArray($menus, $menu['id'], $level+1);
-            if(is_array($subMenu)) {
-                foreach ($subMenu as $val) {
-                    if (!is_array($val)) continue;
-                    $return[] = $val;
-                }
-            }
-        }
-        return $return;
-    }
-
-    public static function getParentMenu()
-    {
-        $menusss = self::getMenuArray();
-        $newMenu = [];//var_dump($menus);die;
-        while(list($key, $val) = each($menusss)){
-            $newMenu[$val['id']] = str_repeat("---", $val['level']).$val['name'];
-        }
-        return $newMenu;
     }
 
 }

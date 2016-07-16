@@ -6,7 +6,6 @@
  * Time: 14:14
  */
 use feehi\grid\GridView;
-use yii\helpers\Url;
 use feehi\widgets\Bar;
 
 $this->title = "Backend Menus";
@@ -86,23 +85,3 @@ $this->title = "Backend Menus";
         </div>
     </div>
 </div>
-<?php
-    $url = Url::to(['update']);
-    $this->registerJs("
-        $('input[name=sort]').blur(function(){
-            var val = $(this).val();
-            if( isNaN(val) ){
-                alert('必须为数字');
-                return false;
-            }
-            var url = '{$url}';
-            $.ajax({
-                url:url,
-                method:'get',
-                data:{id:1,val:val},
-                success:function(data){
-                    alert(data);
-                }
-            })
-        });
-    ");

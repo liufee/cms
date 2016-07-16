@@ -11,7 +11,6 @@ use feehi\libs\Constants;
 use Yii;
 use backend\models\SettingWebsiteForm;
 use backend\models\SettingSeoForm;
-use backend\models\SettingCustomForm;
 use common\models\Options;
 use yii\base\Model;
 
@@ -37,7 +36,6 @@ class SettingController extends BaseController
                 }
                 Yii::$app->getSession()->setFlash('reason', $err);
             }
-            //return $this->refresh();
         }
 
         $model->getWebsiteSetting();
@@ -109,10 +107,9 @@ class SettingController extends BaseController
         }
     }
 
-    public function actionCustomDelete($id='')
+    public function getModel($id='')
     {
-        Options::findOne(['id'=>$id])->delete();
-        return $this->redirect(['custom']);
+        return Options::findOne(['id'=>$id, 'type'=>Options::TYPE_CUSTOM]);
     }
 
     public function actionCustomUpdate($id='')
@@ -128,7 +125,6 @@ class SettingController extends BaseController
                 foreach($errors as $v){
                     $err .= $v[0].'<br>';
                 }
-                //Yii::$app->getSession()->setFlash('error', yii::t('app', $err));
                 yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
                 return [
                     'err_msg' => $err,

@@ -12,6 +12,7 @@ use yii\helpers\Html;
 use feehi\widgets\Button;
 use backend\models\Article;
 use feehi\widgets\Bar;
+use backend\models\Comment;
 
 $this->title = 'Comments';
 
@@ -25,7 +26,31 @@ $viewLayer = function($url, $model){
 <div class="row">
     <div class="col-sm-12">
         <div class="ibox">
-            <?= $this->render('/widgets/_ibox-title') ?>
+            <?= $this->render('/widgets/_ibox-title', [
+            'buttons' => [
+                [
+                    'name' => 'Delete',
+                    'url' => 'delete',
+                    'options' => [
+                        'class' => 'multi-delete btn btn-primary btn-xs',
+                        'url' => Url::to(['delete']),
+                        'tipsjsonstring' => json_encode([
+                            'noItemSelected' => yii::t('app', 'None item selected!'),
+                            'PleaseSelectOne' => yii::t('app', 'Please at least select one item.'),
+                            'realyToDelete' => yii::t('app', 'Realy delete?'),
+                            'surelyDeleteItems' => yii::t('app', 'Surely delete items: '),
+                            'deleteButton' => yii::t('app', 'Delete'),
+                            'deleteWithNoRefresh' => yii::t('app', 'Waiting and no refresh window'),
+                            'deleting' => yii::t('app', 'Deleting'),
+                            'deleteSuccess' => yii::t('app', 'Delete success'),
+                            'successDeleted' => yii::t('app', 'Have been success deleted'),
+                            'deleteFailed' => yii::t('app', 'Delete failed'),
+                            'failedDelete' => yii::t('app', 'Sorry, failed deleted'),
+                        ]),
+                    ]
+                ],
+            ]
+            ]) ?>
             <div class="ibox-content">
                 <?= Bar::widget([
                     'buttons' => [
@@ -72,10 +97,12 @@ $viewLayer = function($url, $model){
                             'format' => 'html',
                             'value' => function($model, $key, $index, $column) {
                                 $text = Constants::getCommentStatusItems($model->status);
-                                if($model->status == 0){
+                                if($model->status == Comment::STATUS_INIT){
                                     $class = 'btn-default';
-                                }else{
+                                }else if($model->status == Comment::STATUS_PASSED){
                                     $class = 'btn-info';
+                                }else{
+                                    $class = 'btn-danger';
                                 }
                                 return "<a class='btn {$class} btn-xs btn-rounded'>{$text}</a>";
                             },
@@ -96,11 +123,11 @@ $viewLayer = function($url, $model){
                             'width' => '135',
                             'buttons' => [
                                 'change-status' => function($url, $model, $key){//echo $model->status;die;
-                                    if($model->status == 0){
-                                        $url .= "&status=1";
+                                    if($model->status == Comment::STATUS_INIT || $model->status == Comment::STATUS_UNPASS){
+                                        $url .= '&status=1';
                                         $title = Yii::t('app', 'Pass');
-                                    }else if($model->status == 1){
-                                        $url .= "&status=0";
+                                    }else if($model->status == Comment::STATUS_PASSED){
+                                        $url .= "&status=2";
                                         $title = Yii::t('app', 'Unpass');
                                     }
                                     return Html::a('<i class="fa fa-folder"></i> '. $title, $url, [

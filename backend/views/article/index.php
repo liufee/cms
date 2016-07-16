@@ -12,6 +12,7 @@ use feehi\libs\Constants;
 use yii\helpers\Html;
 use feehi\widgets\Bar;
 use yii\widgets\Pjax;
+use backend\models\Article;
 
 $this->title = 'Articles';
 
@@ -22,7 +23,7 @@ $this->title = 'Articles';
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?= Bar::widget()?>
-                <?php Pjax::begin(['id'=>'countries']);?>
+                <?php Pjax::begin(['id'=>'pjax']);?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
@@ -38,7 +39,7 @@ $this->title = 'Articles';
                             'attribute' => 'cid',
                             'label' => yii::t('app', 'Category'),
                             'value' => function($model){
-                                return Category::getTypeText($model->cid);
+                                return $model->category->name;
                             },
                             'filter' => Category::getType(),
                         ],
@@ -61,58 +62,133 @@ $this->title = 'Articles';
                             'attribute' => 'author_name',
                         ],
                         [
-                            'attribute' => 'flag_headline',
+                            'attribute' => 'thumb',
                             'filter' => Constants::getYesNoItems(),
                             'value' => function($model, $key, $index, $column) {
-                                return Constants::getYesNoItems($model->flag_headline);
+                                if($model->thumb == '')
+                                    $num = 0;
+                                else
+                                    $num = 1;
+                                return Constants::getYesNoItems($num);
+                            },
+                        ],
+                        [
+                            'attribute' => 'flag_headline',
+                            'filter' => Constants::getYesNoItems(),
+                            'format' => 'html',
+                            'value' => function($model, $key, $index, $column) {
+                                $text = Constants::getYesNoItems($model->flag_headline);
+                                if($model->flag_headline){
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_headline']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                }else{
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_headline']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                }
                             },
                         ],
                         [
                             'attribute' => 'flag_recommend',
                             'filter' => Constants::getYesNoItems(),
+                            'format' => 'html',
                             'value' => function($model, $key, $index, $column) {
-                                return Constants::getYesNoItems($model->flag_recommend);
+                                $text = Constants::getYesNoItems($model->flag_recommend);
+                                if($model->flag_recommend){
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_recommend']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                }else{
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_recommend']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                }
                             },
                         ],
                         [
                             'attribute' => 'flag_slide_show',
                             'filter' => Constants::getYesNoItems(),
+                            'format' => 'html',
                             'value' => function($model, $key, $index, $column) {
-                                return Constants::getYesNoItems($model->flag_slide_show);
+                                $text = Constants::getYesNoItems($model->flag_slide_show);
+                                if($model->flag_slide_show){
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_slide_show']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                }else{
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_slide_show']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                }
                             },
                         ],
                         [
                             'attribute' => 'flag_special_recommend',
                             'filter' => Constants::getYesNoItems(),
+                            'format' => 'html',
                             'value' => function($model, $key, $index, $column) {
-                                return Constants::getYesNoItems($model->flag_special_recommend);
+                                $text = Constants::getYesNoItems($model->flag_special_recommend);
+                                if($model->flag_special_recommend){
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_special_recommend']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                }else{
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_special_recommend']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                }
                             },
                         ],
                         [
                             'attribute' => 'flag_roll',
                             'filter' => Constants::getYesNoItems(),
+                            'format' => 'html',
                             'value' => function($model, $key, $index, $column) {
-                                return Constants::getYesNoItems($model->flag_roll);
+                                $text = Constants::getYesNoItems($model->flag_roll);
+                                if($model->flag_roll){
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_roll']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                }else{
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_roll']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                }
                             },
                         ],
                         [
                             'attribute' => 'flag_bold',
                             'filter' => Constants::getYesNoItems(),
+                            'format' => 'html',
                             'value' => function($model, $key, $index, $column) {
-                                return Constants::getYesNoItems($model->flag_bold);
+                                $text = Constants::getYesNoItems($model->flag_bold);
+                                if($model->flag_bold){
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_bold']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                }else{
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_bold']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                }
                             },
                         ],
                         [
                             'attribute' => 'flag_picture',
                             'filter' => Constants::getYesNoItems(),
+                            'format' => 'html',
                             'value' => function($model, $key, $index, $column) {
-                                return Constants::getYesNoItems($model->flag_picture);
+                                $text = Constants::getYesNoItems($model->flag_picture);
+                                if($model->flag_picture){
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_picture']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                }else{
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_picture']);
+                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                }
                             },
                         ],
                         [
                             'attribute' => 'status',
+                            'format' => 'html',
                             'value' => function($model, $key, $index, $column) {
-                                return Constants::getArticleStatus($model->status);
+                                $text = Constants::getArticleStatus($model->status);
+                                if($model->status == Article::ARTICLE_PUBLISHED){
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>Article::ARTICLE_DRAFT]);
+                                    return "<a href='$url' class='btn btn-info btn-xs btn-rounded'>{$text}</a>";
+                                }else{
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>Article::ARTICLE_PUBLISHED]);
+                                    return "<a href='$url' class='btn  btn-xs btn-default btn-rounded'>{$text}</a>";
+                                }
                             },
                             'filter' => Constants::getArticleStatus(),
                         ],
@@ -148,20 +224,32 @@ $this->title = 'Articles';
         </div>
     </div>
 </div>
-<?php $this->registerJs("
-$(document).ready(function(){
-    var t;
-    $('table tr td a.title').hover(function(){
+<script>
+    function showImg(){
         t = setTimeout(function(){}, 200);
         var node = $(this).attr('title');
         if(node.length == 0){
-            layer.tips('文章没有配图', $(this));
+            layer.tips('<?=yii::t('app', 'No picture')?>', $(this));
         }else {
             layer.tips('<img src='+node+'>', $(this));
         }
-    },function(){
+    }
+</script>
+<?php $this->registerJs("
+$(document).ready(function(){
+    var t;
+    $('table tr td a.title').hover(showImg,function(){
        clearTimeout(t);
     });
-});"
+});
+var container = $('#pjax');
+container.on('pjax:send',function(args){
+    layer.load(2);
+});
+container.on('pjax:complete',function(args){
+    layer.closeAll('loading');
+    $('table tr td a.title').bind('mouseover mouseout', showImg);
+});
+"
 )
 ?>

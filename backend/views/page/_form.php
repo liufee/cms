@@ -30,8 +30,7 @@ $this->title = "Pages";
                         <?= $form->field($model, 'title')->textInput();?>
                         <?= $form->field($model, 'sub_title')->textInput();?>
                         <?= $form->field($model, 'sumary')->textArea();?>
-                        <?= $form->field($model, 'thumb')->imgInput(['width'=>'200px']);?>
-                        <?= Ueditor::widget(['content'=>$model->content,'name'=>'Article[content]'])?>
+                        <?= $form->field($model, 'content')->ueditor()?>
                     </div>
                     <!--left stop -->
 
@@ -43,15 +42,6 @@ $this->title = "Pages";
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
                                 </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="calendar.html#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="calendar.html#">选项1</a>
-                                    </li>
-                                    <li><a href="calendar.html#">选项2</a>
-                                    </li>
-                                </ul>
                                 <a class="close-link">
                                     <i class="fa fa-times"></i>
                                 </a>

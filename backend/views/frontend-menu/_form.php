@@ -18,7 +18,7 @@ $this->title = "Frontend Menus";
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?php $form = ActiveForm::begin(); ?>
-                <?= $form->field($model, 'parent_id')->dropDownList(Menu::getParentMenu())?>
+                <?= $form->field($model, 'parent_id')->dropDownList(Menu::getParentMenu(Menu::FRONTEND_TYPE))?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>

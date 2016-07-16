@@ -16,7 +16,7 @@ class PageController extends BaseController
 {
 
     public function actionIndex()
-    {//yii::getLogger()->log('ddddddddddddd', \yii\log\Logger::LEVEL_ERROR);
+    {
         $searchModel = new ArticleSearch();
         $dataProvider = $searchModel->search(yii::$app->request->queryParams, Article::SINGLE_PAGE);
         return $this->render('index', [
@@ -83,9 +83,5 @@ class PageController extends BaseController
     {
         return Article::findOne(['id'=>$id]);
     }
-
-    public function actionTest()
-    {
-        echo yii::getRootAlias('@avatar');die;
-    }
+    
 }

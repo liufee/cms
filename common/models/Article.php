@@ -21,6 +21,13 @@ use Yii;
  * @property string $sort
  * @property string $author_id
  * @property string $author_name
+ * @property string $flag_headline
+ * @property string $flag_recommend
+ * @property string $flag_slide_show,
+ * @property string $flag_special_recommend,
+ * @property string $flag_roll,
+ * @property string $flag_bold,
+ * @property string $flag_picture,
  * @property string $created_at
  * @property string $updated_at
  */

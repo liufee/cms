@@ -13,20 +13,13 @@ class MenuController extends BaseController
 
     public function actionIndex()
     {
-        if(yii::$app->request->getIsPost()){
-            $model = new Menu();
-            $model->saveSort(yii::$app->request->post());
-        }
-        $data = Menu::getMenuArray();//var_dump($data);die;
+        $data = Menu::getMenuArray(Menu::BACKEND_TYPE);//var_dump($data);die;
         $dataProvider = new ArrayDataProvider([
             'allModels' => $data,
             'pagination' => [
                 'pageSize' => -1
             ]
         ]);
-        //$dataProvider = new ActiveDataProvider([
-            //'query' => $query,
-        //]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

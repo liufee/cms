@@ -36,6 +36,7 @@ return [
     'Create' => '创建',
     'Delete' => '删除',
     'Action' => '操作',
+    'Add' => '新增',
     'Search' => '搜索',
     'Users' => '用户',
     'ID' => '序号',
@@ -46,6 +47,7 @@ return [
     'previous' => '上一页',
     'next' => '下一页',
     'last' => '尾页',
+    'No picture' => '无图',
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',

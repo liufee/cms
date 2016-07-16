@@ -31,9 +31,9 @@ $this->title = yii::t('app', 'Custom Setting');
                 <?php
                     $form = ActiveForm::begin();
                     foreach ($settings as $index => $setting) {
-                        $deleteUrl = Url::to(['setting/custom-delete', 'id'=>$setting->id]);
-                        $editUrl = Url::to(['setting/custom-update', 'id'=>$setting->id]);
-                        $template = "{label}\n<div class=\"col-sm-8\">{input}\n{error}</div>\n{hint}<div class='col-sm-2'><span class='help-block m-b-none'><i class='fa fa-info-circle'></i> {$setting->tips}  <a class='btn-delete' url='{$deleteUrl}' title='' data-confirm='' data-method='' data-pjax='1'><i style='float: right' class='fa fa-trash-o'></i></a><a href='{$editUrl}' class='btn_edit' title='编辑' data-pjax=''><i style='float: right;margin-right: 10px;' class='fa fa-pencil'></i></a> </span></div>";
+                        $deleteUrl = Url::to(['delete', 'id'=>$setting->id]);
+                        $editUrl = Url::to(['custom-update', 'id'=>$setting->id]);
+                        $template = "{label}\n<div class=\"col-sm-8\">{input}\n{error}</div>\n{hint}<div class='col-sm-2'><span class='help-block m-b-none'><i class='fa fa-info-circle'></i> {$setting->tips}  <a class='btn-delete' href='{$deleteUrl}' title='' data-confirm='' data-method='' data-pjax='1'><i style='float: right' class='fa fa-trash-o'></i></a><a href='{$editUrl}' class='btn_edit' title='编辑' data-pjax=''><i style='float: right;margin-right: 10px;' class='fa fa-pencil'></i></a> </span></div>";
                         if($setting->input_type == Constants::INPUT_UEDITOR){
                             echo $form->field($setting, "[$index]value", ['template'=>$template])->label($setting->name)->ueditor();
 
@@ -53,7 +53,7 @@ $this->title = yii::t('app', 'Custom Setting');
                 <div class="form-group">
                     <label class="col-sm-2 control-label"></label>
                     <div class="col-sm-8">
-                        <a style="float:right;" type="button" class="btn btn-outline btn-default" id="add">新增</a>
+                        <a style="float:right;" type="button" class="btn btn-outline btn-default" id="add"><?=yii::t('app', 'Add')?></a>
                     </div>
                 </div>
                 <?= $form->defaultButtons() ?>
@@ -68,7 +68,7 @@ $this->title = yii::t('app', 'Custom Setting');
         $('#add').click(function(){
             layer.open({
                 type: 1,
-                title: '新增',
+                title: '<?=yii::t('app', 'Add')?>',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
                 area : ['70%' , '80%'],
@@ -85,7 +85,6 @@ $this->title = yii::t('app', 'Custom Setting');
                     type:"post",
                     data:$form.serialize(),
                     success:function (data) {
-                        console.log(data);
                         layer.msg(data.err_msg);
                     }
                 }).always(function () {
@@ -95,12 +94,13 @@ $this->title = yii::t('app', 'Custom Setting');
             });
         });
         $("a.btn_edit").click(function () {
+            var name = $(this).parents("div.form-group").children("label").html();
             $.ajax({
                 url:$(this).attr('href'),
                 success:function (data) {
                     layer.open({
                         type: 1,
-                        title: '修改',
+                        title: '<?=yii::t('app', 'Update')?> '+name,
                         maxmin: true,
                         shadeClose: true, //点击遮罩关闭层
                         area : ['70%' , '80%'],

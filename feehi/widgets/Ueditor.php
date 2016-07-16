@@ -8,8 +8,7 @@
 namespace feehi\widgets;
 
 use yii\base\Widget;
-use yii\helpers\Html;
-use yii\web\View;
+use backend\assets\UeditorAsset;
 
 class Ueditor extends Widget
 {
@@ -25,8 +24,9 @@ class Ueditor extends Widget
     public function run()
     {
         $view = $this->getView();
-        $view->registerjSFile("@web/static/plugins/ueditor/ueditor.config.js", ['position'=>View::POS_BEGIN]);
-        $view->registerJsFile("@web/static/plugins/ueditor/ueditor.all.js", ['position'=>View::POS_BEGIN]);
+        UeditorAsset::register($view);
+        //$view->registerjSFile("@backend/web/static/plugins/ueditor/ueditor.config.js", ['position'=>View::POS_BEGIN]);
+        //$view->registerJsFile("@backend/web/static/plugins/ueditor/ueditor.all.js", ['position'=>View::POS_BEGIN]);
         $html =<<<EOF
              <script type="text/javascript">
                  var ue = UE.getEditor('{$this->name}',$this->ueConfig);

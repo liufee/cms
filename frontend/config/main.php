@@ -44,6 +44,8 @@ return [
                 //'post/22'=>'site/detail',
                 //'<controller:detail>/<id:\d+>' => '<controller>/index',
                 '' => 'site/index',
+                '<controller:w+>/<action:\w+>'=>'<controller>/<action>',
+                '<page:\d+>' => 'site/index',
                 'login' => 'site/login',
                 'sinup' => 'site/signup',
                 'about|contact' => 'page/view',

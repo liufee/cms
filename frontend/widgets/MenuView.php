@@ -25,7 +25,7 @@ class MenuView extends \yii\base\Widget
     public function run()
     {
         parent::run();
-        $menus = Menu::getMenuArray();
+        $menus = Menu::getMenuArray(Menu::FRONTEND_TYPE);
         $content = '';
         $prevLevel = 0;
         $subLi = '';

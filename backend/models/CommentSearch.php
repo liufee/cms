@@ -18,7 +18,6 @@ class CommentSearch extends Comment
     public $create_end_at;
     public $update_start_at;
     public $update_end_at;
-    public $status = 0;
 
     public function rules()
     {
@@ -40,7 +39,7 @@ class CommentSearch extends Comment
             ]
         ]);
         $this->load($params);//var_dump($params);die;
-        if(!$this->validate()){var_dump($this->getErrors());die;
+        if(!$this->validate()){
             return $dataProvider;
         }
         $query->andFilterWhere(['like', 'nickname', $this->nickname])

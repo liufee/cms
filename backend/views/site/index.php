@@ -12,7 +12,8 @@ use common\widgets\Alert;
 use backend\models\Menu;
 use yii\helpers\Url;
 use backend\models\AdminRoles;
-
+use frontend\web\admin\IndexAsset;
+IndexAsset::register($this);
 $this->title = yii::t('app', 'Backend Manage System');
 ?>
 <?php $this->beginPage() ?>
@@ -25,10 +26,6 @@ $this->title = yii::t('app', 'Backend Manage System');
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
     <link rel="icon" href="<?=yii::$app->request->hostInfo?>/favicon.ico" type="image/x-icon" />
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="static/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
-    <!--<link href="static/css/animate.min.css" rel="stylesheet">-->
-    <link href="static/css/style.min862f.css?v=4.1.0" rel="stylesheet">
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
 <?php $this->beginBody() ?>
@@ -623,14 +620,6 @@ $this->title = yii::t('app', 'Backend Manage System');
 </div>
 <?php $this->endBody() ?>
 </body>
-<script src="static/js/jquery.min.js?v=2.1.4"></script>
-<script src="static/js/bootstrap.min.js?v=3.3.6"></script>
-<script src="static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="static/js/plugins/layer/layer.min.js"></script>
-<script src="static/js/hplus.min.js?v=4.1.0"></script>
-<script type="text/javascript" src="static/js/contabs.min.js"></script>
-<script src="static/js/plugins/pace/pace.min.js"></script>
 <script>
     function reloadIframe(){
         var url = $("nav a.active").attr('data-id');

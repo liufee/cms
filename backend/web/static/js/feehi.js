@@ -111,5 +111,8 @@ $(document).ready(function(){
     $('a.refresh').click(function(){
         location.reload();
         return false;
+    });
+    $('input[type=file]').bind('change', function () {
+        alert(222);
     })
 })

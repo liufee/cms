@@ -16,7 +16,7 @@ class ArticleController extends BaseController
 {
 
     public function actionIndex()
-    {//Yii::$app->mailer->useFileTransport=false;yii::getLogger()->log('ddddddddddddd', \yii\log\Logger::LEVEL_ERROR);
+    {
         $searchModel = new ArticleSearch();
         $dataProvider = $searchModel->search(yii::$app->request->queryParams);
         return $this->render('index', [
@@ -52,13 +52,13 @@ class ArticleController extends BaseController
         $model = $this->getModel($id);
         if ( Yii::$app->request->isPost ) {
             if( $model->load(Yii::$app->request->post()) && $model->save() ){
-                Yii::$app->getSession()->setFlash('success', '修改成功');
+                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             }else{
-                Yii::$app->getSession()->setFlash('error', '修改失败');
+                Yii::$app->getSession()->setFlash('error', yii::t('app', 'Error'));
             }
             $model = $this->getModel($id);
         }
-        $contentModel = ArticleContent::findOne(['aid'=>$id]);//var_dump($temp);die;
+        $contentModel = ArticleContent::findOne(['aid'=>$id]);
         $model->content = $contentModel != NULL ? $contentModel->content : '';
         return $this->render('update', [
             'model' => $model,
@@ -71,7 +71,6 @@ class ArticleController extends BaseController
         $contentModel = ArticleContent::findOne(['aid'=>$id]);
         $model->content = '';
         if($contentModel != NULL){
-            //$contentModel->replaceToCdnUrl();
             $model->content = $contentModel->content;
         }
         return $this->render('view', [
@@ -84,8 +83,4 @@ class ArticleController extends BaseController
         return Article::findOne(['id'=>$id]);
     }
 
-    public function actionTest()
-    {
-        echo yii::getRootAlias('@avatar');die;
-    }
 }

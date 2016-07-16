@@ -14,16 +14,13 @@ class FrontendMenuController extends BaseController
 
     public function actionIndex()
     {
-        $data = \backend\models\Menu::getMenuArray(Menu::FRONTEND_TYPE);//var_dump($data);die;
+        $data = Menu::getMenuArray(Menu::FRONTEND_TYPE);//var_dump($data);die;
         $dataProvider = new ArrayDataProvider([
             'allModels' => $data,
             'pagination' => [
                 'pageSize' => -1
             ]
         ]);
-        //$dataProvider = new ActiveDataProvider([
-            //'query' => $query,
-        //]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
         ]);

@@ -95,5 +95,18 @@ return [
         \yii\base\Event::on(\yii\db\BaseActiveRecord::className(), \yii\db\BaseActiveRecord::EVENT_AFTER_DELETE, ['feehi\components\AdminLog', 'delete']);
         if(isset(\yii::$app->session['language'])) \yii::$app->language = yii::$app->session['language'];
     },
+    'on beforeAction' => function($action)
+    {
+        $headers = Yii::$app->response->headers;
+        $headers->add('X-Powered-By', 'feehi');
+        if(!yii::$app->user->isGuest){
+            if( yii::$app->rbac->checkPermission() === false ){
+                //throw new \yii\web\HttpException(403, 'forbidden');
+                Yii::$app->response->redirect(['error/forbidden'], 200)->send();
+                exit();
+            }
+        }
+        if(yii::$app->user->isGuest && Yii::$app->controller->id.'/'.Yii::$app->controller->action->id != 'site/login') yii::$app->controller->redirect(['site/login']);
+    },
     'params' => $params,
 ];

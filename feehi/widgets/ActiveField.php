@@ -154,7 +154,7 @@ class ActiveField extends \yii\widgets\ActiveField
 
     public function imgInput($options = [])
     {
-        $this->template = "{label}\n<div class=\"col-sm-{size}\">{input}{img}\n{error}</div>\n{hint}";
+        $this->template = "{label}\n<div class=\"col-sm-{size} image\">{input}{img}\n{error}</div>\n{hint}";
         $pic = $this->attribute;
         $src = yii::$app->params['site']['url'].'/static/images/none.jpg';
         if($this->model->$pic != ''){

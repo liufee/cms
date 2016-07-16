@@ -16,7 +16,7 @@ class ArticleSearch extends Article{
             [['title','author_name','cid'], 'string'],
             [['created_at', 'updated_at'], 'string'],
             [['create_start_at', 'create_end_at', 'update_start_at', 'update_end_at'], 'string'],
-            [['status', 'flag_headline', 'flag_recommend', 'flag_slide_show', 'flag_special_recommend', 'flag_roll', 'flag_bold', 'flag_picture'], 'integer'],
+            [['status', 'flag_headline', 'flag_recommend', 'flag_slide_show', 'flag_special_recommend', 'flag_roll', 'flag_bold', 'flag_picture', 'thumb'], 'integer'],
         ];
     }
 
@@ -46,6 +46,10 @@ class ArticleSearch extends Article{
             ->andFilterWhere(['flag_bold'=>$this->flag_bold])
             ->andFilterWhere(['flag_picture'=>$this->flag_picture])
             ->andFilterWhere(['like', 'author_name', $this->author_name]);
+        if($this->thumb == 1)
+            $query->andWhere(['<>', 'thumb', '']);
+        else if($this->thumb === '0')
+            $query->andWhere(['thumb'=>'']);
         $create_start_at_unixtimestamp = $create_end_at_unixtimestamp = $update_start_at_unixtimestamp = $update_end_at_unixtimestamp = '';
         if($this->create_start_at != '') $create_start_at_unixtimestamp = strtotime($this->create_start_at);
         if($this->create_end_at != '') $create_end_at_unixtimestamp = strtotime($this->create_end_at);
