@@ -240,8 +240,8 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
         $oldAvatar = $this->getOldAttribute('avatar');
-        if($oldAvatar != '') @unlink(yii::getAlias("@backend/web").$oldAvatar);
-        $this->avatar = str_replace(yii::getAlias('@backend/web'), '', $imgs[0]);
+        if($oldAvatar != '') @unlink(yii::getAlias("@frontend/web").$oldAvatar);
+        $this->avatar = str_replace(yii::getAlias('@frontend/web'), '', $imgs[0]);
         return true;
     }
 

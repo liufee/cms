@@ -38,7 +38,7 @@ $this->title = yii::t('app', 'Backend Manage System');
             <ul class="nav" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element">
-                        <span><img alt="image" class="img-circle" width="64px" height="64px" src="<?php if(\yii::$app->user->identity->avatar){echo \yii::getAlias("@web").\yii::$app->user->identity->avatar;}else{echo 'static/img/profile_small.jpg';} ?>" /></span>
+                        <span><img alt="image" class="img-circle" width="64px" height="64px" src="<?php if(\yii::$app->user->identity->avatar){echo \yii::$app->params['site']['url'].\yii::$app->user->identity->avatar;}else{echo 'static/img/profile_small.jpg';} ?>" /></span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                <span class="block m-t-xs"><strong class="font-bold"><?= yii::t('menu', yii::$app->rbac->roleName)?></strong></span>

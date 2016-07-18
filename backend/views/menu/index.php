@@ -7,6 +7,7 @@
  */
 use feehi\grid\GridView;
 use feehi\widgets\Bar;
+use yii\helpers\Html;
 
 $this->title = "Backend Menus";
 ?>
@@ -23,7 +24,8 @@ $this->title = "Backend Menus";
                             'class' => 'feehi\grid\CheckboxColumn',
                         ],
                         [
-                            'attribute' => yii::t('app', 'Name'),
+                            'attribute' => 'Name',
+                            'label' => yii::t('app', 'Name'),
                             'format' => 'html',
                             'value' => function($model,$key,$index,$column){
                                 $return = '';
@@ -35,27 +37,28 @@ $this->title = "Backend Menus";
                             }
                         ],
                         [
-                            'attribute' => yii::t('app', 'Icon'),
+                            'attribute' => 'icon',
+                            'label' => yii::t('app', 'Icon'),
                             'format' => 'html',
                             'value' => function($model){
                                 return "<i class=\"fa {$model['icon']}\"></i>";
                             }
                         ],
                         [
-                            'attribute' => yii::t('app', 'Url'),
-                            'value' => function($model){
-                                return $model['url'];
-                            }
+                            'attribute' => 'url',
+                            'label' => yii::t('app', 'Url'),
                         ],
                         [
-                            'attribute' => yii::t('app', 'Sort'),
+                            'attribute' => 'sort',
+                            'label' => yii::t('app', 'Sort'),
                             'format' => 'raw',
                             'value' => function($model){
-                                return \yii\helpers\Html::input('number', "sort[{$model['id']}]", $model['sort']);
+                                return Html::input('number', "sort[{$model['id']}]", $model['sort']);
                             }
                         ],
                         [
-                            'attribute' => yii::t('app', 'Is Display'),
+                            'attribute' => 'is_display',
+                            'label' => yii::t('app', 'Is Display'),
                             'format' => 'html',
                             'value' => function($model){
                                 if($model['is_display']){

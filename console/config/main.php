@@ -25,7 +25,4 @@ return [
         ]
     ],
     'params' => $params,
-    'on beforeRequest' => function($event) {
-        require(__DIR__."/../../../pc/vendor/autoload.php");
-    },
 ];

@@ -23,7 +23,8 @@ $this->title = "Category";
                             'class' => 'feehi\grid\CheckboxColumn',
                         ],
                         [
-                            'attribute' => yii::t('app', 'Name'),
+                            'attribute' => 'name',
+                            'label' => yii::t('app', 'Name'),
                             'format' => 'html',
                             'value' => function($model,$key,$index,$column){
                                 $return = '';
@@ -34,7 +35,8 @@ $this->title = "Category";
                             }
                         ],
                         [
-                            'attribute' => yii::t('app', 'Sort'),
+                            'attribute' => 'sort',
+                            'label' => yii::t('app', 'Sort'),
                             'format' => 'raw',
                             'value' => function($model){
                                 return \yii\helpers\Html::input('number', "sort[{$model['id']}]", $model['sort'], ['style'=>'width:50px']);

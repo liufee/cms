@@ -7,6 +7,7 @@
  */
 use feehi\grid\GridView;
 use feehi\widgets\Bar;
+use yii\helpers\Html;
 
 $this->title = "Friendly Links";
 ?>
@@ -27,20 +28,19 @@ $this->title = "Friendly Links";
                         ],
                         [
                             'attribute' => 'url',
-                            'format' => 'html',
-                            'value' => function($model){
-                                return \yii\bootstrap\Html::a($model->url, $model->url);
-                            }
-                        ],
-                        [
-                            'attribute' => yii::t('app', 'Sort'),
                             'format' => 'raw',
                             'value' => function($model){
-                                return \yii\helpers\Html::input('number', "sort[{$model['id']}]", $model['sort']);
+                                return Html::a($model->url, $model->url, ['target'=>'_blank']);
                             }
                         ],
                         [
-                            'label' => yii::t('app', 'Status'),
+                            'attribute' => 'sort',
+                            'format' => 'raw',
+                            'value' => function($model){
+                                return Html::input('number', "sort[{$model['id']}]", $model['sort']);
+                            }
+                        ],
+                        [
                             'attribute' => 'status',
                             'format' => 'html',
                             'value' => function($model){

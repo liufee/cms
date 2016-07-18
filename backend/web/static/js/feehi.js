@@ -113,6 +113,21 @@ $(document).ready(function(){
         return false;
     });
     $('input[type=file]').bind('change', function () {
-        alert(222);
+        if (typeof FileReader === 'undefined') {
+            return;
+        }
+        var that = $(this);
+        var files = $( this )[0].files;
+        if(that.parent().parent().attr('class').indexOf("image")){
+            if(!/image\/\w+/.test(files[0].type)){
+                layer.tips(tips.mustChoosePic, that.parent().parent());
+                return false;
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            reader.onload = function (e) {
+                that.parents("div.image").children("img").attr("src", this.result);
+            }
+        }
     })
 })

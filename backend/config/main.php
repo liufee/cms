@@ -94,6 +94,7 @@ return [
         \yii\base\Event::on(\yii\db\BaseActiveRecord::className(), \yii\db\BaseActiveRecord::EVENT_AFTER_UPDATE, ['feehi\components\AdminLog', 'update']);
         \yii\base\Event::on(\yii\db\BaseActiveRecord::className(), \yii\db\BaseActiveRecord::EVENT_AFTER_DELETE, ['feehi\components\AdminLog', 'delete']);
         if(isset(\yii::$app->session['language'])) \yii::$app->language = yii::$app->session['language'];
+        if(!isset(yii::$app->params['site']['url'])) yii::$app->params['site']['url'] = yii::$app->request->getHostInfo();
     },
     'on beforeAction' => function($action)
     {

@@ -7,6 +7,9 @@
  */
 ?>
 <script>
+var tips = {
+    mustChoosePic : "<?= yii::t('app', 'Only picture file be permitted.')?>",
+};
 var deleteTips = {
     noItemSelected : "<?= yii::t('app', 'None item selected!')?>",
     PleaseSelectOne : "<?= yii::t('app', 'Please at least select one item.')?>",

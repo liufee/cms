@@ -30,8 +30,13 @@ $start = isset($_GET['start']) ? htmlspecialchars($_GET['start']) : 0;
 $end = $start + $size;
 
 /* 获取文件列表 */
-$path = $_SERVER['DOCUMENT_ROOT'] . (substr($path, 0, 1) == "/" ? "":"/") . $path;
+//$path = $_SERVER['DOCUMENT_ROOT'] . (substr($path, 0, 1) == "/" ? "":"/") . $path;
+$path = $CONFIG['baseUploadsDirectory'].'frontend/web/uploads/article/ueditor';
 $files = getfiles($path, $allowFiles);
+foreach ($files as &$v){
+    $temp = explode('/uploads/', $v['url']);
+    $v['url'] = yii::$app->params['site']['url'].'/uploads/'.$temp[1];
+}
 if (!count($files)) {
     return json_encode(array(
         "state" => "no match file",

@@ -198,6 +198,7 @@ return [
     'Have been success deleted' => '已经成功删除',
     'Delete failed' => '删除失败',
     'Sorry, failed deleted' => '啊哦,删除失败啦~',
+    'Only picture file be permitted.' => '只能选择图片类型',
     /*js*/
 
     /*error*/
