@@ -29,7 +29,7 @@ $this->title = "Pages";
                     <div class="col-md-7 droppable sortable ui-droppable ui-sortable" style="">
                         <?= $form->field($model, 'title')->textInput();?>
                         <?= $form->field($model, 'sub_title')->textInput();?>
-                        <?= $form->field($model, 'sumary')->textArea();?>
+                        <?= $form->field($model, 'summary')->textArea();?>
                         <?= $form->field($model, 'content')->ueditor()?>
                     </div>
                     <!--left stop -->

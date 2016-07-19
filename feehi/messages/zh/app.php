@@ -48,6 +48,7 @@ return [
     'next' => '下一页',
     'last' => '尾页',
     'No picture' => '无图',
+    'Must choose a category' => '请选择一个未分类',
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',
@@ -106,6 +107,8 @@ return [
     'Statics Script' => '统计代码',
     'Website Status' => '站点状态',
     'Website Timezone' => '时区设置',
+    'Open Comment' => '开启评论',
+    'Open Comment Verify' => '开启评论审核',
     'Website Setting' => '网站设置',
     'Seo Setting' => 'Seo设置',
     'Input Type' => '输入框类型',

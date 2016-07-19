@@ -13,27 +13,20 @@ use common\models\Options;
 
 class Feehi extends Component{
 
-    public $title = '';
-    public $seo_title = '';
-    public $keywords = '';
-    public $description = '';
-    public $website_status = 1;
-    public $webiste_language = 'en-US';
+    public $website_title = 'Feehi CMS';
+    public $website_language = 'en-US';
     public $website_timezone = 'Asia/Shanghai';
-    public $website_statics_script = '';
 
     public function __construct()
     {
         parent::__construct();
-        $data = Options::find()->where(['name'=>['website_title', 'seo_keywords', 'seo_description', 'website_status','webiste_language', 'website_timezone']])->asArray()->indexBy("name")->all();//var_dump($data);die;
-        if( isset($data['website_title']) && $data['website_title']['value'] ) $this->title = $data['website_title']['value'];
-        if( isset($data['seo_title']) && $data['seo_title']['value'] ) $this->title = $data['seo_title']['value'];
-        if( isset($data['seo_keywords']) && $data['seo_keywords']['value'] ) $this->keywords = $data['seo_keywords']['value'];
-        if( isset($data['seo_description']) && $data['seo_description']['value'] ) $this->description = $data['seo_description']['value'];
-        if( isset($data['website_status']) ) $this->website_status = $data['website_status']['value'];
-        if( isset($data['website_language']) && $data['website_language']['value'] ) $this->webiste_language = $data['website_language']['value'];
-        if( isset($data['website_timezone']) && $data['website_timezone']['value'] ) $this->website_timezone = $data['website_timezone']['value'];
-        if( isset($data['website_statics_script']) && $data['website_statics_script']['value'] ) $this->website_timezone = $data['website_statics_script']['value'];
+        $data = Options::find()->where(['type'=>Options::TYPE_SYSTEM])->asArray()->indexBy("name")->all();
+        foreach($data as $k => $v){
+            $this->$k = $v['value'];
+        }
+        if( $this->website_title ) $this->website_title = 'Feehi CMS';
+        if( $this->website_language ) $this->website_language = 'en-US';
+        if( $this->website_timezone ) $this->website_timezone = 'Asia/Shanghai';
     }
 
     public function init()
@@ -50,10 +43,15 @@ class Feehi extends Component{
         $this->$name = $value;
     }
 
+    public function __get($name)
+    {
+        return $this->$name;
+    }
+
     public static function setConfig()
     {
         if(!yii::$app->feehi->website_status) yii::$app->catchAll = ['site/offline'];
-        yii::$app->language = yii::$app->feehi->webiste_language;
+        yii::$app->language = yii::$app->feehi->website_language;
         yii::$app->timeZone = yii::$app->feehi->website_timezone;
     }
 

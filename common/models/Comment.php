@@ -72,6 +72,16 @@ class Comment extends \yii\db\ActiveRecord
         if($insert){
             $this->created_at = time();
             $this->ip = yii::$app->request->getUserIP();
+            if(yii::$app->feehi->website_comment){
+                if(yii::$app->feehi->website_comment_need_verify){
+                    $this->status = self::STATUS_INIT;
+                }else{
+                    $this->status = self::STATUS_PASSED;
+                }
+            }else{
+                $this->addError('content', 'Comment closed');
+                return false;
+            }
         }else{
             $this->updated_at = time();
         }
@@ -90,7 +100,7 @@ class Comment extends \yii\db\ActiveRecord
 
     function getCommentByAid($id)
     {
-        $list = self::find()->where(['aid'=>$id])->asArray()->orderBy("id desc,reply_to desc")->all();
+        $list = self::find()->where(['aid'=>$id, 'status'=>self::STATUS_PASSED])->asArray()->orderBy("id desc,reply_to desc")->all();
         $newList = [];
         foreach ($list as $v){
             if($v['reply_to'] == 0){

@@ -76,7 +76,7 @@ class ArticleController extends Controller
         //$titles = Article::find()->select(['title','id'])->asArray()->column();
         $commentModel = new Comment();
         $commentList = $commentModel->getCommentByAid($id);
-        $recommends = Article::find()->orderBy("rand()")->limit(8)->all();
+        $recommends = Article::find()->where(['type'=>Article::ARTICLE, 'status'=>Article::ARTICLE_PUBLISHED])->andWhere(['<>', 'thumb', ''])->orderBy("rand()")->limit(8)->all();
         return $this->render('view', [
             'model' => $model,
             'prev' => $prev,
@@ -111,20 +111,29 @@ class ArticleController extends Controller
         if(yii::$app->request->getIsPost()){
             $commentModel = new Comment();
             if($commentModel->load(yii::$app->request->post()) && $commentModel->save()){
-                $avatar = 'http://cd.v7v3.com/avatar/70ca4911ad6f602be5a4e4d834adb883?s=50';
+                $avatar = 'https://secure.gravatar.com/avatar?s=50';
                 if($commentModel->email != ''){
-                    $avatar = "http://cd.v7v3.com/avatar/".md5($commentModel->email)."?s=50";
+                    $avatar = "https://secure.gravatar.com/avatar/".md5($commentModel->email)."?s=50";
+                }
+                $tips = '';
+                if(yii::$app->feehi->website_comment_need_verify){
+                    $tips = "<span class='c-approved'>您的评论正在排队审核中，请稍后！</span><br />";
                 }
                 echo "
                 <li class='comment even thread-even depth-1' id='comment-{$commentModel->id}'>
                     <div class='c-avatar'><img src='{$avatar}' class='avatar avatar-108' height='50' width='50'>
                         <div class='c-main' id='div-comment-53'><p>{$commentModel->content}</p>
-                            <!--<span class='c-approved'>您的评论正在排队审核中，请稍后！</span><br />-->
-                            <div class='c-meta'><span class='c-author'><a href='http://dfsdf.com' rel='external nofollow' class='url'>{$commentModel->nickname}</a></span>  (1分钟前)</div>
+                            {$tips}
+                            <div class='c-meta'><span class='c-author'><a href='{$commentModel->website_url}' rel='external nofollow' class='url'>{$commentModel->nickname}</a></span>  (1分钟前)</div>
                         </div>
                     </div>";
             }else{
-                var_dump($commentModel->getErrors());die;
+                $temp = $commentModel->getErrors();
+                $str = '';
+                foreach($temp as $v){
+                    $str .= $v[0]."<br>";
+                }
+                echo "<font color='red'>".$str."</font>";
             }
         }
     }

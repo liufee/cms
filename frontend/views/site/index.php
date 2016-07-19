@@ -5,7 +5,7 @@ use frontend\widgets\ArticleListView;
 use frontend\controllers\components\Article;
 use frontend\widgets\ScrollPicView;
 
-$this->title = yii::$app->feehi->title;
+$this->title = yii::$app->feehi->website_title;
 ?>
 <div class="content-wrap">
     <div class="content">
@@ -38,7 +38,7 @@ $this->title = yii::$app->feehi->title;
                 foreach ($articles as $article) {
                     $url = Url::to(['article/view', 'id' => $article->id]);
                     $article->created_at = yii::$app->formatter->asDate($article->created_at);
-                    $article->sumary = yii\helpers\StringHelper::truncate($article->sumary, 20);
+                    $article->summary = yii\helpers\StringHelper::truncate($article->summary, 20);
                     echo
                     "<li>
                         <figure class='dd-img'>
@@ -50,7 +50,7 @@ $this->title = yii::$app->feehi->title;
                             <h2 class='dd-title'>
                                 <a rel='bookmark' title='{$article->title}' href='{$url}'>{$article->title}</a>
                             </h2>
-                            <div class='dd-site xs-hidden'>{$article->sumary}</div>
+                            <div class='dd-site xs-hidden'>{$article->summary}</div>
                         </div>
                     </li>";
                 }

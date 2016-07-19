@@ -17,8 +17,8 @@ use frontend\widgets\MenuView;
 
 //AppAsset::register($this);
 if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != 'page' ) {
-    $this->registerMetaTag(['keywords' => yii::$app->feehi->keywords]);
-    $this->registerMetaTag(['description' => yii::$app->feehi->description]);
+    $this->registerMetaTag(['keywords' => yii::$app->feehi->seo_keywords]);
+    $this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
 }
 ?>
 <?php $this->beginPage() ?>
@@ -33,7 +33,7 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <!--<script src="/static/js/hm.js"></script>-->
     <script>
-        window._deel = {name: '飞嗨',url: '<?=yii::$app->homeUrl?>', comment_url: '<?=Url::to(['article/comment'])?>', ajaxpager: '', commenton: 0, roll: [4,]}
+        window._deel = {name: '<?=yii::$app->feehi->website_title?>',url: '<?=yii::$app->homeUrl?>', comment_url: '<?=Url::to(['article/comment'])?>', ajaxpager: '', commenton: 0, roll: [4,]}
     </script>
     <link rel="stylesheet" id="style-css" href="/static/css/style.css" type="text/css" media="all">
     <script type="text/javascript" src="/static/js/jquery.min.js"></script>
@@ -71,9 +71,9 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
         <div id="top-menu">
             <div id="top-menu_1">
                 <span class="nav-search"><i class="fa fa-search"></i></span>
-                <span class="nav-search_1"><a href="/"><i class="fa fa-navicon"></i></a></span>
+                <span class="nav-search_1"><i class="fa fa-navicon"></i></span>
                 <hgroup class="logo-site" style="margin-top: 10px;">
-                    <h1 class="site-title"> <a href="<?=yii::$app->homeUrl?>"><img src="/static/images/logo.png" alt="<?=yii::$app->feehi->title?>"></a></h1>
+                    <h1 class="site-title"> <a href="<?=yii::$app->homeUrl?>"><img src="/static/images/logo.png" alt="<?=yii::$app->feehi->website_title?>"></a></h1>
                 </hgroup>
                 <div id="site-nav-wrap">
                     <nav id="site-nav" class="main-nav">
@@ -85,6 +85,10 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
             </div>
         </div>
     </div>
+    <?= MenuView::widget([
+        'template' => '<nav><ul class="nav_sj" id="nav-search_1">{lis}</ul></nav>',
+        'liTemplate' => "<li class='menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-{menu_id}'><a href='{url}'>{title}</a></li>"
+    ])?>
 </header>
 
 <div id="search-main">
@@ -129,5 +133,10 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
 
 </body>
 <?php $this->endBody() ?>
+<?php
+    if(yii::$app->feehi->website_statics_script){
+        echo yii::$app->feehi->website_statics_script;
+    }
+?>
 </html>
 <?php $this->endPage() ?>

@@ -33,7 +33,7 @@ $this->registerMetaTag(['property'=>'article:author', 'content'=>$model->author_
         <header class="article-header">
             <h1 class="article-title"><a href="<?=Url::to(['article/view', 'id'=>$model->id])?>"><?=$model->title?></a></h1>
             <div class="meta">
-                <span id="mute-category" class="muted"><i class="fa fa-list-alt"></i><a href="<?= Url::to(['article/index', 'cat'=>$model->category->name]) ?>"> <?= $model->category->name ?></a></span><span class="muted"><i class="fa fa-user"></i> <a href="http://demo7.ledkongzhiqi.com/author/admin">admin</a></span>
+                <span id="mute-category" class="muted"><i class="fa fa-list-alt"></i><a href="<?= Url::to(['article/index', 'cat'=>$model->category->name]) ?>"> <?= $model->category->name ?></a></span><span class="muted"><i class="fa fa-user"></i> <a href="">admin</a></span>
                 <time class="muted"><i class="fa fa-clock-o"></i> <?=yii::$app->formatter->asDate($model->created_at)?></time>
                 <span class="muted"><i class="fa fa-eye"></i> <?=$model->scan_count * 100?>℃</span>
                 <span class="muted"><i class="fa fa-comments-o"></i> <a href="<?=Url::to(['article/view', 'id'=>$model->id])?>#comments"><?=$model->comment_count?>评论</a></span>
@@ -42,7 +42,7 @@ $this->registerMetaTag(['property'=>'article:author', 'content'=>$model->author_
 
         <article class="article-content">
             <?= $model->content?>
-            <p>转载请注明：<a href="<?=yii::$app->homeUrl?>" data-original-title="" title=""><?=yii::$app->feehi->title?></a> » <a href="<?=Url::to(['article/view', 'id'=>$model->id])?>" data-original-title="" title=""><?=$model->title?></a></p>
+            <p>转载请注明：<a href="<?=yii::$app->homeUrl?>" data-original-title="" title=""><?=yii::$app->feehi->website_title?></a> » <a href="<?=Url::to(['article/view', 'id'=>$model->id])?>" data-original-title="" title=""><?=$model->title?></a></p>
 
             <div class="article-social">
                 <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
@@ -119,7 +119,7 @@ $this->registerMetaTag(['property'=>'article:author', 'content'=>$model->author_
                 <?= $form->field($commentModel, 'aid', ['template'=>'{input}'])->hiddenInput(['value'=>$model->id]) ?>
                 <div class="comt-title" style="display: block;">
                     <div class="comt-avatar pull-left">
-                        <img src="http://cd.v7v3.com/avatar/default" class="avatar avatar-108" height="50" width="50">
+                        <img src="https://secure.gravatar.com/avatar/" class="avatar avatar-108" height="50" width="50">
                     </div>
                     <div class="comt-author pull-left"><?php if(yii::$app->user->isGuest){echo '游客';}else{echo yii::$app->user->identity->username;} ?> <span>发表我的评论</span> &nbsp;
                         <a class="switch-author" href="javascript:void(0)" data-type="switch-author" style="font-size:12px;">换个身份</a>
@@ -169,7 +169,7 @@ $this->registerMetaTag(['property'=>'article:author', 'content'=>$model->author_
                 ?>
                 <li class="comment even thread-even depth-1 byuser comment-author-admin bypostauthor" id="comment-<?=$v['id']?>">
                     <div class="c-avatar">
-                        <img data-original="http://cd.v7v3.com/avatar/<?=md5($v['email'])?>?s=50" class="avatar avatar-108" height="50" width="50" src="https://secure.gravatar.com/avatar/<?= md5($v['nickname'])?>" style="display: block;">
+                        <img data-original="https://secure.gravatar.com/avatar/<?=md5($v['email'])?>?s=50" class="avatar avatar-108" height="50" width="50" src="https://secure.gravatar.com/avatar/<?= md5($v['nickname'])?>" style="display: block;">
                         <div class="c-main" id="div-comment-<?=$v['id']?>">
                             <?=$v['content']?><br>
                             <div class="c-meta">
@@ -187,7 +187,7 @@ $this->registerMetaTag(['property'=>'article:author', 'content'=>$model->author_
                         ?>
                         <li class="comment odd alt depth-2" id="comment-<?=$value['id']?>">
                             <div class="c-avatar">
-                                <img data-original="http://cd.v7v3.com/avatar/<?=md5($v['email'])?>?s=50" class="avatar avatar-108" height="50" width="50" src="http://cd.v7v3.com/avatar/70ca4911ad6f602be5a4e4d834adb883?s=50" style="display: block;">
+                                <img data-original="https://secure.gravatar.com/avatar/<?=md5($v['email'])?>?s=50" class="avatar avatar-108" height="50" width="50" src="https://secure.gravatar.com/avatar/<?= md5($v['nickname'])?>" style="display: block;">
                                 <div class="c-main" id="div-comment-<?=$value['id']?>"><?=$value['content']?><br>
                                     <div class="c-meta"><span class="c-author"><a href="<?=$v['website_url']?>" rel="external nofollow" class="url" target="_blank"><?= empty($value['nickname']) ? '游客' : $value['nickname'] ?></a></span><?=yii::$app->formatter->asDate($value['created_at'])?>  (<?= \feehi\libs\Help::tranTime($value['created_at']) ?>)</div>
                                 </div>

@@ -57,7 +57,7 @@ class ArticleListView extends \yii\widgets\ListView
                 $imgUrl = '/static/images/'.rand(1, 10).'.jpg';
             }
             $articleUrl = Url::to(['article/view', 'id'=>$model->id]);
-            $summary = StringHelper::truncate($model->sumary, 70);
+            $summary = StringHelper::truncate($model->summary, 70);
             $title = StringHelper::truncate($model->title, 28);
             return str_replace(['{article_url}', '{img_url}', '{category_url}', '{title}', '{summary}', '{pub_date}', '{scan_count}', '{comment_count}', '{category}', '{comment_url}'],
                                 [$articleUrl, $imgUrl, $categoryUrl, $title, $summary, date('Y-m-d', $model->created_at), $model->scan_count, $model->comment_count, $model->category->name, $articleUrl."#comments"],

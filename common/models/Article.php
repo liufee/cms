@@ -56,10 +56,11 @@ class Article extends \yii\db\ActiveRecord
     {
         return [
             [['cid', 'type', 'status', 'sort', 'author_id','can_comment', 'visibility'], 'integer'],
+            ['cid', 'compare', 'compareValue' => 0, 'operator' => '>', 'message'=>yii::t('app', 'Must choose a category')],
             [['title'], 'required'],
             [['content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['title', 'sub_title', 'sumary', 'thumb', 'seo_title', 'seo_keywords', 'seo_description', 'author_name', 'tag'], 'string', 'max' => 255],
+            [['title', 'sub_title', 'summary', 'thumb', 'seo_title', 'seo_keywords', 'seo_description', 'author_name', 'tag'], 'string', 'max' => 255],
             [['flag_headline', 'flag_recommend', 'flag_slide_show', 'flag_special_recommend', 'flag_roll', 'flag_bold', 'flag_picture'], 'integer'],
         ];
     }
@@ -75,7 +76,7 @@ class Article extends \yii\db\ActiveRecord
             'type' => Yii::t('app', 'Type'),
             'title' => Yii::t('app', 'Title'),
             'sub_title' => Yii::t('app', 'Sub Title'),
-            'sumary' => Yii::t('app', 'Sumary'),
+            'sumary' => Yii::t('app', 'Summary'),
             'content' => Yii::t('app', 'Content'),
             'thumb' => Yii::t('app', 'Thumb'),
             'seo_title' => Yii::t('app', 'Seo Title'),
