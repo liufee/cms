@@ -87,7 +87,7 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
     </div>
     <?= MenuView::widget([
         'template' => '<nav><ul class="nav_sj" id="nav-search_1">{lis}</ul></nav>',
-        'liTemplate' => "<li class='menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-{menu_id}'><a href='{url}'>{title}</a></li>"
+        'liTemplate' => "<li class='menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-{menu_id}'><a href='{url}'>{title}</a>{sub_menu}</li>"
     ])?>
 </header>
 
