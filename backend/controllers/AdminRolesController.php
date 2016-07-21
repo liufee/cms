@@ -62,7 +62,7 @@ class AdminRolesController extends BaseController
 
     public function actionAssign($id = '')
     {
-        $menus = Menu::getMenuArray();//var_dump($menus);die;
+        $menus = Menu::getMenuArray(Menu::BACKEND_TYPE);//var_dump($menus);die;
         $model = new AdminRolePermission();
         if(yii::$app->request->isPost){
             if( $model->assignPermission(yii::$app->request->post("permission")) ){

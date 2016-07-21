@@ -39,6 +39,8 @@ return [
             'frontend/web/assets',
             'frontend/web/uploads',
             'frontend/web/cache',
+            'frontend/web/admin/assets',
+            'frontend/web/admin/uploads'
         ],
         'setExecutable' => [
             'yii',
@@ -59,6 +61,8 @@ return [
             'frontend/web/assets',
             'frontend/web/uploads',
             'frontend/web/cache',
+            'frontend/web/admin/assets',
+            'frontend/web/admin/uploads'
         ],
         'setExecutable' => [
             'yii',

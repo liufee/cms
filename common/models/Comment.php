@@ -41,6 +41,7 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             [['aid', 'uid', 'reply_to', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['content'], 'required'],
             [['content', 'nickname', 'email', 'website_url'], 'string'],
             [['ip'], 'string', 'max' => 255],
         ];

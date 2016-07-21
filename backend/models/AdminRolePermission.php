@@ -96,7 +96,7 @@ class AdminRolePermission extends \yii\db\ActiveRecord
 
     private static function _getAncestor($id)
     {
-        $arr = Menu::getMenuArray();
+        $arr = Menu::getMenuArray(Menu::BACKEND_TYPE);
         $par=array();
         foreach($arr as $val){
             if($val['id'] == $id){

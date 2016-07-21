@@ -23,6 +23,7 @@ class CommentSearch extends Comment
     {
         $rules = parent::rules();
         $rules[] = [['article_title'], 'string'];
+        unset($rules[1]);
         return $rules;
     }
 

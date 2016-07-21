@@ -49,8 +49,8 @@ use yii\helpers\Url;
 
     <div class="widget d_banner">
         <div class="d_banner_inner">
-            <a href="/" target="_blank" title="垂直自媒体wordpress博客主题：Geek">
-                <img src="/static/images/2016050208553249.jpg" alt="棕红色响应式垂直自媒体wordpress博客主题：Geek"><span></span>
+            <a href="/" target="_blank" title="feehi cms">
+                <img src="/static/images/cms.jpg" alt="feehi cms"><span></span>
             </a>
         </div>
     </div>
