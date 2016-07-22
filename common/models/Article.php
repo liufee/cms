@@ -39,7 +39,7 @@ class Article extends \yii\db\ActiveRecord
     const ARTICLE_PUBLISHED = 1;
     const ARTICLE_DRAFT = 0;
 
-    public $content;
+    public $content = null;
 
     /**
      * @inheritdoc

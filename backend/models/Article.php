@@ -69,6 +69,7 @@ class Article extends CommomArticle
 
     public function afterSave($insert, $changedAttributes)
     {
+        if($this->content === null) return;
         if($insert){
             $contentModel = new ArticleContent();
             $contentModel->aid = $this->id;

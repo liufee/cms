@@ -90,7 +90,7 @@ class Article extends backendArticle
                 unset($matches[1][$key]);
                 continue;
             }
-            $path = yii::getAlias("@article/robot/").date('Y/m/d/');
+            $path = yii::getAlias("@article/robot/").date('Y/m/');
             if(!file_exists($path)) Help::mk_dir($path);
             $ext = pathinfo($val)['extension'];
             $fileName = uniqid().'.'.$ext;

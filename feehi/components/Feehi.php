@@ -24,9 +24,9 @@ class Feehi extends Component{
         foreach($data as $k => $v){
             $this->$k = $v['value'];
         }
-        if( $this->website_title ) $this->website_title = 'Feehi CMS';
-        if( $this->website_language ) $this->website_language = 'en-US';
-        if( $this->website_timezone ) $this->website_timezone = 'Asia/Shanghai';
+        if( !$this->website_title ) $this->website_title = 'Feehi CMS';
+        if( !$this->website_language ) $this->website_language = 'en-US';
+        if( !$this->website_timezone ) $this->website_timezone = 'Asia/Shanghai';
     }
 
     public function init()

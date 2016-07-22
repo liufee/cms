@@ -55,7 +55,7 @@ return [
                 'article/view/id/<id:\d+>' => 'article/view',
                 'Index/detail/id/<id:\d+>' => 'site/detail',
                 'search' => 'search/index',
-                'article/<cat:\w+>' => 'article/index',
+                'cat/<cat:\w+>' => 'article/index',
                 'list/<page:\d+>' => 'site/index',
                 'python|java|javascript' => 'article/index',
             ],

@@ -14,13 +14,14 @@ use Feehi\Http;
 use console\controllers\scrawls\Jobbole;
 use console\models\Article;
 use feehi\libs\Help;
+use common\models\Category;
 
 
 class ScrawlController extends Controller{
 
     private $fileName;
 
-    public function actionBole()
+    public function actionBole($type='new')
     {
         $startTime = time();
         $articleNum = 0;
@@ -46,6 +47,9 @@ class ScrawlController extends Controller{
                 $totalPage = $obj->getTotalPage($html['body']);
             }else{
 
+            }
+            if($type == 'new'){
+                $totalPage = 1;
             }
             $this->log("Total of discovery $totalPage pages");
             for($i=$totalPage; $i>=1; $i--){
@@ -90,17 +94,42 @@ class ScrawlController extends Controller{
                     $article->created_at = $articleUrl[2];
                     $article->seo_title = $article->title;
                     $article->seo_keywords = $article->tag;
-                    $article->sumary = $article->seo_description;
+                    $article->summary = $article->seo_description;
+                    $categories = Category::find()->asArray()->all();
+                    $temp = [];
+                    foreach($categories as $c){
+                        if(in_array($c['name'], ['javascript', 'python', 'java'])) $temp[$c['name']] = $c['id'];
+                    }
                     if(strpos($url, 'http://web') === 0){
-                        $article->cid = 7;//web
+                        $article->cid = $temp['javascript'];//web
+                        $language = 'javascript';
                     }else if(strpos($url, 'http://python') === 0){
-                        $article->cid = 11;//python
+                        $article->cid = $temp['python'];//python
+                        $language = 'python';
                     }else if(strpos($url, 'http://www.importnew.com') === 0){
-                        $article->cid = 12;//java
+                        $article->cid = $temp['java'];//java
+                        $language = 'java';
                     }
                     $article->type = Article::ARTICLE;
                     $article->status = Article::ARTICLE_PUBLISHED;
                     $article->content = Help::utf8Encoding($article->content);
+                    $article->content = preg_replace("/<table.*?class=\"crayon-table\">.*?<\/table>/", '', $article->content);
+                    if($article->cid == $temp['java']){
+                        $article->content = str_replace(["          ", "         ","      ","  "], "\r\n", $article->content);
+                    }else{
+                        $function = function ($matches)
+                        use ($language) {
+                            $str = str_replace($matches[0], "<pre class=\"brush:{$language};toolbar:false\">", $matches[0]);
+                            if (isset($matches[1])) {
+                                $str .= str_replace(["&nbsp; &nbsp; &nbsp;", "&nbsp; &nbsp;", "&nbsp;"], "\r\n", $matches[1]);
+                                $str = str_replace("    ", "\r\n", $str);
+                                $str = str_replace("/textarea&gt", '', $str);
+                            }
+                            return $str;
+                        };
+                        $article->content = preg_replace_callback("/<textarea wrap=\"soft\" class=\"crayon-plain print-no\".*?>(.*?)</", $function, $article->content);
+                        $article->content = preg_replace("/\/textarea>/", "</pre>", $article->content);
+                    }
                     if( !$article->save($data ) ){
                         $temp = $article->getErrors();
                         $errReason = '';
