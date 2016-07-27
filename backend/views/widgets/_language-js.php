@@ -8,18 +8,17 @@
 ?>
 <script>
 var tips = {
-    mustChoosePic : "<?= yii::t('app', 'Only picture file be permitted.')?>",
-};
-var deleteTips = {
-    noItemSelected : "<?= yii::t('app', 'None item selected!')?>",
-    PleaseSelectOne : "<?= yii::t('app', 'Please at least select one item.')?>",
-    realyToDelete : "<?= yii::t('app', 'Realy delete?')?>",
-    surelyDeleteItems : "<?= yii::t('app', 'Surely delete items: ')?>",
-    deleteWithNoRefresh : "<?= yii::t('app', 'Waiting and no refresh window')?>",
-    deleting : "<?= yii::t('app', 'Deleting')?>",
-    deleteSuccess : "<?= yii::t('app', 'Delete success')?>",
-    successDeleted : "<?= yii::t('app', 'Have been success deleted')?>",
-    deleteFailed : "<?= yii::t('app', 'Delete failed')?>",
-    failedDelete : "<?= yii::t('app', 'Sorry, failed deleted')?>",
+    realyToDo : "<?=yii::t('app', 'Realy to do it?')?>",
+    ok : "<?=yii::t('app', 'ok')?>",
+    cancel : "<?=yii::t('app', 'cancel')?>",
+    noItemSelected : "<?=yii::t('app', 'None item selected!')?>",
+    PleaseSelectOne : "<?=yii::t('app', 'Please at least select one item.')?>",
+    waitingAndNoRefresh : "<?=yii::t('app', 'Waiting and no refresh window')?>",
+    operating : "<?=yii::t('app', 'Operating')?>",
+    operatingSuccess : "<?=yii::t('app', 'Done, operating success')?>",
+    operatingFailed : "<?=yii::t('app', 'Sorry, operating failed')?>",
+    onlyPictureCanBeSelected : "<?=yii::t('app', 'Only picture file be permitted.')?>",
+    success :  "<?=yii::t('app', 'Success')?>",
+    error : "<?=yii::t('app', 'Error')?>"
 };
 </script>

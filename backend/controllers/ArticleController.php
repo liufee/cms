@@ -17,7 +17,7 @@ class ArticleController extends BaseController
 
     public function actionIndex()
     {
-        $searchModel = new ArticleSearch();
+        $searchModel = new ArticleSearch(['scenario'=>'article']);
         $dataProvider = $searchModel->search(yii::$app->request->queryParams);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -26,7 +26,7 @@ class ArticleController extends BaseController
     }
 
     public function actionCreate(){
-        $model = new Article();
+        $model = new Article(['scenario'=>'article']);
         if( yii::$app->request->isPost ) {
             if ($model->load(yii::$app->request->post()) && $model->validate() && $model->save()) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
@@ -51,10 +51,17 @@ class ArticleController extends BaseController
     {
         $model = $this->getModel($id);
         if ( Yii::$app->request->isPost ) {
+            $model->setScenario('article');
             if( $model->load(Yii::$app->request->post()) && $model->save() ){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             }else{
                 Yii::$app->getSession()->setFlash('error', yii::t('app', 'Error'));
+                $errors = $model->getErrors();
+                $err = '';
+                foreach($errors as $v){
+                    $err .= $v[0].'<br>';
+                }
+                Yii::$app->getSession()->setFlash('reason', $err);
             }
             $model = $this->getModel($id);
         }
@@ -80,7 +87,10 @@ class ArticleController extends BaseController
 
     public function getModel($id = '')
     {
-        return Article::findOne(['id'=>$id]);
+        $model = Article::findOne(['id'=>$id]);
+        if($model == null) return null;
+        $model->setScenario('article');
+        return $model;
     }
 
 }

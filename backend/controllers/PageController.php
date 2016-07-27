@@ -17,7 +17,7 @@ class PageController extends BaseController
 
     public function actionIndex()
     {
-        $searchModel = new ArticleSearch();
+        $searchModel = new ArticleSearch(['scenario'=>'page']);
         $dataProvider = $searchModel->search(yii::$app->request->queryParams, Article::SINGLE_PAGE);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
@@ -26,7 +26,7 @@ class PageController extends BaseController
     }
 
     public function actionCreate(){
-        $model = new Article();
+        $model = new Article(['scenario'=>'page']);
         if( yii::$app->request->isPost ) {
             $model->type = Article::SINGLE_PAGE;
             if ($model->load(yii::$app->request->post()) && $model->validate() && $model->save()) {
@@ -52,6 +52,7 @@ class PageController extends BaseController
     {
         $model = $this->getModel($id);
         if ( Yii::$app->request->isPost ) {
+            $model->setScenario('page');
             if( $model->load(Yii::$app->request->post()) && $model->save() ){
                 Yii::$app->getSession()->setFlash('success', '修改成功');
             }else{
@@ -81,7 +82,10 @@ class PageController extends BaseController
 
     public function getModel($id = '')
     {
-        return Article::findOne(['id'=>$id]);
+        $model = Article::findOne(['id'=>$id]);
+        if($model == null) return null;
+        $model->setScenario('page');
+        return $model;
     }
     
 }

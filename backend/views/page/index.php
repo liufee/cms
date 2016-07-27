@@ -52,16 +52,24 @@ $this->title = 'Pages';
                         ],
                         [
                             'attribute' => 'status',
-                            'format' => 'html',
+                            'format' => 'raw',
                             'value' => function($model, $key, $index, $column) {
-                                $text = Constants::getArticleStatus($model->status);
                                 if($model->status == Article::ARTICLE_PUBLISHED){
-                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>Article::ARTICLE_DRAFT]);
-                                    return "<a href='$url' class='btn btn-info btn-xs btn-rounded'>{$text}</a>";
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'status']);
+                                    $class = 'btn btn-info btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to cancel release?');
                                 }else{
-                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>Article::ARTICLE_PUBLISHED]);
-                                    return "<a href='$url' class='btn  btn-xs btn-default btn-rounded'>{$text}</a>";
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'status']);
+                                    $class = 'btn btn-default btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to publish?');
                                 }
+                                return Html::a(Constants::getArticleStatus($model->status), $url, [
+                                    'class'=>$class,
+                                    'data-confirm' => $confirm,
+                                    'data-method' => 'post',
+                                    'data-pjax' => '0',
+                                ]);
+
                             },
                             'filter' => Constants::getArticleStatus(),
                         ],

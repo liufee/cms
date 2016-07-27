@@ -75,132 +75,189 @@ $this->title = 'Articles';
                         [
                             'attribute' => 'flag_headline',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'html',
+                            'format' => 'raw',
                             'value' => function($model, $key, $index, $column) {
-                                $text = Constants::getYesNoItems($model->flag_headline);
                                 if($model->flag_headline){
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_headline']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                    $class = 'btn btn-info btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to disable this item?');
                                 }else{
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_headline']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                    $class = 'btn btn-default btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to enable this item?');
                                 }
+                                return Html::a(Constants::getYesNoItems($model->flag_headline), $url, [
+                                    'class'=>$class,
+                                    'data-confirm' => $confirm,
+                                    'data-method' => 'post',
+                                    'data-pjax' => '0',
+                                ]);
                             },
                         ],
                         [
                             'attribute' => 'flag_recommend',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'html',
+                            'format' => 'raw',
                             'value' => function($model, $key, $index, $column) {
-                                $text = Constants::getYesNoItems($model->flag_recommend);
                                 if($model->flag_recommend){
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_recommend']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                    $class = 'btn btn-info btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to disable this item?');
                                 }else{
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_recommend']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                    $class = 'btn btn-default btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to enable this item?');
                                 }
+                                return Html::a(Constants::getYesNoItems($model->flag_recommend), $url, [
+                                    'class'=>$class,
+                                    'data-confirm' => $confirm,
+                                    'data-method' => 'post',
+                                    'data-pjax' => '0',
+                                ]);
                             },
                         ],
                         [
                             'attribute' => 'flag_slide_show',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'html',
+                            'format' => 'raw',
                             'value' => function($model, $key, $index, $column) {
-                                $text = Constants::getYesNoItems($model->flag_slide_show);
                                 if($model->flag_slide_show){
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_slide_show']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                    $class = 'btn btn-info btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to disable this item?');
                                 }else{
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_slide_show']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                    $class = 'btn btn-default btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to enable this item?');
                                 }
+                                return Html::a(Constants::getYesNoItems($model->flag_slide_show), $url, [
+                                    'class'=>$class,
+                                    'data-confirm' => $confirm,
+                                    'data-method' => 'post',
+                                    'data-pjax' => '0',
+                                ]);
                             },
                         ],
                         [
                             'attribute' => 'flag_special_recommend',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'html',
+                            'format' => 'raw',
                             'value' => function($model, $key, $index, $column) {
-                                $text = Constants::getYesNoItems($model->flag_special_recommend);
                                 if($model->flag_special_recommend){
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_special_recommend']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                    $class = 'btn btn-info btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to disable this item?');
                                 }else{
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_special_recommend']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                    $class = 'btn btn-default btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to enable this item?');
                                 }
+                                return Html::a(Constants::getYesNoItems($model->flag_special_recommend), $url, [
+                                    'class'=>$class,
+                                    'data-confirm' => $confirm,
+                                    'data-method' => 'post',
+                                    'data-pjax' => '0',
+                                ]);
                             },
                         ],
                         [
                             'attribute' => 'flag_roll',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'html',
+                            'format' => 'raw',
                             'value' => function($model, $key, $index, $column) {
-                                $text = Constants::getYesNoItems($model->flag_roll);
                                 if($model->flag_roll){
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_roll']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                    $class = 'btn btn-info btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to disable this item?');
                                 }else{
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_roll']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                    $class = 'btn btn-default btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to enable this item?');
                                 }
+                                return Html::a(Constants::getYesNoItems($model->flag_roll), $url, [
+                                    'class'=>$class,
+                                    'data-confirm' => $confirm,
+                                    'data-method' => 'post',
+                                    'data-pjax' => '0',
+                                ]);
                             },
                         ],
                         [
                             'attribute' => 'flag_bold',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'html',
+                            'format' => 'raw',
                             'value' => function($model, $key, $index, $column) {
-                                $text = Constants::getYesNoItems($model->flag_bold);
                                 if($model->flag_bold){
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_bold']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                    $class = 'btn btn-info btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to disable this item?');
                                 }else{
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_bold']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                    $class = 'btn btn-default btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to enable this item?');
                                 }
+                                return Html::a(Constants::getYesNoItems($model->flag_bold), $url, [
+                                    'class'=>$class,
+                                    'data-confirm' => $confirm,
+                                    'data-method' => 'post',
+                                    'data-pjax' => '0',
+                                ]);
                             },
                         ],
                         [
                             'attribute' => 'flag_picture',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'html',
+                            'format' => 'raw',
                             'value' => function($model, $key, $index, $column) {
-                                $text = Constants::getYesNoItems($model->flag_picture);
                                 if($model->flag_picture){
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'flag_picture']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-info btn-xs btn-rounded']);
+                                    $class = 'btn btn-info btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to disable this item?');
                                 }else{
                                     $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'flag_picture']);
-                                    return Html::a($text, $url, ['class'=>'btn btn-default btn-xs btn-rounded']);
+                                    $class = 'btn btn-default btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to enable this item?');
                                 }
+                                return Html::a(Constants::getYesNoItems($model->flag_picture), $url, [
+                                    'class'=>$class,
+                                    'data-confirm' => $confirm,
+                                    'data-method' => 'post',
+                                    'data-pjax' => '0',
+                                ]);
                             },
                         ],
                         [
                             'attribute' => 'status',
-                            'format' => 'html',
+                            'format' => 'raw',
                             'value' => function($model, $key, $index, $column) {
-                                $text = Constants::getArticleStatus($model->status);
                                 if($model->status == Article::ARTICLE_PUBLISHED){
-                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>Article::ARTICLE_DRAFT]);
-                                    return "<a href='$url' class='btn btn-info btn-xs btn-rounded'>{$text}</a>";
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'status']);
+                                    $class = 'btn btn-info btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to cancel release?');
                                 }else{
-                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>Article::ARTICLE_PUBLISHED]);
-                                    return "<a href='$url' class='btn  btn-xs btn-default btn-rounded'>{$text}</a>";
+                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'status']);
+                                    $class = 'btn btn-default btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to publish?');
                                 }
+                                return Html::a(Constants::getArticleStatus($model->status), $url, [
+                                    'class'=>$class,
+                                    'data-confirm' => $confirm,
+                                    'data-method' => 'post',
+                                    'data-pjax' => '0',
+                                ]);
+
                             },
                             'filter' => Constants::getArticleStatus(),
                         ],
                         [
                             'attribute' => 'created_at',
                             'format' => ['date'],
-                            'filter' => \yii\helpers\Html::activeInput('text', $searchModel, 'create_start_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"]).\yii\helpers\Html::activeInput('text', $searchModel, 'create_end_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]),
+                            'filter' => Html::activeInput('text', $searchModel, 'create_start_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"]).\yii\helpers\Html::activeInput('text', $searchModel, 'create_end_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]),
                         ],
                         [
                             'attribute' => 'updated_at',
                             'format' => ['date'],
-                            'filter' => \yii\helpers\Html::activeInput('text', $searchModel, 'update_start_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]).\yii\helpers\Html::activeInput('text', $searchModel, 'update_end_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]),
+                            'filter' => Html::activeInput('text', $searchModel, 'update_start_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]).\yii\helpers\Html::activeInput('text', $searchModel, 'update_end_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]),
                         ],
                         [
                             'class' => 'feehi\grid\ActionColumn',

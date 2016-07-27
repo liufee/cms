@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\web\Response;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 
@@ -14,7 +15,8 @@ class BaseController extends Controller
     public function actionDelete($id)
     {
         if(yii::$app->request->isAjax){
-            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if(!$id) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));
             $ids = explode(',', $id);
             $errorIds = [];
             foreach ($ids as $one){
@@ -26,11 +28,12 @@ class BaseController extends Controller
                 }
             }
             if(count($errorIds) == 0){
-                return $this->redirect(yii::$app->request->headers['referer']);
+                return ['code'=>0, 'message'=>yii::t('app', 'Success')];
             }else{
-                return ['status'=>0, 'msg'=>implode(',', $errorIds)];
+                return ['code'=>1, 'message'=>implode(',', $errorIds)];
             }
         }else {
+            if(!$id) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));
             $model = $this->getModel($id);
             if($model) {
                 $model->delete();
@@ -41,6 +44,7 @@ class BaseController extends Controller
 
     public function actionUpdate($id)
     {
+        if(!$id) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));
         $model = $this->getModel($id);
         if(!$model) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));
         if ( Yii::$app->request->isPost ) {
@@ -82,10 +86,19 @@ class BaseController extends Controller
 
     public function actionChangeStatus($id='', $status=0, $field='status')
     {
+        if( yii::$app->request->getIsAjax() ) yii::$app->response->format = Response::FORMAT_JSON;
+        if(!$id) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));
         $model = $this->getModel($id);
         if(!$model) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));
         $model->$field = $status;
-        if( $model->save() ){
+        if( yii::$app->request->getIsAjax() ) {
+            if ($model->save()) {
+                return ['code' => 0, 'message' => yii::t('app', 'Success')];
+            } else {
+                return ['code' => 1, 'message' => yii::t('app', 'Erorr')];
+            }
+        }else{
+            $model->save();
             return $this->redirect(yii::$app->request->headers['referer']);
         }
     }

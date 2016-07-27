@@ -62,7 +62,20 @@ return [
         ],
         'feehi' => [
             'class' => 'feehi\components\Feehi',
-        ]
+        ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@feehi/messages',
+                    'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+            ],
+        ],
     ],
     'params' => $params,
     'on beforeRequest' => function($event){

@@ -34,7 +34,7 @@ class Bar extends Widget
             'iClass' => 'fa  fa-sort-numeric-desc',
         ],
         [
-            'class' => 'btn btn-white btn-sm multi-delete',
+            'class' => 'btn btn-white btn-sm multi-operate',
             'text' => 'Delete',
             'url' => ['delete'],
             'iClass' => 'fa fa-trash-o',
@@ -53,9 +53,11 @@ class Bar extends Widget
     {
         $buttons = '';
         foreach ($this->buttons as $button){
-            $buttons .= Html::a("<i class='{$button['iClass']}'></i> ".yii::t('app', $button['text']), Url::to($button['url']), [
-                'class' => $button['class'],
-            ]).' ';
+            $options = [
+                'class' => $button['class']
+            ];
+            if($button['text'] == 'Delete') $options['data-confirm'] = yii::t('app', 'Realy to delete?');
+            $buttons .= Html::a("<i class='{$button['iClass']}'></i> ".yii::t('app', $button['text']), Url::to($button['url']), $options).' ';
         }
         ActiveForm::begin(['action'=>Url::to(['sort']), 'options'=>['class'=>'form-horizontal', 'name'=>'sort']]); 
         ActiveForm::end();

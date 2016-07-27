@@ -1,16 +1,38 @@
 yii.confirm = function(message, ok, cancel) {
+    var url = $(this).attr('href');
+    var if_pjax = $(this).attr('data-pjax') ? $(this).attr('data-pjax') : 0;
     swal({
-        title: deleteTips.realyToDelete,
-        text: message,
+        title: message,
+        text: tips.realyToDo,
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
-        confirmButtonText: deleteTips.surelyDeleteItem,
+        cancelButtonText: tips.cancel,
+        confirmButtonText: tips.ok,
         closeOnConfirm: false
     }, function (isConfirm) {
         if(isConfirm) {
-            ok();
-            swal(deleteTips.successDelete, deleteTips.successDeleted, "success");
+            if( parseInt( if_pjax ) ){
+                !ok || ok();
+            }else {
+                swal(tips.waitingAndNoRefresh, tips.operating + '...', "success");
+                $.ajax({
+                    "url": url,
+                    "dataType": "json",
+                    "type": $(this).attr('data-method') ? $(this).attr('data-method') : "get",
+                    "success": function (data) {
+                        if (data.code == 0) {
+                            swal(tips.success + '!', tips.operatingSuccess + '.', "success");
+                            location.reload();
+                        } else {
+                            swal(tips.error + ': ' + data.message, tips.operatingFailed + '.', "error");
+                        }
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                        swal(tips.error + ': ' + jqXHR.responseJSON.message, tips.operatingFailed + '.', "error");
+                    }
+                });
+            }
         }else{
             !cancel || cancel();
         }
@@ -31,41 +53,45 @@ function viewLayer(url, obj)
 $(document).ready(function(){
     //$('.info').animate({opacity: 1.0}, 3000).fadeOut('slow');
     $("input[type=file]").prettyFile();
-    $(".multi-delete").click(function () {
+    $(".multi-operate").click(function () {
         var url = $(this).attr('href');
         var ids = new Array();
         $("tr td input[type=checkbox]:checked").each(function(){
             ids.push($(this).val());
         });
         if(ids.length <= 0){
-            swal(deleteTips.noItemSelected, deleteTips.PleaseSelectOne);
+            swal(tips.noItemSelected, tips.PleaseSelectOne);
             return false;
         }
         ids = ids.join(',');
         swal({
-            title: deleteTips.realyToDelete,
-            text: deleteTips.surelyDeleteItems+ids+"?",
+            title: $(this).attr("data-confirm"),
+            text: ids,
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
-            confirmButtonText: deleteTips.deleteButton,
+            cancelButtonText: tips.cancel,
+            confirmButtonText: tips.ok,
             closeOnConfirm: false
         }, function (isConfirm) {
             if(isConfirm) {
-                swal(deleteTips.deleteWithNoRefresh, deleteTips.deleting+'...', "success");
+                swal(tips.waitingAndNoRefresh, tips.operating+'...', "success");
                 $.ajax({
-                    'url':url,
-                    'method':'get',
-                    'data':{'id':ids},
-                    'success':function (data) {
-                        if(data.code) {
-                            swal(deleteTips.deleteSuccess+'!', deleteTips.successDeleted+'.', "success");
+                    "url":url,
+                    "dataType" : "json",
+                    "type" : "get",
+                    "data":{'id':ids},
+                    "success" : function (data) {
+                        if (data.code == 0) {
+                            swal(tips.success + '!', tips.operatingSuccess + '.', "success");
                             location.reload();
-                        }else {
-                            swal(data.msg+deleteTips.deleteFailed+'!', deleteTips.failedDelete+'.', "error");
+                        } else {
+                            swal(tips.error + ': ' + data.message, tips.operatingFailed + '.', "error");
                         }
+                    },
+                    "error": function (jqXHR, textStatus, errorThrown) {
+                        swal(tips.error + ': ' + jqXHR.responseJSON.message, tips.operatingFailed + '.', "error");
                     }
-
                 });
             }else{
                 return false;

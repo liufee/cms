@@ -25,7 +25,8 @@ switch($action){
                     'name' => 'Delete',
                     'url' => ['delete'],
                     'options' => [
-                        'class' => 'multi-delete btn btn-primary btn-xs',
+                        'class' => 'multi-operate btn btn-primary btn-xs',
+                        'data-confirm' => yii::t('app', 'Realy to delete?'),
                     ]
                 ],
             ];

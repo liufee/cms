@@ -51,6 +51,7 @@ class MenuController extends BaseController
     public function getModel($id="")
     {
         $model = Menu::findOne(['id'=>$id]);
+        if($model == null) return null;
         $model->setScenario('backend');
         return $model;
     }

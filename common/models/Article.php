@@ -12,7 +12,7 @@ use Yii;
  * @property integer $type
  * @property string $title
  * @property string $sub_title
- * @property string $sumary
+ * @property string $summary
  * @property string $thumb
  * @property string $seo_title
  * @property string $seo_keywords
@@ -56,12 +56,23 @@ class Article extends \yii\db\ActiveRecord
     {
         return [
             [['cid', 'type', 'status', 'sort', 'author_id','can_comment', 'visibility'], 'integer'],
-            ['cid', 'compare', 'compareValue' => 0, 'operator' => '>', 'message'=>yii::t('app', 'Must choose a category')],
+            ['cid', 'compare', 'compareValue' => 0, 'operator' => '>', 'message'=>yii::t('app', 'Must choose a category'), 'on'=>['article']],
             [['title'], 'required'],
             [['content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['title', 'sub_title', 'summary', 'thumb', 'seo_title', 'seo_keywords', 'seo_description', 'author_name', 'tag'], 'string', 'max' => 255],
             [['flag_headline', 'flag_recommend', 'flag_slide_show', 'flag_special_recommend', 'flag_roll', 'flag_bold', 'flag_picture'], 'integer'],
+        ];
+    }
+
+    public function scenarios()
+    {
+        return [
+            'article' => ['cid', 'type', 'title', 'sub_title', 'summary', 'content', 'thumb', 'seo_title', 'seo_keywords', 'seo_description', 'status', 'sort', 'author_id',
+                'author_name', 'created_at', 'updated_at', 'scan_count', 'comment_count', 'can_comment', 'visibility', 'tag', 'flag_headline', 'flag_recommend', 'flag_slide_show',
+                'flag_special_recommend', 'flag_roll', 'flag_bold', 'flag_picture'
+            ],
+            'page' => ['title', 'sub_title', 'summary', 'seo_title', 'seo_keywords', 'seo_description', 'status', 'can_comment', 'visibility', 'tag', 'sort'],
         ];
     }
 
@@ -76,7 +87,7 @@ class Article extends \yii\db\ActiveRecord
             'type' => Yii::t('app', 'Type'),
             'title' => Yii::t('app', 'Title'),
             'sub_title' => Yii::t('app', 'Sub Title'),
-            'sumary' => Yii::t('app', 'Summary'),
+            'summary' => Yii::t('app', 'Summary'),
             'content' => Yii::t('app', 'Content'),
             'thumb' => Yii::t('app', 'Thumb'),
             'seo_title' => Yii::t('app', 'Seo Title'),

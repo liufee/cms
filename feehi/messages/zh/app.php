@@ -49,6 +49,8 @@ return [
     'last' => '尾页',
     'No picture' => '无图',
     'Must choose a category' => '请选择一个未分类',
+    'Realy to delete?' => '真的要删除吗？',
+    'Are you sure you want to delete this item?' => '确认要删除此项吗?',
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',
@@ -62,7 +64,7 @@ return [
     'Type' => '类型',
     'Title' => '标题',
     'Sub Title' => '副标题',
-    'Sumary' => '概述',
+    'Summary' => '概述',
     'Content' => '正文内容',
     'Thumb' => '缩略图',
     'Seo Title' => 'seo标题',
@@ -80,6 +82,10 @@ return [
     'Is Roll' => '滚动',
     'Is Bold' => '加粗',
     'Is Picture' => '图片',
+    'Are you sure you want to enable this item?' => '您确定要启用此项吗？',
+    'Are you sure you want to disable this item?' => '您确定要禁用此项吗？',
+    'Are you sure you want to publish?' => '您确定要发布此文章吗？',
+    'Are you sure you want to cancel release?' => '您确定要取消发布此文章吗?',
     /*Article*/
 
     /*Comment*/
@@ -186,21 +192,15 @@ return [
     /*admin-roles*/
     
     /*js*/
-    'Realy delete' => '确定要删除吗',
-    'Are you sure you want to delete this item?' => '真的真的真的要删除吗?',
-    'Cancel' => '取消',
-    'Success Deleted!' => '删除成功',
-    'You Have Been Success Deleted!' => '您已经永久删除了这条信息',
+    'Realy to do it?' => '确定要执行此操作？',
+    'ok' => '确定',
+    'cancel' => '取消',
     'None item selected!' => '啊哦,神马都都没有选中!',
     'Please at least select one item.' => '请至少选中一项',
-    'Realy delete?' => '你确定要删除吗',
-    'Surely delete items: ' => '真的要删除: ',
-    'Waiting and no refresh window' => '删除中,请务刷新页面',
-    'Deleting' => '删除中',
-    'Delete success' => '删除成功',
-    'Have been success deleted' => '已经成功删除',
-    'Delete failed' => '删除失败',
-    'Sorry, failed deleted' => '啊哦,删除失败啦~',
+    'Waiting and no refresh window' => '执行中,请勿刷新页面',
+    'Operating' => '执行中',
+    'Done, operating success' => '执行成功',
+    'Sorry, operating failed' => '啊哦,执行失败啦~',
     'Only picture file be permitted.' => '只能选择图片类型',
     /*js*/
 
