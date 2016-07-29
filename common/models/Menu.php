@@ -43,7 +43,8 @@ class Menu extends \yii\db\ActiveRecord
     {
         return [
             [['parent_id', 'sort'], 'integer'],
-            [['is_display'], 'string'],
+            [['parent_id', 'sort'], 'default', 'value'=>0],
+            [['is_display'], 'integer'],
             [['name', 'url', 'icon', 'method'], 'string', 'max' => 255],
             [['type', 'is_absolute_url'] , 'in', 'range'=>[0, 1]],
             [['target'], 'in', 'range'=>[ '_blank', '_self']],
@@ -140,5 +141,19 @@ class Menu extends \yii\db\ActiveRecord
             $newMenu[$val['id']] = str_repeat("---", $val['level']).$val['name'];
         }
         return $newMenu;
+    }
+
+    public static function getDescendants($id, $type,$level=1)
+    {
+        $nodes = [];
+        $menus = Menu::getMenuArray($type);
+        foreach ($menus as $key => $value) {
+            if($value['parent_id'] == $id){
+                $value['level'] = $level;
+                $nodes[] = $value;
+                $nodes = array_merge($nodes, self::getDescendants($value['id'], $type, $level+1));
+            }
+        }
+        return $nodes;
     }
 }

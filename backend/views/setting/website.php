@@ -27,7 +27,7 @@ $this->title = yii::t('app', 'Website Setting');
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'website_email') ?>
                 <div class="hr-line-dashed"></div>
-                <?= $form->field($model, 'website_language')->dropDownList(['zh-cn'=>'简体中文','zh-tw'=>'繁体中文','en-us'=>'英语']) ?>
+                <?= $form->field($model, 'website_language')->dropDownList(['zh-CN'=>'简体中文','zh-TW'=>'繁体中文','en-US'=>'英语']) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'website_comment')->radioList(Constants::getYesNoItems()) ?>
                 <div class="hr-line-dashed"></div>

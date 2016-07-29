@@ -1198,7 +1198,7 @@ class m130524_201442_init extends Migration
             'icon' => $this->string()->defaultValue(''),
             'sort' => $this->integer()->unsigned()->defaultValue(0),
             'target' => $this->string()->defaultValue('_blank'),
-            'is_absolute_url' => $this->smallInteger()->unsigned()->defaultValue(1),
+            'is_absolute_url' => $this->smallInteger()->unsigned()->defaultValue(0),
             'is_display' => $this->smallInteger()->unsigned()->defaultValue(1),
             'method' => "enum('all','post','get') default 'all'",
             'created_at' => $this->integer()->unsigned()->notNull(),

@@ -37,8 +37,11 @@ class AdminUserController extends BaseController
     {
         $model = new User();
         $model->setScenario('create');
+        $rolesModel = new AdminRoleUser();
         if(yii::$app->request->isPost){
-            if($model->load(Yii::$app->request->post()) && $model->validate() && $model->save()){
+            if($model->load(Yii::$app->request->post()) && $model->validate() && $rolesModel->load(yii::$app->request->post()) && $rolesModel->validate() && $model->save() ){
+                $rolesModel->uid = $model->primaryKey;
+                $rolesModel->save();
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['index']);
             }else{
@@ -51,8 +54,15 @@ class AdminUserController extends BaseController
                 Yii::$app->getSession()->setFlash('reason', $err);
             }
         }
+        $temp = AdminRoles::find()->asArray()->all();
+        $roles = [];
+        foreach ($temp as $v){
+            $roles[$v['id']] = $v['role_name'];
+        }
         return $this->render('create', [
             'model' => $model,
+            'rolesModel' => $rolesModel,
+            'roles' => $roles
         ]);
     }
 
@@ -60,8 +70,13 @@ class AdminUserController extends BaseController
     {
         $model = $this->getModel($id);
         $model->setScenario('update');
+        $rolesModel = AdminRoleUser::findOne(['uid'=>$id]);
+        if($rolesModel == NULL){
+            $rolesModel = new AdminRoleUser();
+            $rolesModel->uid = $id;
+        }
         if ( Yii::$app->request->isPost ) {
-            if( $model->load(Yii::$app->request->post()) && $model->save() ){
+            if( $model->load(Yii::$app->request->post()) && $model->validate() && $rolesModel->load(yii::$app->request->post()) && $rolesModel->validate() && $model->save() && $rolesModel->save() ){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['update', 'id'=>$model->primaryKey]);
             }else{
@@ -76,9 +91,25 @@ class AdminUserController extends BaseController
             $model = User::findOne(['id'=>yii::$app->user->identity->id]);
         }
 
+        $temp = AdminRoles::find()->asArray()->all();
+        $roles = [];
+        foreach ($temp as $v){
+            $roles[$v['id']] = $v['role_name'];
+        }
         return $this->render('update', [
             'model' => $model,
+            'rolesModel' => $rolesModel,
+            'roles' => $roles
         ]);
+    }
+
+    public function actionDelete($id)
+    {
+        if(yii::$app->request->getIsAjax()){
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        }
+        if($id == 1) throw new yii\web\ForbiddenHttpException(yii::t('app', "Not allowed to delete default super administrator admin"));
+        return parent::actionDelete($id);
     }
 
     public function getModel($id = '')

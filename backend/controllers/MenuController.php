@@ -48,6 +48,16 @@ class MenuController extends BaseController
         ]);
     }
 
+    public function actionDelete($id)
+    {
+        if(yii::$app->request->getIsAjax()) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        }
+        $children = Menu::getDescendants($id, Menu::BACKEND_TYPE);
+        if(!empty($children)) throw new \yii\web\ForbiddenHttpException(yii::t('app', 'Sub Menu exists, cannot be deleted'));
+        return parent::actionDelete($id);
+    }
+
     public function getModel($id="")
     {
         $model = Menu::findOne(['id'=>$id]);

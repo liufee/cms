@@ -7,6 +7,8 @@
  */
 ?>
 <?=$this->render('_form', [
-    'model' => $model
+    'model' => $model,
+    'rolesModel' => $rolesModel,
+    'roles' => $roles,
 ]);
 ?>

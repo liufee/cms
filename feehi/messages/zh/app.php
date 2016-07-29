@@ -51,6 +51,7 @@ return [
     'Must choose a category' => '请选择一个未分类',
     'Realy to delete?' => '真的要删除吗？',
     'Are you sure you want to delete this item?' => '确认要删除此项吗?',
+    'cannot be blank.' => '不能为空.',
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',
@@ -101,6 +102,7 @@ return [
     'Parent Id' => '父分类Id',
     'Is Absolute Url' => '绝对地址',
     'HTTP Method' => '请求方式',
+    'Sub Menu exists, cannot be deleted' => '该菜单还有子菜单，不能被删除',
     /*menu*/
 
     /*setting*/
@@ -135,6 +137,8 @@ return [
     'Role' => '角色',
     'Assign Roles' => '分配角色',
     'Administrators' => '管理员',
+    'Not allowed to delete super administrator roles' => '不允许删除超级管理员角色',
+    'Not allowed to delete default super administrator admin' => '不允许删除默认超级管理员admin',
     /*RBAC*/
 
     /*site/index*/

@@ -55,6 +55,15 @@ class AdminRolesController extends BaseController
         ]);
     }
 
+    public function actionDelete($id)
+    {
+        if(yii::$app->request->getIsAjax()){
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        }
+        if($id == 1) throw new yii\web\ForbiddenHttpException(yii::t('app', 'Not allowed to delete super administrator roles'));
+        return parent::actionDelete($id);
+    }
+
     public function getModel($id = '')
     {
         return AdminRoles::findOne(['id'=>$id]);

@@ -9,7 +9,9 @@
 <?php 
     if(yii::$app->controller->action->id == 'update'){
         echo $this->render('_form', [
-            'model' => $model
+            'model' => $model,
+            'rolesModel' => $rolesModel,
+            'roles' => $roles,
         ]);
     }else{
         echo $this->render('_form-update-self', [

@@ -6,9 +6,7 @@
  * Time: 11:15
  */
 
-use yii\helpers\Url;
 use feehi\widgets\ActiveForm;
-use yii\bootstrap\Alert;
 
 $this->title = "Admin";
 ?>
@@ -25,6 +23,8 @@ $this->title = "Admin";
                 <?= $form->field($model, 'email')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'password')->passwordInput(['maxlength' => 512]) ?>
+                <div class="hr-line-dashed"></div>
+                <?= $form->field($rolesModel, 'role_id', ['labelOptions' => ['label' => yii::t('app', 'Roles'), 'class'=>"col-sm-2 control-label"]])->radioList($roles) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->defaultButtons() ?>
                 <?php ActiveForm::end(); ?>

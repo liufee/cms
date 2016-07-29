@@ -44,6 +44,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['repassword'], 'compare','compareAttribute'=>'password'],
             [['username','email','password', 'repassword'], 'required', 'on'=>['create']],
             [['username','email'], 'required', 'on'=>['update', 'self-update']],
+            [['username'], 'unique', 'on'=>'create'],
         ];
     }
 

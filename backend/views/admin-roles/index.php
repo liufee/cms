@@ -40,7 +40,7 @@ $assignment = function($url, $model){
                             'iClass' => 'fa fa-plus',
                         ],
                         [
-                            'class' => 'btn btn-white btn-sm multi-delete',
+                            'class' => 'btn btn-white btn-sm multi-operate',
                             'text' => 'Delete',
                             'url' => ['delete'],
                             'iClass' => 'fa fa-trash-o',

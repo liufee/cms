@@ -80,7 +80,7 @@ class ScrawlController extends Controller{
                         $html = $http->post($articleUrl[0]);
                     }while(strlen($html['body']) < 200);
                     $data = $obj->getArticle($html['body']);
-                    $article = new Article();
+                    $article = new Article(['scenario'=>'article']);
                     if( $temp = $article->findOne(['title'=>$data['title'], 'seo_description'=>$data['seo_description'], 'created_at'=>$articleUrl[2]]) ){
                         $this->log("$i -> {$articleUrl[0]} {$data['title']} has been fetched, so jumped");
                         continue;
