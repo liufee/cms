@@ -69,4 +69,10 @@ class AdminRoles extends \yii\db\ActiveRecord
         $data = self::findOne(['id'=>$role_id]);
         return isset($data->role_name) ? $data->role_name : null;
     }
+
+    public function beforeDelete()
+    {
+        if($this->id == 1) throw new \yii\web\ForbiddenHttpException(yii::t('app', 'Not allowed to delete super administrator roles'));
+        return true;
+    }
 }

@@ -265,5 +265,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->save();
     }
 
+    public function beforeDelete()
+    {
+        if($this->id == 1) throw new \yii\web\ForbiddenHttpException(yii::t('app', "Not allowed to delete default super administrator admin"));
+        return true;
+    }
+
 }
 

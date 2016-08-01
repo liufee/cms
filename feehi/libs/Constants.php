@@ -95,15 +95,15 @@ class Constants
         return self::getItems($items, $key);
     }
 
-    const ARTICLE_VISIBILITY_PUBLIC = 0;
-    const ARTICLE_VISIBILITY_SECRET = 1;
+    const ARTICLE_VISIBILITY_PUBLIC = 1;
     const ARTICLE_VISIBILITY_COMMENT = 2;
+    const ARTICLE_VISIBILITY_SECRET = 3;
     public static function getArticleVisibility($key = null)
     {
         $items = [
             self::ARTICLE_VISIBILITY_PUBLIC => '公开',
-            self::ARTICLE_VISIBILITY_SECRET => '加密',
             self::ARTICLE_VISIBILITY_COMMENT => '回复',
+            self::ARTICLE_VISIBILITY_SECRET => '加密',
         ];
         return self::getItems($items, $key);
     }

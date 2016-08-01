@@ -48,10 +48,12 @@ return [
     'next' => '下一页',
     'last' => '尾页',
     'No picture' => '无图',
-    'Must choose a category' => '请选择一个未分类',
     'Realy to delete?' => '真的要删除吗？',
     'Are you sure you want to delete this item?' => '确认要删除此项吗?',
     'cannot be blank.' => '不能为空.',
+    'Allowed not to be deleted, sub level exsited.' => '还有子项存在,不允许被删除',
+    'Failed' => '失败',
+    'Cannot be themself sub.' => '不能是它自己的子类',
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',
@@ -87,6 +89,8 @@ return [
     'Are you sure you want to disable this item?' => '您确定要禁用此项吗？',
     'Are you sure you want to publish?' => '您确定要发布此文章吗？',
     'Are you sure you want to cancel release?' => '您确定要取消发布此文章吗?',
+    'uncategoried' => '未分类',
+    'Allowed not to be deleted, some article belongs to this category.' => '不允许被删除，还有文章属于此分类',
     /*Article*/
 
     /*Comment*/

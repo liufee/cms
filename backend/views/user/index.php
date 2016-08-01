@@ -6,7 +6,8 @@
  * Time: 17:51
  */
 use feehi\grid\GridView;
-use yii\helpers\Url;
+use yii\helpers\Html;
+use feehi\widgets\Bar;
 
 $this->title = 'Users'
 ?>
@@ -15,6 +16,28 @@ $this->title = 'Users'
         <div class="ibox">
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
+                <?= Bar::widget([
+                    'buttons' => [
+                        [
+                            'class' => 'btn btn-white btn-sm refresh',
+                            'text' => 'Refresh',
+                            'url' => ['refresh'],
+                            'iClass' => 'fa fa-refresh',
+                        ],
+                        [
+                            'class' => 'btn btn-white btn-sm',
+                            'text' => 'Create',
+                            'url' => ['create'],
+                            'iClass' => 'fa fa-plus',
+                        ],
+                        [
+                            'class' => 'btn btn-white btn-sm multi-operate',
+                            'text' => 'Delete',
+                            'url' => ['delete'],
+                            'iClass' => 'fa fa-trash-o',
+                        ],
+                    ]
+                ])?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
@@ -34,11 +57,13 @@ $this->title = 'Users'
                         ],
                         [
                             'attribute' => 'created_at',
-                            'format' => 'date',
+                            'format' => ['date'],
+                            'filter' => Html::activeInput('text', $searchModel, 'create_start_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"]).\yii\helpers\Html::activeInput('text', $searchModel, 'create_end_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]),
                         ],
                         [
                             'attribute' => 'updated_at',
-                            'format' => 'date',
+                            'format' => ['date'],
+                            'filter' => Html::activeInput('text', $searchModel, 'update_start_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]).\yii\helpers\Html::activeInput('text', $searchModel, 'update_end_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]),
                         ],
                         [
                             'class' => 'feehi\grid\ActionColumn',

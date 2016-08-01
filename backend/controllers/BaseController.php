@@ -30,7 +30,13 @@ class BaseController extends Controller
             if(count($errorIds) == 0){
                 return ['code'=>0, 'message'=>yii::t('app', 'Success')];
             }else{
-                return ['code'=>1, 'message'=>implode(',', $errorIds)];
+                $errors = $model->getErrors();
+                $err = '';
+                foreach($errors as $v){
+                    $err .= $v[0];
+                }
+                if($err != '') $err = '.'.$err;
+                return ['code'=>1, 'message'=>'id '.implode(',', $errorIds).$err];
             }
         }else {
             if(!$id) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));

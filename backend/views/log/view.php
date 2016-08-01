@@ -11,7 +11,7 @@ $this->title = "Log Detail";
 <div class="row">
     <div class="col-sm-12">
         <div class="ibox">
-            <div class="ibox-content">
+            <div class="ibox-content" style="word-wrap: break-word">
                 <?= $model->description ?>
             </div>
         </div>

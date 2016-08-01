@@ -37,7 +37,7 @@ class Options extends \yii\db\ActiveRecord
     {
         return [
             [['type', 'input_type', 'autoload', 'sort'], 'integer'],
-            [['name'], 'required'],
+            [['name', 'input_type', 'autoload'], 'required'],
             [['name'], 'match', 'pattern'=>'/^[a-zA-Z][0-9_]*/', 'message'=>yii::t('app', 'Must begin with alphabet and can only includes alphabet,_,and number')],
             [['value'], 'string'],
             [['name', 'tips'], 'string', 'max' => 255],

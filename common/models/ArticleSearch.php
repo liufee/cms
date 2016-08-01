@@ -70,16 +70,19 @@ class ArticleSearch extends Article{
         }else{
             $query->andFilterWhere(['between', 'updated_at', $update_start_at_unixtimestamp, $update_end_at_unixtimestamp]);
         }
-
-        $cids = Category::getSubTree($this->cid);//var_dump($cids);die;
-        if(count($cids) <= 1){
-            $query->andFilterWhere(['cid'=>$this->cid]);
-        }else{
-            $array = [];
-            foreach ($cids as $v){
-                $array[] = $v['id'];
+        if($this->cid === '0'){
+            $query->andWhere(['cid'=>0]);
+        }else {
+            $cids = Category::getSubTree($this->cid);
+            if (count($cids) <= 1) {
+                $query->andFilterWhere(['cid' => $this->cid]);
+            } else {
+                $array = [];
+                foreach ($cids as $v) {
+                    $array[] = $v['id'];
+                }
+                $query->andFilterWhere(['cid' => $array]);
             }
-            $query->andFilterWhere(['cid'=>$array]);
         }
         return $dataProvider;
     }

@@ -79,10 +79,12 @@ class SettingController extends BaseController
             }
             Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
         }
+        $options = new Options();
+        $options->loadDefaultValues();
 
         return $this->render('custom', [
             'settings'=>$settings,
-            'model' => new Options(),
+            'model' => $options,
         ]);
     }
 

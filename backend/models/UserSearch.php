@@ -12,13 +12,16 @@ use yii\data\ActiveDataProvider;
 
 class UserSearch extends UserModel
 {
+    public $create_start_at;
+    public $create_end_at;
+    public $update_start_at;
+    public $update_end_at;
 
     public function rules()
     {
         return [
-            ['username','string'],
+            [['username', 'email', 'create_start_at', 'create_end_at', 'update_start_at', 'update_end_at'],'string'],
             [['created_at','updated_at'], 'integer'],
-            ['email', 'email'],
             ['status', 'integer'],
         ];
     }
@@ -40,7 +43,28 @@ class UserSearch extends UserModel
         if(!$this->validate()){
             return $dataProvider;
         }
-        $query->andFilterWhere(['like', 'username', $this->username]);
+        $query->andFilterWhere(['like', 'username', $this->username])
+            ->andFilterWhere(['like', 'email', $this->email]);
+        $create_start_at_unixtimestamp = $create_end_at_unixtimestamp = $update_start_at_unixtimestamp = $update_end_at_unixtimestamp = '';
+        if($this->create_start_at != '') $create_start_at_unixtimestamp = strtotime($this->create_start_at);
+        if($this->create_end_at != '') $create_end_at_unixtimestamp = strtotime($this->create_end_at);
+        if($this->update_start_at != '') $update_start_at_unixtimestamp = strtotime($this->update_start_at);
+        if($this->update_end_at != '') $update_end_at_unixtimestamp = strtotime($this->update_end_at);
+        if($create_start_at_unixtimestamp != '' && $create_end_at_unixtimestamp == '') {
+            $query->andFilterWhere(['>', 'created_at', $create_start_at_unixtimestamp]);
+        }elseif ($create_start_at_unixtimestamp == '' && $create_end_at_unixtimestamp != ''){
+            $query->andFilterWhere(['<', 'created_at', $create_end_at_unixtimestamp]);
+        }else{
+            $query->andFilterWhere(['between', 'created_at', $create_start_at_unixtimestamp, $create_end_at_unixtimestamp]);
+        }
+
+        if($update_start_at_unixtimestamp != '' && $update_end_at_unixtimestamp == '') {
+            $query->andFilterWhere(['>', 'updated_at', $update_start_at_unixtimestamp]);
+        }elseif ($update_start_at_unixtimestamp == '' && $update_end_at_unixtimestamp != ''){
+            $query->andFilterWhere(['<', 'updated_at', $update_start_at_unixtimestamp]);
+        }else{
+            $query->andFilterWhere(['between', 'updated_at', $update_start_at_unixtimestamp, $update_end_at_unixtimestamp]);
+        }
         return $dataProvider;
     }
 

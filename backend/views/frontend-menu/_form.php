@@ -24,8 +24,6 @@ $this->title = "Frontend Menus";
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'url')->textInput(['maxlength' => 512]) ?>
                 <div class="hr-line-dashed"></div>
-                <?= $form->field($model, 'icon')->textInput(['maxlength' => 64]) ?>
-                <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'sort')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'target')->radioList(Constants::getTargetOpenMethod()) ?>

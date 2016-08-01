@@ -7,6 +7,7 @@
  */
 namespace backend\models;
 
+use frontend\models\Comment;
 use yii;
 use common\models\Article as CommomArticle;
 use feehi\libs\File;
@@ -69,16 +70,21 @@ class Article extends CommomArticle
 
     public function afterSave($insert, $changedAttributes)
     {
-        if($this->content === null) return;
         if($insert){
             $contentModel = new ArticleContent();
             $contentModel->aid = $this->id;
         }else{
+            if($this->content === null) return;
             $contentModel = ArticleContent::findOne(['aid'=>$this->id]);
             if($contentModel == null) $contentModel = new ArticleContent();
         }
         $contentModel->content = $this->content;
         $contentModel->save();
+    }
+
+    public function afterDelete()
+    {
+        Comment::deleteAll(['aid'=>$this->id]);
     }
 
 }

@@ -93,6 +93,7 @@ class Comment extends \yii\db\ActiveRecord
     {
         if($insert){
             $model = ArticleModel::findOne($this->aid);
+            $model->setScenario('article');
             $model->comment_count += 1;
             $model->save();
         }

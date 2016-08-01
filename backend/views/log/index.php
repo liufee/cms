@@ -9,6 +9,7 @@ use feehi\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use feehi\libs\Help;
+use feehi\widgets\Bar;
 
 $this->title = "Admin Log";
 ?>
@@ -19,28 +20,31 @@ $this->title = "Admin Log";
                 'buttons' => [
                     [
                         'name' => 'Delete',
-                        'url' => 'delete',
+                        'url' => ['delete'],
                         'options' => [
-                            'class' => 'multi-delete btn btn-primary btn-xs',
-                            'url' => Url::to(['delete']),
-                            'tipsjsonstring' => json_encode([
-                                'noItemSelected' => yii::t('app', 'None item selected!'),
-                                'PleaseSelectOne' => yii::t('app', 'Please at least select one item.'),
-                                'realyToDelete' => yii::t('app', 'Realy delete?'),
-                                'surelyDeleteItems' => yii::t('app', 'Surely delete items: '),
-                                'deleteButton' => yii::t('app', 'Delete'),
-                                'deleteWithNoRefresh' => yii::t('app', 'Waiting and no refresh window'),
-                                'deleting' => yii::t('app', 'Deleting'),
-                                'deleteSuccess' => yii::t('app', 'Delete success'),
-                                'successDeleted' => yii::t('app', 'Have been success deleted'),
-                                'deleteFailed' => yii::t('app', 'Delete failed'),
-                                'failedDelete' => yii::t('app', 'Sorry, failed deleted'),
-                            ]),
+                            'class' => 'multi-operate btn btn-primary btn-xs',
+                            'data-confirm' => yii::t('app', 'Realy to delete?'),
                         ]
-                    ],
+                    ]
                 ]
             ]) ?>
             <div class="ibox-content">
+                <?= Bar::widget([
+                    'buttons' => [
+                        [
+                            'class' => 'btn btn-white btn-sm refresh',
+                            'text' => 'Refresh',
+                            'url' => ['refresh'],
+                            'iClass' => 'fa fa-refresh',
+                        ],
+                        [
+                            'class' => 'btn btn-white btn-sm multi-operate',
+                            'text' => 'Delete',
+                            'url' => ['delete'],
+                            'iClass' => 'fa fa-trash-o',
+                        ],
+                    ]
+                ]) ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,

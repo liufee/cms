@@ -156,4 +156,12 @@ class Menu extends \yii\db\ActiveRecord
         }
         return $nodes;
     }
+
+    public function afterValidate()
+    {
+        if(!$this->getIsNewRecord() && $this->id == $this->parent_id){
+            $this->addError('parent_id', yii::t('app', 'Cannot be themself sub.'));
+            return false;
+        }
+    }
 }

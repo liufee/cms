@@ -6,14 +6,13 @@
  * Time: 22:55
  */
 use yii\helpers\Url;
-use common\models\Category;
-use frontend\controllers\components\Article;
 
 $this->title = $model->title;
 $this->registerMetaTag(['keywords' => $model->seo_keywords]);
 $this->registerMetaTag(['description' => $model->seo_description]);
 $this->registerMetaTag(['tags' => $model->tag]);
 $this->registerMetaTag(['property'=>'article:author', 'content'=>$model->author_name]);
+$categoryName = $model->category?$model->category->name:'未分类';
 ?>
     <script type="text/javascript" src="/static/syntaxhighlighter/scripts/shCore.js"></script>
     <script type="text/javascript" src="/static/syntaxhighlighter/scripts/shBrushJScript.js"></script>
@@ -28,12 +27,12 @@ $this->registerMetaTag(['property'=>'article:author', 'content'=>$model->author_
     <div class="content">
         <div class="breadcrumbs">
             <a title="返回首页" href="<?=yii::$app->homeUrl?>"><i class="fa fa-home"></i></a> <small>&gt;</small>
-            <a href="<?= Url::to(['article/index', 'cat'=>$model->category->name]) ?>"><?=$model->category->name ?></a> <small>&gt;</small> <span class="muted"><?=$model->title?></span>
+            <a href="<?= Url::to(['article/index', 'cat'=>$categoryName]) ?>"><?=$categoryName ?></a> <small>&gt;</small> <span class="muted"><?=$model->title?></span>
         </div>
         <header class="article-header">
             <h1 class="article-title"><a href="<?=Url::to(['article/view', 'id'=>$model->id])?>"><?=$model->title?></a></h1>
             <div class="meta">
-                <span id="mute-category" class="muted"><i class="fa fa-list-alt"></i><a href="<?= Url::to(['article/index', 'cat'=>$model->category->name]) ?>"> <?= $model->category->name ?></a></span><span class="muted"><i class="fa fa-user"></i> <a href="">admin</a></span>
+                <span id="mute-category" class="muted"><i class="fa fa-list-alt"></i><a href="<?= Url::to(['article/index', 'cat'=>$categoryName]) ?>"> <?= $categoryName ?></a></span><span class="muted"><i class="fa fa-user"></i> <a href="">admin</a></span>
                 <time class="muted"><i class="fa fa-clock-o"></i> <?=yii::$app->formatter->asDate($model->created_at)?></time>
                 <span class="muted"><i class="fa fa-eye"></i> <?=$model->scan_count * 100?>℃</span>
                 <span class="muted"><i class="fa fa-comments-o"></i> <a href="<?=Url::to(['article/view', 'id'=>$model->id])?>#comments"><?=$model->comment_count?>评论</a></span>

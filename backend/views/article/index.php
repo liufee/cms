@@ -39,7 +39,7 @@ $this->title = 'Articles';
                             'attribute' => 'cid',
                             'label' => yii::t('app', 'Category'),
                             'value' => function($model){
-                                return $model->category->name;
+                                return $model->category ? $model->category->name : yii::t('app', 'uncategoried');
                             },
                             'filter' => Category::getType(),
                         ],

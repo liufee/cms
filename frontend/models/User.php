@@ -23,6 +23,7 @@ class User extends CommonUser
     {
         return [
             [['username','password','repassword','password_hash','avatar'], 'string'],
+            [['username', 'email'], 'unique'],
             ['email', 'email'],
             [['repassword'], 'compare','compareAttribute'=>'password'],
             [['username','email','password', 'repassword'], 'required', 'on'=>['create']],
@@ -33,8 +34,9 @@ class User extends CommonUser
     public function scenarios()
     {
         return [
-            'create' => ['username', 'email', 'password','avatar'],
-            'update' => ['username', 'email', 'password', 'repassword', 'old_password', 'avatar'],
+            'create' => ['username', 'email', 'password','avatar', 'repassword'],
+            'update' => ['username', 'email', 'password', 'repassword','avatar'],
+            'self-update' => ['username', 'email', 'password', 'repassword', 'old_password', 'avatar'],
         ];
     }
 
@@ -62,13 +64,20 @@ class User extends CommonUser
         }else{
             $this->updated_at = time();
             if(isset($this->password) && $this->password != ''){
-                if($this->old_password == ''){
-                    $this->addError('old_password', 'Old password cannot be blank.');
-                    return false;
-                }
-                if(!$this->validatePassword($this->old_password)) {
-                    $this->addError('old_password', 'Old password is incorrect.');
-                    return false;
+                if( $this->getScenario() == 'self-update' ) {
+                    if ($this->old_password == '') {
+                        $this->addError('old_password', 'Old password cannot be blank.');
+                        return false;
+                    }
+                    if (!$this->validatePassword($this->old_password)) {
+                        $this->addError('old_password', 'Old password is incorrect.');
+                        return false;
+                    }
+                }else if($this->getScenario() == 'update'){
+                    if ($this->repassword == '') {
+                        $this->addError('repassword', 'repassword cannot be blank.');
+                        return false;
+                    }
                 }
                 $this->setPassword($this->password);
             }

@@ -56,7 +56,6 @@ class Article extends \yii\db\ActiveRecord
     {
         return [
             [['cid', 'type', 'status', 'sort', 'author_id','can_comment', 'visibility'], 'integer'],
-            ['cid', 'compare', 'compareValue' => 0, 'operator' => '>', 'message'=>yii::t('app', 'Must choose a category'), 'on'=>['article']],
             [['title'], 'required'],
             [['content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],

@@ -5,21 +5,16 @@
  * Date: 16/4/11
  * Time: 22:34
  */
-use yii\helpers\Url;
 use feehi\widgets\ActiveForm;
-use yii\helpers\Html;
+use feehi\widgets\JsBlock;
+
+$this->title = "Assign Permission";
 ?>
 <style>.hide{display: none}</style>
 <div class="col-sm-12">
     <div class="ibox">
-        <div class="ibox-title">
-            <h5>分配权限</h5>
-            <div class="ibox-tools">
-                <a href="<?=Url::toRoute('index')?>" class="btn btn-primary btn-xs">角色</a>
-            </div>
-        </div>
+        <?= $this->render('/widgets/_ibox-title') ?>
         <div class="ibox-content">
-
             <?php $form = ActiveForm::begin(); ?>
             <input type="button" name="selectAll" value="全选">
             <input type="button" name="selectCancelAll" value="全不选">
@@ -56,7 +51,7 @@ use yii\helpers\Html;
         </div>
     </div>
 </div>
-<script src="static/js/jquery.min.js"></script>
+<?php JsBlock::begin() ?>
 <script>
     $(document).ready(function(){
         $("table img").click(function(){
@@ -99,3 +94,4 @@ use yii\helpers\Html;
         });
     })
 </script>
+<?php JsBlock::end() ?>
