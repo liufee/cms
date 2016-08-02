@@ -21,7 +21,7 @@ class ScrawlController extends Controller{
 
     private $fileName;
 
-    public function actionBole($type='new')
+    public function actionBole($type='all')
     {
         $startTime = time();
         $articleNum = 0;
