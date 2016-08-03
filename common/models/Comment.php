@@ -68,6 +68,11 @@ class Comment extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getArticle()
+    {
+        return $this->hasOne(ArticleModel::className(), ['id' => 'aid']);
+    }
+
     public function beforeSave($insert)
     {
         if($insert){

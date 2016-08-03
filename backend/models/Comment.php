@@ -10,4 +10,9 @@ namespace backend\models;
 class Comment extends \common\models\Comment
 {
 
+    public static function getRecentComments($limit=10)
+    {
+        return self::find()->orderBy('created_at desc')->limit($limit)->all();
+    }
+
 }

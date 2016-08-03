@@ -30,10 +30,11 @@ class ScrawlController extends Controller{
             'http://web.jobbole.com/all-posts',
             'http://python.jobbole.com/all-posts',
             'http://www.importnew.com/all-posts',
+            'http://blog.jobbole.com/category/php-programmer',
         ];
         $obj = new Jobbole();
         foreach($urls as $url){
-            if(strpos($url, 'all-posts')){
+            if(strpos($url, 'all-posts') || strpos($url, 'php-programmer')){
                 $http = new Http();
                 $tryCount = 0;
                 do {
@@ -98,7 +99,7 @@ class ScrawlController extends Controller{
                     $categories = Category::find()->asArray()->all();
                     $temp = [];
                     foreach($categories as $c){
-                        if(in_array($c['name'], ['javascript', 'python', 'java'])) $temp[$c['name']] = $c['id'];
+                        if(in_array($c['name'], ['javascript', 'python', 'java','php'])) $temp[$c['name']] = $c['id'];
                     }
                     if(strpos($url, 'http://web') === 0){
                         $article->cid = $temp['javascript'];//web
@@ -109,6 +110,9 @@ class ScrawlController extends Controller{
                     }else if(strpos($url, 'http://www.importnew.com') === 0){
                         $article->cid = $temp['java'];//java
                         $language = 'java';
+                    }else if(strpos($url, 'php-programmer')){
+                        $article->cid = $temp['php'];
+                        $language = 'php';
                     }
                     $article->type = Article::ARTICLE;
                     $article->status = Article::ARTICLE_PUBLISHED;

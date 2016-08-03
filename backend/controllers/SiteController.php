@@ -101,11 +101,12 @@ class SiteController extends BaseController
             'ADMIN_USER' => \backend\models\User::find()->count('id'),
             'FRIEND_LINK' => \common\models\FriendLink::find()->count('id'),
         ];
-        //var_dump($statics);die;
+        $comments = \backend\models\Comment::getRecentComments(10);
         return $this->render('main', [
             'info' => $info,
             'status' => $status,
             'statics' => $statics,
+            'comments' => $comments,
         ]);
     }
 
