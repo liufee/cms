@@ -67,7 +67,9 @@ class SettingWebsiteForm extends \common\models\Options
         $names = $this->getNames();
         $data = \Yii::$app->request->post('SettingWebsiteForm');
         foreach($names as $name){
-            self::updateAll(['value' => $this->$name], ['name' => $name]);
+            $model = self::findOne(['name' => $name]);
+            $model->value = $this->$name;
+            $model->save();
         }
         return true;
     }

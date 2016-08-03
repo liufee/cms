@@ -54,7 +54,7 @@ class AdminLog
     {
         $desc = '';//var_dump($event);die;
         foreach ($event->sender->getAttributes() as $name => $value) {
-            $desc .= $name . ':' . $value . "=>" . $event->sender->getAttribute($name) . ',';
+            $desc .= $name . ':' . $value . ',';
         }
         $desc = substr($desc, 0, -1);
         $model = new AdminLogModel();

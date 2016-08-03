@@ -123,7 +123,7 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
         <p>
             <a href="http://www.feehi.com/" title="Feehi CMS">Feehi CMS</a> 版权所有，保留一切权利   © 2010-2016&nbsp;&nbsp;
         </p>
-        <p>Powered by WordPress · Theme by <a title="Feehi CMS" href="http://www.cuizl.com/">Feehi CMS</a> </p>
+        <p>Powered by Feehi CMS · Theme by <a title="飞嗨" href="http://blog.feehi.com">飞嗨</a> </p>
     </div>
 </footer>
 <?=yii::$app->feehi->website_statics_script?>
