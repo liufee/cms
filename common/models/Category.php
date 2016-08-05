@@ -47,6 +47,8 @@ class Category extends \yii\db\ActiveRecord
             'parent_id' => Yii::t('app', 'Category Id'),
             'name' => Yii::t('app', 'Name'),
             'sort' => Yii::t('app', 'Sort'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
             'remark' => Yii::t('app', 'Remark'),
         ];
     }

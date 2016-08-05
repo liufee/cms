@@ -20,8 +20,15 @@ class ArticleSearch extends Article{
         ];
     }
 
+    public function scenarios()
+    {
+        $senarios = parent::scenarios();
+        $senarios['article'] = array_merge($senarios['article'], ['create_start_at', 'create_end_at', 'update_start_at', 'update_end_at']);
+        return $senarios;
+    }
+
     public function search($params, $type=self::ARTICLE)
-    {//var_dump(Category::getAsArray());die;
+    {
         $query = Article::find()->select([])->where(['type'=>$type]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -32,8 +39,8 @@ class ArticleSearch extends Article{
                 ]
             ]
         ]);
-        $this->load($params);//var_dump($params);die;
-        if(!$this->validate()){var_dump($this->getErrors());die;
+        $this->load($params);
+        if(!$this->validate()){
             return $dataProvider;
         }
         $query->andFilterWhere(['like', 'title', $this->title])

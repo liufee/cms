@@ -13,11 +13,13 @@ class AdminLogSearch extends AdminLog
 {
 
     public $user_username;
+    public $create_start_at;
+    public $create_end_at;
 
     public function rules()
     {
         return [
-            [['description'], 'string'],
+            [['description', 'create_start_at', 'create_end_at'], 'string'],
             [['created_at', 'user_id'], 'integer'],
             [['route'], 'string', 'max' => 255],
             ['user_username', 'safe']
@@ -67,6 +69,16 @@ class AdminLogSearch extends AdminLog
             ->andFilterWhere(['like', 'route', $this->route])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'admin_user.username', $this->user_username]) ;
+        $create_start_at_unixtimestamp = $create_end_at_unixtimestamp = $update_start_at_unixtimestamp = $update_end_at_unixtimestamp = '';
+        if($this->create_start_at != '') $create_start_at_unixtimestamp = strtotime($this->create_start_at);
+        if($this->create_end_at != '') $create_end_at_unixtimestamp = strtotime($this->create_end_at);
+        if($create_start_at_unixtimestamp != '' && $create_end_at_unixtimestamp == '') {
+            $query->andFilterWhere(['>', 'admin_log.created_at', $create_start_at_unixtimestamp]);
+        }elseif ($create_start_at_unixtimestamp == '' && $create_end_at_unixtimestamp != ''){
+            $query->andFilterWhere(['<', 'admin_log.created_at', $create_end_at_unixtimestamp]);
+        }else{
+            $query->andFilterWhere(['between', 'admin_log.created_at', $create_start_at_unixtimestamp, $create_end_at_unixtimestamp]);
+        }
         return $dataProvider;
     }
 

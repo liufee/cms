@@ -58,13 +58,12 @@ class BaseController extends Controller
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['update', 'id'=>$model->primaryKey]);
             }else{
-                Yii::$app->getSession()->setFlash('error', yii::t('app', 'Error'));
                 $errors = $model->getErrors();
                 $err = '';
                 foreach($errors as $v){
                     $err .= $v[0].'<br>';
                 }
-                Yii::$app->getSession()->setFlash('reason', $err);
+                Yii::$app->getSession()->setFlash('error', $err);
             }
         }
 

@@ -33,13 +33,12 @@ class PageController extends BaseController
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['index']);
             } else {
-                Yii::$app->getSession()->setFlash('error', yii::t('app', 'Error'));
                 $errors = $model->getErrors();
                 $err = '';
                 foreach($errors as $v){
                     $err .= $v[0].'<br>';
                 }
-                Yii::$app->getSession()->setFlash('reason', $err);
+                Yii::$app->getSession()->setFlash('error', $err);
             }
         }
         $model->loadDefaultValues();
@@ -54,9 +53,14 @@ class PageController extends BaseController
         if ( Yii::$app->request->isPost ) {
             $model->setScenario('page');
             if( $model->load(Yii::$app->request->post()) && $model->save() ){
-                Yii::$app->getSession()->setFlash('success', '修改成功');
+                Yii::$app->getSession()->setFlash('app', 'Success');
             }else{
-                Yii::$app->getSession()->setFlash('error', '修改失败');
+                $errors = $model->getErrors();
+                $err = '';
+                foreach($errors as $v){
+                    $err .= $v[0].'<br>';
+                }
+                Yii::$app->getSession()->setFlash('error', $err);
             }
         }
         $contentModel = ArticleContent::findOne(['aid'=>$id]);//var_dump($temp);die;

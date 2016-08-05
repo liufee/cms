@@ -193,6 +193,9 @@ return [
     'Roles' => '角色',
     'Friendly Links' => '友情链接',
     'Environment' => '环境',
+    'Latest Comments' => '最新评论',
+    'Only supported linux system' => '仅支持Linux系统',
+    'Total' => '总共',
     /*site/main*/
 
     /*admin-roles*/

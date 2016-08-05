@@ -73,9 +73,8 @@ $this->title = "Admin Log";
                         ],
                         [
                             'attribute' => 'created_at',
-                            'value' => function($model, $key, $index, $column){
-                                return  $model->created_at ? date('Y-m-d H:i:s', $model->created_at) : '-';
-                            }
+                            'format' => ['date'],
+                            'filter' => Html::activeInput('text', $searchModel, 'create_start_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"]).\yii\helpers\Html::activeInput('text', $searchModel, 'create_end_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]),
                         ],
                         [
                             'class' => 'feehi\grid\ActionColumn',

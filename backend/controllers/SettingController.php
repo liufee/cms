@@ -28,13 +28,12 @@ class SettingController extends BaseController
             if( $model->validate() && $model->load(Yii::$app->request->post()) && $model->setWebsiteConfig() ){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             }else{
-                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Error'));
                 $errors = $model->getErrors();
                 $err = '';
                 foreach($errors as $v){
                     $err .= $v[0].'<br>';
                 }
-                Yii::$app->getSession()->setFlash('reason', $err);
+                Yii::$app->getSession()->setFlash('error', $err);
             }
         }
 
@@ -52,13 +51,12 @@ class SettingController extends BaseController
             if($model->validate() && $model->load(Yii::$app->request->post()) && $model->setSeoConfig()){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             }else{
-                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Error'));
                 $errors = $model->getErrors();
                 $err = '';
                 foreach($errors as $v){
                     $err .= $v[0].'<br>';
                 }
-                Yii::$app->getSession()->setFlash('reason', $err);
+                Yii::$app->getSession()->setFlash('error', $err);
             }
 
         }

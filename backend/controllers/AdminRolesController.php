@@ -40,13 +40,12 @@ class AdminRolesController extends BaseController
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['index']);
             }else{
-                Yii::$app->getSession()->setFlash('Error', yii::t('app', 'Error'));
                 $errors = $model->getErrors();
                 $err = '';
                 foreach($errors as $v){
                     $err .= $v[0].'<br>';
                 }
-                Yii::$app->getSession()->setFlash('reason', $err);
+                Yii::$app->getSession()->setFlash('error', $err);
             }
         }
         $model->loadDefaultValues();
@@ -69,13 +68,12 @@ class AdminRolesController extends BaseController
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['update', 'id'=>$model->primaryKey]);
             }else{
-                Yii::$app->getSession()->setFlash('Error', yii::t('app', 'Error'));
                 $errors = $model->getErrors();
                 $err = '';
                 foreach($errors as $v){
                     $err .= $v[0].'<br>';
                 }
-                Yii::$app->getSession()->setFlash('reason', $err);
+                Yii::$app->getSession()->setFlash('error', $err);
             }
         }
         $model =  AdminRolePermission::findAll(['role_id'=>$id]);//var_dump($model);die;

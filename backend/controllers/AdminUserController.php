@@ -45,13 +45,12 @@ class AdminUserController extends BaseController
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['index']);
             }else{
-                Yii::$app->getSession()->setFlash('error', yii::t('app', 'Error'));
                 $errors = $model->getErrors();
                 $err = '';
                 foreach($errors as $v){
                     $err .= $v[0].'<br>';
                 }
-                Yii::$app->getSession()->setFlash('reason', $err);
+                Yii::$app->getSession()->setFlash('error', $err);
             }
         }
         $temp = AdminRoles::find()->asArray()->all();
@@ -80,13 +79,12 @@ class AdminUserController extends BaseController
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['update', 'id'=>$model->primaryKey]);
             }else{
-                Yii::$app->getSession()->setFlash('error', yii::t('app', 'Error'));
                 $errors = $model->getErrors();
                 $err = '';
                 foreach($errors as $v){
                     $err .= $v[0].'<br>';
                 }
-                Yii::$app->getSession()->setFlash('reason', $err);
+                Yii::$app->getSession()->setFlash('error', $err);
             }
             $model = User::findOne(['id'=>yii::$app->user->identity->id]);
         }
@@ -114,15 +112,14 @@ class AdminUserController extends BaseController
         $model->setScenario('self-update');
         if(yii::$app->request->isPost){
             if( $model->validate() && $model->load(yii::$app->request->post()) && $model->self_update() ){
-                Yii::$app->getSession()->setFlash('success', '成功');
+                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             }else{
-                Yii::$app->getSession()->setFlash('error', '失败');
                 $errors = $model->getErrors();
                 $err = '';
                 foreach($errors as $v){
                     $err .= $v[0].'<br>';
                 }
-                Yii::$app->getSession()->setFlash('reason', $err);
+                Yii::$app->getSession()->setFlash('error', $err);
             }
             $model = User::findOne(['id'=>yii::$app->user->identity->id]);
         }
@@ -152,15 +149,14 @@ class AdminUserController extends BaseController
         $model->uid = $uid;
         if( yii::$app->request->isPost ){
             if($model->load(yii::$app->request->post()) && $model->save()){
-                Yii::$app->getSession()->setFlash('success', '成功');
+                Yii::$app->getSession()->setFlash('success', yii::t('app', 'success'));
             }else{//var_dump($model->getErrors());die;
-                Yii::$app->getSession()->setFlash('error', '失败');
                 $errors = $model->getErrors();
                 $err = '';
                 foreach($errors as $v){
                     $err .= $v[0].'<br>';
                 }
-                Yii::$app->getSession()->setFlash('reason', $err);
+                Yii::$app->getSession()->setFlash('error', $err);
             }
         }
         $temp = AdminRoles::find()->asArray()->all();

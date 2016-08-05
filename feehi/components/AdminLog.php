@@ -17,16 +17,17 @@ class AdminLog
     public static function create($event)
     {
         if($event->sender->className() !== AdminLogModel::className()) {
-            $desc = '';//var_dump($event);die;
+            $desc = '<br>';
             foreach ($event->sender->getAttributes() as $name => $value) {
-                $desc .= $name . ':' . $value . "=>" . $event->sender->getAttribute($name) . ',';
+                $desc .= $event->sender->getAttributeLabel($name) . '(' .  $name . ') => ' . $value . ',<br>';
             }
-            $desc = substr($desc, 0, -1);
+            $desc = substr($desc, 0, -5);
             $model = new AdminLogModel();
-            $id = '';
-            if(isset($event->sender->id)) $id = ' id:' . $event->sender->id . '的';
-            $model->description = yii::$app->user->identity->username . '创建了' . $event->sender->className() . $id . $desc;
-            $model->route = Url::to();
+            $class = $event->sender->className();
+            $id_des = '';
+            if(isset($event->sender->id)) $id_des = 'id为' . $event->sender->id . '的';
+            $model->description = '管理员 [ ' . yii::$app->user->identity->username . ' ] 通过 ' . $class .' [ ' .$class::tableName(). ' ] ' ." 创建了{$id_des}记录: " . $desc;
+            $model->route = Yii::$app->controller->id.'/'.Yii::$app->controller->action->id;
             $model->user_id = yii::$app->user->id;
             $model->save();
         }
@@ -35,16 +36,17 @@ class AdminLog
     public static function update($event)
     {
         if(!empty($event->changedAttributes)){
-            $desc = '';
-            foreach ($event->changedAttributes as $name => $value){
-                $desc .= $name . ':'. $value . "=>" . $event->sender->getAttribute($name) . ',';
+            $desc = '<br>';
+            foreach ($event->changedAttributes as $name => $value) {
+                $desc .= $event->sender->getAttributeLabel($name) . '(' .  $name . ') : ' . $value . '=>' . $event->sender->oldAttributes[$name] . ',<br>';
             }
-            $desc = substr($desc, 0, -1);
+            $desc = substr($desc, 0, -5);
             $model = new AdminLogModel();
-            $id = '';
-            if(isset($event->sender->id)) $id = ' id:' . $event->sender->id . '的';
-            $model->description = yii::$app->user->identity->username . '修改了' . $event->sender->className() . $id . $desc;
-            $model->route = Url::to();
+            $class = $event->sender->className();
+            $id_des = '';
+            if(isset($event->sender->id)) $id_des = 'id为' . $event->sender->id . '的';
+            $model->description = '管理员 [ ' . yii::$app->user->identity->username . ' ] 通过 ' . $class .' [ ' .$class::tableName(). ' ] ' ." 修改了{$id_des}记录: " . $desc;
+            $model->route = Yii::$app->controller->id.'/'.Yii::$app->controller->action->id;
             $model->user_id = yii::$app->user->id;
             $model->save();
         }
@@ -52,16 +54,17 @@ class AdminLog
 
     public static function delete($event)
     {
-        $desc = '';//var_dump($event);die;
+        $desc = '<br>';
         foreach ($event->sender->getAttributes() as $name => $value) {
-            $desc .= $name . ':' . $value . ',';
+            $desc .= $event->sender->getAttributeLabel($name) . '(' .  $name . ') => ' . $value . ',<br>';
         }
-        $desc = substr($desc, 0, -1);
+        $desc = substr($desc, 0, -5);
         $model = new AdminLogModel();
-        $id = '';
-        if(isset($event->sender->id)) $id = ' id:' . $event->sender->id . '的';
-        $model->description = yii::$app->user->identity->username . '删除了' . $event->sender->className() . $id . $desc;
-        $model->route = Url::to();
+        $class = $event->sender->className();
+        $id_des = '';
+        if(isset($event->sender->id)) $id_des = 'id为' . $event->sender->id . '的';
+        $model->description = '管理员 [ ' . yii::$app->user->identity->username . ' ] 通过 ' . $class .' [ ' .$class::tableName(). ' ] ' ." 删除了{$id_des}记录: " . $desc;
+        $model->route = Yii::$app->controller->id.'/'.Yii::$app->controller->action->id;
         $model->user_id = yii::$app->user->id;
         $model->save();
     }

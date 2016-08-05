@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use common\models\Comment;
 use Yii;
 use yii\filters\AccessControl;
 use backend\models\LoginForm;
@@ -90,16 +91,17 @@ class SiteController extends BaseController
                 'PERCENTAGE' => (($serverInfo["memRealUsed"]/$serverInfo['memTotal'])*100).'%',
             ],
         ];
-        $statics = [
-            'CATEGORY' => \common\models\Category::find()->count('id'),
+        $temp = [
             'ARTICLE' => ArticleModel::find()->where(['type'=>ArticleModel::ARTICLE])->count('id'),
-            'PAGE' => ArticleModel::find()->where(['type'=>ArticleModel::SINGLE_PAGE])->count('id'),
-            'BACKEND_MENU' => \backend\models\Menu::find()->where(['type'=>\backend\models\Menu::BACKEND_TYPE])->count('id'),
-            'FRONTEND_MENU' => \frontend\models\Menu::find()->where(['type'=>\frontend\models\Menu::FRONTEND_TYPE])->count('id'),
+            'COMMENT' => Comment::find()->count('id'),
             'USER' => \frontend\models\User::find()->count('id'),
-            'ROLE' => \backend\models\AdminRoles::find()->count('id'),
-            'ADMIN_USER' => \backend\models\User::find()->count('id'),
             'FRIEND_LINK' => \common\models\FriendLink::find()->count('id'),
+        ];
+        $statics = [
+            'ARTICLE' => [$temp['ARTICLE'] , number_format( ArticleModel::find()->where(['between', 'created_at', strtotime(date('Y-m-01')), strtotime(date('Y-m-01 23:59:59')." +1 month -1 day")])->count('id') / $temp['ARTICLE'] * 100, 2) ],
+            'COMMENT' => [$temp['COMMENT'], number_format( Comment::find()->where(['between', 'created_at', strtotime(date('Y-m-d 00:00:00')), time()])->count('id') / $temp['COMMENT'] * 100, 2) ],
+            'USER' => [$temp['USER'], number_format( \frontend\models\User::find()->where(['between', 'created_at', strtotime(date('Y-m-01')), strtotime(date('Y-m-01 23:59:59')." +1 month -1 day")])->count('id') / $temp['USER'] * 100, 2)],
+            'FRIEND_LINK' => [$temp['FRIEND_LINK'], number_format( \common\models\FriendLink::find()->where(['between', 'created_at', strtotime(date('Y-m-01')), strtotime(date('Y-m-01 23:59:59')." +1 month -1 day")])->count('id') / $temp['FRIEND_LINK'] * 100, 2)],
         ];
         $comments = \backend\models\Comment::getRecentComments(10);
         return $this->render('main', [
@@ -120,7 +122,7 @@ class SiteController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {
-            return $this->render('login', [
+            return $this->renderPartial('login', [
                 'model' => $model,
             ]);
         }
