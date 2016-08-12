@@ -30,11 +30,11 @@ $this->registerMetaTag(['tags' => $model->tag]);
             <h1 class="pull-left">
                 <?=$model->title?>
             </h1>
-			<div class="pull-right"><!-- 百度分享 -->
+			<div class="pull-right">
 			</div>
 		</header>
 		<div class="article-content">
-            <?=$model->content?>
+            <?=$model->articleContent->content?>
 		</div>
 	</div>
 </div>

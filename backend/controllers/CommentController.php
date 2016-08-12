@@ -27,7 +27,7 @@ class CommentController extends BaseController
         throw new yii\web\NotFoundHttpException();
     }
 
-    public function actionUpdate()
+    public function actionUpdate($id='')
     {
         throw new yii\web\NotFoundHttpException();
     }

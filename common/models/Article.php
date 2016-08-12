@@ -116,6 +116,11 @@ class Article extends \yii\db\ActiveRecord
         return $this->hasOne(Category::className(), ['id' => 'cid']);
     }
 
+    public function getArticleContent()
+    {
+        return $this->hasOne(ArticleContent::className(), ['aid' => 'id']);
+    }
+
     public static function getArticleById($id)
     {
         return self::findOne(['id'=>$id]);

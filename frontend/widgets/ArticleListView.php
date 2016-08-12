@@ -61,7 +61,7 @@ class ArticleListView extends \yii\widgets\ListView
             $summary = StringHelper::truncate($model->summary, 70);
             $title = StringHelper::truncate($model->title, 28);
             return str_replace(['{article_url}', '{img_url}', '{category_url}', '{title}', '{summary}', '{pub_date}', '{scan_count}', '{comment_count}', '{category}', '{comment_url}'],
-                                [$articleUrl, $imgUrl, $categoryUrl, $title, $summary, date('Y-m-d', $model->created_at), $model->scan_count, $model->comment_count, $categoryName, $articleUrl."#comments"],
+                                [$articleUrl, $imgUrl, $categoryUrl, $title, $summary, date('Y-m-d', $model->created_at), $model->scan_count*100, $model->comment_count, $categoryName, $articleUrl."#comments"],
                                  $this->template);
         };
     }

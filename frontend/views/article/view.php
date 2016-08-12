@@ -6,24 +6,17 @@
  * Time: 22:55
  */
 use yii\helpers\Url;
+use frontend\assets\ViewAsset;
+use feehi\widgets\JsBlock;
 
 $this->title = $model->title;
 $this->registerMetaTag(['keywords' => $model->seo_keywords]);
 $this->registerMetaTag(['description' => $model->seo_description]);
 $this->registerMetaTag(['tags' => $model->tag]);
 $this->registerMetaTag(['property'=>'article:author', 'content'=>$model->author_name]);
-$categoryName = $model->category?$model->category->name:'未分类';
+$categoryName = $model->category ? $model->category->name : '未分类';
+ViewAsset::register($this);
 ?>
-    <script type="text/javascript" src="/static/syntaxhighlighter/scripts/shCore.js"></script>
-    <script type="text/javascript" src="/static/syntaxhighlighter/scripts/shBrushJScript.js"></script>
-    <script type="text/javascript" src="/static/syntaxhighlighter/scripts/shBrushPython.js"></script>
-    <script type="text/javascript" src="/static/syntaxhighlighter/scripts/shBrushJava.js"></script>
-    <script type="text/javascript" src="/static/syntaxhighlighter/scripts/shBrushPhp.js"></script>
-<script type="text/javascript" src="/static/syntaxhighlighter/scripts/shBrushCss.js"></script>
-    <link type="text/css" rel="stylesheet" href="/static/syntaxhighlighter/styles/shCoreDefault.css"/>
-    <script type="text/javascript">
-        SyntaxHighlighter.all();
-    </script>
 <div class="content-wrap">
     <div class="content">
         <div class="breadcrumbs">
@@ -41,7 +34,7 @@ $categoryName = $model->category?$model->category->name:'未分类';
         </header>
 
         <article class="article-content">
-            <?= $model->content?>
+            <?= $model->articleContent->content?>
             <p>转载请注明：<a href="<?=yii::$app->homeUrl?>" data-original-title="" title=""><?=yii::$app->feehi->website_title?></a> » <a href="<?=Url::to(['article/view', 'id'=>$model->id])?>" data-original-title="" title=""><?=$model->title?></a></p>
 
             <div class="article-social">
@@ -205,6 +198,8 @@ $categoryName = $model->category?$model->category->name:'未分类';
     </div>
 </div>
 <?=$this->render('/widgets/_sidebar')?>
-<script>
-    $("")
+<?php JsBlock::begin(); ?>
+<script type="text/javascript">
+    SyntaxHighlighter.all();
 </script>
+<?php JsBlock::end(); ?>

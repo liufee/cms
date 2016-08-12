@@ -24,8 +24,6 @@ class PageController extends Controller
         if($name == '') $name = yii::$app->request->pathInfo;
         $model = Article::findOne(['sub_title'=>$name]);
         if(empty($model)) throw new yii\web\NotFoundHttpException;
-        $contentModel = ArticleContent::findOne(['aid'=>$model->id]);
-        $model->content = $contentModel->content;
         return $this->render('view', [
             'model' => $model,
         ]);

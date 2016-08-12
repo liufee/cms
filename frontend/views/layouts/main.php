@@ -4,18 +4,11 @@
 /* @var $content string */
 
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
-use common\widgets\Alert;
-use frontend\models\Menu;
 use yii\helpers\Url;
-use frontend\controllers\components\Article;
-use frontend\models\FriendLink;
 use frontend\widgets\MenuView;
 
-//AppAsset::register($this);
+AppAsset::register($this);
 if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != 'page' ) {
     $this->registerMetaTag(['keywords' => yii::$app->feehi->seo_keywords]);
     $this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
@@ -31,13 +24,9 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
     <?= Html::csrfMetaTags() ?>
     <meta http-equiv="X-UA-Compatible" content="IE=10,IE=9,IE=8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-    <!--<script src="/static/js/hm.js"></script>-->
     <script>
         window._deel = {name: '<?=yii::$app->feehi->website_title?>',url: '<?=yii::$app->homeUrl?>', comment_url: '<?=Url::to(['article/comment'])?>', ajaxpager: '', commenton: 0, roll: [4,]}
     </script>
-    <link rel="stylesheet" id="style-css" href="/static/css/style.css" type="text/css" media="all">
-    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/static/js/jquery.js"></script>
     <style>p.help-block{color:red}</style>
 </head>
 <?php $this->beginBody() ?>
@@ -54,14 +43,14 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
                     <a href="<?=Url::to(['site/login'])?>" class="signin-loader">Hi, 请登录</a>&nbsp; &nbsp;
                     <a href="<?=Url::to(['site/signup'])?>" class="signup-loader">我要注册</a>
                     <?php }else{ ?>
-                        Welcome, <?=yii::$app->user->identity->username?>
+                        Welcome, <?=Html::encode( yii::$app->user->identity->username )?>
                         <a href="<?=Url::to(['site/logout'])?>" class="signup-loader">退出</a>
                     <?php }?>
               </span>
             </span>
             </div>
             <div class="menu-container">
-                <ul id="menu-%e5%a4%b4%e9%83%a8" class="top-menu">
+                <ul id="menu-page" class="top-menu">
                     <a target="_blank" href="/about">关于我们</a> | <a target="_blank" href="/contact">联系我们</a>
                 </ul>
             </div>
@@ -114,7 +103,7 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
 
 <div class="branding branding-black">
     <div class="container_f">
-        <h2>高效，专业，符合SEO</h2><a class="btn btn-lg" href="/" target="_blank">联系我们</a>
+        <h2>高效，专业，符合SEO</h2><a class="btn btn-lg" href="http://www.feehi.com" target="_blank">联系我们</a>
     </div>
 </div>
 
@@ -126,7 +115,6 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
         <p>Powered by Feehi CMS · Theme by <a title="飞嗨" href="http://blog.feehi.com">飞嗨</a> </p>
     </div>
 </footer>
-<?=yii::$app->feehi->website_statics_script?>
 <div class="rollto" style="display: none;">
     <button class="btn btn-inverse" data-type="totop" title="回顶部"><i class="fa fa-arrow-up"></i></button>
 </div>

@@ -74,23 +74,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        /*
-        $query = Article::find()->where([
-            'type'=>Article::ARTICLE,
-            'status'=> Article::ARTICLE_PUBLISHED,
-            'flag_special_recommend'=>1,
-        ])->joinWith("category");//->createCommand()->getRawSql();echo $query;die;
-        $countQuery = clone $query;
-        $pages = new Pagination(['totalCount' => $countQuery->count(),'defaultPageSize'=>8]);
-        $model = $query->orderBy('sort asc,id desc')->offset($pages->offset)
-            ->limit($pages->limit)
-            ->all();//var_dump($model[0]['category']['name']);die;
-        return $this->render('index', [
-            'model' => $model,
-            'pages' => $pages,
-        ]);*/
         $where = ['type'=>Article::ARTICLE];
-        $query = Article::find()->select([])->where($where)->joinWith("category");
+        $query = Article::find()->select([])->where($where);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
@@ -137,39 +122,6 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending email.');
-            }
-
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 
     /**

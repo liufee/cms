@@ -77,7 +77,10 @@ class Article extends CommomArticle
         }else{
             if($this->content === null) return;
             $contentModel = ArticleContent::findOne(['aid'=>$this->id]);
-            if($contentModel == null) $contentModel = new ArticleContent();
+            if($contentModel == null){
+                $contentModel = new ArticleContent();
+                $contentModel->aid = $this->id;
+            }
         }
         $contentModel->content = $this->content;
         $contentModel->save();

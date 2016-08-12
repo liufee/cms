@@ -7,12 +7,10 @@
  */
 namespace frontend\controllers;
 
-use frontend\models\ArticleContent;
 use yii;
 use yii\web\Controller;
 use frontend\models\Article;
 use common\models\Category;
-use yii\data\Pagination;
 use frontend\models\Comment;
 use yii\data\ActiveDataProvider;
 
@@ -40,16 +38,17 @@ class ArticleController extends Controller
         $where = ['type'=>Article::ARTICLE,'status'=>Article::ARTICLE_PUBLISHED];
         if($cat != '' && $cat != 'index') {
             if (!$category = Category::findOne(['name' => $cat])){
-                throw new yii\web\NotFoundHttpException('none category named '.$cat);
+                throw new yii\web\NotFoundHttpException('None category named '.$cat);
             }
             $where['cid'] = $category['id'];
         }
-        $query = Article::find()->select([])->where($where)->joinWith("category");
+        $query = Article::find()->select([])->where($where);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
                 'defaultOrder' => [
                     'sort' => SORT_ASC,
+                    'created_at' => SORT_DESC,
                     'id' => SORT_DESC,
                 ]
             ]
@@ -62,18 +61,9 @@ class ArticleController extends Controller
     public function actionView($id)
     {
         $model = Article::findOne(['id'=>$id]);
-        $contentModel = ArticleContent::findOne(['aid'=>$id]);
-        $model->content = $contentModel->content;
-        /*$pattern="/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
-        preg_match_all($pattern, $model->content, $matches);
-        $matches[1] = array_unique($matches[1]);
-        foreach($matches[1] as $v){
-            $model->content = str_replace($v, yii::$app->params['fileBaseUrl'].$v, $model->content);
-        }*/
         Article::updateAllCounters(['scan_count' => 1], ['id'=>$id]);
-        $prev = Article::find()->where(['cid'=>$model->cid])->andWhere(['<', 'id', $id])->limit(1)->one();
-        $next = Article::find()->where(['cid'=>$model->cid])->andWhere(['>', 'id', $id])->limit(1)->one();//->createCommand()->getRawSql();
-        //$titles = Article::find()->select(['title','id'])->asArray()->column();
+        $prev = Article::find()->where(['cid'=>$model->cid])->andWhere(['>', 'id', $id])->orderBy("sort asc,created_at asc,id desc")->limit(1)->one();
+        $next = Article::find()->where(['cid'=>$model->cid])->andWhere(['<', 'id', $id])->orderBy("sort desc,created_at desc,id asc")->limit(1)->one();//->createCommand()->getRawSql();
         $commentModel = new Comment();
         $commentList = $commentModel->getCommentByAid($id);
         $recommends = Article::find()->where(['type'=>Article::ARTICLE, 'status'=>Article::ARTICLE_PUBLISHED])->andWhere(['<>', 'thumb', ''])->orderBy("rand()")->limit(8)->all();
