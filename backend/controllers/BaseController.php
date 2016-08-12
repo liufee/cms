@@ -7,10 +7,35 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 
 /**
- * Base controller is the class of backend controllers
+ * Base controller is the whole backend controllers parent class, and supported basic operation(such as crud,sort...).
  */
 class BaseController extends Controller
 {
+
+    public function actionIndex()
+    {
+        return $this->render('index', $this->getIndexData());
+    }
+
+    public function actionCreate(){
+        $model = $this->getModel();
+        if( yii::$app->request->isPost ) {
+            if ( $model->load(yii::$app->request->post()) && $model->validate() && $model->save() ) {
+                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+                return $this->redirect(['index']);
+            } else {
+                $errors = $model->getErrors();
+                $err = '';
+                foreach($errors as $v){
+                    $err .= $v[0].'<br>';
+                }
+                Yii::$app->getSession()->setFlash('error', $err);
+            }
+        }
+        $model->loadDefaultValues();
+        $array = array_merge(['model'=>$model], $this->getCreateData());
+        return $this->render('create',$array);
+    }
 
     public function actionDelete($id)
     {
@@ -54,7 +79,7 @@ class BaseController extends Controller
         $model = $this->getModel($id);
         if(!$model) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));
         if ( Yii::$app->request->isPost ) {
-            if( $model->load(Yii::$app->request->post()) && $model->save() ){
+            if( $model->load(Yii::$app->request->post()) && $model->validate() && $model->save() ){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['update', 'id'=>$model->primaryKey]);
             }else{
@@ -111,6 +136,16 @@ class BaseController extends Controller
     public function getModel($id='')
     {
         return '';
+    }
+
+    public function getIndexData()
+    {
+        return [];
+    }
+
+    public function getCreateData()
+    {
+        return [];
     }
 
 }

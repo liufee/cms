@@ -7,8 +7,8 @@
  */
 namespace backend\controllers;
 
-use backend\models\AdminRoles;
 use yii;
+use backend\models\AdminRoles;
 use backend\models\User;
 use yii\data\ActiveDataProvider;
 use backend\models\AdminRoleUser;
@@ -16,7 +16,7 @@ use backend\models\AdminRoleUser;
 class AdminUserController extends BaseController
 {
 
-    public function actionIndex()
+    public function getIndexData()
     {
         $query = User::find();
         $dataProvider = new ActiveDataProvider([
@@ -27,10 +27,9 @@ class AdminUserController extends BaseController
                 ]
             ]
         ]);
-        return $this->render('index', [
+        return [
             'dataProvider' => $dataProvider,
-        ]);
-
+        ];
     }
 
     public function actionCreate()
@@ -170,8 +169,4 @@ class AdminUserController extends BaseController
         ]);
     }
 
-    public function actionA()
-    {echo 2;die;
-        return $this->render('a');
-    }
 }

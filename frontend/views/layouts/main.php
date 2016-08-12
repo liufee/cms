@@ -94,7 +94,7 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
 <div id="search-main">
     <div id="searchbar">
         <form id="searchform" action="<?=Url::to('/search')?>" method="get">
-            <input id="s" type="text" name="q" value="<?=yii::$app->request->get('q')?>" required="" placeholder="输入搜索内容" name="s" value="">
+            <input id="s" type="text" name="q" value="<?= Html::encode( yii::$app->request->get('q') ) ?>" required="" placeholder="输入搜索内容" name="s" value="">
             <button id="searchsubmit" type="submit">搜索</button>
         </form>
     </div>

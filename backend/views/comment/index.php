@@ -78,6 +78,7 @@ $viewLayer = function($url, $model){
                         ],
                         [
                             'attribute' => 'content',
+                            'format' => 'html',
                         ],
                         [
                             'attribute' => 'status',

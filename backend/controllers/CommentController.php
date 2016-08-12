@@ -12,14 +12,24 @@ use backend\models\CommentSearch;
 
 class CommentController extends BaseController
 {
-    public function actionIndex()
+    public function getIndexData()
     {
         $searchModel = new CommentSearch();
         $dataProvider = $searchModel->search(yii::$app->request->queryParams);
-        return $this->render('index', [
+        return [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
-        ]);
+        ];
+    }
+
+    public function actionCreate()
+    {
+        throw new yii\web\NotFoundHttpException();
+    }
+
+    public function actionUpdate()
+    {
+        throw new yii\web\NotFoundHttpException();
     }
 
     public function getModel($id='')

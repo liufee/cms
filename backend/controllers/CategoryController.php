@@ -9,7 +9,7 @@ use common\models\Category;
 class CategoryController extends BaseController
 {
 
-    public function actionIndex()
+    public function getIndexData()
     {
         $data = Category::getArray();
         $dataProvider = new ArrayDataProvider([
@@ -18,38 +18,19 @@ class CategoryController extends BaseController
                 'pageSize' => -1
             ]
         ]);
-        //$dataProvider = new ActiveDataProvider([
-        //'query' => $query,
-        //]);
-        return $this->render('index', [
+        return [
             'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionCreate(){
-        $model = new Category();
-        if(yii::$app->request->isPost){
-            if($model->load(yii::$app->request->post()) && $model->validate() && $model->save()){
-                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-                return $this->redirect(['index']);
-            }else{
-                $errors = $model->getErrors();
-                $err = '';
-                foreach($errors as $v){
-                    $err .= $v[0].'<br>';
-                }
-                Yii::$app->getSession()->setFlash('error', $err);
-            }
-        }
-        $model->loadDefaultValues();
-        return $this->render('create', [
-            'model' => $model
-        ]);
+        ];
     }
 
     public function getModel($id = '')
     {
-        return Category::findOne(['id'=>$id]);
+        if($id == ''){
+            $model = new Category();
+        }else {
+            $model = Category::findOne(['id' => $id]);
+        }
+        return $model;
     }
 
 }

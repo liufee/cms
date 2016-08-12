@@ -31,23 +31,4 @@ class PageController extends Controller
         ]);
     }
 
-    private function getSimilar($title,$arr_title)
-    {
-        $arr_len = count($arr_title);
-        for($i=0; $i<=($arr_len-1); $i++)
-        {
-            //取得两个字符串相似的字节数
-            $arr_similar[$i] = similar_text($arr_title[$i],$title);
-        }
-        arsort($arr_similar);	//按照相似的字节数由高到低排序
-        reset($arr_similar);	//将指针移到数组的第一单元
-        $index = 0;
-        foreach($arr_similar as $old_index=>$similar)
-        {
-            $new_title_array[$index] = $arr_title[$old_index];
-            $index++;
-        }
-        return $new_title_array;
-    }
-
 }

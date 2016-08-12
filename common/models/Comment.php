@@ -105,13 +105,16 @@ class Comment extends \yii\db\ActiveRecord
         return true;
     }
 
-    function getCommentByAid($id)
+    public function getCommentByAid($id)
     {
         $list = self::find()->where(['aid'=>$id, 'status'=>self::STATUS_PASSED])->asArray()->orderBy("id desc,reply_to desc")->all();
         $newList = [];
         foreach ($list as $v){
             if($v['reply_to'] == 0){
                 $v['sub'] = self::getCommentChildren($list, $v['id']);
+                $v['content'] = str_replace([':mrgreen:',':razz:',':sad:',':smile:',':oops:',':grin:',':eek:',':???:',':cool:',':lol:',':mad:',':twisted:',':roll:',':wink:',':idea:',':arrow:',':neutral:',':cry:',':?:',':evil:',':shock:',':!:'],
+                    ["<img src='{%URL%}mrgreen{%EXT%}'>","<img src='{%URL%}razz{%EXT%}'>","<img src='{%URL%}sad{%EXT%}'>","<img src='{%URL%}smile{%EXT%}'>","<img src='{%URL%}redface{%EXT%}'>","<img src='{%URL%}biggrin{%EXT%}'>","<img src='{%URL%}surprised{%EXT%}'>","<img src='{%URL%}confused{%EXT%}'>","<img src='{%URL%}cool{%EXT%}'>","<img src='{%URL%}lol{%EXT%}'>","<img src='{%URL%}mad{%EXT%}'>","<img src='{%URL%}twisted{%EXT%}'>","<img src='{%URL%}rolleyes{%EXT%}'>","<img src='{%URL%}wink{%EXT%}'>","<img src='{%URL%}idea{%EXT%}'>","<img src='{%URL%}arrow{%EXT%}'>","<img src='{%URL%}neutral{%EXT%}'>","<img src='{%URL%}cry{%EXT%}'>","<img src='{%URL%}question{%EXT%}'>","<img src='{%URL%}evil{%EXT%}'>","<img src='{%URL%}eek{%EXT%}'>","<img src='{%URL%}exclaim{%EXT%}'>"],$v['content']);
+                $v['content'] = str_replace(['{%URL%}', '{%EXT%}'], [yii::$app->homeUrl.'static/images/smilies/icon_', '.gif'], $v['content']);
                 $newList[] = $v;
             }
         }
@@ -127,5 +130,13 @@ class Comment extends \yii\db\ActiveRecord
             }
         }
         return $subComment;
+    }
+
+    public function afterFind()
+    {
+        $this->content = str_replace([':mrgreen:',':razz:',':sad:',':smile:',':oops:',':grin:',':eek:',':???:',':cool:',':lol:',':mad:',':twisted:',':roll:',':wink:',':idea:',':arrow:',':neutral:',':cry:',':?:',':evil:',':shock:',':!:'],
+            ["<img src='{%URL%}mrgreen{%EXT%}'>","<img src='{%URL%}razz{%EXT%}'>","<img src='{%URL%}sad{%EXT%}'>","<img src='{%URL%}smile{%EXT%}'>","<img src='{%URL%}redface{%EXT%}'>","<img src='{%URL%}biggrin{%EXT%}'>","<img src='{%URL%}surprised{%EXT%}'>","<img src='{%URL%}confused{%EXT%}'>","<img src='{%URL%}cool{%EXT%}'>","<img src='{%URL%}lol{%EXT%}'>","<img src='{%URL%}mad{%EXT%}'>","<img src='{%URL%}twisted{%EXT%}'>","<img src='{%URL%}rolleyes{%EXT%}'>","<img src='{%URL%}wink{%EXT%}'>","<img src='{%URL%}idea{%EXT%}'>","<img src='{%URL%}arrow{%EXT%}'>","<img src='{%URL%}neutral{%EXT%}'>","<img src='{%URL%}cry{%EXT%}'>","<img src='{%URL%}question{%EXT%}'>","<img src='{%URL%}evil{%EXT%}'>","<img src='{%URL%}eek{%EXT%}'>","<img src='{%URL%}exclaim{%EXT%}'>"],$this->content);
+        $this->content = str_replace(['{%URL%}', '{%EXT%}'], [yii::$app->params['site']['url'].'/static/images/smilies/icon_', '.gif'], $this->content);
+
     }
 }

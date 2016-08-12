@@ -13,7 +13,6 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\Article;
-use yii\data\Pagination;
 use yii\data\ActiveDataProvider;
 
 /**

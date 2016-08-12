@@ -16,6 +16,8 @@ class Comment extends \common\models\Comment
 
     public function getArticle()
     {
-        return $this->hasOne(\frontend\models\Article::className(), ['id' => 'aid']);
+        return $this->hasOne(Article::className(), ['id' => 'aid']);
     }
+
+
 }

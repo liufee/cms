@@ -7,6 +7,7 @@
  */
 namespace backend\models;
 
+use common\models\ArticleContent;
 use frontend\models\Comment;
 use yii;
 use common\models\Article as CommomArticle;
@@ -85,6 +86,12 @@ class Article extends CommomArticle
     public function afterDelete()
     {
         Comment::deleteAll(['aid'=>$this->id]);
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+        $this->content = ArticleContent::findOne(['aid'=>$this->id])['content'];
     }
 
 }

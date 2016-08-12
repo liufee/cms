@@ -17,7 +17,6 @@ class User extends CommonUser
     public $password;
     public $repassword;
     public $old_password;
-    public $avatar;
 
     public function rules()
     {
@@ -84,11 +83,11 @@ class User extends CommonUser
         }
         if($_FILES['User']['name']['avatar'] != ''){
             $file = new File();
-            $imgs = $file->upload(Yii::getAlias('@webroot').yii::$app->params['uploadPath']['user']['avatar']);
+            $imgs = $file->upload(Yii::getAlias('@frontend/web/uploads/avatar'));
             if($imgs[0] == false){
                 return false;
             }
-            $this->avatar = str_replace(Yii::getAlias('@webroot'), '', $imgs[0]);
+            $this->avatar = str_replace(Yii::getAlias('@frontend/web'), '', $imgs[0]);
         }
         if($this->avatar == '') unset($this->avatar);
         return true;

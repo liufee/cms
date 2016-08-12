@@ -12,14 +12,15 @@ use yii;
 use backend\models\AdminRolePermission;
 use backend\models\Menu;
 use backend\models\AdminRoles;
+use yii\data\ActiveDataProvider;
 
 
 class AdminRolesController extends BaseController
 {
-    public function actionIndex()
+    public function getIndexData()
     {
         $query = AdminRoles::find();
-        $dataProvider = new yii\data\ActiveDataProvider([
+        $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
                 'defaultOrder' => [
@@ -27,41 +28,24 @@ class AdminRolesController extends BaseController
                 ]
             ]
         ]);
-        return $this->render('index', [
-           'dataProvider' => $dataProvider
-        ]);
-    }
-
-    public function actionCreate()
-    {
-        $model = new AdminRoles();
-        if( yii::$app->request->isPost ){
-            if( $model->load(yii::$app->request->post()) && $model->save() ){
-                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-                return $this->redirect(['index']);
-            }else{
-                $errors = $model->getErrors();
-                $err = '';
-                foreach($errors as $v){
-                    $err .= $v[0].'<br>';
-                }
-                Yii::$app->getSession()->setFlash('error', $err);
-            }
-        }
-        $model->loadDefaultValues();
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return [
+            'dataProvider' => $dataProvider
+        ];
     }
 
     public function getModel($id = '')
     {
-        return AdminRoles::findOne(['id'=>$id]);
+        if($id == '') {
+            $model = new AdminRoles();
+        }else{
+            $model = AdminRoles::findOne(['id' => $id]);
+        }
+        return $model;
     }
 
     public function actionAssign($id = '')
     {
-        $menus = Menu::getMenuArray(Menu::BACKEND_TYPE);//var_dump($menus);die;
+        $menus = Menu::getMenuArray(Menu::BACKEND_TYPE);
         $model = new AdminRolePermission();
         if(yii::$app->request->isPost){
             if( $model->assignPermission(yii::$app->request->post("permission")) ){
@@ -76,7 +60,7 @@ class AdminRolesController extends BaseController
                 Yii::$app->getSession()->setFlash('error', $err);
             }
         }
-        $model =  AdminRolePermission::findAll(['role_id'=>$id]);//var_dump($model);die;
+        $model =  AdminRolePermission::findAll(['role_id'=>$id]);
         return $this->render('assign', [
             'menus' => $menus,
             'model' => $model,

@@ -19,7 +19,7 @@ class m130524_201442_init extends Migration
             'password_hash' => $this->string()->notNull(),
             'password_reset_token' => $this->string()->unique(),
             'email' => $this->string()->notNull()->unique(),
-
+            'avatar' => $this->string()->defaultValue(''),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
@@ -1431,7 +1431,7 @@ class m130524_201442_init extends Migration
         $this->addForeignKey('fk_url', "{{%admin_role_permission}}", "url", "{{%menu}}", "url", "CASCADE", "CASCADE");
         $this->addForeignKey('fk_method', "{{%admin_role_permission}}", "method", "{{%menu}}", "method", "CASCADE", "CASCADE");
         $this->addForeignKey('fk_role_id', "{{%admin_role_permission}}", "role_id", "{{%admin_roles}}", "id", "CASCADE", "CASCADE");
-        $this->batchInsert("{{%admin_role_permission}}", ['id','role_id','menu_id','name','url','created_at','updated_at','method'],
+        $this->batchInsert("{{%admin_role_permission}}", ['id','role_id','menu_id','name','url', 'method', 'created_at','updated_at'],
             [
                 [
                     '62',
@@ -1441,7 +1441,7 @@ class m130524_201442_init extends Migration
                     'setting/seo',
                     'all',
                     '1470069312',
-                    'all',
+                    '0',
                 ],
                 [
                     '68',
@@ -1451,7 +1451,7 @@ class m130524_201442_init extends Migration
                     'article/index',
                     'all',
                     '1470069312',
-                    'all',
+                    '0',
                 ],
                 [
                     '69',
@@ -1461,7 +1461,7 @@ class m130524_201442_init extends Migration
                     'comment/index',
                     'all',
                     '1470069312',
-                    'all',
+                    '0',
                 ],
                 [
                     '78',
@@ -1471,7 +1471,7 @@ class m130524_201442_init extends Migration
                     'setting',
                     'all',
                     '1470069344',
-                    'all',
+                    '0',
                 ],
                 [
                     '79',
@@ -1481,7 +1481,7 @@ class m130524_201442_init extends Migration
                     'setting/seo',
                     'all',
                     '1470069344',
-                    'all',
+                    '0',
                 ],
                 [
                     '80',
@@ -1491,7 +1491,7 @@ class m130524_201442_init extends Migration
                     'article',
                     'all',
                     '1470069344',
-                    'all',
+                    '0',
                 ],
                 [
                     '81',
@@ -1501,7 +1501,7 @@ class m130524_201442_init extends Migration
                     'article/index',
                     'all',
                     '1470069344',
-                    'all',
+                    '0',
                 ],
                 [
                     '82',
@@ -1511,7 +1511,7 @@ class m130524_201442_init extends Migration
                     'comment/index',
                     'all',
                     '1470069344',
-                    'all',
+                    '0',
                 ],
             ]
         );

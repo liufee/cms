@@ -71,7 +71,7 @@ class Article extends \yii\db\ActiveRecord
                 'author_name', 'created_at', 'updated_at', 'scan_count', 'comment_count', 'can_comment', 'visibility', 'tag', 'flag_headline', 'flag_recommend', 'flag_slide_show',
                 'flag_special_recommend', 'flag_roll', 'flag_bold', 'flag_picture'
             ],
-            'page' => ['title', 'sub_title', 'summary', 'seo_title', 'seo_keywords', 'seo_description', 'status', 'can_comment', 'visibility', 'tag', 'sort'],
+            'page' => ['title', 'sub_title', 'summary', 'seo_title', 'content' ,'seo_keywords', 'seo_description', 'status', 'can_comment', 'visibility', 'tag', 'sort'],
         ];
     }
 

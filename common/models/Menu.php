@@ -164,4 +164,11 @@ class Menu extends \yii\db\ActiveRecord
             return false;
         }
     }
+
+    public function beforeDelete()
+    {
+        $children = self::getDescendants($this->id, $this->type);
+        if( !empty($children) ) throw new \yii\web\ForbiddenHttpException(yii::t('app', 'Sub Menu exists, cannot be deleted'));
+        return true;
+    }
 }

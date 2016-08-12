@@ -18,7 +18,7 @@ $this->title = 'User';
             <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data','class'=>'form-horizontal']]); ?>
             <?= $form->field($model, 'username')->textInput(['maxlength' => 64]) ?>
             <div class="hr-line-dashed"></div>
-            <?= $form->field($model, 'avatar')->fileInput(['maxlength' => 64]) ?>
+            <?= $form->field($model, 'avatar')->imgInput(['maxlength' => 64]) ?>
             <div class="hr-line-dashed"></div>
             <?= $form->field($model, 'email')->textInput(['maxlength' => 64]) ?>
             <div class="hr-line-dashed"></div>

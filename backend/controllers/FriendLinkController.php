@@ -12,9 +12,9 @@ class FriendLinkController extends BaseController
 {
 
 
-    public function actionIndex()
+    public function getIndexData()
     {
-        $query = FriendLink::find();//var_dump($data);die;
+        $query = FriendLink::find();
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
@@ -24,36 +24,19 @@ class FriendLinkController extends BaseController
                 ],
             ]
         ]);
-        return $this->render('index', [
+        return [
             'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    public function actionCreate()
-    {
-        $model = new FriendLink();
-        if (yii::$app->request->isPost) {
-            if($model->load(Yii::$app->request->post()) && $model->save()){
-                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-                return $this->redirect(['index']);
-            }else{
-                $errors = $model->getErrors();
-                $err = '';
-                foreach($errors as $v){
-                    $err .= $v[0].'<br>';
-                }
-                Yii::$app->getSession()->setFlash('error', $err);
-            }
-        }
-        $model->loadDefaultValues();
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        ];
     }
 
     public function getModel($id="")
     {
-        return FriendLink::findOne(['id'=>$id]);
+        if($id == ''){
+            $model = new FriendLink();
+        }else{
+            $model = FriendLink::findOne(['id'=>$id]);
+        }
+        return $model;
     }
 
 }
