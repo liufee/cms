@@ -103,7 +103,7 @@ class SiteController extends BaseController
             'USER' => [$temp['USER'], number_format( \frontend\models\User::find()->where(['between', 'created_at', strtotime(date('Y-m-01')), strtotime(date('Y-m-01 23:59:59')." +1 month -1 day")])->count('id') / $temp['USER'] * 100, 2)],
             'FRIEND_LINK' => [$temp['FRIEND_LINK'], number_format( \common\models\FriendLink::find()->where(['between', 'created_at', strtotime(date('Y-m-01')), strtotime(date('Y-m-01 23:59:59')." +1 month -1 day")])->count('id') / $temp['FRIEND_LINK'] * 100, 2)],
         ];
-        $comments = \backend\models\Comment::getRecentComments(10);
+        $comments = \backend\models\Comment::getRecentComments(4);
         return $this->render('main', [
             'info' => $info,
             'status' => $status,

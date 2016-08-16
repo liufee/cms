@@ -4,30 +4,18 @@ use yii\helpers\Url;
 use frontend\widgets\ArticleListView;
 use frontend\controllers\components\Article;
 use frontend\widgets\ScrollPicView;
+use feehi\widgets\JsBlock;
+use frontend\assets\IndexAsset;
 
+IndexAsset::register($this);
 $this->title = yii::$app->feehi->website_title;
 ?>
 <div class="content-wrap">
     <div class="content">
         <div class="slick_bor">
-            <script src="/static/js/responsiveslides.min.js"></script>
             <?= ScrollPicView::widget([
                 'dataProvider' => Article::getArticleList(['flag_slide_show'=>1]),
             ])?>
-            <script>
-            $(function() {
-                var mx = document.body.clientWidth;
-                $(".slick").responsiveSlides({
-                    auto: true,
-                    pager: true,
-                    nav: true,
-                    speed:700,
-                    timeout: 7000,
-                    maxwidth: mx,
-                    namespace: "centered-btns"
-                });
-            });
-            </script>
             <div class="ws_shadow"></div>
         </div>
         <div class="daodu clr">
@@ -65,3 +53,19 @@ $this->title = yii::$app->feehi->website_title;
     </div>
 </div>
 <?= $this->render('/widgets/_sidebar')?>
+<?php JsBlock::begin()?>
+<script>
+    $(function() {
+        var mx = document.body.clientWidth;
+        $(".slick").responsiveSlides({
+            auto: true,
+            pager: true,
+            nav: true,
+            speed:700,
+            timeout: 7000,
+            maxwidth: mx,
+            namespace: "centered-btns"
+        });
+    });
+</script>
+<?php JsBlock::end()?>

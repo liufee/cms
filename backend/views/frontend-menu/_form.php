@@ -9,6 +9,7 @@
 use feehi\widgets\ActiveForm;
 use feehi\libs\Constants;
 use frontend\models\Menu;
+use \yii\helpers\Html;
 
 $this->title = "Frontend Menus";
 ?>
@@ -18,6 +19,7 @@ $this->title = "Frontend Menus";
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?php $form = ActiveForm::begin(); ?>
+                <?=Html::activeHiddenInput($model, 'type', ['value'=>Menu::FRONTEND_TYPE])?>
                 <?= $form->field($model, 'parent_id')->dropDownList(Menu::getParentMenu(Menu::FRONTEND_TYPE))?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>

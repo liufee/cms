@@ -8,6 +8,7 @@
 use yii\helpers\Url;
 use frontend\assets\ViewAsset;
 use feehi\widgets\JsBlock;
+use yii\helpers\Html;
 
 $this->title = $model->title;
 $this->registerMetaTag(['keywords' => $model->seo_keywords]);
@@ -109,7 +110,7 @@ ViewAsset::register($this);
         <div id="respond" class="no_webshot">
             <form action="" method="post" id="commentform">
             <?php $form = \yii\bootstrap\ActiveForm::begin();?>
-                <?= $form->field($commentModel, 'aid', ['template'=>'{input}'])->hiddenInput(['value'=>$model->id]) ?>
+                <?=Html::activeHiddenInput($commentModel, 'aid', ['value'=>$model->id])?>
                 <div class="comt-title" style="display: block;">
                     <div class="comt-avatar pull-left">
                         <img src="https://secure.gravatar.com/avatar/" class="avatar avatar-108" height="50" width="50">

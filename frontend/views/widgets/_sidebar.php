@@ -49,7 +49,7 @@ use yii\helpers\Url;
 
     <div class="widget d_banner">
         <div class="d_banner_inner">
-            <a href="/" target="_blank" title="feehi cms">
+            <a href="http://www.feehi.com" target="_blank" title="feehi cms">
                 <img src="/static/images/cms.jpg" alt="feehi cms"><span></span>
             </a>
         </div>
