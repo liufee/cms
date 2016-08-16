@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace backend\assets;
+namespace feehi\assets;
 
 use yii\web\AssetBundle;
 use yii\web\View;
@@ -24,7 +24,7 @@ class UeditorAsset extends AssetBundle
         'plugins/ueditor/ueditor.all.js',
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'feehi\assets\YiiAsset',
+        'feehi\assets\BootstrapAsset',
     ];
 }

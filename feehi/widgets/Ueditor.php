@@ -8,7 +8,7 @@
 namespace feehi\widgets;
 
 use yii\base\Widget;
-use backend\assets\UeditorAsset;
+use feehi\assets\UeditorAsset;
 
 class Ueditor extends Widget
 {

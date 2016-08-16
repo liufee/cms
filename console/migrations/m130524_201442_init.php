@@ -189,7 +189,7 @@ class m130524_201442_init extends Migration
             'seo_title' => $this->string()->defaultValue(''),
             'seo_keywords' => $this->string()->defaultValue(''),
             'seo_description' => $this->string()->defaultValue(''),
-            'status' => $this->smallInteger()->unsigned()->defaultValue(0),
+            'status' => $this->smallInteger()->unsigned()->defaultValue(1),
             'sort' => $this->integer()->unsigned()->defaultValue(0),
             'author_id' => $this->integer()->unsigned()->defaultValue(0),
             'author_name' => $this->string()->defaultValue(''),

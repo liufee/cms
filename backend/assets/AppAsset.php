@@ -37,7 +37,7 @@ class AppAsset extends AssetBundle
         'static/js/plugins/prettyfile/bootstrap-prettyfile.js',
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'feehi\assets\YiiAsset',
+        'feehi\assets\BootstrapAsset',
     ];
 }
