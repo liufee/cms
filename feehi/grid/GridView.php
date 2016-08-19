@@ -16,6 +16,9 @@ use yii\base\Model;
 use yii\web\JsExpression;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
+use feehi\assets\GridViewAsset;
+use yii\helpers\Json;
+use yii\widgets\BaseListView;
 
 class GridView extends \yii\grid\GridView
 {
@@ -84,5 +87,15 @@ class GridView extends \yii\grid\GridView
         $pager['view'] = $this->getView();
         $pager = array_merge($pager, $this->pagerOptions);
         return $class::widget($pager);
+    }
+
+    public function run()
+    {
+        $id = $this->options['id'];
+        $options = Json::htmlEncode($this->getClientOptions());
+        $view = $this->getView();
+        GridViewAsset::register($view);
+        $view->registerJs("jQuery('#$id').yiiGridView($options);");
+        BaseListView::run();
     }
 }

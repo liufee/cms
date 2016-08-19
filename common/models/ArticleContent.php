@@ -47,14 +47,6 @@ class ArticleContent extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getA()
-    {
-        return $this->hasOne(Article::className(), ['id' => 'aid']);
-    }
-
     public function beforeSave($insert)
     {
         $this->content = str_replace(yii::$app->params['site']['url'], yii::$app->params['site']['sign'], $this->content);

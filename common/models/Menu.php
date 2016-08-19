@@ -96,7 +96,14 @@ class Menu extends \yii\db\ActiveRecord
     public static function getMenuArray($type)
     {
         $model = new self();
-        $menus = $model->find()->where(['type'=>$type])->orderBy("sort asc,parent_id asc")->asArray()->all();//var_dump($menus);die;
+        $obj = $model->find()->where(['type'=>$type])->orderBy("sort asc,parent_id asc")->all();
+        $menus = [];
+        foreach($obj as $key => $value) {
+            foreach($value as $k => $v){
+                $temp[$k] = $v;
+            }
+            $menus[$key] = $temp;
+        }
         $data = [];
         foreach ($menus as $key => $menu) {
             if ($menu['parent_id'] != 0) continue;

@@ -99,7 +99,14 @@ class Category extends \yii\db\ActiveRecord
 
     public static function getArray()
     {
-        $results = self::find()->orderBy("sort asc,parent_id asc")->asArray()->all();//var_dump($results);die;
+        $obj = self::find()->orderBy("sort asc,parent_id asc")->all();
+        $results = [];
+        foreach($obj as $key => $value) {
+            foreach($value as $k => $v){
+                $temp[$k] = $v;
+            }
+            $results[$key] = $temp;
+        }
         $data = [];
         foreach ($results as $key => $result) {
             if ($result['parent_id'] != 0) continue;

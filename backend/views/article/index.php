@@ -11,7 +11,7 @@ use common\models\Category;
 use feehi\libs\Constants;
 use yii\helpers\Html;
 use feehi\widgets\Bar;
-use yii\widgets\Pjax;
+use feehi\widgets\Pjax;
 use backend\models\Article;
 
 $this->title = 'Articles';

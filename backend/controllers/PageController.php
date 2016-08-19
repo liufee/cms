@@ -9,7 +9,7 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\Article;
-use common\models\ArticleSearch;
+use backend\models\ArticleSearch;
 use backend\models\ArticleContent;
 
 class PageController extends BaseController

@@ -1,7 +1,8 @@
 <?php
-namespace common\models;
+namespace backend\models;
 
 use yii\data\ActiveDataProvider;
+use common\models\Category;
 
 class ArticleSearch extends Article{
 
