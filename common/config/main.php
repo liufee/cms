@@ -1,6 +1,8 @@
 <?php
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'name' => 'Feehi CMS',
+    'version' => '0.0.4',
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
@@ -53,7 +55,7 @@ return [
             ],
             'messageConfig'=>[
                 'charset'=>'UTF-8',
-                'from'=>['liufee@126.com'=>'admin']
+                'from'=>['admin@feehi.com'=>'admin']
             ],
         ],
     ],

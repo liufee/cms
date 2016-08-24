@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use feehi\libs\Constants;
 
 /**
  * This is the model class for table "{{%article}}".
@@ -57,7 +58,8 @@ class Article extends \yii\db\ActiveRecord
         return [
             [['cid', 'type', 'status', 'sort', 'author_id','can_comment', 'visibility'], 'integer'],
             [['cid',  'sort', 'author_id'], 'compare', 'compareValue' => 0, 'operator' => '>='],
-            [['title', 'status', 'can_comment', 'visibility'], 'required'],
+            [['title', 'status'], 'required'],
+            [['can_comment', 'visibility'], 'default', 'value'=>Constants::YesNo_Yes],
             [['content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['title', 'sub_title', 'summary', 'thumb', 'seo_title', 'seo_keywords', 'seo_description', 'author_name', 'tag'], 'string', 'max' => 255],

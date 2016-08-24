@@ -206,4 +206,12 @@ class SiteController extends Controller
         }
         $this->goBack(\Yii::$app->request->headers['Referer']);
     }
+
+    public function actionLanguage(){
+        $language=  \Yii::$app->request->get('lang');
+        if(isset($language)){
+            \Yii::$app->session['language'] = $language;
+        }
+        $this->goBack(\Yii::$app->request->headers['Referer']);
+    }
 }

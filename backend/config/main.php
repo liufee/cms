@@ -30,9 +30,8 @@ return [
                     'class' => 'yii\log\EmailTarget',
                     'levels' => ['error', 'warning'],
                     'message' => [
-                        'from' => ['admin@feehi.com'],
                         'to' => ['admin@feehi.com', 'liufee@126.com'],
-                        'subject' => '来自 example.com 的新日志消息',
+                        'subject' => '来自 Feehi CMS 的新日志消息',
                     ],
                 ],
             ],

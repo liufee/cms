@@ -40,18 +40,18 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
                     <?php
                     if(yii::$app->user->isGuest){
                     ?>
-                    <a href="<?=Url::to(['site/login'])?>" class="signin-loader">Hi, 请登录</a>&nbsp; &nbsp;
-                    <a href="<?=Url::to(['site/signup'])?>" class="signup-loader">我要注册</a>
+                    <a href="<?=Url::to(['site/login'])?>" class="signin-loader"><?=yii::t('frontend', 'Hi, Log in')?></a>&nbsp; &nbsp;
+                    <a href="<?=Url::to(['site/signup'])?>" class="signup-loader"><?=yii::t('frontend', 'Sign up')?></a>
                     <?php }else{ ?>
                         Welcome, <?=Html::encode( yii::$app->user->identity->username )?>
-                        <a href="<?=Url::to(['site/logout'])?>" class="signup-loader">退出</a>
+                        <a href="<?=Url::to(['site/logout'])?>" class="signup-loader"><?=yii::t('frontend', 'Log out')?></a>
                     <?php }?>
               </span>
             </span>
             </div>
             <div class="menu-container">
                 <ul id="menu-page" class="top-menu">
-                    <a target="_blank" href="/about">关于我们</a> | <a target="_blank" href="/contact">联系我们</a>
+                    <a target="_blank" href="/about"><?=yii::t('frontend', 'About us')?></a> | <a target="_blank" href="/contact"><?=yii::t('frontend', 'Contact us')?></a>
                 </ul>
             </div>
         </div>
@@ -83,15 +83,15 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
 <div id="search-main">
     <div id="searchbar">
         <form id="searchform" action="<?=Url::to('/search')?>" method="get">
-            <input id="s" type="text" name="q" value="<?= Html::encode( yii::$app->request->get('q') ) ?>" required="" placeholder="输入搜索内容" name="s" value="">
-            <button id="searchsubmit" type="submit">搜索</button>
+            <input id="s" type="text" name="q" value="<?= Html::encode( yii::$app->request->get('q') ) ?>" required="" placeholder="<?=yii::t('frontend', 'Please input keywords')?>" name="s" value="">
+            <button id="searchsubmit" type="submit"><?=yii::t('frontend', 'Search')?></button>
         </form>
     </div>
     <div id="searchbar">
         <form id="searchform" target="_blank" action="https://www.baidu.com/s" method="get">
             <input type="hidden" name="entry" value="1">
-            <input class="swap_value" name="w" placeholder="输入百度站内搜索关键词">
-            <button id="searchsubmit" type="submit">百度</button>
+            <input class="swap_value" name="w" placeholder="<?=yii::t('frontend', 'Please input keywords')?>">
+            <button id="searchsubmit" type="submit"><?=yii::t('frontend', 'Baidu')?></button>
         </form>
     </div>
     <div class="clear"></div>
@@ -103,14 +103,18 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
 
 <div class="branding branding-black">
     <div class="container_f">
-        <h2>高效，专业，符合SEO</h2><a class="btn btn-lg" href="http://www.feehi.com" target="_blank">联系我们</a>
+        <h2><?=yii::t('frontend', 'Effective,Professional,Conform to SEO')?></h2><a class="btn btn-lg" href="http://www.feehi.com/contact" target="_blank"><?=yii::t('frontend', 'Contact us')?></a>
     </div>
 </div>
 
 <footer class="footer">
     <div class="footer-inner">
         <p>
-            <a href="http://www.feehi.com/" title="Feehi CMS">Feehi CMS</a> 版权所有，保留一切权利   © 2010-2016&nbsp;&nbsp;
+            <a href="http://www.feehi.com/" title="Feehi CMS">Feehi CMS</a> <?=yii::t('frontend', 'Copyright, all rights reserved')?>   © 2010-2016&nbsp;&nbsp;
+            <select onchange="location.href=this.options[this.selectedIndex].value;" style="height: 30px">
+                <option <?php  if(yii::$app->language == 'zh-CN'){echo 'selected';}  ?> value="<?=Url::to(['site/language', 'lang'=>'zh-CN'])?>">简体中文</option>
+                <option <?php  if(yii::$app->language == 'en-US'){echo "selected";} ?> value="<?=Url::to(['site/language', 'lang'=>'en-US'])?>">English</option>
+            </select>
         </p>
         <p>Powered by Feehi CMS · Theme by <a title="飞嗨" href="http://blog.feehi.com">飞嗨</a> </p>
     </div>

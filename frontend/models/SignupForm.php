@@ -36,6 +36,21 @@ class SignupForm extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'username' => yii::t('app', 'Username'),
+            'email' => yii::t('app', 'Email'),
+            'old_password' => yii::t('app', 'Old Password'),
+            'password' => yii::t('app', 'Password'),
+            'repassword' => yii::t('app', 'Repeat Password'),
+            'avatar' => yii::t('app', 'Avatar'),
+            'created_at' => yii::t('app', 'Created At'),
+            'updated_at' => yii::t('app', 'Updated At'),
+            'rememberMe' => yii::t('frontend', 'Remember Me'),
+        ];
+    }
+
     /**
      * Signs user up.
      *

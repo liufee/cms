@@ -138,7 +138,7 @@ class ScrawlController extends Controller{
                         $temp = $article->getErrors();
                         $errReason = '';
                         foreach ($temp as $rname => $rreson) {
-                            $errReason .= $rname . '=>' . $rreson . ';';
+                            $errReason .= $rname . '=>' . $rreson[0] . ';';
                         }
                         $this->log("Saving page $i -> {$articleUrl[0]} error {$data['title']}. Reason $errReason");
                     }else{

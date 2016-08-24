@@ -365,7 +365,7 @@ class Uploader
      */
     public function getFileInfo()
     {
-        return array(
+        $result = array(
             "state" => $this->stateInfo,
             "url" => $this->fullName,
             "title" => $this->fileName,
@@ -373,6 +373,8 @@ class Uploader
             "type" => $this->fileType,
             "size" => $this->fileSize
         );
+        if( in_array($_GET['action'], ['uploadfile', 'uploadvideo', 'uploadscrawl']) ) $result['url'] = yii::$app->params['site']['url'].'/uploads/article/ueditor'.$result['url'];
+        return $result;
     }
 
 }

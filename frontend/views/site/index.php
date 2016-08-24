@@ -19,7 +19,7 @@ $this->title = yii::$app->feehi->website_title;
             <div class="ws_shadow"></div>
         </div>
         <div class="daodu clr">
-            <div class="tip"><h4>精选导读</h4></div>
+            <div class="tip"><h4><?=yii::t('frontend', 'Well-choosen')?></h4></div>
             <ul class="dd-list">
                 <?php
                 $articles = Article::getArticleLists(['flag_special_recommend'=>1], 4);
@@ -46,7 +46,7 @@ $this->title = yii::$app->feehi->website_title;
             </ul>
         </div>
 
-        <header class="archive-header"><h1>最新发布</h1></header>
+        <header class="archive-header"><h1><?=yii::t('frontend', 'Latest Articles')?></h1></header>
         <?=ArticleListView::widget([
             'dataProvider' => $dataProvider,
         ])?>
