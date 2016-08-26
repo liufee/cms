@@ -88,7 +88,7 @@ EOF;
 
     }
 
-    public function getBackendMenuJson()
+    public static function getBackendMenuJson()
     {
         $adminRolePermissions =  AdminRolePermission::find()->where(['role_id'=>yii::$app->request->get('id', '')])->indexBy('menu_id')->column();
         $model = new self();
@@ -112,7 +112,7 @@ EOF;
         return json_encode($temp);
     }
 
-    private function _getBackendSubMenuJson($menus, $cur_id, $adminRolePermissions)
+    private static function _getBackendSubMenuJson($menus, $cur_id, $adminRolePermissions)
     {
         $temp = [];
         foreach($menus as $key => $menu){
