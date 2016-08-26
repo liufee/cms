@@ -5,7 +5,6 @@ use feehi\widgets\ActiveForm;
 use feehi\widgets\JsBlock;
 use feehi\libs\Constants;
 use yii\helpers\Url;
-use feehi\widgets\Ueditor;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Options */

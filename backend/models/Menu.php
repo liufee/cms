@@ -88,4 +88,65 @@ EOF;
 
     }
 
+    public function getBackendMenuJson()
+    {
+        $adminRolePermissions =  AdminRolePermission::find()->where(['role_id'=>yii::$app->request->get('id', '')])->indexBy('menu_id')->column();
+        $model = new self();
+        $menus = $model->find()->where(['type'=>self::BACKEND_TYPE])->all();
+        $temp = [];
+        foreach($menus as $key => $menu){
+            if($menu['parent_id'] == 0){
+                $m = [];
+                $m['id'] = $menu['id'];
+                $m['text'] = $menu['name'];
+                if( isset($adminRolePermissions[$menu['id']]) ) $m['state'] = ['selected' => true];
+                $m['children'] = self::_getBackendSubMenuJson($menus, $menu['id'], $adminRolePermissions);
+                if( self::_needSelected($m) ){
+                    $m['state'] = ['selected' => true];
+                }else{
+                    $m['state'] = ['selected' => false];
+                }
+                array_push($temp, $m);
+            }
+        }
+        return json_encode($temp);
+    }
+
+    private function _getBackendSubMenuJson($menus, $cur_id, $adminRolePermissions)
+    {
+        $temp = [];
+        foreach($menus as $key => $menu){
+            if($menu['parent_id'] == $cur_id){
+                $m = [];
+                $m['id'] = $menu['id'];
+                $m['text'] = $menu['name'];
+                if( isset($adminRolePermissions[$menu['id']]) ) $m['state'] = ['selected' => true];
+                $m['children'] = self::_getBackendSubMenuJson($menus, $menu['id'], $adminRolePermissions);
+                if( self::_needSelected($m) ){
+                    $m['state'] = ['selected' => true];
+                }else{
+                    $m['state'] = ['selected' => false];
+                }
+                array_push($temp, $m);
+            }
+        }
+        return $temp;
+    }
+
+    private static function _needSelected($children)
+    {
+        if( isset($children['children']) && empty($children['children']) ){
+            if( isset($children['state']['selected']) && $children['state']['selected'] == true)
+                return true;
+            else
+                return false;
+        }else {
+            foreach ($children as $child) {
+                if ( isset($child['state']['selected']) && $child['state']['selected'] == false) return true;
+                elseif(isset($child['children'])) self::_needSelected($child['children']);
+            }
+        }
+        return false;
+    }
+
 }

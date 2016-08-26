@@ -55,7 +55,7 @@ EOF;
                   "closeButton": true,
                   "debug": true,
                   "progressBar": true,
-                  "positionClass": "toast-top-full-width",
+                  "positionClass": "toast-top-center",
                   "showDuration": "400",
                   "hideDuration": "1000",
                   "timeOut": "7000",

@@ -45,25 +45,18 @@ class AdminRolesController extends BaseController
 
     public function actionAssign($id = '')
     {
-        $menus = Menu::getMenuArray(Menu::BACKEND_TYPE);
         $model = new AdminRolePermission();
         if(yii::$app->request->isPost){
-            if( $model->assignPermission(yii::$app->request->post("permission")) ){
-                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-                return $this->redirect(['update', 'id'=>$model->primaryKey]);
-            }else{
-                $errors = $model->getErrors();
-                $err = '';
-                foreach($errors as $v){
-                    $err .= $v[0].'<br>';
-                }
-                Yii::$app->getSession()->setFlash('error', $err);
-            }
+            $data = explode(',', yii::$app->request->post('ids', ''));
+            $model->assignPermission($data);
+            Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+            return $this->redirect(['assign', 'id'=>yii::$app->request->get('id', '')]);
         }
         $model =  AdminRolePermission::findAll(['role_id'=>$id]);
+        $treeJson = Menu::getBackendMenuJson();
         return $this->render('assign', [
-            'menus' => $menus,
             'model' => $model,
+            'treeJson' => $treeJson,
         ]);
     }
 }

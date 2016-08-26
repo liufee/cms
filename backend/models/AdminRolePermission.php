@@ -67,18 +67,17 @@ class AdminRolePermission extends \yii\db\ActiveRecord
 
     public function assignPermission($data){
         $role_id =  yii::$app->request->get('id');
-        $ids = [];
-        $oldPermissions = self::find(['role_id'=>$role_id])->indexBy('menu_id')->asArray()->column();
-        foreach ($oldPermissions as $key => $v){
-            if( !isset($data[$key]) ) array_push($ids, $v);
+        $oldPermissions = self::find()->where(['role_id'=>$role_id])->indexBy('menu_id')->column();
+        foreach($data as $v) {
+            if ( isset($oldPermissions[$v]) ) unset( $oldPermissions[$v] );
         }
-        if(!empty($ids)){
-            $ids = implode(",", $ids);
+        if(!empty($oldPermissions)){
+            $ids = implode(",", $oldPermissions);
             self::deleteAll("id in($ids)");
-        }//echo $ids;die;
+        }
         if(!empty($data)) {
-            foreach ($data as $menu_id => $value) {
-                $permissions = static::_getAncestor($menu_id);//获取家谱树
+            foreach ($data as $menu_id) {
+                $permissions = self::_getAncestor($menu_id);//获取家谱树
                 foreach ($permissions as $v) {//添加权限
                     $result = self::findOne(['role_id' => $role_id, 'menu_id' => $v['id']]);
                     if ($result != null) continue;
