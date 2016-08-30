@@ -28,6 +28,7 @@ $this->title = "Assign Permission";
             ]
         ]) ?>
         <div class="ibox-content">
+            <div class="row text-center"><span style="font-weight: bold;"><?=$role_name?></span></div>
             <div id="permission-tree"></div>
             <div class="hr-line-dashed"></div>
             <?php $form = ActiveForm::begin()?>

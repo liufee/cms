@@ -109,7 +109,7 @@ use yii\helpers\Url;
         </div>
         <ul>
             <?php
-            $comments = common\models\Comment::find()->orderBy("id desc")->limit(5)->asArray()->all();
+            $comments = common\models\Comment::find()->orderBy("id desc")->limit(5)->all();
             foreach ($comments as $v){
             ?>
             <li>
