@@ -10,6 +10,8 @@ use feehi\widgets\ActiveForm;
 use common\models\Category;
 
 $this->title = "Category";
+$parent_id = yii::$app->getRequest()->get('parent_id', '');
+if( $parent_id != '' ) $model->parent_id = $parent_id;
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -17,15 +19,7 @@ $this->title = "Category";
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?php $form = ActiveForm::begin(); ?>
-                <div class="form-group field-category-parent_id">
-                    <label for="category-parent_id" class="col-sm-2 control-label">父分类</label>
-                    <div class="col-sm-10 m-l-n" style="margin-left: 0px">
-                        <select name="Category[parent_id]" class="form-control" multiple="">
-                            <?=Category::getOptions($model->parent_id)?>
-                        </select>
-                    </div>
-                    <div class="help-block m-b-none"></div>
-                </div>
+                <?= $form->field($model, 'parent_id')->dropDownList(Category::getParentCategory())?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>

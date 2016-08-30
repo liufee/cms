@@ -182,6 +182,16 @@ class Category extends \yii\db\ActiveRecord
         return $subs;
     }
 
+    public static function getParentCategory()
+    {
+        $data = self::getArray();
+        $newData = [];
+        while(list($key, $val) = each($data)){
+            $newData[$val['id']] = str_repeat("---", $val['level']).$val['name'];
+        }
+        return $newData;
+    }
+
     public function beforeDelete()
     {
         if( !empty( self::getSubTree($this->id) )){

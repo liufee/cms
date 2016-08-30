@@ -54,6 +54,7 @@ return [
     'Allowed not to be deleted, sub level exsited.' => '还有子项存在,不允许被删除',
     'Failed' => '失败',
     'Cannot be themself sub.' => '不能是它自己的子类',
+    'Send' => '发送',
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',
@@ -225,4 +226,19 @@ return [
     'Admin Log' => '日志',
     'Log Detail' => '日志详情',
     /*log*/
+
+    /*user*/
+    'There is no user with such email.' => '邮箱没有注册过',
+    'Please fill out your email. A link to reset password will be sent there.' => '请填写注册账号时的邮箱，重置密码的链接将会发送到此邮箱',
+    'Check your email for further instructions.' => '重置密码链接已发送到您的邮箱',
+    'Reset Password' => '重置密码',
+    'Request password reset' => '重置密码',
+    'Please fill out the following fields to signup' => '填写以下信息',
+    'Please choose your new password' => '请输入您的新密码',
+    'New password was saved.' => '密码修改成功',
+    /*user*/
+
+    /*mail*/
+    'Follow the link below to reset your password' => '点击以下链接重置密码'
+    /*mail*/
 ];

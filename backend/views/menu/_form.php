@@ -11,6 +11,8 @@ use feehi\libs\Constants;
 use backend\models\Menu;
 
 $this->title = "Backend Menus";
+$parent_id = yii::$app->getRequest()->get('parent_id', '');
+if( $parent_id != '' ) $model->parent_id = $parent_id;
 ?>
 <div class="row">
     <div class="col-sm-12">

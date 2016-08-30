@@ -1,9 +1,10 @@
 <?php
-namespace frontend\models;
+namespace backend\models;
 
-use common\models\User;
 use Yii;
 use yii\base\Model;
+use yii\base\Event;
+use yii\db\BaseActiveRecord;
 
 /**
  * Password reset request form
@@ -22,7 +23,7 @@ class PasswordResetRequestForm extends Model
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'exist',
-                'targetClass' => '\common\models\User',
+                'targetClass' => 'backend\models\User',
                 'filter' => ['status' => User::STATUS_ACTIVE],
                 'message' => yii::t('app', 'There is no user with such email.')
             ],
@@ -56,7 +57,9 @@ class PasswordResetRequestForm extends Model
         if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
             $user->generatePasswordResetToken();
         }
-        
+
+        Event::off(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_UPDATE );
+
         if (!$user->save()) {
             return false;
         }
@@ -64,7 +67,7 @@ class PasswordResetRequestForm extends Model
         return Yii::$app
             ->mailer
             ->compose(
-                ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
+                ['html' => 'backend/passwordResetToken-html', 'text' => 'backend/passwordResetToken-text'],
                 ['user' => $user]
             )
             ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' robot'])

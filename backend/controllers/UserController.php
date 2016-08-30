@@ -11,9 +11,29 @@ namespace backend\controllers;
 use yii;
 use backend\models\UserSearch;
 use frontend\models\User;
+use backend\models\PasswordResetRequestForm;
+use backend\models\ResetPasswordForm;
+use yii\filters\AccessControl;
 
 
 class UserController extends BaseController{
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['request-password-reset', 'reset-password'],
+                'rules' => [
+                    [
+                        'actions' => ['request-password-reset', 'reset-password'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     public function getIndexData()
     {
@@ -36,4 +56,40 @@ class UserController extends BaseController{
         return $model;
     }
 
+    public function actionRequestPasswordReset()
+    {
+        $model = new PasswordResetRequestForm();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->sendEmail()) {
+                Yii::$app->session->setFlash('success', yii::t('app', 'Check your email for further instructions.'));
+
+                return $this->goHome();
+            } else {
+                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+            }
+        }
+
+        return $this->render('requestPasswordResetToken', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionResetPassword($token)
+    {
+        try {
+            $model = new ResetPasswordForm($token);
+        } catch (InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+            Yii::$app->session->setFlash('success', yii::t('app', 'New password was saved.'));
+
+            return $this->goHome();
+        }
+
+        return $this->render('resetPassword', [
+            'model' => $model,
+        ]);
+    }
 }

@@ -109,7 +109,7 @@ return [
                 exit();
             }
         }
-        if(yii::$app->user->isGuest && Yii::$app->controller->id.'/'.Yii::$app->controller->action->id != 'site/login') yii::$app->controller->redirect(['site/login']);
+        if(yii::$app->user->isGuest && !in_array(Yii::$app->controller->id.'/'.Yii::$app->controller->action->id, ['site/login', 'user/request-password-reset', 'user/reset-password'])) yii::$app->controller->redirect(['site/login']);
     },
     'params' => $params,
 ];

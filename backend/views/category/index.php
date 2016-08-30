@@ -7,6 +7,8 @@
  */
 use feehi\grid\GridView;
 use feehi\widgets\Bar;
+use yii\helpers\Url;
+use yii\helpers\Html;
 
 $this->title = "Category";
 ?>
@@ -55,6 +57,16 @@ $this->title = "Category";
                         ],
                         [
                             'class' => 'feehi\grid\ActionColumn',
+                            'buttons' => [
+                                'create' => function($url, $model, $key){
+                                    return Html::a('<i class="fa  fa-plus" aria-hidden="true"></i> '. Yii::t('app', 'Create'), Url::to(['create', 'parent_id'=>$model['id']]), [
+                                        'title' => Yii::t('app', 'Create'),
+                                        'data-pjax' => '0',
+                                        'class' => 'btn btn-white btn-sm J_menuItem',
+                                    ]);
+                                }
+                            ],
+                            'template' => '{create} {update} {delete}',
                         ]
                     ]
                 ])

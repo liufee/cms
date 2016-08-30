@@ -77,13 +77,17 @@ class Comment extends \yii\db\ActiveRecord
     {
         if($insert){
             $this->created_at = time();
-            $this->ip = yii::$app->request->getUserIP();
             if(yii::$app->feehi->website_comment){
+                if( !ArticleModel::find()->where(['id'=>$this->aid])->one()['can_comment'] ){
+                    $this->addError('content', 'This article is not allowed to comment');
+                    return false;
+                }
                 if(yii::$app->feehi->website_comment_need_verify){
                     $this->status = self::STATUS_INIT;
                 }else{
                     $this->status = self::STATUS_PASSED;
                 }
+                $this->ip = yii::$app->request->getUserIP();
             }else{
                 $this->addError('content', 'Comment closed');
                 return false;

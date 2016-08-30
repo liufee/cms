@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <body class="gray-bg"><style>.m-t-md{margin-top:0px}</style>
 <?php $this->beginBody() ?>
 <div class="middle-box text-center loginscreen  animated fadeInDown">
+    <?=$this->render('/widgets/_flash') ?>
     <div>
         <div>
 
@@ -40,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'password',['template'=>"{input}\n{error}\n{hint}"])->passwordInput(['placeholder'=>yii::t("app", "Password")]) ?>
         <?= Html::submitButton(yii::t("app", "Login"), ['class' => 'btn btn-primary block full-width m-b', 'name' => 'login-button']) ?>
 
-        <p class="text-muted text-center"> <a href="#" onclick="forgotPassword()"><small><?=yii::t('app', 'Forgot password')?></small></a> |
+        <p class="text-muted text-center"> <a href="<?=Url::to(['user/request-password-reset'])?>"><small><?=yii::t('app', 'Forgot password')?></small></a> |
             <?php
             if(yii::$app->language == 'en-US') {
                 echo "<a href = ".Url::to(['site/language', 'lang'=>'zh-CN'])." > 简体中文</a >";
@@ -53,12 +54,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php ActiveForm::end(); ?>
     </div>
 </div>
-<script>
-    function forgotPassword() {
-        swal("<?=yii::t('app', 'Please contact admin for reset password')?>", "");
-        return false;
-    }
-</script>
 <?php $this->endBody() ?>
 </body>
 </html>

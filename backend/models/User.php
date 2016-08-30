@@ -52,6 +52,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function scenarios()
     {
         return [
+            'default' => ['username', 'email'],
             'create' => ['username', 'email', 'password', 'avatar'],
             'update' => ['username', 'email', 'password', 'avatar'],
             'self-update' => ['username', 'email', 'password', 'avatar', 'old_password', 'repassword'],
@@ -235,7 +236,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     private function saveAvatar()
     {
-        if($_FILES['User']['name']['avatar'] == '') return true;
+        if(isset($_FILES['User']['name']['avatar']) && $_FILES['User']['name']['avatar'] == '') return true;
         $file = new File();
         $imgs = $file->upload(Yii::getAlias('@avatar'));
         if($imgs[0] == false){

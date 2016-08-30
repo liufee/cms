@@ -16,7 +16,17 @@ $this->title = "Assign Permission";
 <style>.hide{display: none}</style>
 <div class="col-sm-12">
     <div class="ibox">
-        <?= $this->render('/widgets/_ibox-title') ?>
+        <?= $this->render('/widgets/_ibox-title', [
+            'buttons' => [
+                [
+                    'name' => yii::t('app', 'Roles'),
+                    'url' => ['index'],
+                    'options' => [
+                        'class' => 'btn btn-primary btn-xs',
+                    ]
+                ],
+            ]
+        ]) ?>
         <div class="ibox-content">
             <div id="permission-tree"></div>
             <div class="hr-line-dashed"></div>
