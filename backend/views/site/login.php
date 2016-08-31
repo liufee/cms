@@ -4,7 +4,7 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
-use frontend\web\admin\AppAsset;//use backend\assets\AppAsset;
+use backend\assets\AppAsset;//use backend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\helpers\Url;

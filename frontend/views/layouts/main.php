@@ -31,6 +31,7 @@ if(yii::$app->controller->action->id != 'view' && yii::$app->controller->id != '
 </head>
 <?php $this->beginBody() ?>
 <body class="home blog">
+<?=$this->render('/widgets/_flash') ?>
 <header id="masthead" class="site-header">
     <nav id="top-header">
         <div class="top-nav">

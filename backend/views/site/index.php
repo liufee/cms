@@ -3,16 +3,10 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use backend\assets\AppAsset;
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
-use common\widgets\Alert;
 use backend\models\Menu;
 use yii\helpers\Url;
-use backend\models\AdminRoles;
-use frontend\web\admin\IndexAsset;
+use backend\assets\IndexAsset;
 IndexAsset::register($this);
 $this->title = yii::t('app', 'Backend Manage System');
 ?>

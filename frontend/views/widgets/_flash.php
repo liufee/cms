@@ -1,4 +1,5 @@
 <?php
+use feehi\widgets\JsBlock;
     if( Yii::$app->getSession()->hasFlash('success') ) {
         $successTitle = yii::t('app', 'Success');
         $info = Yii::$app->getSession()->getFlash('success');
@@ -19,7 +20,9 @@
        };
        toastr.success("{$successTitle}", "{$info}");
 EOF;
-        $this->registerJs($str);
+        JsBlock::begin();
+        echo $str;
+        JsBlock::end();
     }
     if( Yii::$app->getSession()->hasFlash('error') ) {
         $errorTitle = yii::t('app', 'Error');
@@ -41,6 +44,8 @@ EOF;
        };
        toastr.error("{$errorTitle}", "{$info}");
 EOF;
-        $this->registerJs($str);
+        JsBlock::begin();
+        echo $str;
+        JsBlock::end();
     }
 ?>
