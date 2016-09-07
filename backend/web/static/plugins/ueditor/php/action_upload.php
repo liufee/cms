@@ -63,4 +63,7 @@ $up = new Uploader($fieldName, $config, $base64);
  */
 
 /* 返回数据 */
-return json_encode($up->getFileInfo());
+$info = $up->getFileInfo();
+$model = new \common\models\File();
+$model->saveFileDb(yii::getAlias('@article/ueditor').str_replace(yii::$app->params['site']['url'].'/uploads/article/ueditor', '', $info['url']));
+return json_encode($info);

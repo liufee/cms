@@ -1673,25 +1673,48 @@ class m130524_201442_init extends Migration
                 ],
             ]
         );
+
+        $this->createTable('{{%file}}', [
+            'id' => $this->primaryKey()->unsigned(),
+            'uri' => $this->string()->notNull(),
+            'filename' => $this->string()->notNull(),
+            'mime' => $this->string()->defaultValue(''),
+            'filesize' => $this->integer()->unsigned()->defaultValue(0),
+            'status' => $this->smallInteger()->unsigned()->defaultValue(0),
+            'created_at' => $this->integer()->unsigned()->notNull(),
+            'updated_at' => $this->integer()->unsigned()->notNull(),
+        ], $tableOptions);
+
+        $this->createTable('{{%file_usage}}', [
+            'id' => $this->primaryKey()->unsigned(),
+            'fid' => $this->integer()->unsigned()->notNull(),
+            'type' => $this->smallInteger()->unsigned()->defaultValue(0),
+            'use_id'=> $this->integer()->unsigned()->notNull(),
+            'count' => $this->integer()->unsigned()->defaultValue(1),
+            'created_at' => $this->integer()->unsigned()->notNull(),
+        ], $tableOptions);
+        $this->addForeignKey('fk_fid', "{{%file_usage}}", "fid", "{{%file}}", "id", "CASCADE", "CASCADE");
     }
 
     public function down()
     {
         $this->db->createCommand("set foreign_key_checks=0")->execute(); 
         $this->dropTable('{{%user}}');
-	$this->dropTable('{{%admin_log}}');
-	$this->dropTable('{{%admin_role_permission}}');
-	$this->dropTable('{{%admin_role_user}}');
-	$this->dropTable('{{%admin_roles}}');
-	$this->dropTable('{{%admin_user}}');
-	$this->dropTable('{{%article}}');
-	$this->dropTable('{{%article_content}}');
-	$this->dropTable('{{%category}}');
-	$this->dropTable('{{%comment}}');
-	$this->dropTable('{{%friend_link}}');
-	$this->dropTable('{{%menu}}');
-	//$this->dropTable('{{%migration}}');
-	$this->dropTable('{{%options}}');
-	$this->db->createCommand("set foreign_key_checks=1")->execute();
+        $this->dropTable('{{%admin_log}}');
+        $this->dropTable('{{%admin_role_permission}}');
+        $this->dropTable('{{%admin_role_user}}');
+        $this->dropTable('{{%admin_roles}}');
+        $this->dropTable('{{%admin_user}}');
+        $this->dropTable('{{%article}}');
+        $this->dropTable('{{%article_content}}');
+        $this->dropTable('{{%category}}');
+        $this->dropTable('{{%comment}}');
+        $this->dropTable('{{%friend_link}}');
+        $this->dropTable('{{%menu}}');
+        //$this->dropTable('{{%migration}}');
+        $this->dropTable('{{%options}}');
+        $this->dropTable('{{%file%}}');
+        $this->dropTable('{{%file_usage}}');
+        $this->db->createCommand("set foreign_key_checks=1")->execute();
     }
 }

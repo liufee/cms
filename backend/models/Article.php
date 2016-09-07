@@ -7,14 +7,10 @@
  */
 namespace backend\models;
 
-use common\models\ArticleContent;
-use frontend\models\Comment;
 use yii;
-use common\models\Article as CommomArticle;
-use feehi\libs\File;
-use yii\log\Logger;
+use frontend\models\Comment;
 
-class Article extends CommomArticle
+class Article extends \common\models\Article
 {
 
     public function beforeSave($insert)
@@ -46,25 +42,18 @@ class Article extends CommomArticle
             unset($this->thumb);
             return true;
         }
-        $file = new File();
-        $imgs = $file->upload(Yii::getAlias('@thumb'));
-        if( $imgs[0] != false ){
-            $this->thumb =  yii::$app->params['site']['sign'].str_replace(yii::getAlias('@frontend/web'), '', $imgs[0]);
-            yii::$app->alioss->uploadFile($this->thumb, $imgs[0]);
-            yii::$app->qiniu->uploadFile($this->thumb, $imgs[0]);
-            if(!$insert){
-                $oldModel = self::findOne(['id'=>$this->id]);
-                if($oldModel != '' && $oldModel->thumb != '') {
-                    if (@unlink(Yii::getAlias('@frontend/web').$oldModel->thumb)) yii::getLogger()->log("unlink thumb image failed,article id=>{$this->id},thumb=>{$this->thumb}", Logger::LEVEL_ERROR);
-                    yii::$app->alioss->deleteObject($oldModel->thumb);
-                    yii::$app->qiniu->deleteObject($oldModel->thumb);
-                }
-
-            }
+        if(!$insert) {//updated thumb should unlink the before picture
+           if(!empty($this->oldAttributes['thumb'])) {
+               $fileUsageModel = new FileUsage();
+               $fileUsageModel->cancelUseFile($this->oldAttributes['thumb'], $this->id, FileUsage::TYPE_ARTICLE_THUMB);
+           }
+        }
+        $model = new File();
+        if (($uri = $model->saveFile(FileUsage::TYPE_ARTICLE_THUMB)) !== false) {
+            $this->thumb = $uri;
             return true;
-        }else{
-            yii::getLogger()->log("Article upload to local failed,article title=>{$this->title},error_info=>{$file->getErrors()}", Logger::LEVEL_ERROR);
-            $this->addError('thumb', 'Thumb upload to local failed');
+        } else {
+            $this->addError('thumb', yii::t('app', 'Upload {attribute} error'), ['attribute' => yii::t('app', 'Thumb')]);
             return false;
         }
     }
@@ -84,11 +73,23 @@ class Article extends CommomArticle
         }
         $contentModel->content = $this->content;
         $contentModel->save();
+        if( isset($this->thumb) ){
+            $fileUsageModel = new FileUsage();
+            $fileUsageModel->useFile($this->thumb, $this->id);
+        }
     }
 
-    public function afterDelete()
+    public function beforeDelete()
     {
         Comment::deleteAll(['aid'=>$this->id]);
+        if( ($articleContentModel = ArticleContent::find()->where(['aid'=>$this->id])->one()) != null ) {
+            $articleContentModel->delete();
+        }
+        if( !empty($this->thumb) ) {
+            $fileUsageModel = new FileUsage();
+            $fileUsageModel->cancelUseFile($this->thumb, $this->id, FileUsage::TYPE_ARTICLE_THUMB);
+        }
+        return true;
     }
 
     public function afterFind()

@@ -8,9 +8,8 @@
 namespace backend\models;
 
 use yii;
-use common\models\ArticleContent as CommonArticleContent;
 
-class ArticleContent extends CommonArticleContent
+class ArticleContent extends \common\models\ArticleContent
 {
     public function beforeSave($insert)
     {
@@ -57,4 +56,36 @@ class ArticleContent extends CommonArticleContent
         return true;
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        if($insert) {
+            preg_match_all('/<img.*src="(.*)"/isU', $this->content, $matches);
+            if (!empty($matches[1])) {
+                foreach ($matches[1] as $v) {
+                    if (strpos($v, yii::$app->params['site']['sign']) === 0) {
+                        $fileUsageModel = new FileUsage();
+                        $fileUsageModel->useFile($v, $this->aid, FileUsage::TYPE_ARTICLE_BODY, 1);
+                    }
+                }
+            }
+        }else{
+
+        }
+        return true;
+    }
+
+    public function afterDelete()
+    {
+        preg_match_all('/<img.*src="(.*)"/isU', $this->content, $matches);
+        if (!empty($matches[1])) {
+            foreach ($matches[1] as $v) {
+                if (strpos($v, yii::$app->params['site']['url']) === 0) {
+                    $fileUsageModel = new FileUsage();
+                    $uri = str_replace(yii::$app->params['site']['url'], yii::$app->params['site']['sign'], $v);
+                    $fileUsageModel->cancelUseFile($uri, $this->aid, FileUsage::TYPE_ARTICLE_BODY);
+                }
+            }
+        }
+        return true;
+    }
 }

@@ -55,6 +55,9 @@ return [
     'Failed' => '失败',
     'Cannot be themself sub.' => '不能是它自己的子类',
     'Send' => '发送',
+    'Upload {attribute} error' => '上传{attribute}出错',
+    'Filename' => '文件名',
+    'Uri' => 'uri地址',
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',
@@ -238,7 +241,18 @@ return [
     'New password was saved.' => '密码修改成功',
     /*user*/
 
+    /*file*/
+    'Files' => '文件',
+    'Filesize' => '文件大小',
+    'Mime' => 'MIME类型',
+    'Preview' => '预览',
+    'Count' => '次数',
+    'Use ID' => '使用ID',
+    'Delete file {name} failed' => '删除文件{file}失败',
+    'This file is in use,cannot be deleted' => '有地方还在使用，不能被删除',
+    /*file*/
+
     /*mail*/
-    'Follow the link below to reset your password' => '点击以下链接重置密码'
+    'Follow the link below to reset your password' => '点击以下链接重置密码',
     /*mail*/
 ];
