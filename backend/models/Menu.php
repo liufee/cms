@@ -4,9 +4,8 @@ namespace backend\models;
 
 use Yii;
 use yii\helpers\Url;
-use common\models\Menu as CommonMenu;
 
-class Menu extends CommonMenu
+class Menu extends \common\models\Menu
 {
     public static function getBackendMenu(){
         $role_id = AdminRoleUser::getRoleId();

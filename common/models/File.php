@@ -62,11 +62,14 @@ class File extends \yii\db\ActiveRecord
     {
         switch($type){
             case FileUsage::TYPE_ARTICLE_THUMB :
-                $upload = new Upload();
                 $path = Yii::getAlias('@thumb');
+                break;
+            case FileUsage::TYPE_FRINEDLYLINK:
+                $path = Yii::getAlias('@friendlylink');
                 break;
             default : exit('none type named '.$type);
         }
+        $upload = new Upload();
         $result = $upload->upload($path);
         if( $result[0] != false ){
             $this->saveFileDb($result[0]);

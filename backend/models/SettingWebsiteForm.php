@@ -21,6 +21,7 @@ class SettingWebsiteForm extends \common\models\Options
     public $website_timezone;
     public $website_comment;
     public $website_comment_need_verify;
+    public $website_url;
 
     public function attributeLabels()
     {
@@ -35,13 +36,14 @@ class SettingWebsiteForm extends \common\models\Options
             'website_timezone' => yii::t('app', 'Website Timezone'),
             'website_comment' => yii::t('app', 'Open Comment'),
             'website_comment_need_verify' => yii::t('app', 'Open Comment Verify'),
+            'website_url' => yii::t('app', 'Website Url'),
         ];
     }
 
     public function rules()
     {
         return [
-            [['website_title', 'website_description', 'website_email','website_language','website_icp','website_statics_script', 'website_timezone'], 'string'],
+            [['website_title', 'website_description', 'website_email','website_language','website_icp','website_statics_script', 'website_timezone', 'website_url'], 'string'],
             [['website_status', 'website_comment', 'website_comment_need_verify'], 'integer'],
         ];
     }
@@ -65,7 +67,6 @@ class SettingWebsiteForm extends \common\models\Options
 
     public function setWebsiteConfig(){
         $names = $this->getNames();
-        $data = \Yii::$app->request->post('SettingWebsiteForm');
         foreach($names as $name){
             $model = self::findOne(['name' => $name]);
             $model->value = $this->$name;

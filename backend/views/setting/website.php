@@ -25,6 +25,8 @@ $this->title = yii::t('app', 'Website Setting');
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'website_description') ?>
                 <div class="hr-line-dashed"></div>
+                <?= $form->field($model, 'website_url') ?>
+                <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'website_email') ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'website_language')->dropDownList(['zh-CN'=>'简体中文','zh-TW'=>'繁体中文','en-US'=>'英语']) ?>

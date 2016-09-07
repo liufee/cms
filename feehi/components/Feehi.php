@@ -55,4 +55,9 @@ class Feehi extends Component{
         yii::$app->timeZone = yii::$app->feehi->website_timezone;
     }
 
+    public static function setBackendConfig()
+    {
+        if(!empty(yii::$app->feehi->website_url)) yii::$app->params['site']['url'] = yii::$app->feehi->website_url;
+    }
+
 }

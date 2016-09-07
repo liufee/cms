@@ -60,4 +60,9 @@ class FriendLink extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
+
+    public function afterFind()
+    {
+        if( $this->image ) $this->image = str_replace(yii::$app->params['site']['sign'], yii::$app->params['site']['url'], $this->image);
+    }
 }

@@ -19,9 +19,11 @@ class FileUsage extends \yii\db\ActiveRecord
 
     const TYPE_ARTICLE_THUMB = 0;
     const TYPE_ARTICLE_BODY = 1;
+    const TYPE_FRINEDLYLINK = 2;
     const TYPE_TEXT = [
         self::TYPE_ARTICLE_THUMB => 'article_thumb',
         self::TYPE_ARTICLE_BODY => 'article_body',
+        self::TYPE_FRINEDLYLINK => 'friendly_link',
     ];
 
     /**

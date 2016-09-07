@@ -36,7 +36,7 @@ class AdminRoleUser extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'role_id', 'created_at', 'updated_at'], 'integer'],
-            [['role_id'], 'required', 'message' => yii::t('app', 'Roles').yii::t('app', 'cannot be blank.') ]
+            [['role_id'], 'required', 'message' => yii::t('app', '{attribute} cannot be blank.', ['attribute'=>yii::t('app', 'Roles')]) ]
         ];
     }
 

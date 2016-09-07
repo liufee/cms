@@ -1,18 +1,9 @@
 <?php
-/**
- * @link http://www.yiiframework.com/
- * @copyright Copyright (c) 2008 Yii Software LLC
- * @license http://www.yiiframework.com/license/
- */
 
 namespace backend\assets;
 
 use yii\web\AssetBundle;
 
-/**
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @since 2.0
- */
 class IndexAsset extends AssetBundle
 {
 
@@ -22,7 +13,6 @@ class IndexAsset extends AssetBundle
         'css/bootstrap.min.css',
         'css/font-awesome.min93e3.css?v=4.4.0',
         'css/style.min862f.css?v=4.1.0',
-
     ];
     public $js = [
         "js/jquery.min.js?v=2.1.4",

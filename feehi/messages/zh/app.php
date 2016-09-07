@@ -50,7 +50,7 @@ return [
     'No picture' => '无图',
     'Realy to delete?' => '真的要删除吗？',
     'Are you sure you want to delete this item?' => '确认要删除此项吗?',
-    'cannot be blank.' => '不能为空.',
+    '{attribute} cannot be blank.' => '{attribute}不能为空.',
     'Allowed not to be deleted, sub level exsited.' => '还有子项存在,不允许被删除',
     'Failed' => '失败',
     'Cannot be themself sub.' => '不能是它自己的子类',
@@ -125,6 +125,7 @@ return [
     'Website Timezone' => '时区设置',
     'Open Comment' => '开启评论',
     'Open Comment Verify' => '开启评论审核',
+    'Website Url' => '网站域名',
     'Website Setting' => '网站设置',
     'Seo Setting' => 'Seo设置',
     'Input Type' => '输入框类型',
@@ -145,8 +146,9 @@ return [
     'Role' => '角色',
     'Assign Roles' => '分配角色',
     'Administrators' => '管理员',
-    'Not allowed to delete super administrator roles' => '不允许删除超级管理员角色',
-    'Not allowed to delete default super administrator admin' => '不允许删除默认超级管理员admin',
+    'super administrator roles' => '超级管理员角色',
+    'default super administrator admin' => '默认的超级管理员admin',
+    'Not allowed to delete {attribute}' => '不允许删除{attribute}',
     /*RBAC*/
 
     /*site/index*/

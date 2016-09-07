@@ -3,8 +3,6 @@
 namespace backend\models;
 
 use Yii;
-use backend\models\Menu;
-use backend\models\AdminRoleUser;
 
 /**
  * This is the model class for table "{{%admin_role_permission}}".

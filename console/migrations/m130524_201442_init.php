@@ -1682,7 +1682,7 @@ class m130524_201442_init extends Migration
             'filesize' => $this->integer()->unsigned()->defaultValue(0),
             'status' => $this->smallInteger()->unsigned()->defaultValue(0),
             'created_at' => $this->integer()->unsigned()->notNull(),
-            'updated_at' => $this->integer()->unsigned()->notNull(),
+            'updated_at' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
 
         $this->createTable('{{%file_usage}}', [

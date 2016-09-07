@@ -1,16 +1,15 @@
 <?php
 namespace backend\models;
 
-use yii\base\InvalidParamException;
-use yii\base\Model;
 use Yii;
 use yii\base\Event;
 use yii\db\BaseActiveRecord;
+use yii\base\InvalidParamException;
 
 /**
  * Password reset form
  */
-class ResetPasswordForm extends Model
+class ResetPasswordForm extends \yii\base\Model
 {
     public $password;
 

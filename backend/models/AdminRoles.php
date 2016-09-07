@@ -3,7 +3,6 @@
 namespace backend\models;
 
 use Yii;
-use backend\models\AdminRoleUser;
 
 /**
  * This is the model class for table "{{%admin_roles}}".
@@ -72,7 +71,7 @@ class AdminRoles extends \yii\db\ActiveRecord
 
     public function beforeDelete()
     {
-        if($this->id == 1) throw new \yii\web\ForbiddenHttpException(yii::t('app', 'Not allowed to delete super administrator roles'));
+        if($this->id == 1) throw new \yii\web\ForbiddenHttpException(yii::t('app', 'Not allowed to delete {attribute}', ['attribute'=>yii::t('app', 'super administrator roles')]));
         return true;
     }
 }

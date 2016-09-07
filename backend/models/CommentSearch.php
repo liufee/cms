@@ -7,10 +7,9 @@
  */
 namespace backend\models;
 
-use common\models\Comment;
 use yii\data\ActiveDataProvider;
 
-class CommentSearch extends Comment
+class CommentSearch extends \common\models\Comment
 {
 
     public $article_title;

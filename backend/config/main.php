@@ -39,14 +39,6 @@ return [
         'errorHandler' => [
             'errorAction' => 'error/index',
         ],
-        /*
-        'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
-            'rules' => [
-            ],
-        ],
-        */
         'rbac' => [
             'class' => 'feehi\components\Rbac',
             'superAdministrators' => [
@@ -95,8 +87,9 @@ return [
         \yii\base\Event::on(\yii\db\BaseActiveRecord::className(), \yii\db\BaseActiveRecord::EVENT_AFTER_FIND, function($event){
             if( isset($event->sender->updated_at) && $event->sender->updated_at == 0 ) $event->sender->updated_at = null;
         });
+        \feehi\components\Feehi::setBackendConfig();
         if(isset(\yii::$app->session['language'])) \yii::$app->language = yii::$app->session['language'];
-        if(!isset(yii::$app->params['site']['url'])) yii::$app->params['site']['url'] = yii::$app->request->getHostInfo();
+        if(!isset(yii::$app->params['site']['url']) || empty(yii::$app->params['site']['url'])) yii::$app->params['site']['url'] = yii::$app->request->getHostInfo();
     },
     'on beforeAction' => function($action)
     {

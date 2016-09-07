@@ -8,9 +8,8 @@
 namespace backend\models;
 
 use yii;
-use common\models\File as CommonFile;
 
-class File extends CommonFile
+class File extends \common\models\File
 {
     public function beforeDelete()
     {

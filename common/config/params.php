@@ -1,8 +1,6 @@
 <?php
 return [
-    //'cdnUrl' => 'http://7xjkuy.com1.z0.glb.clouddn.com/cms',
-    'adminEmail' => 'admin@example.com',
-    'supportEmail' => 'support@example.com',
+    'supportEmail' => 'admin@feehi.com',
     'user.passwordResetTokenExpire' => 3600,
     'site' => [
         'url' => 'http://cms.feehi.com',

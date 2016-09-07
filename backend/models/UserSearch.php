@@ -7,10 +7,9 @@
  */
 namespace backend\models;
 
-use common\models\User as UserModel;
 use yii\data\ActiveDataProvider;
 
-class UserSearch extends UserModel
+class UserSearch extends \common\models\User
 {
     public $create_start_at;
     public $create_end_at;
