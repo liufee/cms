@@ -61,6 +61,9 @@ $this->title = 'Files';
                         ],
                         [
                             'attribute' => 'uri',
+                            'value' => function($model, $key, $index, $column){
+                                return str_replace(yii::$app->params['site']['url'], yii::getAlias('@uploads'), $model->uri);
+                            }
                         ],
                         [
                             'attribute' => 'filesize',
@@ -73,9 +76,9 @@ $this->title = 'Files';
                             'format' => 'html',
                             'value' => function($model){
                                 if($model['status']){
-                                    return "<a class=\"btn btn-info btn-xs btn-rounded\" href=\"javascript:void(0)\">使用</a>";
+                                    return "<a class=\"btn btn-info btn-xs btn-rounded\" href=\"javascript:void(0)\">".yii::t('app', 'Used')."</a>";
                                 }else{
-                                    return "<a class=\"btn btn-default btn-xs btn-rounded\" href=\"javacript:void(0)\">未使用</a>";
+                                    return "<a class=\"btn btn-default btn-xs btn-rounded\" href=\"javacript:void(0)\">".yii::t('app', 'Unused')."</a>";
                                 }
                             },
                             'filter' => \feehi\libs\Constants::getYesNoItems()

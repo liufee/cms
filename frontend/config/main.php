@@ -87,7 +87,7 @@ return [
     ],
     'params' => $params,
     'on beforeRequest' => function($event){
-        \feehi\components\Feehi::setConfig();
+        \feehi\components\Feehi::setFrontendConfig();
         if(isset(\yii::$app->session['view'])) \yii::$app->viewPath = dirname(__DIR__).'/'.\yii::$app->session['view'];
         if(isset(\yii::$app->session['language'])) \yii::$app->language = yii::$app->session['language'];
     }

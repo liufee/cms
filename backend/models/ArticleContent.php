@@ -59,31 +59,44 @@ class ArticleContent extends \common\models\ArticleContent
     public function afterSave($insert, $changedAttributes)
     {
         if($insert) {
-            preg_match_all('/<img.*src="(.*)"/isU', $this->content, $matches);
+            preg_match_all('/<img.*src="('.yii::$app->params['site']['sign'].'.*)"/isU', $this->content, $matches);
             if (!empty($matches[1])) {
                 foreach ($matches[1] as $v) {
-                    if (strpos($v, yii::$app->params['site']['sign']) === 0) {
+                    $fileUsageModel = new FileUsage();
+                    $fileUsageModel->useFile($v, $this->aid, FileUsage::TYPE_ARTICLE_BODY, 1);
+                }
+            }
+        }else{
+            preg_match_all('/<img.*src="('.yii::$app->params['site']['sign'].'.*)"/isU', $changedAttributes['content'], $matchesOld);
+            preg_match_all('/<img.*src="('.yii::$app->params['site']['sign'].'.*)"/isU', $this->content, $matches);
+            if (!empty($matches[1])) {
+                foreach ($matches[1] as $v) {
+                    if (!in_array($v, $matchesOld[1]) ) {
                         $fileUsageModel = new FileUsage();
                         $fileUsageModel->useFile($v, $this->aid, FileUsage::TYPE_ARTICLE_BODY, 1);
                     }
                 }
             }
-        }else{
-
+            if(!empty($matchesOld[1])){
+                $noneUsePics = array_diff($matchesOld[1], $matches[1]);
+                foreach ($noneUsePics as $v) {
+                    $fileUsageModel = new FileUsage();
+                    $uri = str_replace(yii::$app->params['site']['url'], yii::$app->params['site']['sign'], $v);
+                    $fileUsageModel->cancelUseFile($uri, $this->aid, FileUsage::TYPE_ARTICLE_BODY);
+                }
+            }
         }
         return true;
     }
 
     public function afterDelete()
     {
-        preg_match_all('/<img.*src="(.*)"/isU', $this->content, $matches);
+        preg_match_all('/<img.*src="('.yii::$app->params['site']['sign'].'.*)"/isU', $this->content, $matches);
         if (!empty($matches[1])) {
             foreach ($matches[1] as $v) {
-                if (strpos($v, yii::$app->params['site']['url']) === 0) {
-                    $fileUsageModel = new FileUsage();
-                    $uri = str_replace(yii::$app->params['site']['url'], yii::$app->params['site']['sign'], $v);
-                    $fileUsageModel->cancelUseFile($uri, $this->aid, FileUsage::TYPE_ARTICLE_BODY);
-                }
+                $fileUsageModel = new FileUsage();
+                $uri = str_replace(yii::$app->params['site']['url'], yii::$app->params['site']['sign'], $v);
+                $fileUsageModel->cancelUseFile($uri, $this->aid, FileUsage::TYPE_ARTICLE_BODY);
             }
         }
         return true;

@@ -41,5 +41,22 @@ return [
         'feehi' => [
             'class' => 'feehi\components\Feehi',
         ],
+        'alioss' => [
+            'class' => 'feehi\components\Alioss',
+            'enable' => false,
+            'accessKeyId' => "xxx",
+            'accessKeySecret' => "xxxx",
+            'endpoint' => "http://oss-cn-shanghai.aliyuncs.com",
+            'bucket' => 'feehi',
+            'directory' => 'cms'
+        ],
+        'qiniu' => [
+            'enable' => false,
+            'class' => 'feehi\components\Qiniu',
+            'accessKey' => 'xxx',
+            'secretKey' => 'xxxxxx',
+            'bucket' => 'feehi',
+            'directory' => 'cms',
+        ],
     ],
 ];

@@ -48,8 +48,13 @@ class Feehi extends Component{
         return $this->$name;
     }
 
-    public static function setConfig()
+    private static function setConfig()
     {
+    }
+
+    public static function setFrontendConfig()
+    {
+        self::setConfig();
         if(!yii::$app->feehi->website_status) yii::$app->catchAll = ['site/offline'];
         yii::$app->language = yii::$app->feehi->website_language;
         yii::$app->timeZone = yii::$app->feehi->website_timezone;
@@ -57,6 +62,7 @@ class Feehi extends Component{
 
     public static function setBackendConfig()
     {
+        self::setConfig();
         if(!empty(yii::$app->feehi->website_url)) yii::$app->params['site']['url'] = yii::$app->feehi->website_url;
     }
 
