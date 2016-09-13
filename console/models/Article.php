@@ -8,12 +8,13 @@
 namespace console\models;
 
 use yii;
-use backend\models\Article as backendArticle;
-use common\models\ArticleContent;
+use backend\models\ArticleContent;
 use feehi\libs\Help;
+use backend\models\File;
+use backend\models\FileUsage;
 
 
-class Article extends backendArticle
+class Article extends \backend\models\Article
 {
 
     public $articleOriginUrl = '';//article origin url
@@ -46,12 +47,20 @@ class Article extends backendArticle
             $contentModel = new ArticleContent();
             $contentModel->aid = $this->id;
         }else{
+            if($this->content === null) return;
             $contentModel = ArticleContent::findOne(['aid'=>$this->id]);
-            if($contentModel == null) $contentModel = new ArticleContent();
+            if($contentModel == null){
+                $contentModel = new ArticleContent();
+                $contentModel->aid = $this->id;
+            }
         }
         $this->scrawlPic();
         $contentModel->content = $this->content;
         $contentModel->save();
+        if( isset($this->thumb) ){
+            $fileUsageModel = new FileUsage();
+            $fileUsageModel->useFile($this->thumb, $this->id);
+        }
     }
 
     public function needScrawlPic($url)
@@ -76,6 +85,8 @@ class Article extends backendArticle
             if( file_put_contents($path.$fileName, $imgBin) ){
                 $temp = explode("uploads/", $path.$fileName);
                 $this->thumb =  yii::$app->params['site']['sign']."/uploads/".$temp[1];
+                $model = new File();
+                $model->saveFileDb($path.$fileName);
             }
         }
     }
@@ -104,6 +115,8 @@ class Article extends backendArticle
             }else{
                 $temp = explode("uploads/", $path.$fileName);
                 array_push($replace, yii::$app->params['site']['sign']."/uploads/".$temp[1]);
+                $model = new File();
+                $model->saveFileDb($path.$fileName);
             }
         }
         $this->content = str_replace($matches[1], $replace, $this->content);
