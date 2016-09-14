@@ -25,7 +25,7 @@ class IndexAsset extends AssetBundle
         "js/plugins/pace/pace.min.js",
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'feehi\assets\YiiAsset',
+        'feehi\assets\BootstrapAsset',
     ];
 }

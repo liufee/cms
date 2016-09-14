@@ -9,6 +9,7 @@ use feehi\grid\GridView;
 use feehi\widgets\Bar;
 use yii\helpers\Html;
 use backend\models\FileUsage;
+use feehi\libs\Help;
 
 $this->title = 'Files';
 
@@ -62,11 +63,14 @@ $this->title = 'Files';
                         [
                             'attribute' => 'uri',
                             'value' => function($model, $key, $index, $column){
-                                return str_replace(yii::$app->params['site']['url'], yii::getAlias('@uploads'), $model->uri);
+                                return str_replace(yii::$app->params['site']['url'], yii::getAlias('@frontend/web'), $model->uri);
                             }
                         ],
                         [
                             'attribute' => 'filesize',
+                            'value' => function($model, $key, $index, $columb){
+                                return Help::filesize($model->filesize);
+                            }
                         ],
                         [
                             'attribute' => 'mime',

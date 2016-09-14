@@ -89,7 +89,6 @@ return [
         });
         \feehi\components\Feehi::setBackendConfig();
         if(isset(\yii::$app->session['language'])) \yii::$app->language = yii::$app->session['language'];
-        if(!isset(yii::$app->params['site']['url']) || empty(yii::$app->params['site']['url'])) yii::$app->params['site']['url'] = yii::$app->request->getHostInfo();
     },
     'on beforeAction' => function($action)
     {

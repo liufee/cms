@@ -109,6 +109,9 @@ class ArticleController extends Controller
                 if(yii::$app->feehi->website_comment_need_verify){
                     $tips = "<span class='c-approved'>您的评论正在排队审核中，请稍后！</span><br />";
                 }
+                $commentModel->content = str_replace([':mrgreen:',':razz:',':sad:',':smile:',':oops:',':grin:',':eek:',':???:',':cool:',':lol:',':mad:',':twisted:',':roll:',':wink:',':idea:',':arrow:',':neutral:',':cry:',':?:',':evil:',':shock:',':!:'],
+                    ["<img src='{%URL%}mrgreen{%EXT%}'>","<img src='{%URL%}razz{%EXT%}'>","<img src='{%URL%}sad{%EXT%}'>","<img src='{%URL%}smile{%EXT%}'>","<img src='{%URL%}redface{%EXT%}'>","<img src='{%URL%}biggrin{%EXT%}'>","<img src='{%URL%}surprised{%EXT%}'>","<img src='{%URL%}confused{%EXT%}'>","<img src='{%URL%}cool{%EXT%}'>","<img src='{%URL%}lol{%EXT%}'>","<img src='{%URL%}mad{%EXT%}'>","<img src='{%URL%}twisted{%EXT%}'>","<img src='{%URL%}rolleyes{%EXT%}'>","<img src='{%URL%}wink{%EXT%}'>","<img src='{%URL%}idea{%EXT%}'>","<img src='{%URL%}arrow{%EXT%}'>","<img src='{%URL%}neutral{%EXT%}'>","<img src='{%URL%}cry{%EXT%}'>","<img src='{%URL%}question{%EXT%}'>","<img src='{%URL%}evil{%EXT%}'>","<img src='{%URL%}eek{%EXT%}'>","<img src='{%URL%}exclaim{%EXT%}'>"],$commentModel->content);
+                $commentModel->content = str_replace(['{%URL%}', '{%EXT%}'], [yii::$app->homeUrl.'static/images/smilies/icon_', '.gif'], $commentModel->content);
                 echo "
                 <li class='comment even thread-even depth-1' id='comment-{$commentModel->id}'>
                     <div class='c-avatar'><img src='{$avatar}' class='avatar avatar-108' height='50' width='50'>

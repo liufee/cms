@@ -34,7 +34,7 @@ class FileSearch extends File{
             return $dataProvider;
         }
         $query->andFilterWhere(['like', 'filename', $this->filename])
-            ->andFilterWhere(['uri'=>$this->uri])
+            ->andFilterWhere(['like', 'uri', $this->uri])
             ->andFilterWhere(['filesize'=>$this->filesize])
             ->andFilterWhere(['mime'=>$this->mime])
             ->andFilterWhere(['status'=>$this->status]);
