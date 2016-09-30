@@ -132,19 +132,6 @@ class Help{
             return utf8_encode($in_str);
     }
 
-    public function filesize($filesize) {
-        if($filesize >= 1073741824) {
-            $filesize = round($filesize / 1073741824 * 100) / 100 . ' GB';
-        } elseif($filesize >= 1048576) {
-            $filesize = round($filesize / 1048576 * 100) / 100 . ' MB';
-        } elseif($filesize >= 1024) {
-            $filesize = round($filesize / 1024 * 100) / 100 . ' KB';
-        } else {
-            $filesize = $filesize . ' Bytes';
-        }
-         return $filesize;
-    }
-
     public static function getServerStatus()
     {
         switch (PHP_OS) {
@@ -497,5 +484,19 @@ class Help{
         return $res;
 
     }
+     public static function formatBytes($size) {
+         $units = array(' B', ' KB', ' MB', ' GB', ' TB');
+         for ($i = 0; $size >= 1024 && $i < 4; $i++) $size /= 1024;
+         return round($size, 2).$units[$i];
+     }
 
+    public static function path_info($filepath)
+    {
+        $path_parts = array();
+        $path_parts ['dirname'] = rtrim(substr($filepath, 0, strrpos($filepath, '/')),"/")."/";
+        $path_parts ['basename'] = ltrim(substr($filepath, strrpos($filepath, '/')),"/");
+        $path_parts ['extension'] = substr(strrchr($filepath, '.'), 1);
+        $path_parts ['filename'] = ltrim(substr($path_parts ['basename'], 0, strrpos($path_parts ['basename'], '.')),"/");
+        return $path_parts;
+    }
 }

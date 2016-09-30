@@ -81,6 +81,7 @@ $this->title = "Backend Menus";
                         ],
                         [
                             'class' => 'feehi\grid\ActionColumn',
+                            'width' => '190px',
                             'buttons' => [
                                 'create' => function($url, $model, $key){
                                     return Html::a('<i class="fa  fa-plus" aria-hidden="true"></i> '. Yii::t('app', 'Create'), Url::to(['create', 'parent_id'=>$model['id']]), [

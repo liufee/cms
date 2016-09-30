@@ -90,6 +90,7 @@ $this->title = "Frontend Menus";
                                 }
                             ],
                             'template' => '{create} {update} {delete}',
+                            'width' => '190px'
                         ]
                     ]
                 ])

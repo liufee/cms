@@ -67,11 +67,11 @@ class ArticleContent extends \common\models\ArticleContent
                 }
             }
         }else{
-            preg_match_all('/<img.*src="('.yii::$app->params['site']['sign'].'.*)"/isU', $changedAttributes['content'], $matchesOld);
+            if(isset($changedAttributes['content'])) preg_match_all('/<img.*src="('.yii::$app->params['site']['sign'].'.*)"/isU', $changedAttributes['content'], $matchesOld);
             preg_match_all('/<img.*src="('.yii::$app->params['site']['sign'].'.*)"/isU', $this->content, $matches);
             if (!empty($matches[1])) {
                 foreach ($matches[1] as $v) {
-                    if (!in_array($v, $matchesOld[1]) ) {
+                    if (!empty($matchesOld) && !in_array($v, $matchesOld[1]) ) {
                         $fileUsageModel = new FileUsage();
                         $fileUsageModel->useFile($v, $this->aid, FileUsage::TYPE_ARTICLE_BODY, 1);
                     }

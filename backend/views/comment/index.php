@@ -40,20 +40,7 @@ $viewLayer = function($url, $model){
             ]) ?>
             <div class="ibox-content">
                 <?= Bar::widget([
-                    'buttons' => [
-                        [
-                            'class' => 'btn btn-white btn-sm refresh',
-                            'text' => 'Refresh',
-                            'url' => ['refresh'],
-                            'iClass' => 'fa fa-refresh',
-                        ],
-                        [
-                            'class' => 'btn btn-white btn-sm multi-operate',
-                            'text' => 'Delete',
-                            'url' => ['delete'],
-                            'iClass' => 'fa fa-trash-o',
-                        ],
-                    ]
+                    'template' => "{refresh} {delete}",
                 ]) ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
