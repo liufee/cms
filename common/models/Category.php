@@ -194,7 +194,8 @@ class Category extends \yii\db\ActiveRecord
 
     public function beforeDelete()
     {
-        if( !empty( self::getSubTree($this->id) )){
+        $parent = self::getSubTree($this->id);
+        if( !empty( $parent )){
             $this->addError('id', yii::t('app', 'Allowed not to be deleted, sub level exsited.'));
             return false;
         }

@@ -31,7 +31,7 @@ $this->title = 'Files';
             ]) ?>
             <div class="ibox-content">
                 <?= Bar::widget([
-                    'template' => '{refresh} {create} {delete}'
+                    'template' => '{refresh} {delete}'
                 ]) ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,

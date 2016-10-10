@@ -69,8 +69,11 @@ class SettingWebsiteForm extends \common\models\Options
         $names = $this->getNames();
         foreach($names as $name){
             $model = self::findOne(['name' => $name]);
-            $model->value = $this->$name;
-            $model->save();
+            if($model != null)
+            {
+                $model->value = $this->$name;
+                $model->save();
+            }
         }
         return true;
     }

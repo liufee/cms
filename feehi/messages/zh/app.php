@@ -59,7 +59,7 @@ return [
     'Filename' => '文件名',
     'Uri' => 'uri地址',
     'Used' => '使用中',
-    'Uused' => '未使用',
+    'Unused' => '未使用',
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',

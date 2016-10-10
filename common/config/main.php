@@ -2,7 +2,7 @@
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'name' => 'Feehi CMS',
-    'version' => '0.0.6',
+    'version' => '0.0.7',
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',

@@ -25,6 +25,9 @@ $this->title = "Category";
                             'class' => 'feehi\grid\CheckboxColumn',
                         ],
                         [
+                            'attribute' => 'id',
+                        ],
+                        [
                             'attribute' => 'name',
                             'label' => yii::t('app', 'Name'),
                             'format' => 'html',
