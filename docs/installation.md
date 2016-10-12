@@ -27,7 +27,7 @@ $ git clone git https://github.com/liufee/cms.git webApp
 
 ### Install from an Archive File
 -------------------
-click [here](http://7xjkuy.com1.z0.glb.clouddn.com/Feehi%20CMS.rar) to download archive file
+click [here](http://7xjkuy.com1.z0.glb.clouddn.com/Feehi_CMS.rar) to download archive file
 
 
 ## Preparing application

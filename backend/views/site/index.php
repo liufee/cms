@@ -213,7 +213,7 @@ $this->title = yii::t('app', 'Backend Manage System');
                     <a data-toggle="tab" href="#tab-1">
                         <i class="fa fa-gear"></i> 主题
                     </a>
-                </li>
+                </li><!--
                 <li class=""><a data-toggle="tab" href="#tab-2">
                         通知
                     </a>
@@ -221,7 +221,7 @@ $this->title = yii::t('app', 'Backend Manage System');
                 <li><a data-toggle="tab" href="#tab-3">
                         项目进度
                     </a>
-                </li>
+                </li>-->
             </ul>
 
             <div class="tab-content">
@@ -295,7 +295,7 @@ $this->title = yii::t('app', 'Backend Manage System');
                     </span>
                         </div>
                     </div>
-                </div>
+                </div><!--
                 <div id="tab-2" class="tab-pane">
 
                     <div class="sidebar-title">
@@ -423,7 +423,7 @@ $this->title = yii::t('app', 'Backend Manage System');
                         </div>
                     </div>
 
-                </div>
+                </div><--><!--
                 <div id="tab-3" class="tab-pane">
 
                     <div class="sidebar-title">
@@ -470,7 +470,7 @@ $this->title = yii::t('app', 'Backend Manage System');
                             <a href="#">
                                 <span class="label label-primary pull-right">NEW</span>
                                 <h4>设计阶段</h4>
-                                <!--<div class="small pull-right m-t-xs">9小时以后</div>-->
+                                <!--<div class="small pull-right m-t-xs">9小时以后</div>--><!--
                                 项目进度报告(Project Progress Report)
                                 <div class="small">已完成： 22%</div>
                                 <div class="small text-muted m-t-xs">项目截止： 4:00 - 2015.10.01</div>
@@ -513,13 +513,13 @@ $this->title = yii::t('app', 'Backend Manage System');
 
                     </ul>
 
-                </div>
+                </div>-->
             </div>
 
         </div>
     </div>
     <!--右侧边栏结束-->
-    <!--mini聊天窗口开始-->
+    <!--mini聊天窗口开始--><!--
     <div class="small-chat-box fadeInRight animated">
 
         <div class="heading" draggable="true">
@@ -610,7 +610,7 @@ $this->title = yii::t('app', 'Backend Manage System');
             <i class="fa fa-comments"></i>
 
         </a>
-    </div>
+    </div>-->
 </div>
 <?php $this->endBody() ?>
 </body>
