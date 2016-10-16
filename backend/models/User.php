@@ -229,7 +229,7 @@ class User extends ActiveRecord implements IdentityInterface
         }
         if($this->avatar == '') unset($this->avatar);
         if(!$this->saveAvatar($insert)){
-            $this->addError('avatar', 'save avatar failed');
+            return false;
         }
         return true;
     }
@@ -240,6 +240,7 @@ class User extends ActiveRecord implements IdentityInterface
         $file = new File();
         $imgs = $file->upload(Yii::getAlias('@avatar'));
         if($imgs[0] == false){
+            $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'avatar')]).': '.$file->getErrors());
             return false;
         }
         $oldAvatar = $this->getOldAttribute('avatar');

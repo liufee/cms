@@ -8,7 +8,7 @@
 namespace backend\controllers;
 
 use yii;
-use feehi\libs\Help;
+use yii\helpers\FileHelper;
 
 
 class ClearController extends BaseController
@@ -16,14 +16,14 @@ class ClearController extends BaseController
 
     public function actionBackend()
     {
-        Help::deleteDir(yii::getAlias('@runtime/cache'));
+        FileHelper::removeDirectory(yii::getAlias('@runtime/cache'));
         Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
         return $this->render('backend');
     }
 
     public function actionFrontend()
     {
-        Help::deleteDir(yii::getAlias('@frontend/runtime/cache'));
+        FileHelper::removeDirectory(yii::getAlias('@frontend/runtime/cache'));
         Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
         return $this->render('frontend');
     }

@@ -148,4 +148,25 @@ EOF;
         return false;
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        $this->removeBackendMenuCache();
+    }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+        $this->removeBackendMenuCache();
+    }
+
+    public function removeBackendMenuCache()
+    {
+        $object = yii::createObject([
+            'class' => 'feehi\helpers\FileDependencyHelper',
+            'fileName' => 'backend_menu.txt',
+        ]);
+        $object->updateFile();
+    }
+
 }

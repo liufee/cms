@@ -34,7 +34,7 @@ if( $parent_id != '' ) $model->parent_id = $parent_id;
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'is_absolute_url')->radioList(Constants::getYesNoItems()) ?>
                 <div class="hr-line-dashed"></div>
-                <?= $form->field($model, 'is_display')->radioList(Constants::getStatusItems()) ?>
+                <?= $form->field($model, 'is_display')->radioList(Constants::getYesNoItems()) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->defaultButtons() ?>
                 <?php ActiveForm::end(); ?>

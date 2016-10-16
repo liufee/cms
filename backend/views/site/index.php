@@ -7,6 +7,7 @@ use yii\helpers\Html;
 use backend\models\Menu;
 use yii\helpers\Url;
 use backend\assets\IndexAsset;
+
 IndexAsset::register($this);
 $this->title = yii::t('app', 'Backend Manage System');
 ?>
@@ -56,7 +57,22 @@ $this->title = yii::t('app', 'Backend Manage System');
                     <div class="logo-element">H+
                     </div>
                 </li>
-                <?= Menu::getBackendMenu();?>
+                <?php
+                    $cacheDependencyObject = yii::createObject([
+                        'class' => 'feehi\helpers\FileDependencyHelper',
+                        'fileName' => 'backend_menu.txt',
+                    ]);
+                    $dependency = [
+                        'class' => 'yii\caching\FileDependency',
+                        'fileName' => $cacheDependencyObject->createFile(),
+                    ];
+                    if ($this->beginCache('backend_menu', ['variations' => [Yii::$app->language], 'dependency' => $dependency])) {
+                ?>
+                <?= Menu::getBackendMenu(); ?>
+                <?php
+                    $this->endCache();
+                    }
+                ?>
             </ul>
         </div>
     </nav>

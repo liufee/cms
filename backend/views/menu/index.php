@@ -9,6 +9,7 @@ use feehi\grid\GridView;
 use feehi\widgets\Bar;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use feehi\libs\Constants;
 
 $this->title = "Backend Menus";
 ?>
@@ -63,9 +64,9 @@ $this->title = "Backend Menus";
                             'format' => 'html',
                             'value' => function($model){
                                 if($model['is_display']){
-                                    return "<a class=\"btn btn-info btn-xs btn-rounded\" href=\"javascript:void(0)\">显示</a>";
+                                    return "<a class=\"btn btn-info btn-xs btn-rounded\" href=\"javascript:void(0)\">".Constants::getYesNoItems($model['is_display'])."</a>";
                                 }else{
-                                    return "<a class=\"btn btn-default btn-xs btn-rounded\" href=\"javacript:void(0)\">隐藏</a>";
+                                    return "<a class=\"btn btn-default btn-xs btn-rounded\" href=\"javacript:void(0)\">".Constants::getYesNoItems($model['is_display'])."</a>";
                                 }
                             }
                         ],

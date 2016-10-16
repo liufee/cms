@@ -85,9 +85,12 @@ class User extends CommonUser
             $file = new File();
             $imgs = $file->upload(Yii::getAlias('@frontend/web/uploads/avatar'));
             if($imgs[0] == false){
+                $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'avatar')]).': '.$file->getErrors());
                 return false;
             }
             $this->avatar = str_replace(Yii::getAlias('@frontend/web'), '', $imgs[0]);
+            $oldAvatar = $this->getOldAttribute('avatar');
+            if($oldAvatar != '') @unlink(yii::getAlias("@frontend/web").$oldAvatar);
         }
         if($this->avatar == '') unset($this->avatar);
         return true;

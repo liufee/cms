@@ -18,7 +18,7 @@ $this->title = "Admin";
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data','class'=>'form-horizontal']]); ?>
-                <?= $form->field($model, 'username')->textInput(['maxlength' => 64]) ?>
+                <?= $form->field($model, 'username')->textInput(['maxlength' => 64, 'disabled'=>'disabled']) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'avatar')->imgInput(['width'=>'100px', 'baseUrl'=>yii::$app->params['admin']['url']]) ?>
                 <div class="hr-line-dashed"></div>

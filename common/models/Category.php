@@ -69,9 +69,9 @@ class Category extends \yii\db\ActiveRecord
     public static function getOptions($id=''){
         $categories = self::find()->all();
         if($id)
-            $options = '<option value="0">根分类</option>';
+            $options = '<option value="0">'.yii::t('app', 'Uncategory').'</option>';
         else
-            $options = '<option selected value="0">根分类</option>';
+            $options = '<option selected value="0">'.yii::t('app', 'Uncategory').'</option>';
         foreach($categories as $key => $category){
             if($category->parent_id != 0) continue;
             $selected = '';

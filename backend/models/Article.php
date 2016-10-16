@@ -49,11 +49,11 @@ class Article extends \common\models\Article
            }
         }
         $model = new File();
-        if (($uri = $model->saveFile(FileUsage::TYPE_ARTICLE_THUMB)) !== false) {
+        if ( is_string($uri = $model->saveFile(FileUsage::TYPE_ARTICLE_THUMB)) ) {
             $this->thumb = $uri;
             return true;
         } else {
-            $this->addError('thumb', yii::t('app', 'Upload {attribute} error'), ['attribute' => yii::t('app', 'Thumb')]);
+            $this->addError( 'thumb', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Thumb')]).': '.$uri[0] );
             return false;
         }
     }

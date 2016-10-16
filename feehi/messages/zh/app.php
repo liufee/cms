@@ -41,8 +41,9 @@ return [
     'Users' => '用户',
     'ID' => '序号',
     'Nickname' => '昵称',
-    'Pass' => '通过',
-    'Unpass' => '未通过',
+    'Not Audited' => '待审核',
+    'Passed' => '通过',
+    'Unpassed' => '未通过',
     'first' => '首页',
     'previous' => '上一页',
     'next' => '下一页',
@@ -60,6 +61,15 @@ return [
     'Uri' => 'uri地址',
     'Used' => '使用中',
     'Unused' => '未使用',
+    'Other' => '其他',
+    'Yes' => '是',
+    'No' => '否',
+    'Enable' => '启用',
+    'Disable' => '禁用',
+    'Publish' => '发布',
+    'Draft' => '草稿',
+    'Public' => '公开',
+    'Reply' => '回复',
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',
@@ -84,6 +94,7 @@ return [
     'Tag' => '标签',
     'Author Id' => '作者ID',
     'Author' => '作者',
+    'Attributes' => '属性',
     'Is Headline' => '头条',
     'Is Recommend' => '推荐',
     'Is Special Recommend' => '特别推荐',
@@ -96,6 +107,7 @@ return [
     'Are you sure you want to publish?' => '您确定要发布此文章吗？',
     'Are you sure you want to cancel release?' => '您确定要取消发布此文章吗?',
     'uncategoried' => '未分类',
+    'Please select' => '请选择',
     'Allowed not to be deleted, some article belongs to this category.' => '不允许被删除，还有文章属于此分类',
     /*Article*/
 
@@ -135,6 +147,8 @@ return [
     'Tips' => '提示',
     'Custom Setting' => '自定义设置',
     'Must begin with alphabet and can only includes alphabet,_,and number' => '必须以字母开头,只能包含字母和数字及下划线',
+    'Opened' => '开放',
+    'Closed' => '关闭',
     /*setting*/
 
     /*Log*/

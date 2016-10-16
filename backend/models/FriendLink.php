@@ -37,11 +37,11 @@ class FriendLink extends \common\models\FriendLink
                 }
             }
             $model = new File();
-            if (($uri = $model->saveFile(FileUsage::TYPE_FRINEDLYLINK)) !== false) {
+            if ( is_string($uri = $model->saveFile(FileUsage::TYPE_FRINEDLYLINK)) ) {
                 $this->image = $uri;
                 return true;
             } else {
-                $this->addError('thumb', yii::t('app', 'Upload {attribute} error'), ['attribute' => yii::t('app', 'Image')]);
+                $this->addError( 'image', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Image')]).': '.$uri[0] );
                 return false;
             }
         }

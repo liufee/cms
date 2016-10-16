@@ -98,18 +98,34 @@ $viewLayer = function($url, $model){
                             'width' => '135',
                             'buttons' => [
                                 'change-status' => function($url, $model, $key){//echo $model->status;die;
-                                    if($model->status == Comment::STATUS_INIT || $model->status == Comment::STATUS_UNPASS){
-                                        $url .= '&status=1';
-                                        $title = Yii::t('app', 'Pass');
-                                    }else if($model->status == Comment::STATUS_PASSED){
-                                        $url .= "&status=2";
-                                        $title = Yii::t('app', 'Unpass');
+                                    if( $model->status == Comment::STATUS_INIT ){
+                                        return Html::a('<i class="fa fa-check"></i> '. Yii::t('app', 'Passed'), $url.'&status='.Comment::STATUS_PASSED, [
+                                            'title' => Yii::t('app', 'Passed'),
+                                            'data-pjax' => '0',
+                                            'class' => 'btn btn-white btn-sm',
+                                        ])
+                                        .
+                                        Html::a('<i class="fa fa-remove"></i> '. Yii::t('app', 'Unpassed'), $url.'&status='.Comment::STATUS_UNPASS, [
+                                            'title' => Yii::t('app', 'Unpassed'),
+                                            'data-pjax' => '0',
+                                            'class' => 'btn btn-white btn-sm',
+                                        ])
+                                        ;
+                                    }else{
+                                        if ($model->status == Comment::STATUS_UNPASS) {
+                                            return Html::a('<i class="fa fa-check"></i> '. Yii::t('app', 'Passed'), $url.'&status='.Comment::STATUS_PASSED, [
+                                                'title' => Yii::t('app', 'Passed'),
+                                                'data-pjax' => '0',
+                                                'class' => 'btn btn-white btn-sm',
+                                            ]);
+                                        } else if ($model->status == Comment::STATUS_PASSED) {
+                                            return Html::a('<i class="fa fa-remove"></i> '. Yii::t('app', 'Unpassed'), $url.'&status='.Comment::STATUS_UNPASS, [
+                                                'title' => Yii::t('app', 'Unpassed'),
+                                                'data-pjax' => '0',
+                                                'class' => 'btn btn-white btn-sm',
+                                            ]);
+                                        }
                                     }
-                                    return Html::a('<i class="fa fa-folder"></i> '. $title, $url, [
-                                        'title' => $title,
-                                        'data-pjax' => '0',
-                                        'class' => 'btn btn-white btn-sm',
-                                    ]);
                                 },
                             ],
                             'template' => '{change-status}{delete}',

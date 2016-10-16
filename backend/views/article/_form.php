@@ -37,20 +37,11 @@ $this->title = "Articles";
 
                     <div class="col-md-5 droppable sortable ui-droppable ui-sortable" style="">
                         <div class="ibox-title">
-                            <h5>文章分类</h5>
+                            <h5><?=yii::t('app', 'Category') ?></h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
                                 </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="calendar.html#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="calendar.html#">选项1</a>
-                                    </li>
-                                    <li><a href="calendar.html#">选项2</a>
-                                    </li>
-                                </ul>
                                 <a class="close-link">
                                     <i class="fa fa-times"></i>
                                 </a>
@@ -77,20 +68,11 @@ $this->title = "Articles";
                     <!--属性设置start-->
                     <div class="col-md-5 droppable sortable ui-droppable ui-sortable" style="">
                         <div class="ibox-title">
-                            <h5>属性设置</h5>
+                            <h5><?=yii::t('app', 'Attributes') ?></h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
                                 </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="calendar.html#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="calendar.html#">选项1</a>
-                                    </li>
-                                    <li><a href="calendar.html#">选项2</a>
-                                    </li>
-                                </ul>
                                 <a class="close-link">
                                     <i class="fa fa-times"></i>
                                 </a>
@@ -123,20 +105,11 @@ $this->title = "Articles";
                     <!--seo设置start-->
                     <div class="col-md-5 droppable sortable ui-droppable ui-sortable" style="">
                         <div class="ibox-title">
-                            <h5>seo设置</h5>
+                            <h5><?=yii::t('app', 'Seo Setting')?></h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
                                 </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="calendar.html#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="calendar.html#">选项1</a>
-                                    </li>
-                                    <li><a href="calendar.html#">选项2</a>
-                                    </li>
-                                </ul>
                                 <a class="close-link">
                                     <i class="fa fa-times"></i>
                                 </a>
@@ -153,20 +126,11 @@ $this->title = "Articles";
 
                     <div class="col-md-5 droppable sortable ui-droppable ui-sortable" style="">
                         <div class="ibox-title">
-                            <h5>其他</h5>
+                            <h5><?=yii::t('app', 'Other')?></h5>
                             <div class="ibox-tools">
                                 <a class="collapse-link">
                                     <i class="fa fa-chevron-up"></i>
                                 </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="calendar.html#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="calendar.html#">选项1</a>
-                                    </li>
-                                    <li><a href="calendar.html#">选项2</a>
-                                    </li>
-                                </ul>
                                 <a class="close-link">
                                     <i class="fa fa-times"></i>
                                 </a>

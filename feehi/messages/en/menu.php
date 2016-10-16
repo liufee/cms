@@ -31,4 +31,5 @@ return [
     '编辑' => 'Editors',
     '测试组' => 'Demo Group',
     '评论' => 'Comments',
+    '附件管理' => 'Attachment',
 ];

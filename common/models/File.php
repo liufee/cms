@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use feehi\libs\File as Upload;
+use yii\helpers\FileHelper;
 
 /**
  * This is the model class for table "{{%file}}".
@@ -75,7 +76,7 @@ class File extends \yii\db\ActiveRecord
             $this->saveFileDb($result[0]);
             return yii::$app->params['site']['sign'].str_replace(yii::getAlias('@frontend/web'), '', $result[0]);
         }else{
-            return false;
+            return [$upload->getErrors()];
         }
     }
 
@@ -84,12 +85,7 @@ class File extends \yii\db\ActiveRecord
         $fileModel = File::findOne(['uri'=>$uri]);
         if($fileModel == NULL){
             $this->filename = pathinfo($uri)['basename'];
-            if( class_exists('finfo') ){
-                $fileInfo = new \finfo(FILEINFO_MIME_TYPE);
-                $this->mime = $fileInfo->file($uri);
-            }else{
-                $this->mime = mime_content_type($uri);
-            }
+            $this->mime = FileHelper::getMimeType( $uri );
             $this->filesize = filesize($uri);
             $this->uri = yii::$app->params['site']['sign'].str_replace(yii::getAlias('@frontend/web'), '', $uri);
             $this->beforeSave(true);

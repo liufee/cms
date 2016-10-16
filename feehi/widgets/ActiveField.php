@@ -71,7 +71,7 @@ class ActiveField extends \yii\widgets\ActiveField
     {
         if ($generateDefault === true && ! isset($options['prompt']))
         {
-            $options['prompt'] = '请选择';
+            $options['prompt'] = yii::t('app', 'Please select');
         }
         return parent::dropDownList($items, $options);
     }
