@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use feehi\libs\File as Upload;
 use yii\helpers\FileHelper;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%file}}".
@@ -28,6 +29,13 @@ class File extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%file}}';
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
     }
 
     /**
@@ -104,12 +112,7 @@ class File extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         $this->uri = str_replace(yii::$app->params['site']['url'], yii::$app->params['site']['sign'], $this->uri);
-        if($insert){
-            $this->created_at = time();
-        }else{
-            $this->updated_at = time();
-        }
-        return true;
+        return parent::beforeSave($insert);
     }
 
     public function afterFind()

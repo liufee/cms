@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%admin_roles}}".
@@ -22,6 +23,13 @@ class AdminRoles extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%admin_roles}}';
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
     }
 
     /**
@@ -49,16 +57,6 @@ class AdminRoles extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'remark' => Yii::t('app', 'Remark'),
         ];
-    }
-
-    public function beforeSave($insert)
-    {
-        if($insert){
-            $this->created_at = time();
-        }else{
-            $this->updated_at = time();
-        }
-        return true;
     }
 
     public static function getRoleNameByUid($uid = '')

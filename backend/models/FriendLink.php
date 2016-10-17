@@ -8,6 +8,7 @@
 namespace backend\models;
 
 use yii;
+use yii\behaviors\TimestampBehavior;
 
 class FriendLink extends \common\models\FriendLink
 {
@@ -22,13 +23,15 @@ class FriendLink extends \common\models\FriendLink
         ];
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
     public function beforeSave($insert)
     {
-        if($insert){
-            $this->created_at = time();
-        }else{
-            $this->updated_at = time();
-        }
         if(isset($_FILES['FriendLink']['name']['image']) && $_FILES['FriendLink']['name']['image'] != ''){
             if(!$insert) {
                 if(!empty($this->oldAttributes['image'])) {

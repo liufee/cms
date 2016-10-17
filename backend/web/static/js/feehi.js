@@ -52,7 +52,7 @@ function viewLayer(url, obj)
 
 $(document).ready(function(){
     //$('.info').animate({opacity: 1.0}, 3000).fadeOut('slow');
-    $("input[type=file]").prettyFile();
+    $("input[type=file]").prettyFile({text:common.chooseFile});
     $(".multi-operate").click(function () {
         var url = $(this).attr('href');
         var ids = new Array();

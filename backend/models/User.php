@@ -217,12 +217,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function beforeSave($insert)
     {
         if($insert){
-            $this->created_at = time();
             $this->generateAuthKey();
             $this->setPassword($this->password);
             $this->updated_at = 0;
         }else{
-            $this->updated_at = time();
             if(isset($this->password) && $this->password != ''){
                 $this->setPassword($this->password);
             }

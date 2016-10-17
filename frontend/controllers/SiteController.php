@@ -196,6 +196,7 @@ class SiteController extends Controller
 
     public function actionOffline()
     {
+        Yii::$app->response->statusCode = 503;
         echo "sorry, the site is temporary unserviceable";
     }
 

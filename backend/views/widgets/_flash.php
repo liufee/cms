@@ -5,7 +5,7 @@
         $str =<<<EOF
        toastr.options = {
           "closeButton": true,
-          "debug": true,
+          "debug": false,
           "progressBar": true,
           "positionClass": "toast-top-center",
           "showDuration": "400",
@@ -27,7 +27,7 @@ EOF;
         $str =<<<EOF
        toastr.options = {
           "closeButton": true,
-          "debug": true,
+          "debug": false,
           "progressBar": true,
           "positionClass": "toast-top-center",
           "showDuration": "400",

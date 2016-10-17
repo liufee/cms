@@ -2,8 +2,8 @@
 
 namespace common\models;
 
-use frontend\models\Article as ArticleModel;
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%comment}}".
@@ -32,6 +32,13 @@ class Comment extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%comment}}';
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
     }
 
     /**
@@ -70,43 +77,7 @@ class Comment extends \yii\db\ActiveRecord
 
     public function getArticle()
     {
-        return $this->hasOne(ArticleModel::className(), ['id' => 'aid']);
-    }
-
-    public function beforeSave($insert)
-    {
-        if($insert){
-            $this->created_at = time();
-            if(yii::$app->feehi->website_comment){
-                if( !ArticleModel::find()->where(['id'=>$this->aid])->one()['can_comment'] ){
-                    $this->addError('content', 'This article is not allowed to comment');
-                    return false;
-                }
-                if(yii::$app->feehi->website_comment_need_verify){
-                    $this->status = self::STATUS_INIT;
-                }else{
-                    $this->status = self::STATUS_PASSED;
-                }
-                $this->ip = yii::$app->request->getUserIP();
-            }else{
-                $this->addError('content', 'Comment closed');
-                return false;
-            }
-        }else{
-            $this->updated_at = time();
-        }
-        return true;
-    }
-
-    public function afterSave($insert, $changedAttributes)
-    {
-        if($insert){
-            $model = ArticleModel::findOne($this->aid);
-            $model->setScenario('article');
-            $model->comment_count += 1;
-            $model->save();
-        }
-        return true;
+        return $this->hasOne(Article::className(), ['id' => 'aid']);
     }
 
     public function getCommentByAid($id)

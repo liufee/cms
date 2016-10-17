@@ -25,8 +25,8 @@ class AdminLog
             $model = new AdminLogModel();
             $class = $event->sender->className();
             $id_des = '';
-            if(isset($event->sender->id)) $id_des = 'id为' . $event->sender->id . '的';
-            $model->description = '管理员 [ ' . yii::$app->user->identity->username . ' ] 通过 ' . $class .' [ ' .$class::tableName(). ' ] ' ." 创建了{$id_des}记录: " . $desc;
+            if(isset($event->sender->id)) $id_des = '{{%ID%}} ' . $event->sender->id;
+            $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->user->identity->username . ' ] {{%BY%}} ' . $class .' [ ' .$class::tableName(). ' ] ' ." {{%CREATED%}} {$id_des} {{%RECORD%}}: " . $desc;
             $model->route = Yii::$app->controller->id.'/'.Yii::$app->controller->action->id;
             $model->user_id = yii::$app->user->id;
             $model->save();
@@ -44,8 +44,8 @@ class AdminLog
             $model = new AdminLogModel();
             $class = $event->sender->className();
             $id_des = '';
-            if(isset($event->sender->id)) $id_des = 'id为' . $event->sender->id . '的';
-            $model->description = '管理员 [ ' . yii::$app->user->identity->username . ' ] 通过 ' . $class .' [ ' .$class::tableName(). ' ] ' ." 修改了{$id_des}记录: " . $desc;
+            if(isset($event->sender->id)) $id_des = '{{%ID%}} ' . $event->sender->id;
+            $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->user->identity->username . ' ] {{%BY%}} ' . $class .' [ ' .$class::tableName(). ' ] ' ." {{%UPDATED%}} {$id_des} {{%RECORD%}}: " . $desc;
             $model->route = Yii::$app->controller->id.'/'.Yii::$app->controller->action->id;
             $model->user_id = yii::$app->user->id;
             $model->save();
@@ -62,8 +62,8 @@ class AdminLog
         $model = new AdminLogModel();
         $class = $event->sender->className();
         $id_des = '';
-        if(isset($event->sender->id)) $id_des = 'id为' . $event->sender->id . '的';
-        $model->description = '管理员 [ ' . yii::$app->user->identity->username . ' ] 通过 ' . $class .' [ ' .$class::tableName(). ' ] ' ." 删除了{$id_des}记录: " . $desc;
+        if(isset($event->sender->id)) $id_des = '{{%ID%}} ' . $event->sender->id;
+        $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->user->identity->username . ' ] {{%BY%}} ' . $class .' [ ' .$class::tableName(). ' ] ' ." {{%DELETED%}} {$id_des} {{%RECORD%}}: " . $desc;
         $model->route = Yii::$app->controller->id.'/'.Yii::$app->controller->action->id;
         $model->user_id = yii::$app->user->id;
         $model->save();

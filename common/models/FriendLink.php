@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%friend_link}}".
@@ -29,6 +30,13 @@ class FriendLink extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%friend_link}}';
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
     }
 
     /**

@@ -235,6 +235,7 @@ return [
     'Done, operating success' => '执行成功',
     'Sorry, operating failed' => '啊哦,执行失败啦~',
     'Only picture file be permitted.' => '只能选择图片类型',
+    'Choose File' => '选择文件',
     /*js*/
 
     /*error*/
@@ -246,6 +247,12 @@ return [
     /*log*/
     'Admin Log' => '日志',
     'Log Detail' => '日志详情',
+    'Admin user' => '管理员',
+    'through' => '通过',
+    'created' => '创建',
+    'updated' => '修改',
+    'deleted' => '删除',
+    'record' => '记录',
     /*log*/
 
     /*user*/

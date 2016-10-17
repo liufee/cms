@@ -35,4 +35,9 @@ return [
     'required' => '必填',
     'Website' => '网址',
     /*public*/
+
+    /*comment*/
+    'This article is not allowed to comment' => '此文章不允许评论',
+    'Website closed comment' => '本站不允许评论',
+    /*comment*/
 ];

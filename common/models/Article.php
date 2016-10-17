@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use feehi\libs\Constants;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%article}}".
@@ -42,6 +43,13 @@ class Article extends \yii\db\ActiveRecord
 
     public $content = null;
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -63,7 +71,8 @@ class Article extends \yii\db\ActiveRecord
             [['content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['title', 'sub_title', 'summary', 'thumb', 'seo_title', 'seo_keywords', 'seo_description', 'author_name', 'tag'], 'string', 'max' => 255],
-            [['flag_headline', 'flag_recommend', 'flag_slide_show', 'flag_special_recommend', 'flag_roll', 'flag_bold', 'flag_picture', 'type', 'status', 'can_comment', 'visibility'], 'in', 'range' => [0, 1]],
+            [['flag_headline', 'flag_recommend', 'flag_slide_show', 'flag_special_recommend', 'flag_roll', 'flag_bold', 'flag_picture', 'type', 'status', 'can_comment'], 'in', 'range' => [0, 1]],
+            [['visibility'], 'in', 'range' => [1, 2, 3]]
         ];
     }
 

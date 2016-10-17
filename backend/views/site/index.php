@@ -632,12 +632,8 @@ $this->title = yii::t('app', 'Backend Manage System');
 </body>
 <script>
     function reloadIframe(){
-        var url = $("nav a.active").attr('data-id');
-        $("iframe").each(function(){
-            if($(this).attr("src") == url){
-                $(this).attr("src", $(this).attr("src"));
-            }
-        });
+        var current_iframe=$("iframe:visible");
+        current_iframe[0].contentWindow.location.reload();
         return false;
     }
 </script>

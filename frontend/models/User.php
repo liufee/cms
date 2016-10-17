@@ -42,14 +42,14 @@ class User extends CommonUser
     public function attributeLabels()
     {
         return [
-            'username' => '用户名',
-            'email' => '邮箱',
-            'old_password' => '旧密码',
-            'password' => '密码',
-            'repassword' => '重复密码',
-            'avatar' => '头像',
-            'created_at' => '创建时间',
-            'updated_at' => '最后修改'
+            'username' => yii::t('app', 'Username'),
+            'email' => yii::t('app', 'Email'),
+            'old_password' => yii::t('app', 'Old Password'),
+            'password' => yii::t('app', 'Password'),
+            'repassword' => yii::t('app', 'Repeat Password'),
+            'avatar' => yii::t('app', 'Avatar'),
+            'created_at' => yii::t('app', 'Created At'),
+            'updated_at' => yii::t('app', 'Updated At'),
         ];
     }
 

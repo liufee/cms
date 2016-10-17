@@ -26,14 +26,11 @@ class Article extends \common\models\Article
         $this->seo_keywords = str_replace( '，', ',', $this->seo_keywords);
         if( !$this->saveThumb($insert) ) return false;
         if($insert) {
-            $this->created_at = time();
             $this->author_id = yii::$app->user->identity->id;
             $this->author_name = yii::$app->user->identity->username;
 
-        }else {
-            $this->updated_at = time();
         }
-        return true;
+        return parent::beforeSave($insert);
     }
 
     private function saveThumb($insert)
