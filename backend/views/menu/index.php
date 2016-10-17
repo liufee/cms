@@ -10,6 +10,7 @@ use feehi\widgets\Bar;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use feehi\libs\Constants;
+use backend\models\Menu;
 
 $this->title = "Backend Menus";
 ?>
@@ -61,14 +62,25 @@ $this->title = "Backend Menus";
                         [
                             'attribute' => 'is_display',
                             'label' => yii::t('app', 'Is Display'),
-                            'format' => 'html',
-                            'value' => function($model){
-                                if($model['is_display']){
-                                    return "<a class=\"btn btn-info btn-xs btn-rounded\" href=\"javascript:void(0)\">".Constants::getYesNoItems($model['is_display'])."</a>";
+                            'format' => 'raw',
+                            'value' => function($model, $key, $index, $column) {
+                                if($model['is_display'] == Menu::DISPLAY_YES){
+                                    $url = Url::to(['change-status', 'id'=>$model['id'], 'status'=>Menu::DISPLAY_NO, 'field'=>'is_display']);
+                                    $class = 'btn btn-info btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to disable this item?');
                                 }else{
-                                    return "<a class=\"btn btn-default btn-xs btn-rounded\" href=\"javacript:void(0)\">".Constants::getYesNoItems($model['is_display'])."</a>";
+                                    $url = Url::to(['change-status', 'id'=>$model['id'], 'status'=>Menu::DISPLAY_YES, 'field'=>'is_display']);
+                                    $class = 'btn btn-default btn-xs btn-rounded';
+                                    $confirm =  Yii::t('app', 'Are you sure you want to enable this item?');
                                 }
-                            }
+                                return Html::a(Constants::getYesNoItems($model['is_display']), $url, [
+                                    'class'=>$class,
+                                    'data-confirm' => $confirm,
+                                    'data-method' => 'post',
+                                    'data-pjax' => '0',
+                                ]);
+
+                            },
                         ],
                         [
                             'attribute' => 'created_at',

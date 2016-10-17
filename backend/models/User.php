@@ -219,7 +219,6 @@ class User extends ActiveRecord implements IdentityInterface
         if($insert){
             $this->generateAuthKey();
             $this->setPassword($this->password);
-            $this->updated_at = 0;
         }else{
             if(isset($this->password) && $this->password != ''){
                 $this->setPassword($this->password);
@@ -229,7 +228,7 @@ class User extends ActiveRecord implements IdentityInterface
         if(!$this->saveAvatar($insert)){
             return false;
         }
-        return true;
+        return parent::beforeSave($insert);
     }
 
     private function saveAvatar()

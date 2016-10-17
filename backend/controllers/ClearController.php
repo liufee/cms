@@ -18,14 +18,14 @@ class ClearController extends BaseController
     {
         FileHelper::removeDirectory(yii::getAlias('@runtime/cache'));
         Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-        return $this->render('backend');
+        return $this->render('clear');
     }
 
     public function actionFrontend()
     {
         FileHelper::removeDirectory(yii::getAlias('@frontend/runtime/cache'));
         Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-        return $this->render('frontend');
+        return $this->render('clear');
     }
 
 

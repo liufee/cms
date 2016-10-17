@@ -24,6 +24,8 @@ if( $parent_id != '' ) $model->parent_id = $parent_id;
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>
+                <?= $form->field($model, 'is_absolute_url')->radioList(Constants::getYesNoItems()) ?>
+                <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'url')->textInput(['maxlength' => 512]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'method')->dropDownList(Constants::getHttpMethodItems()) ?>

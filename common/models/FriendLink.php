@@ -71,6 +71,7 @@ class FriendLink extends \yii\db\ActiveRecord
 
     public function afterFind()
     {
+        parent::afterFind();
         if( $this->image ) $this->image = str_replace(yii::$app->params['site']['sign'], yii::$app->params['site']['url'], $this->image);
     }
 }

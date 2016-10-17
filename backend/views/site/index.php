@@ -66,7 +66,7 @@ $this->title = yii::t('app', 'Backend Manage System');
                         'class' => 'yii\caching\FileDependency',
                         'fileName' => $cacheDependencyObject->createFile(),
                     ];
-                    if ($this->beginCache('backend_menu', ['variations' => [Yii::$app->language], 'dependency' => $dependency])) {
+                    if ($this->beginCache('backend_menu', ['variations' => [Yii::$app->language, yii::$app->rbac->getRoleId()], 'dependency' => $dependency])) {
                 ?>
                 <?= Menu::getBackendMenu(); ?>
                 <?php

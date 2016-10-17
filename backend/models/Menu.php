@@ -28,8 +28,8 @@ class Menu extends \common\models\Menu
         foreach ($menus as $menu) {
             if($menu->parent_id != 0) continue;
             $subMenu = self::_getBackendSubMenu($menus, $menu->id, '2');
-            $menu->icon = $menu->icon ? $menu->icon : 'fa-home';
-            $menu->url = Url::toRoute($menu->url);
+            $menu->icon = $menu->icon ? $menu->icon : 'fa-desktop';
+            $menu->url = self::generateUrl($menu);
             $arrow = '';
             $class = 'class="J_menuItem"';
             if($subMenu != '') {
@@ -62,7 +62,7 @@ EOF;
         foreach($menus as $menu){
             if($menu->parent_id != $cur_id) continue;
             $subsubmenu = self::_getBackendSubMenu($menus, $menu->id, $times);
-            $url = Url::toRoute($menu->url);
+            $url = $menu->url = self::generateUrl($menu);
             if($subsubmenu == ''){
                 $arrow = '';
             }else{
@@ -85,6 +85,17 @@ EOF;
             return "";
         }
 
+    }
+
+    private static function generateUrl($menu)
+    {
+        if( $menu->url === '' ){
+            return '';
+        }else if($menu->is_absolute_url == 1){
+            return $menu->url;
+        }else{
+            return Url::to([$menu->url]);
+        }
     }
 
     public static function getBackendMenuJson()

@@ -143,7 +143,7 @@ class Menu extends \yii\db\ActiveRecord
         $menus = self::getMenuArray($type);
         $newMenu = [];//var_dump($menus);die;
         while(list($key, $val) = each($menus)){
-            $newMenu[$val['id']] = str_repeat("---", $val['level']).$val['name'];
+            $newMenu[$val['id']] = str_repeat("---", $val['level']).yii::t('menu', $val['name']);;
         }
         return $newMenu;
     }
