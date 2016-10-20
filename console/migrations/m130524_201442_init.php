@@ -98,7 +98,7 @@ class m130524_201442_init extends Migration
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
-        $this->addForeignKey('fk_user_id', "{{%admin_log}}", "user_id", "{{admin_user}}", "id", "CASCADE", "CASCADE");
+        $this->addForeignKey('fk_user_id', "{{%admin_log}}", "user_id", "{{%admin_user}}", "id", "CASCADE", "CASCADE");
 
 
         $this->createTable('{{%admin_role_user}}', [
@@ -1145,7 +1145,7 @@ class m130524_201442_init extends Migration
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
-        $this->batchInsert("{{friend_link}}", ['id','name','image','url','target','sort','status','created_at','updated_at'],
+        $this->batchInsert("{{%friend_link}}", ['id','name','image','url','target','sort','status','created_at','updated_at'],
             [
                 [
                     '1',
@@ -1917,6 +1917,16 @@ class m130524_201442_init extends Migration
                 ],
                 [
                     '14',
+                    '0',
+                    'website_url',
+                    'http://www.feehi.com',
+                    '1',
+                    '',
+                    '0',
+                    '0',
+                ],
+                [
+                    '15',
                     '1',
                     'qq',
                     '1838889850',
@@ -4212,7 +4222,7 @@ class m130524_201442_init extends Migration
         $this->dropTable('{{%menu}}');
         //$this->dropTable('{{%migration}}');
         $this->dropTable('{{%options}}');
-        $this->dropTable('{{%file%}}');
+        $this->dropTable('{{%file}}');
         $this->dropTable('{{%file_usage}}');
         $this->db->createCommand("set foreign_key_checks=1")->execute();
     }

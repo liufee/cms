@@ -12,17 +12,7 @@ use yii\behaviors\TimestampBehavior;
 
 class FriendLink extends \common\models\FriendLink
 {
-
-    public function rules()
-    {
-        return [
-            [['target'], 'string'],
-            [['sort', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'image', 'url'], 'string', 'max' => 255],
-            [['name', 'url'], 'required'],
-        ];
-    }
-
+    
     public function behaviors()
     {
         return [

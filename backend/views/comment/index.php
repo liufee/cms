@@ -103,12 +103,14 @@ $viewLayer = function($url, $model){
                                             'title' => Yii::t('app', 'Passed'),
                                             'data-pjax' => '0',
                                             'class' => 'btn btn-white btn-sm',
+                                            'data-confirm' => Yii::t('app', 'Are you sure you want to enable this item?'),
                                         ])
                                         .
                                         Html::a('<i class="fa fa-remove"></i> '. Yii::t('app', 'Unpassed'), $url.'&status='.Comment::STATUS_UNPASS, [
                                             'title' => Yii::t('app', 'Unpassed'),
                                             'data-pjax' => '0',
                                             'class' => 'btn btn-white btn-sm',
+                                            'data-confirm' => Yii::t('app', 'Are you sure you want to disable this item?'),
                                         ])
                                         ;
                                     }else{
@@ -117,19 +119,20 @@ $viewLayer = function($url, $model){
                                                 'title' => Yii::t('app', 'Passed'),
                                                 'data-pjax' => '0',
                                                 'class' => 'btn btn-white btn-sm',
+                                                'data-confirm' => Yii::t('app', 'Are you sure you want to enable this item?'),
                                             ]);
                                         } else if ($model->status == Comment::STATUS_PASSED) {
                                             return Html::a('<i class="fa fa-remove"></i> '. Yii::t('app', 'Unpassed'), $url.'&status='.Comment::STATUS_UNPASS, [
                                                 'title' => Yii::t('app', 'Unpassed'),
                                                 'data-pjax' => '0',
                                                 'class' => 'btn btn-white btn-sm',
+                                                'data-confirm' => Yii::t('app', 'Are you sure you want to disable this item?'),
                                             ]);
                                         }
                                     }
                                 },
                             ],
                             'template' => '{change-status}{delete}',
-                            //'template' => '{view-layer} {update} {delete}',
                         ],
                     ]
                 ]);

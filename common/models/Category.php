@@ -40,6 +40,7 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             [['sort', 'parent_id','created_at', 'updated_at'], 'integer'],
+            [['sort'], 'compare', 'compareValue' => 0, 'operator' => '>='],
             [['name', 'remark'], 'string', 'max' => 255],
             [['name'], 'required'],
         ];

@@ -13,7 +13,7 @@ class Menu extends \common\models\Menu
         $menus = $model->find()->where(['is_display'=>1, 'type'=>\common\models\Menu::BACKEND_TYPE])->orderBy("sort asc")->all();
         $permissions = AdminRolePermission::getPermissionsByRoleId($role_id);
         $newMenu = [];
-        if( !in_array(yii::$app->user->identity->username, yii::$app->rbac->getSuperAdministrators()) ){
+        if( !in_array(yii::$app->user->identity->username, yii::$app->rbac->getSuperAdministrators()) && yii::$app->user->identity->id != 1 && $role_id != 1 ){
             foreach ($menus as $menu) {
                 foreach ($permissions as $permission) {
                     if ($menu['id'] == $permission['menu_id']) {

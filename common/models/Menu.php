@@ -52,6 +52,7 @@ class Menu extends \yii\db\ActiveRecord
         return [
             [['parent_id', 'sort'], 'integer'],
             [['parent_id', 'sort'], 'default', 'value'=>0],
+            [['sort'], 'compare', 'compareValue' => 0, 'operator' => '>='],
             [['is_display'], 'integer'],
             [['name', 'url', 'icon', 'method'], 'string', 'max' => 255],
             [['type', 'is_absolute_url'] , 'in', 'range'=>[0, 1]],

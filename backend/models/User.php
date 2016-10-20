@@ -233,11 +233,11 @@ class User extends ActiveRecord implements IdentityInterface
 
     private function saveAvatar()
     {
-        if(isset($_FILES['User']['name']['avatar']) && $_FILES['User']['name']['avatar'] == '') return true;
+        if(!isset($_FILES['User']['name']['avatar']) || $_FILES['User']['name']['avatar'] == '') return true;
         $file = new File();
         $imgs = $file->upload(Yii::getAlias('@avatar'));
         if($imgs[0] == false){
-            $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'avatar')]).': '.$file->getErrors());
+            $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Avatar')]).': '.$file->getErrors());
             return false;
         }
         $oldAvatar = $this->getOldAttribute('avatar');

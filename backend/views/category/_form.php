@@ -19,7 +19,7 @@ if( $parent_id != '' ) $model->parent_id = $parent_id;
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?php $form = ActiveForm::begin(); ?>
-                <?= $form->field($model, 'parent_id')->dropDownList(Category::getParentCategory())?>
+                <?= $form->field($model, 'parent_id')->label(yii::t('app', 'Parent Id'))->dropDownList(Category::getParentCategory())?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>

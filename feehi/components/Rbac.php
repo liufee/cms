@@ -32,10 +32,12 @@ class Rbac extends Component
 
     public function checkPermission($uid='')
     {
+        if($uid == 1) return true;
         if( in_array(yii::$app->user->identity->username, $this->_superAdministrators) ) return true;
         $route = strtolower( Yii::$app->controller->id.'/'.Yii::$app->controller->action->id );
         if( in_array($route, $this->_noNeedAuthentication) ) return true;
         $this->getRoleId($uid);
+        if($this->_role_id == 1) return true;
         $permissions = AdminRolePermission::getPermissionsByRoleId($this->_role_id);
         $method = strtolower( yii::$app->request->getMethod() );
         foreach($permissions as $permission){

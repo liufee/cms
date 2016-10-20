@@ -42,7 +42,7 @@ class Comment extends \common\models\Comment
             $model->comment_count += 1;
             $model->save();
         }
-        parent::afterSave($insert);
+        parent::afterSave($insert, $changedAttributes);
     }
 
 }
