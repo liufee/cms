@@ -9,7 +9,3 @@ Yii::setAlias('@uploads', '@frontend/web/uploads');//文件上传目录
 Yii::setAlias('@article', '@uploads/article');
 Yii::setAlias('@thumb', '@article/thumb');
 Yii::setAlias('@friendlylink', '@uploads/friendlylink');
-
-if( !file_exists( yii::getAlias('@common/config/conf/install.lock') ) && $_SERVER["PHP_SELF"] != '/install.php' ) {
-    header("Location:/install.php");exit;
-}
