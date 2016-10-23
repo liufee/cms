@@ -9,8 +9,6 @@ use yii\helpers\Url;
 use backend\models\User;
 use common\models\Options;
 use backend\models\SettingSeoForm;
-use yii\web\HttpException;
-use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 /**
@@ -220,19 +218,21 @@ class SiteController extends \yii\web\Controller
                 $userModel->email=$request->post('manager_email');
                 $userModel->save();
 
-                $seoForm = new SettingSeoForm();
-                $seoForm->seo_title = $request->post('sitename', 'Feehi CMS');
-                $seoForm->seo_keywords = $request->post('sitekeywords', 'feehi, php, cms, 飞嗨');
-                $seoForm->seo_description = $request->post('siteinfo', '最流弊的cms');
-                $seoForm->setSeoConfig();
-
                 $model = Options::findOne(['name' => 'website_title']);
                 $model->value = $request->post('sitename', 'Feehi CMS');
                 $model->save();
                 $model = Options::findOne(['name' => 'website_url']);
                 $model->value = $request->post('website_url', '');
                 $model->save();
-
+                $model = Options::findOne(['name' => 'website_url']);
+                $model->value = $request->post('siteurl', '');
+                $model->save();
+                $model = Options::findOne(['name' => 'seo_keywords']);
+                $model->value = $request->post('sitekeywords', '');
+                $model->save();
+                $model = Options::findOne(['name' => 'seo_description']);
+                $model->value = $request->post('siteinfo', '');
+                $model->save();
                 $configFile = yii::getAlias("@common/config/conf/db.php");
                 $str =<<<EOF
 <?php

@@ -8,7 +8,7 @@
 return [
     '设置' => 'Setting',
     '网站设置' => 'Website Setting',
-    'seo设置' => 'Seo Setting',
+    'SMTP设置' => 'SMTP Setting',
     '自定义设置' => 'Custom Setting',
     '菜单' => 'Menu',
     '前台菜单' => 'Frontend Menu',

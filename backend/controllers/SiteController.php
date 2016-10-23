@@ -114,7 +114,7 @@ class SiteController extends BaseController
 
     public function actionLogin()
     {
-        if (!\Yii::$app->user->isGuest) {
+        if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
@@ -136,10 +136,10 @@ class SiteController extends BaseController
     }
 
     public function actionLanguage(){
-        $language=  \Yii::$app->request->get('lang');
+        $language=  Yii::$app->request->get('lang');
         if(isset($language)){
-            \Yii::$app->session['language'] = $language;
+            Yii::$app->session['language'] = $language;
         }
-        $this->goBack(\Yii::$app->request->headers['Referer']);
+        $this->goBack(Yii::$app->request->headers['referer']);
     }
 }

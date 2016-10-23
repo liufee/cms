@@ -29,7 +29,7 @@ return [
             'errorAction' => 'site/error',
         ],
         'cache' => [
-            'class' => 'yii\caching\DummyCache',
+            'class' => 'yii\caching\FileCache',
             'keyPrefix' => 'frontend',       // 唯一键前缀
         ],
         'urlManager' => [

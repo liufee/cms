@@ -36,6 +36,20 @@ return [
     'Website' => '网址',
     /*public*/
 
+    /*site*/
+    'Hot Recommends' => '热门推荐',
+    'Clound Tags' => '云标签',
+    'Email Suscribe' => '邮件订阅',
+    'Frinendly Links' => '友情链接',
+    'Latest Comments' => '最新评论',
+    'Subscribe to the wonderful content' => '订阅精彩内容',
+    ' Topics' => '个话题',
+    'Subscribe' => '订阅',
+    ' said' => ' 说',
+    ' Comments' => '评论',
+
+    /*site*/
+
     /*comment*/
     'This article is not allowed to comment' => '此文章不允许评论',
     'Website closed comment' => '本站不允许评论',

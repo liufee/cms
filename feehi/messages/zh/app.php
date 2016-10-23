@@ -70,6 +70,8 @@ return [
     'Draft' => '草稿',
     'Public' => '公开',
     'Reply' => '回复',
+    'Loading, hold on please...' => ' 加载中,请稍等...',
+    "Id doesn't exit" => 'Id不存在',
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',
@@ -149,6 +151,14 @@ return [
     'Must begin with alphabet and can only includes alphabet,_,and number' => '必须以字母开头,只能包含字母和数字及下划线',
     'Opened' => '开放',
     'Closed' => '关闭',
+    'SMTP Host' => 'SMTP地址',
+    'SMTP Port' => 'SMTP端口',
+    'SMTP Username' => 'SMTP用户名',
+    'SMTP Password' => 'SMTP密码',
+    'Sender' => '发件人',
+    'Encryption' => '连接类型',
+    'SMTP Setting' => 'SMTP设置',
+    'Test' => '测试',
     /*setting*/
 
     /*Log*/

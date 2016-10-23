@@ -85,7 +85,7 @@ CREATE TABLE `%__prefix__%admin_role_permission` (
 -- Records of %__prefix__%admin_role_permission
 -- ----------------------------
 INSERT INTO `%__prefix__%admin_role_permission` VALUES ('83', '2', '1', '设置', 'setting', 'all', '1476712203', '1476712203');
-INSERT INTO `%__prefix__%admin_role_permission` VALUES ('84', '2', '3', 'seo设置', 'setting/seo', 'all', '1476712203', '1476712203');
+INSERT INTO `%__prefix__%admin_role_permission` VALUES ('84', '2', '3', 'SMTP设置', 'setting/smtp', 'all', '1476712203', '1476712203');
 INSERT INTO `%__prefix__%admin_role_permission` VALUES ('85', '2', '8', '内容', 'article', 'all', '1476712203', '1476712203');
 INSERT INTO `%__prefix__%admin_role_permission` VALUES ('86', '2', '9', '文章', 'article/index', 'all', '1476712203', '1476712203');
 INSERT INTO `%__prefix__%admin_role_permission` VALUES ('87', '2', '10', '评论', 'comment/index', 'all', '1476712203', '1476712203');
@@ -620,7 +620,7 @@ CREATE TABLE `%__prefix__%menu` (
 -- ----------------------------
 INSERT INTO `%__prefix__%menu` VALUES ('1', '0', '0', '设置', 'setting', 'fa fa fa-cogs', '1', '_blank', '0', '1', 'all', '1470064425', '1476070842');
 INSERT INTO `%__prefix__%menu` VALUES ('2', '0', '1', '网站设置', 'setting/website', '', '0', '_blank', '0', '1', 'all', '1470064528', '0');
-INSERT INTO `%__prefix__%menu` VALUES ('3', '0', '1', 'seo设置', 'setting/seo', '', '0', '_blank', '0', '1', 'all', '1470064574', '0');
+INSERT INTO `%__prefix__%menu` VALUES ('3', '0', '1', 'SMTP设置', 'setting/smtp', '', '0', '_blank', '0', '1', 'all', '1470064574', '0');
 INSERT INTO `%__prefix__%menu` VALUES ('4', '0', '1', '自定义设置', 'setting/custom', '', '0', '_blank', '0', '1', 'all', '1470064600', '0');
 INSERT INTO `%__prefix__%menu` VALUES ('5', '0', '0', '菜单', 'menu', 'fa fa fa-th-list', '2', '_blank', '0', '1', 'all', '1470064761', '1476070842');
 INSERT INTO `%__prefix__%menu` VALUES ('6', '0', '5', '前台菜单', 'frontend-menu/index', '', '0', '_blank', '0', '1', 'all', '1470064785', '0');
@@ -695,8 +695,12 @@ INSERT INTO `%__prefix__%options` VALUES ('11', '0', 'website_comment', '1', '1'
 INSERT INTO `%__prefix__%options` VALUES ('12', '0', 'website_comment_need_verify', '0', '1', '0', '', '0');
 INSERT INTO `%__prefix__%options` VALUES ('13', '0', 'website_timezone', 'Asia/Shanghai', '1', '0', '', '0');
 INSERT INTO `%__prefix__%options` VALUES ('14', '0', 'website_url', 'http://www.feehi.com/', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('15', '1', 'qq', '1838889850', '1', '1', 'QQ号码', '0');
-
+INSERT INTO `%__prefix__%options` VALUES ('15', '1', 'weibo', 'http://www.weibo.com/feeppp', '1', '1', '新浪微博', '0');
+INSERT INTO `%__prefix__%options` VALUES ('16', '1', 'facebook', 'http://www.facebook.com/liufee', '1', '1', 'facebook', '0');
+INSERT INTO `%__prefix__%options` VALUES ('17', '1', 'wechat', '飞得更高', '1', '1', '微信', '0');
+INSERT INTO `%__prefix__%options` VALUES ('18', '1', 'email', 'admin@feehi.com', '1', '1', '邮箱', '0');
+INSERT INTO `%__prefix__%options` VALUES ('19', '1', 'qq', '1838889850', '1', '1', 'QQ号码', '0');
+INSERT INTO `%__prefix__%options` VALUES ('20', '1', 'rss', 'http://www.feehi.com/rss', '1', '1', 'rss订阅地址', '0');
 -- ----------------------------
 -- Table structure for %__prefix__%user
 -- ----------------------------

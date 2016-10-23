@@ -90,7 +90,7 @@
                                 <img alt="image" class="img-circle" src="https://secure.gravatar.com/avatar/<?=md5($comment->email)?>?s=50">
                             </a>
                             <div class="media-body ">
-                                <small class="pull-right"><?=\feehi\libs\Help::tranTime($comment->created_at)?></small>
+                                <small class="pull-right"><?=yii::$app->getFormatter()->asRelativeTime($comment->created_at)?></small>
                                 <strong><?=$comment->nickname?></strong>
                                 <br>
                                 <small class="text-muted"><?=yii::$app->formatter->asDate($comment->created_at)?> 在 <?=$comment->article->title?></small>

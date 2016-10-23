@@ -7,12 +7,12 @@
  */
 namespace backend\models;
 
+use common\models\Options;
 use yii;
 
 class SettingWebsiteForm extends \common\models\Options
 {
     public $website_title;
-    public $website_description;
     public $website_email;
     public $website_language;
     public $website_icp;
@@ -22,12 +22,13 @@ class SettingWebsiteForm extends \common\models\Options
     public $website_comment;
     public $website_comment_need_verify;
     public $website_url;
+    public $seo_keywords;
+    public $seo_description;
 
     public function attributeLabels()
     {
         return [
             'website_title' => yii::t('app', 'Website Title'),
-            'website_description' => yii::t('app', 'Website Description'),
             'website_email' => yii::t('app', 'Website Email'),
             'website_language' => yii::t('app', 'Website Language'),
             'website_icp' => yii::t('app', 'Icp Sn'),
@@ -37,13 +38,15 @@ class SettingWebsiteForm extends \common\models\Options
             'website_comment' => yii::t('app', 'Open Comment'),
             'website_comment_need_verify' => yii::t('app', 'Open Comment Verify'),
             'website_url' => yii::t('app', 'Website Url'),
+            'seo_keywords' => yii::t('app', 'Seo Keywords'),
+            'seo_description' => yii::t('app', 'Seo Description'),
         ];
     }
 
     public function rules()
     {
         return [
-            [['website_title', 'website_description', 'website_email','website_language','website_icp','website_statics_script', 'website_timezone', 'website_url'], 'string'],
+            [['website_title', 'website_email','website_language','website_icp','website_statics_script', 'website_timezone', 'website_url', 'seo_keywords', 'seo_description'], 'string'],
             [['website_status', 'website_comment', 'website_comment_need_verify'], 'integer'],
         ];
     }
@@ -59,6 +62,7 @@ class SettingWebsiteForm extends \common\models\Options
             }
             else
             {
+                $this->name = '';
             }
         }
     }
@@ -73,8 +77,18 @@ class SettingWebsiteForm extends \common\models\Options
             {
                 $model->value = $this->$name;
                 $model->save();
+            }else{
+                $model = new Options();
+                $model->name = $name;
+                $model->value = '';
+                $model->save(false);
             }
         }
+        $object = yii::createObject([
+            'class' => 'feehi\helpers\FileDependencyHelper',
+            'fileName' => 'options_system.txt',
+        ]);
+        $object->updateFile();
         return true;
     }
 }

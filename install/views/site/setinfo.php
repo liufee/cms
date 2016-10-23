@@ -97,7 +97,7 @@ $this->title = yii::t('install', 'Create Data');
                     </tr>
                     <tr>
                         <td class="text-left"><?=yii::t('install', 'Keywords')?>：</td>
-                        <td><input type="text" name="sitekeywords" value="FeehiCMS,php,内容管理框架,cms,简约风, feehi,framework" class="input" autoComplete="off"></td>
+                        <td><input type="text" name="sitekeywords" value="FeehiCMS,php,内容管理框架,cms, feehi,framework" class="input" autoComplete="off"></td>
                         <td><div id="js-install-tip-sitekeywords"></div></td>
                     </tr>
                     <tr>

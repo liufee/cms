@@ -9,10 +9,11 @@ namespace backend\controllers;
 
 use Yii;
 use backend\models\SettingWebsiteForm;
-use backend\models\SettingSeoForm;
+use backend\models\SettingSmtpForm;
 use common\models\Options;
 use feehi\libs\Constants;
 use yii\base\Model;
+use yii\web\Response;
 
 /**
  * Setting controller
@@ -44,29 +45,6 @@ class SettingController extends BaseController
 
     }
 
-    public function actionSeo()
-    {
-        $model = new SettingSeoForm();
-        if (Yii::$app->request->isPost){
-            if($model->validate() && $model->load(Yii::$app->request->post()) && $model->setSeoConfig()){
-                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-            }else{
-                $errors = $model->getErrors();
-                $err = '';
-                foreach($errors as $v){
-                    $err .= $v[0].'<br>';
-                }
-                Yii::$app->getSession()->setFlash('error', $err);
-            }
-
-        }
-
-        $model->getSeoSetting();
-        return $this->render('seo', [
-            'model'=>$model
-        ]);
-    }
-
     public function actionCustom()
     {
         $settings = Options::find()->where(['type'=>Options::TYPE_CUSTOM])->indexBy('id')->all();
@@ -75,6 +53,11 @@ class SettingController extends BaseController
             foreach ($settings as $setting) {
                 $setting->save(false);
             }
+            $object = yii::createObject([
+                'class' => 'feehi\helpers\FileDependencyHelper',
+                'fileName' => 'options_params.txt',
+            ]);
+            $object->updateFile();
             Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
         }
         $options = new Options();
@@ -146,4 +129,59 @@ class SettingController extends BaseController
         }
     }
 
+    public function actionSmtp()
+    {
+        $model = new SettingSmtpForm();
+        if ( Yii::$app->request->isPost )
+        {
+            if( $model->validate() && $model->load(Yii::$app->request->post()) && $model->setSmtpConfig() ){
+                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+            }else{
+                $errors = $model->getErrors();
+                $err = '';
+                foreach($errors as $v){
+                    $err .= $v[0].'<br>';
+                }
+                Yii::$app->getSession()->setFlash('error', $err);
+            }
+        }
+
+        $model->getSmtpConfig();
+        return $this->render('smtp', [
+            'model'=>$model
+        ]);
+
+    }
+
+    public function actionTestSmtp()
+    {
+        $model = new SettingSmtpForm();
+        if( $model->validate() && $model->load(Yii::$app->getRequest()->post()) ) {
+            $mailer = yii::createObject([
+                'class' => 'yii\swiftmailer\Mailer',
+                'useFileTransport' => false,
+                'transport' => [
+                    'class' => 'Swift_SmtpTransport',
+                    'host' => $model->smtp_host,
+                    'username' => $model->smtp_username,
+                    'password' => $model->smtp_password,
+                    'port' => $model->smtp_port,
+                    'encryption' => $model->smtp_encryption,
+
+                ],
+                'messageConfig' => [
+                    'charset' => 'UTF-8',
+                    'from' => [$model->smtp_username => $model->smtp_nickname]
+                ],
+            ]);
+            yii::$app->getResponse()->format = Response::FORMAT_JSON;
+            return $mailer
+                ->compose()
+                ->setFrom($model->smtp_username)
+                ->setTo($model->smtp_username)
+                ->setSubject('Email SMTP test ' . \Yii::$app->name)
+                ->setTextBody('Email SMTP config works successful')
+                ->send();
+        }
+    }
 }

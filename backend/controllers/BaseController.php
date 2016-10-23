@@ -41,7 +41,7 @@ class BaseController extends Controller
     {
         if(yii::$app->request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
-            if(!$id) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));
+            if(!$id) return['code'=>1, 'message' => yii::t('app', "Id doesn't exit" )];
             $ids = explode(',', $id);
             $errorIds = [];
             foreach ($ids as $one){
@@ -64,7 +64,11 @@ class BaseController extends Controller
                 return ['code'=>1, 'message'=>'id '.implode(',', $errorIds).$err];
             }
         }else {
-            if(!$id) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));
+            if(!$id) return $this->render('/error/error', [
+                'code' => '403',
+                'name' => 'Params required',
+                'message' => yii::t('app', "Id doesn't exit"),
+            ]);
             $model = $this->getModel($id);
             if($model) {
                 $model->delete();
@@ -75,9 +79,17 @@ class BaseController extends Controller
 
     public function actionUpdate($id)
     {
-        if(!$id) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));
+        if(!$id) return $this->render('/error/error', [
+            'code' => '403',
+            'name' => 'Params required',
+            'message' => yii::t('app', "Id doesn't exit"),
+        ]);
         $model = $this->getModel($id);
-        if(!$model) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));
+        if(!$model) return $this->render('/error/error', [
+            'code' => '403',
+            'name' => 'Params required',
+            'message' => yii::t('app', "Id doesn't exit"),
+        ]);
         if ( Yii::$app->request->isPost ) {
             if( $model->load(Yii::$app->request->post()) && $model->validate() && $model->save() ){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
@@ -117,9 +129,17 @@ class BaseController extends Controller
     public function actionChangeStatus($id='', $status=0, $field='status')
     {
         if( yii::$app->request->getIsAjax() ) yii::$app->response->format = Response::FORMAT_JSON;
-        if(!$id) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));
+        if(!$id) return $this->render('/error/error', [
+            'code' => '403',
+            'name' => 'Params required',
+            'message' => yii::t('app', "Id doesn't exit"),
+        ]);
         $model = $this->getModel($id);
-        if(!$model) throw new BadRequestHttpException(yii::t('app', 'Id doesn\'t exit' ));
+        if(!$model) return $this->render('/error/error', [
+            'code' => '403',
+            'name' => 'Params required',
+            'message' => yii::t('app', "Id doesn't exit"),
+        ]);
         $model->$field = $status;
         if( yii::$app->request->getIsAjax() ) {
             if ($model->save()) {

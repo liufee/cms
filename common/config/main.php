@@ -18,7 +18,7 @@ return [
             'dateFormat' => 'php:Y-m-d H:i',
             'decimalSeparator' => ',',
             'thousandSeparator' => ' ',
-            'currencyCode' => 'EUR',
+            'currencyCode' => 'CHY',
             'nullDisplay' => '-',
         ],
         'mailer' => [
@@ -30,8 +30,8 @@ return [
                 'host' => 'smtp.feehi.com',  //每种邮箱的host配置不一样
                 'username' => 'admin@feehi.com',
                 'password' => 'password',
-                'port' => '465',
-                'encryption' => 'ssl',
+                'port' => '586',
+                'encryption' => 'tls',
             ],
             'messageConfig'=>[
                 'charset'=>'UTF-8',
