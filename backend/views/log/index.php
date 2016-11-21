@@ -30,7 +30,7 @@ $this->title = "Admin Log";
             ]) ?>
             <div class="ibox-content">
                 <?= Bar::widget([
-                    'template' => '{refresh} {create} {delete}'
+                    'template' => '{refresh} {delete}'
                 ]) ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,

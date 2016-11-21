@@ -55,6 +55,7 @@ return [
                 'admin-user/update-self',
                 'error/forbidden',
                 'error/not-found',
+                'default/toolbar'
             ],
         ],
         'i18n' => [
@@ -89,6 +90,11 @@ return [
         });
         \feehi\components\Feehi::setBackendConfig();
         if(isset(\yii::$app->session['language'])) \yii::$app->language = yii::$app->session['language'];
+        if( yii::$app->getRequest()->getIsAjax() ){
+            yii::$app->getResponse()->format = \yii\web\Response::FORMAT_JSON;
+        }else{
+            yii::$app->getResponse()->format = \yii\web\Response::FORMAT_HTML;
+        }
     },
     'on beforeAction' => function($action)
     {
@@ -97,7 +103,12 @@ return [
         if(!yii::$app->user->isGuest){
             if( yii::$app->rbac->checkPermission() === false ){
                 //throw new \yii\web\HttpException(403, 'forbidden');
-                Yii::$app->response->redirect(['error/forbidden'], 200)->send();
+                if( yii::$app->getRequest()->getIsAjax() ){
+                    yii::$app->getResponse()->content = json_encode( ['code'=>1001, 'message'=>'权限不允许'] );
+                    yii::$app->getResponse()->send();
+                }else {
+                    Yii::$app->response->redirect(['error/forbidden'], 200)->send();
+                }
                 exit();
             }
         }

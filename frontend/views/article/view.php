@@ -40,10 +40,9 @@ ViewAsset::register($this);
 
             <div class="article-social">
                 <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a></div>
-                <!--<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
-                <!--
-                <a href="javascript:;" data-action="ding" data-id="4" id="Addlike" class="action" data-original-title="" title="">
-                   <i class="fa fa-heart-o"></i>喜欢 (<span class="count">4</span>)
+                <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+                <a href="javascript:;" data-action="like" _csrf="<?=yii::$app->getRequest()->getCsrfToken()?>" data-id="<?=$model->id?>" id="Addlike" class="action" data-original-title="" title="">
+                   <i class="fa fa-heart-o"></i>喜欢 (<span class="count"><?=$likeCount?></span>)
                 </a>
                 <span class="or">or</span>
                 <span class="action action-share bdsharebuttonbox bdshare-button-style0-24" data-bd-bind="1466409001285"><i class="fa fa-share-alt"></i>分享 (<span class="bds_count" data-cmd="count" title="累计分享0次">0</span>)
@@ -62,7 +61,6 @@ ViewAsset::register($this);
                         </div>
                     </div>
                 </span>
-                -->
             </div>
         </article>
         <footer class="article-footer"></footer>

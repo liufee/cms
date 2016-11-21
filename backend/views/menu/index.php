@@ -60,6 +60,10 @@ $this->title = "Backend Menus";
                             }
                         ],
                         [
+                            'attribute' => 'method',
+                            'label' => yii::t('app', 'HTTP Method'),
+                        ],
+                        [
                             'attribute' => 'is_display',
                             'label' => yii::t('app', 'Is Display'),
                             'format' => 'raw',

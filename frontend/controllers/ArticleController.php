@@ -13,6 +13,7 @@ use frontend\models\Article;
 use common\models\Category;
 use frontend\models\Comment;
 use yii\data\ActiveDataProvider;
+use common\models\ArticleMetaLike;
 
 class ArticleController extends Controller
 {
@@ -67,8 +68,10 @@ class ArticleController extends Controller
         $commentModel = new Comment();
         $commentList = $commentModel->getCommentByAid($id);
         $recommends = Article::find()->where(['type'=>Article::ARTICLE, 'status'=>Article::ARTICLE_PUBLISHED])->andWhere(['<>', 'thumb', ''])->orderBy("rand()")->limit(8)->all();
+        $likeModel = new ArticleMetaLike();
         return $this->render('view', [
             'model' => $model,
+            'likeCount' => $likeModel->getLikeCount($id),
             'prev' => $prev,
             'next' => $next,
             'recommends' => $recommends,
@@ -129,6 +132,15 @@ class ArticleController extends Controller
                 echo "<font color='red'>".$str."</font>";
             }
         }
+    }
+
+    public function actionLike()
+    {
+        $aid = yii::$app->getRequest()->post("um_id");
+        $model = new \common\models\ArticleMetaLike();
+        $model->setLike($aid);
+        echo $model->getLikeCount($aid);
+
     }
 
 }

@@ -57,7 +57,7 @@
             </div>
             <div class="ibox-content">
                 <h1 class="no-margins"><?=$statics['FRIEND_LINK'][0]?></h1>
-                <div class="stat-percent font-bold text-info"><?=$statics['FRIEND_LINK'][0]?>% <i class="fa fa-level-up"></i>
+                <div class="stat-percent font-bold text-info"><?=$statics['FRIEND_LINK'][1]?>% <i class="fa fa-level-up"></i>
                 </div>
                 <small><?=yii::t('app', 'Total')?></small>
             </div>

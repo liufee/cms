@@ -16,7 +16,7 @@ class Menu extends \common\models\Menu
         if( !in_array(yii::$app->user->identity->username, yii::$app->rbac->getSuperAdministrators()) && yii::$app->user->identity->id != 1 && $role_id != 1 ){
             foreach ($menus as $menu) {
                 foreach ($permissions as $permission) {
-                    if ($menu['id'] == $permission['menu_id']) {
+                    if ($menu['url'] == $permission['url']) {
                         $newMenu[] = $menu;
                         break;
                     }
@@ -102,7 +102,7 @@ EOF;
     {
         $adminRolePermissions =  AdminRolePermission::find()->where(['role_id'=>yii::$app->request->get('id', '')])->indexBy('menu_id')->column();
         $model = new self();
-        $menus = $model->find()->where(['type'=>self::BACKEND_TYPE])->all();
+        $menus = $model->find()->where(['type'=>self::BACKEND_TYPE])->orderBy("sort asc")->all();
         $temp = [];
         foreach($menus as $key => $menu){
             if($menu['parent_id'] == 0){
