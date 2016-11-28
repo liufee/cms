@@ -196,6 +196,7 @@ return [
 
     /*site/main*/
     'Month' => '月',
+    'Today' => '今天',
     'Income' => '收入',
     'Total Income' => '总收入',
     'Order' => '订单',

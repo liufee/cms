@@ -134,7 +134,7 @@ class SettingController extends BaseController
         $model = new SettingSmtpForm();
         if ( Yii::$app->request->isPost )
         {
-            if( $model->validate() && $model->load(Yii::$app->request->post()) && $model->setSmtpConfig() ){
+            if( $model->load(Yii::$app->request->post()) && $model->validate() && $model->setSmtpConfig() ){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             }else{
                 $errors = $model->getErrors();
@@ -156,7 +156,8 @@ class SettingController extends BaseController
     public function actionTestSmtp()
     {
         $model = new SettingSmtpForm();
-        if( $model->validate() && $model->load(Yii::$app->getRequest()->post()) ) {
+        yii::$app->getResponse()->format = Response::FORMAT_JSON;
+        if( $model->load(Yii::$app->getRequest()->post()) && $model->validate() ) {
             $mailer = yii::createObject([
                 'class' => 'yii\swiftmailer\Mailer',
                 'useFileTransport' => false,
@@ -174,7 +175,6 @@ class SettingController extends BaseController
                     'from' => [$model->smtp_username => $model->smtp_nickname]
                 ],
             ]);
-            yii::$app->getResponse()->format = Response::FORMAT_JSON;
             return $mailer
                 ->compose()
                 ->setFrom($model->smtp_username)
@@ -182,6 +182,12 @@ class SettingController extends BaseController
                 ->setSubject('Email SMTP test ' . \Yii::$app->name)
                 ->setTextBody('Email SMTP config works successful')
                 ->send();
+        }else{
+            $error = '';
+            foreach ($model->getErrors() as $item) {
+                $error .= $item[0]."<br/>";
+            }
+            return $error;
         }
     }
 }

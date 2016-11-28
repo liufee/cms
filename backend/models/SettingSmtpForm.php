@@ -36,6 +36,7 @@ class SettingSmtpForm extends \common\models\Options
         return [
             [['smtp_host', 'smtp_username', 'smtp_nickname', 'smtp_password', 'smtp_encryption'], 'string'],
             [['smtp_port'], 'integer'],
+            [['smtp_host', 'smtp_username'], 'required'],
             [['smtp_port'], 'compare', 'compareValue' => 0, 'operator' => '>='],
             [['smtp_port'], 'compare', 'compareValue' => 65535, 'operator' => '<='],
         ];
@@ -65,7 +66,7 @@ class SettingSmtpForm extends \common\models\Options
             $model = self::findOne(['name' => $name]);
             if($model != NULL) {
                 $model->value = $this->$name;
-                $model->save();
+                $model->save(false);
             }else{
                 $model = new Options();
                 $model->name = $name;

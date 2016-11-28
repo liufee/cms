@@ -63,7 +63,7 @@ $this->title = yii::t('app', 'SMTP setting');
                     if(data=='1'){
                         layer.msg("<?=yii::t('app', 'Success')?>");
                     }else{
-                        layer.msg("<?=yii::t('app', 'Error')?>");
+                        layer.msg(data);
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {

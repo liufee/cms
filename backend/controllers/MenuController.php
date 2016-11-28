@@ -37,4 +37,15 @@ class MenuController extends BaseController
         return $model;
     }
 
+    public function actionIndex()
+    {
+        $searchModel = new \backend\models\MenuSearch(['scenario'=>'backend']);
+        $dataProvider = $searchModel->search(yii::$app->request->queryParams);
+        $data = [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
+        ];
+        return $this->render('index', $data);
+    }
+
 }

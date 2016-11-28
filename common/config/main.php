@@ -12,7 +12,7 @@ return [
             'charset' => 'utf8mb4',
         ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'yii\caching\DummyCache',
         ],
         'formatter' => [
             'dateFormat' => 'php:Y-m-d H:i',

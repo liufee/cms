@@ -22,12 +22,13 @@ $this->title = "Backend Menus";
                 <?= Bar::widget()?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
+                    'filterModel' => $searchModel,
                     'columns' => [
                         [
                             'class' => 'feehi\grid\CheckboxColumn',
                         ],
                         [
-                            'attribute' => 'Name',
+                            'attribute' => 'name',
                             'label' => yii::t('app', 'Name'),
                             'format' => 'html',
                             'value' => function($model,$key,$index,$column){
@@ -85,6 +86,7 @@ $this->title = "Backend Menus";
                                 ]);
 
                             },
+                            'filter' => Constants::getYesNoItems(),
                         ],
                         [
                             'attribute' => 'created_at',

@@ -3,7 +3,6 @@
 namespace common\models;
 
 use Yii;
-use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "{{%file_usage}}".
@@ -33,13 +32,6 @@ class FileUsage extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return '{{%file_usage}}';
-    }
-
-    public function behaviors()
-    {
-        return [
-            TimestampBehavior::className(),
-        ];
     }
 
     /**
@@ -82,6 +74,7 @@ class FileUsage extends \yii\db\ActiveRecord
                 $this->fid = $fileModel->id;
                 $this->use_id = $use_id;
                 $this->count = $count;
+                $this->created_at = time();
                 $this->save();
             }
             if ($fileModel->status != File::STATUS_USED) {
