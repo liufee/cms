@@ -359,6 +359,8 @@ EOF;
         $sql = str_replace("{$default_tablepre}", "{$tablepre}", $sql);
         //开始安装
         //sp_show_msg('开始安装数据库...');
+        yii::$app->getResponse()->getHeaders()->set("Content-Encoding", "none");
+        ob_start();
         foreach ($sql as $item) {
             $item = trim($item);
             if(empty($item)) continue;
@@ -376,11 +378,13 @@ EOF;
             }
 
         }
+        ob_end_flush();
     }
 
     private function sp_show_msg($msg, $class = ''){
+        echo str_repeat(" ",1024*64*99);
         echo "<script type=\"text/javascript\">showmsg(\"{$msg}\", \"{$class}\")</script>";
-        flush();
         ob_flush();
+        flush();
     }
 }

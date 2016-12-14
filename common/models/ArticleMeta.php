@@ -21,11 +21,9 @@ class ArticleMeta extends \yii\db\ActiveRecord
     {
         return [
             [
-                'class' => TimestampBehavior::className(),
-                'attributes' => [
-                    'createdAtAttribute'
-                ],
-            ]
+              'class' => TimestampBehavior::className(),
+              'updatedAtAttribute' => false,
+            ],
         ];
     }
 

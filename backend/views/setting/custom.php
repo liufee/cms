@@ -123,6 +123,11 @@ $this->title = yii::t('app', 'Custom Setting');
                         });
                         return false;
                     });
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("ajax错误,"+textStatus+' : '+errorThrown);
+                },
+                complete: function(XMLHttpRequest, textStatus) {
                 }
             });
             return false;

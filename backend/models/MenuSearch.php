@@ -23,7 +23,8 @@ class MenuSearch extends Menu{
     {
         $query = Menu::getMenuArray(Menu::BACKEND_TYPE);
         $this->load($params);
-        $temp = end( explode('\\', self::className()) );
+        $temp = explode('\\', self::className());
+        $temp = end( $temp );
         if( isset( $params[$temp] ) ){
             $serarchArr = $params[$temp];
             foreach ($serarchArr as $k => $v){

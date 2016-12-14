@@ -114,6 +114,7 @@ class SettingController extends BaseController
                 ];
             }
         }else {
+            yii::$app->getResponse()->format = \yii\web\Response::FORMAT_HTML;
             echo '<div class="" id="editForm">';
             echo '<div class="ibox-content">';
             $form = \feehi\widgets\ActiveForm::begin(['options' => ['name' => 'edit']]);
