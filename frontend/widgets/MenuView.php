@@ -29,10 +29,14 @@ class MenuView extends \yii\base\Widget
         $content = '';
         foreach($menus as $key => $menu){
             if($menu['parent_id'] == 0){
-                if($menu['is_absolute_url']) {
-                    $url = $menu['url'];
-                }else{
-                    $url = Url::to([$menu['url']]);
+                if( empty($menu['url']) ){
+                    $url = 'javascript:void(0)';
+                }else {
+                    if ($menu['is_absolute_url']) {
+                        $url = $menu['url'];
+                    } else {
+                        $url = Url::to([$menu['url']]);
+                    }
                 }
                 $current_menu_class = '';
                 if($menu['url'] == Yii::$app->controller->id.'/'.Yii::$app->controller->action->id) {
@@ -52,10 +56,14 @@ class MenuView extends \yii\base\Widget
         $content = '';
         foreach($menus as $key => $menu){
             if($menu['parent_id'] == $cur_id){
-                if($menu['is_absolute_url']) {
-                    $url = $menu['url'];
-                }else{
-                    $url = Url::to([$menu['url']]);
+                if( empty($menu['url']) ){
+                    $url = 'javascript:void(0)';
+                }else {
+                    if ($menu['is_absolute_url']) {
+                        $url = $menu['url'];
+                    } else {
+                        $url = Url::to([$menu['url']]);
+                    }
                 }
                 $current_menu_class = '';
                 if($menu['url'] == Yii::$app->controller->id.'/'.Yii::$app->controller->action->id) {

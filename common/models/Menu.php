@@ -57,7 +57,7 @@ class Menu extends \yii\db\ActiveRecord
             [['name', 'url', 'icon', 'method'], 'string', 'max' => 255],
             [['type', 'is_absolute_url'] , 'in', 'range'=>[0, 1]],
             [['target'], 'in', 'range'=>[ '_blank', '_self']],
-            [['name', 'url'], 'required'],
+            [['name'], 'required'],
             [['method'], 'required', 'on'=>['backend']],
         ];
     }
