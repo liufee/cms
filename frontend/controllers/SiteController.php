@@ -74,7 +74,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        $where = ['type'=>Article::ARTICLE];
+        $where = ['type'=>Article::ARTICLE, 'status'=>Article::ARTICLE_PUBLISHED];
         $query = Article::find()->select([])->where($where);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

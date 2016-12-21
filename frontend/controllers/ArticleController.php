@@ -38,10 +38,14 @@ class ArticleController extends Controller
         if($cat == '') $cat = yii::$app->request->pathInfo;
         $where = ['type'=>Article::ARTICLE,'status'=>Article::ARTICLE_PUBLISHED];
         if($cat != '' && $cat != 'index') {
-            if (!$category = Category::findOne(['name' => $cat])){
-                throw new yii\web\NotFoundHttpException('None category named '.$cat);
+            if($cat == yii::t('app', 'uncategoried')){
+                $where['cid'] = 0;
+            }else {
+                if (!$category = Category::findOne(['name' => $cat])) {
+                    throw new yii\web\NotFoundHttpException('None category named ' . $cat);
+                }
+                $where['cid'] = $category['id'];
             }
-            $where['cid'] = $category['id'];
         }
         $query = Article::find()->select([])->where($where);
         $dataProvider = new ActiveDataProvider([

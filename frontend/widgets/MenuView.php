@@ -20,7 +20,7 @@ class MenuView extends \yii\base\Widget
     public $template = "<ul class=\"down-menu nav-menu\">{lis}</ul>";
     public $liTemplate = "<li id='menu-item-{menu_id}' class='menu-item menu-item-type-taxonomy menu-item-object-category {current_menu_class} menu-item-{menu_id}'><a href='{url}' target='{target}' style='padding: 13px;'>{title}</a>{sub_menu}</li>";
     public $subTemplate = "<ul class=\"sub-menu\" style=\"padding-top: 20px;\">{lis}</ul>";
-    public $subLitemplate = "<li id=\"menu-item-{menu_id}\" class=\"menu-item menu-item-type-taxonomy menu-item-object-category {current_menu_class} menu-item-{menu_id}\"><a href=\"{url}\" style=\"padding: 13px;\">{title}</a></li>";
+    public $subLitemplate = "<li id=\"menu-item-{menu_id}\" class=\"menu-item menu-item-type-taxonomy menu-item-object-category {current_menu_class} menu-item-{menu_id}\"><a href=\"{url}\" target='{target}' style=\"padding: 13px;\">{title}</a></li>";
 
     public function run()
     {
@@ -39,9 +39,7 @@ class MenuView extends \yii\base\Widget
                     }
                 }
                 $current_menu_class = '';
-                if($menu['url'] == Yii::$app->controller->id.'/'.Yii::$app->controller->action->id) {
-                    $current_menu_class = ' current-menu-item ';
-                }else if(yii::$app->request->getPathInfo() == $menu['url']){
+                if($url == yii::$app->getRequest()->getUrl()) {
                     $current_menu_class = ' current-menu-item ';
                 }
                 unset($menus[$key]);

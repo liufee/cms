@@ -50,13 +50,13 @@ ViewAsset::register($this);
                         <div class="popover top in">
                             <div class="arrow"></div>
                             <div class="popover-content">
-                                <a href="http://demo7.ledkongzhiqi.com/zhuti/4.html#" class="sinaweibo fa fa-weibo" data-cmd="tsina" title="" data-original-title="分享到新浪微博"></a>
-                                <a href="http://demo7.ledkongzhiqi.com/zhuti/4.html#" class="bds_qzone fa fa-star" data-cmd="qzone" title="" data-original-title="分享到QQ空间"></a>
-                                <a href="http://demo7.ledkongzhiqi.com/zhuti/4.html#" class="tencentweibo fa fa-tencent-weibo" data-cmd="tqq" title="" data-original-title="分享到腾讯微博"></a>
-                                <a href="http://demo7.ledkongzhiqi.com/zhuti/4.html#" class="qq fa fa-qq" data-cmd="sqq" title="" data-original-title="分享到QQ好友"></a>
-                                <a href="http://demo7.ledkongzhiqi.com/zhuti/4.html#" class="bds_renren fa fa-renren" data-cmd="renren" title="" data-original-title="分享到人人网"></a>
-                                <a href="http://demo7.ledkongzhiqi.com/zhuti/4.html#" class="bds_weixin fa fa-weixin" data-cmd="weixin" title="" data-original-title="分享到微信"></a>
-                                <a href="http://demo7.ledkongzhiqi.com/zhuti/4.html#" class="bds_more fa fa-ellipsis-h" data-cmd="more" data-original-title="" title=""></a>
+                                <a href="" class="sinaweibo fa fa-weibo" data-cmd="tsina" title="" data-original-title="分享到新浪微博"></a>
+                                <a href="" class="bds_qzone fa fa-star" data-cmd="qzone" title="" data-original-title="分享到QQ空间"></a>
+                                <a href="" class="tencentweibo fa fa-tencent-weibo" data-cmd="tqq" title="" data-original-title="分享到腾讯微博"></a>
+                                <a href="" class="qq fa fa-qq" data-cmd="sqq" title="" data-original-title="分享到QQ好友"></a>
+                                <a href="" class="bds_renren fa fa-renren" data-cmd="renren" title="" data-original-title="分享到人人网"></a>
+                                <a href="" class="bds_weixin fa fa-weixin" data-cmd="weixin" title="" data-original-title="分享到微信"></a>
+                                <a href="" class="bds_more fa fa-ellipsis-h" data-cmd="more" data-original-title="" title=""></a>
                             </div>
                         </div>
                     </div>

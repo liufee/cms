@@ -91,6 +91,7 @@ class ArticleContent extends \common\models\ArticleContent
 
     public function afterDelete()
     {
+        $this->content = str_replace(yii::$app->params['site']['url'], yii::$app->params['site']['sign'], $this->content);
         preg_match_all('/<img.*src="('.yii::$app->params['site']['sign'].'.*)"/isU', $this->content, $matches);
         if (!empty($matches[1])) {
             foreach ($matches[1] as $v) {
