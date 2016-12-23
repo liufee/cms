@@ -7,8 +7,8 @@ Getting Started
 ---------------
 
 * [Installation](docs/installation.md)
-* [Backend Demo (username:admin,password:123456)](http://demo.feehi.com/admin)
-* [Frontend Demo](http://demo.feehi.com)
+* [Backend Demo (username:feehicms,password:123456)](http://demo.cms.feehi.com/admin)
+* [Frontend Demo](http://demo.cms.feehi.com)
 
 HOW TO PARTICIPATE
 ---------
