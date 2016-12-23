@@ -72,6 +72,10 @@ return [
     'Reply' => '回复',
     'Loading, hold on please...' => ' 加载中,请稍等...',
     "Id doesn't exit" => 'Id不存在',
+    'Back' => '返回',
+    'Frontend' => '前台',
+    'more' => '更多',
+    '{attribute} is incorrect.' => '{attribute}不正确',
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',

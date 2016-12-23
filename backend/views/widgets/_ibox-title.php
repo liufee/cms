@@ -14,21 +14,6 @@ switch($action){
     case "index":
         if(!isset($buttons) && !isset($defaultButtons)) {
             $buttons = [
-                [
-                    'name' => 'Create',
-                    'url' => ['create'],
-                    'options' => [
-                        'class' => 'btn btn-primary btn-xs',
-                    ]
-                ],
-                [
-                    'name' => 'Delete',
-                    'url' => ['delete'],
-                    'options' => [
-                        'class' => 'multi-operate btn btn-primary btn-xs',
-                        'data-confirm' => yii::t('app', 'Realy to delete?'),
-                    ]
-                ],
             ];
         }
         break;
@@ -37,7 +22,7 @@ switch($action){
         if(!isset($buttons) && !isset($defaultButtons)) {
             $buttons = [
                 [
-                    'name' => $this->title,
+                    'name' => yii::t('app', 'Back'),
                     'url' => ['index'],
                     'options' => [
                         'class' => 'btn btn-primary btn-xs',
@@ -51,7 +36,7 @@ switch($action){
         if(!isset($buttons) && !isset($defaultButtons)) {
             $buttons = [
                 [
-                    'name' => $this->title,
+                    'name' => yii::t('app', 'Back'),
                     'url' => ['index'],
                     'options' => [
                         'class' => 'btn btn-primary btn-xs',
@@ -61,7 +46,17 @@ switch($action){
         }
         break;
     default:
-        if(!isset($buttons) && !isset($defaultButtons)) $buttons = [];
+        if(!isset($buttons) && !isset($defaultButtons)){
+            $buttons = [
+                [
+                    'name' => yii::t('app', 'Back'),
+                    'url' => ['index'],
+                    'options' => [
+                        'class' => 'btn btn-primary btn-xs',
+                    ]
+                ],
+            ];
+        }
         break;
 }
 ?>

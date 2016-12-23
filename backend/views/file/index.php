@@ -17,18 +17,7 @@ $this->title = 'Files';
 <div class="row">
     <div class="col-sm-12">
         <div class="ibox">
-            <?= $this->render('/widgets/_ibox-title', [
-                'buttons' => [
-                    [
-                        'name' => 'Delete',
-                        'url' => ['delete'],
-                        'options' => [
-                            'class' => 'multi-operate btn btn-primary btn-xs',
-                            'data-confirm' => yii::t('app', 'Realy to delete?'),
-                        ]
-                    ]
-                ]
-            ]) ?>
+            <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?= Bar::widget([
                     'template' => '{refresh} {delete}'

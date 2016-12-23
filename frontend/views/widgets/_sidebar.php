@@ -128,7 +128,7 @@ use frontend\models\FriendLink;
         <div class="textwidget">
             <div class="d_tags_1">
                 <?php
-                    $links = FriendLink::find()->asArray()->all();
+                    $links = FriendLink::find()->where(['status'=>FriendLink::DISPLAY_YES])->asArray()->all();
                     foreach ($links as $v){
                         echo "<a target='_blank' href='{$v['url']}'>{$v['name']}</a>";
                     }

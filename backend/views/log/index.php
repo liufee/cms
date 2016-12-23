@@ -16,18 +16,7 @@ $this->title = "Admin Log";
 <div class="row" xmlns="http://www.w3.org/1999/html">
     <div class="col-sm-12">
         <div class="ibox">
-            <?= $this->render('/widgets/_ibox-title', [
-                'buttons' => [
-                    [
-                        'name' => 'Delete',
-                        'url' => ['delete'],
-                        'options' => [
-                            'class' => 'multi-operate btn btn-primary btn-xs',
-                            'data-confirm' => yii::t('app', 'Realy to delete?'),
-                        ]
-                    ]
-                ]
-            ]) ?>
+            <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?= Bar::widget([
                     'template' => '{refresh} {delete}'
@@ -55,7 +44,7 @@ $this->title = "Admin Log";
                             'attribute' => 'description',
                             'format' => 'html',
                             'value' => function($model, $key, $index, $column){
-                                return Help::truncate_utf8_string($model->description, '200')."<a class='detail'>更多</a>";
+                                return Help::truncate_utf8_string($model->description, '200')."<a class='detail'>".yii::t('app', 'more')."...</a>";
                             }
                         ],
                         [

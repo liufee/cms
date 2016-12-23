@@ -43,12 +43,10 @@ $this->title = yii::t('app', 'Backend Manage System');
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li><a class="J_menuItem" href="<?=Url::to(['admin-user/update-self'])?>"><?=yii::t('app', 'Profile')?></a>
                             </li>
-                            <!--<li><a class="J_menuItem" href="<?=Url::to(['admin-user/update-self'])?>"><?=yii::t('app', 'Modify Avatar')?></a>
+                            <li><a class="J_menuItem" href="<?=Url::to(['article/index'])?>"><?=yii::t('app', 'Articles')?></a>
                             </li>
-                            <li><a class="J_menuItem" href="contacts.html"><?=yii::t('app', 'Contact Us')?></a>
+                            <li><a target="_blank" href="<?=yii::$app->params['site']['url']?>"><?=yii::t('app', 'Frontend')?></a>
                             </li>
-                            <li><a class="J_menuItem" href="mailbox.html"><?=yii::t('app', 'Mail Box')?></a>
-                            </li>-->
                             <li class="divider"></li>
                             <li><a href="<?=Url::toRoute('site/logout')?>"><?=yii::t('app', 'Logout')?></a>
                             </li>
@@ -82,11 +80,11 @@ $this->title = yii::t('app', 'Backend Manage System');
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header" style="width: 50%;"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                    <form role="search" class="navbar-form-custom" method="get" target="_blank" action="http://www.baidu.com/s">
+                    <!--<form role="search" class="navbar-form-custom" method="get" target="_blank" action="http://www.baidu.com/s">
                         <div class="form-group">
                             <input type="text" placeholder="<?=yii::t('app', 'Please Enter the Question')?> …" class="form-control" name="wd" id="top-search">
                         </div>
-                    </form>
+                    </form>-->
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
@@ -165,10 +163,13 @@ $this->title = yii::t('app', 'Backend Manage System');
                         </ul>
                     </li>-->
                     <li class="hidden-xs">
+                        <a href="<?= yii::$app->params['site']['url'] ?>" target='_blank'><i class="fa fa-internet-explorer"></i> <?=yii::t('app', 'Frontend')?></a>
+                    </li>
+                    <li class="hidden-xs">
                         <a href="javascript:void(0)" onclick="reloadIframe()"><i class="fa fa-refresh"></i> <?=yii::t('app', 'Refresh')?></a>
                     </li>
                     <li class="hidden-xs">
-                        <a href="http://blog.feehi.com" class="J_menuItem" data-index="0"><i class="fa fa-cart-arrow-down"></i> <?=yii::t('app', 'Support')?></a>
+                        <a href="http://cms.feehi.com/help" class="J_menuItem" data-index="0"><i class="fa fa-cart-arrow-down"></i> <?=yii::t('app', 'Support')?></a>
                     </li>
                     <li class="dropdown hidden-xs">
                         <a class="right-sidebar-toggle" aria-expanded="false">
@@ -214,7 +215,7 @@ $this->title = yii::t('app', 'Backend Manage System');
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="<?=Url::to(['site/main']) ?>" frameborder="0" data-id="<?=Url::to(['site/main']) ?>" seamless></iframe>
         </div>
         <div class="footer">
-            <div class="pull-right">&copy; 2014-2016 <a href="http://blog.feehi.com/" target="_blank">feehi's blog</a>
+            <div class="pull-right">&copy; 2015-2016 <a href="http://blog.feehi.com/" target="_blank">feehi</a>
             </div>
         </div>
     </div>

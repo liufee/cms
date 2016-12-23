@@ -250,15 +250,15 @@ class User extends ActiveRecord implements IdentityInterface
     {
         if($this->password != '') {
             if ($this->old_password == '') {
-                $this->addError('old_password', 'Old password cannot be blank.');
+                $this->addError('old_password', yii::t('yii', '{attribute} cannot be blank.', ['attribute'=>yii::t('app', 'Old Password')]));
                 return false;
             }
             if (!$this->validatePassword($this->old_password)) {
-                $this->addError('old_password', 'Old password is incorrect.');
+                $this->addError('old_password', yii::t('app', '{attribute} is incorrect.', ['attribute'=>yii::t('app', 'Old Password')]));
                 return false;
             }
             if($this->repassword != $this->password){
-                $this->addError('repassword', 'Repeat password not equaled password.');
+                $this->addError('repassword', yii::t('app','{attribute} is incorrect.', ['attribute'=>yii::t('app', 'Repeat Password')]));
                 return false;
             }
         }

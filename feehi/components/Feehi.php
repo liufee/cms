@@ -77,6 +77,8 @@ class Feehi extends Component{
     private static function setConfig()
     {
         if(!empty(yii::$app->feehi->website_url)) yii::$app->params['site']['url'] = yii::$app->feehi->website_url;
+        if( substr(yii::$app->params['site']['url'], -1, 1) != '/' ) yii::$app->params['site']['url'] .= '/';
+        if( stripos(yii::$app->params['site']['url'], 'http://') !== 0 && stripos(yii::$app->params['site']['url'], 'https://') !== 0 ) yii::$app->params['site']['url'] = "http://".yii::$app->params['site']['url'];
         $cache = yii::$app->getCache();
         $key = 'options_smtp';
         if( ( $smtpConfig=$cache->get($key) ) === false ){

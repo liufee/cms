@@ -10,13 +10,13 @@ Target Server Type    : MYSQL
 Target Server Version : 100116
 File Encoding         : 65001
 
-Date: 2016-10-19 17:05:25
+Date: 2016-12-23 10:04:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for %__prefix__%admin_log
+-- Table structure for admin_log
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%admin_log`;
 CREATE TABLE `%__prefix__%admin_log` (
@@ -28,15 +28,15 @@ CREATE TABLE `%__prefix__%admin_log` (
   `updated_at` int(11) unsigned DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_user_id` (`user_id`),
-  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `%__prefix__%admin_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `admin_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%admin_log
+-- Records of admin_log
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for %__prefix__%admin_roles
+-- Table structure for admin_roles
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%admin_roles`;
 CREATE TABLE `%__prefix__%admin_roles` (
@@ -50,13 +50,13 @@ CREATE TABLE `%__prefix__%admin_roles` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%admin_roles
+-- Records of admin_roles
 -- ----------------------------
 INSERT INTO `%__prefix__%admin_roles` VALUES ('1', '0', '超级管理员', '拥有所有权限', '1468309347', '0');
 INSERT INTO `%__prefix__%admin_roles` VALUES ('2', '0', '编辑', '拥有seo设置，文章添加、修改、编辑、删除的权限', '1468309363', '1469070673');
 
 -- ----------------------------
--- Table structure for %__prefix__%admin_role_permission
+-- Table structure for admin_role_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%admin_role_permission`;
 CREATE TABLE `%__prefix__%admin_role_permission` (
@@ -65,7 +65,7 @@ CREATE TABLE `%__prefix__%admin_role_permission` (
   `menu_id` int(11) unsigned NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `url` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `method` enum('all','post','get') COLLATE utf8_unicode_ci DEFAULT 'all',
+  `method` enum('all','post','get') COLLATE utf8_unicode_ci DEFAULT 'get',
   `created_at` int(11) unsigned NOT NULL,
   `updated_at` int(11) unsigned DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -74,18 +74,18 @@ CREATE TABLE `%__prefix__%admin_role_permission` (
   KEY `fk_url` (`url`),
   KEY `fk_method` (`method`),
   KEY `fk_role_id` (`role_id`),
-  CONSTRAINT `fk_menu_id` FOREIGN KEY (`menu_id`) REFERENCES `%__prefix__%menu` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_menu_name` FOREIGN KEY (`name`) REFERENCES `%__prefix__%menu` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_method` FOREIGN KEY (`method`) REFERENCES `%__prefix__%menu` (`method`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_role_id` FOREIGN KEY (`role_id`) REFERENCES `%__prefix__%admin_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_url` FOREIGN KEY (`url`) REFERENCES `%__prefix__%menu` (`url`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_menu_id` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_menu_name` FOREIGN KEY (`name`) REFERENCES `menu` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_method` FOREIGN KEY (`method`) REFERENCES `menu` (`method`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_role_id` FOREIGN KEY (`role_id`) REFERENCES `admin_roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_url` FOREIGN KEY (`url`) REFERENCES `menu` (`url`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%admin_role_permission
+-- Records of admin_role_permission
 -- ----------------------------
 INSERT INTO `%__prefix__%admin_role_permission` VALUES ('83', '2', '1', '设置', 'setting', 'all', '1476712203', '1476712203');
-INSERT INTO `%__prefix__%admin_role_permission` VALUES ('84', '2', '3', 'SMTP设置', 'setting/smtp', 'all', '1476712203', '1476712203');
+INSERT INTO `%__prefix__%admin_role_permission` VALUES ('84', '2', '3', 'smtp设置', 'setting/smtp', 'all', '1476712203', '1476712203');
 INSERT INTO `%__prefix__%admin_role_permission` VALUES ('85', '2', '8', '内容', 'article', 'all', '1476712203', '1476712203');
 INSERT INTO `%__prefix__%admin_role_permission` VALUES ('86', '2', '9', '文章', 'article/index', 'all', '1476712203', '1476712203');
 INSERT INTO `%__prefix__%admin_role_permission` VALUES ('87', '2', '10', '评论', 'comment/index', 'all', '1476712203', '1476712203');
@@ -94,7 +94,7 @@ INSERT INTO `%__prefix__%admin_role_permission` VALUES ('89', '2', '26', '缓存
 INSERT INTO `%__prefix__%admin_role_permission` VALUES ('90', '2', '27', '清除前台', 'clear/frontend', 'all', '1476712203', '1476712203');
 
 -- ----------------------------
--- Table structure for %__prefix__%admin_role_user
+-- Table structure for admin_role_user
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%admin_role_user`;
 CREATE TABLE `%__prefix__%admin_role_user` (
@@ -105,17 +105,17 @@ CREATE TABLE `%__prefix__%admin_role_user` (
   `updated_at` int(11) unsigned DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_uid` (`uid`),
-  CONSTRAINT `fk_uid` FOREIGN KEY (`uid`) REFERENCES `%__prefix__%admin_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_uid` FOREIGN KEY (`uid`) REFERENCES `admin_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%admin_role_user
+-- Records of admin_role_user
 -- ----------------------------
 INSERT INTO `%__prefix__%admin_role_user` VALUES ('1', '1', '1', '1476712649', '1476712649');
 INSERT INTO `%__prefix__%admin_role_user` VALUES ('2', '2', '2', '1476712714', '1476712714');
 
 -- ----------------------------
--- Table structure for %__prefix__%admin_user
+-- Table structure for admin_user
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%admin_user`;
 CREATE TABLE `%__prefix__%admin_user` (
@@ -136,13 +136,13 @@ CREATE TABLE `%__prefix__%admin_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%admin_user
+-- Records of admin_user
 -- ----------------------------
 INSERT INTO `%__prefix__%admin_user` VALUES ('1', 'admin', 'zr9mY7lt23oAhj_ZYjydbLJKcbE3FJ19', '$2y$13$8aF72c/7Nqq/atyMivhVTej0bIXS1t8daPJXKtVjFzJUsG68eGgaG', null, 'admin@feehi.com', '', '10', '1468288038', '1476711945');
 INSERT INTO `%__prefix__%admin_user` VALUES ('2', 'fff', '1JC2paBZhxrLPXNEpGDqW8Bp130x0_g6', '$2y$13$v.WxC/zKWasDR2fVZsa5u.xoVCh.8VE1QtyqCQNFrZO7DgEvZoZhS', null, 'fff@feehi.com', '', '10', '1469087451', '1476711969');
 
 -- ----------------------------
--- Table structure for %__prefix__%article
+-- Table structure for article
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%article`;
 CREATE TABLE `%__prefix__%article` (
@@ -179,36 +179,36 @@ CREATE TABLE `%__prefix__%article` (
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%article
+-- Records of article
 -- ----------------------------
-INSERT INTO `%__prefix__%article` VALUES ('1', '3', '0', '高效快速地加载 AngularJS 视图', '', '当AngularJS应用程序变大时，很多问题就开始显现出来了，比如多层级视图的加载问题，如果在子视图显示之前没有预加载，则可能在需要展示时，发生视觉闪烁的情况。这种问题在网络缓慢，或者服务器使用较慢的https连接时更容易出现。', 'http://cms.test.local/uploads/article/thumb/2016071211354628.jpg', '高效快速地加载 AngularJS 视图', 'JavaScript, AngularJS', '当AngularJS应用程序变大时，很多问题就开始显现出来了，比如多层级视图的加载问题，如果在子视图显示之前没有预加载，则可能在需要展示时，发生视觉闪烁的情况。这种问题在网络缓慢，或者服务器使用较慢的https连接时更容易出现。', '1', '0', '1', 'admin', '0', '0', '1', '1', 'JavaScript,AngularJS', '0', '0', '0', '0', '0', '0', '0', '1468294546', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('2', '3', '0', '如何定位 Node.js 的内存泄漏', '', '在 《一次 Node.js 应用内存暴涨分析》中，我们处理了一个 Node.js vm 引发的内存泄漏问题，处理过程也是比较艰辛。而在我们实际开发中，可能经常会碰到内存泄漏的问题，但很多情况下，我们对于这种问题的处理是有些迷茫的，没有一定的操作流程，效率比较低。虽然这种问题对于经验的要求比较高，但如果有一个简单的排查流程，还是会有一定帮助的。', 'http://cms.test.local/uploads/article/thumb/201607121141407.png', '', '', '在 《一次 Node.js 应用内存暴涨分析》中，我们处理了一个 Node.js vm 引发的内存泄漏问题，处理过程也是比较艰辛。而在我们实际开发中，可能经常会碰到内存泄漏的问题，但很多情况下，我们对于这种问题的处理是有些迷茫的，没有一定的操作流程，效率比较低。虽然这种问题对于经验的要求比较高，但如果有一个简单的排查流程，还是会有一定帮助的。', '1', '0', '1', 'admin', '3', '0', '1', '1', '', '0', '0', '0', '0', '1', '0', '0', '1468294900', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('3', '1', '0', 'Hack：用于HHVM的一种新编程语言', '', '', 'http://cms.test.local/uploads/article/thumb/2016071212382956.jpg', '', 'Facebook, hack, php', '', '1', '0', '1', 'admin', '0', '0', '1', '1', 'Facebook, hack, php', '0', '0', '0', '1', '1', '0', '0', '1468298309', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('4', '3', '0', '抛弃jQuery，拥抱原生JavaScript', '', '原生javascript', 'http://cms.test.local/uploads/article/thumb/2016071212414099.png', '抛弃jQuery，拥抱原生JavaScript', 'jquery,javascript,web', '', '1', '0', '1', 'admin', '0', '0', '1', '1', '', '0', '0', '0', '0', '0', '0', '0', '1468298500', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('5', '2', '0', '[JAVA · 初级]：GC-垃圾回收机制', '', '在C++中，对象所占的内存在程序结束运行之前一直被占用，在明确释放之前不能分配给其它对象；而在Java中，当没有对象引用指向原先分配给某个对象的内存时，该内存便成为垃圾。', 'http://cms.test.local/uploads/article/thumb/2016071212441669.jpg', '[JAVA · 初级]：GC-垃圾回收机制', 'gc,垃圾回收,java', '在C++中，对象所占的内存在程序结束运行之前一直被占用，在明确释放之前不能分配给其它对象；而在Java中，当没有对象引用指向原先分配给某个对象的内存时，该内存便成为垃圾。', '1', '0', '1', 'admin', '0', '0', '1', '1', 'gc,垃圾回收,java', '0', '0', '0', '0', '0', '0', '0', '1468298628', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('6', '1', '0', 'PHP 7.0.2正式版发布：WordPress速度提升3倍！', '', '提到PHP，肯定会有人说这是世界上最好的编程语言。', 'http://cms.test.local/uploads/article/thumb/2016071212472374.jpeg', 'PHP 7.0.2正式版发布：WordPress速度提升3倍！', 'php7,php,wordpress', '提到PHP，肯定会有人说这是世界上最好的编程语言。', '1', '0', '1', 'admin', '1', '0', '1', '1', 'php7,php,wordpress', '0', '0', '0', '0', '0', '0', '0', '1468298843', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('1', '3', '0', '高效快速地加载 AngularJS 视图', '', '当AngularJS应用程序变大时，很多问题就开始显现出来了，比如多层级视图的加载问题，如果在子视图显示之前没有预加载，则可能在需要展示时，发生视觉闪烁的情况。这种问题在网络缓慢，或者服务器使用较慢的https连接时更容易出现。', '###~SITEURL~###/uploads/article/thumb/2016071211354628.jpg', '高效快速地加载 AngularJS 视图', 'JavaScript, AngularJS', '当AngularJS应用程序变大时，很多问题就开始显现出来了，比如多层级视图的加载问题，如果在子视图显示之前没有预加载，则可能在需要展示时，发生视觉闪烁的情况。这种问题在网络缓慢，或者服务器使用较慢的https连接时更容易出现。', '1', '0', '1', 'admin', '0', '0', '1', '1', 'JavaScript,AngularJS', '0', '0', '0', '0', '0', '0', '0', '1468294546', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('2', '3', '0', '如何定位 Node.js 的内存泄漏', '', '在 《一次 Node.js 应用内存暴涨分析》中，我们处理了一个 Node.js vm 引发的内存泄漏问题，处理过程也是比较艰辛。而在我们实际开发中，可能经常会碰到内存泄漏的问题，但很多情况下，我们对于这种问题的处理是有些迷茫的，没有一定的操作流程，效率比较低。虽然这种问题对于经验的要求比较高，但如果有一个简单的排查流程，还是会有一定帮助的。', '###~SITEURL~###/uploads/article/thumb/201607121141407.png', '', '', '在 《一次 Node.js 应用内存暴涨分析》中，我们处理了一个 Node.js vm 引发的内存泄漏问题，处理过程也是比较艰辛。而在我们实际开发中，可能经常会碰到内存泄漏的问题，但很多情况下，我们对于这种问题的处理是有些迷茫的，没有一定的操作流程，效率比较低。虽然这种问题对于经验的要求比较高，但如果有一个简单的排查流程，还是会有一定帮助的。', '1', '0', '1', 'admin', '3', '0', '1', '1', '', '0', '0', '0', '0', '1', '0', '0', '1468294900', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('3', '1', '0', 'Hack：用于HHVM的一种新编程语言', '', '', '###~SITEURL~###/uploads/article/thumb/2016071212382956.jpg', '', 'Facebook, hack, php', '', '1', '0', '1', 'admin', '0', '0', '1', '1', 'Facebook, hack, php', '0', '0', '0', '1', '1', '0', '0', '1468298309', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('4', '3', '0', '抛弃jQuery，拥抱原生JavaScript', '', '原生javascript', '###~SITEURL~###/uploads/article/thumb/2016071212414099.png', '抛弃jQuery，拥抱原生JavaScript', 'jquery,javascript,web', '', '1', '0', '1', 'admin', '0', '0', '1', '1', '', '0', '0', '0', '0', '0', '0', '0', '1468298500', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('5', '2', '0', '[JAVA · 初级]：GC-垃圾回收机制', '', '在C++中，对象所占的内存在程序结束运行之前一直被占用，在明确释放之前不能分配给其它对象；而在Java中，当没有对象引用指向原先分配给某个对象的内存时，该内存便成为垃圾。', '###~SITEURL~###/uploads/article/thumb/2016071212441669.jpg', '[JAVA · 初级]：GC-垃圾回收机制', 'gc,垃圾回收,java', '在C++中，对象所占的内存在程序结束运行之前一直被占用，在明确释放之前不能分配给其它对象；而在Java中，当没有对象引用指向原先分配给某个对象的内存时，该内存便成为垃圾。', '1', '0', '1', 'admin', '0', '0', '1', '1', 'gc,垃圾回收,java', '0', '0', '0', '0', '0', '0', '0', '1468298628', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('6', '1', '0', 'PHP 7.0.2正式版发布：WordPress速度提升3倍！', '', '提到PHP，肯定会有人说这是世界上最好的编程语言。', '###~SITEURL~###/uploads/article/thumb/2016071212472374.jpeg', 'PHP 7.0.2正式版发布：WordPress速度提升3倍！', 'php7,php,wordpress', '提到PHP，肯定会有人说这是世界上最好的编程语言。', '1', '0', '1', 'admin', '1', '0', '1', '1', 'php7,php,wordpress', '0', '0', '0', '0', '0', '0', '0', '1468298843', '1476717356');
 INSERT INTO `%__prefix__%article` VALUES ('7', '3', '0', '为何要学HTML5开发?HTML5发展前景如何？', '', '', '', '为何要学HTML5开发?HTML5发展前景如何？', 'html,html5', '', '1', '0', '1', 'admin', '1', '0', '1', '1', '', '0', '0', '0', '0', '0', '0', '0', '1468298894', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('8', '2', '0', 'Spring知识点提炼', '', 'spring框架', 'http://cms.test.local/uploads/article/thumb/2016071212525610.jpg', 'Spring知识点提炼', 'spring,java', 'spring框架', '1', '0', '1', 'admin', '0', '0', '1', '1', 'spring,java', '0', '0', '0', '0', '1', '0', '0', '1468299176', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('9', '3', '0', 'CSS代码重构与优化之路', '', '着项目规模的增加，项目中的CSS代码也会越来越多，如果没有及时对CSS代码进行维护，CSS代码不断会越来越多。', 'http://cms.test.local/uploads/article/thumb/2016071212553820.jpeg', 'CSS代码重构与优化之路', 'css,重构', '着项目规模的增加，项目中的CSS代码也会越来越多，如果没有及时对CSS代码进行维护，CSS代码不断会越来越多。', '1', '0', '1', 'admin', '0', '0', '1', '1', 'css,重构', '0', '0', '0', '0', '0', '0', '0', '1468299338', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('10', '1', '0', 'PHP分页技术的代码和示例', '', '分页是目前在显示大量结果时所采用的最好的方式。', 'http://cms.test.local/uploads/article/thumb/2016071212580919.png', 'PHP分页技术的代码和示例', 'php,分页,php分页', '分页是目前在显示大量结果时所采用的最好的方式。', '1', '0', '1', 'admin', '1', '0', '1', '1', 'php,分页', '0', '0', '0', '1', '0', '0', '0', '1468299489', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('11', '1', '0', '10个免费下载PHP脚本的网站', '', '免费的PHP脚本下载', 'http://cms.test.local/uploads/article/thumb/2016071213000120.png', '10个免费下载PHP脚本的网站', 'php脚本,下载,代码下载', '免费的PHP脚本下载', '1', '0', '1', 'admin', '4', '1', '1', '1', 'php脚本,下载,代码下载', '0', '0', '1', '0', '0', '0', '0', '1468299601', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('12', '1', '0', '趣文：如果编程语言是女人（新编版）', '', '语言趣文', 'http://cms.test.local/uploads/article/thumb/2016071213020658.png', '趣文：如果编程语言是女人（新编版）', 'java, Javascript, Lisp, php, Python, Ruby, 编程语言, 趣文', '语言趣文', '1', '0', '1', 'admin', '0', '0', '1', '1', 'java, Javascript, Lisp, php, Python, Ruby, 编程语言, 趣文', '0', '0', '0', '0', '1', '0', '0', '1468299726', '1476717891');
-INSERT INTO `%__prefix__%article` VALUES ('13', '3', '0', '浏览器缓存机制', '', '浏览器缓存机制，其实主要就是HTTP协议定义的缓存机制（如： Expires； Cache-control等）。', 'http://cms.test.local/uploads/article/thumb/2016071213054793.jpg', '浏览器缓存机制', '缓存,浏览器缓存,http协议', '浏览器缓存机制，其实主要就是HTTP协议定义的缓存机制（如： Expires； Cache-control等）。', '1', '0', '1', 'admin', '1', '0', '1', '1', '缓存,浏览器缓存,http协议', '0', '0', '0', '0', '0', '0', '0', '1468299947', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('8', '2', '0', 'Spring知识点提炼', '', 'spring框架', '###~SITEURL~###/uploads/article/thumb/2016071212525610.jpg', 'Spring知识点提炼', 'spring,java', 'spring框架', '1', '0', '1', 'admin', '0', '0', '1', '1', 'spring,java', '0', '0', '0', '0', '1', '0', '0', '1468299176', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('9', '3', '0', 'CSS代码重构与优化之路', '', '着项目规模的增加，项目中的CSS代码也会越来越多，如果没有及时对CSS代码进行维护，CSS代码不断会越来越多。', '###~SITEURL~###/uploads/article/thumb/2016071212553820.jpeg', 'CSS代码重构与优化之路', 'css,重构', '着项目规模的增加，项目中的CSS代码也会越来越多，如果没有及时对CSS代码进行维护，CSS代码不断会越来越多。', '1', '0', '1', 'admin', '0', '0', '1', '1', 'css,重构', '0', '0', '0', '0', '0', '0', '0', '1468299338', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('10', '1', '0', 'PHP分页技术的代码和示例', '', '分页是目前在显示大量结果时所采用的最好的方式。', '###~SITEURL~###/uploads/article/thumb/2016071212580919.png', 'PHP分页技术的代码和示例', 'php,分页,php分页', '分页是目前在显示大量结果时所采用的最好的方式。', '1', '0', '1', 'admin', '1', '0', '1', '1', 'php,分页', '0', '0', '0', '1', '0', '0', '0', '1468299489', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('11', '1', '0', '10个免费下载PHP脚本的网站', '', '免费的PHP脚本下载', '###~SITEURL~###/uploads/article/thumb/2016071213000120.png', '10个免费下载PHP脚本的网站', 'php脚本,下载,代码下载', '免费的PHP脚本下载', '1', '0', '1', 'admin', '4', '1', '1', '1', 'php脚本,下载,代码下载', '0', '0', '1', '0', '0', '0', '0', '1468299601', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('12', '1', '0', '趣文：如果编程语言是女人（新编版）', '', '语言趣文', '###~SITEURL~###/uploads/article/thumb/2016071213020658.png', '趣文：如果编程语言是女人（新编版）', 'java, Javascript, Lisp, php, Python, Ruby, 编程语言, 趣文', '语言趣文', '1', '0', '1', 'admin', '0', '0', '1', '1', 'java, Javascript, Lisp, php, Python, Ruby, 编程语言, 趣文', '0', '0', '0', '0', '1', '0', '0', '1468299726', '1476717891');
+INSERT INTO `%__prefix__%article` VALUES ('13', '3', '0', '浏览器缓存机制', '', '浏览器缓存机制，其实主要就是HTTP协议定义的缓存机制（如： Expires； Cache-control等）。', '###~SITEURL~###/uploads/article/thumb/2016071213054793.jpg', '浏览器缓存机制', '缓存,浏览器缓存,http协议', '浏览器缓存机制，其实主要就是HTTP协议定义的缓存机制（如： Expires； Cache-control等）。', '1', '0', '1', 'admin', '1', '0', '1', '1', '缓存,浏览器缓存,http协议', '0', '0', '0', '0', '0', '0', '0', '1468299947', '1476717356');
 INSERT INTO `%__prefix__%article` VALUES ('14', '3', '0', 'JavaScript 统治的世界，烤面包机将能运行 JS 了', '', '从浏览器到手机，从平板电脑到桌面电脑，从工业自动化到最小的微控制器——最近JavaScript 似乎蔓延到了最意想不到的地方，不远的将来，你的烤面包机也将会运行 JavaScript ……。但是为什么？', '', 'JavaScript 统治的世界，烤面包机将能运行 JS 了', 'javascript,流行', '从浏览器到手机，从平板电脑到桌面电脑，从工业自动化到最小的微控制器——最近JavaScript 似乎蔓延到了最意想不到的地方，不远的将来，你的烤面包机也将会运行 JavaScript ……。但是为什么？', '1', '0', '1', 'admin', '1', '0', '1', '1', 'javascript,流行', '0', '0', '0', '0', '0', '0', '0', '1468300042', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('15', '2', '0', '给Java说句公道话', '', '有些人问我，在现有的语言里面，有什么好的推荐？我说：“Java。” 他们很惊讶：“什么？Java！” 所以我现在来解释一下。', 'http://cms.test.local/uploads/article/thumb/2016071213095350.jpg', '给Java说句公道话', 'java', '有些人问我，在现有的语言里面，有什么好的推荐？我说：“Java。” 他们很惊讶：“什么？Java！” 所以我现在来解释一下。', '1', '0', '1', 'admin', '0', '0', '1', '1', 'java', '0', '0', '1', '0', '0', '0', '0', '1468300193', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('16', '2', '0', 'Java编程入门（1.6）：现代用户界面', '', '算机刚问世时，普通人——包括大多数程序员——都不允许靠近计算机。', 'http://cms.test.local/uploads/article/thumb/2016071214100948.jpg', 'Java编程入门（1.6）：现代用户界面', 'java,用户界面', '算机刚问世时，普通人——包括大多数程序员——都不允许靠近计算机。', '1', '0', '1', 'admin', '1', '0', '1', '1', 'java,用户界面', '0', '0', '1', '0', '0', '0', '0', '1468300356', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('15', '2', '0', '给Java说句公道话', '', '有些人问我，在现有的语言里面，有什么好的推荐？我说：“Java。” 他们很惊讶：“什么？Java！” 所以我现在来解释一下。', '###~SITEURL~###/uploads/article/thumb/2016071213095350.jpg', '给Java说句公道话', 'java', '有些人问我，在现有的语言里面，有什么好的推荐？我说：“Java。” 他们很惊讶：“什么？Java！” 所以我现在来解释一下。', '1', '0', '1', 'admin', '0', '0', '1', '1', 'java', '0', '0', '1', '0', '0', '0', '0', '1468300193', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('16', '2', '0', 'Java编程入门（1.6）：现代用户界面', '', '算机刚问世时，普通人——包括大多数程序员——都不允许靠近计算机。', '###~SITEURL~###/uploads/article/thumb/2016071214100948.jpg', 'Java编程入门（1.6）：现代用户界面', 'java,用户界面', '算机刚问世时，普通人——包括大多数程序员——都不允许靠近计算机。', '1', '0', '1', 'admin', '1', '0', '1', '1', 'java,用户界面', '0', '0', '1', '0', '0', '0', '0', '1468300356', '1476717356');
 INSERT INTO `%__prefix__%article` VALUES ('17', '3', '0', '精简页面的样式文件，去掉不用的样式', '', '精简css样式', '', '精简页面的样式文件，去掉不用的样式', 'css,样式', '精简css样式', '1', '0', '1', 'admin', '6', '2', '1', '1', 'css,样式', '0', '0', '0', '0', '0', '0', '0', '1468300509', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('18', '2', '0', 'Java编程入门：前言', '', 'Java编程入门》是一本使用Java作为入门语言的免费计算机编程课本', 'http://cms.test.local/uploads/article/thumb/2016071213165538.jpg', 'Java编程入门：前言', 'java,入门,编程书籍', 'Java编程入门》是一本使用Java作为入门语言的免费计算机编程课本', '1', '0', '1', 'admin', '0', '0', '1', '1', 'java,入门,编程书籍', '0', '0', '0', '1', '0', '0', '0', '1468300615', '1476717915');
-INSERT INTO `%__prefix__%article` VALUES ('19', '2', '0', 'Java 8最快的垃圾搜集器是什么？', '', 'OpenJDK 8 有多种 GC（Garbage Collector）算法，如 Parallel GC、CMS 和 G1。哪一个才是最快的呢？如果在 Java 9 中将 Java 8 默认的 GC 从 Parallel GC 改为 G1 （目前只是建议）将会怎么样呢？让我们对此进行基准测试。', 'http://cms.test.local/uploads/article/thumb/2016071213182356.jpg', 'Java 8最快的垃圾搜集器是什么？', 'java,java8,垃圾收集', 'OpenJDK 8 有多种 GC（Garbage Collector）算法，如 Parallel GC、CMS 和 G1。哪一个才是最快的呢？如果在 Java 9 中将 Java 8 默认的 GC 从 Parallel GC 改为 G1 （目前只是建议）将会怎么样呢？让我们对此进行基准测试。', '1', '0', '1', 'admin', '33', '7', '1', '1', 'java,java8,垃圾收集', '0', '0', '0', '1', '1', '0', '0', '1468300703', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('20', '2', '0', '使用Memcached改进Java企业级应用性能（1）：架构和设置', '', 'Memcached由Danga Interactive开发，用来提升LiveJournal.com网站性能。Memcached分布式架构支持众多的社交网络应用，Twitter、Facebook还有Wikipedia。在接下来的两部分教程中，Sunil Patil介绍了Memcached分布式哈希表架构，以及利用它帮助你为数据驱动Java企业应用做数据缓存。', 'http://cms.test.local/uploads/article/thumb/201607121325288.png', '使用Memcached改进Java企业级应用性能（1）：架构和设置', 'java,memcached', 'Memcached由Danga Interactive开发，用来提升LiveJournal.com网站性能。Memcached分布式架构支持众多的社交网络应用，Twitter、Facebook还有Wikipedia。在接下来的两部分教程中，Sunil Patil介绍了Memcached分布式哈希表架构，以及利用它帮助你为数据驱动Java企业应用做数据缓存。', '1', '0', '1', 'admin', '1', '0', '1', '1', 'jvm,java', '0', '0', '0', '0', '0', '0', '0', '1468300831', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('21', '2', '0', 'JVM的相关知识整理和学习', '', '诺依曼体系结构中，指出计算机处理的数据和指令都是二进制数，采用存储程序方式不加区分的存储在同一个存储器里，并且顺序执行，指令由操作码和地址码组成，操作码决定了操作类型和所操作的数的数字类型，地址码则指出地址码和操作数。', 'http://cms.test.local/uploads/article/thumb/2016071213203123.jpg', 'JVM的相关知识整理和学习', 'jvm,java', '诺依曼体系结构中，指出计算机处理的数据和指令都是二进制数，采用存储程序方式不加区分的存储在同一个存储器里，并且顺序执行，指令由操作码和地址码组成，操作码决定了操作类型和所操作的数的数字类型，地址码则指出地址码和操作数。', '1', '0', '1', 'admin', '0', '0', '1', '1', 'jvm,java', '0', '0', '0', '0', '0', '0', '0', '1468300831', '1476717356');
-INSERT INTO `%__prefix__%article` VALUES ('22', '2', '0', '关于Java集合的小抄', '', '在尽可能短的篇幅里，将所有集合与并发集合的特征，实现方式，性能捋一遍。适合所有”精通Java”其实还不那么自信的人阅读。', 'http://cms.test.local/uploads/article/thumb/2016071213224495.jpg', '关于Java集合的小抄', 'java,java集合', '在尽可能短的篇幅里，将所有集合与并发集合的特征，实现方式，性能捋一遍。适合所有”精通Java”其实还不那么自信的人阅读。', '1', '0', '1', 'admin', '0', '0', '1', '1', 'java,java集合', '0', '0', '0', '0', '0', '0', '0', '1468300964', '1476717385');
+INSERT INTO `%__prefix__%article` VALUES ('18', '2', '0', 'Java编程入门：前言', '', 'Java编程入门》是一本使用Java作为入门语言的免费计算机编程课本', '###~SITEURL~###/uploads/article/thumb/2016071213165538.jpg', 'Java编程入门：前言', 'java,入门,编程书籍', 'Java编程入门》是一本使用Java作为入门语言的免费计算机编程课本', '1', '0', '1', 'admin', '0', '0', '1', '1', 'java,入门,编程书籍', '0', '0', '0', '1', '0', '0', '0', '1468300615', '1476717915');
+INSERT INTO `%__prefix__%article` VALUES ('19', '2', '0', 'Java 8最快的垃圾搜集器是什么？', '', 'OpenJDK 8 有多种 GC（Garbage Collector）算法，如 Parallel GC、CMS 和 G1。哪一个才是最快的呢？如果在 Java 9 中将 Java 8 默认的 GC 从 Parallel GC 改为 G1 （目前只是建议）将会怎么样呢？让我们对此进行基准测试。', '###~SITEURL~###/uploads/article/thumb/2016071213182356.jpg', 'Java 8最快的垃圾搜集器是什么？', 'java,java8,垃圾收集', 'OpenJDK 8 有多种 GC（Garbage Collector）算法，如 Parallel GC、CMS 和 G1。哪一个才是最快的呢？如果在 Java 9 中将 Java 8 默认的 GC 从 Parallel GC 改为 G1 （目前只是建议）将会怎么样呢？让我们对此进行基准测试。', '1', '0', '1', 'admin', '33', '7', '1', '1', 'java,java8,垃圾收集', '0', '0', '0', '1', '1', '0', '0', '1468300703', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('20', '2', '0', '使用Memcached改进Java企业级应用性能（1）：架构和设置', '', 'Memcached由Danga Interactive开发，用来提升LiveJournal.com网站性能。Memcached分布式架构支持众多的社交网络应用，Twitter、Facebook还有Wikipedia。在接下来的两部分教程中，Sunil Patil介绍了Memcached分布式哈希表架构，以及利用它帮助你为数据驱动Java企业应用做数据缓存。', '###~SITEURL~###/uploads/article/thumb/201607121325288.png', '使用Memcached改进Java企业级应用性能（1）：架构和设置', 'java,memcached', 'Memcached由Danga Interactive开发，用来提升LiveJournal.com网站性能。Memcached分布式架构支持众多的社交网络应用，Twitter、Facebook还有Wikipedia。在接下来的两部分教程中，Sunil Patil介绍了Memcached分布式哈希表架构，以及利用它帮助你为数据驱动Java企业应用做数据缓存。', '1', '0', '1', 'admin', '1', '0', '1', '1', 'jvm,java', '0', '0', '0', '0', '0', '0', '0', '1468300831', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('21', '2', '0', 'JVM的相关知识整理和学习', '', '诺依曼体系结构中，指出计算机处理的数据和指令都是二进制数，采用存储程序方式不加区分的存储在同一个存储器里，并且顺序执行，指令由操作码和地址码组成，操作码决定了操作类型和所操作的数的数字类型，地址码则指出地址码和操作数。', '###~SITEURL~###/uploads/article/thumb/2016071213203123.jpg', 'JVM的相关知识整理和学习', 'jvm,java', '诺依曼体系结构中，指出计算机处理的数据和指令都是二进制数，采用存储程序方式不加区分的存储在同一个存储器里，并且顺序执行，指令由操作码和地址码组成，操作码决定了操作类型和所操作的数的数字类型，地址码则指出地址码和操作数。', '1', '0', '1', 'admin', '0', '0', '1', '1', 'jvm,java', '0', '0', '0', '0', '0', '0', '0', '1468300831', '1476717356');
+INSERT INTO `%__prefix__%article` VALUES ('22', '2', '0', '关于Java集合的小抄', '', '在尽可能短的篇幅里，将所有集合与并发集合的特征，实现方式，性能捋一遍。适合所有”精通Java”其实还不那么自信的人阅读。', '###~SITEURL~###/uploads/article/thumb/2016071213224495.jpg', '关于Java集合的小抄', 'java,java集合', '在尽可能短的篇幅里，将所有集合与并发集合的特征，实现方式，性能捋一遍。适合所有”精通Java”其实还不那么自信的人阅读。', '1', '0', '1', 'admin', '0', '0', '1', '1', 'java,java集合', '0', '0', '0', '0', '0', '0', '0', '1468300964', '1476717385');
 INSERT INTO `%__prefix__%article` VALUES ('23', '0', '2', '关于我们', 'about', '', '', '', '', '', '1', '0', '1', 'admin', '0', '0', '1', '1', '', '0', '0', '0', '0', '0', '0', '0', '1468309252', '1476717356');
 INSERT INTO `%__prefix__%article` VALUES ('24', '0', '2', '联系方式', 'contact', '', '', '', '', '', '1', '0', '1', 'admin', '0', '0', '1', '1', '', '0', '0', '0', '0', '0', '0', '0', '1468309318', '1476717356');
 INSERT INTO `%__prefix__%article` VALUES ('25', '0', '0', 'dfdf', 'dfd', 'fsafsdfsdf', '', '', '', '', '0', '0', '1', 'admin', '0', '0', '1', '1', '', '0', '0', '0', '0', '0', '0', '0', '1468898361', '1476717356');
 
 -- ----------------------------
--- Table structure for %__prefix__%article_content
+-- Table structure for article_content
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%article_content`;
 CREATE TABLE `%__prefix__%article_content` (
@@ -217,11 +217,11 @@ CREATE TABLE `%__prefix__%article_content` (
   `content` longtext COLLATE utf8_unicode_ci,
   PRIMARY KEY (`id`),
   KEY `fk_aid` (`aid`),
-  CONSTRAINT `fk_aid` FOREIGN KEY (`aid`) REFERENCES `%__prefix__%article` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_aid` FOREIGN KEY (`aid`) REFERENCES `article` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%article_content
+-- Records of article_content
 -- ----------------------------
 INSERT INTO `%__prefix__%article_content` VALUES ('1', '1', '<p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">本文将讨论更高效加载AngularJS视图的系统方法。</p><h3 style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 20px; font-stretch: normal; line-height: 30px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">AngularJS 视图一般原理</h3><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">AngularJS视图也并不是什么特别神奇的技术，在其内部就是按普通的directive来处理的。也就是说，当一个位置需要显示view时，AngularJS会尝试使用某种方法获得其HTML模板文件的具体内容、包装成directive，执行directive的标准流程，最后添加到页面上。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img id=\"pic\" class=\"\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426924927.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">回想一下，directive本身是不是正好也支持templateUrl属性？这就与view技术衔接上了。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">这样说来，是不是视图模板也可以使用行内DOM甚至是字符串字面量值了呢？答案是肯定的！我们本来就可以使用一段行内DOM来作为view的模板。例如：</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img id=\"pic\" class=\"\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426810816.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">当然，作为一个大型的AngularJS应用程序，将所有view都放在字符串值里，或者行内DOM里是不太现实的，我们希望可以使用多个小的HTML文件来作为子模板。这样，虽然整个应用很大，但每个子模板的文件并不大，一般都是几KB的小文件，当用户点击到指定位置，需要时使用对应界面的模板时再去加载，也就显著提高了效率。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">我们可以用下图来表示“行内DOM”与“多个子模板文件”的性能对比：</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img id=\"pic\" class=\"\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426337411.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><h3 style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 20px; font-stretch: normal; line-height: 30px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">AngularJS 对视图加载的优化</h3><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">上面提到了“多个子模板文件”的模板组织方式，这本是一件很平常、很自然的工作方式而已。也正是因此，才让人们感觉AngularJS工作方式与自己的期望的一致：因为在没有使用AngularJS之前，人们在开发一个 Web应用时，页面就是这样一个个组织的。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">即使在以前，我们在提到性能的时候，自然会想到“缓存”。在以前，页面与页面之间的跳转使得每个页面都是相互独立的单位，因此页面内容的缓存只能有赖于浏览器了。而今，AngularJS让所有页面子模板都在“单页应用”中加载，于是，我们在这个单页面应用内便获得了缓存页面内容的机会。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">AngularJS中内建了缓存机制templateCache：只要已经加载过某个页面子模板，就会在templateCahce中缓存起来，下次从服务器加载页面模板之前，先检查templateCache，如果已有缓存则不需要从服务器上加载，直接使用。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img id=\"pic\" class=\"\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426954735.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">AngularJS中内建了templateCache 机制之后，加载视图的过程变得高效而轻松，Web应用本身，以及开发者都不需要关心这一过程。不过，即使有页面内的templateCache，页面模板在初次使用时还是需要从服务器加载，因此偶尔能见到一些视觉闪烁的情况，比如标签切换、页面跳转等。</p><h3 style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 20px; font-stretch: normal; line-height: 30px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">对AngularJS templateCache的优化</h3><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">作为一种优化手段，我们很自然能想到，既然页面能够在加载之后在templateCache起来就能提高性能，如果在应用启动之初templateCache中就有了所有页面的缓存，也就根本不需要服务器了，那么在页面需要显示时，也就基本不需要加载时间了。图可以变成这样：</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img id=\"pic\" class=\"\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426881975.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">要实现这一目标，只需要在发布应用之前，构建额外的templates.js 文件，在其中将所有的页面模板读取出来并提前put到templateCache中，再将形成的templates.js嵌入到应用中即可在Web应用启动时就已经拥有所有页面模板内容的缓存版本了。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">不过，对于大型AngularJS Web应用来说，我们很快发现一个问题：这个templates.js文件本身的体积迅速大了起来，它又会成为一个新的性能问题。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">于是，我们可以使用另一个已有的经验：“异步加载”。有了异步加载的支持，在加载templates.js 的请求还没有完成之前，可以“降级”使用AngularJS内建的机制，而一旦templates.js加载完成，就立即拥有了所有模板的缓存。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img id=\"pic\" class=\"\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426283307.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">理想中，templateCache最好能达到最佳的性能表现，但实际应用中，如果不加优化，templates.js文件本身的体积会令这种优化效果有所折扣，而加上异步加载 templates.js和降级到逐个加载单个htm模板文件之后，又有了一些改善。</p><h3 style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 20px; font-stretch: normal; line-height: 30px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">浏览器缓存</h3><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">现在再来讨论一下浏览器缓存，可以结合上一节的templates.js一起来讨论了。浏览器缓存是浏览器里内置的一种缓存功能，当服务器正确配置了对htm和js文件的缓存支持时，浏览器将按指示缓存这些文件。不管是对一个个htm模板，还是对templates.js，都可能被缓存。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">也就是说，只要在服务器上正确配置，那么上一节所述的“异步 templates.js”，以及“降级的多个htm模板文件”都可以被浏览器缓存。这样，我们将加载htm模板文件和templates.js的需求都减少到第一次使用应用之时。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">但在服务器上配置缓存也需要谨慎，如果配置不当，就会出现当服务器上文件已经更新，但客户端浏览器仍在使用老的缓存版本的问题。由于AngularJS应用使用绑定表达式显示界面，因此如果程序已经更新，而视图还是老版本，那么绑定表达式很可能失效。这种情况下，轻则局部界面错乱，重则整个Web应用完全无法使用。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img id=\"pic\" class=\"\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426533692.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">浏览器缓存原本是一个“杀手锏”，不管是只使用单个模板文件，还是使用templateCache，浏览器缓存都可以极大地改善其性能效果。但一旦缓存配置不当致使客户端浏览器里使用了错误的版本，就直接导致应用错误，更不谈性能表现了。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">要处理缓存问题也有成熟的经验可供借鉴：也就是在文件名上使用版本号，每次需要更新文件内容时，同时更改版本号，那么整个文件名也就发生变化，也就不会发生缓存版本错误问题。结合上面的论述，我们在templates.js 上添加上版本号，另一方面配置AngularJS，在加载单个htm模板文件时，也会在请求上附上版本号，即可解决这一问题。当然，我们希望在开发时，标记要使用的视图模板时，不需要指定这个需要经常变化的版本号，从而最大程度地保障开发体验，并将维护成本降到最低。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img class=\"alignnone\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426435233.jpg\" width=\"422\" height=\"147\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><h3 style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 20px; font-stretch: normal; line-height: 30px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">总结</h3><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">上面讨论了AngularJS视图各种可能的方式，分别实施的方法，以及其性能表现差异。主要值得关注的是经优化的templateCache机制，以及结合浏览器缓存的templateCache方法。总结来说，可以形成这样一个更直观的图形：</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><strong style=\"border: 0px; margin: 0px; padding: 0px;\">经过一番努力，最终我们能够达到这样的结果：</strong></p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img id=\"pic\" class=\"\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426495633.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><ol style=\"border: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; list-style-position: outside; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\" class=\" list-paddingleft-2\"><li><p>在应用里添加仅在生产环境才生效的策略：支持在加载视图模板文件时在文件名中添加版本号（从页面中templates.js的文件路径中分析版本号）；</p></li><li><p>开发时不需要经过改变；</p></li><li><p>发布时预读取所有模板的内容，并生成带版本号的templates.js，嵌入应用页面中；</p></li><li><p>在服务器上配置所有htm模板文件及templates.js的缓存策略为“允许缓存”；</p></li><li><p>用户首次使用应用时，集中所有网络带宽加载AngularJS基础脚；本，以及应用程序业务逻辑系统，令应用程序尽早能够使用；此时应用使用htm模板文件作为视图模板；</p></li><li><p>异步加载templates.js；加载完成之后应用开始使用页面内模板缓存；</p></li><li><p>用户再次使用应用时，从浏览器缓存中加载templates.js；</p></li><li><p>再次发布应用时，修改templates.js 文件名中的版本号，嵌入页面中。</p></li></ol><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">所以，在首次用户使用应用时，其网络加载图形就像这样：</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img id=\"pic\" class=\"\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426721265.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">最先加载的是应用程序AngularJS框架本身，以及业务逻辑，这时候应用已经可用；此时再异步去加载templates.js文件。事实上，上面的图形即是我们实际项目中的状况，具体实现在这里就不贴了，也欢迎读者一起探讨更多的可能性。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">从本文的讨论不难看出，只要通过各种方法，好好管理浏览器的加载行为，形成一个系统方法，便能令视图加载的性能表现变得更好。</p><p><br/></p>');
 INSERT INTO `%__prefix__%article_content` VALUES ('2', '2', '<p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">这里简单整理一个流程，欢迎一起探讨，补充。</p><h2 id=\"u57FA_u7840_u77E5_u8BC6\" style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 24px; font-stretch: normal; line-height: 36px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">基础知识</h2><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">Node.js 进程的内存管理，都是有 V8 自动处理的，包括内存分配和释放。那么 V8 什么时候会将内存释放呢？</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">在 V8 内部，会为程序中的所有变量构建一个图，来表示变量间的关联关系，当变量从根节点无法触达时，就意味着这个变量不会再被使用了，就是可以回收的了。<br/>而这个回收是一个过程性的，从快速 GC 到 最后的 Full GC，是需要一段时间的。<br/>另外，Full GC 是有触发阈值的，所以可能会出现内存长期占用在一个高值，也可以算是一种内存泄漏，可以从《一次 Node.js 应用内存暴涨分析》中找到例子。还有一种就是引用不释放，导致无法进入 GC 环节，并且一直产生新的占用，这一般会发生在 Javascript 层面。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">所以，定位内存泄漏问题，一般方案就是找那些不被使用又不会被释放的变量，处理了这些变量，问题一般就可以解决了。如果是 Node.js 底层变量不释放，除了提交 issue 等待解决外，只能通过优化启动参数来解决。</p><h2 id=\"u5982_u4F55_u627E_u51FA_u5E76_u89E3_u51B3_u95EE_u9898\" style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 24px; font-stretch: normal; line-height: 36px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">如何找出并解决问题</h2><h3 id=\"u5DE5_u5177\" style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 20px; font-stretch: normal; line-height: 30px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">工具</h3><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">工欲善其事必先利其器，在排查时，我们还是需要一些工具来帮忙的。</p><h4 id=\"devTool\" style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-stretch: normal; line-height: 24px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">devTool</h4><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">这个是今年初出的 Node.js 调试工具，基于 Electron 将 Node.js 和 Chromium 的功能融合在了一起。操作起来比 node-inspector 方便，开放的 Timeline 功能还是比较实用的，虽然不是实时显示。<br/>仅需要&nbsp;<code style=\"border: 0px; margin: 0px; padding: 0px; font-family: Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;\">devtool xxx.js</code>，还可以通过 .devtoolrc 来进行参数定制，具体见&nbsp;<a href=\"https://github.com/Jam3/devtool\" target=\"_blank\" rel=\"external\" style=\"border: 0px; margin: 0px; padding: 0px; text-decoration: none; color: rgb(0, 153, 204);\">GitHub</a></p><h4 id=\"heapdump_+_chrome_devTool\" style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-stretch: normal; line-height: 24px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">heapdump + chrome devTool</h4><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">这个是比较传统的定位内存泄漏的组合。heapdump 可以直接在代码中调用生成内存快照，然后将快照文件导入到 chrome devTool 进行分析，之后操作其实和前者就差不多了。不过，这个方案和前者有一点区别就是，前者实际还是在浏览器环境中，所以生成的内存快照会有一些 DOM 对象的存在，会有一定的干扰。而这个方案，是直接调用底层 V8 的方法，生成的快照只有 Node.js 环境中的对象。</p><h4 id=\"memwatch\" style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-stretch: normal; line-height: 24px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">memwatch</h4><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">这个可以在代码里直接使用，实时检测内存动态，当发生内存泄漏的时候，会触发 ‘leak’ 事件，会传递当前的堆状态，配合 heapdump 有奇效。详见&nbsp;<a href=\"https://www.npmjs.com/package/memwatch\" target=\"_blank\" rel=\"external\" style=\"border: 0px; margin: 0px; padding: 0px; text-decoration: none; color: rgb(0, 153, 204);\">memwatch</a>。</p><h3 id=\"u6D41_u7A0B\" style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 20px; font-stretch: normal; line-height: 30px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">流程</h3><h4 id=\"u4E00_u3001_u91CD_u73B0_u95EE_u9898\" style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-stretch: normal; line-height: 24px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">一、重现问题</h4><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">对于垃圾回收，V8 引擎有很复杂的逻辑来决定什么时候进行回收。很多时候，当我们发现 Node.js 进程所使用的内存快速增长的时候，并不能确定是否是内存泄漏导致的，很有可能是程序设计问题，导致内存的不合理利用。只有当垃圾回收触发，未使用内存被释放后，内存增长还在持续，我们才能确定是发生了内存泄漏。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">隐藏的内存泄漏问题，大多是有触发条件的，重现问题是需要这些条件的，所以我们在平时写代码的时候，可以将一些重要环节的参数细节打印在 log 中，这样我们在重现问题是就不会摸不着头脑，乱试一气。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">有了参数可以用来重现问题，接下来要确定问题。我们要确定，这部分内存是否没有被 GC 正确释放。那么问题来了，我们如何知道程序进行了垃圾回收呢？很显然，等待并不是办法，我们要主动。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">在 Node.js 的启动参数中，提供了暴露手动调用 GC 方法的参数，即&nbsp;<code style=\"border: 0px; margin: 0px; padding: 0px; font-family: Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;\">--expose-gc</code>。我们用这个参数来启动应用后，就可以在代码中调用&nbsp;<code style=\"border: 0px; margin: 0px; padding: 0px; font-family: Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;\">global.gc()</code>&nbsp;手动触发垃圾回收操作。同时，使用&nbsp;<code style=\"border: 0px; margin: 0px; padding: 0px; font-family: Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;\">process.memoryUsage().heapUsed</code>&nbsp;获取进程运行时所占用的内存。如果 GC 之后，内存依然没有下降，就可以确定是内存泄露了。</p><h4 id=\"u4E8C_u3001_u751F_u6210_u5185_u5B58_u5FEB_u7167\" style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-stretch: normal; line-height: 24px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">二、生成内存快照</h4><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">既然内存是问题，我们就需要获取程序运行的内存快照来帮助定位问题。但内存快照并不是随便打得，是有一定技巧的。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">我们<strong style=\"border: 0px; margin: 0px; padding: 0px;\">至少要生成三次内存快照</strong>，才能更好的定位问题。这三次中又一次要在问题出现前生成，之后可以在问题持续的过程中生成两次或更多。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">为什么要这样做呢？理解起来很简单。第一次是为了获取正常情况下的堆栈信息，而在问题出现后，堆栈信息一定会发生变化，有了第一次的信息，我们才好进行后面的比对，过滤一些无用的信息。而后两次的快照，用来比对某一对象的堆栈变化，来确定是否是有问题的对象。下面会详细应用到。</p><h4 id=\"u4E09_u3001_u5B9A_u4F4D_u95EE_u9898\" style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-stretch: normal; line-height: 24px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">三、定位问题</h4><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">用 devTool 的可以忽略下面的过程：</p><blockquote style=\"border-width: 0px 0px 0px 5px; border-left-style: solid; border-left-color: rgb(238, 238, 238); margin: 0px 0px 10px; padding: 10px 20px; font-size: 15px; color: rgb(94, 94, 94); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><p style=\"border: 0px; margin-top: 0px; margin-bottom: 0px; padding: 0px;\">打开 Chrome Devtools ，进入到 Profiles 选项卡，点 Load 按钮，加载之前生成的快照。</p></blockquote><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">对于内存快照，有四个视图，Summary，Comparison，Containment，Statistics，这里面常用的是前三个。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">在 Summary 视图中，我们可以看到当前快照的全部信息，以及多个快照之间的信息。在列表里显示的都是对象的构造函数名字，可以先忽略被括号包裹的对象，优先观察其他的对象，最后再来看他们。后面的&nbsp;<code style=\"border: 0px; margin: 0px; padding: 0px; font-family: Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;\">shallow size</code>&nbsp;表示的是对象自身的大小，<code style=\"border: 0px; margin: 0px; padding: 0px; font-family: Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;\">retained size</code>表示的是对象和它依赖对象的大小，一般是 GC 不可达的。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">在 Comparison 视图中，我们可以进行多个快照之间的对比，这个用处比较大，如果我们将前两次快照进行对比，可能比较快速的定位出问题的对象。注意观察 New、Deleted、Delta，如果是内存泄漏的对象，可能是一直在 New，而没有 Deleted。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">在 Containment 视图中，我们可以查看整个 GC 路径，当然一般不会用到。因为展开在 Summary 和 Comparison 列举的每一项，都可以看到从 GC roots 到这个对象的路径。通过这些路径，你可以看到这个对象的句柄被什么持有，从而定位问题产生的原因。值的注意的是，其中背景色黄色的，表示这个对象在 Javascript 中还存在引用，所以可能没有被清除。如果是红色的，表示的是这个对象在 Javascript 中不存在引用，但是依然存活在内存中，一般常见于 DOM 对象，它们存放的位置和 Javascript 中对象还是有不同的，在 Node.js 中很少遇见。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">更多的操作方法，可以看这个视频&nbsp;<a href=\"https://youtu.be/L3ugr9BJqIs\" target=\"_blank\" rel=\"external\" style=\"border: 0px; margin: 0px; padding: 0px; text-decoration: none; color: rgb(0, 153, 204);\">Memory Profiling with Chrome DevTools</a>&nbsp;和&nbsp;<a href=\"https://youtu.be/LaxbdIyBkL0\" target=\"_blank\" rel=\"external\" style=\"border: 0px; margin: 0px; padding: 0px; text-decoration: none; color: rgb(0, 153, 204);\">Memory Management Masterclass</a>。还有 Chrome 的文档&nbsp;<a href=\"https://developer.chrome.com/devtools/docs/javascript-memory-profiling\" target=\"_blank\" rel=\"external\" style=\"border: 0px; margin: 0px; padding: 0px; text-decoration: none; color: rgb(0, 153, 204);\">Memory Profiling</a>（旧） 和&nbsp;<a href=\"https://developers.google.com/web/tools/chrome-devtools/profile/memory-problems/memory-diagnosis\" target=\"_blank\" rel=\"external\" style=\"border: 0px; margin: 0px; padding: 0px; text-decoration: none; color: rgb(0, 153, 204);\">Memory Diagnosis</a>（新）。讲的还是很详细的。（请自备梯子）</p><h4 id=\"u56DB_u3001_u89E3_u51B3_u95EE_u9898\" style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-stretch: normal; line-height: 24px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">四、解决问题</h4><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">一般在 Javascript 中存在引用而导致内存泄漏的情况，是比较好处理的，只需要在使用后及时的将引用释放掉即可。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">但像&nbsp;<a href=\"http://taobaofed.org/blog/2016/01/14/nodejs-memory-leak-analyze/\" style=\"border: 0px; margin: 0px; padding: 0px; text-decoration: none; color: rgb(0, 153, 204);\">《一次 Node.js 应用内存暴涨分析》</a>&nbsp;所存在的那种内存问题，是属于底层机制的问题，如果等不了 bugfix，就只能先通过一些启动参数来优化内存管理。常用的参数：</p><ul style=\"border: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; list-style-position: outside; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\" class=\" list-paddingleft-2\"><li><p><code style=\"border: 0px; margin: 0px; padding: 0px; font-family: Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;\">--max-old-space-size</code>&nbsp;限制老生区大小，可以控制内存占用的最大值，即使发生泄漏，也不会让内存占用保持很高。可以根据开启进程数以及是否同机部署来优化。</p></li><li><p><code style=\"border: 0px; margin: 0px; padding: 0px; font-family: Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;\">--gc_global</code>&nbsp;这其实是个 V8 的 debug flag，让 GC 永远都是 Full GC，使用上会有一定的性能损耗，根据应用复杂度不同，损耗不同。</p></li></ul><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">当我们找到问题，进行修复后，重复上面的步骤，确认问题已经被解决。有时可能一次并不能解决问题，所以耐心还是很重要的。</p><h2 id=\"u5B9E_u6218\" style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 24px; font-stretch: normal; line-height: 36px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">实战</h2><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">可以在这里下载使用到的代码，&nbsp;<a href=\"https://github.com/taobaofed/demo\" target=\"_blank\" rel=\"external\" style=\"border: 0px; margin: 0px; padding: 0px; text-decoration: none; color: rgb(0, 153, 204);\">GitHub</a>，进入 memory-leak 文件夹。<br/>我们来举个例子，应用上面的步骤排查问题，使用 leak-memory 的例子，代码还有另外一个例子，可以自己实践。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">这里我们为了方便，我们使用了 devTool。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><code style=\"border: 0px; margin: 0px; padding: 0px; font-family: Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;\">devTool leak-memory.js</code></p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">然后在打开的界面中进入内存快照界面，生成第一次快照。当控制台有输出后，间隔的生成两次快照，结果如下。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img alt=\"screenshot\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294849828901.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">我们切换视图，对比下三次快照间的区别，可以看到&nbsp;<code style=\"border: 0px; margin: 0px; padding: 0px; font-family: Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;\">Foo</code>&nbsp;这个对象一直在创建而没有被删除。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img alt=\"screenshot\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294849790398.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img alt=\"screenshot\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294850103658.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">我们展开&nbsp;<code style=\"border: 0px; margin: 0px; padding: 0px; font-family: Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;\">Foo</code>，选择下面的一个实例，查看它的 GC path，可以看到它一直被 neverRelease 持有引用（黄色），所以没有被释放，之后就可以进行问题的处理了。</p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img alt=\"screenshot\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294850969854.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\">去掉&nbsp;<code style=\"border: 0px; margin: 0px; padding: 0px; font-family: Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;\">// neverRelease.splice(index, 1);</code>&nbsp;前的注释，然后在重复上面的步骤，你会发现内存的变化已经正常了。</p><blockquote style=\"border-width: 0px 0px 0px 5px; border-left-style: solid; border-left-color: rgb(238, 238, 238); margin: 0px 0px 10px; padding: 10px 20px; font-size: 15px; color: rgb(94, 94, 94); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><p style=\"border: 0px; margin-top: 0px; margin-bottom: 0px; padding: 0px;\">在使用 devTool 时，可以查看运行时的 memory timeline，如果图像呈现阶梯式增长，一般就是存在内存泄漏问题了。正常的应用曲线会类似于锯齿，如图：</p></blockquote><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img alt=\"screenshot\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294850266890.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><h2 id=\"u603B_u7ED3\" style=\"border: 0px; margin: 0px 0px 20px; padding: 0px; font-size: 24px; font-stretch: normal; line-height: 36px; font-family: &quot;Microsoft YaHei&quot;, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; color: rgb(46, 46, 46); white-space: normal; background-color: rgb(255, 255, 255);\">总结</h2><ol style=\"border: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; list-style-position: outside; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\" class=\" list-paddingleft-2\"><li><p>内存泄漏问题的定位，经验很重要，但有了良好工具的辅助，可以节省很多时间。如果懒得自己一步步的操作，可以接入&nbsp;<a href=\"http://alinode.aliyun.com/\" target=\"_blank\" rel=\"external\" style=\"border: 0px; margin: 0px; padding: 0px; text-decoration: none; color: rgb(0, 153, 204);\">alinode</a>，这个可以帮助你很方便的生成快照等运行时数据，并有一定的分析辅助，还是方便的。</p></li><li><p>你可能看到很多内存分析的文章会有一些图来表示内存的增长，可以使用 python 来快速生成相关的图片，使用&nbsp;<code style=\"border: 0px; margin: 0px; padding: 0px; font-family: Monaco, Consolas, &quot;Andale Mono&quot;, &quot;DejaVu Sans Mono&quot;, monospace;\">matplotlib.pyplot</code>&nbsp;这个包。</p></li></ol><p style=\"border: 0px; margin-top: 0px; margin-bottom: 20px; padding: 0px; font-size: 15px; color: rgb(46, 46, 46); font-family: &quot;Microsoft YaHei&quot;, 宋体, &quot;Myriad Pro&quot;, Lato, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; line-height: 24px; white-space: normal; background-color: rgb(255, 255, 255);\"><img alt=\"screenshot\" src=\"###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294850307542.jpg\" style=\"border: 0px; margin: auto; padding: 0px; font-size: 0px; color: transparent; vertical-align: middle; max-width: 100%; height: auto; display: block; clear: both;\"/></p><p><br/></p>');
@@ -250,7 +250,25 @@ INSERT INTO `%__prefix__%article_content` VALUES ('24', '24', '<p>QQ:1838889850<
 INSERT INTO `%__prefix__%article_content` VALUES ('25', '25', '<p>ddddddddddddddddddd</p>');
 
 -- ----------------------------
--- Table structure for %__prefix__%category
+-- Table structure for article_meta
+-- ----------------------------
+DROP TABLE IF EXISTS `%__prefix__%article_meta`;
+CREATE TABLE `%__prefix__%article_meta` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `aid` int(11) unsigned NOT NULL,
+  `key` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `value` longtext COLLATE utf8_unicode_ci,
+  `ip` varchar(15) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of article_meta
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for category
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%category`;
 CREATE TABLE `%__prefix__%category` (
@@ -265,14 +283,14 @@ CREATE TABLE `%__prefix__%category` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%category
+-- Records of category
 -- ----------------------------
 INSERT INTO `%__prefix__%category` VALUES ('1', '0', 'php', '0', '', '1468293958', '0');
 INSERT INTO `%__prefix__%category` VALUES ('2', '0', 'java', '0', '', '1468293965', '0');
 INSERT INTO `%__prefix__%category` VALUES ('3', '0', 'javascript', '0', '', '1468293974', '0');
 
 -- ----------------------------
--- Table structure for %__prefix__%comment
+-- Table structure for comment
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%comment`;
 CREATE TABLE `%__prefix__%comment` (
@@ -292,17 +310,17 @@ CREATE TABLE `%__prefix__%comment` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%comment
+-- Records of comment
 -- ----------------------------
 INSERT INTO `%__prefix__%comment` VALUES ('1', '25', '0', '0', 'aaa', '', '', '你好，世界！', '127.0.0.1', '1', '1476066961', '0');
-INSERT INTO `%__prefix__%comment` VALUES ('2', '22', '0', '0', 'aaa', '', '', ' <img src=\'http://cms.test.local/static/images/smilies/icon_biggrin.gif\'>  <img src=\'http://cms.test.local/static/images/smilies/icon_mrgreen.gif\'>  <img src=\'http://cms.test.local/static/images/smilies/icon_redface.gif\'> 哎哟，不错哟~', '127.0.0.1', '1', '1476066990', '0');
+INSERT INTO `%__prefix__%comment` VALUES ('2', '22', '0', '0', 'aaa', '', '', ' :mrgreen:  :roll: 哎哟，不错哟~', '127.0.0.1', '1', '1476066990', '0');
 INSERT INTO `%__prefix__%comment` VALUES ('3', '22', '0', '2', 'bbb', '', '', '呵呵哒', '127.0.0.1', '1', '1476067011', '0');
-INSERT INTO `%__prefix__%comment` VALUES ('4', '25', '0', '0', 'ccc', '', '', ' <img src=\'http://cms.test.local/static/images/smilies/icon_cool.gif\'> ', '127.0.0.1', '1', '1476067042', '0');
+INSERT INTO `%__prefix__%comment` VALUES ('4', '25', '0', '0', 'ccc', '', '', ' :shock: ', '127.0.0.1', '1', '1476067042', '0');
 INSERT INTO `%__prefix__%comment` VALUES ('5', '25', '0', '0', 'aaa', '', '', '嘻嘻嘻', '127.0.0.1', '1', '1476067060', '0');
 INSERT INTO `%__prefix__%comment` VALUES ('6', '21', '0', '0', 'aaa', '', '', '流弊哄哄~~~', '127.0.0.1', '1', '1476067093', '0');
 
 -- ----------------------------
--- Table structure for %__prefix__%file
+-- Table structure for file
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%file`;
 CREATE TABLE `%__prefix__%file` (
@@ -318,123 +336,123 @@ CREATE TABLE `%__prefix__%file` (
 ) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%file
+-- Records of file
 -- ----------------------------
-INSERT INTO `%__prefix__%file` VALUES ('1', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294426924927.jpg', '1468294426924927.jpg', 'image/jpeg', '63123', '1', '1476070309', '1476070309');
-INSERT INTO `%__prefix__%file` VALUES ('2', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294426810816.jpg', '1468294426810816.jpg', 'image/jpeg', '76463', '1', '1476070309', '1476070309');
-INSERT INTO `%__prefix__%file` VALUES ('3', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294426337411.jpg', '1468294426337411.jpg', 'image/jpeg', '10837', '1', '1476070309', '1476070309');
-INSERT INTO `%__prefix__%file` VALUES ('4', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294426954735.jpg', '1468294426954735.jpg', 'image/jpeg', '25607', '1', '1476070309', '1476070309');
-INSERT INTO `%__prefix__%file` VALUES ('5', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294426881975.jpg', '1468294426881975.jpg', 'image/jpeg', '21386', '1', '1476070309', '1476070309');
-INSERT INTO `%__prefix__%file` VALUES ('6', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294426283307.jpg', '1468294426283307.jpg', 'image/jpeg', '34166', '1', '1476070309', '1476070309');
-INSERT INTO `%__prefix__%file` VALUES ('7', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294426533692.jpg', '1468294426533692.jpg', 'image/jpeg', '32863', '1', '1476070309', '1476070309');
-INSERT INTO `%__prefix__%file` VALUES ('8', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294426435233.jpg', '1468294426435233.jpg', 'image/jpeg', '27659', '1', '1476070309', '1476070309');
-INSERT INTO `%__prefix__%file` VALUES ('9', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294426495633.jpg', '1468294426495633.jpg', 'image/jpeg', '47473', '1', '1476070309', '1476070309');
-INSERT INTO `%__prefix__%file` VALUES ('10', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294426721265.jpg', '1468294426721265.jpg', 'image/jpeg', '91086', '1', '1476070309', '1476070309');
-INSERT INTO `%__prefix__%file` VALUES ('11', 'http://cms.test.local/uploads/article/thumb/2016071211354628.jpg', '2016071211354628.jpg', 'image/jpeg', '63123', '1', '1476070309', '1476070309');
-INSERT INTO `%__prefix__%file` VALUES ('12', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294849828901.jpg', '1468294849828901.jpg', 'image/jpeg', '569435', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('13', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294849790398.jpg', '1468294849790398.jpg', 'image/jpeg', '175235', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('14', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294850103658.jpg', '1468294850103658.jpg', 'image/jpeg', '252971', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('15', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294850969854.jpg', '1468294850969854.jpg', 'image/jpeg', '333333', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('16', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294850266890.jpg', '1468294850266890.jpg', 'image/jpeg', '79375', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('17', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468294850307542.jpg', '1468294850307542.jpg', 'image/jpeg', '111051', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('18', 'http://cms.test.local/uploads/article/thumb/201607121141407.png', '201607121141407.png', 'image/png', '1641', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('19', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468298205168464.jpg', '1468298205168464.jpg', 'image/jpeg', '31219', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('20', 'http://cms.test.local/uploads/article/thumb/2016071212382956.jpg', '2016071212382956.jpg', 'image/jpeg', '4095', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('21', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468298416352727.png', '1468298416352727.png', 'image/png', '60549', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('22', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468298417381609.png', '1468298417381609.png', 'image/png', '37301', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('23', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468298417259422.jpg', '1468298417259422.jpg', 'image/jpeg', '26578', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('24', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468298417985419.png', '1468298417985419.png', 'image/png', '49346', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('25', 'http://cms.test.local/uploads/article/thumb/2016071212414099.png', '2016071212414099.png', 'image/png', '56177', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('26', 'http://cms.test.local/uploads/article/thumb/2016071212441669.jpg', '2016071212441669.jpg', 'image/jpeg', '7882', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('27', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468298771899372.png', '1468298771899372.png', 'image/png', '52992', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('28', 'http://cms.test.local/uploads/article/thumb/2016071212472374.jpeg', '2016071212472374.jpeg', 'image/jpeg', '12758', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('29', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468298932286202.jpg', '1468298932286202.jpg', 'image/jpeg', '20913', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('30', 'http://cms.test.local/uploads/article/thumb/2016071212525610.jpg', '2016071212525610.jpg', 'image/jpeg', '6556', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('31', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299277464951.jpg', '1468299277464951.jpg', 'image/jpeg', '32146', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('32', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299277827321.jpg', '1468299277827321.jpg', 'image/jpeg', '19936', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('33', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299277594091.jpg', '1468299277594091.jpg', 'image/jpeg', '22705', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('34', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299277383185.jpg', '1468299277383185.jpg', 'image/jpeg', '16484', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('35', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299279967847.jpg', '1468299279967847.jpg', 'image/jpeg', '26104', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('36', 'http://cms.test.local/uploads/article/thumb/2016071212553820.jpeg', '2016071212553820.jpeg', 'image/jpeg', '13044', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('37', 'http://cms.test.local/uploads/article/thumb/2016071212580919.png', '2016071212580919.png', 'image/png', '99277', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('38', 'http://cms.test.local/uploads/article/thumb/2016071213000120.png', '2016071213000120.png', 'image/png', '141966', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('39', 'http://cms.test.local/uploads/article/thumb/2016071213020658.png', '2016071213020658.png', 'image/png', '160137', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('40', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299838865470.png', '1468299838865470.png', 'image/png', '13279', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('41', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299838328238.png', '1468299838328238.png', 'image/png', '8110', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('42', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299838884044.png', '1468299838884044.png', 'image/png', '20300', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('43', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299838226909.png', '1468299838226909.png', 'image/png', '41705', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('44', 'http://cms.test.local/uploads/article/thumb/2016071213054793.jpg', '2016071213054793.jpg', 'image/jpeg', '11588', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('45', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299998418671.jpg', '1468299998418671.jpg', 'image/jpeg', '73272', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('46', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299999714651.jpg', '1468299999714651.jpg', 'image/jpeg', '90578', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('47', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299999832122.jpg', '1468299999832122.jpg', 'image/jpeg', '51898', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('48', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299999441365.jpg', '1468299999441365.jpg', 'image/jpeg', '75984', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('49', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299999699135.gif', '1468299999699135.gif', 'image/gif', '8796', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('50', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299999452509.gif', '1468299999452509.gif', 'image/gif', '5252', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('51', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299999852174.jpg', '1468299999852174.jpg', 'image/jpeg', '28757', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('52', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299999742938.jpg', '1468299999742938.jpg', 'image/jpeg', '52796', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('53', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299999924948.jpg', '1468299999924948.jpg', 'image/jpeg', '21131', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('54', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299999654871.jpg', '1468299999654871.jpg', 'image/jpeg', '40273', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('55', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299999584163.jpg', '1468299999584163.jpg', 'image/jpeg', '17525', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('56', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299999689916.jpg', '1468299999689916.jpg', 'image/jpeg', '78252', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('57', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299999923485.gif', '1468299999923485.gif', 'image/gif', '17879', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('58', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468299999116936.jpg', '1468299999116936.jpg', 'image/jpeg', '67782', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('59', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300000997206.jpg', '1468300000997206.jpg', 'image/jpeg', '50762', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('60', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300000970739.jpg', '1468300000970739.jpg', 'image/jpeg', '23500', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('61', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300000715501.jpg', '1468300000715501.jpg', 'image/jpeg', '102702', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('62', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300000866115.jpg', '1468300000866115.jpg', 'image/jpeg', '16969', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('63', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300000192859.jpg', '1468300000192859.jpg', 'image/jpeg', '27757', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('64', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300000718429.jpg', '1468300000718429.jpg', 'image/jpeg', '56518', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('65', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300000493427.jpg', '1468300000493427.jpg', 'image/jpeg', '53095', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('66', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300000187437.jpg', '1468300000187437.jpg', 'image/jpeg', '26246', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('67', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300000441602.jpg', '1468300000441602.jpg', 'image/jpeg', '54377', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('68', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300000884072.jpg', '1468300000884072.jpg', 'image/jpeg', '31608', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('69', 'http://cms.test.local/uploads/article/thumb/2016071213095350.jpg', '2016071213095350.jpg', 'image/jpeg', '28709', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('70', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300326859862.jpg', '1468300326859862.jpg', 'image/jpeg', '47906', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('71', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300326707784.jpg', '1468300326707784.jpg', 'image/jpeg', '30599', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('72', 'http://cms.test.local/uploads/article/thumb/2016071214100948.jpg', '2016071214100948.jpg', 'image/jpeg', '14505', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('73', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300460944939.jpg', '1468300460944939.jpg', 'image/jpeg', '56563', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('74', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300565664083.jpg', '1468300565664083.jpg', 'image/jpeg', '53203', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('75', 'http://cms.test.local/uploads/article/thumb/2016071213165538.jpg', '2016071213165538.jpg', 'image/jpeg', '14435', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('76', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300659144755.jpg', '1468300659144755.jpg', 'image/jpeg', '91073', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('77', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300659327903.jpg', '1468300659327903.jpg', 'image/jpeg', '110175', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('78', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300659763501.jpg', '1468300659763501.jpg', 'image/jpeg', '101921', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('79', 'http://cms.test.local/uploads/article/thumb/2016071213182356.jpg', '2016071213182356.jpg', 'image/jpeg', '91073', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('80', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468301084726130.png', '1468301084726130.png', 'image/png', '25212', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('81', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468301084886412.png', '1468301084886412.png', 'image/png', '26788', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('82', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468301084537661.png', '1468301084537661.png', 'image/png', '107451', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('83', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468301084923297.png', '1468301084923297.png', 'image/png', '21920', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('84', 'http://cms.test.local/uploads/article/thumb/201607121325288.png', '201607121325288.png', 'image/png', '25212', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('85', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300778221138.jpg', '1468300778221138.jpg', 'image/jpeg', '157573', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('86', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300778457780.jpg', '1468300778457780.jpg', 'image/jpeg', '16637', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('87', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300778601199.jpg', '1468300778601199.jpg', 'image/jpeg', '72395', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('88', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779717747.jpg', '1468300779717747.jpg', 'image/jpeg', '63199', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('89', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779981627.jpg', '1468300779981627.jpg', 'image/jpeg', '30848', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('90', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779963476.jpg', '1468300779963476.jpg', 'image/jpeg', '149355', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('91', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779231027.jpg', '1468300779231027.jpg', 'image/jpeg', '41075', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('92', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779129397.jpg', '1468300779129397.jpg', 'image/jpeg', '26673', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('93', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779356792.jpg', '1468300779356792.jpg', 'image/jpeg', '70152', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('94', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779474036.jpg', '1468300779474036.jpg', 'image/jpeg', '60897', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('95', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779498739.jpg', '1468300779498739.jpg', 'image/jpeg', '82173', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('96', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779557053.jpg', '1468300779557053.jpg', 'image/jpeg', '20340', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('97', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779956898.jpg', '1468300779956898.jpg', 'image/jpeg', '43242', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('98', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779320557.jpg', '1468300779320557.jpg', 'image/jpeg', '57723', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('99', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779688267.jpg', '1468300779688267.jpg', 'image/jpeg', '39901', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('100', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779821471.jpg', '1468300779821471.jpg', 'image/jpeg', '81043', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('101', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300779257195.jpg', '1468300779257195.jpg', 'image/jpeg', '50877', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('102', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300780349132.jpg', '1468300780349132.jpg', 'image/jpeg', '60352', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('103', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300780975855.jpg', '1468300780975855.jpg', 'image/jpeg', '251368', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('104', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300780195077.jpg', '1468300780195077.jpg', 'image/jpeg', '15067', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('105', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300780463966.jpg', '1468300780463966.jpg', 'image/jpeg', '99269', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('106', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300780198391.jpg', '1468300780198391.jpg', 'image/jpeg', '15510', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('107', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300780794205.jpg', '1468300780794205.jpg', 'image/jpeg', '113128', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('108', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300780492694.jpg', '1468300780492694.jpg', 'image/jpeg', '24182', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('109', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300780436111.jpg', '1468300780436111.jpg', 'image/jpeg', '60883', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('110', 'http://cms.test.local/uploads/article/ueditor/php/upload/image/20160712/1468300780335966.jpg', '1468300780335966.jpg', 'image/jpeg', '183215', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('111', 'http://cms.test.local/uploads/article/thumb/2016071213203123.jpg', '2016071213203123.jpg', 'image/jpeg', '157573', '1', '1476070310', '1476070310');
-INSERT INTO `%__prefix__%file` VALUES ('112', 'http://cms.test.local/uploads/article/thumb/2016071213224495.jpg', '2016071213224495.jpg', 'image/jpeg', '6556', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('1', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426924927.jpg', '1468294426924927.jpg', 'image/jpeg', '63123', '1', '1476070309', '1476070309');
+INSERT INTO `%__prefix__%file` VALUES ('2', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426810816.jpg', '1468294426810816.jpg', 'image/jpeg', '76463', '1', '1476070309', '1476070309');
+INSERT INTO `%__prefix__%file` VALUES ('3', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426337411.jpg', '1468294426337411.jpg', 'image/jpeg', '10837', '1', '1476070309', '1476070309');
+INSERT INTO `%__prefix__%file` VALUES ('4', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426954735.jpg', '1468294426954735.jpg', 'image/jpeg', '25607', '1', '1476070309', '1476070309');
+INSERT INTO `%__prefix__%file` VALUES ('5', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426881975.jpg', '1468294426881975.jpg', 'image/jpeg', '21386', '1', '1476070309', '1476070309');
+INSERT INTO `%__prefix__%file` VALUES ('6', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426283307.jpg', '1468294426283307.jpg', 'image/jpeg', '34166', '1', '1476070309', '1476070309');
+INSERT INTO `%__prefix__%file` VALUES ('7', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426533692.jpg', '1468294426533692.jpg', 'image/jpeg', '32863', '1', '1476070309', '1476070309');
+INSERT INTO `%__prefix__%file` VALUES ('8', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426435233.jpg', '1468294426435233.jpg', 'image/jpeg', '27659', '1', '1476070309', '1476070309');
+INSERT INTO `%__prefix__%file` VALUES ('9', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426495633.jpg', '1468294426495633.jpg', 'image/jpeg', '47473', '1', '1476070309', '1476070309');
+INSERT INTO `%__prefix__%file` VALUES ('10', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294426721265.jpg', '1468294426721265.jpg', 'image/jpeg', '91086', '1', '1476070309', '1476070309');
+INSERT INTO `%__prefix__%file` VALUES ('11', '###~SITEURL~###/uploads/article/thumb/2016071211354628.jpg', '2016071211354628.jpg', 'image/jpeg', '63123', '1', '1476070309', '1476070309');
+INSERT INTO `%__prefix__%file` VALUES ('12', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294849828901.jpg', '1468294849828901.jpg', 'image/jpeg', '569435', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('13', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294849790398.jpg', '1468294849790398.jpg', 'image/jpeg', '175235', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('14', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294850103658.jpg', '1468294850103658.jpg', 'image/jpeg', '252971', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('15', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294850969854.jpg', '1468294850969854.jpg', 'image/jpeg', '333333', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('16', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294850266890.jpg', '1468294850266890.jpg', 'image/jpeg', '79375', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('17', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468294850307542.jpg', '1468294850307542.jpg', 'image/jpeg', '111051', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('18', '###~SITEURL~###/uploads/article/thumb/201607121141407.png', '201607121141407.png', 'image/png', '1641', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('19', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468298205168464.jpg', '1468298205168464.jpg', 'image/jpeg', '31219', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('20', '###~SITEURL~###/uploads/article/thumb/2016071212382956.jpg', '2016071212382956.jpg', 'image/jpeg', '4095', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('21', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468298416352727.png', '1468298416352727.png', 'image/png', '60549', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('22', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468298417381609.png', '1468298417381609.png', 'image/png', '37301', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('23', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468298417259422.jpg', '1468298417259422.jpg', 'image/jpeg', '26578', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('24', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468298417985419.png', '1468298417985419.png', 'image/png', '49346', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('25', '###~SITEURL~###/uploads/article/thumb/2016071212414099.png', '2016071212414099.png', 'image/png', '56177', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('26', '###~SITEURL~###/uploads/article/thumb/2016071212441669.jpg', '2016071212441669.jpg', 'image/jpeg', '7882', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('27', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468298771899372.png', '1468298771899372.png', 'image/png', '52992', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('28', '###~SITEURL~###/uploads/article/thumb/2016071212472374.jpeg', '2016071212472374.jpeg', 'image/jpeg', '12758', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('29', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468298932286202.jpg', '1468298932286202.jpg', 'image/jpeg', '20913', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('30', '###~SITEURL~###/uploads/article/thumb/2016071212525610.jpg', '2016071212525610.jpg', 'image/jpeg', '6556', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('31', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299277464951.jpg', '1468299277464951.jpg', 'image/jpeg', '32146', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('32', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299277827321.jpg', '1468299277827321.jpg', 'image/jpeg', '19936', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('33', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299277594091.jpg', '1468299277594091.jpg', 'image/jpeg', '22705', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('34', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299277383185.jpg', '1468299277383185.jpg', 'image/jpeg', '16484', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('35', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299279967847.jpg', '1468299279967847.jpg', 'image/jpeg', '26104', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('36', '###~SITEURL~###/uploads/article/thumb/2016071212553820.jpeg', '2016071212553820.jpeg', 'image/jpeg', '13044', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('37', '###~SITEURL~###/uploads/article/thumb/2016071212580919.png', '2016071212580919.png', 'image/png', '99277', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('38', '###~SITEURL~###/uploads/article/thumb/2016071213000120.png', '2016071213000120.png', 'image/png', '141966', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('39', '###~SITEURL~###/uploads/article/thumb/2016071213020658.png', '2016071213020658.png', 'image/png', '160137', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('40', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299838865470.png', '1468299838865470.png', 'image/png', '13279', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('41', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299838328238.png', '1468299838328238.png', 'image/png', '8110', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('42', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299838884044.png', '1468299838884044.png', 'image/png', '20300', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('43', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299838226909.png', '1468299838226909.png', 'image/png', '41705', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('44', '###~SITEURL~###/uploads/article/thumb/2016071213054793.jpg', '2016071213054793.jpg', 'image/jpeg', '11588', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('45', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299998418671.jpg', '1468299998418671.jpg', 'image/jpeg', '73272', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('46', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299999714651.jpg', '1468299999714651.jpg', 'image/jpeg', '90578', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('47', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299999832122.jpg', '1468299999832122.jpg', 'image/jpeg', '51898', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('48', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299999441365.jpg', '1468299999441365.jpg', 'image/jpeg', '75984', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('49', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299999699135.gif', '1468299999699135.gif', 'image/gif', '8796', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('50', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299999452509.gif', '1468299999452509.gif', 'image/gif', '5252', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('51', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299999852174.jpg', '1468299999852174.jpg', 'image/jpeg', '28757', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('52', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299999742938.jpg', '1468299999742938.jpg', 'image/jpeg', '52796', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('53', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299999924948.jpg', '1468299999924948.jpg', 'image/jpeg', '21131', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('54', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299999654871.jpg', '1468299999654871.jpg', 'image/jpeg', '40273', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('55', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299999584163.jpg', '1468299999584163.jpg', 'image/jpeg', '17525', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('56', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299999689916.jpg', '1468299999689916.jpg', 'image/jpeg', '78252', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('57', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299999923485.gif', '1468299999923485.gif', 'image/gif', '17879', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('58', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468299999116936.jpg', '1468299999116936.jpg', 'image/jpeg', '67782', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('59', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300000997206.jpg', '1468300000997206.jpg', 'image/jpeg', '50762', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('60', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300000970739.jpg', '1468300000970739.jpg', 'image/jpeg', '23500', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('61', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300000715501.jpg', '1468300000715501.jpg', 'image/jpeg', '102702', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('62', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300000866115.jpg', '1468300000866115.jpg', 'image/jpeg', '16969', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('63', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300000192859.jpg', '1468300000192859.jpg', 'image/jpeg', '27757', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('64', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300000718429.jpg', '1468300000718429.jpg', 'image/jpeg', '56518', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('65', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300000493427.jpg', '1468300000493427.jpg', 'image/jpeg', '53095', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('66', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300000187437.jpg', '1468300000187437.jpg', 'image/jpeg', '26246', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('67', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300000441602.jpg', '1468300000441602.jpg', 'image/jpeg', '54377', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('68', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300000884072.jpg', '1468300000884072.jpg', 'image/jpeg', '31608', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('69', '###~SITEURL~###/uploads/article/thumb/2016071213095350.jpg', '2016071213095350.jpg', 'image/jpeg', '28709', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('70', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300326859862.jpg', '1468300326859862.jpg', 'image/jpeg', '47906', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('71', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300326707784.jpg', '1468300326707784.jpg', 'image/jpeg', '30599', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('72', '###~SITEURL~###/uploads/article/thumb/2016071214100948.jpg', '2016071214100948.jpg', 'image/jpeg', '14505', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('73', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300460944939.jpg', '1468300460944939.jpg', 'image/jpeg', '56563', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('74', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300565664083.jpg', '1468300565664083.jpg', 'image/jpeg', '53203', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('75', '###~SITEURL~###/uploads/article/thumb/2016071213165538.jpg', '2016071213165538.jpg', 'image/jpeg', '14435', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('76', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300659144755.jpg', '1468300659144755.jpg', 'image/jpeg', '91073', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('77', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300659327903.jpg', '1468300659327903.jpg', 'image/jpeg', '110175', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('78', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300659763501.jpg', '1468300659763501.jpg', 'image/jpeg', '101921', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('79', '###~SITEURL~###/uploads/article/thumb/2016071213182356.jpg', '2016071213182356.jpg', 'image/jpeg', '91073', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('80', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468301084726130.png', '1468301084726130.png', 'image/png', '25212', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('81', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468301084886412.png', '1468301084886412.png', 'image/png', '26788', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('82', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468301084537661.png', '1468301084537661.png', 'image/png', '107451', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('83', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468301084923297.png', '1468301084923297.png', 'image/png', '21920', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('84', '###~SITEURL~###/uploads/article/thumb/201607121325288.png', '201607121325288.png', 'image/png', '25212', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('85', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300778221138.jpg', '1468300778221138.jpg', 'image/jpeg', '157573', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('86', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300778457780.jpg', '1468300778457780.jpg', 'image/jpeg', '16637', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('87', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300778601199.jpg', '1468300778601199.jpg', 'image/jpeg', '72395', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('88', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779717747.jpg', '1468300779717747.jpg', 'image/jpeg', '63199', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('89', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779981627.jpg', '1468300779981627.jpg', 'image/jpeg', '30848', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('90', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779963476.jpg', '1468300779963476.jpg', 'image/jpeg', '149355', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('91', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779231027.jpg', '1468300779231027.jpg', 'image/jpeg', '41075', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('92', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779129397.jpg', '1468300779129397.jpg', 'image/jpeg', '26673', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('93', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779356792.jpg', '1468300779356792.jpg', 'image/jpeg', '70152', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('94', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779474036.jpg', '1468300779474036.jpg', 'image/jpeg', '60897', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('95', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779498739.jpg', '1468300779498739.jpg', 'image/jpeg', '82173', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('96', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779557053.jpg', '1468300779557053.jpg', 'image/jpeg', '20340', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('97', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779956898.jpg', '1468300779956898.jpg', 'image/jpeg', '43242', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('98', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779320557.jpg', '1468300779320557.jpg', 'image/jpeg', '57723', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('99', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779688267.jpg', '1468300779688267.jpg', 'image/jpeg', '39901', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('100', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779821471.jpg', '1468300779821471.jpg', 'image/jpeg', '81043', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('101', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300779257195.jpg', '1468300779257195.jpg', 'image/jpeg', '50877', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('102', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300780349132.jpg', '1468300780349132.jpg', 'image/jpeg', '60352', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('103', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300780975855.jpg', '1468300780975855.jpg', 'image/jpeg', '251368', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('104', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300780195077.jpg', '1468300780195077.jpg', 'image/jpeg', '15067', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('105', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300780463966.jpg', '1468300780463966.jpg', 'image/jpeg', '99269', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('106', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300780198391.jpg', '1468300780198391.jpg', 'image/jpeg', '15510', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('107', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300780794205.jpg', '1468300780794205.jpg', 'image/jpeg', '113128', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('108', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300780492694.jpg', '1468300780492694.jpg', 'image/jpeg', '24182', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('109', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300780436111.jpg', '1468300780436111.jpg', 'image/jpeg', '60883', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('110', '###~SITEURL~###/uploads/article/ueditor/php/upload/image/20160712/1468300780335966.jpg', '1468300780335966.jpg', 'image/jpeg', '183215', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('111', '###~SITEURL~###/uploads/article/thumb/2016071213203123.jpg', '2016071213203123.jpg', 'image/jpeg', '157573', '1', '1476070310', '1476070310');
+INSERT INTO `%__prefix__%file` VALUES ('112', '###~SITEURL~###/uploads/article/thumb/2016071213224495.jpg', '2016071213224495.jpg', 'image/jpeg', '6556', '1', '1476070310', '1476070310');
 
 -- ----------------------------
--- Table structure for %__prefix__%file_usage
+-- Table structure for file_usage
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%file_usage`;
 CREATE TABLE `%__prefix__%file_usage` (
@@ -446,11 +464,11 @@ CREATE TABLE `%__prefix__%file_usage` (
   `created_at` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_fid` (`fid`),
-  CONSTRAINT `fk_fid` FOREIGN KEY (`fid`) REFERENCES `%__prefix__%file` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_fid` FOREIGN KEY (`fid`) REFERENCES `file` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%file_usage
+-- Records of file_usage
 -- ----------------------------
 INSERT INTO `%__prefix__%file_usage` VALUES ('1', '1', '1', '1', '1', '1476070309');
 INSERT INTO `%__prefix__%file_usage` VALUES ('2', '2', '1', '1', '1', '1476070309');
@@ -566,7 +584,7 @@ INSERT INTO `%__prefix__%file_usage` VALUES ('111', '111', '0', '21', '1', '1476
 INSERT INTO `%__prefix__%file_usage` VALUES ('112', '112', '0', '22', '1', '1476070310');
 
 -- ----------------------------
--- Table structure for %__prefix__%friend_link
+-- Table structure for friend_link
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%friend_link`;
 CREATE TABLE `%__prefix__%friend_link` (
@@ -583,7 +601,7 @@ CREATE TABLE `%__prefix__%friend_link` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%friend_link
+-- Records of friend_link
 -- ----------------------------
 INSERT INTO `%__prefix__%friend_link` VALUES ('1', '飞嗨博客', '', 'http://blog.feehi.com', '_blank', '0', '1', '1468303851', '0');
 INSERT INTO `%__prefix__%friend_link` VALUES ('2', '飞嗨网', '', 'http://www.feehi.com', '_blank', '0', '1', '1468303882', '0');
@@ -592,7 +610,7 @@ INSERT INTO `%__prefix__%friend_link` VALUES ('4', '破晓电影', '', 'http://w
 INSERT INTO `%__prefix__%friend_link` VALUES ('5', '翠竹林主题', '', 'http://www.cuizl.com/', '_blank', '0', '1', '1468303974', '0');
 
 -- ----------------------------
--- Table structure for %__prefix__%menu
+-- Table structure for menu
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%menu`;
 CREATE TABLE `%__prefix__%menu` (
@@ -602,52 +620,121 @@ CREATE TABLE `%__prefix__%menu` (
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `url` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `icon` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
-  `sort` int(11) unsigned DEFAULT '0',
+  `sort` float unsigned DEFAULT '0',
   `target` varchar(255) COLLATE utf8_unicode_ci DEFAULT '_blank',
   `is_absolute_url` smallint(6) unsigned DEFAULT '0',
   `is_display` smallint(6) unsigned DEFAULT '1',
-  `method` enum('all','post','get') COLLATE utf8_unicode_ci DEFAULT 'all',
+  `method` enum('all','post','get') COLLATE utf8_unicode_ci DEFAULT 'get',
   `created_at` int(11) unsigned NOT NULL,
   `updated_at` int(11) unsigned DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `index_name` (`name`),
   KEY `index_url` (`url`),
   KEY `index_method` (`method`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%menu
+-- Records of menu
 -- ----------------------------
-INSERT INTO `%__prefix__%menu` VALUES ('1', '0', '0', '设置', 'setting', 'fa fa fa-cogs', '1', '_blank', '0', '1', 'all', '1470064425', '1476070842');
-INSERT INTO `%__prefix__%menu` VALUES ('2', '0', '1', '网站设置', 'setting/website', '', '0', '_blank', '0', '1', 'all', '1470064528', '0');
-INSERT INTO `%__prefix__%menu` VALUES ('3', '0', '1', 'SMTP设置', 'setting/smtp', '', '0', '_blank', '0', '1', 'all', '1470064574', '0');
-INSERT INTO `%__prefix__%menu` VALUES ('4', '0', '1', '自定义设置', 'setting/custom', '', '0', '_blank', '0', '1', 'all', '1470064600', '0');
+INSERT INTO `%__prefix__%menu` VALUES ('1', '0', '0', '设置', 'setting', 'fa fa fa-cogs', '1', '_blank', '0', '1', 'get', '1470064425', '1477317443');
+INSERT INTO `%__prefix__%menu` VALUES ('2', '0', '1', '网站设置', 'setting/website', '', '1', '_blank', '0', '1', 'get', '1470064528', '1478398628');
+INSERT INTO `%__prefix__%menu` VALUES ('3', '0', '1', 'SMTP设置', 'setting/smtp', '', '3', '_blank', '0', '1', 'get', '1470064574', '1478398840');
+INSERT INTO `%__prefix__%menu` VALUES ('4', '0', '1', '自定义设置', 'setting/custom', '', '5', '_blank', '0', '1', 'get', '1470064600', '1477317626');
 INSERT INTO `%__prefix__%menu` VALUES ('5', '0', '0', '菜单', 'menu', 'fa fa fa-th-list', '2', '_blank', '0', '1', 'all', '1470064761', '1476070842');
-INSERT INTO `%__prefix__%menu` VALUES ('6', '0', '5', '前台菜单', 'frontend-menu/index', '', '0', '_blank', '0', '1', 'all', '1470064785', '0');
-INSERT INTO `%__prefix__%menu` VALUES ('7', '0', '5', '后台菜单', 'menu/index', '', '0', '_blank', '0', '1', 'all', '1470064803', '0');
+INSERT INTO `%__prefix__%menu` VALUES ('6', '0', '5', '前台菜单', 'frontend-menu/index', '', '1', '_blank', '0', '1', 'all', '1470064785', '1478395131');
+INSERT INTO `%__prefix__%menu` VALUES ('7', '0', '5', '后台菜单', 'menu/index', '', '10', '_blank', '0', '1', 'all', '1470064803', '1478395131');
 INSERT INTO `%__prefix__%menu` VALUES ('8', '0', '0', '内容', 'article', 'fa fa fa-edit', '3', '_blank', '0', '1', 'all', '1470064850', '1476070842');
-INSERT INTO `%__prefix__%menu` VALUES ('9', '0', '8', '文章', 'article/index', '', '0', '_blank', '0', '1', 'all', '1470065005', '0');
-INSERT INTO `%__prefix__%menu` VALUES ('10', '0', '8', '评论', 'comment/index', '', '0', '_blank', '0', '1', 'all', '1470065043', '0');
-INSERT INTO `%__prefix__%menu` VALUES ('11', '0', '8', '单页', 'page/index', '', '0', '_blank', '0', '1', 'all', '1470065084', '0');
-INSERT INTO `%__prefix__%menu` VALUES ('12', '0', '8', '分类', 'category/index', '', '0', '_blank', '0', '1', 'all', '1470065111', '0');
+INSERT INTO `%__prefix__%menu` VALUES ('9', '0', '8', '文章', 'article/index', '', '1', '_blank', '0', '1', 'all', '1470065005', '1478402772');
+INSERT INTO `%__prefix__%menu` VALUES ('10', '0', '8', '评论', 'comment/index', '', '10', '_blank', '0', '1', 'all', '1470065043', '1478395186');
+INSERT INTO `%__prefix__%menu` VALUES ('11', '0', '8', '单页', 'page/index', '', '20', '_blank', '0', '1', 'all', '1470065084', '1478395272');
+INSERT INTO `%__prefix__%menu` VALUES ('12', '0', '8', '分类', 'category/index', '', '30', '_blank', '0', '1', 'all', '1470065111', '1478395312');
 INSERT INTO `%__prefix__%menu` VALUES ('13', '0', '0', '用户', 'user/index', 'fa fa-users', '4', '_blank', '0', '1', 'all', '1470065584', '1476070842');
-INSERT INTO `%__prefix__%menu` VALUES ('15', '0', '25', '管理员', 'admin-user/index', '', '0', '_blank', '0', '1', 'all', '1470065672', '1476711775');
-INSERT INTO `%__prefix__%menu` VALUES ('16', '0', '25', '角色', 'admin-roles/index', '', '0', '_blank', '0', '1', 'all', '1470065689', '1476711793');
-INSERT INTO `%__prefix__%menu` VALUES ('17', '0', '0', '友情链接', 'friend-link/index', 'fa fa-link', '6', '_blank', '0', '1', 'all', '1470065784', '1476070842');
+INSERT INTO `%__prefix__%menu` VALUES ('15', '0', '25', '管理员', 'admin-user/index', '', '1', '_blank', '0', '1', 'all', '1470065672', '1478395420');
+INSERT INTO `%__prefix__%menu` VALUES ('16', '0', '25', '角色', 'admin-roles/index', '', '10', '_blank', '0', '1', 'all', '1470065689', '1478395420');
+INSERT INTO `%__prefix__%menu` VALUES ('17', '0', '0', '友情链接', 'friend-link/index', 'fa fa-link', '5', '_blank', '0', '1', 'all', '1470065784', '1478398234');
 INSERT INTO `%__prefix__%menu` VALUES ('18', '0', '0', '日志', 'log/index', 'fa fa-history', '9', '_blank', '0', '1', 'all', '1470065819', '1476711909');
-INSERT INTO `%__prefix__%menu` VALUES ('19', '1', '0', '首页', '/', '', '0', '_self', '0', '1', 'all', '1470111187', '0');
+INSERT INTO `%__prefix__%menu` VALUES ('19', '1', '0', '首页', '/', '', '0', '_self', '0', '1', 'all', '1470111187', '1478347757');
 INSERT INTO `%__prefix__%menu` VALUES ('20', '1', '0', 'php', 'cat/php', '', '0', '_self', '0', '1', 'all', '1470111200', '0');
 INSERT INTO `%__prefix__%menu` VALUES ('21', '1', '0', 'java', 'cat/java', '', '0', '_self', '0', '1', 'all', '1470111209', '0');
 INSERT INTO `%__prefix__%menu` VALUES ('22', '1', '0', 'javascript', 'cat/javascript', '', '0', '_self', '0', '1', 'all', '1470111222', '0');
 INSERT INTO `%__prefix__%menu` VALUES ('23', '0', '0', '附件管理', 'file/index', 'fa fa-files-o', '7', '_blank', '0', '1', 'all', '1470065608', '1476070842');
-INSERT INTO `%__prefix__%menu` VALUES ('24', '0', '13', '前台用户', 'user/index', '', '0', '_self', '0', '1', 'all', '1476711715', '1476711715');
-INSERT INTO `%__prefix__%menu` VALUES ('25', '0', '13', '后台用户', '', '', '0', '_self', '0', '1', 'all', '1476711746', '1476711746');
+INSERT INTO `%__prefix__%menu` VALUES ('24', '0', '13', '前台用户', 'user/index', '', '1', '_self', '0', '1', 'all', '1476711715', '1478395355');
+INSERT INTO `%__prefix__%menu` VALUES ('25', '0', '13', '后台用户', '', '', '2', '_self', '0', '1', 'all', '1476711746', '1478405732');
 INSERT INTO `%__prefix__%menu` VALUES ('26', '0', '0', '缓存', 'clear', 'fa fa-file', '8', '_self', '0', '1', 'all', '1476711824', '1476711909');
 INSERT INTO `%__prefix__%menu` VALUES ('27', '0', '26', '清除前台', 'clear/frontend', '', '0', '_self', '0', '1', 'all', '1476711849', '1476711849');
 INSERT INTO `%__prefix__%menu` VALUES ('28', '0', '26', '清除后台', 'clear/backend', '', '0', '_self', '0', '1', 'all', '1476711875', '1476711875');
+INSERT INTO `%__prefix__%menu` VALUES ('29', '0', '1', '网站设置:修改', 'setting/website', '', '2', '_blank', '0', '0', 'post', '1477317515', '1478347837');
+INSERT INTO `%__prefix__%menu` VALUES ('30', '0', '1', 'smtp设置:修改', 'setting/smtp', '', '4', '_blank', '0', '0', 'post', '1477317553', '1478399155');
+INSERT INTO `%__prefix__%menu` VALUES ('31', '0', '1', '自定义设置:修改', 'setting/custom', '', '6', '_blank', '0', '0', 'post', '1478347894', '1478347919');
+INSERT INTO `%__prefix__%menu` VALUES ('32', '0', '1', '自定义设置:添加配置项:确定', 'setting/custom-create', '', '7', '_blank', '0', '0', 'post', '1478349191', '1478400083');
+INSERT INTO `%__prefix__%menu` VALUES ('33', '0', '1', '自定义设置:修改配置项', 'setting/custom-update', '', '8', '_blank', '0', '0', 'get', '1478354871', '1478359563');
+INSERT INTO `%__prefix__%menu` VALUES ('34', '0', '1', '自定义设置:修改配置项:修改', 'setting/custom-update', '', '9', '_blank', '0', '0', 'post', '1478354930', '1478359565');
+INSERT INTO `%__prefix__%menu` VALUES ('35', '0', '1', '自定义设置:删除', 'setting/delete', '', '10', '_blank', '0', '0', 'all', '1478355030', '1478359568');
+INSERT INTO `%__prefix__%menu` VALUES ('36', '0', '5', '前台菜单:创建', 'frontend-menu/create', '添加', '2', '_blank', '0', '0', 'get', '1478359098', '1478400227');
+INSERT INTO `%__prefix__%menu` VALUES ('37', '0', '5', '前台菜单:创建:确定', 'frontend-menu/create', '', '3', '_blank', '0', '0', 'post', '1478359146', '1478400254');
+INSERT INTO `%__prefix__%menu` VALUES ('38', '0', '5', '前台菜单:修改', 'frontend-menu/update', '', '4', '_blank', '0', '0', 'get', '1478359187', '1478395131');
+INSERT INTO `%__prefix__%menu` VALUES ('39', '0', '5', '前台菜单:修改:确定', 'frontend-menu/update', '', '5', '_blank', '0', '0', 'post', '1478359227', '1478395131');
+INSERT INTO `%__prefix__%menu` VALUES ('40', '0', '5', '前台菜单:删除', 'frontend-menu/delete', '', '6', '_blank', '0', '0', 'all', '1478359312', '1478395131');
+INSERT INTO `%__prefix__%menu` VALUES ('41', '0', '5', '后台菜单:创建', 'menu/create', '', '11', '_blank', '0', '0', 'get', '1478359369', '1478395131');
+INSERT INTO `%__prefix__%menu` VALUES ('42', '0', '5', '后台菜单:创建:确定', 'menu/create', '', '12', '_blank', '0', '0', 'post', '1478359409', '1478395131');
+INSERT INTO `%__prefix__%menu` VALUES ('43', '0', '5', '后台菜单:修改', 'menu/update', '', '13', '_blank', '0', '0', 'get', '1478359427', '1478400456');
+INSERT INTO `%__prefix__%menu` VALUES ('44', '0', '5', '后台菜单:修改:确定', 'menu/update', '', '14', '_blank', '0', '0', 'post', '1478359509', '1478395131');
+INSERT INTO `%__prefix__%menu` VALUES ('45', '0', '5', '后台菜单:删除', 'menu/delete', '', '15', '_blank', '0', '0', 'all', '1478359537', '1478395131');
+INSERT INTO `%__prefix__%menu` VALUES ('46', '0', '8', '文章:创建', 'article/create', '', '3', '_blank', '0', '0', 'get', '1478359682', '1478402733');
+INSERT INTO `%__prefix__%menu` VALUES ('47', '0', '8', '文章:创建:确定', 'article/create', '', '4', '_blank', '0', '0', 'post', '1478359712', '1478402733');
+INSERT INTO `%__prefix__%menu` VALUES ('48', '0', '8', '文章:修改', 'article/update', '', '5', '_blank', '0', '0', 'get', '1478359746', '1478402733');
+INSERT INTO `%__prefix__%menu` VALUES ('49', '0', '8', '文章:修改:确定', 'article/update', '', '6', '_blank', '0', '0', 'post', '1478359801', '1478402733');
+INSERT INTO `%__prefix__%menu` VALUES ('50', '0', '8', '文章:删除', 'article/delete', '', '7', '_blank', '0', '0', 'get', '1478359819', '1478402733');
+INSERT INTO `%__prefix__%menu` VALUES ('51', '0', '8', '文章:排序', 'article/sort', '', '8', '_blank', '0', '0', 'post', '1478359858', '1478402733');
+INSERT INTO `%__prefix__%menu` VALUES ('52', '0', '8', '评论:审核', 'comment/change-status', '', '11', '_blank', '0', '0', 'all', '1478360032', '1478395186');
+INSERT INTO `%__prefix__%menu` VALUES ('53', '0', '8', '评论:删除', 'comment/delete', '', '12', '_blank', '0', '0', 'all', '1478360060', '1478395186');
+INSERT INTO `%__prefix__%menu` VALUES ('54', '0', '8', '单页:创建', 'page/create', '', '22', '_blank', '0', '0', 'get', '1478360090', '1478402850');
+INSERT INTO `%__prefix__%menu` VALUES ('55', '0', '8', '单页:创建:确定', 'page/create', '', '23', '_blank', '0', '0', 'post', '1478360124', '1478402850');
+INSERT INTO `%__prefix__%menu` VALUES ('56', '0', '8', '单页:修改', 'page/update', '', '24', '_blank', '0', '0', 'get', '1478360149', '1478402850');
+INSERT INTO `%__prefix__%menu` VALUES ('57', '0', '8', '单页:修改:确定', 'page/update', '', '25', '_blank', '0', '0', 'post', '1478360185', '1478402850');
+INSERT INTO `%__prefix__%menu` VALUES ('58', '0', '8', '单页:删除', 'page/delete', '', '26', '_blank', '0', '0', 'all', '1478360202', '1478402850');
+INSERT INTO `%__prefix__%menu` VALUES ('59', '0', '8', '单页:排序', 'page/sort', '', '27', '_blank', '0', '0', 'post', '1478360250', '1478403915');
+INSERT INTO `%__prefix__%menu` VALUES ('60', '0', '8', '分类:创建', 'category/create', '', '31', '_blank', '0', '0', 'get', '1478360302', '1478395312');
+INSERT INTO `%__prefix__%menu` VALUES ('61', '0', '8', '分类:创建:确定', 'category/create', '', '32', '_blank', '0', '0', 'post', '1478360332', '1478395312');
+INSERT INTO `%__prefix__%menu` VALUES ('62', '0', '8', '分类:修改', 'category/update', '', '33', '_blank', '0', '0', 'get', '1478360357', '1478395312');
+INSERT INTO `%__prefix__%menu` VALUES ('63', '0', '8', '分类:修改:确定', 'category/update', '', '34', '_blank', '0', '0', 'post', '1478360381', '1478395312');
+INSERT INTO `%__prefix__%menu` VALUES ('64', '0', '8', '分类:删除', 'category/delete', '', '35', '_blank', '0', '0', 'get', '1478360399', '1478395312');
+INSERT INTO `%__prefix__%menu` VALUES ('65', '0', '13', '前台用户:创建', 'user/create', '', '2', '_blank', '0', '0', 'get', '1478360452', '1478395355');
+INSERT INTO `%__prefix__%menu` VALUES ('66', '0', '13', '前台用户:创建:确定', 'user/create', '', '3', '_blank', '0', '0', 'post', '1478360487', '1478395355');
+INSERT INTO `%__prefix__%menu` VALUES ('67', '0', '13', '前台用户:修改', 'user/update', '', '4', '_blank', '0', '0', 'get', '1478360516', '1478395355');
+INSERT INTO `%__prefix__%menu` VALUES ('68', '0', '13', '前台用户:修改:确定', 'user/update', '', '5', '_blank', '0', '0', 'post', '1478360546', '1478395355');
+INSERT INTO `%__prefix__%menu` VALUES ('69', '0', '13', '前台用户:删除', 'user/delete', '', '6', '_blank', '0', '0', 'all', '1478360586', '1478395355');
+INSERT INTO `%__prefix__%menu` VALUES ('70', '0', '25', '管理员:创建', 'admin-user/create', '', '2', '_blank', '0', '0', 'get', '1478361007', '1478395420');
+INSERT INTO `%__prefix__%menu` VALUES ('71', '0', '25', '管理员:创建:确定', 'admin-user/create', '', '3', '_blank', '0', '0', 'post', '1478361050', '1478405875');
+INSERT INTO `%__prefix__%menu` VALUES ('72', '0', '25', '管理员:修改', 'admin-user/update', '', '4', '_blank', '0', '0', 'get', '1478361084', '1478406605');
+INSERT INTO `%__prefix__%menu` VALUES ('73', '0', '25', '管理员:修改:确定', 'admin-user/update', '', '5', '_blank', '0', '0', 'post', '1478361123', '1478398537');
+INSERT INTO `%__prefix__%menu` VALUES ('74', '0', '25', '管理员:删除', 'admin-user/delete', '', '6', '_blank', '0', '0', 'all', '1478361166', '1478395420');
+INSERT INTO `%__prefix__%menu` VALUES ('75', '0', '25', '角色:创建', 'admin-roles/create', '', '11', '_blank', '0', '0', 'get', '1478361243', '1478395420');
+INSERT INTO `%__prefix__%menu` VALUES ('76', '0', '25', '角色:创建:确定', 'admin-roles/create', '', '12', '_blank', '0', '0', 'post', '1478361278', '1478395420');
+INSERT INTO `%__prefix__%menu` VALUES ('77', '0', '25', '角色:修改', 'admin-roles/update', '', '13', '_blank', '0', '0', 'get', '1478361366', '1478395420');
+INSERT INTO `%__prefix__%menu` VALUES ('78', '0', '25', '角色:修改:确定', 'admin-roles/update', '', '14', '_blank', '0', '0', 'post', '1478361398', '1478395420');
+INSERT INTO `%__prefix__%menu` VALUES ('79', '0', '25', '角色:删除', 'admin-roles/delete', '', '15', '_blank', '0', '0', 'all', '1478361435', '1478395420');
+INSERT INTO `%__prefix__%menu` VALUES ('80', '0', '25', '角色:分配权限', 'admin-roles/assign', '', '16', '_blank', '0', '0', 'get', '1478361489', '1478406771');
+INSERT INTO `%__prefix__%menu` VALUES ('81', '0', '25', '角色:分配权限:确定', 'admin-roles/assign', '', '17', '_blank', '0', '0', 'post', '1478361523', '1478406797');
+INSERT INTO `%__prefix__%menu` VALUES ('82', '0', '25', '管理员:分配角色', 'admin-user/assign', '', '7', '_blank', '0', '0', 'get', '1478361568', '1478395420');
+INSERT INTO `%__prefix__%menu` VALUES ('83', '0', '25', '管理员:分配角色:确定', 'admin-user/assign', '', '8', '_blank', '0', '0', 'post', '1478361601', '1478395420');
+INSERT INTO `%__prefix__%menu` VALUES ('84', '0', '0', '友情链接:创建', 'friend-link/create', '', '5.1', '_blank', '0', '0', 'get', '1478393905', '1478398234');
+INSERT INTO `%__prefix__%menu` VALUES ('85', '0', '0', '友情链接:创建:确定', 'friend-link/create', '', '5.2', '_blank', '0', '0', 'post', '1478393952', '1478398234');
+INSERT INTO `%__prefix__%menu` VALUES ('86', '0', '0', '友情链接:修改', 'friend-link/update', '', '5.3', '_blank', '0', '0', 'get', '1478393989', '1478398234');
+INSERT INTO `%__prefix__%menu` VALUES ('87', '0', '0', '友情链接:修改:确定', 'friend-link/update', '', '5.4', '_blank', '0', '0', 'post', '1478394021', '1478398234');
+INSERT INTO `%__prefix__%menu` VALUES ('88', '0', '0', '友情链接:删除', 'friend-link/delete', '', '5.6', '_blank', '0', '0', 'all', '1478394046', '1478398234');
+INSERT INTO `%__prefix__%menu` VALUES ('89', '0', '0', '友情链接:排序', 'friend-link/sort', '', '5.5', '_blank', '0', '0', 'all', '1478394070', '1478398234');
+INSERT INTO `%__prefix__%menu` VALUES ('90', '0', '0', '附件管理:查看', 'file/view-layer', '', '7', '_blank', '0', '0', 'all', '1478394351', '1478397847');
+INSERT INTO `%__prefix__%menu` VALUES ('91', '0', '0', '附件管理:删除', 'file/delete', '', '7', '_blank', '0', '0', 'all', '1478394368', '1478395602');
+INSERT INTO `%__prefix__%menu` VALUES ('92', '0', '0', '日志:查看', 'log/view', '', '9', '_blank', '0', '0', 'get', '1478394503', '1478395617');
+INSERT INTO `%__prefix__%menu` VALUES ('93', '0', '0', '日志:删除', 'log/delete', '', '9', '_blank', '0', '0', 'get', '1478394525', '1478395617');
+INSERT INTO `%__prefix__%menu` VALUES ('95', '0', '1', 'smtp设置:测试', 'setting/test-smtp', '', '4', '_blank', '0', '0', 'all', '1478399012', '1478399065');
+INSERT INTO `%__prefix__%menu` VALUES ('98', '0', '8', '文章:查看', 'article/view-layer', '', '2', '_blank', '0', '0', 'get', '1478402492', '1478402897');
+INSERT INTO `%__prefix__%menu` VALUES ('99', '0', '8', '单页:查看', 'page/view-layer', '', '21', '_blank', '0', '0', 'get', '1478402805', '1478402977');
+INSERT INTO `%__prefix__%menu` VALUES ('100', '0', '8', '分类:排序', 'category/sort', '', '36', '_blank', '0', '0', 'post', '1478404112', '1478405384');
 
 -- ----------------------------
--- Table structure for %__prefix__%migration
+-- Table structure for migration
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%migration`;
 CREATE TABLE `%__prefix__%migration` (
@@ -657,13 +744,13 @@ CREATE TABLE `%__prefix__%migration` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of %__prefix__%migration
+-- Records of migration
 -- ----------------------------
-INSERT INTO `%__prefix__%migration` VALUES ('m000000_000000_base', '1476867805');
-INSERT INTO `%__prefix__%migration` VALUES ('m130524_201442_init', '1476867809');
+INSERT INTO `%__prefix__%migration` VALUES ('m000000_000000_base', '1482458625');
+INSERT INTO `%__prefix__%migration` VALUES ('m130524_201442_init', '1482458629');
 
 -- ----------------------------
--- Table structure for %__prefix__%options
+-- Table structure for options
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%options`;
 CREATE TABLE `%__prefix__%options` (
@@ -676,33 +763,33 @@ CREATE TABLE `%__prefix__%options` (
   `tips` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   `sort` int(11) unsigned DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%options
+-- Records of options
 -- ----------------------------
-INSERT INTO `%__prefix__%options` VALUES ('1', '0', 'seo_title', 'feehi cms', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('2', '0', 'seo_keywords', '飞嗨,cms,yii2,php,feehi cms', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('3', '0', 'seo_description', 'Feehi CMS，最好的cms之一', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('4', '0', 'website_title', 'Feehi CMS', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('5', '0', 'website_description', 'Based on most popular php framework yii2', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('6', '0', 'website_email', 'admin@feehi.com', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('7', '0', 'website_language', 'zh-CN', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('8', '0', 'website_icp', '粤ICP备15018643号', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('9', '0', 'website_statics_script', '', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('10', '0', 'website_status', '1', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('11', '0', 'website_comment', '1', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('12', '0', 'website_comment_need_verify', '0', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('13', '0', 'website_timezone', 'Asia/Shanghai', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('14', '0', 'website_url', 'http://www.feehi.com/', '1', '0', '', '0');
-INSERT INTO `%__prefix__%options` VALUES ('15', '1', 'weibo', 'http://www.weibo.com/feeppp', '1', '1', '新浪微博', '0');
-INSERT INTO `%__prefix__%options` VALUES ('16', '1', 'facebook', 'http://www.facebook.com/liufee', '1', '1', 'facebook', '0');
-INSERT INTO `%__prefix__%options` VALUES ('17', '1', 'wechat', '飞得更高', '1', '1', '微信', '0');
-INSERT INTO `%__prefix__%options` VALUES ('18', '1', 'email', 'admin@feehi.com', '1', '1', '邮箱', '0');
-INSERT INTO `%__prefix__%options` VALUES ('19', '1', 'qq', '1838889850', '1', '1', 'QQ号码', '0');
-INSERT INTO `%__prefix__%options` VALUES ('20', '1', 'rss', 'http://www.feehi.com/rss', '1', '1', 'rss订阅地址', '0');
+INSERT INTO `%__prefix__%options` VALUES ('1', '0', 'seo_keywords', '飞嗨,cms,yii2,php,feehi cms', '1', '0', '', '0');
+INSERT INTO `%__prefix__%options` VALUES ('2', '0', 'seo_description', 'Feehi CMS，最好的cms之一', '1', '0', '', '0');
+INSERT INTO `%__prefix__%options` VALUES ('3', '0', 'website_title', 'Feehi CMS', '1', '0', '', '0');
+INSERT INTO `%__prefix__%options` VALUES ('4', '0', 'website_description', 'Based on most popular php framework yii2', '1', '0', '', '0');
+INSERT INTO `%__prefix__%options` VALUES ('5', '0', 'website_email', 'admin@feehi.com', '1', '0', '', '0');
+INSERT INTO `%__prefix__%options` VALUES ('6', '0', 'website_language', 'zh-CN', '1', '0', '', '0');
+INSERT INTO `%__prefix__%options` VALUES ('7', '0', 'website_icp', '粤ICP备15018643号', '1', '0', '', '0');
+INSERT INTO `%__prefix__%options` VALUES ('8', '0', 'website_statics_script', '', '1', '0', '', '0');
+INSERT INTO `%__prefix__%options` VALUES ('9', '0', 'website_status', '1', '1', '0', '', '0');
+INSERT INTO `%__prefix__%options` VALUES ('10', '0', 'website_comment', '1', '1', '0', '', '0');
+INSERT INTO `%__prefix__%options` VALUES ('11', '0', 'website_comment_need_verify', '0', '1', '0', '', '0');
+INSERT INTO `%__prefix__%options` VALUES ('12', '0', 'website_timezone', 'Asia/Shanghai', '1', '0', '', '0');
+INSERT INTO `%__prefix__%options` VALUES ('13', '0', 'website_url', 'http://www.feehi.com', '1', '0', '', '0');
+INSERT INTO `%__prefix__%options` VALUES ('14', '1', 'weibo', 'http://www.feehi.com/', '1', '1', '新浪微博', '0');
+INSERT INTO `%__prefix__%options` VALUES ('15', '1', 'facebook', 'http://www.facebook.com/liufee', '1', '1', 'facebook', '0');
+INSERT INTO `%__prefix__%options` VALUES ('16', '1', 'wechat', '飞得更高', '1', '1', '微信', '0');
+INSERT INTO `%__prefix__%options` VALUES ('17', '1', 'email', 'admin@feehi.com', '1', '1', '邮箱', '0');
+INSERT INTO `%__prefix__%options` VALUES ('18', '1', 'qq', '1838889850', '1', '1', 'QQ号码', '0');
+INSERT INTO `%__prefix__%options` VALUES ('19', '1', 'rss', 'http://www.feehi.com/rss', '1', '1', 'RSS订阅地址', '0');
+
 -- ----------------------------
--- Table structure for %__prefix__%user
+-- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `%__prefix__%user`;
 CREATE TABLE `%__prefix__%user` (
@@ -723,7 +810,7 @@ CREATE TABLE `%__prefix__%user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Records of %__prefix__%user
+-- Records of user
 -- ----------------------------
 INSERT INTO `%__prefix__%user` VALUES ('1', 'aaa', 'y-I4ci4glWqom_ZeW6IItOCWFx69FjqQ', '$2y$13$h2GSh/y8qa1WU.ZRVU3VaOr2/Zfh/VxCUfLmbY4xNeZ1Ql2lbMF36', null, 'aaa@feehi.com', '', '10', '1469070407', '0');
 INSERT INTO `%__prefix__%user` VALUES ('2', 'bbb', '9wMhzQEqGW8h1_NFBoCYY3StQ_ZJ8UaM', '$2y$13$MbDa4j1TujVid9Zk0saOYu7eGk/N52nOJjTYr22dCYRhJ/D9jV29.', null, 'bbb@feehi.com', '', '10', '1469070568', '0');

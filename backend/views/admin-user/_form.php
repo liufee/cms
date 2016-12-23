@@ -18,7 +18,7 @@ $this->title = "Admin";
                 <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data','class'=>'form-horizontal']]); ?>
                 <?= $form->field($model, 'username')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>
-                <?= $form->field($model, 'avatar')->imgInput(['width'=>'100px', 'baseUrl'=>yii::$app->params['admin']['url']]) ?>
+                <?= $form->field($model, 'avatar')->imgInput(['width'=>'200px', 'baseUrl'=>yii::$app->params['admin']['url']]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'email')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>

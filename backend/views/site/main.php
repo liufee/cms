@@ -93,7 +93,7 @@
                                 <small class="pull-right"><?=yii::$app->getFormatter()->asRelativeTime($comment->created_at)?></small>
                                 <strong><?=$comment->nickname?></strong>
                                 <br>
-                                <small class="text-muted"><?=yii::$app->formatter->asDate($comment->created_at)?> 在 <a class="J_menuItem"  data-index="0" href="http://www.baidu.com"><?=$comment->article->title?></a></small>
+                                <small class="text-muted"><?=yii::$app->formatter->asDate($comment->created_at)?> 在 <a class="J_menuItem"  data-index="0" href="javascript:void(0)"><?=$comment->article->title?></a></small>
                                 <div class="well">
                                     <?=$comment->content?>
                                 </div>

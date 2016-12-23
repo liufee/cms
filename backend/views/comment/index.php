@@ -16,28 +16,11 @@ use backend\models\Comment;
 
 $this->title = 'Comments';
 
-$viewLayer = function($url, $model){
-    return Html::a('<i class="fa fa-pencil"></i> 查看', Url::to(['view','uid'=>$model['id']]), [
-        'title' => 'view',
-        'class' => 'btn btn-white btn-sm'
-    ]);
-};
 ?>
 <div class="row">
     <div class="col-sm-12">
         <div class="ibox">
-            <?= $this->render('/widgets/_ibox-title', [
-            'buttons' => [
-                [
-                    'name' => 'Delete',
-                    'url' => ['delete'],
-                    'options' => [
-                        'class' => 'multi-operate btn btn-primary btn-xs',
-                        'data-confirm' => yii::t('app', 'Realy to delete?'),
-                    ]
-                ]
-            ]
-            ]) ?>
+            <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?= Bar::widget([
                     'template' => "{refresh} {delete}",

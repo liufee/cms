@@ -17,6 +17,7 @@ use backend\models\Article;
 $this->title = 'Articles';
 
 ?>
+<style>select.form-control{padding:0px}</style>
 <div class="row">
     <div class="col-sm-12">
         <div class="ibox">
