@@ -38,6 +38,9 @@ return [
                 'from'=>['admin@feehi.com'=>'Feehi CMS robot ']
             ],
         ],
+        'view' => [
+            'class' => 'feehi\components\View',
+        ],
         'feehi' => [
             'class' => 'feehi\components\Feehi',
         ],

@@ -18,6 +18,9 @@ return [
         'user' => [
             'identityClass' => 'backend\models\User',
             'enableAutoLogin' => true,
+            'identityCookie' => ['name' => '_backend_identity'],
+            'idParam' => '__backend__id',
+            'returnUrlParam' => '__backend__returnUrl',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
