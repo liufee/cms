@@ -64,7 +64,7 @@ class AdminRoleUser extends \yii\db\ActiveRecord
 
     public static function getRoleId($id = '')
     {
-        if($id == '') $id = yii::$app->user->identity->getId();
+        if($id == '') $id = yii::$app->getUser()->getIdentity()->getId();
         $result = self::find()->where(['uid'=>$id])->one();//createCommand()->getRawSql();
         return isset($result->role_id) ? $result->role_id : null;
     }

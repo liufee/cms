@@ -62,7 +62,7 @@ class AdminRolePermission extends \yii\db\ActiveRecord
     }
 
     public function assignPermission($data){
-        $role_id =  yii::$app->request->get('id');
+        $role_id =  yii::$app->getRequest()->get('id');
         $oldPermissions = self::find()->where(['role_id'=>$role_id])->indexBy('menu_id')->column();
         foreach($data as $v) {
             if ( isset($oldPermissions[$v]) ) unset( $oldPermissions[$v] );
@@ -112,7 +112,7 @@ class AdminRolePermission extends \yii\db\ActiveRecord
 
     public function checkPermission($route, $uid='')
     {
-        if($uid == '') $uid = yii::$app->user->identity->id;
+        if($uid == '') $uid = yii::$app->getUser()->getIdentity()->getId();
         $role_id = AdminRoleUser::getRoleId($uid);
         $permissions = self::getPermissionsByRoleId($role_id);//var_dump($permissions);die;
         foreach($permissions as $v){

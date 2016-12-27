@@ -7,23 +7,19 @@
  */
 namespace frontend\controllers;
 
-use frontend\models\ArticleContent;
 use yii;
 use yii\web\Controller;
 use frontend\models\Article;
-use common\models\Category;
-use yii\data\Pagination;
-use frontend\models\Comment;
+use yii\web\NotFoundHttpException;
 
 class PageController extends Controller
 {
 
-
     public function actionView($name='')
     {
-        if($name == '') $name = yii::$app->request->pathInfo;
+        if($name == '') $name = yii::$app->getRequest()->pathInfo;
         $model = Article::findOne(['sub_title'=>$name]);
-        if(empty($model)) throw new yii\web\NotFoundHttpException;
+        if(empty($model)) throw new NotFoundHttpException('None page named '.$name);
         return $this->render('view', [
             'model' => $model,
         ]);

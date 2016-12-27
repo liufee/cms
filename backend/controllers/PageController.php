@@ -18,7 +18,7 @@ class PageController extends BaseController
     public function getIndexData()
     {
         $searchModel = new ArticleSearch(['scenario'=>'page']);
-        $dataProvider = $searchModel->search(yii::$app->request->queryParams, Article::SINGLE_PAGE);
+        $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams(), Article::SINGLE_PAGE);
         return [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,

@@ -19,7 +19,7 @@ class FileController extends BaseController
     public function getIndexData()
     {
         $searchModel = new FileSearch();
-        $dataProvider = $searchModel->search(yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(yii::$app->request->getQueryParams());
         return [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,

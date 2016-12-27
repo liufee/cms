@@ -80,6 +80,8 @@ return [
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',
     'Please contact admin for reset password' => '请联系管理员重置密码',
+    'Captcha' => '验证码',
+    'Verification code error.' => '验证码错误。',
     /*Login*/
     'Login' => '登陆',
     /*public*/
@@ -196,6 +198,7 @@ return [
     'Mail Box' => '信箱',
     'Backend Manage System' => '后台管理',
     'Please Enter the Question' => '请输入您需要查找的内容',
+    'Incorrect username or password.' => '用户名或密码错误',
     /*site/index*/
 
     /*site/main*/

@@ -34,6 +34,8 @@ return [
     'person posted' => '个小伙伴在吐槽',
     'required' => '必填',
     'Website' => '网址',
+    'The above error occurred while the Web server was processing your request.' => '服务器在处理您的请求中发生了以上错误',
+    'Please contact us if you think this is a server error. Thank you.' => '如果您认为是我们的服务器错误，请告知我们，谢谢!',
     /*public*/
 
     /*site*/
@@ -47,11 +49,12 @@ return [
     'Subscribe' => '订阅',
     ' said' => ' 说',
     ' Comments' => '评论',
-
     /*site*/
 
     /*comment*/
     'This article is not allowed to comment' => '此文章不允许评论',
     'Website closed comment' => '本站不允许评论',
+    'Comment waiting for approved.' => '您的评论正在排队审核中，请稍后！',
+    'a minutes ago' => '一分钟前',
     /*comment*/
 ];

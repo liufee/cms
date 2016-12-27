@@ -16,7 +16,7 @@ class LogController extends BaseController{
     public function actionIndex()
     {
         $searchModel = new AdminLogSearch();
-        $dataProvider = $searchModel->search(yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,

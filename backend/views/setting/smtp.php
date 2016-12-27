@@ -2,12 +2,13 @@
 
 use feehi\widgets\ActiveForm;
 use feehi\widgets\JsBlock;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Options */
 /* @var $form ActiveForm */
 
-$this->title = yii::t('app', 'SMTP setting');
+$this->title = yii::t('app', 'SMTP Setting');
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -56,7 +57,7 @@ $this->title = yii::t('app', 'SMTP setting');
         $("#test").click(function () {
             layer.msg('<?=Yii::t('app', 'Loading, hold on please...')?>', {icon: 16, 'time':0});
             $.ajax({
-                url:'<?=\yii\helpers\Url::to(['test-smtp'])?>',
+                url:'<?=Url::to(['test-smtp'])?>',
                 method:'post',
                 data:$("form").serialize(),
                 success:function(data) {

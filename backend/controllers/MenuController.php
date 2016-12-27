@@ -4,6 +4,7 @@ namespace backend\controllers;
 use Yii;
 use yii\data\ArrayDataProvider;
 use backend\models\Menu;
+use backend\models\MenuSearch;
 
 /**
  * Menu controller
@@ -39,8 +40,8 @@ class MenuController extends BaseController
 
     public function actionIndex()
     {
-        $searchModel = new \backend\models\MenuSearch(['scenario'=>'backend']);
-        $dataProvider = $searchModel->search(yii::$app->request->queryParams);
+        $searchModel = new MenuSearch(['scenario'=>'backend']);
+        $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
         $data = [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,

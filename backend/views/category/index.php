@@ -44,7 +44,7 @@ $this->title = "Category";
                             'label' => yii::t('app', 'Sort'),
                             'format' => 'raw',
                             'value' => function($model){
-                                return \yii\helpers\Html::input('number', "sort[{$model['id']}]", $model['sort'], ['style'=>'width:50px']);
+                                return Html::input('number', "sort[{$model['id']}]", $model['sort'], ['style'=>'width:50px']);
                             }
                         ],
 

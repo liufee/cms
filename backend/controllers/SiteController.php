@@ -1,14 +1,16 @@
 <?php
 namespace backend\controllers;
 
-use common\models\Comment;
 use Yii;
+use common\models\Comment;
 use yii\filters\AccessControl;
 use backend\models\LoginForm;
 use yii\filters\VerbFilter;
-use yii\helpers\VarDumper;
 use feehi\libs\ServerInfo;
 use backend\models\Article as ArticleModel;
+use backend\models\Comment as BackendComment;
+use common\models\FriendLink;
+use frontend\models\User;
 
 /**
  * Site controller
@@ -25,7 +27,7 @@ class SiteController extends BaseController
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error','language'],
+                        'actions' => ['login', 'error','language', 'captcha'],
                         'allow' => true,
                     ],
                     [
@@ -52,6 +54,18 @@ class SiteController extends BaseController
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
+            ],
+            'captcha' => [
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'backColor'=>0x66b3ff,//背景颜色
+                'maxLength' => 4, //最大显示个数
+                'minLength' => 4,//最少显示个数
+                'padding' => 10,//间距
+                'height'=>34,//高度
+                'width' => 100,  //宽度
+                'foreColor'=>0xffffff,     //字体颜色
+                'offset'=>16,        //设置字符偏移量 有效果
             ],
         ];
     }
@@ -94,16 +108,16 @@ class SiteController extends BaseController
         $temp = [
             'ARTICLE' => ArticleModel::find()->where(['type'=>ArticleModel::ARTICLE])->count('id'),
             'COMMENT' => Comment::find()->count('id'),
-            'USER' => \frontend\models\User::find()->count('id'),
-            'FRIEND_LINK' => \common\models\FriendLink::find()->count('id'),
+            'USER' => User::find()->count('id'),
+            'FRIEND_LINK' => FriendLink::find()->count('id'),
         ];
         $statics = [
             'ARTICLE' => [$temp['ARTICLE'] , number_format( ArticleModel::find()->where(['between', 'created_at', strtotime(date('Y-m-01')), strtotime(date('Y-m-01 23:59:59')." +1 month -1 day")])->count('id') / $temp['ARTICLE'] * 100, 2) ],
             'COMMENT' => [$temp['COMMENT'], number_format( Comment::find()->where(['between', 'created_at', strtotime(date('Y-m-d 00:00:00')), time()])->count('id') / $temp['COMMENT'] * 100, 2) ],
-            'USER' => [$temp['USER'], number_format( \frontend\models\User::find()->where(['between', 'created_at', strtotime(date('Y-m-01')), strtotime(date('Y-m-01 23:59:59')." +1 month -1 day")])->count('id') / $temp['USER'] * 100, 2)],
-            'FRIEND_LINK' => [$temp['FRIEND_LINK'], number_format( \common\models\FriendLink::find()->where(['between', 'created_at', strtotime(date('Y-m-01')), strtotime(date('Y-m-01 23:59:59')." +1 month -1 day")])->count('id') / $temp['FRIEND_LINK'] * 100, 2)],
+            'USER' => [$temp['USER'], number_format( User::find()->where(['between', 'created_at', strtotime(date('Y-m-01')), strtotime(date('Y-m-01 23:59:59')." +1 month -1 day")])->count('id') / $temp['USER'] * 100, 2)],
+            'FRIEND_LINK' => [$temp['FRIEND_LINK'], number_format( FriendLink::find()->where(['between', 'created_at', strtotime(date('Y-m-01')), strtotime(date('Y-m-01 23:59:59')." +1 month -1 day")])->count('id') / $temp['FRIEND_LINK'] * 100, 2)],
         ];
-        $comments = \backend\models\Comment::getRecentComments(4);
+        $comments = BackendComment::getRecentComments(4);
         return $this->render('main', [
             'info' => $info,
             'status' => $status,
@@ -114,12 +128,12 @@ class SiteController extends BaseController
 
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
+        if (!Yii::$app->getUser()->isGuest) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
             return $this->goBack();
         } else {
             return $this->renderPartial('login', [
@@ -130,16 +144,16 @@ class SiteController extends BaseController
 
     public function actionLogout()
     {
-        Yii::$app->user->logout(false);
+        Yii::$app->getUser()->logout(false);
 
         return $this->goHome();
     }
 
     public function actionLanguage(){
-        $language=  Yii::$app->request->get('lang');
+        $language=  Yii::$app->getRequest()->get('lang');
         if(isset($language)){
             Yii::$app->session['language'] = $language;
         }
-        $this->goBack(Yii::$app->request->headers['referer']);
+        $this->goBack(Yii::$app->getRequest()->headers['referer']);
     }
 }

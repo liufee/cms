@@ -13,7 +13,7 @@ class Menu extends \common\models\Menu
         $menus = $model->find()->where(['is_display'=>1, 'type' => self::BACKEND_TYPE])->orderBy("sort asc")->all();
         $permissions = AdminRolePermission::getPermissionsByRoleId($role_id);
         $newMenu = [];
-        if( !in_array(yii::$app->user->identity->username, yii::$app->rbac->getSuperAdministrators()) && yii::$app->user->identity->id != 1 && $role_id != 1 ){
+        if( !in_array(yii::$app->getUser()->getIdentity()->username, yii::$app->rbac->getSuperAdministrators()) && yii::$app->getUser()->getIdentity()->getId() != 1 && $role_id != 1 ){
             foreach ($menus as $menu) {
                 foreach ($permissions as $permission) {
                     if ($menu['url'] == $permission['url']) {
@@ -100,7 +100,7 @@ EOF;
 
     public static function getBackendMenuJson()
     {
-        $adminRolePermissions =  AdminRolePermission::find()->where(['role_id'=>yii::$app->request->get('id', '')])->indexBy('menu_id')->column();
+        $adminRolePermissions =  AdminRolePermission::find()->where(['role_id'=>yii::$app->getRequest()->get('id', '')])->indexBy('menu_id')->column();
         $model = new self();
         $menus = $model->find()->where(['type'=>self::BACKEND_TYPE])->orderBy("sort asc")->all();
         $temp = [];

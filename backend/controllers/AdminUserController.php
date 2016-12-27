@@ -37,9 +37,9 @@ class AdminUserController extends BaseController
         $model = new User();
         $model->setScenario('create');
         $rolesModel = new AdminRoleUser();
-        if(yii::$app->request->isPost){
-            if($model->load(Yii::$app->request->post()) && $model->validate() && $rolesModel->load(yii::$app->request->post()) && $rolesModel->validate() && $model->save() ){
-                $rolesModel->uid = $model->primaryKey;
+        if(yii::$app->getRequest()->getIsPost()){
+            if($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $rolesModel->load(yii::$app->getRequest()->post()) && $rolesModel->validate() && $model->save() ){
+                $rolesModel->uid = $model->getPrimaryKey();
                 $rolesModel->save();
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['index']);
@@ -73,10 +73,10 @@ class AdminUserController extends BaseController
             $rolesModel = new AdminRoleUser();
             $rolesModel->uid = $id;
         }
-        if ( Yii::$app->request->isPost ) {
-            if( $model->load(Yii::$app->request->post()) && $model->validate() && $rolesModel->load(yii::$app->request->post()) && $rolesModel->validate() && $model->save() && $rolesModel->save() ){
+        if ( Yii::$app->getRequest()->getIsPost() ) {
+            if( $model->load(Yii::$app->request->post()) && $model->validate() && $rolesModel->load(yii::$app->getRequest()->post()) && $rolesModel->validate() && $model->save() && $rolesModel->save() ){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-                return $this->redirect(['update', 'id'=>$model->primaryKey]);
+                return $this->redirect(['update', 'id'=>$model->getPrimaryKey()]);
             }else{
                 $errors = $model->getErrors();
                 $err = '';
@@ -85,7 +85,7 @@ class AdminUserController extends BaseController
                 }
                 Yii::$app->getSession()->setFlash('error', $err);
             }
-            $model = User::findOne(['id'=>yii::$app->user->identity->id]);
+            $model = User::findOne(['id'=>yii::$app->getUser()->getIdentity()->getId()]);
         }
 
         $temp = AdminRoles::find()->asArray()->all();
@@ -107,10 +107,10 @@ class AdminUserController extends BaseController
 
     public function actionUpdateSelf()
     {
-        $model = User::findOne(['id'=>yii::$app->user->identity->id]);
+        $model = User::findOne(['id'=>yii::$app->getUser()->getIdentity()->getId()]);
         $model->setScenario('self-update');
-        if(yii::$app->request->isPost){
-            if( $model->validate() && $model->load(yii::$app->request->post()) && $model->self_update() ){
+        if(yii::$app->getRequest()->getIsPost()){
+            if( $model->validate() && $model->load(yii::$app->getRequest()->post()) && $model->self_update() ){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             }else{
                 $errors = $model->getErrors();
@@ -120,7 +120,7 @@ class AdminUserController extends BaseController
                 }
                 Yii::$app->getSession()->setFlash('error', $err);
             }
-            $model = User::findOne(['id'=>yii::$app->user->identity->id]);
+            $model = User::findOne(['id'=>yii::$app->getUser()->getIdentity()->getId()]);
         }
         return $this->render('update', [
             'model' => $model,
@@ -129,9 +129,9 @@ class AdminUserController extends BaseController
 
     public function actionUpdateSelfAvatar()
     {
-        $model = User::findOne(['id'=>yii::$app->user->identity->id]);
+        $model = User::findOne(['id'=>yii::$app->getUser()->getIdentity()->getId()]);
         $model->setScenario('update');
-        if(yii::$app->request->isPost && $model->validate() && $model->load(yii::$app->request->post()) && $model->save()){
+        if(yii::$app->getRequest()->getIsPost() && $model->validate() && $model->load(yii::$app->getRequest()->post()) && $model->save()){
             return $this->redirect(['site/main']);
         }
         return $this->render('update-self-avatar', [
@@ -146,8 +146,8 @@ class AdminUserController extends BaseController
             $model = new AdminRoleUser();
         }
         $model->uid = $uid;
-        if( yii::$app->request->isPost ){
-            if($model->load(yii::$app->request->post()) && $model->save()){
+        if( yii::$app->getRequest()->getIsPost() ){
+            if($model->load(yii::$app->getRequest()->post()) && $model->save()){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'success'));
             }else{//var_dump($model->getErrors());die;
                 $errors = $model->getErrors();

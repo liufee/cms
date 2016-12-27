@@ -7,7 +7,6 @@
  */
 namespace frontend\models;
 
-use yii;
 use common\models\Article as CommonArticle;
 
 class Article extends CommonArticle

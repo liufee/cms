@@ -10,8 +10,6 @@ namespace frontend\widgets;
 
 use yii;
 use yii\helpers\Url;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 use frontend\models\Menu;
 
 class MenuView extends \yii\base\Widget
@@ -25,7 +23,7 @@ class MenuView extends \yii\base\Widget
     public function run()
     {
         parent::run();
-        $menus = Menu::find()->where(['type'=>Menu::FRONTEND_TYPE])->orderBy("sort asc,parent_id asc")->asArray()->all();
+        $menus = Menu::find()->where(['type'=>Menu::FRONTEND_TYPE, 'is_display'=>Menu::DISPLAY_YES])->orderBy("sort asc,parent_id asc")->asArray()->all();
         $content = '';
         foreach($menus as $key => $menu){
             if($menu['parent_id'] == 0){

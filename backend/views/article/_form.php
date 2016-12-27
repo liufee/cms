@@ -7,11 +7,8 @@
  */
 use feehi\widgets\ActiveForm;
 use common\models\Category;
-use feehi\widgets\Ueditor;
 use feehi\libs\Constants;
 use yii\helpers\Html;
-use yii\bootstrap\Alert;
-use yii\helpers\Url;
 
 $this->title = "Articles";
 ?>
@@ -30,7 +27,7 @@ $this->title = "Articles";
                         <?= $form->field($model, 'title')->textInput();?>
                         <?= $form->field($model, 'sub_title')->textInput();?>
                         <?= $form->field($model, 'summary')->textArea();?>
-                        <?= $form->field($model, 'thumb')->imgInput(['width'=>'200px']);?>
+                        <?= $form->field($model, 'thumb')->imgInput(['style'=>'max-width:200px;max-height:200px']);?>
                         <?= $form->field($model, 'content')->ueditor()?>
                     </div>
                     <!--left stop -->

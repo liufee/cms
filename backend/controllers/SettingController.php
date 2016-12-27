@@ -14,6 +14,7 @@ use common\models\Options;
 use feehi\libs\Constants;
 use yii\base\Model;
 use yii\web\Response;
+use feehi\widgets\ActiveForm;
 
 /**
  * Setting controller
@@ -24,9 +25,9 @@ class SettingController extends BaseController
     public function actionWebsite()
     {
         $model = new SettingWebsiteForm();
-        if ( Yii::$app->request->isPost )
+        if ( Yii::$app->getRequest()->getIsPost() )
         {
-            if( $model->validate() && $model->load(Yii::$app->request->post()) && $model->setWebsiteConfig() ){
+            if( $model->validate() && $model->load(Yii::$app->getRequest()->post()) && $model->setWebsiteConfig() ){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             }else{
                 $errors = $model->getErrors();
@@ -47,7 +48,7 @@ class SettingController extends BaseController
 
     public function actionCustom()
     {
-        $settings = Options::find()->where(['type'=>Options::TYPE_CUSTOM])->indexBy('id')->all();
+        $settings = Options::find()->where(['type'=>Options::TYPE_CUSTOM])->orderBy("sort")->indexBy('id')->all();
 
         if (Model::loadMultiple($settings, Yii::$app->request->post()) && Model::validateMultiple($settings)) {
             foreach ($settings as $setting) {
@@ -73,7 +74,7 @@ class SettingController extends BaseController
     {
         $model = new Options();
         $model->type = Options::TYPE_CUSTOM;
-        if($model->load(yii::$app->request->post()) && $model->save()){
+        if($model->load(yii::$app->getRequest()->post()) && $model->save()){
             Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             return $this->redirect(['custom']);
         }else{
@@ -83,7 +84,7 @@ class SettingController extends BaseController
                 $err .= $v[0].'<br>';
             }
             //Yii::$app->getSession()->setFlash('error', yii::t('app', $err));
-            yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            yii::$app->getResponse()->format = Response::FORMAT_JSON;
             return [
                 'err_msg' => $err,
             ];
@@ -98,8 +99,8 @@ class SettingController extends BaseController
     public function actionCustomUpdate($id='')
     {
         $model = Options::findOne(['id' => $id]);
-        if(yii::$app->request->isPost){
-            if($model->load(yii::$app->request->post()) && $model->save()){
+        if(yii::$app->getRequest()->getIsPost()){
+            if($model->load(yii::$app->getRequest()->post()) && $model->save()){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['custom']);
             }else{
@@ -108,23 +109,23 @@ class SettingController extends BaseController
                 foreach($errors as $v){
                     $err .= $v[0].'<br>';
                 }
-                yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+                yii::$app->getResponse()->format = Response::FORMAT_JSON;
                 return [
                     'err_msg' => $err,
                 ];
             }
         }else {
-            yii::$app->getResponse()->format = \yii\web\Response::FORMAT_HTML;
+            yii::$app->getResponse()->format = Response::FORMAT_HTML;
             echo '<div class="" id="editForm">';
             echo '<div class="ibox-content">';
-            $form = \feehi\widgets\ActiveForm::begin(['options' => ['name' => 'edit']]);
+            $form = ActiveForm::begin(['options' => ['name' => 'edit']]);
             echo $form->field($model, 'name')->textInput();
-            echo $form->field($model, 'input_type')->dropDownList(\feehi\libs\Constants::getInputTypeItems());
+            echo $form->field($model, 'input_type')->dropDownList(Constants::getInputTypeItems());
             echo $form->field($model, 'tips')->textInput();
             echo $form->field($model, 'autoload')->dropDownList(Constants::getYesNoItems());
             echo $form->field($model, 'sort')->textInput();
             echo $form->defaultButtons();
-            \feehi\widgets\ActiveForm::end();
+            ActiveForm::end();
             echo '</div>';
             echo '</div>';
         }
@@ -133,9 +134,9 @@ class SettingController extends BaseController
     public function actionSmtp()
     {
         $model = new SettingSmtpForm();
-        if ( Yii::$app->request->isPost )
+        if ( Yii::$app->getRequest()->getIsPost() )
         {
-            if( $model->load(Yii::$app->request->post()) && $model->validate() && $model->setSmtpConfig() ){
+            if( $model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->setSmtpConfig() ){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             }else{
                 $errors = $model->getErrors();

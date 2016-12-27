@@ -5,7 +5,6 @@
  * Date: 2016/3/25
  * Time: 11:15
  */
-use yii\helpers\Url;
 use feehi\widgets\ActiveForm;
 
 $this->title = 'User';
@@ -16,7 +15,11 @@ $this->title = 'User';
         <div class="ibox-content">
 
             <?php $form = ActiveForm::begin(['options'=>['enctype'=>'multipart/form-data','class'=>'form-horizontal']]); ?>
-            <?= $form->field($model, 'username')->textInput(['maxlength' => 64]) ?>
+            <?php
+                $temp = ['maxlength' => 64];
+                if( yii::$app->controller->action->id == 'update' ) $temp['disabled'] = 'disabled';
+            ?>
+            <?= $form->field($model, 'username')->textInput($temp) ?>
             <div class="hr-line-dashed"></div>
             <?= $form->field($model, 'avatar')->imgInput(['width' => 200]) ?>
             <div class="hr-line-dashed"></div>

@@ -53,7 +53,7 @@ class ErrorController extends BaseController
 
     public function actionForbidden()
     {
-        Yii::$app->response->statusCode = 403;
+        Yii::$app->getResponse()->statusCode = 403;
         return $this->render('error', [
             'code' => '403',
             'name' => yii::t('app', 'Lack of authority'),
@@ -63,7 +63,7 @@ class ErrorController extends BaseController
 
     public function actionNotFound()
     {
-        Yii::$app->response->statusCode = 404;
+        Yii::$app->getResponse()->statusCode = 404;
         return $this->render('error', [
             'code' => '404',
             'name' => "Not Found",

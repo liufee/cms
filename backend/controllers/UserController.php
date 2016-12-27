@@ -38,7 +38,7 @@ class UserController extends BaseController{
     public function getIndexData()
     {
         $searchModel = new UserSearch();
-        $dataProvider = $searchModel->search(yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
         return [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
@@ -59,13 +59,13 @@ class UserController extends BaseController{
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', yii::t('app', 'Check your email for further instructions.'));
+                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Check your email for further instructions.'));
 
                 return $this->goHome();
             } else {
-                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                Yii::$app->getSession()->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
             }
         }
 
@@ -82,7 +82,7 @@ class UserController extends BaseController{
             throw new BadRequestHttpException($e->getMessage());
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->resetPassword()) {
             Yii::$app->session->setFlash('success', yii::t('app', 'New password was saved.'));
 
             return $this->goHome();

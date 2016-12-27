@@ -2,7 +2,6 @@
 
 namespace backend\controllers;
 
-use Yii;
 use yii\data\ArrayDataProvider;
 use common\models\Category;
 

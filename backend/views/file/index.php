@@ -10,6 +10,7 @@ use feehi\widgets\Bar;
 use yii\helpers\Html;
 use backend\models\FileUsage;
 use feehi\libs\Help;
+use feehi\libs\Constants;
 
 $this->title = 'Files';
 
@@ -61,7 +62,7 @@ $this->title = 'Files';
                                     return "<a class=\"btn btn-default btn-xs btn-rounded\" href=\"javacript:void(0)\">".yii::t('app', 'Unused')."</a>";
                                 }
                             },
-                            'filter' => \feehi\libs\Constants::getYesNoItems()
+                            'filter' => Constants::getYesNoItems()
                         ],
                         [
                             'attribute' => 'uri',

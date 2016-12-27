@@ -7,6 +7,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use \yii\web\ForbiddenHttpException;
 
 /**
  * User model
@@ -267,7 +268,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function beforeDelete()
     {
-        if($this->id == 1) throw new \yii\web\ForbiddenHttpException(yii::t('app', "Not allowed to delete {attribute}", ['attribute'=>yii::t('app', 'default super administrator admin')]));
+        if($this->id == 1) throw new ForbiddenHttpException(yii::t('app', "Not allowed to delete {attribute}", ['attribute'=>yii::t('app', 'default super administrator admin')]));
         return true;
     }
 

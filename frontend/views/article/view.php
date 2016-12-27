@@ -9,6 +9,7 @@ use yii\helpers\Url;
 use frontend\assets\ViewAsset;
 use feehi\widgets\JsBlock;
 use yii\helpers\Html;
+use feehi\widgets\ActiveForm;
 
 $this->title = $model->title;
 $this->registerMetaTag(['keywords' => $model->seo_keywords]);
@@ -107,7 +108,7 @@ ViewAsset::register($this);
 
         <div id="respond" class="no_webshot">
             <form action="" method="post" id="commentform">
-            <?php $form = \yii\bootstrap\ActiveForm::begin();?>
+            <?php $form = ActiveForm::begin();?>
                 <?=Html::activeHiddenInput($commentModel, 'aid', ['value'=>$model->id])?>
                 <div class="comt-title" style="display: block;">
                     <div class="comt-avatar pull-left">
@@ -149,7 +150,7 @@ ViewAsset::register($this);
                         </ul>
                     </div>
                 </div>
-            <?php \yii\bootstrap\ActiveForm::end() ?>
+            <?php ActiveForm::end() ?>
         </div>
         <div id="postcomments">
             <div id="comments">

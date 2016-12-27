@@ -18,7 +18,7 @@ class ArticleController extends BaseController
     public function getIndexData()
     {
         $searchModel = new ArticleSearch(['scenario'=>'article']);
-        $dataProvider = $searchModel->search(yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
         return [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,

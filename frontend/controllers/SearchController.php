@@ -31,7 +31,7 @@ class SearchController extends Controller
                 ]
             ]
         ]);
-        return $this->render('/site/index', [
+        return $this->render('/article/index', [
             'dataProvider' => $dataProvider
         ]);
     }

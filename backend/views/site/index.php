@@ -20,7 +20,7 @@ $this->title = yii::t('app', 'Backend Manage System');
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <link rel="icon" href="<?=yii::$app->request->hostInfo?>/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="<?=yii::$app->getRequest()->hostInfo?>/favicon.ico" type="image/x-icon" />
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
 <?php $this->beginBody() ?>
@@ -33,11 +33,11 @@ $this->title = yii::t('app', 'Backend Manage System');
             <ul class="nav" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element">
-                        <span><img alt="image" class="img-circle" width="64px" height="64px" src="<?php if(\yii::$app->user->identity->avatar){echo \yii::$app->params['site']['url'].\yii::$app->user->identity->avatar;}else{echo 'static/img/profile_small.jpg';} ?>" /></span>
+                        <span><img alt="image" class="img-circle" width="64px" height="64px" src="<?php if(yii::$app->getUser()->getIdentity()->avatar){echo yii::$app->params['site']['url'].yii::$app->getUser()->getIdentity()->avatar;}else{echo 'static/img/profile_small.jpg';} ?>" /></span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                <span class="block m-t-xs"><strong class="font-bold"><?= yii::t('menu', yii::$app->rbac->roleName)?></strong></span>
-                                <span class="text-muted text-xs block"><?=\yii::$app->user->identity->username ?><b class="caret"></b></span>
+                                <span class="text-muted text-xs block"><?=\yii::$app->getUser()->getIdentity()->username ?><b class="caret"></b></span>
                                 </span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">

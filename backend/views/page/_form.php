@@ -6,12 +6,7 @@
  * Time: 15:49
  */
 use feehi\widgets\ActiveForm;
-use common\models\Category;
-use feehi\widgets\Ueditor;
 use feehi\libs\Constants;
-use yii\helpers\Html;
-use yii\bootstrap\Alert;
-use yii\helpers\Url;
 
 $this->title = "Pages";
 ?>

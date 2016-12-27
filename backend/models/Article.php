@@ -26,8 +26,8 @@ class Article extends \common\models\Article
         $this->seo_keywords = str_replace( '，', ',', $this->seo_keywords);
         if( !$this->saveThumb($insert) ) return false;
         if($insert) {
-            $this->author_id = yii::$app->user->identity->id;
-            $this->author_name = yii::$app->user->identity->username;
+            $this->author_id = yii::$app->getUser()->getIdentity()->id;
+            $this->author_name = yii::$app->getUser()->getIdentity()->username;
 
         }
         return parent::beforeSave($insert);

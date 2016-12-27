@@ -125,7 +125,7 @@
                     <ul class="list-group">
                         <style>.list-group-item>.badge{float:left} li.list-group-item strong{margin-left: 15px;}</style>
                         <li class="list-group-item">
-                            <span class="badge badge-primary">&nbsp;&nbsp;</span><strong>OS</strong>: <?=$info['OPERATING_SYSTEM']?>
+                            <span class="badge badge-primary">&nbsp;&nbsp;</span><strong>Feehi CMS</strong>: <?=yii::$app->version?>
                         </li>
                         <li class="list-group-item ">
                             <span class="badge badge-info">&nbsp;&nbsp;</span> <strong>Web Server</strong>: <?=$info['OPERATING_ENVIRONMENT']?>

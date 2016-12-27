@@ -3,7 +3,6 @@ namespace backend\controllers;
 
 use Yii;
 use yii\web\Response;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 
 /**
@@ -19,8 +18,8 @@ class BaseController extends Controller
 
     public function actionCreate(){
         $model = $this->getModel();
-        if( yii::$app->request->isPost ) {
-            if ( $model->load(yii::$app->request->post()) && $model->validate() && $model->save() ) {
+        if( yii::$app->getRequest()->getIsPost() ) {
+            if ( $model->load(yii::$app->getRequest()->post()) && $model->validate() && $model->save() ) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['index']);
             } else {
@@ -39,8 +38,8 @@ class BaseController extends Controller
 
     public function actionDelete($id)
     {
-        if(yii::$app->request->isAjax){
-            Yii::$app->response->format = Response::FORMAT_JSON;
+        if(yii::$app->getRequest()->getIsAjax()){
+            Yii::$app->getResponse()->format = Response::FORMAT_JSON;
             if(!$id) return['code'=>1, 'message' => yii::t('app', "Id doesn't exit" )];
             $ids = explode(',', $id);
             $errorIds = [];
@@ -91,9 +90,9 @@ class BaseController extends Controller
             'message' => yii::t('app', "Id doesn't exit"),
         ]);
         if ( Yii::$app->request->isPost ) {
-            if( $model->load(Yii::$app->request->post()) && $model->validate() && $model->save() ){
+            if( $model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->save() ){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-                return $this->redirect(['update', 'id'=>$model->primaryKey]);
+                return $this->redirect(['update', 'id'=>$model->getPrimaryKey()]);
             }else{
                 $errors = $model->getErrors();
                 $err = '';
@@ -111,8 +110,8 @@ class BaseController extends Controller
 
     public function actionSort()
     {
-        if(yii::$app->request->isPost) {
-            $data = yii::$app->request->post();
+        if(yii::$app->getRequest()->getIsPost()) {
+            $data = yii::$app->getRequest()->post();
             if (!empty($data['sort'])) {
                 foreach ($data['sort'] as $key => $value) {
                     $model = $this->getModel($key);
@@ -128,7 +127,7 @@ class BaseController extends Controller
 
     public function actionChangeStatus($id='', $status=0, $field='status')
     {
-        if( yii::$app->request->getIsAjax() ) yii::$app->response->format = Response::FORMAT_JSON;
+        if( yii::$app->getRequest()->getIsAjax() ) yii::$app->getResponse()->format = Response::FORMAT_JSON;
         if(!$id) return $this->render('/error/error', [
             'code' => '403',
             'name' => 'Params required',
@@ -141,7 +140,7 @@ class BaseController extends Controller
             'message' => yii::t('app', "Id doesn't exit"),
         ]);
         $model->$field = $status;
-        if( yii::$app->request->getIsAjax() ) {
+        if( yii::$app->getRequest()->getIsAjax() ) {
             if ($model->save()) {
                 return ['code' => 0, 'message' => yii::t('app', 'Success')];
             } else {
@@ -154,7 +153,7 @@ class BaseController extends Controller
             }
         }else{
             $model->save();
-            return $this->redirect(yii::$app->request->headers['referer']);
+            return $this->redirect(yii::$app->getRequest()->headers['referer']);
         }
     }
 

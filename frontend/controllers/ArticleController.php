@@ -58,7 +58,7 @@ class ArticleController extends Controller
                 ]
             ]
         ]);
-        return $this->render('/site/index', [
+        return $this->render('index', [
             'dataProvider' => $dataProvider
         ]);
     }
@@ -84,25 +84,6 @@ class ArticleController extends Controller
         ]);
     }
 
-    private function getSimilar($title,$arr_title)
-    {
-        $arr_len = count($arr_title);
-        for($i=0; $i<=($arr_len-1); $i++)
-        {
-            //取得两个字符串相似的字节数
-            $arr_similar[$i] = similar_text($arr_title[$i],$title);
-        }
-        arsort($arr_similar);	//按照相似的字节数由高到低排序
-        reset($arr_similar);	//将指针移到数组的第一单元
-        $index = 0;
-        foreach($arr_similar as $old_index=>$similar)
-        {
-            $new_title_array[$index] = $arr_title[$old_index];
-            $index++;
-        }
-        return $new_title_array;
-    }
-
     public function actionComment()
     {
         if(yii::$app->request->getIsPost()){
@@ -114,7 +95,7 @@ class ArticleController extends Controller
                 }
                 $tips = '';
                 if(yii::$app->feehi->website_comment_need_verify){
-                    $tips = "<span class='c-approved'>您的评论正在排队审核中，请稍后！</span><br />";
+                    $tips = "<span class='c-approved'>".yii::t('frontend', 'Comment waiting for approved.')."</span><br />";
                 }
                 $commentModel->content = str_replace([':mrgreen:',':razz:',':sad:',':smile:',':oops:',':grin:',':eek:',':???:',':cool:',':lol:',':mad:',':twisted:',':roll:',':wink:',':idea:',':arrow:',':neutral:',':cry:',':?:',':evil:',':shock:',':!:'],
                     ["<img src='{%URL%}mrgreen{%EXT%}'>","<img src='{%URL%}razz{%EXT%}'>","<img src='{%URL%}sad{%EXT%}'>","<img src='{%URL%}smile{%EXT%}'>","<img src='{%URL%}redface{%EXT%}'>","<img src='{%URL%}biggrin{%EXT%}'>","<img src='{%URL%}surprised{%EXT%}'>","<img src='{%URL%}confused{%EXT%}'>","<img src='{%URL%}cool{%EXT%}'>","<img src='{%URL%}lol{%EXT%}'>","<img src='{%URL%}mad{%EXT%}'>","<img src='{%URL%}twisted{%EXT%}'>","<img src='{%URL%}rolleyes{%EXT%}'>","<img src='{%URL%}wink{%EXT%}'>","<img src='{%URL%}idea{%EXT%}'>","<img src='{%URL%}arrow{%EXT%}'>","<img src='{%URL%}neutral{%EXT%}'>","<img src='{%URL%}cry{%EXT%}'>","<img src='{%URL%}question{%EXT%}'>","<img src='{%URL%}evil{%EXT%}'>","<img src='{%URL%}eek{%EXT%}'>","<img src='{%URL%}exclaim{%EXT%}'>"],$commentModel->content);
@@ -122,9 +103,9 @@ class ArticleController extends Controller
                 echo "
                 <li class='comment even thread-even depth-1' id='comment-{$commentModel->id}'>
                     <div class='c-avatar'><img src='{$avatar}' class='avatar avatar-108' height='50' width='50'>
-                        <div class='c-main' id='div-comment-53'><p>{$commentModel->content}</p>
+                        <div class='c-main' id='div-comment-{$commentModel->id}'><p>{$commentModel->content}</p>
                             {$tips}
-                            <div class='c-meta'><span class='c-author'><a href='{$commentModel->website_url}' rel='external nofollow' class='url'>{$commentModel->nickname}</a></span>  (1分钟前)</div>
+                            <div class='c-meta'><span class='c-author'><a href='{$commentModel->website_url}' rel='external nofollow' class='url'>{$commentModel->nickname}</a></span>  (".yii::t('frontend', 'a minutes ago').")</div>
                         </div>
                     </div>";
             }else{
@@ -143,7 +124,7 @@ class ArticleController extends Controller
         $aid = yii::$app->getRequest()->post("um_id");
         $model = new \common\models\ArticleMetaLike();
         $model->setLike($aid);
-        echo $model->getLikeCount($aid);
+        return $model->getLikeCount($aid);
 
     }
 

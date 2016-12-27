@@ -271,7 +271,6 @@ $this->title = 'Articles';
                                     ]);
                                 }
                             ],
-                            'width' => '135',
                             'template' => '{view-layer} {update} {delete}{comment}',
                         ],
                     ]

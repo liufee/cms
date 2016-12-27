@@ -4,6 +4,7 @@ namespace backend\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\web\ForbiddenHttpException;
 
 /**
  * This is the model class for table "{{%admin_roles}}".
@@ -61,7 +62,7 @@ class AdminRoles extends \yii\db\ActiveRecord
 
     public static function getRoleNameByUid($uid = '')
     {
-        if( $uid == '' ) $uid = yii::$app->user->identity->getId();
+        if( $uid == '' ) $uid = yii::$app->getUser()->getIdentity()->getId();
         $role_id = AdminRoleUser::getRoleId($uid);
         $data = self::findOne(['id'=>$role_id]);
         return isset($data->role_name) ? $data->role_name : null;
@@ -69,7 +70,7 @@ class AdminRoles extends \yii\db\ActiveRecord
 
     public function beforeDelete()
     {
-        if($this->id == 1) throw new \yii\web\ForbiddenHttpException(yii::t('app', 'Not allowed to delete {attribute}', ['attribute'=>yii::t('app', 'super administrator roles')]));
+        if($this->id == 1) throw new ForbiddenHttpException(yii::t('app', 'Not allowed to delete {attribute}', ['attribute'=>yii::t('app', 'super administrator roles')]));
         return true;
     }
 }

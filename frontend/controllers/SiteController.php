@@ -6,7 +6,6 @@ use common\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
-use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -68,30 +67,6 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
-     *
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $where = ['type'=>Article::ARTICLE, 'status'=>Article::ARTICLE_PUBLISHED];
-        $query = Article::find()->select([])->where($where);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'sort' => [
-                'defaultOrder' => [
-                    'sort' => SORT_ASC,
-                    'created_at' => SORT_DESC,
-                    'id' => SORT_DESC,
-                ]
-            ]
-        ]);
-        return $this->render('index', [
-            'dataProvider' => $dataProvider
-        ]);
-    }
-
-    /**
      * Logs in a user.
      *
      * @return mixed
@@ -106,6 +81,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {
+            yii::$app->getUser()->setReturnUrl(yii::$app->getRequest()->getHeaders()->get('referer'));
             return $this->render('login', [
                 'model' => $model,
             ]);
@@ -196,8 +172,9 @@ class SiteController extends Controller
 
     public function actionOffline()
     {
-        Yii::$app->response->statusCode = 503;
-        echo "sorry, the site is temporary unserviceable";
+        Yii::$app->getResponse()->statusCode = 503;
+        yii::$app->getResponse()->content = "sorry, the site is temporary unserviceable";
+        yii::$app->getResponse()->send();
     }
 
     public function actionView(){
