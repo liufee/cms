@@ -14,6 +14,7 @@ use common\models\Category;
 use frontend\models\Comment;
 use yii\data\ActiveDataProvider;
 use common\models\ArticleMetaLike;
+use yii\web\NotFoundHttpException;
 
 class ArticleController extends Controller
 {
@@ -24,7 +25,7 @@ class ArticleController extends Controller
         return [
             [
                 'class' => 'yii\filters\HttpCache',
-                'only' => ['mm'],
+                'only' => ['view'],
                 'lastModified' => function ($action, $params) {
                     $article = Article::findOne(['id'=>yii::$app->request->get('id')]);
                     return $article->updated_at;
@@ -35,14 +36,14 @@ class ArticleController extends Controller
 
     public function actionIndex($cat='')
     {
-        if($cat == '') $cat = yii::$app->request->pathInfo;
+        if($cat == '') $cat = yii::$app->getRequest()->getPathInfo();
         $where = ['type'=>Article::ARTICLE,'status'=>Article::ARTICLE_PUBLISHED];
         if($cat != '' && $cat != 'index') {
             if($cat == yii::t('app', 'uncategoried')){
                 $where['cid'] = 0;
             }else {
                 if (!$category = Category::findOne(['name' => $cat])) {
-                    throw new yii\web\NotFoundHttpException('None category named ' . $cat);
+                    throw new NotFoundHttpException('None category named ' . $cat);
                 }
                 $where['cid'] = $category['id'];
             }
@@ -86,9 +87,9 @@ class ArticleController extends Controller
 
     public function actionComment()
     {
-        if(yii::$app->request->getIsPost()){
+        if(yii::$app->getRequest()->getIsPost()){
             $commentModel = new Comment();
-            if($commentModel->load(yii::$app->request->post()) && $commentModel->save()){
+            if($commentModel->load(yii::$app->getRequest()->post()) && $commentModel->save()){
                 $avatar = 'https://secure.gravatar.com/avatar?s=50';
                 if($commentModel->email != ''){
                     $avatar = "https://secure.gravatar.com/avatar/".md5($commentModel->email)."?s=50";
@@ -122,7 +123,7 @@ class ArticleController extends Controller
     public function actionLike()
     {
         $aid = yii::$app->getRequest()->post("um_id");
-        $model = new \common\models\ArticleMetaLike();
+        $model = new ArticleMetaLike();
         $model->setLike($aid);
         return $model->getLikeCount($aid);
 

@@ -6,12 +6,12 @@
 
 use backend\assets\AppAsset;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use feehi\widgets\ActiveForm;
 use yii\helpers\Url;
-use yii\captcha\Captcha;
+use feehi\components\Captcha;
 
 AppAsset::register($this);
-$this->title = 'Login';
+$this->title = yii::t('app', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php $this->beginPage() ?>
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             position: absolute;
             left: 305px;
             width: 170px;
-            top: 0px;
+            top: 4px;
             text-align: left;
         }
         img#captchaimg{
@@ -38,6 +38,10 @@ $this->params['breadcrumbs'][] = $this->title;
                      top: 0px;
                      left: 199px;
          }
+        .form-horizontal .form-group{
+            width: 300px;
+            margin-left: 0px;
+        }
     </style>
 </head>
 <body class="gray-bg"><style>.m-t-md{margin-top:0px}</style>

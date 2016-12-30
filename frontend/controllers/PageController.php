@@ -17,7 +17,7 @@ class PageController extends Controller
 
     public function actionView($name='')
     {
-        if($name == '') $name = yii::$app->getRequest()->pathInfo;
+        if($name == '') $name = yii::$app->getRequest()->getPathInfo();
         $model = Article::findOne(['sub_title'=>$name]);
         if(empty($model)) throw new NotFoundHttpException('None page named '.$name);
         return $this->render('view', [

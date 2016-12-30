@@ -11,6 +11,7 @@ use backend\models\Article as ArticleModel;
 use backend\models\Comment as BackendComment;
 use common\models\FriendLink;
 use frontend\models\User;
+use yii\db\Query;
 
 /**
  * Site controller
@@ -77,11 +78,19 @@ class SiteController extends BaseController
 
     public function actionMain()
     {
+        switch (yii::$app->getDb()->driverName){
+            case "mysql":
+                $dbInfo = 'MySQL '.(new Query())->select('version()')->one()['version()'];
+                break;
+            case "pgsql":
+                $dbInfo = (new Query())->select('version()')->one()['version'];
+                break;
+            default: "Unknown";
+        }
         $info = [
-            'OPERATING_SYSTEM' => PHP_OS,
-            'OPERATING_ENVIRONMENT' => $_SERVER["SERVER_SOFTWARE"],
+            'OPERATING_ENVIRONMENT' => PHP_OS.' '.$_SERVER["SERVER_SOFTWARE"],
             'PHP_RUN_MODE' => php_sapi_name(),
-            'MYSQL_VERSION' => (new yii\db\Query())->select('VERSION()')->one()['VERSION()'],
+            'DB_INFO' => $dbInfo,
             'PROGRAM_VERSION' => "1.0",
             'UPLOAD_MAX_FILESIZE' => ini_get('upload_max_filesize'),
             'MAX_EXECUTION_TIME' => ini_get('max_execution_time') . "s"

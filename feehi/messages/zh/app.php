@@ -217,7 +217,7 @@ return [
     'PHP Execute Method' => 'PHP执行方式',
     'File Upload Limit' => '文件上传限制',
     'Script Time Limit' => '脚本超时限制',
-    'MySQL Version' => 'MySQL版本',
+    'Database Info' => '数据库信息',
     'Memory Usage' => '内存',
     'Real Memory Usage' => '真实内存',
     'Disk Usage' => '硬盘',

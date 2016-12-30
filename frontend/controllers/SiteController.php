@@ -11,8 +11,6 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use frontend\models\Article;
-use yii\data\ActiveDataProvider;
 
 /**
  * Site controller
@@ -73,12 +71,12 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->user->isGuest) {
+        if (!Yii::$app->getUser()->getIsGuest()) {
             return $this->goHome();
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
             return $this->goBack();
         } else {
             yii::$app->getUser()->setReturnUrl(yii::$app->getRequest()->getHeaders()->get('referer'));
@@ -108,7 +106,7 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->getRequest()->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
                     return $this->goHome();
@@ -129,13 +127,13 @@ class SiteController extends Controller
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', yii::t('app', 'Check your email for further instructions.'));
+                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Check your email for further instructions.'));
 
                 return $this->goHome();
             } else {
-                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                Yii::$app->getSession()->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
             }
         }
 
@@ -159,8 +157,8 @@ class SiteController extends Controller
             throw new BadRequestHttpException($e->getMessage());
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', yii::t('app', 'New password was saved.'));
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->resetPassword()) {
+            Yii::$app->getSession()->setFlash('success', yii::t('app', 'New password was saved.'));
 
             return $this->goHome();
         }
@@ -178,18 +176,18 @@ class SiteController extends Controller
     }
 
     public function actionView(){
-        $view =  Yii::$app->request->get('type');
+        $view =  Yii::$app->getRequest()->get('type');
         if(isset($view)){
             Yii::$app->session['view'] = $view;
         }
-        $this->goBack(Yii::$app->request->headers['Referer']);
+        $this->goBack(Yii::$app->getRequest()->headers['Referer']);
     }
 
     public function actionLanguage(){
-        $language=  Yii::$app->request->get('lang');
+        $language=  Yii::$app->getRequest()->get('lang');
         if(isset($language)){
             Yii::$app->session['language'] = $language;
         }
-        $this->redirect(Yii::$app->request->headers['referer']);
+        $this->redirect(Yii::$app->getRequest()->headers['referer']);
     }
 }

@@ -19,7 +19,7 @@ class SearchController extends Controller
     {
         $where = ['type'=>Article::ARTICLE];
         $query = Article::find()->select([])->where($where)->joinWith("category");
-        $keyword = htmlspecialchars( yii::$app->request->get('q') );
+        $keyword = htmlspecialchars( yii::$app->getRequest()->get('q') );
         $query->andFilterWhere(['like', 'title', $keyword])
             ->orFilterWhere(['like', 'tag', $keyword]);
         $dataProvider = new ActiveDataProvider([

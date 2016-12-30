@@ -131,7 +131,7 @@
                             <span class="badge badge-info">&nbsp;&nbsp;</span> <strong>Web Server</strong>: <?=$info['OPERATING_ENVIRONMENT']?>
                         </li>
                         <li class="list-group-item">
-                            <span class="badge badge-danger">&nbsp;&nbsp;</span> <strong><?=Yii::t('app', 'PHP Execute Method')?></strong>: <?=$info['PHP_RUN_MODE']?>
+                            <span class="badge badge-success">&nbsp;&nbsp;</span> <strong><?=Yii::t('app', 'Database Info')?></strong>: <?=$info['DB_INFO']?>
                         </li>
                         <li class="list-group-item">
                             <span class="badge badge-success">&nbsp;&nbsp;</span> <strong><?=Yii::t('app', 'File Upload Limit')?></strong>: <?=$info['UPLOAD_MAX_FILESIZE']?>
@@ -140,7 +140,7 @@
                             <span class="badge badge-success">&nbsp;&nbsp;</span> <strong><?=Yii::t('app', 'Script Time Limit')?></strong>: <?=$info['MAX_EXECUTION_TIME']?>
                         </li>
                         <li class="list-group-item">
-                            <span class="badge badge-success">&nbsp;&nbsp;</span> <strong><?=Yii::t('app', 'MySQL Version')?></strong>: <?=$info['MYSQL_VERSION']?>
+                            <span class="badge badge-danger">&nbsp;&nbsp;</span> <strong><?=Yii::t('app', 'PHP Execute Method')?></strong>: <?=$info['PHP_RUN_MODE']?>
                         </li>
                     </ul>
                 </div>

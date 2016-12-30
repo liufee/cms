@@ -54,9 +54,9 @@ class Constants
     }
 
 
-    const HTTP_METHOD_ALL = 'all';
-    const HTTP_METHOD_GET = 'get';
-    const HTTP_METHOD_POST = 'post';
+    const HTTP_METHOD_ALL = 0;
+    const HTTP_METHOD_GET = 1;
+    const HTTP_METHOD_POST = 2;
     public static function getHttpMethodItems($key = null)
     {
         $items = [

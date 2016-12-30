@@ -1016,7 +1016,7 @@ class m130524_201442_init extends Migration
         $this->createTable('{{%article_content}}', [
             'id' => $this->primaryKey()->unsigned(),
             'aid' => $this->integer()->unsigned()->defaultValue(0),
-            'content' => "LongText",
+            'content' => $this->text(),
         ], $tableOptions);
         $this->addForeignKey('fk_aid', "{{%article_content}}", "aid", "{{%article}}", "id", "CASCADE", "CASCADE");
         //$this->batchInsert("{{%article_content}}", ['id','aid','content'], require(__DIR__.'/article.php'));
@@ -1029,7 +1029,7 @@ class m130524_201442_init extends Migration
             'id' => $this->primaryKey()->unsigned(),
             'aid' => $this->integer()->unsigned()->notNull(),
             'key' => $this->string()->defaultValue(''),
-            'value' => "LongText",
+            'value' => $this->text(),
             'ip' => $this->string(15),
             'created_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
@@ -1225,7 +1225,7 @@ class m130524_201442_init extends Migration
             'target' => $this->string()->defaultValue('_blank'),
             'is_absolute_url' => $this->smallInteger()->unsigned()->defaultValue(0),
             'is_display' => $this->smallInteger()->unsigned()->defaultValue(1),
-            'method' => "enum('all','post','get') default 'get'",
+            'method' => $this->smallInteger()->unsigned()->defaultValue(1),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
@@ -2781,14 +2781,14 @@ class m130524_201442_init extends Migration
             'menu_id' => $this->integer()->unsigned()->notNull(),
             'name' => $this->string()->notNull(),
             'url' => $this->string()->notNull(),
-            'method' => "enum('all','post','get') default 'get'",
+            'method' => $this->smallInteger()->unsigned()->defaultValue(1),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
         $this->addForeignKey('fk_menu_id', "{{%admin_role_permission}}", "menu_id", "{{%menu}}", "id", "CASCADE", "CASCADE");
-        $this->addForeignKey('fk_menu_name', "{{%admin_role_permission}}", "name", "{{%menu}}", "name", "CASCADE", "CASCADE");
-        $this->addForeignKey('fk_url', "{{%admin_role_permission}}", "url", "{{%menu}}", "url", "CASCADE", "CASCADE");
-        $this->addForeignKey('fk_method', "{{%admin_role_permission}}", "method", "{{%menu}}", "method", "CASCADE", "CASCADE");
+        //$this->addForeignKey('fk_menu_name', "{{%admin_role_permission}}", "name", "{{%menu}}", "name", "CASCADE", "CASCADE");
+        //$this->addForeignKey('fk_url', "{{%admin_role_permission}}", "url", "{{%menu}}", "url", "CASCADE", "CASCADE");
+        //$this->addForeignKey('fk_method', "{{%admin_role_permission}}", "method", "{{%menu}}", "method", "CASCADE", "CASCADE");
         $this->addForeignKey('fk_role_id', "{{%admin_role_permission}}", "role_id", "{{%admin_roles}}", "id", "CASCADE", "CASCADE");
         $this->batchInsert("{{%admin_role_permission}}", ['id','role_id','menu_id','name','url', 'method', 'created_at','updated_at'],
             [
@@ -5341,15 +5341,14 @@ class m130524_201442_init extends Migration
 
     public function down()
     {
-        $this->db->createCommand("set foreign_key_checks=0")->execute(); 
         $this->dropTable('{{%user}}');
         $this->dropTable('{{%admin_log}}');
         $this->dropTable('{{%admin_role_permission}}');
         $this->dropTable('{{%admin_role_user}}');
         $this->dropTable('{{%admin_roles}}');
         $this->dropTable('{{%admin_user}}');
-        $this->dropTable('{{%article}}');
         $this->dropTable('{{%article_content}}');
+        $this->dropTable('{{%article}}');
         $this->dropTable('{{%article_meta}}');
         $this->dropTable('{{%category}}');
         $this->dropTable('{{%comment}}');
@@ -5357,8 +5356,7 @@ class m130524_201442_init extends Migration
         $this->dropTable('{{%menu}}');
         //$this->dropTable('{{%migration}}');
         $this->dropTable('{{%options}}');
-        $this->dropTable('{{%file}}');
         $this->dropTable('{{%file_usage}}');
-        $this->db->createCommand("set foreign_key_checks=1")->execute();
+        $this->dropTable('{{%file}}');
     }
 }

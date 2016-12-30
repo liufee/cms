@@ -59,7 +59,8 @@ return [
                 'admin-user/update-self',
                 'error/forbidden',
                 'error/not-found',
-                'default/toolbar'
+                'debug/default/toolbar',
+                'debug/default/view',
             ],
         ],
         'i18n' => [
@@ -111,12 +112,15 @@ return [
                     yii::$app->getResponse()->content = json_encode( ['code'=>1001, 'message'=>'权限不允许'] );
                     yii::$app->getResponse()->send();
                 }else {
-                    Yii::$app->response->redirect(['error/forbidden'], 200)->send();
+                    Yii::$app->response->redirect(['error/forbidden'], 302)->send();
                 }
                 exit();
             }
         }
-        if(yii::$app->user->isGuest && !in_array(Yii::$app->controller->id.'/'.Yii::$app->controller->action->id, ['site/login', 'user/request-password-reset', 'user/reset-password', 'site/captcha'])) yii::$app->controller->redirect(['site/login']);
+        if(yii::$app->user->isGuest &&
+            !in_array(Yii::$app->controller->id.'/'.Yii::$app->controller->action->id, ['site/login', 'user/request-password-reset', 'user/reset-password', 'site/captcha']) &&
+            !in_array(Yii::$app->controller->module->id, ['debug'])
+        ) yii::$app->controller->redirect(['site/login']);
     },
     'params' => $params,
 ];
