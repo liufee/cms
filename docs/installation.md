@@ -1,6 +1,8 @@
 Feehi CMS
 =================
 
+(更多安装请访问.More installation info please visite) [http://cms.feehi.com](http://cms.feehi.com/help-install.html)
+
 **Based on yii2.0, required php >=5.4
 (include php7.0 or newer)**
 
@@ -10,7 +12,7 @@ Installing
 Install FeehiCMS only takes several steps
 
 ### Install via Composer
-This is the preferred way of installing Yii 2.0. If you do not have Composer yet, you may install it by following the instructions [here](https://getcomposer.org/doc/00-intro.md#installation-nix "composer") .
+This is the preferred way of installing Feehi CMS. If you do not have Composer yet, you may install it by following the instructions [here](https://getcomposer.org/doc/00-intro.md#installation-nix "composer") .
 
 With Composer installed, you can then install the application using the following commands:
 
@@ -22,12 +24,17 @@ $ php composer.phar create-project feehi/cms webApp
 ### Install using git
 
 ```bash
-$ git clone git https://github.com/liufee/cms.git webApp
+$ git clone https://github.com/liufee/cms.git webApp
+$ cd /path/to/webApp
+$ php composer.phar global require "fxp/composer-asset-plugin:~1.1.1"
+$ php composer.phar install
 ```
 
 ### Install from an Archive File
 -------------------
-click [here](http://7xjkuy.com1.z0.glb.clouddn.com/Feehi_CMS.rar) to download archive file
+1.click [here](http://7xjkuy.com1.z0.glb.clouddn.com/Feehi_CMS.rar) to download archive file
+
+2.Visite http://frontend.dev/install.php
 
 
 ## Preparing application
@@ -211,5 +218,5 @@ To login into the application frontend, you need to first sign up, with any of y
 
 That's all. You just need to wait for completion! After that you can access project locally by URLs:
 * frontend: http://y2aa-frontend.dev
-* backend: http://y2aa-backend.dev
+* backend: http://y2aa-backend.dev or http://y2aa-frontend.dev/admin
    
