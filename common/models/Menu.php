@@ -50,7 +50,8 @@ class Menu extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['parent_id', 'sort'], 'integer'],
+            [['parent_id'], 'integer'],
+            [['sort'], 'number'],
             [['parent_id', 'sort'], 'default', 'value'=>0],
             [['sort'], 'compare', 'compareValue' => 0, 'operator' => '>='],
             [['is_display'], 'integer'],
@@ -121,7 +122,7 @@ class Menu extends \yii\db\ActiveRecord
         return $data;
     }
     private static function _getSubMenuArray($menus, $cur_id, $level){
-        $return = '';
+        $return = [];
         foreach($menus as $key => $menu){
             if($menu['parent_id'] != $cur_id) continue;
             $menu['level'] = $level;

@@ -39,8 +39,8 @@ class AdminRolePermission extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['role_id', 'menu_id', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'url', 'method'], 'string', 'max' => 255]
+            [['role_id', 'menu_id', 'method', 'created_at', 'updated_at'], 'integer'],
+            [['name', 'url'], 'string', 'max' => 255]
         ];
     }
 
@@ -61,20 +61,13 @@ class AdminRolePermission extends \yii\db\ActiveRecord
         ];
     }
 
-    public function assignPermission($data){
-        $role_id =  yii::$app->getRequest()->get('id');
-        $oldPermissions = self::find()->where(['role_id'=>$role_id])->indexBy('menu_id')->column();
-        foreach($data as $v) {
-            if ( isset($oldPermissions[$v]) ) unset( $oldPermissions[$v] );
-        }
-        if(!empty($oldPermissions)){
-            $ids = implode(",", $oldPermissions);
-            self::deleteAll("id in($ids)");
-        }
-        if(!empty($data)) {
-            foreach ($data as $menu_id) {
-                $permissions = self::_getAncestor($menu_id);//获取家谱树
-                foreach ($permissions as $v) {//添加权限
+    public function assignPermission($role_id, $ids){
+        $oldPermissionIds = self::find()->where(['role_id'=>$role_id])->indexBy('menu_id')->column();
+        $needAddIds = array_diff($ids, $oldPermissionIds);
+        if( !empty( $needAddIds ) ) {
+            foreach ($needAddIds as $menuId ){//新增
+                $permissions = self::_getAncestor($menuId);
+                foreach ($permissions as $v) {
                     $result = self::findOne(['role_id' => $role_id, 'menu_id' => $v['id']]);
                     if ($result != null) continue;
                     $model = new self();
@@ -86,6 +79,11 @@ class AdminRolePermission extends \yii\db\ActiveRecord
                     $model->save();
                 }
             }
+        }
+        $needRemoveIds = array_diff(array_keys( $oldPermissionIds ), $ids);//删除
+        if( !empty($needRemoveIds) ){
+            $removeIdsStr = implode(",", $needRemoveIds);
+            self::deleteAll("menu_id in($removeIdsStr) && role_id=$role_id");
         }
     }
 

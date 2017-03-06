@@ -13,6 +13,7 @@ use backend\models\AdminRoles;
 use yii\base\Component;
 use backend\models\AdminRoleUser;
 use backend\models\AdminRolePermission;
+use feehi\libs\Constants;
 
 
 class Rbac extends Component
@@ -46,7 +47,7 @@ class Rbac extends Component
         foreach($permissions as $permission){
             if( substr_count($permission['url'], '/')<2 ) $permission['url'] = yii::$app->id.'/'.$permission['url'];
             if( strtolower($permission['url']) == $route ){
-                if($permission['method'] == 'all' || $permission['method'] == $method){
+                if($permission['method'] == Constants::HTTP_METHOD_ALL || Constants::getHttpMethodItems( $permission['method'] ) == $method){
                     return true;
                 }
             }

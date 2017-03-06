@@ -46,9 +46,10 @@ class AdminRolesController extends BaseController
     public function actionAssign($id = '')
     {
         if(yii::$app->getRequest()->getIsPost()){
-            $data = explode(',', yii::$app->getRequest()->post('ids', ''));
+            $role_id =  yii::$app->getRequest()->get('id');
+            $ids = explode(',', yii::$app->getRequest()->post('ids', ''));
             $model = new AdminRolePermission();
-            $model->assignPermission($data);
+            $model->assignPermission($role_id, $ids);
             Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             return $this->redirect(['assign', 'id'=>yii::$app->request->get('id', '')]);
         }

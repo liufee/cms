@@ -37,18 +37,10 @@ $this->title = "Assign Permission";
                 "plugins" : ["checkbox"]
             });
 
-            $("form").on('submit', function (e) {
-                e.preventDefault();
+            $("form").submit(function () {
                 var idArr = $('#permission-tree').jstree().get_checked();
                 var ids = idArr.join(',');
                 $("form").append("<input type='hidden' name='ids' value='"+ids+"'>");
-                $.ajax({
-                    url : $('form').attr('action'),
-                    method : "post",
-                    data : $('form').serialize(),
-                }).always(function(){
-                    location.reload();
-                });
             });
         });
     </script>
