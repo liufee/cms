@@ -7,9 +7,9 @@
  */
 use yii\helpers\Url;
 use frontend\assets\ViewAsset;
-use feehi\widgets\JsBlock;
+use common\widgets\JsBlock;
 use yii\helpers\Html;
-use feehi\widgets\ActiveForm;
+use yii\widgets\ActiveForm;
 
 $this->title = $model->title;
 $this->registerMetaTag(['keywords' => $model->seo_keywords]);

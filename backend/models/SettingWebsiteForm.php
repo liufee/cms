@@ -76,19 +76,15 @@ class SettingWebsiteForm extends \common\models\Options
             if($model != null)
             {
                 $model->value = $this->$name;
-                $model->save();
+                $result = $model->save();
             }else{
                 $model = new Options();
                 $model->name = $name;
                 $model->value = '';
-                $model->save(false);
+                $result = $model->save(false);
             }
+            if( $result == false ) return $result;
         }
-        $object = yii::createObject([
-            'class' => 'feehi\helpers\FileDependencyHelper',
-            'fileName' => 'options_system.txt',
-        ]);
-        $object->updateFile();
         return true;
     }
 }

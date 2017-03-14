@@ -1,7 +1,10 @@
 <?php
+/**
+ * @var $this \yii\web\View
+ */
 
-use feehi\widgets\ActiveForm;
-use feehi\libs\Constants;
+use backend\widgets\ActiveForm;
+use common\libs\Constants;
 
 $this->title = yii::t('app', 'Website Setting');
 ?>

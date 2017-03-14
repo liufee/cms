@@ -1,12 +1,12 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $form feehi\widgets\ActiveForm */
+/* @var $form backend\widgets\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
 use backend\assets\AppAsset;
 use yii\helpers\Html;
-use feehi\widgets\ActiveForm;
+use backend\widgets\ActiveForm;
 use yii\helpers\Url;
 use feehi\components\Captcha;
 

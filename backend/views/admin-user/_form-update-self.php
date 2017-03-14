@@ -6,9 +6,7 @@
  * Time: 11:15
  */
 
-use yii\helpers\Url;
-use feehi\widgets\ActiveForm;
-use yii\bootstrap\Alert;
+use backend\widgets\ActiveForm;
 
 $this->title = "Admin";
 ?>

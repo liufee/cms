@@ -1,7 +1,7 @@
 <?php
 
-use feehi\widgets\ActiveForm;
-use feehi\widgets\JsBlock;
+use backend\widgets\ActiveForm;
+use common\widgets\JsBlock;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */

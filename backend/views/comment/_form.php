@@ -5,7 +5,7 @@
  * Date: 2016/3/23
  * Time: 15:49
  */
-use feehi\widgets\ActiveForm;
+use backend\widgets\ActiveForm;
 use common\models\Category;
 use feehi\widgets\Ueditor;
 use feehi\libs\Constants;

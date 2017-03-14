@@ -4,7 +4,7 @@ use yii\helpers\Url;
 use frontend\widgets\ArticleListView;
 use frontend\controllers\components\Article;
 use frontend\widgets\ScrollPicView;
-use feehi\widgets\JsBlock;
+use common\widgets\JsBlock;
 use frontend\assets\IndexAsset;
 
 IndexAsset::register($this);

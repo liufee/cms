@@ -5,14 +5,16 @@
  * Date: 2016/3/23
  * Time: 17:51
  */
-use feehi\grid\GridView;
+use backend\grid\GridView;
 use yii\helpers\Url;
-use feehi\libs\Constants;
+use common\libs\Constants;
 use yii\helpers\Html;
-use feehi\widgets\Button;
+use backend\widgets\Button;
 use backend\models\Article;
-use feehi\widgets\Bar;
+use backend\widgets\Bar;
 use backend\models\Comment;
+use backend\grid\CheckboxColumn;
+use backend\grid\ActionColumn;
 
 $this->title = 'Comments';
 
@@ -31,7 +33,7 @@ $this->title = 'Comments';
                     'layout' => "{items}\n{pager}",
                     'columns'=>[
                         [
-                            'class' => 'feehi\grid\CheckboxColumn',
+                            'class' => CheckboxColumn::class,
                         ],
                         [
                             'attribute' => 'id',
@@ -77,7 +79,7 @@ $this->title = 'Comments';
                             'filter' => Html::activeInput('text', $searchModel, 'update_start_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]).\yii\helpers\Html::activeInput('text', $searchModel, 'update_end_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]),
                         ],
                         [
-                            'class' => 'feehi\grid\ActionColumn',
+                            'class' => ActionColumn::class,
                             'width' => '135',
                             'buttons' => [
                                 'change-status' => function($url, $model, $key){//echo $model->status;die;

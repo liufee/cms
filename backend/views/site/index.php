@@ -58,7 +58,7 @@ $this->title = yii::t('app', 'Backend Manage System');
                 </li>
                 <?php
                     $cacheDependencyObject = yii::createObject([
-                        'class' => 'feehi\helpers\FileDependencyHelper',
+                        'class' => 'common\helpers\FileDependencyHelper',
                         'fileName' => 'backend_menu.txt',
                     ]);
                     $dependency = [

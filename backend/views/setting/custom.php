@@ -1,13 +1,14 @@
 <?php
+/** @var $this yii\web\View
+ * @var $model common\models\Options
+ * @var $form ActiveForm
+ */
 
-use feehi\widgets\ActiveForm;
-use feehi\widgets\JsBlock;
-use feehi\libs\Constants;
+use backend\widgets\ActiveForm;
+use common\widgets\JsBlock;
+use common\libs\Constants;
 use yii\helpers\Url;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\Options */
-/* @var $form ActiveForm */
+use backend\widgets\Ueditor;
 
 $this->title = yii::t('app', 'Custom Setting');
 ?>
@@ -33,7 +34,7 @@ $this->title = yii::t('app', 'Custom Setting');
                         $editUrl = Url::to(['custom-update', 'id'=>$setting->id]);
                         $template = "{label}\n<div class=\"col-sm-8\">{input}\n{error}</div>\n{hint}<div class='col-sm-2'><span class='tips'><i class='fa fa-info-circle'></i> {$setting->tips}  <a class='btn-delete' href='{$deleteUrl}' title='' data-confirm='' data-method='' data-pjax='1'><i style='float: right' class='fa fa-trash-o'></i></a><a href='{$editUrl}' class='btn_edit' title='编辑' data-pjax=''><i style='float: right;margin-right: 10px;' class='fa fa-pencil'></i></a> </span></div>";
                         if($setting->input_type == Constants::INPUT_UEDITOR){
-                            echo $form->field($setting, "[$index]value", ['template'=>$template])->label($setting->name)->ueditor();
+                            echo $form->field($setting, "[$index]value", ['template'=>$template])->label($setting->name)->widget(Ueditor::className());
 
                         }else{
                             if( $setting->input_type == Constants::INPUT_INPUT ){

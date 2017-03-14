@@ -5,9 +5,9 @@
  * Date: 16/4/11
  * Time: 22:34
  */
-use feehi\widgets\ActiveForm;
-use feehi\widgets\JsBlock;
-use feehi\assets\JstreeAsset;
+use backend\widgets\ActiveForm;
+use common\widgets\JsBlock;
+use backend\assets\JstreeAsset;
 
 JstreeAsset::register($this);
 

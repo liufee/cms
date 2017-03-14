@@ -5,11 +5,13 @@
  * Date: 2016/3/23
  * Time: 17:51
  */
-use feehi\grid\GridView;
+use backend\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use backend\models\AdminRoles;
-use feehi\widgets\Bar;
+use backend\widgets\Bar;
+use backend\grid\CheckboxColumn;
+use backend\grid\ActionColumn;
 
 $assignment = function($url, $model){
     return Html::a('<i class="fa fa-tablet"></i> '.yii::t('app', 'Assign Roles'), Url::to(['assign','uid'=>$model['id']]), [
@@ -34,7 +36,7 @@ $this->title = "Admin";
                     //'layout' => "{items}\n{pager}",
                     'columns'=>[
                         [
-                            'class' => 'feehi\grid\CheckboxColumn',
+                            'class' => CheckboxColumn::class,
                         ],
                         [
                             'attribute' => 'username',
@@ -58,7 +60,7 @@ $this->title = "Admin";
                             'format' => 'date',
                         ],
                         [
-                            'class' => 'feehi\grid\ActionColumn',
+                            'class' => ActionColumn::class,
                             'template' => '{assignment}{update}{delete}',
                             'buttons' => ['assignment'=>$assignment],
                         ],

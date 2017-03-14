@@ -7,6 +7,7 @@
  */
 namespace backend\models;
 
+use Feehi\Upload;
 use yii;
 use frontend\models\Comment;
 
@@ -39,15 +40,9 @@ class Article extends \common\models\Article
             unset($this->thumb);
             return true;
         }
-        if(!$insert) {//updated thumb should unlink the before picture
-           if(!empty($this->oldAttributes['thumb'])) {
-               $fileUsageModel = new FileUsage();
-               $fileUsageModel->cancelUseFile($this->oldAttributes['thumb'], $this->id, FileUsage::TYPE_ARTICLE_THUMB);
-           }
-        }
-        $model = new File();
-        if ( is_string($uri = $model->saveFile(FileUsage::TYPE_ARTICLE_THUMB)) ) {
-            $this->thumb = $uri;
+        $file = new Upload();
+        if ( false != ($uri = $file->upload(yii::getAlias('@thumb'))) ){
+            $this->thumb = $uri[0];
             return true;
         } else {
             $this->addError( 'thumb', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Thumb')]).': '.$uri[0] );
@@ -70,10 +65,6 @@ class Article extends \common\models\Article
         }
         $contentModel->content = $this->content;
         $contentModel->save();
-        if( isset($this->thumb) ){
-            $fileUsageModel = new FileUsage();
-            $fileUsageModel->useFile($this->thumb, $this->id);
-        }
     }
 
     public function beforeDelete()
@@ -81,10 +72,6 @@ class Article extends \common\models\Article
         Comment::deleteAll(['aid'=>$this->id]);
         if( ($articleContentModel = ArticleContent::find()->where(['aid'=>$this->id])->one()) != null ) {
             $articleContentModel->delete();
-        }
-        if( !empty($this->thumb) ) {
-            $fileUsageModel = new FileUsage();
-            $fileUsageModel->cancelUseFile($this->thumb, $this->id, FileUsage::TYPE_ARTICLE_THUMB);
         }
         return true;
     }

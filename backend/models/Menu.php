@@ -174,7 +174,7 @@ EOF;
     public function removeBackendMenuCache()
     {
         $object = yii::createObject([
-            'class' => 'feehi\helpers\FileDependencyHelper',
+            'class' => 'common\helpers\FileDependencyHelper',
             'fileName' => 'backend_menu.txt',
         ]);
         $object->updateFile();

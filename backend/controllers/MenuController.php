@@ -1,7 +1,7 @@
 <?php
 namespace backend\controllers;
 
-use Yii;
+use yii;
 use yii\data\ArrayDataProvider;
 use backend\models\Menu;
 use backend\models\MenuSearch;

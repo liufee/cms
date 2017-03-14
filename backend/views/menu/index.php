@@ -5,12 +5,14 @@
  * Date: 2016/3/21
  * Time: 14:14
  */
-use feehi\grid\GridView;
-use feehi\widgets\Bar;
+use backend\grid\GridView;
+use backend\widgets\Bar;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use feehi\libs\Constants;
+use common\libs\Constants;
 use backend\models\Menu;
+use backend\grid\CheckboxColumn;
+use backend\grid\ActionColumn;
 
 $this->title = "Backend Menus";
 ?>
@@ -25,7 +27,7 @@ $this->title = "Backend Menus";
                     'filterModel' => $searchModel,
                     'columns' => [
                         [
-                            'class' => 'feehi\grid\CheckboxColumn',
+                            'class' => CheckboxColumn::class,
                         ],
                         [
                             'attribute' => 'name',
@@ -103,7 +105,7 @@ $this->title = "Backend Menus";
                             'format' => 'date',
                         ],
                         [
-                            'class' => 'feehi\grid\ActionColumn',
+                            'class' => ActionColumn::class,
                             'width' => '190px',
                             'buttons' => [
                                 'create' => function($url, $model, $key){

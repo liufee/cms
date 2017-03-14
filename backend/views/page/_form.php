@@ -5,8 +5,9 @@
  * Date: 2016/3/23
  * Time: 15:49
  */
-use feehi\widgets\ActiveForm;
-use feehi\libs\Constants;
+use backend\widgets\ActiveForm;
+use common\libs\Constants;
+use backend\widgets\Ueditor;
 
 $this->title = "Pages";
 ?>
@@ -25,7 +26,7 @@ $this->title = "Pages";
                         <?= $form->field($model, 'title')->textInput();?>
                         <?= $form->field($model, 'sub_title')->textInput();?>
                         <?= $form->field($model, 'summary')->textArea();?>
-                        <?= $form->field($model, 'content')->ueditor()?>
+                        <?= $form->field($model, 'content')->widget(Ueditor::class)?>
                     </div>
                     <!--left stop -->
 

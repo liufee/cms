@@ -3,10 +3,8 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Comment;
-use yii\filters\AccessControl;
 use backend\models\LoginForm;
-use yii\filters\VerbFilter;
-use feehi\libs\ServerInfo;
+use common\libs\ServerInfo;
 use backend\models\Article as ArticleModel;
 use backend\models\Comment as BackendComment;
 use common\models\FriendLink;
@@ -18,44 +16,10 @@ use yii\db\Query;
  */
 class SiteController extends BaseController
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['login', 'error','language', 'captcha'],
-                        'allow' => true,
-                    ],
-                    [
-                        'actions' => ['logout', 'index', 'main'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post','get'],
-                ],
-            ],
-        ];
-    }
 
-    /**
-     * @inheritdoc
-     */
     public function actions()
     {
         return [
-            'error' => [
-                'class' => 'yii\web\ErrorAction',
-            ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
@@ -63,10 +27,10 @@ class SiteController extends BaseController
                 'maxLength' => 4, //最大显示个数
                 'minLength' => 4,//最少显示个数
                 'padding' => 10,//间距
-                'height'=>34,//高度
+                'height' => 34,//高度
                 'width' => 100,  //宽度
-                'foreColor'=>0xffffff,     //字体颜色
-                'offset'=>16,        //设置字符偏移量 有效果
+                'foreColor' => 0xffffff,     //字体颜色
+                'offset' => 16,        //设置字符偏移量 有效果
             ],
         ];
     }
@@ -88,7 +52,7 @@ class SiteController extends BaseController
             default: "Unknown";
         }
         $info = [
-            'OPERATING_ENVIRONMENT' => PHP_OS.' '.$_SERVER["SERVER_SOFTWARE"],
+            'OPERATING_ENVIRONMENT' => PHP_OS . ' ' . $_SERVER["SERVER_SOFTWARE"],
             'PHP_RUN_MODE' => php_sapi_name(),
             'DB_INFO' => $dbInfo,
             'PROGRAM_VERSION' => "1.0",

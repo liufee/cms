@@ -5,7 +5,7 @@
  * Date: 2016/3/25
  * Time: 11:15
  */
-use feehi\widgets\ActiveForm;
+use backend\widgets\ActiveForm;
 
 $this->title = 'User';
 ?>

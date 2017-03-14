@@ -65,4 +65,14 @@ class Options extends \yii\db\ActiveRecord
     public function getNames(){
         return array_keys($this->attributeLabels());
     }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        $object = yii::createObject([
+            'class' => 'common\helpers\FileDependencyHelper',
+            'fileName' => 'options.txt',
+        ]);
+        $object->updateFile();
+        parent::afterSave($insert, $changedAttributes);
+    }
 }

@@ -5,15 +5,17 @@
  * Date: 2016/3/23
  * Time: 17:51
  */
-use feehi\grid\GridView;
+use backend\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Html;
-use feehi\libs\Help;
-use feehi\widgets\Bar;
+use common\helpers\StringHelper;
+use backend\widgets\Bar;
+use backend\grid\CheckboxColumn;
+use backend\grid\ActionColumn;
 
 $this->title = "Admin Log";
 ?>
-<div class="row" xmlns="http://www.w3.org/1999/html">
+<div class="row">
     <div class="col-sm-12">
         <div class="ibox">
             <?= $this->render('/widgets/_ibox-title') ?>
@@ -26,7 +28,7 @@ $this->title = "Admin Log";
                     'filterModel' => $searchModel,
                     'columns'=>[
                         [
-                            'class' => 'feehi\grid\CheckboxColumn',
+                            'class' => CheckboxColumn::class,
                         ],
                         [
                             'attribute' => 'id',
@@ -44,7 +46,7 @@ $this->title = "Admin Log";
                             'attribute' => 'description',
                             'format' => 'html',
                             'value' => function($model, $key, $index, $column){
-                                return Help::truncate_utf8_string($model->description, '200')."<a class='detail'>".yii::t('app', 'more')."...</a>";
+                                return StringHelper::truncate_utf8_string($model->description, '200')."<a class='detail'>".yii::t('app', 'more')."...</a>";
                             }
                         ],
                         [
@@ -53,7 +55,7 @@ $this->title = "Admin Log";
                             'filter' => Html::activeInput('text', $searchModel, 'create_start_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"]).\yii\helpers\Html::activeInput('text', $searchModel, 'create_end_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]),
                         ],
                         [
-                            'class' => 'feehi\grid\ActionColumn',
+                            'class' => ActionColumn::class,
                             'template' => '{delete}'
                         ],
                     ]

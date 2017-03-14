@@ -11,10 +11,10 @@ use Yii;
 use backend\models\SettingWebsiteForm;
 use backend\models\SettingSmtpForm;
 use common\models\Options;
-use feehi\libs\Constants;
+use common\libs\Constants;
 use yii\base\Model;
 use yii\web\Response;
-use feehi\widgets\ActiveForm;
+use backend\widgets\ActiveForm;
 
 /**
  * Setting controller
@@ -27,7 +27,7 @@ class SettingController extends BaseController
         $model = new SettingWebsiteForm();
         if ( Yii::$app->getRequest()->getIsPost() )
         {
-            if( $model->validate() && $model->load(Yii::$app->getRequest()->post()) && $model->setWebsiteConfig() ){
+            if( $model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->setWebsiteConfig() ){
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             }else{
                 $errors = $model->getErrors();
@@ -54,11 +54,6 @@ class SettingController extends BaseController
             foreach ($settings as $setting) {
                 $setting->save(false);
             }
-            $object = yii::createObject([
-                'class' => 'feehi\helpers\FileDependencyHelper',
-                'fileName' => 'options_params.txt',
-            ]);
-            $object->updateFile();
             Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
         }
         $options = new Options();

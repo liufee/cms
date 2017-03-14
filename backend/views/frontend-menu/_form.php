@@ -6,10 +6,10 @@
  * Time: 14:35
  */
 
-use feehi\widgets\ActiveForm;
-use feehi\libs\Constants;
+use backend\widgets\ActiveForm;
+use common\libs\Constants;
 use frontend\models\Menu;
-use \yii\helpers\Html;
+use yii\helpers\Html;
 
 $this->title = "Frontend Menus";
 $parent_id = yii::$app->getRequest()->get('parent_id', '');
@@ -26,13 +26,13 @@ if( $parent_id != '' ) $model->parent_id = $parent_id;
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>
+                <?= $form->field($model, 'is_absolute_url')->radioList(Constants::getYesNoItems()) ?>
+                <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'url')->textInput(['maxlength' => 512]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'sort')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'target')->radioList(Constants::getTargetOpenMethod()) ?>
-                <div class="hr-line-dashed"></div>
-                <?= $form->field($model, 'is_absolute_url')->radioList(Constants::getYesNoItems()) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'is_display')->radioList(Constants::getYesNoItems()) ?>
                 <div class="hr-line-dashed"></div>

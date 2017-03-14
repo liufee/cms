@@ -1,13 +1,13 @@
 <?php
 namespace backend\models;
 
-use feehi\libs\File;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use \yii\web\ForbiddenHttpException;
+use common\libs\File;
 
 /**
  * User model
@@ -236,7 +236,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         if(!isset($_FILES['User']['name']['avatar']) || $_FILES['User']['name']['avatar'] == '') return true;
         $file = new File();
-        $imgs = $file->upload(Yii::getAlias('@avatar'));
+        $imgs = $file->upload(Yii::getAlias('@admin/uploads/avatar'));
         if($imgs[0] == false){
             $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Avatar')]).': '.$file->getErrors());
             return false;

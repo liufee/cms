@@ -5,9 +5,11 @@
  * Date: 2016/3/23
  * Time: 17:51
  */
-use feehi\grid\GridView;
+use backend\grid\GridView;
 use yii\helpers\Html;
-use feehi\widgets\Bar;
+use backend\widgets\Bar;
+use backend\grid\CheckboxColumn;
+use backend\grid\ActionColumn;
 
 $this->title = 'Users'
 ?>
@@ -25,7 +27,7 @@ $this->title = 'Users'
                     'layout' => "{items}\n{pager}",
                     'columns'=>[
                         [
-                            'class' => 'feehi\grid\CheckboxColumn',
+                            'class' => CheckboxColumn::class,
                         ],
                         [
                             'attribute' => 'id',
@@ -47,7 +49,7 @@ $this->title = 'Users'
                             'filter' => Html::activeInput('text', $searchModel, 'update_start_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]).\yii\helpers\Html::activeInput('text', $searchModel, 'update_end_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]),
                         ],
                         [
-                            'class' => 'feehi\grid\ActionColumn',
+                            'class' => ActionColumn::class,
                             'width' => '190px'
                         ],
                     ]

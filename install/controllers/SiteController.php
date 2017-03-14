@@ -178,6 +178,7 @@ class SiteController extends \yii\web\Controller
 
     public function actionSetinfo()
     {
+        set_time_limit( 300 );
         if( !isset($_SESSION['_install_env_passed']) || $_SESSION['_install_env_passed'] != 1 ){
             $url = Url::to(['check-environment']);
             echo "<script>alert('".yii::t('install', 'Please check your environment to suite the cms')."');location.href='{$url}';</script>";

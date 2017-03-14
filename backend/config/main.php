@@ -43,7 +43,7 @@ return [
             'errorAction' => 'error/index',
         ],
         'rbac' => [
-            'class' => 'feehi\components\Rbac',
+            'class' => 'backend\components\Rbac',
             'superAdministrators' => [
                 'admin',
                 'administrator',
@@ -67,7 +67,7 @@ return [
             'translations' => [
                 'app*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@feehi/messages',
+                    'basePath' => '@backend/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [
                         'app' => 'app.php',
@@ -76,7 +76,7 @@ return [
                 ],
                 'menu' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@feehi/messages',
+                    'basePath' => '@backend/messages',
                     'sourceLanguage' => 'zh-CN',
                     'fileMap' => [
                         'app' => 'menu.php',
@@ -86,41 +86,7 @@ return [
             ],
         ],
     ],
-    'on beforeRequest' => function($event) {
-        \yii\base\Event::on(\yii\db\BaseActiveRecord::className(), \yii\db\BaseActiveRecord::EVENT_AFTER_INSERT, ['feehi\components\AdminLog', 'create']);
-        \yii\base\Event::on(\yii\db\BaseActiveRecord::className(), \yii\db\BaseActiveRecord::EVENT_AFTER_UPDATE, ['feehi\components\AdminLog', 'update']);
-        \yii\base\Event::on(\yii\db\BaseActiveRecord::className(), \yii\db\BaseActiveRecord::EVENT_AFTER_DELETE, ['feehi\components\AdminLog', 'delete']);
-        \yii\base\Event::on(\yii\db\BaseActiveRecord::className(), \yii\db\BaseActiveRecord::EVENT_AFTER_FIND, function($event){
-            if( isset($event->sender->updated_at) && $event->sender->updated_at == 0 ) $event->sender->updated_at = null;
-        });
-        \feehi\components\Feehi::setBackendConfig();
-        if(isset(\yii::$app->session['language'])) \yii::$app->language = yii::$app->session['language'];
-        if( yii::$app->getRequest()->getIsAjax() ){
-            yii::$app->getResponse()->format = \yii\web\Response::FORMAT_JSON;
-        }else{
-            yii::$app->getResponse()->format = \yii\web\Response::FORMAT_HTML;
-        }
-    },
-    'on beforeAction' => function($action)
-    {
-        $headers = Yii::$app->response->headers;
-        $headers->add('X-Powered-By', 'feehi');
-        if(!yii::$app->user->isGuest){
-            if( yii::$app->rbac->checkPermission() === false ){
-                //throw new \yii\web\HttpException(403, 'forbidden');
-                if( yii::$app->getRequest()->getIsAjax() ){
-                    yii::$app->getResponse()->content = json_encode( ['code'=>1001, 'message'=>'权限不允许'] );
-                    yii::$app->getResponse()->send();
-                }else {
-                    Yii::$app->response->redirect(['error/forbidden'], 302)->send();
-                }
-                exit();
-            }
-        }
-        if(yii::$app->user->isGuest &&
-            !in_array(Yii::$app->controller->id.'/'.Yii::$app->controller->action->id, ['site/login', 'user/request-password-reset', 'user/reset-password', 'site/captcha']) &&
-            !in_array(Yii::$app->controller->module->id, ['debug'])
-        ) yii::$app->controller->redirect(['site/login']);
-    },
+    'on beforeRequest' => ['feehi\components\Feehi', 'backendInit'],
+    'on beforeAction' => ['backend\components\Rbac', 'checkPermission'],
     'params' => $params,
 ];

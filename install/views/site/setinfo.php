@@ -5,7 +5,7 @@
  * Date: 2016/10/19
  * Time: 上午12:51
  */
-use feehi\widgets\JsBlock;
+use common\widgets\JsBlock;
 use yii\helpers\Url;
 
 $this->title = yii::t('install', 'Create Data');

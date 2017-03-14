@@ -66,19 +66,15 @@ class SettingSmtpForm extends \common\models\Options
             $model = self::findOne(['name' => $name]);
             if($model != NULL) {
                 $model->value = $this->$name;
-                $model->save(false);
+                $result = $model->save(false);
             }else{
                 $model = new Options();
                 $model->name = $name;
                 $model->value = $this->$name;
-                $model->save(false);
+                $result = $model->save(false);
             }
+            if( $result == false ) return $result;
         }
-        $object = yii::createObject([
-            'class' => 'feehi\helpers\FileDependencyHelper',
-            'fileName' => 'options_smtp.txt',
-        ]);
-        $object->updateFile();
         return true;
     }
 

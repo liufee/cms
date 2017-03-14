@@ -117,7 +117,7 @@ class BaseController extends Controller
                     $model = $this->getModel($key);
                     if( $model->sort != $value ){
                         $model->sort = $value;
-                        $model->save();
+                        $model->save(false);
                     }
                 }
             }
@@ -141,7 +141,7 @@ class BaseController extends Controller
         ]);
         $model->$field = $status;
         if( yii::$app->getRequest()->getIsAjax() ) {
-            if ($model->save()) {
+            if ($model->save(false)) {
                 return ['code' => 0, 'message' => yii::t('app', 'Success')];
             } else {
                 $errors = $model->getErrors();

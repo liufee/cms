@@ -64,7 +64,7 @@ return [
             'translations' => [
                 'app*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@feehi/messages',
+                    'basePath' => '@backend/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [
                         'app' => 'app.php',
@@ -74,7 +74,7 @@ return [
                 ],
                 'front*' => [
                     'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@feehi/messages',
+                    'basePath' => '@frontend/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [
                         'frontend' => 'frontend.php',
@@ -87,7 +87,7 @@ return [
     ],
     'params' => $params,
     'on beforeRequest' => function($event){
-        \feehi\components\Feehi::setFrontendConfig();
+        \feehi\components\Feehi::frontendInit();
         if(isset(\yii::$app->session['view'])) \yii::$app->viewPath = dirname(__DIR__).'/'.\yii::$app->session['view'];
         if(isset(\yii::$app->session['language'])) \yii::$app->language = yii::$app->session['language'];
     }

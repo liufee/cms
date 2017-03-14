@@ -6,7 +6,7 @@
  * Time: 14:35
  */
 
-use feehi\widgets\ActiveForm;
+use backend\widgets\ActiveForm;
 use common\models\Category;
 
 $this->title = "Category";

@@ -5,12 +5,14 @@
  * Blog: http://blog.feehi.com
  * Date: 2016/9/1 16:07
  */
-use feehi\grid\GridView;
-use feehi\widgets\Bar;
+use backend\grid\GridView;
+use backend\widgets\Bar;
 use yii\helpers\Html;
 use backend\models\FileUsage;
-use feehi\libs\Help;
-use feehi\libs\Constants;
+use common\helpers\StringHelper;
+use common\libs\Constants;
+use backend\grid\CheckboxColumn;
+use backend\grid\ActionColumn;
 
 $this->title = 'Files';
 
@@ -29,7 +31,7 @@ $this->title = 'Files';
                     'layout' => "{items}\n{pager}",
                     'columns'=>[
                         [
-                            'class' => 'feehi\grid\CheckboxColumn',
+                            'class' => CheckboxColumn::class,
                         ],
                         [
                             'attribute' => 'id',
@@ -46,7 +48,7 @@ $this->title = 'Files';
                         [
                             'attribute' => 'filesize',
                             'value' => function($model, $key, $index, $columb){
-                                return Help::formatBytes($model->filesize);
+                                return StringHelper::formatBytes($model->filesize);
                             }
                         ],
                         [
@@ -75,7 +77,7 @@ $this->title = 'Files';
                                     case "image/png" :
                                     case "image/jpeg" :
                                     case "image/jpg" :
-                                        $return = "<a href='{$model->uri}' target='_blank'><img style='max-width: 100px;max-height: 100px' src='{$model->uri}'>";
+                                        $return = "<a href='" . yii::$app->params['site']['url'] . $model->uri ."' target='_blank'><img style='max-width: 100px;max-height: 100px' src='" . yii::$app->params['site']['url'] . $model->uri . "'>";
                                     break;
                                 }
                                 return $return;
@@ -99,7 +101,7 @@ $this->title = 'Files';
                             'filter' => Html::activeInput('text', $searchModel, 'update_start_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]).\yii\helpers\Html::activeInput('text', $searchModel, 'update_end_at', ['class'=>'form-control layer-date', 'placeholder'=>'', 'onclick'=>"laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"]),
                         ],
                         [
-                            'class' => 'feehi\grid\ActionColumn',
+                            'class' => ActionColumn::class,
                             'width' => '135',
                             'template' => '{view-layer} {delete}{comment}',
                         ],

@@ -6,8 +6,8 @@
  * Time: 14:35
  */
 
-use feehi\widgets\ActiveForm;
-use feehi\libs\Constants;
+use backend\widgets\ActiveForm;
+use common\libs\Constants;
 use backend\models\Menu;
 
 $this->title = "Backend Menus";

@@ -6,9 +6,11 @@
  * Time: 22:11
  */
 use yii\helpers\Url;
-use feehi\grid\GridView;
+use backend\grid\GridView;
 use yii\helpers\Html;
-use feehi\widgets\Bar;
+use backend\widgets\Bar;
+use backend\grid\CheckboxColumn;
+use backend\grid\ActionColumn;
 
 $this->title = yii::t('app', 'Roles');
 
@@ -33,7 +35,7 @@ $assignment = function($url, $model){
                     'layout' => "{items}\n{pager}",
                     'columns'=>[
                         [
-                            'class' => 'feehi\grid\CheckboxColumn',
+                            'class' => CheckboxColumn::class,
                         ],
                         [
                             'attribute' => 'role_name',
@@ -51,7 +53,7 @@ $assignment = function($url, $model){
                             'format' => 'date',
                         ],
                         [
-                            'class' => 'feehi\grid\ActionColumn',
+                            'class' => ActionColumn::class,
                             'template' => '{assignment}{update}{delete}',
                             'buttons' => ['assignment'=>$assignment],
                         ],

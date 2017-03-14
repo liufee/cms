@@ -8,10 +8,9 @@
 namespace frontend\models;
 
 use yii;
-use common\models\User as CommonUser;
-use feehi\libs\File;
+use common\libs\File;
 
-class User extends CommonUser
+class User extends \common\models\User
 {
 
     public $password;

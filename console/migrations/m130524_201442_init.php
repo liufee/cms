@@ -242,7 +242,7 @@ class m130524_201442_init extends Migration
                     "高效快速地加载 AngularJS 视图",
                     "",
                     "当AngularJS应用程序变大时，很多问题就开始显现出来了，比如多层级视图的加载问题，如果在子视图显示之前没有预加载，则可能在需要展示时，发生视觉闪烁的情况。这种问题在网络缓慢，或者服务器使用较慢的https连接时更容易出现。",
-                    "###~SITEURL~###/uploads/article/thumb/2016071211354628.jpg",
+                    "/uploads/article/thumb/2016071211354628.jpg",
                     "高效快速地加载 AngularJS 视图",
                     "JavaScript, AngularJS",
                     "当AngularJS应用程序变大时，很多问题就开始显现出来了，比如多层级视图的加载问题，如果在子视图显示之前没有预加载，则可能在需要展示时，发生视觉闪烁的情况。这种问题在网络缓慢，或者服务器使用较慢的https连接时更容易出现。",
@@ -273,7 +273,7 @@ class m130524_201442_init extends Migration
                     "如何定位 Node.js 的内存泄漏",
                     "",
                     "在 《一次 Node.js 应用内存暴涨分析》中，我们处理了一个 Node.js vm 引发的内存泄漏问题，处理过程也是比较艰辛。而在我们实际开发中，可能经常会碰到内存泄漏的问题，但很多情况下，我们对于这种问题的处理是有些迷茫的，没有一定的操作流程，效率比较低。虽然这种问题对于经验的要求比较高，但如果有一个简单的排查流程，还是会有一定帮助的。",
-                    "###~SITEURL~###/uploads/article/thumb/201607121141407.png",
+                    "/uploads/article/thumb/201607121141407.png",
                     "",
                     "",
                     "在 《一次 Node.js 应用内存暴涨分析》中，我们处理了一个 Node.js vm 引发的内存泄漏问题，处理过程也是比较艰辛。而在我们实际开发中，可能经常会碰到内存泄漏的问题，但很多情况下，我们对于这种问题的处理是有些迷茫的，没有一定的操作流程，效率比较低。虽然这种问题对于经验的要求比较高，但如果有一个简单的排查流程，还是会有一定帮助的。",
@@ -304,7 +304,7 @@ class m130524_201442_init extends Migration
                     "Hack：用于HHVM的一种新编程语言",
                     "",
                     "",
-                    "###~SITEURL~###/uploads/article/thumb/2016071212382956.jpg",
+                    "/uploads/article/thumb/2016071212382956.jpg",
                     "",
                     "Facebook, hack, php",
                     "",
@@ -335,7 +335,7 @@ class m130524_201442_init extends Migration
                     "抛弃jQuery，拥抱原生JavaScript",
                     "",
                     "原生javascript",
-                    "###~SITEURL~###/uploads/article/thumb/2016071212414099.png",
+                    "/uploads/article/thumb/2016071212414099.png",
                     "抛弃jQuery，拥抱原生JavaScript",
                     "jquery,javascript,web",
                     "",
@@ -366,7 +366,7 @@ class m130524_201442_init extends Migration
                     "[JAVA · 初级]：GC-垃圾回收机制",
                     "",
                     "在C++中，对象所占的内存在程序结束运行之前一直被占用，在明确释放之前不能分配给其它对象；而在Java中，当没有对象引用指向原先分配给某个对象的内存时，该内存便成为垃圾。",
-                    "###~SITEURL~###/uploads/article/thumb/2016071212441669.jpg",
+                    "/uploads/article/thumb/2016071212441669.jpg",
                     "[JAVA · 初级]：GC-垃圾回收机制",
                     "gc,垃圾回收,java",
                     "在C++中，对象所占的内存在程序结束运行之前一直被占用，在明确释放之前不能分配给其它对象；而在Java中，当没有对象引用指向原先分配给某个对象的内存时，该内存便成为垃圾。",
@@ -397,7 +397,7 @@ class m130524_201442_init extends Migration
                     "PHP 7.0.2正式版发布：WordPress速度提升3倍！",
                     "",
                     "提到PHP，肯定会有人说这是世界上最好的编程语言。",
-                    "###~SITEURL~###/uploads/article/thumb/2016071212472374.jpeg",
+                    "/uploads/article/thumb/2016071212472374.jpeg",
                     "PHP 7.0.2正式版发布：WordPress速度提升3倍！",
                     "php7,php,wordpress",
                     "提到PHP，肯定会有人说这是世界上最好的编程语言。",
@@ -459,7 +459,7 @@ class m130524_201442_init extends Migration
                     "Spring知识点提炼",
                     "",
                     "spring框架",
-                    "###~SITEURL~###/uploads/article/thumb/2016071212525610.jpg",
+                    "/uploads/article/thumb/2016071212525610.jpg",
                     "Spring知识点提炼",
                     "spring,java",
                     "spring框架",
@@ -490,7 +490,7 @@ class m130524_201442_init extends Migration
                     "CSS代码重构与优化之路",
                     "",
                     "着项目规模的增加，项目中的CSS代码也会越来越多，如果没有及时对CSS代码进行维护，CSS代码不断会越来越多。",
-                    "###~SITEURL~###/uploads/article/thumb/2016071212553820.jpeg",
+                    "/uploads/article/thumb/2016071212553820.jpeg",
                     "CSS代码重构与优化之路",
                     "css,重构",
                     "着项目规模的增加，项目中的CSS代码也会越来越多，如果没有及时对CSS代码进行维护，CSS代码不断会越来越多。",
@@ -521,7 +521,7 @@ class m130524_201442_init extends Migration
                     "PHP分页技术的代码和示例",
                     "",
                     "分页是目前在显示大量结果时所采用的最好的方式。",
-                    "###~SITEURL~###/uploads/article/thumb/2016071212580919.png",
+                    "/uploads/article/thumb/2016071212580919.png",
                     "PHP分页技术的代码和示例",
                     "php,分页,php分页",
                     "分页是目前在显示大量结果时所采用的最好的方式。",
@@ -552,7 +552,7 @@ class m130524_201442_init extends Migration
                     "10个免费下载PHP脚本的网站",
                     "",
                     "免费的PHP脚本下载",
-                    "###~SITEURL~###/uploads/article/thumb/2016071213000120.png",
+                    "/uploads/article/thumb/2016071213000120.png",
                     "10个免费下载PHP脚本的网站",
                     "php脚本,下载,代码下载",
                     "免费的PHP脚本下载",
@@ -583,7 +583,7 @@ class m130524_201442_init extends Migration
                     "趣文：如果编程语言是女人（新编版）",
                     "",
                     "语言趣文",
-                    "###~SITEURL~###/uploads/article/thumb/2016071213020658.png",
+                    "/uploads/article/thumb/2016071213020658.png",
                     "趣文：如果编程语言是女人（新编版）",
                     "java, Javascript, Lisp, php, Python, Ruby, 编程语言, 趣文",
                     "语言趣文",
@@ -614,7 +614,7 @@ class m130524_201442_init extends Migration
                     "浏览器缓存机制",
                     "",
                     "浏览器缓存机制，其实主要就是HTTP协议定义的缓存机制（如： Expires； Cache-control等）。",
-                    "###~SITEURL~###/uploads/article/thumb/2016071213054793.jpg",
+                    "/uploads/article/thumb/2016071213054793.jpg",
                     "浏览器缓存机制",
                     "缓存,浏览器缓存,http协议",
                     "浏览器缓存机制，其实主要就是HTTP协议定义的缓存机制（如： Expires； Cache-control等）。",
@@ -676,7 +676,7 @@ class m130524_201442_init extends Migration
                     "给Java说句公道话",
                     "",
                     "有些人问我，在现有的语言里面，有什么好的推荐？我说：“Java。” 他们很惊讶：“什么？Java！” 所以我现在来解释一下。",
-                    "###~SITEURL~###/uploads/article/thumb/2016071213095350.jpg",
+                    "/uploads/article/thumb/2016071213095350.jpg",
                     "给Java说句公道话",
                     "java",
                     "有些人问我，在现有的语言里面，有什么好的推荐？我说：“Java。” 他们很惊讶：“什么？Java！” 所以我现在来解释一下。",
@@ -707,7 +707,7 @@ class m130524_201442_init extends Migration
                     "Java编程入门（1.6）：现代用户界面",
                     "",
                     "算机刚问世时，普通人——包括大多数程序员——都不允许靠近计算机。",
-                    "###~SITEURL~###/uploads/article/thumb/2016071214100948.jpg",
+                    "/uploads/article/thumb/2016071214100948.jpg",
                     "Java编程入门（1.6）：现代用户界面",
                     "java,用户界面",
                     "算机刚问世时，普通人——包括大多数程序员——都不允许靠近计算机。",
@@ -769,7 +769,7 @@ class m130524_201442_init extends Migration
                     "Java编程入门：前言",
                     "",
                     "Java编程入门》是一本使用Java作为入门语言的免费计算机编程课本",
-                    "###~SITEURL~###/uploads/article/thumb/2016071213165538.jpg",
+                    "/uploads/article/thumb/2016071213165538.jpg",
                     "Java编程入门：前言",
                     "java,入门,编程书籍",
                     "Java编程入门》是一本使用Java作为入门语言的免费计算机编程课本",
@@ -800,7 +800,7 @@ class m130524_201442_init extends Migration
                     "Java 8最快的垃圾搜集器是什么？",
                     "",
                     "OpenJDK 8 有多种 GC（Garbage Collector）算法，如 Parallel GC、CMS 和 G1。哪一个才是最快的呢？如果在 Java 9 中将 Java 8 默认的 GC 从 Parallel GC 改为 G1 （目前只是建议）将会怎么样呢？让我们对此进行基准测试。",
-                    "###~SITEURL~###/uploads/article/thumb/2016071213182356.jpg",
+                    "/uploads/article/thumb/2016071213182356.jpg",
                     "Java 8最快的垃圾搜集器是什么？",
                     "java,java8,垃圾收集",
                     "OpenJDK 8 有多种 GC（Garbage Collector）算法，如 Parallel GC、CMS 和 G1。哪一个才是最快的呢？如果在 Java 9 中将 Java 8 默认的 GC 从 Parallel GC 改为 G1 （目前只是建议）将会怎么样呢？让我们对此进行基准测试。",
@@ -831,7 +831,7 @@ class m130524_201442_init extends Migration
                     "使用Memcached改进Java企业级应用性能（1）：架构和设置",
                     "",
                     "Memcached由Danga Interactive开发，用来提升LiveJournal.com网站性能。Memcached分布式架构支持众多的社交网络应用，Twitter、Facebook还有Wikipedia。在接下来的两部分教程中，Sunil Patil介绍了Memcached分布式哈希表架构，以及利用它帮助你为数据驱动Java企业应用做数据缓存。",
-                    "###~SITEURL~###/uploads/article/thumb/201607121325288.png",
+                    "/uploads/article/thumb/201607121325288.png",
                     "使用Memcached改进Java企业级应用性能（1）：架构和设置",
                     "java,memcached",
                     "Memcached由Danga Interactive开发，用来提升LiveJournal.com网站性能。Memcached分布式架构支持众多的社交网络应用，Twitter、Facebook还有Wikipedia。在接下来的两部分教程中，Sunil Patil介绍了Memcached分布式哈希表架构，以及利用它帮助你为数据驱动Java企业应用做数据缓存。",
@@ -862,7 +862,7 @@ class m130524_201442_init extends Migration
                     "JVM的相关知识整理和学习",
                     "",
                     "诺依曼体系结构中，指出计算机处理的数据和指令都是二进制数，采用存储程序方式不加区分的存储在同一个存储器里，并且顺序执行，指令由操作码和地址码组成，操作码决定了操作类型和所操作的数的数字类型，地址码则指出地址码和操作数。",
-                    "###~SITEURL~###/uploads/article/thumb/2016071213203123.jpg",
+                    "/uploads/article/thumb/2016071213203123.jpg",
                     "JVM的相关知识整理和学习",
                     "jvm,java",
                     "诺依曼体系结构中，指出计算机处理的数据和指令都是二进制数，采用存储程序方式不加区分的存储在同一个存储器里，并且顺序执行，指令由操作码和地址码组成，操作码决定了操作类型和所操作的数的数字类型，地址码则指出地址码和操作数。",
@@ -893,7 +893,7 @@ class m130524_201442_init extends Migration
                     "关于Java集合的小抄",
                     "",
                     "在尽可能短的篇幅里，将所有集合与并发集合的特征，实现方式，性能捋一遍。适合所有”精通Java”其实还不那么自信的人阅读。",
-                    "###~SITEURL~###/uploads/article/thumb/2016071213224495.jpg",
+                    "/uploads/article/thumb/2016071213224495.jpg",
                     "关于Java集合的小抄",
                     "java,java集合",
                     "在尽可能短的篇幅里，将所有集合与并发集合的特征，实现方式，性能捋一遍。适合所有”精通Java”其实还不那么自信的人阅读。",
@@ -1553,7 +1553,7 @@ class m130524_201442_init extends Migration
                     '1470111222',
                     '0',
                 ],
-                [
+                /*[
                     '23',
                     '0',
                     '0',
@@ -1567,7 +1567,7 @@ class m130524_201442_init extends Migration
                     '0',
                     '1470065608',
                     '1488805084',
-                ],
+                ],*/
                 [
                     '24',
                     '0',
@@ -2922,9 +2922,63 @@ class m130524_201442_init extends Migration
                     '0',
                 ],
                 [
+                    '0',
+                    'smtp_host',
+                    '',
+                    '1',
+                    '',
+                    '0',
+                    '0',
+                ],
+                [
+                    '0',
+                    'smtp_username',
+                    '',
+                    '1',
+                    '',
+                    '0',
+                    '0',
+                ],
+                [
+                    '0',
+                    'smtp_password',
+                    '',
+                    '1',
+                    '',
+                    '0',
+                    '0',
+                ],
+                [
+                    '0',
+                    'smtp_port',
+                    '',
+                    '1',
+                    '',
+                    '0',
+                    '0',
+                ],
+                [
+                    '0',
+                    'smtp_encryption',
+                    '',
+                    '1',
+                    '',
+                    '0',
+                    '0',
+                ],
+                [
+                    '0',
+                    'smtp_nickname',
+                    '',
+                    '1',
+                    '',
+                    '0',
+                    '0',
+                ],
+                [
                     '1',
                     'weibo',
-                    'http://www.feehi.com/',
+                    'http://www.weibo.com/feeppp',
                     '1',
                     '新浪微博',
                     '1',
@@ -2977,7 +3031,7 @@ class m130524_201442_init extends Migration
                 ],
             ]
         );
-
+/*
         $this->createTable('{{%file}}', [
             'id' => $this->primaryKey()->unsigned(),
             'uri' => $this->string()->notNull(),
@@ -5242,7 +5296,7 @@ class m130524_201442_init extends Migration
                 "1476070310",
 
             ],
-        ]);
+        ]);*/
     }
 
     public function down()
@@ -5262,7 +5316,7 @@ class m130524_201442_init extends Migration
         $this->dropTable('{{%menu}}');
         //$this->dropTable('{{%migration}}');
         $this->dropTable('{{%options}}');
-        $this->dropTable('{{%file_usage}}');
-        $this->dropTable('{{%file}}');
+        //$this->dropTable('{{%file_usage}}');
+        //$this->dropTable('{{%file}}');
     }
 }

@@ -5,7 +5,7 @@
  * Date: 16/4/11
  * Time: 22:34
  */
-use feehi\widgets\ActiveForm;
+use backend\widgets\ActiveForm;
 ?>
 <div class="col-sm-12">
     <div class="ibox">

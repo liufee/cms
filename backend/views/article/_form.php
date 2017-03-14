@@ -5,10 +5,11 @@
  * Date: 2016/3/23
  * Time: 15:49
  */
-use feehi\widgets\ActiveForm;
+use backend\widgets\ActiveForm;
 use common\models\Category;
-use feehi\libs\Constants;
+use common\libs\Constants;
 use yii\helpers\Html;
+use backend\widgets\Ueditor;
 
 $this->title = "Articles";
 ?>
@@ -28,7 +29,7 @@ $this->title = "Articles";
                         <?= $form->field($model, 'sub_title')->textInput();?>
                         <?= $form->field($model, 'summary')->textArea();?>
                         <?= $form->field($model, 'thumb')->imgInput(['style'=>'max-width:200px;max-height:200px']);?>
-                        <?= $form->field($model, 'content')->ueditor()?>
+                        <?= $form->field($model, 'content')->widget(Ueditor::className())?>
                     </div>
                     <!--left stop -->
 

@@ -3,7 +3,7 @@
 namespace common\models;
 
 use Yii;
-use feehi\libs\Constants;
+use common\libs\Constants;
 use yii\behaviors\TimestampBehavior;
 
 /**

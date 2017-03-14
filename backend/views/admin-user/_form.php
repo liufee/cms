@@ -6,7 +6,7 @@
  * Time: 11:15
  */
 
-use feehi\widgets\ActiveForm;
+use backend\widgets\ActiveForm;
 
 $this->title = "Admin";
 ?>

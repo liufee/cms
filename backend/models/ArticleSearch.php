@@ -80,7 +80,7 @@ class ArticleSearch extends Article{
         }
         if($this->cid === '0'){
             $query->andWhere(['cid'=>0]);
-        }else {
+        }else if( !empty($this->cid) ) {
             $cids = Category::getSubTree($this->cid);
             if (count($cids) <= 1) {
                 $query->andFilterWhere(['cid' => $this->cid]);
