@@ -8,6 +8,7 @@
 
 namespace backend\grid;
 
+use yii;
 use yii\helpers\ArrayHelper;
 use yii\widgets\LinkPager;
 use feehi\assets\GridViewAsset;
