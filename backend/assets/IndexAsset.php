@@ -1,4 +1,10 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
 
 namespace backend\assets;
 
@@ -7,7 +13,7 @@ use yii\web\AssetBundle;
 class IndexAsset extends AssetBundle
 {
 
-	public $baseUrl = '@web/admin';
+    public $baseUrl = '@web/admin';
     public $sourcePath = '@backend/web/static';
     public $css = [
         'css/bootstrap.min.css',

@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/3/21
- * Time: 14:14
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-03-21 14:14
  */
+
 use backend\grid\GridView;
 use backend\widgets\Bar;
 use yii\helpers\Html;
@@ -21,7 +22,7 @@ $this->title = "Friendly Links";
         <div class="ibox">
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
-                <?= Bar::widget()?>
+                <?= Bar::widget() ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'columns' => [
@@ -34,32 +35,42 @@ $this->title = "Friendly Links";
                         [
                             'attribute' => 'url',
                             'format' => 'raw',
-                            'value' => function($model){
-                                return Html::a($model->url, $model->url, ['target'=>'_blank']);
+                            'value' => function ($model) {
+                                return Html::a($model->url, $model->url, ['target' => '_blank']);
                             }
                         ],
                         [
                             'attribute' => 'sort',
                             'format' => 'raw',
-                            'value' => function($model){
+                            'value' => function ($model) {
                                 return Html::input('number', "sort[{$model['id']}]", $model['sort']);
                             }
                         ],
                         [
                             'attribute' => 'status',
                             'format' => 'raw',
-                            'value' => function($model, $key, $index, $column) {
-                                if($model->status == FriendLink::DISPLAY_YES){
-                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>0, 'field'=>'status']);
+                            'value' => function ($model, $key, $index, $column) {
+                                if ($model->status == FriendLink::DISPLAY_YES) {
+                                    $url = Url::to([
+                                        'change-status',
+                                        'id' => $model->id,
+                                        'status' => 0,
+                                        'field' => 'status'
+                                    ]);
                                     $class = 'btn btn-info btn-xs btn-rounded';
-                                    $confirm =  Yii::t('app', 'Are you sure you want to disable this item?');
-                                }else{
-                                    $url = Url::to(['change-status', 'id'=>$model->id, 'status'=>1, 'field'=>'status']);
+                                    $confirm = Yii::t('app', 'Are you sure you want to disable this item?');
+                                } else {
+                                    $url = Url::to([
+                                        'change-status',
+                                        'id' => $model->id,
+                                        'status' => 1,
+                                        'field' => 'status'
+                                    ]);
                                     $class = 'btn btn-default btn-xs btn-rounded';
-                                    $confirm =  Yii::t('app', 'Are you sure you want to enable this item?');
+                                    $confirm = Yii::t('app', 'Are you sure you want to enable this item?');
                                 }
                                 return Html::a(Constants::getYesNoItems($model->status), $url, [
-                                    'class'=>$class,
+                                    'class' => $class,
                                     'data-confirm' => $confirm,
                                     'data-method' => 'post',
                                     'data-pjax' => '0',
@@ -79,8 +90,7 @@ $this->title = "Friendly Links";
                             'class' => ActionColumn::class,
                         ]
                     ]
-                ])
-                ?>
+                ]) ?>
             </div>
         </div>
     </div>

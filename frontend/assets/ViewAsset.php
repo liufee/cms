@@ -1,9 +1,9 @@
 <?php
 /**
- * Ahthor: lf
+ * Author: lf
+ * Blog: https://blog.feehi.com
  * Email: job@feehi.com
- * Blog: http://blog.feehi.com
- * Date: 2016/8/1215:25
+ * Created at: 2016-08-12 15:25
  */
 
 namespace frontend\assets;

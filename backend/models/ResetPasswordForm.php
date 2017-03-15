@@ -1,7 +1,13 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
+
 namespace backend\models;
 
-use Yii;
 use yii\base\Event;
 use yii\db\BaseActiveRecord;
 use yii\base\InvalidParamException;
@@ -17,11 +23,11 @@ class ResetPasswordForm extends \yii\base\Model
 
     public function __construct($token, $config = [])
     {
-        if (empty($token) || !is_string($token)) {
+        if (empty($token) || ! is_string($token)) {
             throw new InvalidParamException('Password reset token cannot be blank.');
         }
         $this->_user = User::findByPasswordResetToken($token);
-        if (!$this->_user) {
+        if (! $this->_user) {
             throw new InvalidParamException('Wrong password reset token.');
         }
         parent::__construct($config);
@@ -55,7 +61,7 @@ class ResetPasswordForm extends \yii\base\Model
         $user = $this->_user;
         $user->setPassword($this->password);
         $user->removePasswordResetToken();
-        Event::off(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_UPDATE );
+        Event::off(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_UPDATE);
 
         return $user->save(false);
     }

@@ -1,10 +1,11 @@
 <?php
 /**
- * Ahthor: lf
+ * Author: lf
+ * Blog: https://blog.feehi.com
  * Email: job@feehi.com
- * Blog: http://blog.feehi.com
- * Date: 2016/4/513:08
+ * Created at: 2016-04-05 13:08
  */
+
 namespace frontend\controllers;
 
 use yii;
@@ -17,11 +18,10 @@ class SearchController extends Controller
 
     public function actionIndex()
     {
-        $where = ['type'=>Article::ARTICLE];
+        $where = ['type' => Article::ARTICLE];
         $query = Article::find()->select([])->where($where)->joinWith("category");
-        $keyword = htmlspecialchars( yii::$app->getRequest()->get('q') );
-        $query->andFilterWhere(['like', 'title', $keyword])
-            ->orFilterWhere(['like', 'tag', $keyword]);
+        $keyword = htmlspecialchars(yii::$app->getRequest()->get('q'));
+        $query->andFilterWhere(['like', 'title', $keyword])->orFilterWhere(['like', 'tag', $keyword]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [

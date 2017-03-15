@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: f
- * Date: 16/8/12
- * Time: 下午10:37
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-08-12 22:37
  */
+
 namespace frontend\assets;
 
 use yii\web\AssetBundle;

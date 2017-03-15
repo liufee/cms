@@ -1,8 +1,15 @@
 <?php
-    if( Yii::$app->getSession()->hasFlash('success') ) {
-        $successTitle = yii::t('app', 'Success');
-        $info = Yii::$app->getSession()->getFlash('success');
-        $str =<<<EOF
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
+
+if (Yii::$app->getSession()->hasFlash('success')) {
+    $successTitle = yii::t('app', 'Success');
+    $info = Yii::$app->getSession()->getFlash('success');
+    $str = <<<EOF
        toastr.options = {
           "closeButton": true,
           "debug": false,
@@ -19,12 +26,12 @@
        };
        toastr.success("{$successTitle}", "{$info}");
 EOF;
-        $this->registerJs($str);
-    }
-    if( Yii::$app->getSession()->hasFlash('error') ) {
-        $errorTitle = yii::t('app', 'Error');
-        $info = Yii::$app->getSession()->getFlash('error');
-        $str =<<<EOF
+    $this->registerJs($str);
+}
+if (Yii::$app->getSession()->hasFlash('error')) {
+    $errorTitle = yii::t('app', 'Error');
+    $info = Yii::$app->getSession()->getFlash('error');
+    $str = <<<EOF
        toastr.options = {
           "closeButton": true,
           "debug": false,
@@ -41,6 +48,6 @@ EOF;
        };
        toastr.error("{$errorTitle}", "{$info}");
 EOF;
-        $this->registerJs($str);
-    }
+    $this->registerJs($str);
+}
 ?>

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-10-16 17:15
+ */
 
 namespace common\models;
 
@@ -64,14 +70,43 @@ class Article extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['cid', 'type', 'status', 'sort', 'author_id','can_comment', 'visibility'], 'integer'],
-            [['cid',  'sort', 'author_id'], 'compare', 'compareValue' => 0, 'operator' => '>='],
+            [['cid', 'type', 'status', 'sort', 'author_id', 'can_comment', 'visibility'], 'integer'],
+            [['cid', 'sort', 'author_id'], 'compare', 'compareValue' => 0, 'operator' => '>='],
             [['title', 'status'], 'required'],
-            [['can_comment', 'visibility'], 'default', 'value'=>Constants::YesNo_Yes],
+            [['can_comment', 'visibility'], 'default', 'value' => Constants::YesNo_Yes],
             [['content'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['title', 'sub_title', 'summary', 'thumb', 'seo_title', 'seo_keywords', 'seo_description', 'author_name', 'tag'], 'string', 'max' => 255],
-            [['flag_headline', 'flag_recommend', 'flag_slide_show', 'flag_special_recommend', 'flag_roll', 'flag_bold', 'flag_picture', 'type', 'status', 'can_comment'], 'in', 'range' => [0, 1]],
+            [
+                [
+                    'title',
+                    'sub_title',
+                    'summary',
+                    'thumb',
+                    'seo_title',
+                    'seo_keywords',
+                    'seo_description',
+                    'author_name',
+                    'tag'
+                ],
+                'string',
+                'max' => 255
+            ],
+            [
+                [
+                    'flag_headline',
+                    'flag_recommend',
+                    'flag_slide_show',
+                    'flag_special_recommend',
+                    'flag_roll',
+                    'flag_bold',
+                    'flag_picture',
+                    'type',
+                    'status',
+                    'can_comment'
+                ],
+                'in',
+                'range' => [0, 1]
+            ],
             [['visibility'], 'in', 'range' => [1, 2, 3]]
         ];
     }
@@ -79,11 +114,50 @@ class Article extends \yii\db\ActiveRecord
     public function scenarios()
     {
         return [
-            'article' => ['cid', 'type', 'title', 'sub_title', 'summary', 'content', 'thumb', 'seo_title', 'seo_keywords', 'seo_description', 'status', 'sort', 'author_id',
-                'author_name', 'created_at', 'updated_at', 'scan_count', 'comment_count', 'can_comment', 'visibility', 'tag', 'flag_headline', 'flag_recommend', 'flag_slide_show',
-                'flag_special_recommend', 'flag_roll', 'flag_bold', 'flag_picture'
+            'article' => [
+                'cid',
+                'type',
+                'title',
+                'sub_title',
+                'summary',
+                'content',
+                'thumb',
+                'seo_title',
+                'seo_keywords',
+                'seo_description',
+                'status',
+                'sort',
+                'author_id',
+                'author_name',
+                'created_at',
+                'updated_at',
+                'scan_count',
+                'comment_count',
+                'can_comment',
+                'visibility',
+                'tag',
+                'flag_headline',
+                'flag_recommend',
+                'flag_slide_show',
+                'flag_special_recommend',
+                'flag_roll',
+                'flag_bold',
+                'flag_picture'
             ],
-            'page' => ['title', 'sub_title', 'summary', 'seo_title', 'content' ,'seo_keywords', 'seo_description', 'status', 'can_comment', 'visibility', 'tag', 'sort'],
+            'page' => [
+                'title',
+                'sub_title',
+                'summary',
+                'seo_title',
+                'content',
+                'seo_keywords',
+                'seo_description',
+                'status',
+                'can_comment',
+                'visibility',
+                'tag',
+                'sort'
+            ],
         ];
     }
 
@@ -104,9 +178,9 @@ class Article extends \yii\db\ActiveRecord
             'seo_title' => Yii::t('app', 'Seo Title'),
             'seo_keywords' => Yii::t('app', 'Seo Keyword'),
             'seo_description' => Yii::t('app', 'Seo Description'),
-            'status' => Yii::t('app','Status'),
-            'can_comment' => Yii::t('app','Can Comment'),
-            'visibility' => Yii::t('app','Visibility'),
+            'status' => Yii::t('app', 'Status'),
+            'can_comment' => Yii::t('app', 'Can Comment'),
+            'visibility' => Yii::t('app', 'Visibility'),
             'sort' => Yii::t('app', 'Sort'),
             'tag' => Yii::t('app', 'Tag'),
             'author_id' => Yii::t('app', 'Author Id'),
@@ -135,13 +209,15 @@ class Article extends \yii\db\ActiveRecord
 
     public static function getArticleById($id)
     {
-        return self::findOne(['id'=>$id]);
+        return self::findOne(['id' => $id]);
     }
 
     public function afterFind()
     {
         parent::afterFind();
-        if( $this->thumb ) $this->thumb = str_replace(yii::$app->params['site']['sign'], yii::$app->params['site']['url'], $this->thumb);
+        if ($this->thumb) {
+            $this->thumb = str_replace(yii::$app->params['site']['sign'], yii::$app->params['site']['url'], $this->thumb);
+        }
     }
 
 

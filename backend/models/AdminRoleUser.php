@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: lf
- * Date: 16/4/11
- * Time: 22:32
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-04-11 22:32
  */
 
 namespace backend\models;
@@ -44,7 +44,11 @@ class AdminRoleUser extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'role_id', 'created_at', 'updated_at'], 'integer'],
-            [['role_id'], 'required', 'message' => yii::t('app', '{attribute} cannot be blank.', ['attribute'=>yii::t('app', 'Roles')]) ]
+            [
+                ['role_id'],
+                'required',
+                'message' => yii::t('app', '{attribute} cannot be blank.', ['attribute' => yii::t('app', 'Roles')])
+            ]
         ];
     }
 
@@ -64,8 +68,10 @@ class AdminRoleUser extends \yii\db\ActiveRecord
 
     public static function getRoleId($id = '')
     {
-        if($id == '') $id = yii::$app->getUser()->getIdentity()->getId();
-        $result = self::find()->where(['uid'=>$id])->one();//createCommand()->getRawSql();
+        if ($id == '') {
+            $id = yii::$app->getUser()->getIdentity()->getId();
+        }
+        $result = self::find()->where(['uid' => $id])->one();//createCommand()->getRawSql();
         return isset($result->role_id) ? $result->role_id : null;
     }
 }

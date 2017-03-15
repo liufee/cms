@@ -1,4 +1,10 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
 
 namespace common\models;
 
@@ -39,7 +45,12 @@ class Options extends \yii\db\ActiveRecord
             [['type', 'input_type', 'autoload', 'sort'], 'integer'],
             [['name', 'input_type', 'autoload'], 'required'],
             [['name'], 'unique'],
-            [['name'], 'match', 'pattern'=>'/^[a-zA-Z][0-9_]*/', 'message'=>yii::t('app', 'Must begin with alphabet and can only includes alphabet,_,and number')],
+            [
+                ['name'],
+                'match',
+                'pattern' => '/^[a-zA-Z][0-9_]*/',
+                'message' => yii::t('app', 'Must begin with alphabet and can only includes alphabet,_,and number')
+            ],
             [['value'], 'string'],
             [['name', 'tips'], 'string', 'max' => 255],
         ];
@@ -62,7 +73,8 @@ class Options extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getNames(){
+    public function getNames()
+    {
         return array_keys($this->attributeLabels());
     }
 

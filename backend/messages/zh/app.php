@@ -1,10 +1,11 @@
 <?php
 /**
- * Ahthor: lf
+ * Author: lf
+ * Blog: https://blog.feehi.com
  * Email: job@feehi.com
- * Blog: http://blog.feehi.com
- * Date: 2016/4/189:41
+ * Created at: 2016-04-18 09:41
  */
+
 return [
     /*public*/
     'Home' => '首页',
@@ -241,7 +242,7 @@ return [
     /*admin-roles*/
     'Assign Permission' => '分配权限',
     /*admin-roles*/
-    
+
     /*js*/
     'Realy to do it?' => '确定要执行此操作？',
     'ok' => '确定',

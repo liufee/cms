@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: f
- * Date: 16/6/11
- * Time: 下午10:03
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-10-03 22:03
  */
+
 namespace backend\controllers;
 
 use yii;
@@ -28,13 +29,13 @@ class CommentController extends BaseController
         throw new NotFoundHttpException();
     }
 
-    public function actionUpdate($id='')
+    public function actionUpdate($id = '')
     {
         throw new NotFoundHttpException();
     }
 
-    public function getModel($id='')
+    public function getModel($id = '')
     {
-        return CommentSearch::findOne(['id'=>$id]);
+        return CommentSearch::findOne(['id' => $id]);
     }
 }

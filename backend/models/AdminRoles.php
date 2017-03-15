@@ -1,4 +1,10 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
 
 namespace backend\models;
 
@@ -62,15 +68,19 @@ class AdminRoles extends \yii\db\ActiveRecord
 
     public static function getRoleNameByUid($uid = '')
     {
-        if( $uid == '' ) $uid = yii::$app->getUser()->getIdentity()->getId();
+        if ($uid == '') {
+            $uid = yii::$app->getUser()->getIdentity()->getId();
+        }
         $role_id = AdminRoleUser::getRoleId($uid);
-        $data = self::findOne(['id'=>$role_id]);
+        $data = self::findOne(['id' => $role_id]);
         return isset($data->role_name) ? $data->role_name : null;
     }
 
     public function beforeDelete()
     {
-        if($this->id == 1) throw new ForbiddenHttpException(yii::t('app', 'Not allowed to delete {attribute}', ['attribute'=>yii::t('app', 'super administrator roles')]));
+        if ($this->id == 1) {
+            throw new ForbiddenHttpException(yii::t('app', 'Not allowed to delete {attribute}', ['attribute' => yii::t('app', 'super administrator roles')]));
+        }
         return true;
     }
 }

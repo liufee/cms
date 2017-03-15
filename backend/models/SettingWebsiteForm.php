@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/3/23
- * Time: 12:54
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-03-23 12:54
  */
+
 namespace backend\models;
 
 use common\models\Options;
@@ -46,7 +47,20 @@ class SettingWebsiteForm extends \common\models\Options
     public function rules()
     {
         return [
-            [['website_title', 'website_email','website_language','website_icp','website_statics_script', 'website_timezone', 'website_url', 'seo_keywords', 'seo_description'], 'string'],
+            [
+                [
+                    'website_title',
+                    'website_email',
+                    'website_language',
+                    'website_icp',
+                    'website_statics_script',
+                    'website_timezone',
+                    'website_url',
+                    'seo_keywords',
+                    'seo_description'
+                ],
+                'string'
+            ],
             [['website_status', 'website_comment', 'website_comment_need_verify'], 'integer'],
         ];
     }
@@ -54,36 +68,34 @@ class SettingWebsiteForm extends \common\models\Options
     public function getWebsiteSetting()
     {
         $names = $this->getNames();
-        foreach($names as $name){
+        foreach ($names as $name) {
             $model = self::findOne(['name' => $name]);
-            if($model != null)
-            {
+            if ($model != null) {
                 $this->$name = $model->value;
-            }
-            else
-            {
+            } else {
                 $this->name = '';
             }
         }
     }
 
 
-
-    public function setWebsiteConfig(){
+    public function setWebsiteConfig()
+    {
         $names = $this->getNames();
-        foreach($names as $name){
+        foreach ($names as $name) {
             $model = self::findOne(['name' => $name]);
-            if($model != null)
-            {
+            if ($model != null) {
                 $model->value = $this->$name;
                 $result = $model->save();
-            }else{
+            } else {
                 $model = new Options();
                 $model->name = $name;
                 $model->value = '';
                 $result = $model->save(false);
             }
-            if( $result == false ) return $result;
+            if ($result == false) {
+                return $result;
+            }
         }
         return true;
     }

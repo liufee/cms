@@ -1,17 +1,19 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: lf
- * Date: 16/4/1
- * Time: 23:26
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-04-01 23:26
  */
+
 namespace backend\controllers;
 
 use yii;
 use backend\models\AdminLogSearch;
 use backend\models\AdminLog;
 
-class LogController extends BaseController{
+class LogController extends BaseController
+{
 
     public function actionIndex()
     {
@@ -25,15 +27,15 @@ class LogController extends BaseController{
 
     public function actionView($id)
     {
-        $model = AdminLog::findOne(['id'=>$id]);
+        $model = AdminLog::findOne(['id' => $id]);
         return $this->render('view', [
-           'model' => $model,
+            'model' => $model,
         ]);
     }
 
     public function getModel($id = '')
     {
-        return AdminLogSearch::findOne(['id'=>$id]);
+        return AdminLogSearch::findOne(['id' => $id]);
     }
 
 }

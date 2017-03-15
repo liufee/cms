@@ -1,17 +1,18 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/3/21
- * Time: 19:32
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-03-21 19:32
  */
+
 namespace backend\grid;
 
 class DateColumn extends DataColumn
 {
-    public $headerOptions=['width'=>'120px'];
+    public $headerOptions = ['width' => '120px'];
 
-    public $format =['datetime', 'php:Y-m-d H:m:s'];
+    public $format = ['datetime', 'php:Y-m-d H:m:s'];
 
     public function init()
     {

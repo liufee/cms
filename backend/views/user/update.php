@@ -1,11 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/3/24
- * Time: 12:51
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-03-24 12:51
  */
 ?>
-<?=$this->render('_form', [
+<?= $this->render('_form', [
     'model' => $model,
 ]);

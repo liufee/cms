@@ -1,4 +1,11 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
+
 namespace frontend\controllers;
 
 use Yii;
@@ -71,7 +78,7 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
-        if (!Yii::$app->getUser()->getIsGuest()) {
+        if (! Yii::$app->getUser()->getIsGuest()) {
             return $this->goHome();
         }
 
@@ -129,11 +136,13 @@ class SiteController extends Controller
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Check your email for further instructions.'));
+                Yii::$app->getSession()
+                    ->setFlash('success', yii::t('app', 'Check your email for further instructions.'));
 
                 return $this->goHome();
             } else {
-                Yii::$app->getSession()->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                Yii::$app->getSession()
+                    ->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
             }
         }
 
@@ -175,17 +184,19 @@ class SiteController extends Controller
         yii::$app->getResponse()->send();
     }
 
-    public function actionView(){
-        $view =  Yii::$app->getRequest()->get('type');
-        if(isset($view)){
+    public function actionView()
+    {
+        $view = Yii::$app->getRequest()->get('type');
+        if (isset($view)) {
             Yii::$app->session['view'] = $view;
         }
         $this->goBack(Yii::$app->getRequest()->headers['Referer']);
     }
 
-    public function actionLanguage(){
-        $language=  Yii::$app->getRequest()->get('lang');
-        if(isset($language)){
+    public function actionLanguage()
+    {
+        $language = Yii::$app->getRequest()->get('lang');
+        if (isset($language)) {
             Yii::$app->session['language'] = $language;
         }
         $this->redirect(Yii::$app->getRequest()->headers['referer']);

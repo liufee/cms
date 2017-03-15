@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/3/21
- * Time: 14:14
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-03-21 14:14
  */
+
 use backend\grid\GridView;
 use backend\widgets\Bar;
 use yii\helpers\Html;
@@ -21,7 +22,7 @@ $this->title = "Backend Menus";
         <div class="ibox">
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
-                <?= Bar::widget()?>
+                <?= Bar::widget() ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
@@ -33,20 +34,20 @@ $this->title = "Backend Menus";
                             'attribute' => 'name',
                             'label' => yii::t('app', 'Name'),
                             'format' => 'html',
-                            'value' => function($model,$key,$index,$column){
+                            'value' => function ($model, $key, $index, $column) {
                                 $return = '';
-                                for($i=0; $i<$model['level']; $i++){
+                                for ($i = 0; $i < $model['level']; $i++) {
                                     $return .= "&nbsp;&nbsp;&nbsp;&nbsp;";
                                 }
                                 $name = yii::t('menu', $model['name']);
-                                return $return.$name;
+                                return $return . $name;
                             }
                         ],
                         [
                             'attribute' => 'icon',
                             'label' => yii::t('app', 'Icon'),
                             'format' => 'html',
-                            'value' => function($model){
+                            'value' => function ($model) {
                                 return "<i class=\"fa {$model['icon']}\"></i>";
                             }
                         ],
@@ -58,15 +59,15 @@ $this->title = "Backend Menus";
                             'attribute' => 'sort',
                             'label' => yii::t('app', 'Sort'),
                             'format' => 'raw',
-                            'value' => function($model){
+                            'value' => function ($model) {
                                 return Html::input('number', "sort[{$model['id']}]", $model['sort']);
                             }
                         ],
                         [
                             'attribute' => 'method',
                             'label' => yii::t('app', 'HTTP Method'),
-                            'value' => function($model){
-                                return Constants::getHttpMethodItems( $model['method'] );
+                            'value' => function ($model) {
+                                return Constants::getHttpMethodItems($model['method']);
                             },
                             'filter' => Constants::getHttpMethodItems(),
                         ],
@@ -74,18 +75,28 @@ $this->title = "Backend Menus";
                             'attribute' => 'is_display',
                             'label' => yii::t('app', 'Is Display'),
                             'format' => 'raw',
-                            'value' => function($model, $key, $index, $column) {
-                                if($model['is_display'] == Menu::DISPLAY_YES){
-                                    $url = Url::to(['change-status', 'id'=>$model['id'], 'status'=>Menu::DISPLAY_NO, 'field'=>'is_display']);
+                            'value' => function ($model, $key, $index, $column) {
+                                if ($model['is_display'] == Menu::DISPLAY_YES) {
+                                    $url = Url::to([
+                                        'change-status',
+                                        'id' => $model['id'],
+                                        'status' => Menu::DISPLAY_NO,
+                                        'field' => 'is_display'
+                                    ]);
                                     $class = 'btn btn-info btn-xs btn-rounded';
-                                    $confirm =  Yii::t('app', 'Are you sure you want to disable this item?');
-                                }else{
-                                    $url = Url::to(['change-status', 'id'=>$model['id'], 'status'=>Menu::DISPLAY_YES, 'field'=>'is_display']);
+                                    $confirm = Yii::t('app', 'Are you sure you want to disable this item?');
+                                } else {
+                                    $url = Url::to([
+                                        'change-status',
+                                        'id' => $model['id'],
+                                        'status' => Menu::DISPLAY_YES,
+                                        'field' => 'is_display'
+                                    ]);
                                     $class = 'btn btn-default btn-xs btn-rounded';
-                                    $confirm =  Yii::t('app', 'Are you sure you want to enable this item?');
+                                    $confirm = Yii::t('app', 'Are you sure you want to enable this item?');
                                 }
                                 return Html::a(Constants::getYesNoItems($model['is_display']), $url, [
-                                    'class'=>$class,
+                                    'class' => $class,
                                     'data-confirm' => $confirm,
                                     'data-method' => 'post',
                                     'data-pjax' => '0',
@@ -108,8 +119,11 @@ $this->title = "Backend Menus";
                             'class' => ActionColumn::class,
                             'width' => '190px',
                             'buttons' => [
-                                'create' => function($url, $model, $key){
-                                    return Html::a('<i class="fa  fa-plus" aria-hidden="true"></i> '. Yii::t('app', 'Create'), Url::to(['create', 'parent_id'=>$model['id']]), [
+                                'create' => function ($url, $model, $key) {
+                                    return Html::a('<i class="fa  fa-plus" aria-hidden="true"></i> ' . Yii::t('app', 'Create'), Url::to([
+                                        'create',
+                                        'parent_id' => $model['id']
+                                    ]), [
                                         'title' => Yii::t('app', 'Create'),
                                         'data-pjax' => '0',
                                         'class' => 'btn btn-white btn-sm J_menuItem',
@@ -119,8 +133,7 @@ $this->title = "Backend Menus";
                             'template' => '{create} {update} {delete}',
                         ]
                     ]
-                ])
-                ?>
+                ]) ?>
             </div>
         </div>
     </div>

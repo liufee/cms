@@ -1,9 +1,15 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use backend\assets\AppAsset;//use backend\assets\AppAsset;
+use backend\assets\AppAsset;
 use yii\helpers\Html;
 
 AppAsset::register($this);
@@ -18,14 +24,19 @@ AppAsset::register($this);
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <?= $this->render("/widgets/_language-js")?>
+    <?= $this->render("/widgets/_language-js") ?>
 </head>
-<body class="gray-bg"><style>.m-t-md{margin-top:0px}</style>
+<body class="gray-bg">
+<style>
+    .m-t-md {
+        margin-top: 0px
+    }
+</style>
 <?php $this->beginBody() ?>
-    <div class="wrapper wrapper-content">
-        <?=$this->render('/widgets/_flash') ?>
-        <?= $content?>
-    </div>
+<div class="wrapper wrapper-content">
+    <?= $this->render('/widgets/_flash') ?>
+    <?= $content ?>
+</div>
 <?php $this->endBody() ?>
 </body>
 </html>

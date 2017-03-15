@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/3/21
- * Time: 18:46
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-03-21 18:46
  */
+
 namespace backend\grid;
 
 class DataColumn extends \yii\grid\DataColumn
@@ -18,10 +19,9 @@ class DataColumn extends \yii\grid\DataColumn
     {
         parent::init();
 
-        if (! isset($this->headerOptions['width']))
-        {
+        if (! isset($this->headerOptions['width'])) {
             $this->headerOptions['width'] = $this->width;
         }
-        $this->contentOptions=['style'=>'word-wrap: break-word; word-break: break-all;'];
+        $this->contentOptions = ['style' => 'word-wrap: break-word; word-break: break-all;'];
     }
 }

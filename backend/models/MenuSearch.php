@@ -1,15 +1,17 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: f
- * Date: 2016/11/28
- * Time: 上午9:29
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-11-28 09:29
  */
+
 namespace backend\models;
 
 use yii\data\ArrayDataProvider;
 
-class MenuSearch extends Menu{
+class MenuSearch extends Menu
+{
 
     public function rules()
     {
@@ -24,16 +26,20 @@ class MenuSearch extends Menu{
         $query = Menu::getMenuArray(Menu::BACKEND_TYPE);
         $this->load($params);
         $temp = explode('\\', self::className());
-        $temp = end( $temp );
-        if( isset( $params[$temp] ) ){
+        $temp = end($temp);
+        if (isset($params[$temp])) {
             $serarchArr = $params[$temp];
-            foreach ($serarchArr as $k => $v){
-                if( $v !== '' ){
-                    foreach ($query as $key => $val){
-                        if( in_array($k, ['sort', 'display']) ) {
-                            if ($val[$k] != $v) unset($query[$key]);
-                        }else{
-                            if( strpos($val[$k], $v) === false ) unset($query[$key]);
+            foreach ($serarchArr as $k => $v) {
+                if ($v !== '') {
+                    foreach ($query as $key => $val) {
+                        if (in_array($k, ['sort', 'display'])) {
+                            if ($val[$k] != $v) {
+                                unset($query[$key]);
+                            }
+                        } else {
+                            if (strpos($val[$k], $v) === false) {
+                                unset($query[$key]);
+                            }
                         }
                     }
                 }

@@ -1,13 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: f
- * Date: 16/6/15
- * Time: 上午9:25
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-06-15 09:25
  */
+
 namespace backend\widgets;
 
-use yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -22,10 +22,13 @@ class Bar extends Widget
 
     public function run()
     {
-        $buttons='';
+        $buttons = '';
         $this->initDefaultButtons();
         $buttons .= $this->renderDataCellContent();
-        ActiveForm::begin(['action'=>Url::to(['sort']), 'options'=>['class'=>'form-horizontal', 'name'=>'sort']]);
+        ActiveForm::begin([
+            'action' => Url::to(['sort']),
+            'options' => ['class' => 'form-horizontal', 'name' => 'sort']
+        ]);
         ActiveForm::end();
         return "<div class='{$this->options['class']}'>{$buttons}</div>";
     }
@@ -35,8 +38,7 @@ class Bar extends Widget
         return preg_replace_callback('/\\{([\w\-\/]+)\\}/', function ($matches) {
             $name = $matches[1];
             if (isset($this->buttons[$name])) {
-                return $this->buttons[$name] instanceof \Closure
-                    ? call_user_func($this->buttons[$name]):$this->buttons[$name];
+                return $this->buttons[$name] instanceof \Closure ? call_user_func($this->buttons[$name]) : $this->buttons[$name];
             } else {
                 return '';
             }
@@ -47,11 +49,9 @@ class Bar extends Widget
 
     protected function initDefaultButtons()
     {
-        if (! isset($this->buttons['refresh']))
-        {
-            $this->buttons['refresh'] = function ()
-            {
-                return Html::a('<i class="fa fa-refresh"></i> '. Yii::t('app', 'Refresh'), Url::to(['refresh']), [
+        if (! isset($this->buttons['refresh'])) {
+            $this->buttons['refresh'] = function () {
+                return Html::a('<i class="fa fa-refresh"></i> ' . Yii::t('app', 'Refresh'), Url::to(['refresh']), [
                     'title' => Yii::t('app', 'Refresh'),
                     'data-pjax' => '0',
                     'class' => 'btn btn-white btn-sm refresh',
@@ -59,11 +59,9 @@ class Bar extends Widget
             };
         }
 
-        if (! isset($this->buttons['create']))
-        {
-            $this->buttons['create'] = function ()
-            {
-                return Html::a('<i class="fa fa-plus"></i> '. Yii::t('app', 'Create'), Url::to(['create']), [
+        if (! isset($this->buttons['create'])) {
+            $this->buttons['create'] = function () {
+                return Html::a('<i class="fa fa-plus"></i> ' . Yii::t('app', 'Create'), Url::to(['create']), [
                     'title' => Yii::t('app', 'Create'),
                     'data-pjax' => '0',
                     'class' => 'btn btn-white btn-sm',
@@ -71,11 +69,9 @@ class Bar extends Widget
             };
         }
 
-        if (! isset($this->buttons['sort']))
-        {
-            $this->buttons['sort'] = function ()
-            {
-                return Html::a('<i class="fa  fa-sort-numeric-desc"></i> '. Yii::t('app', 'Sort'), Url::to(['sort']), [
+        if (! isset($this->buttons['sort'])) {
+            $this->buttons['sort'] = function () {
+                return Html::a('<i class="fa  fa-sort-numeric-desc"></i> ' . Yii::t('app', 'Sort'), Url::to(['sort']), [
                     'title' => Yii::t('app', 'Sort'),
                     'data-pjax' => '0',
                     'class' => 'btn btn-white btn-sm sort',
@@ -83,11 +79,9 @@ class Bar extends Widget
             };
         }
 
-        if (! isset($this->buttons['delete']))
-        {
-            $this->buttons['delete'] = function ()
-            {
-                return Html::a('<i class="fa fa-trash-o"></i> '. Yii::t('app', 'Delete'), Url::to(['delete']), [
+        if (! isset($this->buttons['delete'])) {
+            $this->buttons['delete'] = function () {
+                return Html::a('<i class="fa fa-trash-o"></i> ' . Yii::t('app', 'Delete'), Url::to(['delete']), [
                     'title' => Yii::t('app', 'Delete'),
                     'data-pjax' => '0',
                     'data-confirm' => Yii::t('app', 'Realy to delete?'),

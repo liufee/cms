@@ -1,15 +1,21 @@
 <?php
-namespace backend\widgets\ueditor;
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
 
+namespace backend\widgets\ueditor;
 
 use yii;
 use yii\imagine\Image;
-
 
 class UeditorAction extends yii\base\Action
 {
     /**
      * UEditor的配置
+     *
      * @see http://fex-team.github.io/ueditor/#start-config
      * @var array
      */
@@ -18,6 +24,7 @@ class UeditorAction extends yii\base\Action
     /**
      * 列出文件/图片时需要忽略的文件夹
      * 主要用于处理缩略图管理，兼容比如elFinder之类的程序
+     *
      * @var array
      */
     public $ignoreDir = [
@@ -28,6 +35,7 @@ class UeditorAction extends yii\base\Action
      * 缩略图设置
      * 默认不开启
      * ['height' => 200, 'width' => 200]表示生成200*200的缩略图，如果设置为空数组则不生成缩略图
+     *
      * @var array
      */
     public $thumbnail = [];
@@ -36,6 +44,7 @@ class UeditorAction extends yii\base\Action
      * 图片缩放设置
      * 默认不缩放。
      * 配置如 ['height'=>200,'width'=>200]
+     *
      * @var array
      */
     public $zoom = [];
@@ -46,6 +55,7 @@ class UeditorAction extends yii\base\Action
      * ['path'=>'水印图片位置','position'=>0]
      * 默认位置为 9，可不配置
      * position in [1 ,9]，表示从左上到右下的9个位置。
+     *
      * @var array
      */
     public $watermark = [];
@@ -54,12 +64,14 @@ class UeditorAction extends yii\base\Action
      * 是否允许内网采集
      * 如果为 false 则远程图片获取不获取内网图片，防止 SSRF。
      * 默认为 false
+     *
      * @var bool
      */
     public $allowIntranet = false;
 
     /**
      * 上传目录
+     *
      * @var string
      */
     protected $uploadPath;
@@ -75,16 +87,19 @@ class UeditorAction extends yii\base\Action
         //http://fex.baidu.com/ueditor/#server-server_param
 
         //保留UE默认的配置引入方式
-        if (file_exists(__DIR__ . '/config.json'))
+        if (file_exists(__DIR__ . '/config.json')) {
             $CONFIG = json_decode(preg_replace("/\/\*[\s\S]+?\*\//", '', file_get_contents(__DIR__ . '/config.json')), true);
-        else
+        } else {
             $CONFIG = [];
+        }
 
-        if (!is_array($this->config))
+        if (! is_array($this->config)) {
             $this->config = [];
+        }
 
-        if (!is_array($CONFIG))
+        if (! is_array($CONFIG)) {
             $CONFIG = [];
+        }
 
         $default = [
             'imagePathFormat' => '/upload/image/{yyyy}{mm}{dd}/{time}{rand:8}',
@@ -99,7 +114,9 @@ class UeditorAction extends yii\base\Action
         ];
         $this->config = $this->config + $default + $CONFIG;
         $this->uploadPath = Yii::getAlias('@frontend/web/uploads');
-        if (!is_array($this->thumbnail)) $this->thumbnail = false;
+        if (! is_array($this->thumbnail)) {
+            $this->thumbnail = false;
+        }
     }
 
     /**
@@ -123,7 +140,7 @@ class UeditorAction extends yii\base\Action
         if (isset($actions[$action])) {
             yii::$app->getResponse()->format = yii\web\Response::FORMAT_JSON;
             return call_user_func_array([$this, 'action' . $actions[$action]], []);
-        }else {
+        } else {
             return $this->show(['state' => 'Unknown action.']);
         }
     }
@@ -243,8 +260,9 @@ class UeditorAction extends yii\base\Action
         }
         foreach ($source as $imgUrl) {
             $item = new Uploader($imgUrl, $config, 'remote');
-            if ($this->allowIntranet)
+            if ($this->allowIntranet) {
                 $item->setAllowIntranet(true);
+            }
             $info = $item->getFileInfo();
             $info['thumbnail'] = $this->imageHandle($info['url']);
             $list[] = [
@@ -262,6 +280,7 @@ class UeditorAction extends yii\base\Action
 
     /**
      * 各种上传
+     *
      * @param $fieldName
      * @param $config
      * @param $base64
@@ -271,11 +290,18 @@ class UeditorAction extends yii\base\Action
     {
         $up = new Uploader($fieldName, $config, $base64);
 
-        if ($this->allowIntranet)
+        if ($this->allowIntranet) {
             $up->setAllowIntranet(true);
+        }
 
         $info = $up->getFileInfo();
-        if (($this->thumbnail or $this->zoom or $this->watermark) && $info['state'] == 'SUCCESS' && in_array($info['type'], ['.png', '.jpg', '.bmp', '.gif'])) {
+        if (($this->thumbnail or $this->zoom or $this->watermark) && $info['state'] == 'SUCCESS' && in_array($info['type'], [
+                '.png',
+                '.jpg',
+                '.bmp',
+                '.gif'
+            ])
+        ) {
             $info['thumbnail'] = Yii::$app->request->baseUrl . $this->imageHandle($info['url']);
         }
         $info['url'] = $info['url'];
@@ -286,17 +312,19 @@ class UeditorAction extends yii\base\Action
 
     /**
      * 自动处理图片
+     *
      * @param $file
      * @return mixed|string
      */
     protected function imageHandle($file)
     {
-        if (substr($file, 0, 1) != '/')
+        if (substr($file, 0, 1) != '/') {
             $file = '/' . $file;
+        }
 
 
         //先处理缩略图
-        if ($this->thumbnail && !empty($this->thumbnail['height']) && !empty($this->thumbnail['width'])) {
+        if ($this->thumbnail && ! empty($this->thumbnail['height']) && ! empty($this->thumbnail['width'])) {
             $file = pathinfo($file);
             $file = $file['dirname'] . '/' . $file['filename'] . '.thumbnail.' . $file['extension'];
             Image::thumbnail($this->uploadPath . $file, intval($this->thumbnail['width']), intval($this->thumbnail['height']))
@@ -314,8 +342,9 @@ class UeditorAction extends yii\base\Action
         }
         //最后生成水印
         if (isset($this->watermark['path']) && file_exists($this->watermark['path'])) {
-            if (!isset($this->watermark['position']) or $this->watermark['position'] > 9 or $this->watermark['position'] < 0 or !is_numeric($this->watermark['position']))
+            if (! isset($this->watermark['position']) or $this->watermark['position'] > 9 or $this->watermark['position'] < 0 or ! is_numeric($this->watermark['position'])) {
                 $this->watermark['position'] = 9;
+            }
             $size = $this->getSize($this->uploadPath . $file);
             $waterSize = $this->getSize($this->watermark['path']);
             if ($size[0] > $waterSize[0] and $size[1] > $waterSize[1]) {
@@ -372,13 +401,15 @@ class UeditorAction extends yii\base\Action
     /**
      * 获取图片的大小
      * 主要用于获取图片大小并
+     *
      * @param $file
      * @return array
      */
     protected function getSize($file)
     {
-        if (!file_exists($file))
+        if (! file_exists($file)) {
             return [];
+        }
 
         $info = pathinfo($file);
         $image = null;
@@ -396,14 +427,16 @@ class UeditorAction extends yii\base\Action
             default:
                 break;
         }
-        if ($image == null)
+        if ($image == null) {
             return [];
-        else
+        } else {
             return [imagesx($image), imagesy($image)];
+        }
     }
 
     /**
      * 文件和图片管理action使用
+     *
      * @param $allowFiles
      * @param $listSize
      * @param $path
@@ -420,7 +453,7 @@ class UeditorAction extends yii\base\Action
         /* 获取文件列表 */
         $path = yii::getAlias('@ueditor') . (substr($path, 0, 1) == '/' ? '' : '/') . $path;
         $files = $this->getFiles($path, $allowFiles);
-        if (!count($files)) {
+        if (! count($files)) {
             $result = [
                 'state' => 'no match file',
                 'list' => [],
@@ -446,6 +479,7 @@ class UeditorAction extends yii\base\Action
 
     /**
      * 遍历获取目录下的指定类型的文件
+     *
      * @param $path
      * @param $allowFiles
      * @param array $files
@@ -453,9 +487,15 @@ class UeditorAction extends yii\base\Action
      */
     protected function getFiles($path, $allowFiles, &$files = [])
     {
-        if (!is_dir($path)) return null;
-        if (in_array(basename($path), $this->ignoreDir)) return null;
-        if (substr($path, strlen($path) - 1) != '/') $path .= '/';
+        if (! is_dir($path)) {
+            return null;
+        }
+        if (in_array(basename($path), $this->ignoreDir)) {
+            return null;
+        }
+        if (substr($path, strlen($path) - 1) != '/') {
+            $path .= '/';
+        }
         $handle = opendir($path);
         //baseUrl用于兼容使用alias的二级目录部署方式
         $baseUrl = str_replace(yii::getAlias('@frontend/web'), '', yii::getAlias('@ueditor'));
@@ -484,6 +524,7 @@ class UeditorAction extends yii\base\Action
 
     /**
      * 最终显示结果，自动输出 JSONP 或者 JSON
+     *
      * @param array $result
      * @return array
      */

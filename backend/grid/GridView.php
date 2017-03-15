@@ -1,34 +1,27 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/3/21
- * Time: 18:45
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-03-21 18:45
  */
+
 namespace backend\grid;
 
-use Yii;
-use yii\base\Component;
-use yii\base\ErrorHandler;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
-use yii\base\Model;
-use yii\web\JsExpression;
-use yii\helpers\Url;
 use yii\widgets\LinkPager;
 use feehi\assets\GridViewAsset;
 use yii\helpers\Json;
 use yii\widgets\BaseListView;
-use backend\grid\DataColumn;
 
 class GridView extends \yii\grid\GridView
 {
     public $dataColumnClass = DataColumn::class;
     //public $pager = ['class'=>'source\core\widgets\AdminLinkPager'];
 
-    public $options=['class'=>'fixed-table-header', 'style'=>'margin-right: 0px;'];
+    public $options = ['class' => 'fixed-table-header', 'style' => 'margin-right: 0px;'];
     public $tableOptions = ['class' => 'table table-hover'];
-    public $layout =  "{items}\n{pager}";
+    public $layout = "{items}\n{pager}";
     public $pagerOptions = [
         'firstPageLabel' => '首页',
         'lastPageLabel' => '尾页',
@@ -45,31 +38,27 @@ class GridView extends \yii\grid\GridView
     {
         parent::init();
 
-        $this->rowOptions = function ($model, $key, $index, $grid)
-        {
-            if ($index % 2 === 0)
-            {
-                return ['class'=>'odd'];
-            }
-            else {
-                return ['class'=>'even'];
+        $this->rowOptions = function ($model, $key, $index, $grid) {
+            if ($index % 2 === 0) {
+                return ['class' => 'odd'];
+            } else {
+                return ['class' => 'even'];
             }
         };
         $this->pagerOptions = [
-                'firstPageLabel' => yii::t('app', 'first'),
-                'lastPageLabel' => yii::t('app', 'last'),
-                'prevPageLabel' => yii::t('app', 'previous'),
-                'nextPageLabel' => yii::t('app', 'next'),
-                'options' => [
-                    'class' => 'pagination',
-                ]
-            ];
+            'firstPageLabel' => yii::t('app', 'first'),
+            'lastPageLabel' => yii::t('app', 'last'),
+            'prevPageLabel' => yii::t('app', 'previous'),
+            'nextPageLabel' => yii::t('app', 'next'),
+            'options' => [
+                'class' => 'pagination',
+            ]
+        ];
     }
 
     public function renderTableRow($model, $key, $index)
     {
-        if ($this->filterRow !== null && call_user_func($this->filterRow, $model, $key, $index, $this) === false)
-        {
+        if ($this->filterRow !== null && call_user_func($this->filterRow, $model, $key, $index, $this) === false) {
             return '';
         }
         return parent::renderTableRow($model, $key, $index);

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
 
 namespace common\models;
 
@@ -39,7 +45,7 @@ class Category extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sort', 'parent_id','created_at', 'updated_at'], 'integer'],
+            [['sort', 'parent_id', 'created_at', 'updated_at'], 'integer'],
             [['sort'], 'compare', 'compareValue' => 0, 'operator' => '>='],
             [['name', 'remark'], 'string', 'max' => 255],
             [['name'], 'required'],
@@ -62,29 +68,37 @@ class Category extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getAsArray($cur_id=0, $level=0)
+    public static function getAsArray($cur_id = 0, $level = 0)
     {
         $categories = self::find()->orderBy("sort asc,parent_id asc")->asArray()->all();
         $data = [];
         foreach ($categories as $key => $category) {
-            if ($category['parent_id'] != $cur_id) continue;
+            if ($category['parent_id'] != $cur_id) {
+                continue;
+            }
             $category['level'] = $level;
             $data[] = $category;
-            $data = array_merge($data, self::getAsArray($category['id'], $level+1));
+            $data = array_merge($data, self::getAsArray($category['id'], $level + 1));
         }
         return $data;
     }
 
-    public static function getOptions($id=''){
+    public static function getOptions($id = '')
+    {
         $categories = self::find()->all();
-        if($id)
-            $options = '<option value="0">'.yii::t('app', 'uncategoried').'</option>';
-        else
-            $options = '<option selected value="0">'.yii::t('app', 'uncategoried').'</option>';
-        foreach($categories as $key => $category){
-            if($category->parent_id != 0) continue;
+        if ($id) {
+            $options = '<option value="0">' . yii::t('app', 'uncategoried') . '</option>';
+        } else {
+            $options = '<option selected value="0">' . yii::t('app', 'uncategoried') . '</option>';
+        }
+        foreach ($categories as $key => $category) {
+            if ($category->parent_id != 0) {
+                continue;
+            }
             $selected = '';
-            if($id == $category->id) $selected = ' selected ';
+            if ($id == $category->id) {
+                $selected = ' selected ';
+            }
             $options .= "<option {$selected}  value='{$category->id}'>{$category->name}</option>";
             unset($categories[$key]);
             $options .= self::_getOptionsSub($categories, $category->id, '&nbsp;&nbsp;&nbsp;&nbsp;', $id);
@@ -96,12 +110,16 @@ class Category extends \yii\db\ActiveRecord
     {
         $options = '';
         foreach ($categories as $key => $category) {
-            if($category->parent_id != $cur_id) continue;
+            if ($category->parent_id != $cur_id) {
+                continue;
+            }
             $selected = '';
-            if($id == $category->id) $selected = ' selected ';
+            if ($id == $category->id) {
+                $selected = ' selected ';
+            }
             $options .= "<option {$selected} value='{$category->id}'>{$tag}{$category->name}</option>";
             unset($categories[$key]);
-            $options .= self::_getOptionsSub($categories, $category->id, $tag.$tag, $id);
+            $options .= self::_getOptionsSub($categories, $category->id, $tag . $tag, $id);
         }
         return $options;
     }
@@ -110,39 +128,49 @@ class Category extends \yii\db\ActiveRecord
     {
         $obj = self::find()->orderBy("sort asc,parent_id asc")->all();
         $results = [];
-        foreach($obj as $key => $value) {
-            foreach($value as $k => $v){
+        foreach ($obj as $key => $value) {
+            foreach ($value as $k => $v) {
                 $temp[$k] = $v;
             }
             $results[$key] = $temp;
         }
         $data = [];
         foreach ($results as $key => $result) {
-            if ($result['parent_id'] != 0) continue;
+            if ($result['parent_id'] != 0) {
+                continue;
+            }
             $result['level'] = 0;
             $data[$result['id']] = $result;
             unset($results[$key]);
             $temp = self::_getSubArray($results, $result['id'], 1);
-            if(is_array($temp)) {
+            if (is_array($temp)) {
                 foreach ($temp as $v) {
-                    if (!is_array($v)) continue;
+                    if (! is_array($v)) {
+                        continue;
+                    }
                     $data[$v['id']] = $v;
                 }
             }
         }
         return $data;
     }
-    private static function _getSubArray($results, $cur_id, $level){
+
+    private static function _getSubArray($results, $cur_id, $level)
+    {
         $return = '';
-        foreach($results as $key => $result){
-            if($result['parent_id'] != $cur_id) continue;
+        foreach ($results as $key => $result) {
+            if ($result['parent_id'] != $cur_id) {
+                continue;
+            }
             $result['level'] = $level;
             $return[] = $result;
             unset($results[$key]);
-            $subMenu = self::_getSubArray($results, $result['id'], $level+1);
-            if(is_array($subMenu)) {
+            $subMenu = self::_getSubArray($results, $result['id'], $level + 1);
+            if (is_array($subMenu)) {
                 foreach ($subMenu as $val) {
-                    if (!is_array($val)) continue;
+                    if (! is_array($val)) {
+                        continue;
+                    }
                     $return[] = $val;
                 }
             }
@@ -153,12 +181,12 @@ class Category extends \yii\db\ActiveRecord
     public static function getType()
     {
         $data = self::getAsArray();
-        foreach ($data as &$v){
+        foreach ($data as &$v) {
             $tag = '';
-            for($i=0; $i<$v['level']; $i++){
+            for ($i = 0; $i < $v['level']; $i++) {
                 $tag .= '-';
             }
-            $v['name'] = $tag.$v['name'];
+            $v['name'] = $tag . $v['name'];
         }
         $data = ArrayHelper::map($data, 'id', 'name');
         $data[0] = yii::t('app', 'uncategoried');
@@ -166,16 +194,15 @@ class Category extends \yii\db\ActiveRecord
     }
 
     /*迭代获取家谱树 */
-    public static function getSubTree($id, $level=1)
+    public static function getSubTree($id, $level = 1)
     {
         $categories = self::find()->orderBy("sort asc,parent_id asc")->asArray()->all();
         $subs = [];
-        foreach ($categories as $category)
-        {
-            if($category['parent_id'] == $id){
+        foreach ($categories as $category) {
+            if ($category['parent_id'] == $id) {
                 $category['level'] = $level;
                 $subs[] = $category;
-                $subs = array_merge($subs, self::getSubTree($categories, $category['id'], $level+1));
+                $subs = array_merge($subs, self::getSubTree($categories, $category['id'], $level + 1));
             }
         }
         return $subs;
@@ -185,8 +212,8 @@ class Category extends \yii\db\ActiveRecord
     {
         $data = self::getArray();
         $newData = [];
-        while(list($key, $val) = each($data)){
-            $newData[$val['id']] = str_repeat("---", $val['level']).$val['name'];
+        while (list($key, $val) = each($data)) {
+            $newData[$val['id']] = str_repeat("---", $val['level']) . $val['name'];
         }
         return $newData;
     }
@@ -194,11 +221,11 @@ class Category extends \yii\db\ActiveRecord
     public function beforeDelete()
     {
         $parent = self::getSubTree($this->id);
-        if( !empty( $parent )){
+        if (! empty($parent)) {
             $this->addError('id', yii::t('app', 'Allowed not to be deleted, sub level exsited.'));
             return false;
         }
-        if(Article::findOne(['cid'=>$this->id]) != NULL){
+        if (Article::findOne(['cid' => $this->id]) != null) {
             $this->addError('id', yii::t('app', 'Allowed not to be deleted, some article belongs to this category.'));
             return false;
         }
@@ -207,7 +234,7 @@ class Category extends \yii\db\ActiveRecord
 
     public function afterValidate()
     {
-        if(!$this->getIsNewRecord() && $this->id == $this->parent_id){
+        if (! $this->getIsNewRecord() && $this->id == $this->parent_id) {
             $this->addError('parent_id', yii::t('app', 'Cannot be themself sub.'));
             return false;
         }

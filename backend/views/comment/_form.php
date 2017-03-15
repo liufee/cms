@@ -1,17 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/3/23
- * Time: 15:49
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-03-23 15:49
  */
+
 use backend\widgets\ActiveForm;
-use common\models\Category;
-use feehi\widgets\Ueditor;
 use feehi\libs\Constants;
-use yii\helpers\Html;
-use yii\bootstrap\Alert;
-use yii\helpers\Url;
 
 $this->title = "Comments";
 ?>
@@ -19,7 +15,9 @@ $this->title = "Comments";
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5><?=$this->title?> <small></small></h5>
+                <h5><?= $this->title ?>
+                    <small></small>
+                </h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>

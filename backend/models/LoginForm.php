@@ -1,4 +1,11 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
+
 namespace backend\models;
 
 use Yii;
@@ -29,7 +36,12 @@ class LoginForm extends Model
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
-            ['captcha', 'captcha','captchaAction'=>'site/captcha','message'=>yii::t('app', 'Verification code error.')],
+            [
+                'captcha',
+                'captcha',
+                'captchaAction' => 'site/captcha',
+                'message' => yii::t('app', 'Verification code error.')
+            ],
         ];
     }
 
@@ -42,9 +54,9 @@ class LoginForm extends Model
      */
     public function validatePassword($attribute, $params)
     {
-        if (!$this->hasErrors()) {
+        if (! $this->hasErrors()) {
             $user = $this->getUser();
-            if (!$user || !$user->validatePassword($this->password)) {
+            if (! $user || ! $user->validatePassword($this->password)) {
                 $this->addError($attribute, yii::t('app', 'Incorrect username or password.'));
             }
         }

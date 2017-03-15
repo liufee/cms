@@ -1,28 +1,21 @@
 <?php
 /**
- * User: taoqili
- * Date: 12-7-18
- * Time: 上午11: 32
- * UEditor编辑器通用上传类
- * ==============================
- * Modify By xbzbing@gmail.com
- * 增加Yii相关设置
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
  */
+
 namespace backend\widgets\ueditor;
 
 use yii;
 
-/**
- * Class Uploader
- * UEditor 通用上传类
- * @todo 不再使用UEditor的这个upload类，将使用Yii封装的方法重写
- * @package crazydb\ueditor
- */
 class Uploader
 {
     /**
      * 是否允许采集内网 IP 图片
      * 默认不允许
+     *
      * @var bool
      */
     private $allowIntranet = false;
@@ -62,6 +55,7 @@ class Uploader
 
     /**
      * 构造函数
+     *
      * @param string $fileField 表单名称
      * @param array $config 配置项
      * @param string $type 是否解析base64编码，可省略。若开启，则$fileField代表的是base64编码的字符串表单名
@@ -73,15 +67,18 @@ class Uploader
         $this->type = $type;
         if ($type == "remote") {
             $this->saveRemote();
-        } else if ($type == "base64") {
-            $this->upBase64();
         } else {
-            $this->upFile();
+            if ($type == "base64") {
+                $this->upBase64();
+            } else {
+                $this->upFile();
+            }
         }
     }
 
     /**
      * 设置是否允许获取内网图片
+     *
      * @param boolean $allow
      */
     public function setAllowIntranet($allow)
@@ -91,24 +88,29 @@ class Uploader
 
     /**
      * 上传文件的主处理方法
+     *
      * @return mixed
      */
     private function upFile()
     {
         $file = $this->file = $_FILES[$this->fileField];
-        if (!$file) {
+        if (! $file) {
             $this->stateInfo = $this->getStateInfo("ERROR_FILE_NOT_FOUND");
             return;
         }
         if ($this->file['error']) {
             $this->stateInfo = $this->getStateInfo($file['error']);
             return;
-        } else if (!file_exists($file['tmp_name'])) {
-            $this->stateInfo = $this->getStateInfo("ERROR_TMP_FILE_NOT_FOUND");
-            return;
-        } else if (!is_uploaded_file($file['tmp_name'])) {
-            $this->stateInfo = $this->getStateInfo("ERROR_TMPFILE");
-            return;
+        } else {
+            if (! file_exists($file['tmp_name'])) {
+                $this->stateInfo = $this->getStateInfo("ERROR_TMP_FILE_NOT_FOUND");
+                return;
+            } else {
+                if (! is_uploaded_file($file['tmp_name'])) {
+                    $this->stateInfo = $this->getStateInfo("ERROR_TMPFILE");
+                    return;
+                }
+            }
         }
 
         $this->oriName = $file['name'];
@@ -120,28 +122,30 @@ class Uploader
         $dirname = dirname($this->filePath);
 
         //检查文件大小是否超出限制
-        if (!$this->checkSize()) {
+        if (! $this->checkSize()) {
             $this->stateInfo = $this->getStateInfo("ERROR_SIZE_EXCEED");
             return;
         }
 
         //检查是否不允许的文件格式
-        if (!$this->checkType()) {
+        if (! $this->checkType()) {
             $this->stateInfo = $this->getStateInfo("ERROR_TYPE_NOT_ALLOWED");
             return;
         }
 
         //创建目录失败
-        if (!file_exists($dirname) && !mkdir($dirname, 0777, true)) {
+        if (! file_exists($dirname) && ! mkdir($dirname, 0777, true)) {
             $this->stateInfo = $this->getStateInfo("ERROR_CREATE_DIR");
             return;
-        } else if (!is_writeable($dirname)) {
-            $this->stateInfo = $this->getStateInfo("ERROR_DIR_NOT_WRITEABLE");
-            return;
+        } else {
+            if (! is_writeable($dirname)) {
+                $this->stateInfo = $this->getStateInfo("ERROR_DIR_NOT_WRITEABLE");
+                return;
+            }
         }
 
         //移动文件
-        if (!(move_uploaded_file($file["tmp_name"], $this->filePath) && file_exists($this->filePath))) { //移动失败
+        if (! (move_uploaded_file($file["tmp_name"], $this->filePath) && file_exists($this->filePath))) { //移动失败
             $this->stateInfo = $this->getStateInfo("ERROR_FILE_MOVE");
         } else { //移动成功
             $this->stateInfo = $this->stateMap[0];
@@ -150,6 +154,7 @@ class Uploader
 
     /**
      * 处理base64编码的图片上传
+     *
      * @return mixed
      */
     private function upBase64()
@@ -166,22 +171,24 @@ class Uploader
         $dirname = dirname($this->filePath);
 
         //检查文件大小是否超出限制
-        if (!$this->checkSize()) {
+        if (! $this->checkSize()) {
             $this->stateInfo = $this->getStateInfo("ERROR_SIZE_EXCEED");
             return;
         }
 
         //创建目录失败
-        if (!file_exists($dirname) && !mkdir($dirname, 0777, true)) {
+        if (! file_exists($dirname) && ! mkdir($dirname, 0777, true)) {
             $this->stateInfo = $this->getStateInfo("ERROR_CREATE_DIR");
             return;
-        } else if (!is_writeable($dirname)) {
-            $this->stateInfo = $this->getStateInfo("ERROR_DIR_NOT_WRITEABLE");
-            return;
+        } else {
+            if (! is_writeable($dirname)) {
+                $this->stateInfo = $this->getStateInfo("ERROR_DIR_NOT_WRITEABLE");
+                return;
+            }
         }
 
         //移动文件
-        if (!(file_put_contents($this->filePath, $img) && file_exists($this->filePath))) { //移动失败
+        if (! (file_put_contents($this->filePath, $img) && file_exists($this->filePath))) { //移动失败
             $this->stateInfo = $this->getStateInfo("ERROR_WRITE_CONTENT");
         } else { //移动成功
             $this->stateInfo = $this->stateMap[0];
@@ -191,6 +198,7 @@ class Uploader
 
     /**
      * 拉取远程图片
+     *
      * @return mixed
      */
     private function saveRemote()
@@ -208,7 +216,7 @@ class Uploader
         $host_with_protocol = count($matches) > 1 ? $matches[1] : '';
 
         // 判断是否是合法 url
-        if (!filter_var($host_with_protocol, FILTER_VALIDATE_URL)) {
+        if (! filter_var($host_with_protocol, FILTER_VALIDATE_URL)) {
             $this->stateInfo = $this->getStateInfo("INVALID_URL");
             return;
         }
@@ -220,33 +228,31 @@ class Uploader
         $ip = gethostbyname($host_without_protocol);
 
         // 判断是否允许私有 IP
-        if (!$this->allowIntranet && !filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE)) {
+        if (! $this->allowIntranet && ! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE)) {
             $this->stateInfo = $this->getStateInfo("INVALID_IP");
             return;
         }
 
         //获取请求头并检测死链
         $heads = get_headers($imgUrl, 1);
-        if (!(stristr($heads[0], "200") && stristr($heads[0], "OK"))) {
+        if (! (stristr($heads[0], "200") && stristr($heads[0], "OK"))) {
             $this->stateInfo = $this->getStateInfo("ERROR_DEAD_LINK");
             return;
         }
         //格式验证(扩展名验证和Content-Type验证)
         $fileType = strtolower(strrchr($imgUrl, '.'));
-        if (!in_array($fileType, $this->config['allowFiles']) || !isset($heads['Content-Type']) || !stristr($heads['Content-Type'], "image")) {
+        if (! in_array($fileType, $this->config['allowFiles']) || ! isset($heads['Content-Type']) || ! stristr($heads['Content-Type'], "image")) {
             $this->stateInfo = $this->getStateInfo("ERROR_HTTP_CONTENTTYPE");
             return;
         }
 
         //打开输出缓冲区并获取远程图片
         ob_start();
-        $context = stream_context_create(
-            [
-                'http' => [
-                    'follow_location' => false // don't follow redirects
-                ]
+        $context = stream_context_create([
+            'http' => [
+                'follow_location' => false // don't follow redirects
             ]
-        );
+        ]);
         readfile($imgUrl, false, $context);
         $img = ob_get_contents();
         ob_end_clean();
@@ -262,22 +268,24 @@ class Uploader
         $dirname = dirname($this->filePath);
 
         //检查文件大小是否超出限制
-        if (!$this->checkSize()) {
+        if (! $this->checkSize()) {
             $this->stateInfo = $this->getStateInfo("ERROR_SIZE_EXCEED");
             return;
         }
 
         //创建目录失败
-        if (!file_exists($dirname) && !mkdir($dirname, 0777, true)) {
+        if (! file_exists($dirname) && ! mkdir($dirname, 0777, true)) {
             $this->stateInfo = $this->getStateInfo("ERROR_CREATE_DIR");
             return;
-        } else if (!is_writeable($dirname)) {
-            $this->stateInfo = $this->getStateInfo("ERROR_DIR_NOT_WRITEABLE");
-            return;
+        } else {
+            if (! is_writeable($dirname)) {
+                $this->stateInfo = $this->getStateInfo("ERROR_DIR_NOT_WRITEABLE");
+                return;
+            }
         }
 
         //移动文件
-        if (!(file_put_contents($this->filePath, $img) && file_exists($this->filePath))) { //移动失败
+        if (! (file_put_contents($this->filePath, $img) && file_exists($this->filePath))) { //移动失败
             $this->stateInfo = $this->getStateInfo("ERROR_WRITE_CONTENT");
         } else { //移动成功
             $this->stateInfo = $this->stateMap[0];
@@ -287,16 +295,18 @@ class Uploader
 
     /**
      * 上传错误检查
+     *
      * @param $errCode
      * @return string
      */
     private function getStateInfo($errCode)
     {
-        return !$this->stateMap[$errCode] ? $this->stateMap["ERROR_UNKNOWN"] : $this->stateMap[$errCode];
+        return ! $this->stateMap[$errCode] ? $this->stateMap["ERROR_UNKNOWN"] : $this->stateMap[$errCode];
     }
 
     /**
      * 获取文件扩展名
+     *
      * @todo .tar.gz 扩展名
      * @return string
      */
@@ -307,6 +317,7 @@ class Uploader
 
     /**
      * 重命名文件
+     *
      * @return string
      */
     private function getFullName()
@@ -341,6 +352,7 @@ class Uploader
 
     /**
      * 获取文件名
+     *
      * @return string
      */
     private function getFileName()
@@ -351,6 +363,7 @@ class Uploader
     /**
      * 获取文件完整路径
      * 这里使用了Yii别名
+     *
      * @return string
      */
     private function getFilePath()
@@ -367,6 +380,7 @@ class Uploader
 
     /**
      * 文件类型检测
+     *
      * @return bool
      */
     private function checkType()
@@ -376,15 +390,17 @@ class Uploader
 
     /**
      * 文件大小检测
+     *
      * @return bool
      */
-    private function  checkSize()
+    private function checkSize()
     {
         return $this->fileSize <= ($this->config["maxSize"]);
     }
 
     /**
      * 获取当前上传成功文件的各项信息
+     *
      * @return array
      */
     public function getFileInfo()
@@ -392,7 +408,7 @@ class Uploader
         $prefix = str_replace(yii::getAlias(yii::getAlias('@frontend/web')), '', yii::getAlias('@ueditor'));
         return array(
             "state" => $this->stateInfo,
-            "url" => $prefix.$this->fullName,
+            "url" => $prefix . $this->fullName,
             "title" => $this->fileName,
             "original" => $this->oriName,
             "type" => $this->fileType,

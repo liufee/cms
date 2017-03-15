@@ -1,16 +1,18 @@
 <?php
 /**
- * Ahthor: lf
+ * Author: lf
+ * Blog: https://blog.feehi.com
  * Email: job@feehi.com
- * Blog: http://blog.feehi.com
- * Date: 2016/10/16 17:15
+ * Created at: 2016-10-16 17:15
  */
+
 namespace common\helpers;
 
 use yii;
 use yii\helpers\FileHelper;
 
-class FileDependencyHelper extends \yii\base\Object{
+class FileDependencyHelper extends \yii\base\Object
+{
 
     public $rootDir = '@runtime/cache/file_dependency/';
     public $fileName;
@@ -23,8 +25,10 @@ class FileDependencyHelper extends \yii\base\Object{
     public function createFile()
     {
         $cacheDependencyFileName = $this->getDependencyFileName();
-        if( !file_exists($cacheDependencyFileName) ){
-            if( !file_exists( dirname( $cacheDependencyFileName ) ) ) FileHelper::createDirectory( dirname($cacheDependencyFileName) );
+        if (! file_exists($cacheDependencyFileName)) {
+            if (! file_exists(dirname($cacheDependencyFileName))) {
+                FileHelper::createDirectory(dirname($cacheDependencyFileName));
+            }
             file_put_contents($cacheDependencyFileName, uniqid());
         }
         return $cacheDependencyFileName;
@@ -33,13 +37,13 @@ class FileDependencyHelper extends \yii\base\Object{
     public function updateFile()
     {
         $cacheDependencyFileName = $this->getDependencyFileName();
-        if( file_exists($cacheDependencyFileName) ){
+        if (file_exists($cacheDependencyFileName)) {
             file_put_contents($cacheDependencyFileName, uniqid());
         }
     }
 
     protected function getDependencyFileName()
     {
-        return yii::getAlias( $this->rootDir.$this->fileName );
+        return yii::getAlias($this->rootDir . $this->fileName);
     }
 }

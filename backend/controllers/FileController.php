@@ -1,13 +1,12 @@
 <?php
 /**
- * Ahthor: lf
+ * Author: lf
+ * Blog: https://blog.feehi.com
  * Email: job@feehi.com
- * Blog: http://blog.feehi.com
- * Date: 2016/9/1 15:58
+ * Created at: 2016-09-01 15:58
  */
 namespace backend\controllers;
 
-use Yii;
 use backend\models\File;
 use backend\models\FileSearch;
 use backend\models\FileUsage;
@@ -28,7 +27,7 @@ class FileController extends BaseController
 
     public function actionViewLayer($id)
     {
-        $query = FileUsage::find()->where(['fid'=>$id])->select([]);
+        $query = FileUsage::find()->where(['fid' => $id])->select([]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
@@ -44,11 +43,13 @@ class FileController extends BaseController
 
     public function getModel($id = '')
     {
-        if($id == ''){
+        if ($id == '') {
             $model = new File();
-        }else {
+        } else {
             $model = File::findOne(['id' => $id]);
-            if ($model == null) return null;
+            if ($model == null) {
+                return null;
+            }
         }
         return $model;
     }

@@ -1,10 +1,11 @@
 <?php
 /**
- * Ahthor: lf
+ * Author: lf
+ * Blog: https://blog.feehi.com
  * Email: job@feehi.com
- * Blog: http://blog.feehi.com
- * Date: 2016/4/1312:49
+ * Created at: 2016-04-13 12:49
  */
+
 namespace backend\controllers;
 
 use yii;

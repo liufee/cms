@@ -1,4 +1,10 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
 
 /* @var $this yii\web\View */
 /* @var $name string */
@@ -15,10 +21,10 @@ $this->title = $name;
         <p align="center"><?= nl2br(Html::encode($message)) ?></p>
         <div style="margin-top: 20px">
             <p>
-                <?=yii::t('frontend', 'The above error occurred while the Web server was processing your request.')?>
+                <?= yii::t('frontend', 'The above error occurred while the Web server was processing your request.') ?>
             </p>
             <p>
-                <?=yii::t('frontend', 'Please contact us if you think this is a server error. Thank you.')?>
+                <?= yii::t('frontend', 'Please contact us if you think this is a server error. Thank you.') ?>
             </p>
         </div>
     </div>

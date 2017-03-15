@@ -1,10 +1,11 @@
 <?php
 /**
- * Ahthor: lf
+ * Author: lf
+ * Blog: https://blog.feehi.com
  * Email: job@feehi.com
- * Blog: http://blog.feehi.com
- * Date: 2016/4/189:41
+ * Created at: 2016-04-18 09:41
  */
+
 return [
     /*public*/
     'Hi, Log in' => 'Hi, 请登录',

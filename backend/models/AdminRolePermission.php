@@ -1,4 +1,10 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
 
 namespace backend\models;
 
@@ -61,15 +67,18 @@ class AdminRolePermission extends \yii\db\ActiveRecord
         ];
     }
 
-    public function assignPermission($role_id, $ids){
-        $oldPermissionIds = self::find()->where(['role_id'=>$role_id])->indexBy('menu_id')->column();
+    public function assignPermission($role_id, $ids)
+    {
+        $oldPermissionIds = self::find()->where(['role_id' => $role_id])->indexBy('menu_id')->column();
         $needAddIds = array_diff($ids, $oldPermissionIds);
-        if( !empty( $needAddIds ) ) {
-            foreach ($needAddIds as $menuId ){//新增
+        if (! empty($needAddIds)) {
+            foreach ($needAddIds as $menuId) {//新增
                 $permissions = self::_getAncestor($menuId);
                 foreach ($permissions as $v) {
                     $result = self::findOne(['role_id' => $role_id, 'menu_id' => $v['id']]);
-                    if ($result != null) continue;
+                    if ($result != null) {
+                        continue;
+                    }
                     $model = new self();
                     $model->role_id = $role_id;
                     $model->menu_id = $v['id'];
@@ -80,8 +89,8 @@ class AdminRolePermission extends \yii\db\ActiveRecord
                 }
             }
         }
-        $needRemoveIds = array_diff(array_keys( $oldPermissionIds ), $ids);//删除
-        if( !empty($needRemoveIds) ){
+        $needRemoveIds = array_diff(array_keys($oldPermissionIds), $ids);//删除
+        if (! empty($needRemoveIds)) {
             $removeIdsStr = implode(",", $needRemoveIds);
             self::deleteAll("menu_id in($removeIdsStr) && role_id=$role_id");
         }
@@ -90,13 +99,13 @@ class AdminRolePermission extends \yii\db\ActiveRecord
     private static function _getAncestor($id)
     {
         $arr = Menu::getMenuArray(Menu::BACKEND_TYPE);
-        $par=array();
-        foreach($arr as $val){
-            if($val['id'] == $id){
-                $par[]=$val;
-                if($val['parent_id']!=0){
+        $par = array();
+        foreach ($arr as $val) {
+            if ($val['id'] == $id) {
+                $par[] = $val;
+                if ($val['parent_id'] != 0) {
 
-                    $par=array_merge(static::_getAncestor($val['parent_id']),$par)  ;
+                    $par = array_merge(static::_getAncestor($val['parent_id']), $par);
                 }
             }
         }
@@ -105,16 +114,20 @@ class AdminRolePermission extends \yii\db\ActiveRecord
 
     public static function getPermissionsByRoleId($role_id)
     {
-        return self::find()->where(['role_id'=>$role_id])->asArray()->all();
+        return self::find()->where(['role_id' => $role_id])->asArray()->all();
     }
 
-    public function checkPermission($route, $uid='')
+    public function checkPermission($route, $uid = '')
     {
-        if($uid == '') $uid = yii::$app->getUser()->getIdentity()->getId();
+        if ($uid == '') {
+            $uid = yii::$app->getUser()->getIdentity()->getId();
+        }
         $role_id = AdminRoleUser::getRoleId($uid);
         $permissions = self::getPermissionsByRoleId($role_id);//var_dump($permissions);die;
-        foreach($permissions as $v){
-            if( strtolower($v['url']) == strtolower($route) ) return true;
+        foreach ($permissions as $v) {
+            if (strtolower($v['url']) == strtolower($route)) {
+                return true;
+            }
         }
         return false;
     }

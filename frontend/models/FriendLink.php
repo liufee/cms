@@ -1,9 +1,9 @@
 <?php
 /**
- * Ahthor: lf
+ * Author: lf
+ * Blog: https://blog.feehi.com
  * Email: job@feehi.com
- * Blog: http://blog.feehi.com
- * Date: 2016/4/712:06
+ * Created at: 2016-04-07 12:06
  */
 namespace frontend\models;
 

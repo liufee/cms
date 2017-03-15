@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: lf
- * Date: 16/4/1
- * Time: 23:29
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-04-01 23:29
  */
+
 namespace backend\models;
 
 use yii\data\ActiveDataProvider;
@@ -62,22 +63,31 @@ class AdminLogSearch extends AdminLog
             ]
         ]);
         $this->load($params);
-        if(!$this->validate()){
+        if (! $this->validate()) {
             return $dataProvider;
         }
-        $query->andFilterWhere(['id'=>$this->id])
+        $query->andFilterWhere(['id' => $this->id])
             ->andFilterWhere(['like', 'route', $this->route])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'admin_user.username', $this->user_username]) ;
+            ->andFilterWhere(['like', 'admin_user.username', $this->user_username]);
         $create_start_at_unixtimestamp = $create_end_at_unixtimestamp = $update_start_at_unixtimestamp = $update_end_at_unixtimestamp = '';
-        if($this->create_start_at != '') $create_start_at_unixtimestamp = strtotime($this->create_start_at);
-        if($this->create_end_at != '') $create_end_at_unixtimestamp = strtotime($this->create_end_at);
-        if($create_start_at_unixtimestamp != '' && $create_end_at_unixtimestamp == '') {
+        if ($this->create_start_at != '') {
+            $create_start_at_unixtimestamp = strtotime($this->create_start_at);
+        }
+        if ($this->create_end_at != '') {
+            $create_end_at_unixtimestamp = strtotime($this->create_end_at);
+        }
+        if ($create_start_at_unixtimestamp != '' && $create_end_at_unixtimestamp == '') {
             $query->andFilterWhere(['>', 'admin_log.created_at', $create_start_at_unixtimestamp]);
-        }elseif ($create_start_at_unixtimestamp == '' && $create_end_at_unixtimestamp != ''){
+        } elseif ($create_start_at_unixtimestamp == '' && $create_end_at_unixtimestamp != '') {
             $query->andFilterWhere(['<', 'admin_log.created_at', $create_end_at_unixtimestamp]);
-        }else{
-            $query->andFilterWhere(['between', 'admin_log.created_at', $create_start_at_unixtimestamp, $create_end_at_unixtimestamp]);
+        } else {
+            $query->andFilterWhere([
+                'between',
+                'admin_log.created_at',
+                $create_start_at_unixtimestamp,
+                $create_end_at_unixtimestamp
+            ]);
         }
         return $dataProvider;
     }

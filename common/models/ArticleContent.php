@@ -1,4 +1,10 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-10-16 17:15
+ */
 
 namespace common\models;
 
@@ -10,7 +16,6 @@ use Yii;
  * @property string $id
  * @property string $aid
  * @property string $content
- *
  * @property Article $a
  */
 class ArticleContent extends \yii\db\ActiveRecord

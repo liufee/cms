@@ -1,19 +1,18 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: lf
- * Date: 16/4/11
- * Time: 21:54
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-04-11 21:54
  */
-namespace backend\controllers;
 
+namespace backend\controllers;
 
 use yii;
 use backend\models\AdminRolePermission;
 use backend\models\Menu;
 use backend\models\AdminRoles;
 use yii\data\ActiveDataProvider;
-
 
 class AdminRolesController extends BaseController
 {
@@ -35,9 +34,9 @@ class AdminRolesController extends BaseController
 
     public function getModel($id = '')
     {
-        if($id == '') {
+        if ($id == '') {
             $model = new AdminRoles();
-        }else{
+        } else {
             $model = AdminRoles::findOne(['id' => $id]);
         }
         return $model;
@@ -45,20 +44,20 @@ class AdminRolesController extends BaseController
 
     public function actionAssign($id = '')
     {
-        if(yii::$app->getRequest()->getIsPost()){
-            $role_id =  yii::$app->getRequest()->get('id');
+        if (yii::$app->getRequest()->getIsPost()) {
+            $role_id = yii::$app->getRequest()->get('id');
             $ids = explode(',', yii::$app->getRequest()->post('ids', ''));
             $model = new AdminRolePermission();
             $model->assignPermission($role_id, $ids);
             Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-            return $this->redirect(['assign', 'id'=>yii::$app->request->get('id', '')]);
+            return $this->redirect(['assign', 'id' => yii::$app->request->get('id', '')]);
         }
-        $model =  AdminRolePermission::findAll(['role_id'=>$id]);
+        $model = AdminRolePermission::findAll(['role_id' => $id]);
         $treeJson = Menu::getBackendMenuJson();
         return $this->render('assign', [
             'model' => $model,
             'treeJson' => $treeJson,
-            'role_name' => AdminRoles::findOne(['id'=>$id])['role_name'],
+            'role_name' => AdminRoles::findOne(['id' => $id])['role_name'],
         ]);
     }
 }

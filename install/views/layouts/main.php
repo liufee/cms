@@ -1,9 +1,15 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use install\assets\AppAsset;//use backend\assets\AppAsset;
+use install\assets\AppAsset;
 use yii\helpers\Html;
 
 AppAsset::register($this);
@@ -22,12 +28,12 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 <div class="wrap">
     <div class="header">
-        <h1 class="logo"><?=yii::$app->name?> <?=yii::t('install', "Install guide")?></h1>
-        <div class="version"><?=yii::$app->version?></div>
+        <h1 class="logo"><?= yii::$app->name ?> <?= yii::t('install', "Install guide") ?></h1>
+        <div class="version"><?= yii::$app->version ?></div>
     </div>
-    <?=$content?>
+    <?= $content ?>
     <div class="footer">
-        &copy; 2015-<?=date('Y')?> <a href="http://blog.feehi.com" target="_blank">Feehi</a> 飞嗨出品
+        &copy; 2015-<?= date('Y') ?> <a href="http://blog.feehi.com" target="_blank">Feehi</a> 飞嗨出品
     </div>
 </div>
 <?php $this->endBody() ?>

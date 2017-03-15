@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/10/21
- * Time: 14:40
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-10-21 14:40
  */
+
 namespace backend\models;
 
 use common\models\Options;
@@ -45,35 +46,34 @@ class SettingSmtpForm extends \common\models\Options
     public function getSmtpConfig()
     {
         $names = $this->getNames();
-        foreach($names as $name){
+        foreach ($names as $name) {
             $model = self::findOne(['name' => $name]);
-            if($model != null)
-            {
+            if ($model != null) {
                 $this->$name = $model->value;
-            }
-            else
-            {
+            } else {
                 $this->$name = $this->$name;
             }
         }
     }
 
 
-
-    public function setSmtpConfig(){
+    public function setSmtpConfig()
+    {
         $names = $this->getNames();
-        foreach($names as $name){
+        foreach ($names as $name) {
             $model = self::findOne(['name' => $name]);
-            if($model != NULL) {
+            if ($model != null) {
                 $model->value = $this->$name;
                 $result = $model->save(false);
-            }else{
+            } else {
                 $model = new Options();
                 $model->name = $name;
                 $model->value = $this->$name;
                 $result = $model->save(false);
             }
-            if( $result == false ) return $result;
+            if ($result == false) {
+                return $result;
+            }
         }
         return true;
     }
@@ -82,7 +82,7 @@ class SettingSmtpForm extends \common\models\Options
     {
         $config = new Self();
         $config->getSmtpConfig();
-        return[
+        return [
             'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
@@ -93,9 +93,9 @@ class SettingSmtpForm extends \common\models\Options
                 'encryption' => $config->smtp_encryption,
 
             ],
-            'messageConfig'=>[
-                'charset'=>'UTF-8',
-                'from'=>[$config->smtp_username=>$config->smtp_nickname]
+            'messageConfig' => [
+                'charset' => 'UTF-8',
+                'from' => [$config->smtp_username => $config->smtp_nickname]
             ],
         ];
     }

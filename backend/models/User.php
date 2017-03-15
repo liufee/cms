@@ -1,4 +1,11 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
+
 namespace backend\models;
 
 use Yii;
@@ -40,13 +47,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username','password','repassword','password_hash','avatar'], 'string'],
+            [['username', 'password', 'repassword', 'password_hash', 'avatar'], 'string'],
             ['email', 'email'],
             ['email', 'unique'],
-            [['repassword'], 'compare','compareAttribute'=>'password'],
-            [['username','email','password', 'repassword'], 'required', 'on'=>['create']],
-            [['username','email'], 'required', 'on'=>['update', 'self-update']],
-            [['username'], 'unique', 'on'=>'create'],
+            [['repassword'], 'compare', 'compareAttribute' => 'password'],
+            [['username', 'email', 'password', 'repassword'], 'required', 'on' => ['create']],
+            [['username', 'email'], 'required', 'on' => ['update', 'self-update']],
+            [['username'], 'unique', 'on' => 'create'],
         ];
     }
 
@@ -119,7 +126,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByPasswordResetToken($token)
     {
-        if (!static::isPasswordResetTokenValid($token)) {
+        if (! static::isPasswordResetTokenValid($token)) {
             return null;
         }
 
@@ -141,7 +148,7 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
@@ -217,16 +224,18 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function beforeSave($insert)
     {
-        if($insert){
+        if ($insert) {
             $this->generateAuthKey();
             $this->setPassword($this->password);
-        }else{
-            if(isset($this->password) && $this->password != ''){
+        } else {
+            if (isset($this->password) && $this->password != '') {
                 $this->setPassword($this->password);
             }
         }
-        if($this->avatar == '') unset($this->avatar);
-        if(!$this->saveAvatar($insert)){
+        if ($this->avatar == '') {
+            unset($this->avatar);
+        }
+        if (! $this->saveAvatar($insert)) {
             return false;
         }
         return parent::beforeSave($insert);
@@ -234,32 +243,36 @@ class User extends ActiveRecord implements IdentityInterface
 
     private function saveAvatar()
     {
-        if(!isset($_FILES['User']['name']['avatar']) || $_FILES['User']['name']['avatar'] == '') return true;
+        if (! isset($_FILES['User']['name']['avatar']) || $_FILES['User']['name']['avatar'] == '') {
+            return true;
+        }
         $file = new File();
         $imgs = $file->upload(Yii::getAlias('@admin/uploads/avatar'));
-        if($imgs[0] == false){
-            $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Avatar')]).': '.$file->getErrors());
+        if ($imgs[0] == false) {
+            $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Avatar')]) . ': ' . $file->getErrors());
             return false;
         }
         $oldAvatar = $this->getOldAttribute('avatar');
-        if($oldAvatar != '') @unlink(yii::getAlias("@frontend/web").$oldAvatar);
+        if ($oldAvatar != '') {
+            @unlink(yii::getAlias("@frontend/web") . $oldAvatar);
+        }
         $this->avatar = str_replace(yii::getAlias('@frontend/web'), '', $imgs[0]);
         return true;
     }
 
     public function self_update()
     {
-        if($this->password != '') {
+        if ($this->password != '') {
             if ($this->old_password == '') {
-                $this->addError('old_password', yii::t('yii', '{attribute} cannot be blank.', ['attribute'=>yii::t('app', 'Old Password')]));
+                $this->addError('old_password', yii::t('yii', '{attribute} cannot be blank.', ['attribute' => yii::t('app', 'Old Password')]));
                 return false;
             }
-            if (!$this->validatePassword($this->old_password)) {
-                $this->addError('old_password', yii::t('app', '{attribute} is incorrect.', ['attribute'=>yii::t('app', 'Old Password')]));
+            if (! $this->validatePassword($this->old_password)) {
+                $this->addError('old_password', yii::t('app', '{attribute} is incorrect.', ['attribute' => yii::t('app', 'Old Password')]));
                 return false;
             }
-            if($this->repassword != $this->password){
-                $this->addError('repassword', yii::t('app','{attribute} is incorrect.', ['attribute'=>yii::t('app', 'Repeat Password')]));
+            if ($this->repassword != $this->password) {
+                $this->addError('repassword', yii::t('app', '{attribute} is incorrect.', ['attribute' => yii::t('app', 'Repeat Password')]));
                 return false;
             }
         }
@@ -268,7 +281,9 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function beforeDelete()
     {
-        if($this->id == 1) throw new ForbiddenHttpException(yii::t('app', "Not allowed to delete {attribute}", ['attribute'=>yii::t('app', 'default super administrator admin')]));
+        if ($this->id == 1) {
+            throw new ForbiddenHttpException(yii::t('app', "Not allowed to delete {attribute}", ['attribute' => yii::t('app', 'default super administrator admin')]));
+        }
         return true;
     }
 

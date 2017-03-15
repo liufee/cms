@@ -1,13 +1,14 @@
 <?php
 /**
- * Ahthor: lf
+ * Author: lf
+ * Blog: https://blog.feehi.com
  * Email: job@feehi.com
- * Blog: http://blog.feehi.com
- * Date: 2016/5/1811:32
+ * Created at: 2016-05-18 11:32
  */
 namespace console\controllers\scrawls;
 
-interface RuleInterface{
+interface RuleInterface
+{
 
     public function getTotalPage($html);
 

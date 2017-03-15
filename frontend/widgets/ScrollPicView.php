@@ -1,18 +1,13 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: f
- * Date: 16/6/19
- * Time: 下午2:46
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-06-19 14:46
  */
 namespace frontend\widgets;
 
-use Yii;
-use yii\helpers\Html;
 use yii\helpers\Url;
-use common\models\Category;
-use yii\helpers\ArrayHelper;
-use yii\widgets\LinkPager;
 
 class ScrollPicView extends \yii\base\Widget
 {
@@ -30,8 +25,8 @@ class ScrollPicView extends \yii\base\Widget
         parent::run();
         $model = $this->dataProvider->getModels();
         $lis = '';
-        foreach ($model as $v){
-            $articleUrl = Url::to(['article/view', 'id'=>$v->id]);
+        foreach ($model as $v) {
+            $articleUrl = Url::to(['article/view', 'id' => $v->id]);
             $lis .= str_replace(['{article_url}', '{img_url}'], [$articleUrl, $v->thumb], $this->liTemplate);
         }
         return str_replace('{lis}', $lis, $this->template);

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
 
 namespace backend\controllers;
 
@@ -24,9 +30,9 @@ class CategoryController extends BaseController
 
     public function getModel($id = '')
     {
-        if($id == ''){
+        if ($id == '') {
             $model = new Category();
-        }else {
+        } else {
             $model = Category::findOne(['id' => $id]);
         }
         return $model;

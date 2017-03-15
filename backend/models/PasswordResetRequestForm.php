@@ -1,4 +1,11 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
+
 namespace backend\models;
 
 use Yii;
@@ -22,7 +29,9 @@ class PasswordResetRequestForm extends Model
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'exist',
+            [
+                'email',
+                'exist',
                 'targetClass' => 'backend\models\User',
                 'filter' => ['status' => User::STATUS_ACTIVE],
                 'message' => yii::t('app', 'There is no user with such email.')
@@ -50,26 +59,24 @@ class PasswordResetRequestForm extends Model
             'email' => $this->email,
         ]);
 
-        if (!$user) {
+        if (! $user) {
             return false;
         }
-        
-        if (!User::isPasswordResetTokenValid($user->password_reset_token)) {
+
+        if (! User::isPasswordResetTokenValid($user->password_reset_token)) {
             $user->generatePasswordResetToken();
         }
 
-        Event::off(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_UPDATE );
+        Event::off(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_UPDATE);
 
-        if (!$user->save()) {
+        if (! $user->save()) {
             return false;
         }
 
-        return Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => 'backend/passwordResetToken-html', 'text' => 'backend/passwordResetToken-text'],
-                ['user' => $user]
-            )
+        return Yii::$app->mailer->compose([
+            'html' => 'backend/passwordResetToken-html',
+            'text' => 'backend/passwordResetToken-text'
+        ], ['user' => $user])
             ->setFrom(\Yii::$app->mailer->messageConfig['from'])
             ->setTo($this->email)
             ->setSubject('Password reset for ' . \Yii::$app->name)

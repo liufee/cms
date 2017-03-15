@@ -1,15 +1,14 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: lf
- * Date: 16/4/14
- * Time: 21:53
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-04-14 21:53
  */
 
 namespace backend\grid;
 
-
-class CheckboxColumn extends  \yii\grid\CheckboxColumn
+class CheckboxColumn extends \yii\grid\CheckboxColumn
 {
 
     public $width = '10px';
@@ -17,9 +16,8 @@ class CheckboxColumn extends  \yii\grid\CheckboxColumn
     public function init()
     {
         parent::init();
-        
-        if (! isset($this->headerOptions['width']))
-        {
+
+        if (! isset($this->headerOptions['width'])) {
             $this->headerOptions['width'] = $this->width;
         }
     }

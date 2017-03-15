@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/3/21
- * Time: 14:35
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-03-21 14:35
  */
 
 use backend\widgets\ActiveForm;
@@ -12,7 +12,9 @@ use backend\models\Menu;
 
 $this->title = "Backend Menus";
 $parent_id = yii::$app->getRequest()->get('parent_id', '');
-if( $parent_id != '' ) $model->parent_id = $parent_id;
+if ($parent_id != '') {
+    $model->parent_id = $parent_id;
+}
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -20,7 +22,7 @@ if( $parent_id != '' ) $model->parent_id = $parent_id;
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?php $form = ActiveForm::begin(); ?>
-                <?= $form->field($model, 'parent_id')->dropDownList(Menu::getParentMenu(Menu::BACKEND_TYPE))?>
+                <?= $form->field($model, 'parent_id')->dropDownList(Menu::getParentMenu(Menu::BACKEND_TYPE)) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>

@@ -1,4 +1,10 @@
 <?php
+/**
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-15 21:16
+ */
 
 namespace frontend\models;
 
@@ -44,7 +50,7 @@ class ContactForm extends Model
     /**
      * Sends an email to the specified email address using the information collected by this model.
      *
-     * @param  string  $email the target email address
+     * @param  string $email the target email address
      * @return boolean whether the email was sent
      */
     public function sendEmail($email)

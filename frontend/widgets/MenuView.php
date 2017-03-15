@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: f
- * Date: 16/6/19
- * Time: 上午10:44
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-06-19 10:44
  */
+
 namespace frontend\widgets;
 
 
@@ -23,13 +24,17 @@ class MenuView extends \yii\base\Widget
     public function run()
     {
         parent::run();
-        $menus = Menu::find()->where(['type'=>Menu::FRONTEND_TYPE, 'is_display'=>Menu::DISPLAY_YES])->orderBy("sort asc,parent_id asc")->asArray()->all();
+        $menus = Menu::find()
+            ->where(['type' => Menu::FRONTEND_TYPE, 'is_display' => Menu::DISPLAY_YES])
+            ->orderBy("sort asc,parent_id asc")
+            ->asArray()
+            ->all();
         $content = '';
-        foreach($menus as $key => $menu){
-            if($menu['parent_id'] == 0){
-                if( empty($menu['url']) ){
+        foreach ($menus as $key => $menu) {
+            if ($menu['parent_id'] == 0) {
+                if (empty($menu['url'])) {
                     $url = 'javascript:void(0)';
-                }else {
+                } else {
                     if ($menu['is_absolute_url']) {
                         $url = $menu['url'];
                     } else {
@@ -37,24 +42,39 @@ class MenuView extends \yii\base\Widget
                     }
                 }
                 $current_menu_class = '';
-                if($url == yii::$app->getRequest()->getUrl()) {
+                if ($url == yii::$app->getRequest()->getUrl()) {
                     $current_menu_class = ' current-menu-item ';
                 }
                 unset($menus[$key]);
                 $submenu = $this->getSubMenu($menus, $menu['id']);
-                $content .= str_replace(['{menu_id}', '{current_menu_class}', '{url}', '{target}', '{title}', '{sub_menu}'], [$menu['id'], $current_menu_class, $url, $menu['target'], $menu['name'], $submenu], $this->liTemplate);
+                $content .= str_replace([
+                    '{menu_id}',
+                    '{current_menu_class}',
+                    '{url}',
+                    '{target}',
+                    '{title}',
+                    '{sub_menu}'
+                ], [
+                    $menu['id'],
+                    $current_menu_class,
+                    $url,
+                    $menu['target'],
+                    $menu['name'],
+                    $submenu
+                ], $this->liTemplate);
             }
         }
         echo str_replace('{lis}', $content, $this->template);
     }
 
-    private function getSubMenu($menus, $cur_id){
+    private function getSubMenu($menus, $cur_id)
+    {
         $content = '';
-        foreach($menus as $key => $menu){
-            if($menu['parent_id'] == $cur_id){
-                if( empty($menu['url']) ){
+        foreach ($menus as $key => $menu) {
+            if ($menu['parent_id'] == $cur_id) {
+                if (empty($menu['url'])) {
                     $url = 'javascript:void(0)';
-                }else {
+                } else {
                     if ($menu['is_absolute_url']) {
                         $url = $menu['url'];
                     } else {
@@ -62,18 +82,26 @@ class MenuView extends \yii\base\Widget
                     }
                 }
                 $current_menu_class = '';
-                if($menu['url'] == Yii::$app->controller->id.'/'.Yii::$app->controller->action->id) {
+                if ($menu['url'] == Yii::$app->controller->id . '/' . Yii::$app->controller->action->id) {
                     $current_menu_class = ' current-menu-item ';
-                }else if(yii::$app->request->getPathInfo() == $menu['url']){
-                    $current_menu_class = ' current-menu-item ';
+                } else {
+                    if (yii::$app->request->getPathInfo() == $menu['url']) {
+                        $current_menu_class = ' current-menu-item ';
+                    }
                 }
-                $content .= str_replace(['{menu_id}', '{current_menu_class}', '{url}', '{target}', '{title}'], [$menu['id'], $current_menu_class, $url, $menu['target'], $menu['name']], $this->subLitemplate);
+                $content .= str_replace([
+                    '{menu_id}',
+                    '{current_menu_class}',
+                    '{url}',
+                    '{target}',
+                    '{title}'
+                ], [$menu['id'], $current_menu_class, $url, $menu['target'], $menu['name']], $this->subLitemplate);
                 unset($menus[$key]);
             }
         }
-        if( $content != '' ){
+        if ($content != '') {
             return str_replace('{lis}', $content, $this->subTemplate);
-        }else{
+        } else {
             return '';
         }
     }

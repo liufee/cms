@@ -1,14 +1,14 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/3/25
- * Time: 11:14
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-03-25 11:14
  */
+
 ?>
-<?=$this->render('_form', [
+<?= $this->render('_form', [
     'model' => $model,
     'rolesModel' => $rolesModel,
     'roles' => $roles,
-]);
-?>
+]); ?>

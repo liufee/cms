@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: lf
- * Date: 16/4/11
- * Time: 22:11
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-04-11 22:11
  */
+
 use yii\helpers\Url;
 use backend\grid\GridView;
 use yii\helpers\Html;
@@ -14,9 +15,9 @@ use backend\grid\ActionColumn;
 
 $this->title = yii::t('app', 'Roles');
 
-$assignment = function($url, $model){
+$assignment = function ($url, $model) {
     $assignPermission = Yii::t('app', 'Assign Permission');
-    return Html::a('<i class="fa fa-magnet"></i> '.$assignPermission, Url::to(['assign','id'=>$model['id']]), [
+    return Html::a('<i class="fa fa-magnet"></i> ' . $assignPermission, Url::to(['assign', 'id' => $model['id']]), [
         'title' => 'assignment',
         'class' => 'btn btn-white btn-sm'
     ]);
@@ -29,11 +30,11 @@ $assignment = function($url, $model){
             <div class="ibox-content">
                 <?= Bar::widget([
                     'template' => '{refresh} {create} {delete}'
-                ])?>
+                ]) ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'layout' => "{items}\n{pager}",
-                    'columns'=>[
+                    'columns' => [
                         [
                             'class' => CheckboxColumn::class,
                         ],
@@ -55,11 +56,10 @@ $assignment = function($url, $model){
                         [
                             'class' => ActionColumn::class,
                             'template' => '{assignment}{update}{delete}',
-                            'buttons' => ['assignment'=>$assignment],
+                            'buttons' => ['assignment' => $assignment],
                         ],
                     ]
-                ]);
-                ?>
+                ]); ?>
             </div>
         </div>
     </div>

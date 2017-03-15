@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: f
- * Date: 2017/1/4
- * Time: 下午9:44
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-01-04 09:44
  */
+
 namespace feehi\assets;
 
 class CaptchaAsset extends \yii\web\AssetBundle

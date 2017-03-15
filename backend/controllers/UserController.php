@@ -1,12 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: lf
- * Date: 16/4/2
- * Time: 10:02
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-04-02 10:02
  */
-namespace backend\controllers;
 
+namespace backend\controllers;
 
 use yii;
 use backend\models\UserSearch;
@@ -15,8 +15,8 @@ use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use yii\filters\AccessControl;
 
-
-class UserController extends BaseController{
+class UserController extends BaseController
+{
 
     public function behaviors()
     {
@@ -47,9 +47,9 @@ class UserController extends BaseController{
 
     public function getModel($id = '')
     {
-        if($id == ''){
-            $model = new User(['scenario'=>'create']);
-        }else {
+        if ($id == '') {
+            $model = new User(['scenario' => 'create']);
+        } else {
             $model = User::findOne(['id' => $id]);
             $model->setScenario('update');
         }
@@ -61,11 +61,13 @@ class UserController extends BaseController{
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Check your email for further instructions.'));
+                Yii::$app->getSession()
+                    ->setFlash('success', yii::t('app', 'Check your email for further instructions.'));
 
                 return $this->goHome();
             } else {
-                Yii::$app->getSession()->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                Yii::$app->getSession()
+                    ->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
             }
         }
 

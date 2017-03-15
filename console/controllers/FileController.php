@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: f
- * Date: 2017/3/14
- * Time: 下午9:07
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-03-14 21:07
  */
 
 namespace console\controllers;
@@ -14,7 +14,6 @@ use common\helpers\FileHelper;
 use common\models\FriendLink;
 use common\models\Article;
 use yii\helpers\Console;
-use yii\base\Exception;
 
 set_time_limit(0);
 
@@ -32,15 +31,15 @@ class FileController extends \yii\console\Controller
     {
         $articeThumb = [];
         $rootPath = yii::getAlias('@frontend/web');
-        foreach ( Article::find()->where(['<>', 'thumb', '' ])->each(100) as $artice ){
-            $articeThumb[] = str_replace(yii::$app->params['site']['url'] , $rootPath, $artice->thumb);
+        foreach (Article::find()->where(['<>', 'thumb', ''])->each(100) as $artice) {
+            $articeThumb[] = str_replace(yii::$app->params['site']['url'], $rootPath, $artice->thumb);
         }
 
         $articleContent = [];
-        foreach ( ArticleContent::find()->where(['<>', 'content', ''])->each(100) as $content ){
-            $content->content = str_replace(yii::$app->params['site']['url'] ,yii::$app->params['site']['sign'], $content->content);
+        foreach (ArticleContent::find()->where(['<>', 'content', ''])->each(100) as $content) {
+            $content->content = str_replace(yii::$app->params['site']['url'], yii::$app->params['site']['sign'], $content->content);
             preg_match_all('/<img.*src="(' . yii::$app->params['site']['sign'] . '.*)"/isU', $content->content, $matches);
-            if( !empty($matches[1]) ){
+            if (! empty($matches[1])) {
                 foreach ($matches[1] as $pic) {
                     $articleContent[] = str_replace(yii::$app->params['site']['sign'], $rootPath, $pic);
                 }
@@ -48,38 +47,40 @@ class FileController extends \yii\console\Controller
         }
 
         $friendlink = [];
-        foreach ( FriendLink::find()->where(['<>', 'image', ''])->each(100) as $link ){
+        foreach (FriendLink::find()->where(['<>', 'image', ''])->each(100) as $link) {
             $friendlink[] = $rootPath . $link->image;
         }
 
         $this->unusedFiles = array_merge($articeThumb, $articleContent, $friendlink);
 
-        $this->_deleteFileRecursive( yii::getAlias('@uploads') );
+        $this->_deleteFileRecursive(yii::getAlias('@uploads'));
 
     }
 
-    private function _deleteFileRecursive( $path )
+    private function _deleteFileRecursive($path)
     {
-        $it = new \FileSystemIterator( $path );
+        $it = new \FileSystemIterator($path);
         foreach ($it as $value) {
-            if( $value->isDir() ){
-                $nextLevelDir = $path.DIRECTORY_SEPARATOR.$value->getFilename();
-                if(count(scandir( $nextLevelDir ))==2){
-                    if( @rmdir($nextLevelDir) ){
+            if ($value->isDir()) {
+                $nextLevelDir = $path . DIRECTORY_SEPARATOR . $value->getFilename();
+                if (count(scandir($nextLevelDir)) == 2) {
+                    if (@rmdir($nextLevelDir)) {
                         $this->stdout("Delete directory " . $nextLevelDir . " success.\n", Console::FG_GREEN);
-                    }else{
+                    } else {
                         $this->stdout("Delete directory " . $nextLevelDir . " failed.\n", Console::FG_RED);
                     }
-                }else {
+                } else {
                     $this->_deleteFileRecursive($nextLevelDir);
                 }
-            }else{
-                if( in_array($value->getFileName(), ['.gitignore', '.DS_Store']) ) continue;
+            } else {
+                if (in_array($value->getFileName(), ['.gitignore', '.DS_Store'])) {
+                    continue;
+                }
                 $fullFileName = $path . DIRECTORY_SEPARATOR . $value->getFileName();
-                if( !in_array($fullFileName, $this->unusedFiles) ){
-                    if( @unlink( $fullFileName ) ){
+                if (! in_array($fullFileName, $this->unusedFiles)) {
+                    if (@unlink($fullFileName)) {
                         $this->stdout("Delete file " . $fullFileName . " success.\n", Console::FG_GREEN);
-                    }else{
+                    } else {
                         $this->stdout("Delete file " . $fullFileName . " failed.\n", Console::FG_RED);
                     }
                 }

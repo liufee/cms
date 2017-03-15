@@ -1,19 +1,18 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: f
- * Date: 2016/10/19
- * Time: 上午12:18
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-10-19 12:18
  */
-use yii\helpers\Url;
 
-$this->title = 'Feehi CMS'.Yii::t('install', 'license agreement');
+$this->title = 'Feehi CMS' . Yii::t('install', 'license agreement');
 ?>
 <div class="section">
     <div class="main">
         <pre class="agreement">Feehi CMS软件使用协议
 
-版权所有 ©2015-<?=date('Y')?>,Feehi CMS开源社区
+版权所有 ©2015-<?= date('Y') ?>,Feehi CMS开源社区
 
 感谢您选择Feehi CMS内容管理框架, 希望我们的产品能够帮您把网站发展的更快、更好、更强！
 
@@ -52,7 +51,7 @@ Feehi CMS免责声明
   2、您一旦安装使用Feehi CMS，即被视为完全理解并接受本协议的各项条款，在享有上述条款授予的权力的同时，受到相关的约束和限制。</pre>
     </div>
     <div class="bottom text-center">
-        <a href="<?=url::to(['check-environment'])?>" class="btn btn-primary"><?=Yii::t('install', 'Accept')?></a>
-        <a href="<?=url::to(['accept'])?>" class="btn btn-primary"><?=Yii::t('install', 'Decline')?></a>
+        <a href="<?= url::to(['check-environment']) ?>" class="btn btn-primary"><?= Yii::t('install', 'Accept') ?></a>
+        <a href="<?= url::to(['accept']) ?>" class="btn btn-primary"><?= Yii::t('install', 'Decline') ?></a>
     </div>
 </div>

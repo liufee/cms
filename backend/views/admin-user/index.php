@@ -1,10 +1,11 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/3/23
- * Time: 17:51
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-03-23 17:51
  */
+
 use backend\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -13,8 +14,11 @@ use backend\widgets\Bar;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
-$assignment = function($url, $model){
-    return Html::a('<i class="fa fa-tablet"></i> '.yii::t('app', 'Assign Roles'), Url::to(['assign','uid'=>$model['id']]), [
+$assignment = function ($url, $model) {
+    return Html::a('<i class="fa fa-tablet"></i> ' . yii::t('app', 'Assign Roles'), Url::to([
+        'assign',
+        'uid' => $model['id']
+    ]), [
         'title' => 'assignment',
         'class' => 'btn btn-white btn-sm'
     ]);
@@ -29,12 +33,12 @@ $this->title = "Admin";
             <div class="ibox-content">
                 <?= Bar::widget([
                     'template' => '{refresh} {create} {delete}'
-                ])?>
+                ]) ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     //'filterModel' => $searchModel,
                     //'layout' => "{items}\n{pager}",
-                    'columns'=>[
+                    'columns' => [
                         [
                             'class' => CheckboxColumn::class,
                         ],
@@ -44,7 +48,7 @@ $this->title = "Admin";
                         [
                             'attribute' => 'role',
                             'label' => yii::t('app', 'Role'),
-                            'value' => function($model){
+                            'value' => function ($model) {
                                 return AdminRoles::getRoleNameByUid($model->id);
                             },
                         ],
@@ -62,7 +66,7 @@ $this->title = "Admin";
                         [
                             'class' => ActionColumn::class,
                             'template' => '{assignment}{update}{delete}',
-                            'buttons' => ['assignment'=>$assignment],
+                            'buttons' => ['assignment' => $assignment],
                         ],
                     ]
                 ]); ?>

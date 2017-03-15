@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2016/10/19
- * Time: 14:40
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2016-10-19 14:40
  */
 ?>
 <section class="section">
@@ -22,12 +22,12 @@
     </div>
 </section>
 <script type="text/javascript">
-    function showmsg(content,status){
-        var icon='<i class="fa fa-check correct"></i> ';
-        if(status=="error"){
-            icon ='<i class="fa fa-remove error"></i> ';
+    function showmsg(content, status) {
+        var icon = '<i class="fa fa-check correct"></i> ';
+        if (status == "error") {
+            icon = '<i class="fa fa-remove error"></i> ';
         }
-        $('#loginner').append("<li>"+icon+content+"</li>");
+        $('#loginner').append("<li>" + icon + content + "</li>");
         $("#log").scrollTop(1000000000);
     }
 </script>
