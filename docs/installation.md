@@ -32,7 +32,7 @@ $ php composer.phar install
 
 ### Install from an Archive File
 -------------------
-1.click [here](http://7xjkuy.com1.z0.glb.clouddn.com/Feehi_CMS.rar) to download archive file
+1.click [here](http://7xjkuy.com1.z0.glb.clouddn.com/Feehi_CMS.zip) to download archive file
 
 2.Visite http://frontend.dev/install.php
 
