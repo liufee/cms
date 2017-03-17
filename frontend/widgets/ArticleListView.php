@@ -8,6 +8,7 @@
 
 namespace frontend\widgets;
 
+use yii;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use yii\widgets\LinkPager;

@@ -46,7 +46,8 @@ class FriendLink extends \yii\db\ActiveRecord
             [['target'], 'string'],
             [['sort', 'status', 'created_at', 'updated_at'], 'integer'],
             [['sort'], 'compare', 'compareValue' => 0, 'operator' => '>='],
-            [['name', 'image', 'url'], 'string', 'max' => 255],
+            [['name', 'url'], 'string', 'max' => 255],
+            [['image'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif, webp'],
             [['name', 'url'], 'required'],
         ];
     }

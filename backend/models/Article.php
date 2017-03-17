@@ -8,15 +8,30 @@
 
 namespace backend\models;
 
-use Feehi\Upload;
 use yii;
 use frontend\models\Comment;
+use yii\web\UploadedFile;
+use yii\helpers\FileHelper;
 
 class Article extends \common\models\Article
 {
 
     public function beforeSave($insert)
     {
+        $this->thumb = UploadedFile::getInstance($this, 'thumb');
+        if ($this->thumb !== null) {
+            $uploadPath = yii::getAlias('@thumb/');
+            if (! FileHelper::createDirectory($uploadPath)) {
+                $this->addError('thumb', "Create directory failed " . $uploadPath);
+                return false;
+            }
+            $fullName = $uploadPath . uniqid() . '_' . $this->thumb->baseName . '.' . $this->thumb->extension;
+            if (! $this->thumb->saveAs($fullName)) {
+                $this->addError('thumb', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Thumb')]) . ': ' . $fullName);
+                return false;
+            }
+            $this->thumb = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
+        }
         if ($this->flag_headline == null) {
             $this->flag_headline = 0;
         }
@@ -40,31 +55,12 @@ class Article extends \common\models\Article
         }
         $this->tag = str_replace('，', ',', $this->tag);
         $this->seo_keywords = str_replace('，', ',', $this->seo_keywords);
-        if (! $this->saveThumb($insert)) {
-            return false;
-        }
         if ($insert) {
             $this->author_id = yii::$app->getUser()->getIdentity()->id;
             $this->author_name = yii::$app->getUser()->getIdentity()->username;
 
         }
         return parent::beforeSave($insert);
-    }
-
-    private function saveThumb($insert)
-    {
-        if (! isset($_FILES['Article']['name']['thumb']) || $_FILES['Article']['name']['thumb'] == '') {
-            unset($this->thumb);
-            return true;
-        }
-        $file = new Upload();
-        if (false != ($uri = $file->upload(yii::getAlias('@thumb')))) {
-            $this->thumb = $uri[0];
-            return true;
-        } else {
-            $this->addError('thumb', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Thumb')]) . ': ' . $uri[0]);
-            return false;
-        }
     }
 
     public function afterSave($insert, $changedAttributes)

@@ -11,6 +11,7 @@ use frontend\assets\ViewAsset;
 use common\widgets\JsBlock;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\libs\Help;
 
 $this->title = $model->title;
 $this->registerMetaTag(['keywords' => $model->seo_keywords]);
@@ -261,7 +262,7 @@ ViewAsset::register($this);
                                     <span class="c-author"><a href="<?= $v['website_url'] ?>" rel="external nofollow"
                                                               class="url"
                                                               target="_blank"><?= empty($v['nickname']) ? '游客' : $v['nickname'] ?></a></span><?= yii::$app->formatter->asDate($v['created_at']) ?>
-                                    (<?= \feehi\libs\Help::tranTime($v['created_at']) ?>)
+                                    (<?= yii::$app->getFormatter()->asRelativeTime($v['created_at']) ?>)
                                     <a rel="nofollow" class="comment-reply-link" href=""
                                        onclick="return addComment.moveForm('div-comment-<?= $v['id'] ?>', '<?= $v['id'] ?>', 'respond','0' )"
                                        aria-label="回复给admin">回复</a>
@@ -287,7 +288,7 @@ ViewAsset::register($this);
                                                                 href="<?= $v['website_url'] ?>" rel="external nofollow"
                                                                 class="url"
                                                                 target="_blank"><?= empty($value['nickname']) ? '游客' : $value['nickname'] ?></a></span><?= yii::$app->formatter->asDate($value['created_at']) ?>
-                                                    (<?= \feehi\libs\Help::tranTime($value['created_at']) ?>)
+                                                    (<?= yii::$app->getFormatter()->asRelativeTime($value['created_at']) ?>)
                                                 </div>
                                             </div>
                                         </div>
