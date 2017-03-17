@@ -67,6 +67,7 @@ return [
     'Super administrator, own the whole permission' => '超级管理员，拥有所有权限',
     'Verifing, no refresh this window.' => '正在验证配置，请勿刷新本页',
     'Cannot find database host' => '数据库地址找不到',
+    'Repeat password is not equal password' => '两次密码输入的不一致',
     'For your site security, please remove the directory install! and, backup common/config/conf/db.php' => '为了您站点的安全，安装完成后即可将网站目录下的“install”文件夹删除!另请对common/config/conf/db.php文件做好备份，以防丢失！',
     'Congratuations! Success installed' => '恭喜您,安装成功!',
     'Create database error, please create yourself and retry' => '创建数据库失败,请手动创建后再试',

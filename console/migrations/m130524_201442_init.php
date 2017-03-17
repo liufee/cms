@@ -2696,98 +2696,10 @@ class m130524_201442_init extends Migration
         //$this->addForeignKey('fk_url', "{{%admin_role_permission}}", "url", "{{%menu}}", "url", "CASCADE", "CASCADE");
         //$this->addForeignKey('fk_method', "{{%admin_role_permission}}", "method", "{{%menu}}", "method", "CASCADE", "CASCADE");
         $this->addForeignKey('fk_role_id', "{{%admin_role_permission}}", "role_id", "{{%admin_roles}}", "id", "CASCADE", "CASCADE");
-        $this->batchInsert("{{%admin_role_permission}}", ['id','role_id','menu_id','name','url', 'method', 'created_at','updated_at'],
+        /*$this->batchInsert("{{%admin_role_permission}}", ['id','role_id','menu_id','name','url', 'method', 'created_at','updated_at'],
             [
-                [
-                    "83",
-                    "2",
-                    "1",
-                    "设置",
-                    "setting",
-                    "all",
-                    "1476712203",
-                    "1476712203",
-
-                ],
-                [
-                    "84",
-                    "2",
-                    "3",
-                    "smtp设置",
-                    "setting/smtp",
-                    "all",
-                    "1476712203",
-                    "1476712203",
-
-                ],
-                [
-                    "85",
-                    "2",
-                    "8",
-                    "内容",
-                    "article",
-                    "all",
-                    "1476712203",
-                    "1476712203",
-
-                ],
-                [
-                    "86",
-                    "2",
-                    "9",
-                    "文章",
-                    "article/index",
-                    "all",
-                    "1476712203",
-                    "1476712203",
-
-                ],
-                [
-                    "87",
-                    "2",
-                    "10",
-                    "评论",
-                    "comment/index",
-                    "all",
-                    "1476712203",
-                    "1476712203",
-
-                ],
-                [
-                    "88",
-                    "2",
-                    "12",
-                    "分类",
-                    "category/index",
-                    "all",
-                    "1476712203",
-                    "1476712203",
-
-                ],
-                [
-                    "89",
-                    "2",
-                    "26",
-                    "缓存",
-                    "clear",
-                    "all",
-                    "1476712203",
-                    "1476712203",
-
-                ],
-                [
-                    "90",
-                    "2",
-                    "27",
-                    "清除前台",
-                    "clear/frontend",
-                    "all",
-                    "1476712203",
-                    "1476712203",
-
-                ],
             ]
-        );
+        );*/
 
         $this->createTable('{{%options}}', [
             'id' => $this->primaryKey()->unsigned(),

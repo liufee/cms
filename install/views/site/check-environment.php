@@ -30,7 +30,7 @@ $this->title = yii::t('install', 'Environment');
                 <td><?= yii::t('install', 'PHP Version') ?></td>
                 <td>>5.6.x</td>
                 <td><?= $phpversion ?></td>
-                <td>5.3.0</td>
+                <td>5.4.0</td>
             </tr>
             <!-- 模块检测 -->
             <tr>

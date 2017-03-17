@@ -14,7 +14,8 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use \yii\web\ForbiddenHttpException;
-use common\libs\File;
+use yii\web\UploadedFile;
+use yii\helpers\FileHelper;
 
 /**
  * User model
@@ -47,10 +48,11 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['username', 'password', 'repassword', 'password_hash', 'avatar'], 'string'],
+            [['username', 'password', 'repassword', 'password_hash'], 'string'],
             ['email', 'email'],
             ['email', 'unique'],
             [['repassword'], 'compare', 'compareAttribute' => 'password'],
+            [['avatar'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif, webp'],
             [['username', 'email', 'password', 'repassword'], 'required', 'on' => ['create']],
             [['username', 'email'], 'required', 'on' => ['update', 'self-update']],
             [['username'], 'unique', 'on' => 'create'],
@@ -224,6 +226,22 @@ class User extends ActiveRecord implements IdentityInterface
 
     public function beforeSave($insert)
     {
+        $upload = UploadedFile::getInstance($this, 'avatar');
+        if ($upload !== null) {
+            $uploadPath = yii::getAlias('@admin/uploads/avatar/');
+            if (! FileHelper::createDirectory($uploadPath)) {
+                $this->addError('thumb', "Create directory failed " . $uploadPath);
+                return false;
+            }
+            $fullName = $uploadPath . uniqid() . '_' . $upload->baseName . '.' . $upload->extension;
+            if (! $upload->saveAs($fullName)) {
+                $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Avatar')]) . ': ' . $fullName);
+                return false;
+            }
+            $this->avatar = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
+        } else {
+            $this->avatar = $this->getOldAttribute('avatar');
+        }
         if ($insert) {
             $this->generateAuthKey();
             $this->setPassword($this->password);
@@ -232,32 +250,7 @@ class User extends ActiveRecord implements IdentityInterface
                 $this->setPassword($this->password);
             }
         }
-        if ($this->avatar == '') {
-            unset($this->avatar);
-        }
-        if (! $this->saveAvatar($insert)) {
-            return false;
-        }
         return parent::beforeSave($insert);
-    }
-
-    private function saveAvatar()
-    {
-        if (! isset($_FILES['User']['name']['avatar']) || $_FILES['User']['name']['avatar'] == '') {
-            return true;
-        }
-        $file = new File();
-        $imgs = $file->upload(Yii::getAlias('@admin/uploads/avatar'));
-        if ($imgs[0] == false) {
-            $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Avatar')]) . ': ' . $file->getErrors());
-            return false;
-        }
-        $oldAvatar = $this->getOldAttribute('avatar');
-        if ($oldAvatar != '') {
-            @unlink(yii::getAlias("@frontend/web") . $oldAvatar);
-        }
-        $this->avatar = str_replace(yii::getAlias('@frontend/web'), '', $imgs[0]);
-        return true;
     }
 
     public function self_update()

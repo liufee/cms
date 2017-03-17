@@ -13,7 +13,7 @@ use backend\models\AdminRoles;
 use yii\base\Component;
 use backend\models\AdminRoleUser;
 use backend\models\AdminRolePermission;
-use feehi\libs\Constants;
+use common\libs\Constants;
 
 class Rbac extends Component
 {
