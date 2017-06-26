@@ -35,7 +35,7 @@ class Rbac extends Component
         }
     }
 
-    public function checkPermission()
+    public static function checkPermission()
     {
         if (! yii::$app->user->isGuest) {
             if (yii::$app->rbac->_checkPermission() === false) {

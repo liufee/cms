@@ -24,5 +24,11 @@ return [
             'class' => 'yii\web\Session'
         ]
     ],
+    'controllerMap'=>[
+        'serve' => [
+            'class' => 'yii\console\controllers\ServeController',
+            'docroot' => '@frontend/web',
+        ]
+    ],
     'params' => $params,
 ];
