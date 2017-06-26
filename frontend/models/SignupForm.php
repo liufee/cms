@@ -8,6 +8,7 @@
 
 namespace frontend\models;
 
+use yii;
 use common\models\User;
 use yii\base\Model;
 
