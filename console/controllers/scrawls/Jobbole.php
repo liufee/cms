@@ -8,7 +8,7 @@
 namespace console\controllers\scrawls;
 
 use yii\console\Exception;
-use feehi\libs\simple_html_dom;
+use common\libs\simple_html_dom;
 
 error_reporting(0);
 

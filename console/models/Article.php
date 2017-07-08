@@ -10,9 +10,7 @@ namespace console\models;
 
 use yii;
 use backend\models\ArticleContent;
-use feehi\libs\Help;
-use backend\models\File;
-use backend\models\FileUsage;
+use yii\helpers\FileHelper;
 
 
 class Article extends \backend\models\Article
@@ -74,10 +72,6 @@ class Article extends \backend\models\Article
         $this->scrawlPic();
         $contentModel->content = $this->content;
         $contentModel->save();
-        if (isset($this->thumb)) {
-            $fileUsageModel = new FileUsage();
-            $fileUsageModel->useFile($this->thumb, $this->id);
-        }
     }
 
     public function needScrawlPic($url)
@@ -96,7 +90,7 @@ class Article extends \backend\models\Article
         if ($this->needScrawlPic($this->thumb)) {
             $path = yii::getAlias("@thumb/robot/");
             if (! file_exists($path)) {
-                Help::mk_dir($path);
+                FileHelper::createDirectory($path);
             }
             $ext = pathinfo($this->thumb)['extension'];
             $fileName = uniqid() . '.' . $ext;
@@ -108,8 +102,6 @@ class Article extends \backend\models\Article
             if (file_put_contents($path . $fileName, $imgBin)) {
                 $temp = explode("uploads/", $path . $fileName);
                 $this->thumb = yii::$app->params['site']['sign'] . "/uploads/" . $temp[1];
-                $model = new File();
-                $model->saveFileDb($path . $fileName);
             }
         }
     }
@@ -128,7 +120,7 @@ class Article extends \backend\models\Article
             }
             $path = yii::getAlias("@article/robot/") . date('Y/m/');
             if (! file_exists($path)) {
-                Help::mk_dir($path);
+                FileHelper::createDirectory($path);
             }
             $ext = pathinfo($val)['extension'];
             $fileName = uniqid() . '.' . $ext;
@@ -142,8 +134,6 @@ class Article extends \backend\models\Article
             } else {
                 $temp = explode("uploads/", $path . $fileName);
                 array_push($replace, yii::$app->params['site']['sign'] . "/uploads/" . $temp[1]);
-                $model = new File();
-                $model->saveFileDb($path . $fileName);
             }
         }
         $this->content = str_replace($matches[1], $replace, $this->content);

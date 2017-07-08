@@ -144,9 +144,9 @@ $(document).ready(function(){
         }
         var that = $(this);
         var files = $( this )[0].files;
-        if(that.parent().parent().attr('class').indexOf("image")){
+        if(that.parent().parent().attr('class').indexOf("image") >= 0){
             if(!/image\/\w+/.test(files[0].type)){
-                layer.tips(tips.mustChoosePic, that.parent().parent());
+                layer.tips(tips.onlyPictureCanBeSelected, that.parent().parent());
                 return false;
             }
             var reader = new FileReader();

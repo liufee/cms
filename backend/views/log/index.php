@@ -9,7 +9,7 @@
 use backend\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Html;
-use common\helpers\StringHelper;
+use yii\helpers\StringHelper;
 use backend\widgets\Bar;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
@@ -47,7 +47,7 @@ $this->title = "Admin Log";
                                 'attribute' => 'description',
                                 'format' => 'html',
                                 'value' => function ($model, $key, $index, $column) {
-                                    return StringHelper::truncate_utf8_string($model->description, '200') . "<a class='detail'>" . yii::t('app', 'more') . "...</a>";
+                                    return StringHelper::truncate($model->description, '200') . "<a class='detail'>" . yii::t('app', 'more') . "</a>";
                                 }
                             ],
                             [
@@ -57,7 +57,7 @@ $this->title = "Admin Log";
                                         'class' => 'form-control layer-date',
                                         'placeholder' => '',
                                         'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"
-                                    ]) . \yii\helpers\Html::activeInput('text', $searchModel, 'create_end_at', [
+                                    ]) . Html::activeInput('text', $searchModel, 'create_end_at', [
                                         'class' => 'form-control layer-date',
                                         'placeholder' => '',
                                         'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"

@@ -10,7 +10,6 @@ namespace console\controllers;
 
 use yii;
 use backend\models\ArticleContent;
-use common\helpers\FileHelper;
 use common\models\FriendLink;
 use common\models\Article;
 use yii\helpers\Console;

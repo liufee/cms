@@ -13,8 +13,9 @@ use yii\console\Controller;
 use Feehi\Http;
 use console\controllers\scrawls\Jobbole;
 use console\models\Article;
-use feehi\libs\Help;
+use yii\helpers\FileHelper;
 use common\models\Category;
+use common\helpers\StringHelper;
 
 
 class ScrawlController extends Controller
@@ -140,7 +141,7 @@ class ScrawlController extends Controller
                     }
                     $article->type = Article::ARTICLE;
                     $article->status = Article::ARTICLE_PUBLISHED;
-                    $article->content = Help::utf8Encoding($article->content);
+                    $article->content = StringHelper::encodingWithUTF8($article->content);
                     $article->content = preg_replace("/<table.*?class=\"crayon-table\">.*?<\/table>/", '', $article->content);
                     if ($article->cid == $temp['java']) {
                         $article->content = str_replace([
@@ -187,7 +188,7 @@ class ScrawlController extends Controller
     private function log($str, $name = null)
     {
         if ($name != null) {
-            Help::mk_dir(yii::getAlias("@runtime") . '/logs/scrawl/' . $name);
+            FileHelper::createDirectory(yii::getAlias("@runtime") . '/logs/scrawl/' . $name);
             $this->fileName = yii::getAlias("@runtime") . '/logs/scrawl/' . $name . '/' . date('Y-m-d-h-i-s') . '.txt';
         }
         $log = "\r\n" . date('Y-m-d H:i:s') . "   " . $str . "\r\n";
