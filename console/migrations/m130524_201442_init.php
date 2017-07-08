@@ -2685,21 +2685,26 @@ class m130524_201442_init extends Migration
             'id' => $this->primaryKey()->unsigned(),
             'role_id' => $this->integer()->unsigned()->notNull(),
             'menu_id' => $this->integer()->unsigned()->notNull(),
-            'name' => $this->string()->notNull(),
-            'url' => $this->string()->notNull(),
-            'method' => $this->smallInteger()->unsigned()->defaultValue(1),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
         $this->addForeignKey('fk_menu_id', "{{%admin_role_permission}}", "menu_id", "{{%menu}}", "id", "CASCADE", "CASCADE");
-        //$this->addForeignKey('fk_menu_name', "{{%admin_role_permission}}", "name", "{{%menu}}", "name", "CASCADE", "CASCADE");
-        //$this->addForeignKey('fk_url', "{{%admin_role_permission}}", "url", "{{%menu}}", "url", "CASCADE", "CASCADE");
-        //$this->addForeignKey('fk_method', "{{%admin_role_permission}}", "method", "{{%menu}}", "method", "CASCADE", "CASCADE");
         $this->addForeignKey('fk_role_id', "{{%admin_role_permission}}", "role_id", "{{%admin_roles}}", "id", "CASCADE", "CASCADE");
-        /*$this->batchInsert("{{%admin_role_permission}}", ['id','role_id','menu_id','name','url', 'method', 'created_at','updated_at'],
+        $this->batchInsert("{{%admin_role_permission}}", ['role_id','menu_id', 'created_at','updated_at'],
             [
+                ['2', '1', '1499502586', '1499502586'],
+                ['2', '2', '1499502586', '1499502586'],
+                ['2', '3', '1499502586', '1499502586'],
+                ['2', '8', '1499502586', '1499502586'],
+                ['2', '9', '1499502586', '1499502586'],
+                ['2', '29', '1499502586', '1499502586'],
+                ['2', '46', '1499502586', '1499502586'],
+                ['2', '47', '1499502586', '1499502586'],
+                ['2', '48', '1499502586', '1499502586'],
+                ['2', '49', '1499502586', '1499502586'],
+                ['2', '98', '1499502586', '1499502586'],
             ]
-        );*/
+        );
 
         $this->createTable('{{%options}}', [
             'id' => $this->primaryKey()->unsigned(),

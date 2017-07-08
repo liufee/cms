@@ -27,7 +27,7 @@ class Menu extends \common\models\Menu
         ) {
             foreach ($menus as $menu) {
                 foreach ($permissions as $permission) {
-                    if ($menu['url'] == $permission['url']) {
+                    if ($menu['id'] == $permission['menu_id']) {
                         $newMenu[] = $menu;
                         break;
                     }

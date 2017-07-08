@@ -61,6 +61,7 @@ return [
                 'error/not-found',
                 'debug/default/toolbar',
                 'debug/default/view',
+                'assets/ueditor'
             ],
         ],
         'i18n' => [

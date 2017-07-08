@@ -8,6 +8,7 @@
 
 namespace backend\models;
 
+use backend\models\Menu;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -45,8 +46,7 @@ class AdminRolePermission extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['role_id', 'menu_id', 'method', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'url'], 'string', 'max' => 255]
+            [['role_id', 'menu_id', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -82,9 +82,6 @@ class AdminRolePermission extends \yii\db\ActiveRecord
                     $model = new self();
                     $model->role_id = $role_id;
                     $model->menu_id = $v['id'];
-                    $model->name = $v['name'];
-                    $model->url = $v['url'];
-                    $model->method = $v['method'];
                     $model->save();
                 }
             }
@@ -112,9 +109,13 @@ class AdminRolePermission extends \yii\db\ActiveRecord
         return $par;
     }
 
+    /**
+     * @param $role_id
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function getPermissionsByRoleId($role_id)
     {
-        return self::find()->where(['role_id' => $role_id])->asArray()->all();
+        return self::find()->leftJoin(Menu::tableName(), 'menu.id=' . self::tableName() . '.menu_id')->where(['role_id' => $role_id])->select('*')->asArray()->all();
     }
 
     public function checkPermission($route, $uid = '')

@@ -29,7 +29,7 @@ class SiteController extends BaseController
         return [
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                //'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
                 'backColor' => 0x66b3ff,//背景颜色
                 'maxLength' => 4, //最大显示个数
                 'minLength' => 4,//最少显示个数
