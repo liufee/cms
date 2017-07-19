@@ -11,7 +11,7 @@ namespace common\helpers;
 
 class StringHelper extends \yii\helpers\StringHelper
 {
-    public static function encodingWithUTF8($in_str)
+    public static function encodingWithUtf8($in_str)
     {
         $cur_encoding = mb_detect_encoding($in_str);
         if ($cur_encoding == "UTF-8" && mb_check_encoding($in_str, "UTF-8")) {

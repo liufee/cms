@@ -141,7 +141,7 @@ class ScrawlController extends Controller
                     }
                     $article->type = Article::ARTICLE;
                     $article->status = Article::ARTICLE_PUBLISHED;
-                    $article->content = StringHelper::encodingWithUTF8($article->content);
+                    $article->content = StringHelper::encodingWithUtf8($article->content);
                     $article->content = preg_replace("/<table.*?class=\"crayon-table\">.*?<\/table>/", '', $article->content);
                     if ($article->cid == $temp['java']) {
                         $article->content = str_replace([
