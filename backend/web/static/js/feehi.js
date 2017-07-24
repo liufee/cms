@@ -155,5 +155,9 @@ $(document).ready(function(){
                 that.parents("div.image").children("img").attr("src", this.result);
             }
         }
-    })
+    });
+    $(".openContab").click(function(){
+        parent.openConTab($(this));
+        return false;
+    });
 })

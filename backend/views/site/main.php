@@ -5,6 +5,8 @@
  * Email: job@feehi.com
  * Created at: 2016-03-31 14:17
  */
+use yii\helpers\Url;
+
 ?>
 <div class="row">
     <div class="col-sm-3">
@@ -13,7 +15,7 @@
                 <span class="label label-success pull-right"><?= Yii::t('app', 'Month') ?></span>
                 <h5><?= yii::t('app', 'Articles') ?></h5>
             </div>
-            <div class="ibox-content">
+            <div class="ibox-content openContab" href="<?=Url::to(['article/index'])?>" title="<?=yii::t('app', 'Articles')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['ARTICLE'][0] ?></h1>
                 <div class="stat-percent font-bold text-success"><?= $statics['ARTICLE'][1] ?>% <i
                             class="fa fa-bolt"></i>
@@ -28,7 +30,7 @@
                 <span class="label label-info pull-right"><?= Yii::t('app', 'Today') ?></span>
                 <h5><?= yii::t('app', 'Comments') ?></h5>
             </div>
-            <div class="ibox-content">
+            <div class="ibox-content openContab" href="<?=Url::to(['comment/index'])?>" title="<?=yii::t('app', 'Comments')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['COMMENT'][0] ?></h1>
                 <div class="stat-percent font-bold text-info"><?= $statics['COMMENT'][1] ?>% <i
                             class="fa fa-level-up"></i>
@@ -43,7 +45,7 @@
                 <span class="label label-primary pull-right"><?= Yii::t('app', 'Month') ?></span>
                 <h5><?= yii::t('app', 'Users') ?></h5>
             </div>
-            <div class="ibox-content">
+            <div class="ibox-content openContab" href="<?=Url::to(['user/index'])?>" title="<?=yii::t('app', 'Users')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['USER'][0] ?></h1>
                 <div class="stat-percent font-bold text-navy"><?= $statics['USER'][1] ?>% <i class="fa fa-level-up"></i>
                 </div>
@@ -57,7 +59,7 @@
                 <span class="label label-success pull-right"><?= Yii::t('app', 'Month') ?></span>
                 <h5><?= yii::t('app', 'Friendly Links') ?></h5>
             </div>
-            <div class="ibox-content">
+            <div class="ibox-content openContab" href="<?=Url::to(['friend-link/index'])?>" title="<?=yii::t('app', 'Friendly Links')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['FRIEND_LINK'][0] ?></h1>
                 <div class="stat-percent font-bold text-info"><?= $statics['FRIEND_LINK'][1] ?>% <i
                             class="fa fa-level-up"></i>
@@ -99,9 +101,8 @@
                                     <strong><?= $comment->nickname ?></strong>
                                     <br>
                                     <small class="text-muted"><?= yii::$app->getFormatter()->asDate($comment->created_at) ?>
-                                        在 <a class="J_menuItem" data-index="0"
-                                             href="javascript:void(0)"><?= $comment->article->title ?></a></small>
-                                    <div class="well">
+                                        在 <a class="openContab" data-index="0" title="<?=yii::t('app',"Articles")?>" href="<?=Url::toRoute(['article/view-layer', 'id'=>$comment->article->id]) ?>"><?= $comment->article->title ?></a></small>
+                                    <div data-index="0" class="openContab well" href="<?=Url::toRoute(['comment/index']) ?>" title="<?=yii::t('app', 'Comments')?>" style="cursor: pointer">
                                         <?= $comment->content ?>
                                     </div>
                                 </div>
@@ -294,5 +295,3 @@
         </div>
     </div>
 </div>
-
-
