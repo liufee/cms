@@ -14,9 +14,15 @@ class AdminLogSearch extends AdminLog
 {
 
     public $user_username;
+
     public $create_start_at;
+
     public $create_end_at;
 
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -27,6 +33,10 @@ class AdminLogSearch extends AdminLog
         ];
     }
 
+    /**
+     * @param $params
+     * @return \yii\data\ActiveDataProvider
+     */
     public function search($params)
     {
         $query = self::find()->orderBy("id desc");
@@ -36,9 +46,6 @@ class AdminLogSearch extends AdminLog
         ]);
         $dataProvider->setSort([
             'attributes' => [
-                /* 其它字段不要动 */
-                /*  下面这段是加入的 */
-                /*=============*/
                 'user_username' => [
                     'asc' => ['admin_user.id' => SORT_ASC],
                     'desc' => ['admin_user.id' => SORT_DESC],
@@ -59,7 +66,6 @@ class AdminLogSearch extends AdminLog
                     'asc' => ['description' => SORT_ASC],
                     'desc' => ['description' => SORT_DESC],
                 ],
-                /*=============*/
             ]
         ]);
         $this->load($params);
@@ -91,6 +97,5 @@ class AdminLogSearch extends AdminLog
         }
         return $dataProvider;
     }
-
 
 }

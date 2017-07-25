@@ -13,7 +13,9 @@ use backend\models\UserSearch;
 use frontend\models\User;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
+use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
+use yii\web\BadRequestHttpException;
 
 class UserController extends BaseController
 {
@@ -35,6 +37,9 @@ class UserController extends BaseController
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getIndexData()
     {
         $searchModel = new UserSearch();
@@ -45,6 +50,9 @@ class UserController extends BaseController
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getModel($id = '')
     {
         if ($id == '') {
@@ -56,6 +64,11 @@ class UserController extends BaseController
         return $model;
     }
 
+    /**
+     * 管理员输入邮箱重置密码
+     *
+     * @return string|\yii\web\Response
+     */
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
@@ -76,6 +89,13 @@ class UserController extends BaseController
         ]);
     }
 
+    /**
+     * 管理员重置密码
+     *
+     * @param $token
+     * @return string|\yii\web\Response
+     * @throws \yii\web\BadRequestHttpException
+     */
     public function actionResetPassword($token)
     {
         try {

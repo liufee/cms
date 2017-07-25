@@ -16,10 +16,12 @@ use common\models\Menu;
 class FrontendMenuController extends BaseController
 {
 
-
+    /**
+     * @inheritdoc
+     */
     public function getIndexData()
     {
-        $data = Menu::getMenuArray(Menu::FRONTEND_TYPE);//var_dump($data);die;
+        $data = Menu::getMenus(Menu::FRONTEND_TYPE);
         $dataProvider = new ArrayDataProvider([
             'allModels' => $data,
             'pagination' => [
@@ -31,6 +33,9 @@ class FrontendMenuController extends BaseController
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getModel($id = "")
     {
         if ($id == '') {

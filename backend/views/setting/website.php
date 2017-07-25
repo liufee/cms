@@ -8,6 +8,7 @@
 
 /**
  * @var $this \yii\web\View
+ * @var $model common\models\Options
  */
 
 use backend\widgets\ActiveForm;

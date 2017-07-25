@@ -8,12 +8,18 @@
 
 namespace backend\grid;
 
+/**
+ * @inheritdoc
+ */
 class DateColumn extends DataColumn
 {
     public $headerOptions = ['width' => '120px'];
 
     public $format = ['datetime', 'php:Y-m-d H:m:s'];
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();

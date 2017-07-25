@@ -9,6 +9,7 @@ namespace common\widgets;
 
 use yii\web\View;
 use yii\widgets\Block;
+use yii\base\InvalidParamException;
 
 
 class JsBlock extends Block
@@ -31,8 +32,7 @@ class JsBlock extends Block
     {
         $block = ob_get_clean();
         if ($this->renderInPlace) {
-            throw new \Exception("not implemented yet ! ");
-            // echo $block;
+            throw new InvalidParamException("Not implemented yet ! ");
         }
         $block = trim($block);
         /*

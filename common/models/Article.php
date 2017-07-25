@@ -198,16 +198,26 @@ class Article extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCategory()
     {
         return $this->hasOne(Category::className(), ['id' => 'cid']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getArticleContent()
     {
         return $this->hasOne(ArticleContent::className(), ['aid' => 'id']);
     }
 
+    /**
+     * @param $id
+     * @return static
+     */
     public static function getArticleById($id)
     {
         return self::findOne(['id' => $id]);
@@ -220,6 +230,5 @@ class Article extends \yii\db\ActiveRecord
             $this->thumb = str_replace(yii::$app->params['site']['sign'], yii::$app->params['site']['url'], $this->thumb);
         }
     }
-
-
+    
 }

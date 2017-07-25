@@ -15,6 +15,11 @@ use yii\helpers\FileHelper;
 class ClearController extends BaseController
 {
 
+    /**
+     * 清除后台缓存
+     *
+     * @return string
+     */
     public function actionBackend()
     {
         FileHelper::removeDirectory(yii::getAlias('@runtime/cache'));
@@ -22,6 +27,11 @@ class ClearController extends BaseController
         return $this->render('clear');
     }
 
+    /**
+     * 清除后台缓存
+     *
+     * @return string
+     */
     public function actionFrontend()
     {
         FileHelper::removeDirectory(yii::getAlias('@frontend/runtime/cache'));

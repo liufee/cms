@@ -8,6 +8,7 @@
 
 namespace backend\models;
 
+use yii;
 use yii\base\Event;
 use yii\db\BaseActiveRecord;
 use yii\base\InvalidParamException;
@@ -20,6 +21,7 @@ class ResetPasswordForm extends \yii\base\Model
     public $password;
 
     private $_user;
+
 
     public function __construct($token, $config = [])
     {

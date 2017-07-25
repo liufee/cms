@@ -5,6 +5,10 @@
  * Email: job@feehi.com
  * Created at: 2016-03-21 14:32
  */
+
+/**
+ * @var $model frontend\models\Menu
+ */
 ?>
 <?= $this->render('_form', [
     'model' => $model,

@@ -9,6 +9,7 @@
 namespace common\models;
 
 use Yii;
+use common\helpers\FileDependencyHelper;
 
 /**
  * This is the model class for table "{{%options}}".
@@ -73,6 +74,9 @@ class Options extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return array
+     */
     public function getNames()
     {
         return array_keys($this->attributeLabels());
@@ -81,10 +85,10 @@ class Options extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         $object = yii::createObject([
-            'class' => 'common\helpers\FileDependencyHelper',
+            'class' => FileDependencyHelper::class,
             'fileName' => 'options.txt',
         ]);
         $object->updateFile();
-        parent::afterSave($insert, $changedAttributes);
     }
+
 }

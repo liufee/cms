@@ -8,6 +8,7 @@
 
 namespace common\models;
 
+use common\helpers\FamilyTree;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -120,85 +121,27 @@ class Menu extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getMenuArray($type)
+    protected  static function _getMenus($type)
     {
-        $model = new self();
-        $obj = $model->find()->where(['type' => $type])->orderBy("sort asc,parent_id asc")->all();
-        $menus = [];
-        foreach ($obj as $key => $value) {
-            foreach ($value as $k => $v) {
-                $temp[$k] = $v;
-            }
-            $menus[$key] = $temp;
-        }
+        return self::find()->where(['type' => $type])->orderBy("sort asc,parent_id asc")->asArray()->all();
+    }
+
+    public static function getMenus($type=self::BACKEND_TYPE)
+    {
+        $menus = self::_getMenus($type);
+        $familyTree = new FamilyTree($menus);
+        $array = $familyTree->getDescendants(0);
+        return array_column($array, null, 'id');
+    }
+
+    public static function getMenusName($type=self::BACKEND_TYPE)
+    {
+        $menus = self::getMenus($type);
         $data = [];
-        foreach ($menus as $key => $menu) {
-            if ($menu['parent_id'] != 0) {
-                continue;
-            }
-            $menu['level'] = 0;
-            $menu['name'] = $menu['name'];
-            $data[$menu['id']] = $menu;
-            unset($menus[$key]);
-            $temp = self::_getSubMenuArray($menus, $menu['id'], 1);
-            if (is_array($temp)) {
-                foreach ($temp as $v) {
-                    if (! is_array($v)) {
-                        continue;
-                    }
-                    $data[$v['id']] = $v;
-                }
-            }
+        foreach ($menus as $v){
+            $data[$v['id']] = str_repeat('--', $v['level']) . $v['name'];
         }
         return $data;
-    }
-
-    private static function _getSubMenuArray($menus, $cur_id, $level)
-    {
-        $return = [];
-        foreach ($menus as $key => $menu) {
-            if ($menu['parent_id'] != $cur_id) {
-                continue;
-            }
-            $menu['level'] = $level;
-            $menu['name'] = $menu['name'];
-            $return[] = $menu;
-            unset($menus[$key]);
-            $subMenu = self::_getSubMenuArray($menus, $menu['id'], $level + 1);
-            if (is_array($subMenu)) {
-                foreach ($subMenu as $val) {
-                    if (! is_array($val)) {
-                        continue;
-                    }
-                    $return[] = $val;
-                }
-            }
-        }
-        return $return;
-    }
-
-    public static function getParentMenu($type)
-    {
-        $menus = self::getMenuArray($type);
-        $newMenu = [];//var_dump($menus);die;
-        while (list($key, $val) = each($menus)) {
-            $newMenu[$val['id']] = str_repeat("---", $val['level']) . yii::t('menu', $val['name']);;
-        }
-        return $newMenu;
-    }
-
-    public static function getDescendants($id, $type, $level = 1)
-    {
-        $nodes = [];
-        $menus = Menu::getMenuArray($type);
-        foreach ($menus as $key => $value) {
-            if ($value['parent_id'] == $id) {
-                $value['level'] = $level;
-                $nodes[] = $value;
-                $nodes = array_merge($nodes, self::getDescendants($value['id'], $type, $level + 1));
-            }
-        }
-        return $nodes;
     }
 
     public function afterValidate()
@@ -211,9 +154,12 @@ class Menu extends \yii\db\ActiveRecord
 
     public function beforeDelete()
     {
-        $children = self::getDescendants($this->id, $this->type);
-        if (! empty($children)) {
-            throw new \yii\web\ForbiddenHttpException(yii::t('app', 'Sub Menu exists, cannot be deleted'));
+        $menus = self::find()->where(['type' => $this->type])->orderBy("sort asc,parent_id asc")->asArray()->all();
+        $familyTree = new FamilyTree( $menus );
+        $subs = $familyTree->getDescendants($this->id);
+        if (! empty($subs)) {
+            $this->addError('id', yii::t('app', 'Sub Menu exists, cannot be deleted'));
+            return false;
         }
         return true;
     }

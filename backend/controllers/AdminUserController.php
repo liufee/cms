@@ -8,7 +8,6 @@
 namespace backend\controllers;
 
 use yii;
-use backend\models\AdminRoles;
 use backend\models\User;
 use yii\data\ActiveDataProvider;
 use backend\models\AdminRoleUser;
@@ -16,6 +15,9 @@ use backend\models\AdminRoleUser;
 class AdminUserController extends BaseController
 {
 
+    /**
+     * @inheritdoc
+     */
     public function getIndexData()
     {
         $query = User::find();
@@ -32,15 +34,23 @@ class AdminUserController extends BaseController
         ];
     }
 
+    /**
+     * 创建管理员账号
+     *
+     * @return string|\yii\web\Response
+     */
     public function actionCreate()
     {
         $model = new User();
         $model->setScenario('create');
         $rolesModel = new AdminRoleUser();
         if (yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(Yii::$app->getRequest()
-                    ->post()) && $model->validate() && $rolesModel->load(yii::$app->getRequest()
-                    ->post()) && $rolesModel->validate() && $model->save()
+            if (
+                $model->load(Yii::$app->getRequest()->post())
+                && $model->validate()
+                && $rolesModel->load(yii::$app->getRequest()->post())
+                && $rolesModel->validate()
+                && $model->save()
             ) {
                 $rolesModel->uid = $model->getPrimaryKey();
                 $rolesModel->save();
@@ -55,18 +65,19 @@ class AdminUserController extends BaseController
                 Yii::$app->getSession()->setFlash('error', $err);
             }
         }
-        $temp = AdminRoles::find()->asArray()->all();
-        $roles = [];
-        foreach ($temp as $v) {
-            $roles[$v['id']] = $v['role_name'];
-        }
+
         return $this->render('create', [
             'model' => $model,
             'rolesModel' => $rolesModel,
-            'roles' => $roles
         ]);
     }
 
+    /**
+     * 修改管理员账号
+     *
+     * @param $id
+     * @return string|\yii\web\Response
+     */
     public function actionUpdate($id)
     {
         $model = $this->getModel($id);
@@ -77,8 +88,12 @@ class AdminUserController extends BaseController
             $rolesModel->uid = $id;
         }
         if (Yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(Yii::$app->request->post()) && $model->validate() && $rolesModel->load(yii::$app->getRequest()
-                    ->post()) && $rolesModel->validate() && $model->save() && $rolesModel->save()
+            if (
+                $model->load(Yii::$app->request->post())
+                && $model->validate() && $rolesModel->load(yii::$app->getRequest()->post())
+                && $rolesModel->validate()
+                && $model->save()
+                && $rolesModel->save()
             ) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['update', 'id' => $model->getPrimaryKey()]);
@@ -93,29 +108,31 @@ class AdminUserController extends BaseController
             $model = User::findOne(['id' => yii::$app->getUser()->getIdentity()->getId()]);
         }
 
-        $temp = AdminRoles::find()->asArray()->all();
-        $roles = [];
-        foreach ($temp as $v) {
-            $roles[$v['id']] = $v['role_name'];
-        }
         return $this->render('update', [
             'model' => $model,
             'rolesModel' => $rolesModel,
-            'roles' => $roles
         ]);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getModel($id = '')
     {
         return User::findOne(['id' => $id]);
     }
 
+    /**
+     * 登陆的管理员修改自身
+     *
+     * @return string
+     */
     public function actionUpdateSelf()
     {
         $model = User::findOne(['id' => yii::$app->getUser()->getIdentity()->getId()]);
         $model->setScenario('self-update');
         if (yii::$app->getRequest()->getIsPost()) {
-            if ($model->validate() && $model->load(yii::$app->getRequest()->post()) && $model->self_update()) {
+            if ($model->validate() && $model->load(yii::$app->getRequest()->post()) && $model->selfUpdate()) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             } else {
                 $errors = $model->getErrors();
@@ -127,36 +144,29 @@ class AdminUserController extends BaseController
             }
             $model = User::findOne(['id' => yii::$app->getUser()->getIdentity()->getId()]);
         }
+
         return $this->render('update', [
             'model' => $model,
         ]);
     }
 
-    public function actionUpdateSelfAvatar()
-    {
-        $model = User::findOne(['id' => yii::$app->getUser()->getIdentity()->getId()]);
-        $model->setScenario('update');
-        if (yii::$app->getRequest()->getIsPost() && $model->validate() && $model->load(yii::$app->getRequest()
-                ->post()) && $model->save()
-        ) {
-            return $this->redirect(['site/main']);
-        }
-        return $this->render('update-self-avatar', [
-            'model' => $model,
-        ]);
-    }
-
+    /**
+     * 给管理员分配角色
+     *
+     * @param string $uid
+     * @return string
+     */
     public function actionAssign($uid = '')
     {
         $model = AdminRoleUser::findOne(['uid' => $uid]);//->createCommand()->getRawSql();var_dump($model);die;
-        if ($model == '') {//echo 11;die;
+        if ($model == '') {
             $model = new AdminRoleUser();
         }
         $model->uid = $uid;
         if (yii::$app->getRequest()->getIsPost()) {
             if ($model->load(yii::$app->getRequest()->post()) && $model->save()) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'success'));
-            } else {//var_dump($model->getErrors());die;
+            } else {
                 $errors = $model->getErrors();
                 $err = '';
                 foreach ($errors as $v) {
@@ -165,14 +175,9 @@ class AdminUserController extends BaseController
                 Yii::$app->getSession()->setFlash('error', $err);
             }
         }
-        $temp = AdminRoles::find()->asArray()->all();
-        $roles = [];
-        foreach ($temp as $v) {
-            $roles[$v['id']] = $v['role_name'];
-        }
+
         return $this->render('assign', [
             'model' => $model,
-            'roles' => $roles,
         ]);
     }
 

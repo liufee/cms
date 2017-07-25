@@ -37,14 +37,25 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_ACTIVE = 10;
 
     public $password;
+
     public $repassword;
+
     public $old_password;
 
+
+    /**
+     * 返回数据表名
+     *
+     * @return string
+     */
     public static function tableName()
     {
         return '{{%admin_user}}';
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -59,6 +70,9 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function scenarios()
     {
         return [
@@ -69,6 +83,9 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -233,11 +250,12 @@ class User extends ActiveRecord implements IdentityInterface
                 $this->addError('thumb', "Create directory failed " . $uploadPath);
                 return false;
             }
-            $fullName = $uploadPath . uniqid() . '_' . $upload->baseName . '.' . $upload->extension;
+            $fullName = $uploadPath . uniqid() . '.' . $upload->extension;
             if (! $upload->saveAs($fullName)) {
                 $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Avatar')]) . ': ' . $fullName);
                 return false;
             }
+            unlink(yii::getAlias('@frontend/web') . $this->getOldAttribute('avatar'));
             $this->avatar = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
         } else {
             $this->avatar = $this->getOldAttribute('avatar');
@@ -253,7 +271,7 @@ class User extends ActiveRecord implements IdentityInterface
         return parent::beforeSave($insert);
     }
 
-    public function self_update()
+    public function selfUpdate()
     {
         if ($this->password != '') {
             if ($this->old_password == '') {

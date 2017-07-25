@@ -6,6 +6,9 @@
  * Created at: 2016-03-25 11:15
  */
 
+/**
+ * @var $model frontend\models\User
+ */
 use backend\widgets\ActiveForm;
 
 $this->title = 'User';

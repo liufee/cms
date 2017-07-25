@@ -6,6 +6,10 @@
  * Created at: 2016-03-23 15:49
  */
 
+/**
+ * @var $model backend\models\Article
+ */
+
 use backend\widgets\ActiveForm;
 use common\models\Category;
 use common\libs\Constants;
@@ -57,9 +61,7 @@ $this->title = "Articles";
                                     <div class="col-sm-12 col-sm-offset-1">
                                         <div class="form-group col-sm-12 field-article-parent_id">
                                             <div class="col-sm-12 m-l-n">
-                                                <select name="Article[cid]" class="form-control" multiple="">
-                                                    <?= Category::getOptions($model->cid) ?>
-                                                </select>
+                                                <?= $form->field($model, 'cid')->dropDownList(Category::getCategoriesName(), ['multiple'=>''])?>
                                             </div>
                                             <div class="help-block m-b-none"></div>
                                         </div>

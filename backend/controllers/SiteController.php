@@ -29,7 +29,7 @@ class SiteController extends BaseController
         return [
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
-                //'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                //'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,//本行可能引起更换验证码失效，必须刷新浏览器
                 'backColor' => 0x66b3ff,//背景颜色
                 'maxLength' => 4, //最大显示个数
                 'minLength' => 4,//最少显示个数
@@ -42,11 +42,19 @@ class SiteController extends BaseController
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function actionIndex()
     {
         return $this->renderPartial('index');
     }
 
+    /**
+     * 主页
+     *
+     * @return string
+     */
     public function actionMain()
     {
         switch (yii::$app->getDb()->driverName) {
@@ -57,7 +65,7 @@ class SiteController extends BaseController
                 $dbInfo = (new Query())->select('version()')->one()['version'];
                 break;
             default:
-                "Unknown";
+                $dbInfo = "Unknown";
         }
         $info = [
             'OPERATING_ENVIRONMENT' => PHP_OS . ' ' . $_SERVER["SERVER_SOFTWARE"],
@@ -139,9 +147,14 @@ class SiteController extends BaseController
         ]);
     }
 
+    /**
+     * 管理员登陆
+     *
+     * @return string|\yii\web\Response
+     */
     public function actionLogin()
     {
-        if (! Yii::$app->getUser()->isGuest) {
+        if (! Yii::$app->getUser()->getIsGuest()) {
             return $this->goHome();
         }
 
@@ -155,6 +168,11 @@ class SiteController extends BaseController
         }
     }
 
+    /**
+     * 管理员退出登陆
+     *
+     * @return \yii\web\Response
+     */
     public function actionLogout()
     {
         Yii::$app->getUser()->logout(false);
@@ -162,6 +180,10 @@ class SiteController extends BaseController
         return $this->goHome();
     }
 
+    /**
+     * 切换语言
+     *
+     */
     public function actionLanguage()
     {
         $language = Yii::$app->getRequest()->get('lang');
@@ -170,4 +192,5 @@ class SiteController extends BaseController
         }
         $this->goBack(Yii::$app->getRequest()->headers['referer']);
     }
+
 }

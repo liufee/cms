@@ -8,11 +8,17 @@
 
 namespace backend\grid;
 
+/**
+ * @inheritdoc
+ */
 class CheckboxColumn extends \yii\grid\CheckboxColumn
 {
 
     public $width = '10px';
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();

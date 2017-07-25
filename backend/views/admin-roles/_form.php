@@ -6,6 +6,10 @@
  * Created at: 2016-04-11 22:03
  */
 
+/**
+ * @var $model \backend\models\AdminRoles
+ */
+
 use backend\widgets\ActiveForm;
 
 $this->title = "Roles";

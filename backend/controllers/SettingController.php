@@ -23,6 +23,11 @@ use backend\widgets\ActiveForm;
 class SettingController extends BaseController
 {
 
+    /**
+     * 网站设置
+     *
+     * @return string
+     */
     public function actionWebsite()
     {
         $model = new SettingWebsiteForm();
@@ -46,6 +51,11 @@ class SettingController extends BaseController
 
     }
 
+    /**
+     * 自定义设置
+     *
+     * @return string
+     */
     public function actionCustom()
     {
         $settings = Options::find()->where(['type' => Options::TYPE_CUSTOM])->orderBy("sort")->indexBy('id')->all();
@@ -65,6 +75,11 @@ class SettingController extends BaseController
         ]);
     }
 
+    /**
+     * 增加自定义设置项
+     *
+     * @return array|\yii\web\Response
+     */
     public function actionCustomCreate()
     {
         $model = new Options();
@@ -86,11 +101,12 @@ class SettingController extends BaseController
         }
     }
 
-    public function getModel($id = '')
-    {
-        return Options::findOne(['id' => $id, 'type' => Options::TYPE_CUSTOM]);
-    }
-
+    /**
+     * 修改自定义设置项
+     *
+     * @param string $id
+     * @return array|\yii\web\Response
+     */
     public function actionCustomUpdate($id = '')
     {
         $model = Options::findOne(['id' => $id]);
@@ -126,6 +142,11 @@ class SettingController extends BaseController
         }
     }
 
+    /**
+     * 邮件smtp设置
+     *
+     * @return string
+     */
     public function actionSmtp()
     {
         $model = new SettingSmtpForm();
@@ -149,13 +170,18 @@ class SettingController extends BaseController
 
     }
 
+    /**
+     * 发送测试邮件确认smtp设置是否正确
+     *
+     * @return string
+     */
     public function actionTestSmtp()
     {
         $model = new SettingSmtpForm();
         yii::$app->getResponse()->format = Response::FORMAT_JSON;
         if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()) {
             $mailer = yii::createObject([
-                'class' => 'yii\swiftmailer\Mailer',
+                'class' => yii\swiftmailer\Mailer::class,
                 'useFileTransport' => false,
                 'transport' => [
                     'class' => 'Swift_SmtpTransport',
@@ -174,7 +200,7 @@ class SettingController extends BaseController
             return $mailer->compose()
                 ->setFrom($model->smtp_username)
                 ->setTo($model->smtp_username)
-                ->setSubject('Email SMTP test ' . \Yii::$app->name)
+                ->setSubject('Email SMTP test ' . Yii::$app->name)
                 ->setTextBody('Email SMTP config works successful')
                 ->send();
         } else {
@@ -185,4 +211,13 @@ class SettingController extends BaseController
             return $error;
         }
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getModel($id = '')
+    {
+        return Options::findOne(['id' => $id, 'type' => Options::TYPE_CUSTOM]);
+    }
+
 }

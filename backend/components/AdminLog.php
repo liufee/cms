@@ -14,6 +14,11 @@ use backend\models\AdminLog as AdminLogModel;
 class AdminLog
 {
 
+    /**
+     * 数据库新增保存日志
+     *
+     * @param $event
+     */
     public static function create($event)
     {
         if ($event->sender->className() !== AdminLogModel::className()) {
@@ -35,6 +40,11 @@ class AdminLog
         }
     }
 
+    /**
+     * 数据库修改保存日志
+     *
+     * @param $event
+     */
     public static function update($event)
     {
         if (! empty($event->changedAttributes)) {
@@ -56,6 +66,10 @@ class AdminLog
         }
     }
 
+    /**
+     * 数据库删除保存日志
+     * @param $event
+     */
     public static function delete($event)
     {
         $desc = '<br>';

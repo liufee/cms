@@ -9,6 +9,7 @@
 namespace common\libs;
 
 use yii;
+use yii\base\InvalidParamException;
 
 class Constants
 {
@@ -127,16 +128,13 @@ class Constants
         return self::getItems($items, $key);
     }
 
-    private static function getItems($items, $key = null, $throw = false)
+    private static function getItems($items, $key = null)
     {
         if ($key !== null) {
             if (key_exists($key, $items)) {
                 return $items[$key];
             }
-            if ($throw) {
-                throw new InvalidParamException();
-            }
-            return 'unknown key:' . $key;
+            throw new InvalidParamException( 'Unknown key:' . $key );
         }
         return $items;
     }

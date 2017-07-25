@@ -6,6 +6,11 @@
  * Created at: 2016-03-23 17:51
  */
 
+/**
+ * @var $dataProvider yii\data\ActiveDataProvider
+ * @var $searchModel backend\models\ArticleSearch
+ */
+
 use backend\grid\GridView;
 use yii\helpers\Url;
 use common\models\Category;
@@ -49,7 +54,7 @@ $this->title = 'Articles';
                                 'value' => function ($model) {
                                     return $model->category ? $model->category->name : yii::t('app', 'uncategoried');
                                 },
-                                'filter' => Category::getType(),
+                                'filter' => Category::getCategoriesName(),
                             ],
                             [
                                 'attribute' => 'sort',

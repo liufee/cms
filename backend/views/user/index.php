@@ -6,6 +6,11 @@
  * Created at: 2016-03-23 17:51
  */
 
+/**
+ * @var $dataProvider frontend\models\User
+ * @var $searchModel backend\models\UserSearch
+ */
+
 use backend\grid\GridView;
 use yii\helpers\Html;
 use backend\widgets\Bar;

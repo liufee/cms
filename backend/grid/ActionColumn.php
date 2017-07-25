@@ -9,19 +9,27 @@
 namespace backend\grid;
 
 use Yii;
+use Closure;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+/**
+ * @inheritdoc
+ */
 class ActionColumn extends \yii\grid\ActionColumn
 {
 
     public $header = 'Action';
+
     public $queryParams = [];
 
     public $width = '30px';
 
     public $template = '{update} {delete}';
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
@@ -33,6 +41,9 @@ class ActionColumn extends \yii\grid\ActionColumn
         $this->contentOptions = ['class' => 'da-icon-column', 'style' => 'width:' . $this->width . ';'];
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function initDefaultButtons()
     {
         if (! isset($this->buttons['view'])) {
@@ -77,6 +88,9 @@ class ActionColumn extends \yii\grid\ActionColumn
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function createUrl($action, $model, $key, $index)
     {
         if ($this->urlCreator instanceof Closure) {

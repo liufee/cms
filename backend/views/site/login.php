@@ -6,8 +6,6 @@
  * Created at: 2017-03-15 21:16
  */
 
-/* @var $this yii\web\View */
-/* @var $form backend\widgets\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
 use backend\assets\AppAsset;

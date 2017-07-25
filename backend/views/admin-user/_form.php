@@ -6,7 +6,13 @@
  * Created at: 2016-03-25 11:15
  */
 
+/**
+ * @var $model backend\models\User
+ * @var $rolesModel backend\models\AdminRoles
+ */
+
 use backend\widgets\ActiveForm;
+use backend\models\AdminRoles;
 
 $this->title = "Admin";
 ?>
@@ -37,7 +43,7 @@ $this->title = "Admin";
                         'label' => yii::t('app', 'Roles'),
                         'class' => "col-sm-2 control-label"
                     ]
-                ])->radioList($roles) ?>
+                ])->radioList(AdminRoles::getRolesNames()) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->defaultButtons() ?>
                 <?php ActiveForm::end(); ?>

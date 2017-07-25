@@ -8,24 +8,39 @@
 
 namespace backend\models;
 
-use common\models\Options;
 use yii;
+use common\models\Options;
 
 class SettingWebsiteForm extends \common\models\Options
 {
     public $website_title;
+
     public $website_email;
+
     public $website_language;
+
     public $website_icp;
+
     public $website_statics_script;
+
     public $website_status;
+
     public $website_timezone;
+
     public $website_comment;
+
     public $website_comment_need_verify;
+
     public $website_url;
+
     public $seo_keywords;
+
     public $seo_description;
 
+
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -44,6 +59,9 @@ class SettingWebsiteForm extends \common\models\Options
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -65,6 +83,10 @@ class SettingWebsiteForm extends \common\models\Options
         ];
     }
 
+    /**
+     * 填充网站配置
+     *
+     */
     public function getWebsiteSetting()
     {
         $names = $this->getNames();
@@ -79,6 +101,11 @@ class SettingWebsiteForm extends \common\models\Options
     }
 
 
+    /**
+     * 写入网站配置到数据库
+     *
+     * @return bool
+     */
     public function setWebsiteConfig()
     {
         $names = $this->getNames();
@@ -99,4 +126,5 @@ class SettingWebsiteForm extends \common\models\Options
         }
         return true;
     }
+
 }

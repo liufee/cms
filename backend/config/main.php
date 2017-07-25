@@ -10,13 +10,13 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'language' => 'zh-CN',
+    'language' => 'zh-CN',//默认语言
     'timeZone' => 'Asia/Shanghai',
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
         'user' => [
-            'identityClass' => 'backend\models\User',
+            'identityClass' => backend\models\User::class,
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_backend_identity'],
             'idParam' => '__backend__id',
@@ -26,14 +26,14 @@ return [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class' => yii\log\FileTarget::class,
                     'levels' => ['error', 'warning'],
                 ],
                 [
-                    'class' => 'yii\log\EmailTarget',
+                    'class' => yii\log\EmailTarget::class,
                     'levels' => ['error', 'warning'],
                     'message' => [
-                        'to' => ['admin@feehi.com', 'liufee@126.com'],
+                        'to' => ['admin@feehi.com', 'liufee@126.com'],//当触发levels配置的错误级别时，发送到此些邮箱（请改成自己的邮箱）
                         'subject' => '来自 Feehi CMS 的新日志消息',
                     ],
                 ],
@@ -44,11 +44,11 @@ return [
         ],
         'rbac' => [
             'class' => 'backend\components\Rbac',
-            'superAdministrators' => [
+            'superAdministrators' => [//超级管理员用户，不受权限管理的控制
                 'admin',
                 'administrator',
             ],
-            'noNeedAuthentication' => [
+            'noNeedAuthentication' => [//无需权限管理的控制器/操作，任意角色、用户，包括未登录均可访问
                 'site/index',
                 'site/login',
                 'site/logout',
@@ -65,9 +65,9 @@ return [
             ],
         ],
         'i18n' => [
-            'translations' => [
+            'translations' => [//多语言包设置
                 'app*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
+                    'class' => yii\i18n\PhpMessageSource::class,
                     'basePath' => '@backend/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [
@@ -76,7 +76,7 @@ return [
                     ],
                 ],
                 'menu' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
+                    'class' => yii\i18n\PhpMessageSource::class,
                     'basePath' => '@backend/messages',
                     'sourceLanguage' => 'zh-CN',
                     'fileMap' => [
@@ -87,7 +87,7 @@ return [
             ],
         ],
     ],
-    'on beforeRequest' => ['feehi\components\Feehi', 'backendInit'],
-    'on beforeAction' => ['backend\components\Rbac', 'checkPermission'],
+    'on beforeRequest' => [feehi\components\Feehi::class, 'backendInit'],
+    'on beforeAction' => [backend\components\Rbac::class, 'checkPermission'],
     'params' => $params,
 ];

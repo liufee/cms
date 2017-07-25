@@ -6,6 +6,10 @@
  * Created at: 2016-03-23 17:51
  */
 
+/**
+ * @var $dataProvider yii\data\ActiveDataProvider
+ */
+
 use backend\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Html;

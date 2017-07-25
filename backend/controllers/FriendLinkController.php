@@ -17,7 +17,9 @@ use backend\models\FriendLink;
 class FriendLinkController extends BaseController
 {
 
-
+    /**
+     * @inheritdoc
+     */
     public function getIndexData()
     {
         $query = FriendLink::find();
@@ -35,6 +37,9 @@ class FriendLinkController extends BaseController
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getModel($id = "")
     {
         if ($id == '') {

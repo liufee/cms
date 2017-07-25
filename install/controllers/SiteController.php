@@ -15,7 +15,6 @@ use yii\helpers\FileHelper;
 use yii\helpers\Url;
 use backend\models\User;
 use common\models\Options;
-use backend\models\SettingSeoForm;
 use yii\web\Response;
 
 /**

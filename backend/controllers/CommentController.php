@@ -14,6 +14,10 @@ use yii\web\NotFoundHttpException;
 
 class CommentController extends BaseController
 {
+
+    /**
+     * @inheritdoc
+     */
     public function getIndexData()
     {
         $searchModel = new CommentSearch();
@@ -34,6 +38,9 @@ class CommentController extends BaseController
         throw new NotFoundHttpException();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getModel($id = '')
     {
         return CommentSearch::findOne(['id' => $id]);

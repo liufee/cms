@@ -16,11 +16,16 @@ use yii\helpers\Url;
 class Bar extends Widget
 {
     public $buttons = [];
+
     public $options = [
         'class' => 'mail-tools tooltip-demo m-t-md',
     ];
     public $template = "{refresh}  {create} {sort} {delete}";
 
+
+    /**
+     * @inheritdoc
+     */
     public function run()
     {
         $buttons = '';
@@ -34,6 +39,9 @@ class Bar extends Widget
         return "<div class='{$this->options['class']}'>{$buttons}</div>";
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function renderDataCellContent()
     {
         return preg_replace_callback('/\\{([\w\-\/]+)\\}/', function ($matches) {
@@ -48,6 +56,10 @@ class Bar extends Widget
         }, $this->template);
     }
 
+    /**
+     * 生成默认按钮
+     *
+     */
     protected function initDefaultButtons()
     {
         if (! isset($this->buttons['refresh'])) {

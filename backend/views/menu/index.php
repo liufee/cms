@@ -6,6 +6,11 @@
  * Created at: 2016-03-21 14:14
  */
 
+/**
+ * @var $dataProvider yii\data\ActiveDataProvider
+ * @var $searchModel backend\models\MenuSearch
+ */
+
 use backend\grid\GridView;
 use backend\widgets\Bar;
 use yii\helpers\Html;
@@ -35,12 +40,7 @@ $this->title = "Backend Menus";
                             'label' => yii::t('app', 'Name'),
                             'format' => 'html',
                             'value' => function ($model, $key, $index, $column) {
-                                $return = '';
-                                for ($i = 0; $i < $model['level']; $i++) {
-                                    $return .= "&nbsp;&nbsp;&nbsp;&nbsp;";
-                                }
-                                $name = yii::t('menu', $model['name']);
-                                return $return . $name;
+                                return str_repeat("--", $model['level'] - 1) . $model['name'];
                             }
                         ],
                         [

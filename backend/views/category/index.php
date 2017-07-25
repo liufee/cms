@@ -6,6 +6,11 @@
  * Created at: 2016-03-21 14:14
  */
 
+/**
+ * @var $dataProvider yii\data\ArrayDataProvider
+ * @var $model common\models\Category
+ */
+
 use backend\grid\GridView;
 use backend\widgets\Bar;
 use yii\helpers\Url;
@@ -35,11 +40,7 @@ $this->title = "Category";
                             'label' => yii::t('app', 'Name'),
                             'format' => 'html',
                             'value' => function ($model, $key, $index, $column) {
-                                $return = '';
-                                for ($i = 0; $i < $model['level']; $i++) {
-                                    $return .= "&nbsp;&nbsp;&nbsp;&nbsp;";
-                                }
-                                return $return . $model['name'];
+                                return str_repeat('--', $model['level']) . $model['name'];
                             }
                         ],
                         [

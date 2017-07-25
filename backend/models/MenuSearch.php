@@ -13,6 +13,9 @@ use yii\data\ArrayDataProvider;
 class MenuSearch extends Menu
 {
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -21,9 +24,13 @@ class MenuSearch extends Menu
         ];
     }
 
+    /**
+     * @param $params
+     * @return \yii\data\ArrayDataProvider
+     */
     public function search($params)
     {
-        $query = Menu::getMenuArray(Menu::BACKEND_TYPE);
+        $query = Menu::getMenus(Menu::BACKEND_TYPE);
         $this->load($params);
         $temp = explode('\\', self::className());
         $temp = end($temp);

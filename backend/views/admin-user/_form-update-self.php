@@ -6,6 +6,10 @@
  * Created at: 2016-03-25 11:15
  */
 
+/**
+ * @var $model backend\models\User
+ */
+
 use backend\widgets\ActiveForm;
 
 $this->title = "Admin";

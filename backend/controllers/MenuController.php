@@ -9,7 +9,6 @@
 namespace backend\controllers;
 
 use yii;
-use yii\data\ArrayDataProvider;
 use backend\models\Menu;
 use backend\models\MenuSearch;
 
@@ -19,20 +18,23 @@ use backend\models\MenuSearch;
 class MenuController extends BaseController
 {
 
-    public function getIndexData()
+    /**
+     * @inheritdoc
+     */
+    public function actionIndex()
     {
-        $data = Menu::getMenuArray(Menu::BACKEND_TYPE);
-        $dataProvider = new ArrayDataProvider([
-            'allModels' => $data,
-            'pagination' => [
-                'pageSize' => -1
-            ]
-        ]);
-        return [
-            'dataProvider' => $dataProvider
+        $searchModel = new MenuSearch(['scenario' => 'backend']);
+        $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
+        $data = [
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
         ];
+        return $this->render('index', $data);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getModel($id = "")
     {
         if ($id == '') {
@@ -45,17 +47,6 @@ class MenuController extends BaseController
         }
         $model->setScenario('backend');
         return $model;
-    }
-
-    public function actionIndex()
-    {
-        $searchModel = new MenuSearch(['scenario' => 'backend']);
-        $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
-        $data = [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
-        ];
-        return $this->render('index', $data);
     }
 
 }

@@ -6,6 +6,10 @@
  * Created at: 2016-04-14 10:09
  */
 
+/**
+ * @var $model backend\models\AdminLog
+ */
+
 $this->title = "Log Detail";
 ?>
 <div class="row">

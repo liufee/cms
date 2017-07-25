@@ -14,6 +14,9 @@ use yii\helpers\Json;
 class Pjax extends \yii\widgets\Pjax
 {
 
+    /**
+     * @inheritdoc
+     */
     public function registerClientScript()
     {
         $id = $this->options['id'];

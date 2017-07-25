@@ -16,6 +16,9 @@ use backend\models\ArticleContent;
 class ArticleController extends BaseController
 {
 
+    /**
+     * @inheritdoc
+     */
     public function getIndexData()
     {
         $searchModel = new ArticleSearch(['scenario' => 'article']);
@@ -26,6 +29,12 @@ class ArticleController extends BaseController
         ];
     }
 
+    /**
+     * 文章详情
+     *
+     * @param $id
+     * @return string
+     */
     public function actionViewLayer($id)
     {
         $model = Article::findOne(['id' => $id]);
@@ -39,6 +48,9 @@ class ArticleController extends BaseController
         ]);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getModel($id = '')
     {
         if ($id == '') {

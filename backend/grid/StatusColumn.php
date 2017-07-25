@@ -8,20 +8,27 @@
 
 namespace backend\grid;
 
-use feehi\libs\Constants;
+use common\libs\Constants;
 
+/**
+ * @inheritdoc
+ */
 class StatusColumn extends DataColumn
 {
 
     public $attribute = 'status';
+
     public $headerOptions = ['width' => '25px'];
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
         $this->contentOptions = ['class' => 'align-center'];
         $this->content = function ($model, $key, $index, $gridView) {
-            return Constants::getDisplayItems($model->is_display);
+            return Constants::getYesNoItems($model->status);
         };
     }
 }

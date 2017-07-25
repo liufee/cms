@@ -8,18 +8,27 @@
 
 namespace backend\models;
 
-use common\models\Options;
 use yii;
+use common\models\Options;
 
 class SettingSmtpForm extends \common\models\Options
 {
     public $smtp_host;
+
     public $smtp_port = 25;
+
     public $smtp_username;
+
     public $smtp_nickname;
+
     public $smtp_password;
+
     public $smtp_encryption = 'tls';
 
+
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -32,6 +41,9 @@ class SettingSmtpForm extends \common\models\Options
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -43,6 +55,10 @@ class SettingSmtpForm extends \common\models\Options
         ];
     }
 
+    /**
+     * 填充smtp配置
+     *
+     */
     public function getSmtpConfig()
     {
         $names = $this->getNames();
@@ -51,12 +67,17 @@ class SettingSmtpForm extends \common\models\Options
             if ($model != null) {
                 $this->$name = $model->value;
             } else {
-                $this->$name = $this->$name;
+                $this->$name = '';
             }
         }
     }
 
 
+    /**
+     * 写入smtp配置
+     *
+     * @return bool
+     */
     public function setSmtpConfig()
     {
         $names = $this->getNames();
@@ -78,15 +99,20 @@ class SettingSmtpForm extends \common\models\Options
         return true;
     }
 
+    /**
+     * 获取smtp邮箱配置
+     *
+     * @return array
+     */
     public static function getComponentConfig()
     {
-        $config = new Self();
+        $config = new self();
         $config->getSmtpConfig();
         return [
             'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => $config->smtp_host,  //每种邮箱的host配置不一样
+                'host' => $config->smtp_host,
                 'username' => $config->smtp_username,
                 'password' => $config->smtp_password,
                 'port' => $config->smtp_port,
@@ -99,4 +125,5 @@ class SettingSmtpForm extends \common\models\Options
             ],
         ];
     }
+
 }

@@ -81,11 +81,18 @@ class Comment extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getArticle()
     {
         return $this->hasOne(Article::className(), ['id' => 'aid']);
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public function getCommentByAid($id)
     {
         $list = self::find()
@@ -154,11 +161,16 @@ class Comment extends \yii\db\ActiveRecord
         return $newList;
     }
 
-    public static function getCommentChildren($list, $cur_id)
+    /**
+     * @param $list
+     * @param $curId
+     * @return array
+     */
+    public static function getCommentChildren($list, $curId)
     {
         $subComment = [];
         foreach ($list as $v) {
-            if ($v['reply_to'] == $cur_id) {
+            if ($v['reply_to'] == $curId) {
                 $v['content'] = str_replace([
                     ':mrgreen:',
                     ':razz:',
@@ -218,7 +230,6 @@ class Comment extends \yii\db\ActiveRecord
 
     public function afterFind()
     {
-        parent::afterFind();
         $this->content = str_replace([
             ':mrgreen:',
             ':razz:',

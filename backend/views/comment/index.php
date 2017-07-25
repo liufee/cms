@@ -6,10 +6,14 @@
  * Created at: 2016-03-23 17:51
  */
 
+/**
+ * @var $dataProvider backend\models\Comment
+ * @var $searchModel backend\models\CommentSearch
+ */
+
 use backend\grid\GridView;
 use common\libs\Constants;
 use yii\helpers\Html;
-use backend\widgets\Button;
 use backend\models\Article;
 use backend\widgets\Bar;
 use backend\models\Comment;

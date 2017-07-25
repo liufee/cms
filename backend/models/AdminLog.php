@@ -63,6 +63,9 @@ class AdminLog extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
@@ -92,6 +95,11 @@ class AdminLog extends \yii\db\ActiveRecord
         }, $this->description);
     }
 
+    /**
+     * 删除日志不计入操作日志
+     *
+     * @return bool
+     */
     public function afterDelete()
     {
         return false;

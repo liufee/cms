@@ -13,6 +13,11 @@ use yii;
 class ErrorController extends BaseController
 {
 
+    /**
+     * http异常捕捉后处理
+     *
+     * @return string
+     */
     public function actionIndex()
     {
         if (($exception = Yii::$app->getErrorHandler()->exception) === null) {
@@ -50,26 +55,6 @@ class ErrorController extends BaseController
                 'exception' => $exception,
             ]);
         }
-    }
-
-    public function actionForbidden()
-    {
-        Yii::$app->getResponse()->statusCode = 403;
-        return $this->render('error', [
-            'code' => '403',
-            'name' => yii::t('app', 'Lack of authority'),
-            'message' => yii::t('app', 'You are not allowed to perform this action'),
-        ]);
-    }
-
-    public function actionNotFound()
-    {
-        Yii::$app->getResponse()->statusCode = 404;
-        return $this->render('error', [
-            'code' => '404',
-            'name' => "Not Found",
-            'message' => yii::t('app', 'Page does not exist'),
-        ]);
     }
 
 }

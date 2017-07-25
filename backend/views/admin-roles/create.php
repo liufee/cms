@@ -5,6 +5,10 @@
  * Email: job@feehi.com
  * Created at: 2016-04-11 22:02
  */
+
+/**
+ * @var $model backend\models\AdminRoles
+ */
 ?>
 <?= $this->render('_form', [
     'model' => $model,

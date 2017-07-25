@@ -10,7 +10,7 @@ namespace backend\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
-use yii\web\ForbiddenHttpException;
+use yii\web\BadRequestHttpException;
 
 /**
  * This is the model class for table "{{%admin_roles}}".
@@ -66,20 +66,36 @@ class AdminRoles extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function getRolesNames()
+    {
+        $roles = self::find()->asArray()->all();
+        $data = [];
+        foreach ($roles as $role){
+            $data[$role['id']] = $role['name'];
+        }
+        return $data;
+    }
+
+    /**
+     * 根据管理员id获取角色名
+     *
+     * @param string $uid 管理员id
+     * @return null|string 角色名字
+     */
     public static function getRoleNameByUid($uid = '')
     {
         if ($uid == '') {
             $uid = yii::$app->getUser()->getIdentity()->getId();
         }
-        $role_id = AdminRoleUser::getRoleId($uid);
+        $role_id = AdminRoleUser::getRoleIdByUid($uid);
         $data = self::findOne(['id' => $role_id]);
         return isset($data->role_name) ? $data->role_name : null;
     }
 
     public function beforeDelete()
     {
-        if ($this->id == 1) {
-            throw new ForbiddenHttpException(yii::t('app', 'Not allowed to delete {attribute}', ['attribute' => yii::t('app', 'super administrator roles')]));
+        if ($this->id == 1) {//不允许删除1号管理员用户
+            throw new BadRequestHttpException(yii::t('app', 'Not allowed to delete {attribute}', ['attribute' => yii::t('app', 'super administrator roles')]));
         }
         return true;
     }

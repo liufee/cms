@@ -15,14 +15,20 @@ use feehi\assets\GridViewAsset;
 use yii\helpers\Json;
 use yii\widgets\BaseListView;
 
+/**
+ * @inheritdoc
+ */
 class GridView extends \yii\grid\GridView
 {
     public $dataColumnClass = DataColumn::class;
     //public $pager = ['class'=>'source\core\widgets\AdminLinkPager'];
 
     public $options = ['class' => 'fixed-table-header', 'style' => 'margin-right: 0px;'];
+
     public $tableOptions = ['class' => 'table table-hover'];
+
     public $layout = "{items}\n{pager}";
+
     public $pagerOptions = [
         'firstPageLabel' => '首页',
         'lastPageLabel' => '尾页',
@@ -35,6 +41,9 @@ class GridView extends \yii\grid\GridView
 
     public $filterRow;
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
@@ -57,6 +66,9 @@ class GridView extends \yii\grid\GridView
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function renderTableRow($model, $key, $index)
     {
         if ($this->filterRow !== null && call_user_func($this->filterRow, $model, $key, $index, $this) === false) {
@@ -65,6 +77,9 @@ class GridView extends \yii\grid\GridView
         return parent::renderTableRow($model, $key, $index);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function renderPager()
     {
         $pagination = $this->dataProvider->getPagination();
@@ -80,6 +95,9 @@ class GridView extends \yii\grid\GridView
         return $class::widget($pager);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function run()
     {
         $id = $this->options['id'];
@@ -89,4 +107,5 @@ class GridView extends \yii\grid\GridView
         $view->registerJs("jQuery('#$id').yiiGridView($options);");
         BaseListView::run();
     }
+
 }

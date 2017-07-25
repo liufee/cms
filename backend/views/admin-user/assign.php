@@ -5,6 +5,12 @@
  * Email: job@feehi.com
  * Created at: 2016-04-11 22:34
  */
+
+/**
+ * @var $model backend\models\User;
+ */
+
+use backend\models\AdminRoles;
 use backend\widgets\ActiveForm;
 
 ?>
@@ -12,9 +18,8 @@ use backend\widgets\ActiveForm;
     <div class="ibox">
         <?= $this->render('/widgets/_ibox-title') ?>
         <div class="ibox-content">
-
             <?php $form = ActiveForm::begin(); ?>
-            <?= $form->field($model, 'role_id', ['labelOptions' => ['style' => 'display:none']])->radioList($roles) ?>
+            <?= $form->field($model, 'role_id', ['labelOptions' => ['style' => 'display:none']])->radioList(AdminRoles::getRolesNames()) ?>
             <div class="hr-line-dashed"></div>
             <?= $form->defaultButtons() ?>
             <?php ActiveForm::end(); ?>

@@ -13,7 +13,7 @@ use yii\helpers\Url;
 class Menu extends CommonMenu
 {
 
-    public static function getMenus()
+    public static function getMenusHtml()
     {
         $data = self::find()
             ->where(['is_display' => self::DISPLAY_YES, 'type' => SELF::FRONTEND_TYPE])

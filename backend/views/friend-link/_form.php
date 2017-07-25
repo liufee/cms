@@ -6,6 +6,10 @@
  * Created at: 2016-03-21 14:35
  */
 
+/**
+ * @var $model backend\models\FriendLink
+ */
+
 use backend\widgets\ActiveForm;
 use common\libs\Constants;
 

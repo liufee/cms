@@ -6,8 +6,12 @@
  * Created at: 2016-03-23 15:49
  */
 
+/**
+ * @var $model backend\models\Comment
+ */
+
 use backend\widgets\ActiveForm;
-use feehi\libs\Constants;
+use common\libs\Constants;
 
 $this->title = "Comments";
 ?>

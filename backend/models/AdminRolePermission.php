@@ -8,7 +8,6 @@
 
 namespace backend\models;
 
-use backend\models\Menu;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -67,13 +66,20 @@ class AdminRolePermission extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * 为角色赋予权限
+     *
+     * @param integer $role_id 角色id
+     * @param array $ids 需要授权的菜单id数组
+     */
     public function assignPermission($role_id, $ids)
     {
         $oldPermissionIds = self::find()->where(['role_id' => $role_id])->indexBy('menu_id')->column();
         $needAddIds = array_diff($ids, $oldPermissionIds);
         if (! empty($needAddIds)) {
             foreach ($needAddIds as $menuId) {//新增
-                $permissions = self::_getAncestor($menuId);
+                $permissions = Menu::getAncectorsByMenuId($menuId);
+                $permissions[] = Menu::findOne($menuId);
                 foreach ($permissions as $v) {
                     $result = self::findOne(['role_id' => $role_id, 'menu_id' => $v['id']]);
                     if ($result != null) {
@@ -93,23 +99,9 @@ class AdminRolePermission extends \yii\db\ActiveRecord
         }
     }
 
-    private static function _getAncestor($id)
-    {
-        $arr = Menu::getMenuArray(Menu::BACKEND_TYPE);
-        $par = array();
-        foreach ($arr as $val) {
-            if ($val['id'] == $id) {
-                $par[] = $val;
-                if ($val['parent_id'] != 0) {
-
-                    $par = array_merge(static::_getAncestor($val['parent_id']), $par);
-                }
-            }
-        }
-        return $par;
-    }
-
     /**
+     * 根据角色id获取所有权限路由
+     *
      * @param $role_id
      * @return array|\yii\db\ActiveRecord[]
      */
@@ -118,12 +110,19 @@ class AdminRolePermission extends \yii\db\ActiveRecord
         return self::find()->leftJoin(Menu::tableName(), 'menu.id=' . self::tableName() . '.menu_id')->where(['role_id' => $role_id])->select('*')->asArray()->all();
     }
 
+    /**
+     * 检查管理员是否有权限访问此路由
+     *
+     * @param string $route 路由
+     * @param string $uid 管理员id
+     * @return bool
+     */
     public function checkPermission($route, $uid = '')
     {
         if ($uid == '') {
             $uid = yii::$app->getUser()->getIdentity()->getId();
         }
-        $role_id = AdminRoleUser::getRoleId($uid);
+        $role_id = AdminRoleUser::getRoleIdByUid($uid);
         $permissions = self::getPermissionsByRoleId($role_id);//var_dump($permissions);die;
         foreach ($permissions as $v) {
             if (strtolower($v['url']) == strtolower($route)) {

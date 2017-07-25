@@ -9,6 +9,8 @@
 namespace backend\controllers;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\web\BadRequestHttpException;
 use yii\web\Response;
 use yii\web\Controller;
 
@@ -18,11 +20,21 @@ use yii\web\Controller;
 class BaseController extends Controller
 {
 
+    /**
+     * index列表页
+     *
+     * @return string|\yii\web\Response
+     */
     public function actionIndex()
     {
         return $this->render('index', $this->getIndexData());
     }
 
+    /**
+     * create创建页
+     *
+     * @return string|\yii\web\Response
+     */
     public function actionCreate()
     {
         $model = $this->getModel();
@@ -44,15 +56,23 @@ class BaseController extends Controller
         return $this->render('create', $array);
     }
 
+    /**
+     * delete删除
+     *
+     * @param $id
+     * @return array|\yii\web\Response
+     * @throws \yii\web\BadRequestHttpException
+     */
     public function actionDelete($id)
     {
-        if (yii::$app->getRequest()->getIsAjax()) {
+        if (yii::$app->getRequest()->getIsAjax()) {//AJAX删除
             Yii::$app->getResponse()->format = Response::FORMAT_JSON;
             if (! $id) {
                 return ['code' => 1, 'message' => yii::t('app', "Id doesn't exit")];
             }
             $ids = explode(',', $id);
             $errorIds = [];
+            $model = null;
             foreach ($ids as $one) {
                 $model = $this->getModel($one);
                 if ($model) {
@@ -76,11 +96,7 @@ class BaseController extends Controller
             }
         } else {
             if (! $id) {
-                return $this->render('/error/error', [
-                    'code' => '403',
-                    'name' => 'Params required',
-                    'message' => yii::t('app', "Id doesn't exit"),
-                ]);
+                throw new BadRequestHttpException(yii::t('app', "Id doesn't exit"));
             }
             $model = $this->getModel($id);
             if ($model) {
@@ -90,24 +106,21 @@ class BaseController extends Controller
         }
     }
 
+    /**
+     * update修改页
+     *
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws \yii\web\BadRequestHttpException
+     */
     public function actionUpdate($id)
     {
-        if (! $id) {
-            return $this->render('/error/error', [
-                'code' => '403',
-                'name' => 'Params required',
-                'message' => yii::t('app', "Id doesn't exit"),
-            ]);
-        }
+        if (! $id) throw new BadRequestHttpException(yii::t('app', "Id doesn't exit"));
+
         $model = $this->getModel($id);
-        if (! $model) {
-            return $this->render('/error/error', [
-                'code' => '403',
-                'name' => 'Params required',
-                'message' => yii::t('app', "Id doesn't exit"),
-            ]);
-        }
-        if (Yii::$app->request->isPost) {
+        if (! $model) throw new BadRequestHttpException(yii::t('app', "Cannot find model by $id"));
+
+        if (Yii::$app->getRequest()->getIsPost()) {
             if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->save()) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['update', 'id' => $model->getPrimaryKey()]);
@@ -126,6 +139,10 @@ class BaseController extends Controller
         ]);
     }
 
+    /**
+     * 排序操作
+     *
+     */
     public function actionSort()
     {
         if (yii::$app->getRequest()->getIsPost()) {
@@ -143,27 +160,27 @@ class BaseController extends Controller
         $this->redirect(['index']);
     }
 
+    /**
+     * 改变某个字段状态操作
+     *
+     * @param string $id
+     * @param int $status
+     * @param string $field
+     * @return array|\yii\web\Response
+     * @throws \yii\web\BadRequestHttpException
+     */
     public function actionChangeStatus($id = '', $status = 0, $field = 'status')
     {
         if (yii::$app->getRequest()->getIsAjax()) {
             yii::$app->getResponse()->format = Response::FORMAT_JSON;
         }
-        if (! $id) {
-            return $this->render('/error/error', [
-                'code' => '403',
-                'name' => 'Params required',
-                'message' => yii::t('app', "Id doesn't exit"),
-            ]);
-        }
+        if (! $id) throw new BadRequestHttpException(yii::t('app', "Id doesn't exit"));
+
         $model = $this->getModel($id);
-        if (! $model) {
-            return $this->render('/error/error', [
-                'code' => '403',
-                'name' => 'Params required',
-                'message' => yii::t('app', "Id doesn't exit"),
-            ]);
-        }
+        if (! $model) throw new BadRequestHttpException(yii::t("app", "Cannot find model by $id"));
+
         $model->$field = $status;
+
         if (yii::$app->getRequest()->getIsAjax()) {
             if ($model->save(false)) {
                 return ['code' => 0, 'message' => yii::t('app', 'Success')];
@@ -181,16 +198,26 @@ class BaseController extends Controller
         }
     }
 
+    /**
+     * @param string $id
+     * @return \yii\db\ActiveRecord
+     */
     public function getModel($id = '')
     {
-        return '';
+        return new ActiveRecord();
     }
 
+    /**
+     * @return array
+     */
     public function getIndexData()
     {
         return [];
     }
 
+    /**
+     * @return array
+     */
     public function getCreateData()
     {
         return [];

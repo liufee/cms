@@ -8,11 +8,8 @@
 
 namespace backend\controllers;
 
-use common\models\File as FileModel;
-
 class AssetsController extends \yii\web\Controller
 {
-
 
     public function actions()
     {

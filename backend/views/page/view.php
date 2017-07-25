@@ -5,6 +5,10 @@
  * Email: job@feehi.com
  * Created at: 2016-04-14 12:09
  */
+
+/**
+ * @var $model backend\models\Article
+ */
 ?>
 <div class="row">
     <div class="col-sm-12">

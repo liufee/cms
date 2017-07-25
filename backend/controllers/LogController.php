@@ -15,6 +15,9 @@ use backend\models\AdminLog;
 class LogController extends BaseController
 {
 
+    /**
+     * @inheritdoc
+     */
     public function actionIndex()
     {
         $searchModel = new AdminLogSearch();
@@ -25,6 +28,12 @@ class LogController extends BaseController
         ]);
     }
 
+    /**
+     * 日志详情
+     *
+     * @param $id
+     * @return string
+     */
     public function actionView($id)
     {
         $model = AdminLog::findOne(['id' => $id]);
@@ -33,6 +42,9 @@ class LogController extends BaseController
         ]);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getModel($id = '')
     {
         return AdminLogSearch::findOne(['id' => $id]);

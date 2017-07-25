@@ -8,6 +8,9 @@
 
 namespace backend\grid;
 
+/**
+ * @inheritdoc
+ */
 class DataColumn extends \yii\grid\DataColumn
 {
 
@@ -15,6 +18,9 @@ class DataColumn extends \yii\grid\DataColumn
 
     public $width = '60px';
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();
@@ -24,4 +30,5 @@ class DataColumn extends \yii\grid\DataColumn
         }
         $this->contentOptions = ['style' => 'word-wrap: break-word; word-break: break-all;'];
     }
+
 }

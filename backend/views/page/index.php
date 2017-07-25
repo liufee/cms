@@ -6,6 +6,11 @@
  * Created at: 2016-03-23 17:51
  */
 
+/**
+ * @var $dataProvider yii\data\ActiveDataProvider
+ * @var $searchModel backend\models\ArticleSearch
+ */
+
 use backend\grid\GridView;
 use yii\helpers\Url;
 use common\libs\Constants;

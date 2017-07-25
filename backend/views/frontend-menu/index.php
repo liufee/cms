@@ -6,6 +6,10 @@
  * Created at: 2016-03-21 14:14
  */
 
+/**
+ * @var $dataProvider frontend\models\Menu
+ */
+
 use backend\grid\GridView;
 use backend\widgets\Bar;
 use yii\helpers\Html;

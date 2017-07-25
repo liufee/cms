@@ -16,6 +16,10 @@ use yii\data\ActiveDataProvider;
 
 class AdminRolesController extends BaseController
 {
+
+    /**
+     * @inheritdoc
+     */
     public function getIndexData()
     {
         $query = AdminRoles::find();
@@ -32,16 +36,12 @@ class AdminRolesController extends BaseController
         ];
     }
 
-    public function getModel($id = '')
-    {
-        if ($id == '') {
-            $model = new AdminRoles();
-        } else {
-            $model = AdminRoles::findOne(['id' => $id]);
-        }
-        return $model;
-    }
-
+    /**
+     * 给角色赋予权限
+     *
+     * @param string $id
+     * @return string|\yii\web\Response
+     */
     public function actionAssign($id = '')
     {
         if (yii::$app->getRequest()->getIsPost()) {
@@ -60,4 +60,18 @@ class AdminRolesController extends BaseController
             'role_name' => AdminRoles::findOne(['id' => $id])['role_name'],
         ]);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getModel($id = '')
+    {
+        if ($id == '') {
+            $model = new AdminRoles();
+        } else {
+            $model = AdminRoles::findOne(['id' => $id]);
+        }
+        return $model;
+    }
+
 }

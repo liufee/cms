@@ -66,7 +66,13 @@ class AdminRoleUser extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function getRoleId($id = '')
+    /**
+     * 根据管理员id获取角色id
+     *
+     * @param string $id 为空则返回已登陆的管理员角色id
+     * @return mixed|null 管理员id未分配角色则返回null
+     */
+    public static function getRoleIdByUid($id = '')
     {
         if ($id == '') {
             $id = yii::$app->getUser()->getIdentity()->getId();

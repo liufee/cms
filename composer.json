@@ -1,8 +1,8 @@
 {
     "name": "feehi/cms",
     "description": "Feehi CMS Project Template",
-    "keywords": ["yii2", "framework", "advanced", "project template", "feehi", "feehi cms"],
-    "homepage": "http://blog.feehi.com/",
+    "keywords": ["yii2", "framework", "yii2 advanced", "project template", "feehi", "feehi cms", "php", "php cms"],
+    "homepage": "http://cms.feehi.com/",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {

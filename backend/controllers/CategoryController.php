@@ -14,9 +14,12 @@ use common\models\Category;
 class CategoryController extends BaseController
 {
 
+    /**
+     * @inheritdoc
+     */
     public function getIndexData()
     {
-        $data = Category::getArray();
+        $data = Category::getCategories();
         $dataProvider = new ArrayDataProvider([
             'allModels' => $data,
             'pagination' => [
@@ -28,6 +31,9 @@ class CategoryController extends BaseController
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function getModel($id = '')
     {
         if ($id == '') {

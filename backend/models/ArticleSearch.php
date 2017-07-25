@@ -8,17 +8,24 @@
 
 namespace backend\models;
 
-use yii\data\ActiveDataProvider;
 use common\models\Category;
+use yii\data\ActiveDataProvider;
 
 class ArticleSearch extends Article
 {
 
     public $create_start_at;
+
     public $create_end_at;
+
     public $update_start_at;
+
     public $update_end_at;
 
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -42,16 +49,19 @@ class ArticleSearch extends Article
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function scenarios()
     {
-        $senarios = parent::scenarios();
-        $senarios['article'] = array_merge($senarios['article'], [
+        $scenarios = parent::scenarios();
+        $scenarios['article'] = array_merge($scenarios['article'], [
             'create_start_at',
             'create_end_at',
             'update_start_at',
             'update_end_at'
         ]);
-        return $senarios;
+        return $scenarios;
     }
 
     public function search($params, $type = self::ARTICLE)
@@ -129,7 +139,7 @@ class ArticleSearch extends Article
             $query->andWhere(['cid' => 0]);
         } else {
             if (! empty($this->cid)) {
-                $cids = Category::getSubTree($this->cid);
+                $cids = array_column(Category::getDescendants($this->cid), 'id');
                 if (count($cids) <= 1) {
                     $query->andFilterWhere(['cid' => $this->cid]);
                 } else {

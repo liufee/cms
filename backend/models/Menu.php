@@ -10,20 +10,28 @@ namespace backend\models;
 
 use yii;
 use yii\helpers\Url;
+use common\helpers\FileDependencyHelper;
+use common\helpers\FamilyTree;
 
 class Menu extends \common\models\Menu
 {
+
+    /**
+     * 生成后台首页菜单html
+     *
+     * @return string
+     */
     public static function getBackendMenu()
     {
-        $role_id = AdminRoleUser::getRoleId();
+        $role_id = AdminRoleUser::getRoleIdByUid();
         $model = new self();
-        $menus = $model->find()->where(['is_display' => 1, 'type' => self::BACKEND_TYPE])->orderBy("sort asc")->all();
+        $menus = $model->find()->where(['is_display' => self::DISPLAY_YES, 'type' => self::BACKEND_TYPE])->orderBy("sort asc")->all();
         $permissions = AdminRolePermission::getPermissionsByRoleId($role_id);
         $newMenu = [];
-        if (! in_array(yii::$app->getUser()
-                ->getIdentity()->username, yii::$app->rbac->getSuperAdministrators()) && yii::$app->getUser()
-                ->getIdentity()
-                ->getId() != 1 && $role_id != 1
+        if (
+            ! in_array(yii::$app->getUser()->getIdentity()->username, yii::$app->rbac->getSuperAdministrators())
+            && yii::$app->getUser()->getIdentity()->getId() != 1
+            && $role_id != 1
         ) {
             foreach ($menus as $menu) {
                 foreach ($permissions as $permission) {
@@ -118,6 +126,11 @@ EOF;
         }
     }
 
+    /**
+     * 生成给角色赋予权限json数据
+     *
+     * @return string
+     */
     public static function getBackendMenuJson()
     {
         $adminRolePermissions = AdminRolePermission::find()->where([
@@ -189,6 +202,19 @@ EOF;
         return false;
     }
 
+    /**
+     * 根据menu id获取祖先菜单
+     *
+     * @param string $id 菜单id
+     * @return array
+     */
+    public static function getAncectorsByMenuId($id)
+    {
+        $menus = self::_getMenus(self::BACKEND_TYPE);
+        $familyTree = new FamilyTree($menus);
+        return $familyTree->getAncectors($id);
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
@@ -204,7 +230,7 @@ EOF;
     public function removeBackendMenuCache()
     {
         $object = yii::createObject([
-            'class' => 'common\helpers\FileDependencyHelper',
+            'class' => FileDependencyHelper::class,
             'fileName' => 'backend_menu.txt',
         ]);
         $object->updateFile();

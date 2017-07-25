@@ -6,6 +6,11 @@
  * Created at: 2016-03-23 17:51
  */
 
+/**
+ * @var $dataProvider backend\models\AdminLog
+ * @var $searchModel backend\models\AdminLogSearch
+ */
+
 use backend\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Html;

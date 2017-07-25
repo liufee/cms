@@ -9,7 +9,8 @@
 namespace frontend\models;
 
 use yii;
-use common\libs\File;
+use yii\helpers\FileHelper;
+use yii\web\UploadedFile;
 
 class User extends \common\models\User
 {
@@ -21,7 +22,8 @@ class User extends \common\models\User
     public function rules()
     {
         return [
-            [['username', 'password', 'repassword', 'password_hash', 'avatar'], 'string'],
+            [['username', 'password', 'repassword', 'password_hash'], 'string'],
+            [['avatar'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif, webp'],
             [['username', 'email'], 'unique'],
             ['email', 'email'],
             [['repassword'], 'compare', 'compareAttribute' => 'password'],
@@ -83,21 +85,22 @@ class User extends \common\models\User
                 $this->setPassword($this->password);
             }
         }
-        if ($_FILES['User']['name']['avatar'] != '') {
-            $file = new File();
-            $imgs = $file->upload(Yii::getAlias('@frontend/web/uploads/avatar'));
-            if ($imgs[0] == false) {
-                $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'avatar')]) . ': ' . $file->getErrors());
+        $upload = UploadedFile::getInstance($this, 'avatar');
+        if ($upload !== null) {
+            $uploadPath = yii::getAlias('@frontend/web/uploads/avatar/');
+            if (! FileHelper::createDirectory($uploadPath)) {
+                $this->addError('avatar', "Create directory failed " . $uploadPath);
                 return false;
             }
-            $this->avatar = str_replace(Yii::getAlias('@frontend/web'), '', $imgs[0]);
-            $oldAvatar = $this->getOldAttribute('avatar');
-            if ($oldAvatar != '') {
-                @unlink(yii::getAlias("@frontend/web") . $oldAvatar);
+            $fullName = $uploadPath . uniqid() . '.' . $upload->extension;
+            if (! $upload->saveAs($fullName)) {
+                $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'avatar')]) . ': ' . $fullName);
+                return false;
             }
-        }
-        if ($this->avatar == '') {
-            unset($this->avatar);
+            unlink(yii::getAlias('@frontend/web') . $this->getOldAttribute('avatar'));
+            $this->avatar = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
+        } else {
+            $this->avatar = $this->getOldAttribute('avatar');
         }
         return true;
     }

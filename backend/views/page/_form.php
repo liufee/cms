@@ -6,6 +6,10 @@
  * Created at: 2016-03-23 15:49
  */
 
+/**
+ * @var $model backend\models\Article
+ */
+
 use backend\widgets\ActiveForm;
 use common\libs\Constants;
 use backend\widgets\Ueditor;

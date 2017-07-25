@@ -6,9 +6,8 @@
  * Created at: 2017-03-15 21:16
  */
 
-/** @var $this yii\web\View
+/**
  * @var $model common\models\Options
- * @var $form ActiveForm
  */
 
 use backend\widgets\ActiveForm;

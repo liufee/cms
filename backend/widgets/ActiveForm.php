@@ -9,6 +9,7 @@
 namespace backend\widgets;
 
 use Yii;
+use yii\base\InvalidCallException;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use feehi\assets\ActiveFormAsset;
@@ -22,6 +23,12 @@ class ActiveForm extends \yii\widgets\ActiveForm
 
     public $fieldClass = 'backend\widgets\ActiveField';
 
+
+    /**
+     * 生成表单确认和重置按钮
+     *
+     * @param array $options
+     */
     public function defaultButtons(array $options = [])
     {
         $options['size'] = isset($options['size']) ? $options['size'] : 4;
@@ -33,6 +40,10 @@ class ActiveForm extends \yii\widgets\ActiveForm
                             </div>';
     }
 
+
+    /**
+     * @inheritdoc
+     */
     public function run()
     {
         if (! empty($this->_fields)) {
@@ -54,4 +65,5 @@ class ActiveForm extends \yii\widgets\ActiveForm
 
         echo Html::endForm();
     }
+
 }

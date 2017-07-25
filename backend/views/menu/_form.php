@@ -6,6 +6,10 @@
  * Created at: 2016-03-21 14:35
  */
 
+/**
+ * @var $model backend\models\Menu
+ */
+
 use backend\widgets\ActiveForm;
 use common\libs\Constants;
 use backend\models\Menu;
@@ -22,7 +26,7 @@ if ($parent_id != '') {
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?php $form = ActiveForm::begin(); ?>
-                <?= $form->field($model, 'parent_id')->dropDownList(Menu::getParentMenu(Menu::BACKEND_TYPE)) ?>
+                <?= $form->field($model, 'parent_id')->dropDownList(Menu::getMenusName(Menu::BACKEND_TYPE)) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>

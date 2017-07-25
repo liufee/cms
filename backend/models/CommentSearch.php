@@ -14,11 +14,19 @@ class CommentSearch extends \common\models\Comment
 {
 
     public $article_title;
+
     public $create_start_at;
+
     public $create_end_at;
+
     public $update_start_at;
+
     public $update_end_at;
 
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         $rules = parent::rules();
@@ -27,6 +35,10 @@ class CommentSearch extends \common\models\Comment
         return $rules;
     }
 
+    /**
+     * @param $params
+     * @return \yii\data\ActiveDataProvider
+     */
     public function search($params)
     {
         $query = self::find();
