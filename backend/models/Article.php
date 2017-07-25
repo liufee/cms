@@ -16,6 +16,9 @@ use yii\helpers\FileHelper;
 class Article extends \common\models\Article
 {
 
+    /**
+     * @inheritdoc
+     */
     public function beforeSave($insert)
     {
         $upload = UploadedFile::getInstance($this, 'thumb');
@@ -65,6 +68,9 @@ class Article extends \common\models\Article
         return parent::beforeSave($insert);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterSave($insert, $changedAttributes)
     {
         if ($insert) {
@@ -84,6 +90,9 @@ class Article extends \common\models\Article
         $contentModel->save();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeDelete()
     {
         Comment::deleteAll(['aid' => $this->id]);
@@ -93,6 +102,9 @@ class Article extends \common\models\Article
         return true;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterFind()
     {
         parent::afterFind();

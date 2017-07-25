@@ -38,6 +38,9 @@ class PasswordResetRequestForm extends Model
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -74,9 +77,9 @@ class PasswordResetRequestForm extends Model
             'html' => 'passwordResetToken-html',
             'text' => 'passwordResetToken-text'
         ], ['user' => $user])
-            ->setFrom(\Yii::$app->mailer->messageConfig['from'])
+            ->setFrom(Yii::$app->mailer->messageConfig['from'])
             ->setTo($this->email)
-            ->setSubject('Password reset for ' . \Yii::$app->name)
+            ->setSubject('Password reset for ' . Yii::$app->name)
             ->send();
     }
 }

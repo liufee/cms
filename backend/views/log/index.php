@@ -7,6 +7,7 @@
  */
 
 /**
+ * @var $this yii\web\View
  * @var $dataProvider backend\models\AdminLog
  * @var $searchModel backend\models\AdminLogSearch
  */

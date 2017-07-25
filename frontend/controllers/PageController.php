@@ -16,6 +16,13 @@ use yii\web\NotFoundHttpException;
 class PageController extends Controller
 {
 
+    /**
+     * 单页
+     *
+     * @param string $name
+     * @return string
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionView($name = '')
     {
         if ($name == '') {

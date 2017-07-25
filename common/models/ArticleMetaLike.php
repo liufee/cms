@@ -10,8 +10,15 @@ namespace common\models;
 
 class ArticleMetaLike extends ArticleMeta
 {
+
     public $tag = "like";
 
+
+    /**
+     * @param $aid
+     * @param int $value
+     * @return bool
+     */
     public function setLike($aid, $value = 1)
     {
         $this->aid = $aid;
@@ -20,6 +27,10 @@ class ArticleMetaLike extends ArticleMeta
         return $this->save();
     }
 
+    /**
+     * @param $aid
+     * @return int|string
+     */
     public function getLikeCount($aid)
     {
         return $this->find()->where(['aid' => $aid, 'key' => $this->tag])->count("id");

@@ -64,6 +64,11 @@ class ArticleSearch extends Article
         return $scenarios;
     }
 
+    /**
+     * @param $params
+     * @param int $type
+     * @return \yii\data\ActiveDataProvider
+     */
     public function search($params, $type = self::ARTICLE)
     {
         $query = Article::find()->select([])->where(['type' => $type]);

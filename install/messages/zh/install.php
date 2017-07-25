@@ -72,6 +72,7 @@ return [
     'Congratuations! Success installed' => '恭喜您,安装成功!',
     'Create database error, please create yourself and retry' => '创建数据库失败,请手动创建后再试',
     'Please check your environment to suite the cms' => '最低要求环境不满足',
+    ' If environment have been suit to the cms please check php session can set correctly' => '如果环境已满足仍提示此错误，请检查是否php的session是否能够正确设置',
     'Create table ' => '创建表 ',
     'finished' => '完成',
     'error' => '失败',

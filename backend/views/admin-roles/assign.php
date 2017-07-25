@@ -6,6 +6,10 @@
  * Created at: 2016-04-11 22:34
  */
 
+/**
+ * @var $this yii\web\View
+ */
+
 use backend\widgets\ActiveForm;
 use common\widgets\JsBlock;
 use backend\assets\JstreeAsset;

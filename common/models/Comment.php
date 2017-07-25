@@ -228,6 +228,9 @@ class Comment extends \yii\db\ActiveRecord
         return $subComment;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterFind()
     {
         $this->content = str_replace([

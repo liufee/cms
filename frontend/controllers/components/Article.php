@@ -8,28 +8,57 @@
 
 namespace frontend\controllers\components;
 
-use  yii\base\Object;
+use yii\base\Object;
 use yii\data\ActiveDataProvider;
+use common\models\Menu;
 use frontend\models\Article as ArticleModel;
 
 class Article extends Object
 {
 
+    /**
+     * 根据点击量获取文章列表
+     *
+     * @param integer $limit 要取的文章数目
+     * @param string $cid 分类id
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function getArticleByClick($limit, $cid = '')
     {
         return self::_getArticleList("scan_count desc", $limit, $cid, []);
     }
 
+    /**
+     * 获取最新文章列表
+     *
+     * @param integer $limit 要取的文章数目
+     * @param string $cid 分类id
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function getArticleByLatest($limit, $cid = '')
     {
         return self::_getArticleList("id desc", $limit, $cid, []);
     }
 
+    /**
+     * 获取flag_recommend文章列表
+     *
+     * @param $limit
+     * @param string $cid
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function getArticleByFlagRecommend($limit, $cid = '')
     {
         return self::_getArticleList("id desc", $limit, $cid = '', ['flag_recommend' => 1]);
     }
 
+    /**
+     * 获取flag_picture文章列表
+     *
+     * @param $limit
+     * @param string $cid
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function getArticleByFlagPicture($limit, $cid = '')
     {
         return self::_getArticleList("id desc", $limit, $cid = '', ['flag_picture' => 1]);
@@ -50,6 +79,12 @@ class Article extends Object
         ])->limit($limit)->asArray()->all();
     }
 
+    /**
+     * 获取标签
+     *
+     * @param int $limit
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function getTags($limit = 14)
     {
         $data = ArticleModel::find()->select('tag')->where(['<>', 'tag', ''])->asArray()->all();
@@ -86,7 +121,7 @@ class Article extends Object
 
     public static function getMenuDataProvider()
     {
-        $query = \common\models\Menu::find()
+        $query = Menu::find()
             ->select([])
             ->where(['type' => \common\models\Menu::FRONTEND_TYPE])
             ->orderBy('parent_id asc');

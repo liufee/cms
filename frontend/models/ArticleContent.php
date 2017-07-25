@@ -14,6 +14,10 @@ use common\models\ArticleContent as CommonModel;
 
 class ArticleContent extends CommonModel
 {
+
+    /**
+     * @inheritdoc
+     */
     public function afterFind()
     {
         parent::afterFind();

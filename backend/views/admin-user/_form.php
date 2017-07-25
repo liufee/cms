@@ -7,6 +7,7 @@
  */
 
 /**
+ * @var $this yii\web\View
  * @var $model backend\models\User
  * @var $rolesModel backend\models\AdminRoles
  */

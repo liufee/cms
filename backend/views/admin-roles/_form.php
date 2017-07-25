@@ -7,7 +7,8 @@
  */
 
 /**
- * @var $model \backend\models\AdminRoles
+ * @var $this yii\web\View
+ * @var $model backend\models\AdminRoles
  */
 
 use backend\widgets\ActiveForm;

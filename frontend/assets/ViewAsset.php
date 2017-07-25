@@ -13,10 +13,13 @@ use yii\web\AssetBundle;
 class ViewAsset extends AssetBundle
 {
     public $basePath = '@webroot';
+
     public $baseUrl = '@web';
+
     public $css = [
         'static/syntaxhighlighter/styles/shCoreDefault.css'
     ];
+
     public $js = [
         'static/syntaxhighlighter/scripts/shCore.js',
         'static/syntaxhighlighter/scripts/shBrushJScript.js',
@@ -25,6 +28,7 @@ class ViewAsset extends AssetBundle
         'static/syntaxhighlighter/scripts/shBrushJava.js',
         'static/syntaxhighlighter/scripts/shBrushCss.js',
     ];
+
     public $depends = [
         'frontend\assets\AppAsset'
     ];

@@ -68,11 +68,17 @@ class Category extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @return array|\yii\db\ActiveRecord[]
+     */
     protected static function _getCategories()
     {
         return self::find()->orderBy("sort asc,parent_id asc")->asArray()->all();
     }
 
+    /**
+     * @return array
+     */
     public static function getCategories()
     {
         $categories = self::_getCategories();
@@ -81,6 +87,9 @@ class Category extends \yii\db\ActiveRecord
         return array_column($array, null, 'id');
     }
 
+    /**
+     * @return array
+     */
     public static function getCategoriesName()
     {
         $categories = self::getCategories();
@@ -91,12 +100,19 @@ class Category extends \yii\db\ActiveRecord
         return $data;
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
     public static function getDescendants($id)
     {
         $familyTree = new FamilyTree(self::_getCategories());
         return $familyTree->getDescendants($id);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeDelete()
     {
         $categories = self::find()->orderBy("sort asc,parent_id asc")->asArray()->all();
@@ -113,6 +129,9 @@ class Category extends \yii\db\ActiveRecord
         return parent::beforeDelete();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterValidate()
     {
         if (! $this->getIsNewRecord() && $this->id == $this->parent_id) {

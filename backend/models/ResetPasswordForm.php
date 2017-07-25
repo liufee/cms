@@ -46,6 +46,9 @@ class ResetPasswordForm extends \yii\base\Model
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [

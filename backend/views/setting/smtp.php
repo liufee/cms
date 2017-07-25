@@ -6,7 +6,10 @@
  * Created at: 2017-03-15 21:16
  */
 
-/* @var $model common\models\Options */
+/**
+ * @var $this yii\web\View
+ * @var $model common\models\Options
+ */
 
 use backend\widgets\ActiveForm;
 use common\widgets\JsBlock;

@@ -68,6 +68,7 @@ class AdminLog
 
     /**
      * 数据库删除保存日志
+     *
      * @param $event
      */
     public static function delete($event)

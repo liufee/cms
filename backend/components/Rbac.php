@@ -14,6 +14,7 @@ use yii\base\Component;
 use backend\models\AdminRoleUser;
 use backend\models\AdminRolePermission;
 use common\libs\Constants;
+use yii\web\ForbiddenHttpException;
 
 class Rbac extends Component
 {
@@ -47,15 +48,20 @@ class Rbac extends Component
         }
     }
 
+    /**
+     * 检查当前管理是否有权限执行此操作
+     *
+     * @throws \yii\web\ForbiddenHttpException
+     */
     public static function checkPermission()
     {
         if (! yii::$app->user->isGuest) {
             if (yii::$app->rbac->_checkPermission() === false) {
                 if (yii::$app->getRequest()->getIsAjax()) {
-                    yii::$app->getResponse()->content = json_encode(['code' => 1001, 'message' => '权限不允许']);
+                    yii::$app->getResponse()->content = json_encode(['code' => 1001, 'message' => yii::t("app", "Permission denied")]);
                     yii::$app->getResponse()->send();
                 } else {
-                    Yii::$app->response->redirect(['error/forbidden'], 302)->send();
+                    throw new ForbiddenHttpException(yii::t("app", "Permission denied"));
                 }
                 exit();
             }

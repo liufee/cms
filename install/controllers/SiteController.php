@@ -191,7 +191,7 @@ class SiteController extends \yii\web\Controller
         set_time_limit(300);
         if (! isset($_SESSION['_install_env_passed']) || $_SESSION['_install_env_passed'] != 1) {
             $url = Url::to(['check-environment']);
-            echo "<script>alert('" . yii::t('install', 'Please check your environment to suite the cms') . "');location.href='{$url}';</script>";
+            echo "<script>alert('" . yii::t('install', 'Please check your environment to suite the cms') . yii::t('install', ' If environment have been suit to the cms please check php session can set correctly') . "');location.href='{$url}';</script>";
             exit;
         }
         if (yii::$app->request->isPost) {

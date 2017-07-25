@@ -8,7 +8,7 @@
 
 /**
  * @var $model backend\models\User
- * @var $rolesModel backend\models\AdminRoles
+ * @var $rolesModel backend\models\AdminRoleUser
  */
 
 ?>

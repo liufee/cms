@@ -7,6 +7,7 @@
  */
 
 /**
+ * @var $this yii\web\View
  * @var $model backend\models\Menu
  */
 
@@ -15,6 +16,7 @@ use common\libs\Constants;
 use backend\models\Menu;
 
 $this->title = "Backend Menus";
+
 $parent_id = yii::$app->getRequest()->get('parent_id', '');
 if ($parent_id != '') {
     $model->parent_id = $parent_id;

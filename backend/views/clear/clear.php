@@ -6,6 +6,10 @@
  * Created at: 2016-04-13 17:39
  */
 
+/**
+ * @var $this yii\web\View
+ */
+
 $this->title = yii::t('app', 'Clear Backend');
 ?>
 <div class="row">

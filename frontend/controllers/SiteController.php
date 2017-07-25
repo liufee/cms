@@ -177,6 +177,11 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * 网站进入维护模式时
+     * 即在后台网站设置中关闭了网站执行此操作
+     *
+     */
     public function actionOffline()
     {
         Yii::$app->getResponse()->statusCode = 503;
@@ -184,6 +189,12 @@ class SiteController extends Controller
         yii::$app->getResponse()->send();
     }
 
+
+    /**
+     * 切换网站视图
+     * 请开发其他网站视图模版，并参照yii2文档配置
+     *
+     */
     public function actionView()
     {
         $view = Yii::$app->getRequest()->get('type');
@@ -193,6 +204,10 @@ class SiteController extends Controller
         $this->goBack(Yii::$app->getRequest()->headers['Referer']);
     }
 
+    /**
+     * 切换语言版本
+     *
+     */
     public function actionLanguage()
     {
         $language = Yii::$app->getRequest()->get('lang');
@@ -201,4 +216,5 @@ class SiteController extends Controller
         }
         $this->redirect(Yii::$app->getRequest()->headers['referer']);
     }
+
 }

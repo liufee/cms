@@ -71,7 +71,7 @@ class AdminRoles extends \yii\db\ActiveRecord
         $roles = self::find()->asArray()->all();
         $data = [];
         foreach ($roles as $role){
-            $data[$role['id']] = $role['name'];
+            $data[$role['id']] = $role['role_name'];
         }
         return $data;
     }
@@ -92,6 +92,9 @@ class AdminRoles extends \yii\db\ActiveRecord
         return isset($data->role_name) ? $data->role_name : null;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeDelete()
     {
         if ($this->id == 1) {//不允许删除1号管理员用户

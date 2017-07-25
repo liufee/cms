@@ -82,6 +82,9 @@ class Options extends \yii\db\ActiveRecord
         return array_keys($this->attributeLabels());
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterSave($insert, $changedAttributes)
     {
         $object = yii::createObject([

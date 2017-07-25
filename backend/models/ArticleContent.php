@@ -12,6 +12,10 @@ use yii;
 
 class ArticleContent extends \common\models\ArticleContent
 {
+
+    /**
+     * @inheritdoc
+     */
     public function beforeSave($insert)
     {
         parent::beforeSave($insert);

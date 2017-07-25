@@ -7,6 +7,7 @@
  */
 
 /**
+ * @var $this yii\web\View
  * @var $dataProvider yii\data\ActiveDataProvider
  */
 

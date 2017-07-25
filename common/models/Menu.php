@@ -70,6 +70,9 @@ class Menu extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function scenarios()
     {
         return [
@@ -121,11 +124,19 @@ class Menu extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @param $type
+     * @return array|\yii\db\ActiveRecord[]
+     */
     protected  static function _getMenus($type)
     {
         return self::find()->where(['type' => $type])->orderBy("sort asc,parent_id asc")->asArray()->all();
     }
 
+    /**
+     * @param int $type
+     * @return array
+     */
     public static function getMenus($type=self::BACKEND_TYPE)
     {
         $menus = self::_getMenus($type);
@@ -134,6 +145,10 @@ class Menu extends \yii\db\ActiveRecord
         return array_column($array, null, 'id');
     }
 
+    /**
+     * @param int $type
+     * @return array
+     */
     public static function getMenusName($type=self::BACKEND_TYPE)
     {
         $menus = self::getMenus($type);
@@ -144,6 +159,9 @@ class Menu extends \yii\db\ActiveRecord
         return $data;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterValidate()
     {
         if (! $this->getIsNewRecord() && $this->id == $this->parent_id) {
@@ -152,6 +170,9 @@ class Menu extends \yii\db\ActiveRecord
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeDelete()
     {
         $menus = self::find()->where(['type' => $this->type])->orderBy("sort asc,parent_id asc")->asArray()->all();

@@ -17,10 +17,17 @@ class MenuView extends \yii\base\Widget
 {
 
     public $template = "<ul class=\"down-menu nav-menu\">{lis}</ul>";
+
     public $liTemplate = "<li id='menu-item-{menu_id}' class='menu-item menu-item-type-taxonomy menu-item-object-category {current_menu_class} menu-item-{menu_id}'><a href='{url}' target='{target}' style='padding: 13px;'>{title}</a>{sub_menu}</li>";
+
     public $subTemplate = "<ul class=\"sub-menu\" style=\"padding-top: 20px;\">{lis}</ul>";
+
     public $subLitemplate = "<li id=\"menu-item-{menu_id}\" class=\"menu-item menu-item-type-taxonomy menu-item-object-category {current_menu_class} menu-item-{menu_id}\"><a href=\"{url}\" target='{target}' style=\"padding: 13px;\">{title}</a></li>";
 
+
+    /**
+     * @inheritdoc
+     */
     public function run()
     {
         parent::run();
@@ -67,6 +74,11 @@ class MenuView extends \yii\base\Widget
         echo str_replace('{lis}', $content, $this->template);
     }
 
+    /**
+     * @param $menus
+     * @param $cur_id
+     * @return mixed|string
+     */
     private function getSubMenu($menus, $cur_id)
     {
         $content = '';

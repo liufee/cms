@@ -6,14 +6,19 @@
  * Created at: 2016-04-02 22:55
  */
 
+/**
+ * @var $this yii\web\View
+ * @var $commentModel frontend\models\Comment
+ */
+
 use yii\helpers\Url;
 use frontend\assets\ViewAsset;
 use common\widgets\JsBlock;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use common\libs\Help;
 
 $this->title = $model->title;
+
 $this->registerMetaTag(['keywords' => $model->seo_keywords]);
 $this->registerMetaTag(['description' => $model->seo_description]);
 $this->registerMetaTag(['tags' => $model->tag]);

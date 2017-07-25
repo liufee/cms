@@ -93,6 +93,9 @@ class LoginForm extends Model
         return $this->_user;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -100,4 +103,5 @@ class LoginForm extends Model
             'password' => yii::t('app', 'Password'),
         ];
     }
+
 }

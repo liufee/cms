@@ -6,7 +6,7 @@
  * Created at: 2017-03-15 21:16
  */
 
-/* @var $this \yii\web\View */
+/* @var $this yii\web\View */
 /* @var $content string */
 
 use backend\assets\AppAsset;

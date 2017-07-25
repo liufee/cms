@@ -23,6 +23,9 @@ class FriendLink extends \common\models\FriendLink
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeSave($insert)
     {
         $upload = UploadedFile::getInstance($this, 'image');

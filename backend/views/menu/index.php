@@ -7,7 +7,8 @@
  */
 
 /**
- * @var $dataProvider yii\data\ActiveDataProvider
+ * @var $this yii\web\View
+ * @var $dataProvider yii\data\ArrayDataProvider
  * @var $searchModel backend\models\MenuSearch
  */
 

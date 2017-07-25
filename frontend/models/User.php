@@ -16,9 +16,14 @@ class User extends \common\models\User
 {
 
     public $password;
+
     public $repassword;
+
     public $old_password;
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
@@ -32,6 +37,9 @@ class User extends \common\models\User
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function scenarios()
     {
         return [
@@ -41,6 +49,9 @@ class User extends \common\models\User
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -55,6 +66,9 @@ class User extends \common\models\User
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeSave($insert)
     {
         if ($insert) {

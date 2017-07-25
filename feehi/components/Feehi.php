@@ -10,6 +10,7 @@ namespace feehi\components;
 
 use yii;
 use yii\base\Component;
+use backend\components\AdminLog;
 use common\models\Options;
 use yii\caching\FileDependency;
 use yii\base\Event;
@@ -105,15 +106,15 @@ class Feehi extends Component
     public static function backendInit()
     {
         Event::on(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_INSERT, [
-            'backend\components\AdminLog',
+            AdminLog::class,
             'create'
         ]);
         Event::on(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_UPDATE, [
-            'backend\components\AdminLog',
+            AdminLog::class,
             'update'
         ]);
         Event::on(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_DELETE, [
-            'backend\components\AdminLog',
+            AdminLog::class,
             'delete'
         ]);
         Event::on(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_FIND, function ($event) {

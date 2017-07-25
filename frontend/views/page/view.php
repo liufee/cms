@@ -6,6 +6,13 @@
  * Created at: 2016-06-21 11:07
  */
 
+/**
+ * @var $this yii\web\View
+ * @var $model frontend\models\Article
+ */
+
+use frontend\models\Article;
+
 $this->registerMetaTag(['keywords' => $model->seo_keywords]);
 $this->registerMetaTag(['description' => $model->seo_description]);
 $this->registerMetaTag(['tags' => $model->tag]);
@@ -14,7 +21,7 @@ $this->registerMetaTag(['tags' => $model->tag]);
     <aside class="pagesidebar">
         <ul class="pagesider-menu">
             <?php
-            $menus = \frontend\models\Article::find()->where(['type' => \frontend\models\Article::SINGLE_PAGE])->all();
+            $menus = Article::find()->where(['type' => Article::SINGLE_PAGE])->all();
             foreach ($menus as $menu) {
                 $url = '/' . $menu['sub_title'];
                 $current = '';

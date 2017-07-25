@@ -21,29 +21,40 @@ $this->params['breadcrumbs'][] = $this->title;
         <h1><?= Html::encode($this->title) ?></h1>
         <style>
             label {
-                display: inline
+                float: left;
+                width: 100px
+            }
+
+            div.row input{
+                margin-right: 110px;
+                width: 220px;
+            }
+            .help-block-error{
+                position: absolute;
+                top: 0px;
+                right: 0px;
+            }
+            div.field-loginform-rememberme{
+                margin-left: 110px;
             }
         </style>
+
         <div class="row">
             <div class="col-lg-5">
-                <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+                <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                <?= $form->field($model, 'username', ['template' => "<div style='position:relative'>{label}{input}\n{error}\n{hint}</div>"])->textInput(['autofocus' => true]) ?>
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+                <?= $form->field($model, 'password', ['template' => "<div style='position:relative'>{label}{input}\n{error}\n{hint}</div>"])->passwordInput() ?>
 
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                <?= $form->field($model, 'rememberMe')->checkbox()?>
 
-                <div style="color:#999;margin:1em 0">
+                <div style="color:#999;margin-right: 120px;">
                     <?= yii::t('frontend', 'If you forgot your password you can') ?> <?= Html::a(yii::t('frontend', 'reset it'), ['site/request-password-reset']) ?>
-                    .
                 </div>
 
-                <div class="form-group">
-                    <?= Html::submitButton(yii::t('app', 'Login'), [
-                        'class' => 'btn btn-primary',
-                        'name' => 'login-button'
-                    ]) ?>
+                <div class="form-group" style="margin-right: 50px">
+                    <?= Html::submitButton(yii::t('frontend', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                 </div>
 
                 <?php ActiveForm::end(); ?>

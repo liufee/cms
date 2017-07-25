@@ -16,6 +16,7 @@ use frontend\models\Comment;
 use yii\data\ActiveDataProvider;
 use common\models\ArticleMetaLike;
 use yii\web\NotFoundHttpException;
+use yii\filters\HttpCache;
 
 class ArticleController extends Controller
 {
@@ -25,7 +26,7 @@ class ArticleController extends Controller
     {
         return [
             [
-                'class' => 'yii\filters\HttpCache',
+                'class' => HttpCache::class,
                 'only' => ['view'],
                 'lastModified' => function ($action, $params) {
                     $article = Article::findOne(['id' => yii::$app->request->get('id')]);
@@ -35,6 +36,13 @@ class ArticleController extends Controller
         ];
     }
 
+    /**
+     * 分类列表页
+     *
+     * @param string $cat 分类名称
+     * @return string
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionIndex($cat = '')
     {
         if ($cat == '') {
@@ -46,7 +54,7 @@ class ArticleController extends Controller
                 $where['cid'] = 0;
             } else {
                 if (! $category = Category::findOne(['name' => $cat])) {
-                    throw new NotFoundHttpException('None category named ' . $cat);
+                    throw new NotFoundHttpException(yii::t('frontend', 'None category named {name}', ['name' => $cat]));
                 }
                 $where['cid'] = $category['id'];
             }
@@ -67,6 +75,12 @@ class ArticleController extends Controller
         ]);
     }
 
+    /**
+     * 文章详情页
+     *
+     * @param integer $id 文章id
+     * @return string
+     */
     public function actionView($id)
     {
         $model = Article::findOne(['id' => $id]);
@@ -103,6 +117,10 @@ class ArticleController extends Controller
         ]);
     }
 
+    /**
+     * 评论
+     *
+     */
     public function actionComment()
     {
         if (yii::$app->getRequest()->getIsPost()) {
@@ -186,6 +204,11 @@ class ArticleController extends Controller
         }
     }
 
+    /**
+     * 点赞
+     *
+     * @return int|string
+     */
     public function actionLike()
     {
         $aid = yii::$app->getRequest()->post("um_id");

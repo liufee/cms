@@ -16,6 +16,11 @@ use yii\data\ActiveDataProvider;
 class SearchController extends Controller
 {
 
+    /**
+     * 搜索
+     *
+     * @return string
+     */
     public function actionIndex()
     {
         $where = ['type' => Article::ARTICLE];

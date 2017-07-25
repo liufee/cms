@@ -39,6 +39,9 @@ class PasswordResetRequestForm extends Model
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [

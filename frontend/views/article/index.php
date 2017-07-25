@@ -6,6 +6,11 @@
  * Created at: 2017-03-15 21:16
  */
 
+/**
+ * @var $this yii\web\View
+ * @var $dataProvider yii\data\ActiveDataProvider
+ */
+
 use yii\helpers\Url;
 use frontend\widgets\ArticleListView;
 use frontend\controllers\components\Article;

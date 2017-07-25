@@ -13,6 +13,9 @@ use yii;
 class Comment extends \common\models\Comment
 {
 
+    /**
+     * @inheritdoc
+     */
     public function beforeSave($insert)
     {
         if ($insert) {
@@ -35,6 +38,9 @@ class Comment extends \common\models\Comment
         return parent::beforeSave($insert);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterSave($insert, $changedAttributes)
     {
         if ($insert) {

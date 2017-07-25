@@ -3,31 +3,21 @@
  * Author: lf
  * Blog: https://blog.feehi.com
  * Email: job@feehi.com
- * Created at: 2017-03-15 21:16
+ * Created at: 2016-04-14 15:44
  */
-
-/* @var $this yii\web\View */
-/* @var $name string */
-/* @var $message string */
-/* @var $exception Exception */
-
-use yii\helpers\Html;
-
-$this->title = $name;
 ?>
-<div class="site-error">
+<div class="middle-box text-center animated fadeInDown">
+    <h1><?= $code ?></h1>
+    <h3 class="font-bold"><?= $name ?></h3>
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <div class="alert alert-danger">
-        <?= nl2br(Html::encode($message)) ?>
+    <div class="error-desc">
+        <?= $message ?>
+        <form target="_blank" class="form-inline m-t" action="http://www.baidu.com/s" role="form">
+            <div class="form-group">
+                <input type="text" name="wd" class="form-control"
+                       placeholder="<?= yii::t('app', 'Please Enter the Question') ?> …">
+            </div>
+            <button type="submit" class="btn btn-primary"><?= yii::t('app', 'Search') ?></button>
+        </form>
     </div>
-
-    <p>
-        The above error occurred while the Web server was processing your request.
-    </p>
-    <p>
-        Please contact us if you think this is a server error. Thank you.
-    </p>
-
 </div>

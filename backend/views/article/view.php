@@ -7,7 +7,7 @@
  */
 
 /**
- * @var backend\models\Article
+ * @var $model backend\models\Article
  */
 ?>
 <div class="row">

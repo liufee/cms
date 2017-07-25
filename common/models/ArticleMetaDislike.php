@@ -10,8 +10,14 @@ namespace common\models;
 
 class ArticleMetaDislike extends ArticleMeta
 {
+
     public $tag = "dislike";
 
+
+    /**
+     * @param $aid
+     * @param int $value
+     */
     public function setDislike($aid, $value = 1)
     {
         $this->aid = $aid;
@@ -20,6 +26,10 @@ class ArticleMetaDislike extends ArticleMeta
         $this->save();
     }
 
+    /**
+     * @param $aid
+     * @return int|string
+     */
     public function getDislikeCount($aid)
     {
         return $this->find()->where(['aid' => $aid, 'key' => $this->tag])->count("id");

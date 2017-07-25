@@ -17,9 +17,13 @@ use yii\base\Model;
  */
 class SignupForm extends Model
 {
+
     public $username;
+
     public $email;
+
     public $password;
+
 
     /**
      * @inheritdoc
@@ -32,8 +36,8 @@ class SignupForm extends Model
             [
                 'username',
                 'unique',
-                'targetClass' => '\common\models\User',
-                'message' => 'This username has already been taken.'
+                'targetClass' => User::class,
+                'message' => yii::t('frontend', 'This username has already been taken')
             ],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
@@ -44,8 +48,8 @@ class SignupForm extends Model
             [
                 'email',
                 'unique',
-                'targetClass' => '\common\models\User',
-                'message' => 'This email address has already been taken.'
+                'targetClass' => User::class,
+                'message' => yii::t('frontend', 'This email address has already been taken')
             ],
 
             ['password', 'required'],
@@ -53,6 +57,9 @@ class SignupForm extends Model
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [

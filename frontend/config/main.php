@@ -20,8 +20,16 @@ return [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => 'yii\log\FileTarget',
+                    'class' => yii\log\FileTarget::class,
                     'levels' => ['error', 'warning'],
+                ],
+                [
+                    'class' => yii\log\EmailTarget::class,
+                    'levels' => ['error', 'warning'],
+                    'message' => [
+                        'to' => ['admin@feehi.com', 'liufee@126.com'],//当触发levels配置的错误级别时，发送到此些邮箱（请改成自己的邮箱）
+                        'subject' => '来自 Feehi CMS 前台的新日志消息',
+                    ],
                 ],
             ],
         ],

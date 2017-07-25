@@ -55,6 +55,9 @@ class ResetPasswordForm extends Model
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [

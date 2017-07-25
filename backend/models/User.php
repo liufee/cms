@@ -241,6 +241,9 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeSave($insert)
     {
         $upload = UploadedFile::getInstance($this, 'avatar');
@@ -271,6 +274,9 @@ class User extends ActiveRecord implements IdentityInterface
         return parent::beforeSave($insert);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function selfUpdate()
     {
         if ($this->password != '') {
@@ -290,6 +296,9 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->save();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeDelete()
     {
         if ($this->id == 1) {

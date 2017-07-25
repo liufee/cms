@@ -13,6 +13,10 @@ use yii\helpers\Json;
 
 class Captcha extends \yii\captcha\Captcha
 {
+
+    /**
+     * @inheritdoc
+     */
     public function registerClientScript()
     {
         $options = $this->getClientOptions();

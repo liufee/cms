@@ -215,12 +215,18 @@ EOF;
         return $familyTree->getAncectors($id);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
         $this->removeBackendMenuCache();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterDelete()
     {
         parent::afterDelete();

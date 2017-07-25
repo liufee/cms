@@ -74,6 +74,7 @@ return [
     'Frontend' => '前台',
     'more' => '更多',
     '{attribute} is incorrect.' => '{attribute}不正确',
+    'Permission denied' => "无权限",
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',
