@@ -178,6 +178,7 @@ return [
     'super administrator roles' => '超级管理员角色',
     'default super administrator admin' => '默认的超级管理员admin',
     'Not allowed to delete {attribute}' => '不允许删除{attribute}',
+    'Role does not exists' => '角色不存在',
     /*RBAC*/
 
     /*site/index*/

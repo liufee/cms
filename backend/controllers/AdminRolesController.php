@@ -41,9 +41,15 @@ class AdminRolesController extends BaseController
      *
      * @param string $id
      * @return string|\yii\web\Response
+     * @throws \yii\web\NotFoundHttpException
      */
     public function actionAssign($id = '')
     {
+        $roleName = AdminRoles::findOne(['id' => $id])['role_name'];
+        if( $roleName === null ) {
+            Yii::$app->getSession()->setFlash('error', yii::t('app', 'Role does not exists'));
+            return $this->redirect(['index']);
+        }
         if (yii::$app->getRequest()->getIsPost()) {
             $role_id = yii::$app->getRequest()->get('id');
             $ids = explode(',', yii::$app->getRequest()->post('ids', ''));
@@ -57,7 +63,7 @@ class AdminRolesController extends BaseController
         return $this->render('assign', [
             'model' => $model,
             'treeJson' => $treeJson,
-            'role_name' => AdminRoles::findOne(['id' => $id])['role_name'],
+            'role_name' => $roleName,
         ]);
     }
 

@@ -69,24 +69,24 @@ class AdminRolePermission extends \yii\db\ActiveRecord
     /**
      * 为角色赋予权限
      *
-     * @param integer $role_id 角色id
+     * @param integer $roleId 角色id
      * @param array $ids 需要授权的菜单id数组
      */
-    public function assignPermission($role_id, $ids)
+    public function assignPermission($roleId, $ids)
     {
-        $oldPermissionIds = self::find()->where(['role_id' => $role_id])->indexBy('menu_id')->column();
+        $oldPermissionIds = self::find()->where(['role_id' => $roleId])->indexBy('menu_id')->column();
         $needAddIds = array_diff($ids, $oldPermissionIds);
         if (! empty($needAddIds)) {
             foreach ($needAddIds as $menuId) {//新增
                 $permissions = Menu::getAncectorsByMenuId($menuId);
-                $permissions[] = Menu::findOne($menuId);
+                $permissions[] = Menu::findOne($menuId)->toArray();
                 foreach ($permissions as $v) {
-                    $result = self::findOne(['role_id' => $role_id, 'menu_id' => $v['id']]);
+                    $result = self::findOne(['role_id' => $roleId, 'menu_id' => $v['id']]);
                     if ($result != null) {
                         continue;
                     }
                     $model = new self();
-                    $model->role_id = $role_id;
+                    $model->role_id = $roleId;
                     $model->menu_id = $v['id'];
                     $model->save();
                 }
@@ -95,7 +95,7 @@ class AdminRolePermission extends \yii\db\ActiveRecord
         $needRemoveIds = array_diff(array_keys($oldPermissionIds), $ids);//删除
         if (! empty($needRemoveIds)) {
             $removeIdsStr = implode(",", $needRemoveIds);
-            self::deleteAll("menu_id in($removeIdsStr) && role_id=$role_id");
+            self::deleteAll("menu_id in($removeIdsStr) && role_id=$roleId");
         }
     }
 

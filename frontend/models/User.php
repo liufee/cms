@@ -111,7 +111,7 @@ class User extends \common\models\User
                 $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'avatar')]) . ': ' . $fullName);
                 return false;
             }
-            unlink(yii::getAlias('@frontend/web') . $this->getOldAttribute('avatar'));
+            if(!empty($this->getOldAttribute('avatar'))) unlink(yii::getAlias('@frontend/web') . $this->getOldAttribute('avatar'));
             $this->avatar = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
         } else {
             $this->avatar = $this->getOldAttribute('avatar');
