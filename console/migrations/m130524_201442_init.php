@@ -2472,7 +2472,7 @@ class m130524_201442_init extends Migration
                     '84',
                     '0',
                     '0',
-                    '友情链接:创建',
+                    '友情链接:创建',
                     'friend-link/create',
                     '',
                     '5.1',

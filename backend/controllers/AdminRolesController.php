@@ -52,7 +52,9 @@ class AdminRolesController extends BaseController
         }
         if (yii::$app->getRequest()->getIsPost()) {
             $role_id = yii::$app->getRequest()->get('id');
-            $ids = explode(',', yii::$app->getRequest()->post('ids', ''));
+            $temp = yii::$app->getRequest()->post('ids', '');
+            $ids = [];
+            if(!empty($temp)) $ids = explode(',', $temp);
             $model = new AdminRolePermission();
             $model->assignPermission($role_id, $ids);
             Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));

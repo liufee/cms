@@ -16,6 +16,9 @@ use common\helpers\FamilyTree;
 class Menu extends \common\models\Menu
 {
 
+    private $needDeletePermissionMenuIds = [];
+
+
     /**
      * 生成后台首页菜单html
      *
@@ -216,11 +219,45 @@ EOF;
     }
 
     /**
+     * 根据menu id获取子孙菜单
+     *
+     * @param string $id 菜单id
+     * @return array
+     */
+    public static function getDescendantsByMenuId($id)
+    {
+        $menus = self::_getMenus(self::BACKEND_TYPE);
+        $familyTree = new FamilyTree($menus);
+        return $familyTree->getDescendants($id);
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->needDeletePermissionMenuIds = Menu::getAncectorsByMenuId($this->id);
+        return parent::beforeSave($insert);
+    }
+
+    /**
      * @inheritdoc
      */
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
+        if (isset($changedAttributes['parent_id'])) {//修改了菜单所属，清除该菜单整条链的所有权限关系
+            $menus = $this->needDeletePermissionMenuIds;
+            $menus = array_column($menus, 'id');
+            $menus[] = $this->id;
+            foreach ($menus as $menuId){
+                $descendantsMenu = Menu::getDescendantsByMenuId($menuId);
+                $temp = [];
+                foreach ($descendantsMenu as $id){
+                    $temp[] = $id;
+                }
+                $res = AdminRolePermission::find()->where(['in', 'menu_id', $temp])->asArray();
+                if( empty($res) ) AdminRolePermission::deleteAll(['menu_id'=>$menuId]);
+            }
+            AdminRolePermission::deleteAll("menu_id in(" . implode(',', $menus) . ")");
+        }
         $this->removeBackendMenuCache();
     }
 

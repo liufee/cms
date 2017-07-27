@@ -128,13 +128,25 @@ class FamilyTree
      */
     public function getAncectors($id)
     {
+        $array = $this->_getAncectors($id);
+        if( isset($array[0]) ) unset($array[0]);
+        return $array;
+    }
+
+    /**
+     * 递归获取祖先节点
+     *
+     * @param $id
+     * @return array
+     */
+    private function _getAncectors($id)
+    {
         $nodes = [];
-        $tree = array_column($this->_tree, null, 'id');
-        foreach ($tree as $key => $value) {
-            if ($tree[$id][$this->_parentSign] == $value['id']) {
+        foreach ($this->_tree as $key => $value) {
+            if ($value['id'] == $id) {
                 $nodes[] = $value;
                 if ($value[$this->_parentSign] != 0) {
-                    $nodes = array_merge($nodes, $this->getAncectors($value[$this->_parentSign]));
+                    $nodes = array_merge($nodes, $this->_getAncectors($value[$this->_parentSign]));
                 }
             }
         }

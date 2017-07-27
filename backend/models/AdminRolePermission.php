@@ -79,15 +79,16 @@ class AdminRolePermission extends \yii\db\ActiveRecord
         if (! empty($needAddIds)) {
             foreach ($needAddIds as $menuId) {//新增
                 $permissions = Menu::getAncectorsByMenuId($menuId);
-                $permissions[] = Menu::findOne($menuId)->toArray();
+                $permissions[] = ['id' => $menuId];
+                $permissions = array_column($permissions, 'id');
                 foreach ($permissions as $v) {
-                    $result = self::findOne(['role_id' => $roleId, 'menu_id' => $v['id']]);
+                    $result = self::findOne(['role_id' => $roleId, 'menu_id' => $v]);
                     if ($result != null) {
                         continue;
                     }
                     $model = new self();
                     $model->role_id = $roleId;
-                    $model->menu_id = $v['id'];
+                    $model->menu_id = $v;
                     $model->save();
                 }
             }
