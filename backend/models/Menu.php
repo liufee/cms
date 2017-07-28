@@ -234,7 +234,7 @@ EOF;
      */
     public function beforeSave($insert)
     {
-        $this->needDeletePermissionMenuIds = array_merge( Menu::getAncectorsByMenuId($this->id), Menu::getDescendantsByMenuId($this->id) );
+        $this->needDeletePermissionMenuIds = [ 'ancestors' => Menu::getAncectorsByMenuId($this->id), 'descendants' => Menu::getDescendantsByMenuId($this->id) ];
         return parent::beforeSave($insert);
     }
 
@@ -245,10 +245,22 @@ EOF;
     {
         parent::afterSave($insert, $changedAttributes);
         if (isset($changedAttributes['parent_id'])) {//修改了菜单所属，清除该菜单整条链的所有权限关系
-            $menus = $this->needDeletePermissionMenuIds;
+            $menus = $this->needDeletePermissionMenuIds['descendants'];//删除所有子菜单的权限
             $menus = array_column($menus, 'id');
             $menus[] = $this->id;
-            AdminRolePermission::deleteAll("menu_id in(" . implode(',', $menus) . ")");
+            AdminRolePermission::deleteAll(['in', 'menu_id', $menus]);
+
+            $menus = $this->needDeletePermissionMenuIds['ancestors'];//祖先菜单
+            if( empty($menus) ) return;
+            $menus = array_column($menus, 'id');
+            foreach ($menus as $id){
+                $tempMenu = Menu::getDescendantsByMenuId($id);
+                $tempMenu = array_column($tempMenu, 'id');
+                $res = AdminRolePermission::find()->where(['in', 'menu_id', $tempMenu])->all();
+                if( empty($res) ){//该菜单没有子菜单分配了权限
+                    AdminRolePermission::deleteAll(['menu_id'=>$id]);
+                }
+            }
         }
         $this->removeBackendMenuCache();
     }
