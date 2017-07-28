@@ -36,12 +36,10 @@ class Menu extends \common\models\Menu
             && yii::$app->getUser()->getIdentity()->getId() != 1
             && $role_id != 1
         ) {
+            $permissionsIds = array_column($permissions, 'menu_id');
             foreach ($menus as $menu) {
-                foreach ($permissions as $permission) {
-                    if ($menu['id'] == $permission['menu_id']) {
-                        $newMenu[] = $menu;
-                        break;
-                    }
+                if( in_array($menu['id'],$permissionsIds ) ){
+                    $newMenu[] = $menu;
                 }
             }
             $menus = $newMenu;
@@ -231,9 +229,12 @@ EOF;
         return $familyTree->getDescendants($id);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function beforeSave($insert)
     {
-        $this->needDeletePermissionMenuIds = Menu::getAncectorsByMenuId($this->id);
+        $this->needDeletePermissionMenuIds = array_merge( Menu::getAncectorsByMenuId($this->id), Menu::getDescendantsByMenuId($this->id) );
         return parent::beforeSave($insert);
     }
 
@@ -247,15 +248,6 @@ EOF;
             $menus = $this->needDeletePermissionMenuIds;
             $menus = array_column($menus, 'id');
             $menus[] = $this->id;
-            foreach ($menus as $menuId){
-                $descendantsMenu = Menu::getDescendantsByMenuId($menuId);
-                $temp = [];
-                foreach ($descendantsMenu as $id){
-                    $temp[] = $id;
-                }
-                $res = AdminRolePermission::find()->where(['in', 'menu_id', $temp])->asArray();
-                if( empty($res) ) AdminRolePermission::deleteAll(['menu_id'=>$menuId]);
-            }
             AdminRolePermission::deleteAll("menu_id in(" . implode(',', $menus) . ")");
         }
         $this->removeBackendMenuCache();

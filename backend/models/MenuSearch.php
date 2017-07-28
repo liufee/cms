@@ -35,8 +35,8 @@ class MenuSearch extends Menu
         $temp = explode('\\', self::className());
         $temp = end($temp);
         if (isset($params[$temp])) {
-            $serarchArr = $params[$temp];
-            foreach ($serarchArr as $k => $v) {
+            $searchArr = $params[$temp];
+            foreach ($searchArr as $k => $v) {
                 if ($v !== '') {
                     foreach ($query as $key => $val) {
                         if (in_array($k, ['sort', 'display'])) {

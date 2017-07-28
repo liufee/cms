@@ -93,7 +93,12 @@ class AdminRolePermission extends \yii\db\ActiveRecord
                 }
             }
         }
-        $needRemoveIds = array_diff(array_keys($oldPermissionIds), $ids);//删除
+        $ancestors = [];
+        foreach ($ids as $id){//jstree在子类没有全选时，没传祖先节点id，故此补上
+            $ancestors = array_merge($ancestors, Menu::getAncectorsByMenuId($id));
+        }
+        $ancestors = array_column($ancestors, 'id');
+        $needRemoveIds = array_diff(array_keys($oldPermissionIds), array_merge($ancestors, $ids));//删除
         if (! empty($needRemoveIds)) {
             $removeIdsStr = implode(",", $needRemoveIds);
             self::deleteAll("menu_id in($removeIdsStr) && role_id=$roleId");

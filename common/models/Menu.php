@@ -164,9 +164,18 @@ class Menu extends \yii\db\ActiveRecord
      */
     public function afterValidate()
     {
-        if (! $this->getIsNewRecord() && $this->id == $this->parent_id) {
-            $this->addError('parent_id', yii::t('app', 'Cannot be themself sub.'));
-            return false;
+        if( !$this->getIsNewRecord() ){
+            if($this->id == $this->parent_id) {
+                $this->addError('parent_id', yii::t('app', 'Cannot be themself sub.'));
+                return false;
+            }
+            $familyTree = new FamilyTree(Menu::_getMenus($this->type));
+            $descendants = $familyTree->getDescendants($this->id);
+            $descendants = array_column($descendants, 'id');
+            if( in_array($this->parent_id, $descendants) ){
+                $this->addError('parent_id', yii::t('app', 'Cannot be themselves descendants sub'));
+                return false;
+            }
         }
     }
 
@@ -175,7 +184,7 @@ class Menu extends \yii\db\ActiveRecord
      */
     public function beforeDelete()
     {
-        $menus = self::find()->where(['type' => $this->type])->orderBy("sort asc,parent_id asc")->asArray()->all();
+        $menus = Menu::_getMenus($this->type);
         $familyTree = new FamilyTree( $menus );
         $subs = $familyTree->getDescendants($this->id);
         if (! empty($subs)) {
