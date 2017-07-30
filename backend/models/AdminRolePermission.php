@@ -113,7 +113,7 @@ class AdminRolePermission extends \yii\db\ActiveRecord
      */
     public static function getPermissionsByRoleId($role_id)
     {
-        return self::find()->leftJoin(Menu::tableName(), 'menu.id=' . self::tableName() . '.menu_id')->where(['role_id' => $role_id])->select('*')->asArray()->all();
+        return self::find()->leftJoin(Menu::tableName(), Menu::tableName() . '.id=' . self::tableName() . '.menu_id')->where(['role_id' => $role_id])->select('*')->asArray()->all();
     }
 
     /**
