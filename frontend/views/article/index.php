@@ -36,12 +36,13 @@ $this->title = yii::$app->feehi->website_title;
                 $articles = Article::getArticleLists(['flag_special_recommend' => 1], 4);
                 foreach ($articles as $article) {
                     $url = Url::to(['article/view', 'id' => $article->id]);
+                    $imgUrl = Url::to(['/timthumb.php', 'src'=>$article->thumb, 'h'=>112, 'w'=>168, 'zc'=>0]);
                     $article->created_at = yii::$app->formatter->asDate($article->created_at);
                     $article->summary = yii\helpers\StringHelper::truncate($article->summary, 20);
                     echo "<li>
                         <figure class='dd-img'>
                             <a title='{$article->title}' target='_blank' href='{$url}'>
-                                <img src='/timthumb.php?w=168&h=112&zc=0&src={$article->thumb}' style='display: inline;' alt='{$article->title}'>
+                                <img src='{$imgUrl}' style='display: inline;' alt='{$article->title}'>
                             </a>
                         </figure>
                         <div class='dd-content'>

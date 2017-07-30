@@ -144,7 +144,7 @@ EOF;
             if ($menu['parent_id'] == 0) {
                 $m = [];
                 $m['id'] = $menu['id'];
-                $m['text'] = $menu['name'];
+                $m['text'] = yii::t('menu', $menu['name']);
                 if (isset($adminRolePermissions[$menu['id']])) {
                     $m['state'] = ['selected' => true];
                 }
@@ -167,7 +167,7 @@ EOF;
             if ($menu['parent_id'] == $cur_id) {
                 $m = [];
                 $m['id'] = $menu['id'];
-                $m['text'] = $menu['name'];
+                $m['text'] = yii::t('menu', $menu['name']);
                 if (isset($adminRolePermissions[$menu['id']])) {
                     $m['state'] = ['selected' => true];
                 }

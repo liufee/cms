@@ -157,9 +157,10 @@ ViewAsset::register($this);
                     $articles = $recommends;
                     foreach ($articles as $article) {
                         $url = Url::to(['article/view', 'id' => $article->id]);
+                        $imgUrl = Url::to(['/timthumb.php', 'src'=>$article->thumb, 'h'=>110, 'w'=>185, 'zc'=>0]);
                         echo "<li class='related_box'>
                              <a href='{$url}' title='{$article->title}' target='_blank'>
-                                <img src='/timthumb.php?w=185&h=110&zc=0&src={$article->thumb}' alt='{$article->title}'><br>
+                                <img src='{$imgUrl}' alt='{$article->title}'><br>
                                 <span class='r_title'>{$article->title}</span>
                              </a>
                         </li>";

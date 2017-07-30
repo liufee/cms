@@ -10,7 +10,6 @@ namespace frontend\controllers\components;
 
 use yii\base\Object;
 use yii\data\ActiveDataProvider;
-use common\models\Menu;
 use frontend\models\Article as ArticleModel;
 
 class Article extends Object
@@ -64,7 +63,16 @@ class Article extends Object
         return self::_getArticleList("id desc", $limit, $cid = '', ['flag_picture' => 1]);
     }
 
-    public static function _getArticleList($sort, $limit, $cid, $where = [])
+    /**
+     * 根据排序、分类等获取文章列表
+     *
+     * @param $sort
+     * @param $limit
+     * @param $cid
+     * @param array $where
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    private static function _getArticleList($sort, $limit, $cid, $where = [])
     {
         if ($cid != '') {
             $where['cid'] = $cid;
@@ -80,7 +88,7 @@ class Article extends Object
     }
 
     /**
-     * 获取标签
+     * 获取随机标签
      *
      * @param int $limit
      * @return array|\yii\db\ActiveRecord[]
@@ -88,8 +96,8 @@ class Article extends Object
     public static function getTags($limit = 14)
     {
         $data = ArticleModel::find()->select('tag')->where(['<>', 'tag', ''])->asArray()->all();
-        $tags = [];//var_dump($data);die;
-        foreach ($data as $val) {//var_dump($val);die;
+        $tags = [];
+        foreach ($data as $val) {
             $tags = array_merge($tags, explode(',', $val['tag']));
         }
         shuffle($tags);
@@ -97,6 +105,12 @@ class Article extends Object
         return $data;
     }
 
+    /**
+     * 获取文章列表ActiveDataProvider
+     *
+     * @param array $where
+     * @return \yii\data\ActiveDataProvider
+     */
     public static function getArticleList($where = [])
     {
         $where = array_merge($where, ['type' => ArticleModel::ARTICLE]);
@@ -113,28 +127,18 @@ class Article extends Object
         return $dataProvider;
     }
 
+    /**
+     * 获取文章列表
+     *
+     * @param $where
+     * @param int $limit
+     * @param string $order
+     * @return array|\yii\db\ActiveRecord[]
+     */
     public static function getArticleLists($where, $limit = 4, $order = 'id desc')
     {
         $where = array_merge($where, ['type' => ArticleModel::ARTICLE]);
         return ArticleModel::find()->select([])->where($where)->orderBy($order)->limit($limit)->all();
-    }
-
-    public static function getMenuDataProvider()
-    {
-        $query = Menu::find()
-            ->select([])
-            ->where(['type' => \common\models\Menu::FRONTEND_TYPE])
-            ->orderBy('parent_id asc');
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'sort' => [
-                'defaultOrder' => [
-                    'sort' => SORT_ASC,
-                    'id' => SORT_DESC,
-                ]
-            ]
-        ]);
-        return $dataProvider;
     }
 
 }

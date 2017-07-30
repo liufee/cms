@@ -7,11 +7,11 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-backend',
+    'id' => 'app-backend',//应用id，必须唯一
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'backend\controllers',
+    'controllerNamespace' => 'backend\controllers',//控制器命名空间
     'language' => 'zh-CN',//默认语言
-    'timeZone' => 'Asia/Shanghai',
+    'timeZone' => 'Asia/Shanghai',//默认时区
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
@@ -20,20 +20,20 @@ return [
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_backend_identity'],
             'idParam' => '__backend__id',
-            'returnUrlParam' => '__backend__returnUrl',
+            'returnUrlParam' => '_backend_returnUrl',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => yii\log\FileTarget::class,
+                    'class' => yii\log\FileTarget::class,//当触发levels配置的错误级别时，保存到日志文件
                     'levels' => ['error', 'warning'],
                 ],
                 [
-                    'class' => yii\log\EmailTarget::class,
+                    'class' => yii\log\EmailTarget::class,//当触发levels配置的错误级别时，发送到此些邮箱（请改成自己的邮箱）
                     'levels' => ['error', 'warning'],
                     'message' => [
-                        'to' => ['admin@feehi.com', 'liufee@126.com'],//当触发levels配置的错误级别时，发送到此些邮箱（请改成自己的邮箱）
+                        'to' => ['admin@feehi.com', 'liufee@126.com'],
                         'subject' => '来自 Feehi CMS 后台的新日志消息',
                     ],
                 ],
@@ -43,7 +43,7 @@ return [
             'errorAction' => 'site/error',
         ],
         'rbac' => [
-            'class' => 'backend\components\Rbac',
+            'class' => backend\components\Rbac::class,
             'superAdministrators' => [//超级管理员用户，不受权限管理的控制
                 'admin',
                 'administrator',
@@ -63,6 +63,9 @@ return [
                 'debug/default/view',
                 'assets/ueditor'
             ],
+        ],
+        'request' => [
+            'csrfParam' =>'_csrf_backend',
         ],
         'i18n' => [
             'translations' => [//多语言包设置
