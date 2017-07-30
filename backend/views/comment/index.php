@@ -82,7 +82,7 @@ $this->title = 'Comments';
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
                                     'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"
-                                ]) . \yii\helpers\Html::activeInput('text', $searchModel, 'create_end_at', [
+                                ]) . Html::activeInput('text', $searchModel, 'create_end_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
                                     'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
@@ -95,7 +95,7 @@ $this->title = 'Comments';
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
                                     'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
-                                ]) . \yii\helpers\Html::activeInput('text', $searchModel, 'update_end_at', [
+                                ]) . Html::activeInput('text', $searchModel, 'update_end_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
                                     'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"

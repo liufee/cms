@@ -79,10 +79,11 @@ use frontend\models\FriendLink;
             $articles = Article::getArticleLists(['flag_roll' => 1], 8);
             foreach ($articles as $article) {
                 $url = Url::to(['article/view', 'id' => $article->id]);
+                $imgUrl = Url::to(['/timthumb.php', 'src'=>$article->thumb, 'w'=>125, 'h'=>86, 'zc'=>0]);
                 $article->created_at = yii::$app->formatter->asDate($article->created_at);
                 echo "<li>
                     <a href=\"{$url}\" title=\"{$article->title}\">
-                        <span class=\"thumbnail\"><img src=\"/timthumb.php?w=125&h=86&zc=0&src={$article->thumb}\" alt=\"{$article->title}\"></span>
+                        <span class=\"thumbnail\"><img src=\"{$imgUrl}\" alt=\"{$article->title}\"></span>
                         <span class=\"text\">{$article->title}</span>
                         <span class=\"muted\">{$article->created_at}</span><span class=\"muted_1\">{$article->comment_count}" . yii::t('frontend', ' Comments') . "</span>
                     </a>

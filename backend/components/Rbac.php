@@ -70,7 +70,8 @@ class Rbac extends Component
                 'site/login',
                 'user/request-password-reset',
                 'user/reset-password',
-                'site/captcha'
+                'site/captcha',
+                'site/language'
             ]) && ! in_array(Yii::$app->controller->module->id, ['debug'])
         ) {
             yii::$app->controller->redirect(['site/login'])->send();

@@ -13,7 +13,7 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => common\models\User::class,
             'enableAutoLogin' => true,
         ],
         'log' => [
@@ -37,7 +37,7 @@ return [
             'errorAction' => 'site/error',
         ],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => yii\caching\FileCache::class,
             'keyPrefix' => 'frontend',       // 唯一键前缀
         ],
         'urlManager' => [
@@ -71,7 +71,7 @@ return [
         'i18n' => [
             'translations' => [
                 'app*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
+                    'class' => yii\i18n\PhpMessageSource::class,
                     'basePath' => '@backend/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [
@@ -81,7 +81,7 @@ return [
                     ],
                 ],
                 'front*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
+                    'class' => yii\i18n\PhpMessageSource::class,
                     'basePath' => '@frontend/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [

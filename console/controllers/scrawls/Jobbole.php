@@ -8,7 +8,7 @@
 namespace console\controllers\scrawls;
 
 use yii\console\Exception;
-use common\libs\simple_html_dom;
+use common\libs\SimpleHtmlDom;
 
 error_reporting(0);
 
@@ -18,7 +18,7 @@ class Jobbole implements RuleInterface
 
     public function getTotalPage($html)
     {
-        $obj = new simple_html_dom($html);
+        $obj = new SimpleHtmlDom($html);
         $lis = $obj->find(".page-numbers");
         $key = count($lis) - 2;
         $totalPage = $lis[$key]->plaintext;
@@ -30,7 +30,7 @@ class Jobbole implements RuleInterface
 
     public function getListUrl($html)
     {
-        $obj = new simple_html_dom($html);
+        $obj = new SimpleHtmlDom($html);
         $divs = $obj->find(".grid-8 .floated-thumb");
         $urls = [];
         foreach ($divs as $div) {//var_dump($div);die;
@@ -44,7 +44,7 @@ class Jobbole implements RuleInterface
 
     public function getArticle($html)
     {//file_put_contents('a.txt', $html);exit;
-        $obj = new simple_html_dom($html);
+        $obj = new SimpleHtmlDom($html);
         $data = [];//var_dump($obj->find(".entry-header h1")[0]->plaintext);exit;
         $data['title'] = $obj->find(".entry-header h1")[0]->plaintext;//标题
         $data['content'] = $obj->find("div.entry")[0]->innertext;//文章内容
