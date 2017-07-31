@@ -6,9 +6,9 @@
  * Created at: 2017-03-15 21:16
  */
 
-namespace common\models;
+namespace common\models\meta;
 
-class ArticleMetaLike extends ArticleMeta
+class ArticleMetaLike extends \common\models\ArticleMeta
 {
 
     public $tag = "like";

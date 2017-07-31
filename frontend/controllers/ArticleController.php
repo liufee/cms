@@ -14,7 +14,7 @@ use frontend\models\Article;
 use common\models\Category;
 use frontend\models\Comment;
 use yii\data\ActiveDataProvider;
-use common\models\ArticleMetaLike;
+use common\models\meta\ArticleMetaLike;
 use yii\web\NotFoundHttpException;
 use yii\filters\HttpCache;
 

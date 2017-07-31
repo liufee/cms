@@ -69,7 +69,7 @@ CREATE TABLE `%__prefix__%admin_role_user` (
 --  Records of `admin_role_user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `%__prefix__%admin_role_user` VALUES ('1', '1', '1', '1476712649', '1476712649'), ('2', '2', '2', '1476712714', '1476712714');
+INSERT INTO `%__prefix__%admin_role_user` VALUES ('1', '1', '1', '1476712649', '1476712649');
 COMMIT;
 
 -- ----------------------------
@@ -90,7 +90,7 @@ CREATE TABLE `%__prefix__%admin_roles` (
 --  Records of `admin_roles`
 -- ----------------------------
 BEGIN;
-INSERT INTO `%__prefix__%admin_roles` VALUES ('1', '0', '超级管理员', '拥有所有权限', '1468309347', '0'), ('2', '0', '编辑', '拥有seo设置，文章添加、修改、编辑、删除的权限', '1468309363', '1469070673');
+INSERT INTO `%__prefix__%admin_roles` VALUES ('1', '0', '超级管理员', '拥有所有权限', '1468309347', '0');
 COMMIT;
 
 -- ----------------------------
@@ -118,7 +118,7 @@ CREATE TABLE `%__prefix__%admin_user` (
 --  Records of `admin_user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `%__prefix__%admin_user` VALUES ('1', 'admin', 'zr9mY7lt23oAhj_ZYjydbLJKcbE3FJ19', '$2y$13$8aF72c/7Nqq/atyMivhVTej0bIXS1t8daPJXKtVjFzJUsG68eGgaG', null, 'admin@feehi.com', '', '10', '1468288038', '1476711945'), ('2', 'fff', '1JC2paBZhxrLPXNEpGDqW8Bp130x0_g6', '$2y$13$v.WxC/zKWasDR2fVZsa5u.xoVCh.8VE1QtyqCQNFrZO7DgEvZoZhS', null, 'fff@feehi.com', '', '10', '1469087451', '1476711969');
+INSERT INTO `%__prefix__%admin_user` VALUES ('1', 'admin', 'zr9mY7lt23oAhj_ZYjydbLJKcbE3FJ19', '$2y$13$8aF72c/7Nqq/atyMivhVTej0bIXS1t8daPJXKtVjFzJUsG68eGgaG', null, 'admin@feehi.com', '', '10', '1468288038', '1476711945');
 COMMIT;
 
 -- ----------------------------
@@ -368,12 +368,5 @@ CREATE TABLE `%__prefix__%user` (
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `password_reset_token` (`password_reset_token`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- ----------------------------
---  Records of `user`
--- ----------------------------
-BEGIN;
-INSERT INTO `%__prefix__%user` VALUES ('1', 'aaa', 'y-I4ci4glWqom_ZeW6IItOCWFx69FjqQ', '$2y$13$h2GSh/y8qa1WU.ZRVU3VaOr2/Zfh/VxCUfLmbY4xNeZ1Ql2lbMF36', null, 'aaa@feehi.com', '', '10', '1469070407', '0'), ('2', 'bbb', '9wMhzQEqGW8h1_NFBoCYY3StQ_ZJ8UaM', '$2y$13$MbDa4j1TujVid9Zk0saOYu7eGk/N52nOJjTYr22dCYRhJ/D9jV29.', null, 'bbb@feehi.com', '', '10', '1469070568', '0');
-COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -19,15 +19,16 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'qxOH-LMMrJJ_unqJzWsPO1eL39JF0cnK',
+            'csrfParam' =>'_csrf_install',
         ],
         'i18n' => [
             'translations' => [
                 'install*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
+                    'class' => yii\i18n\PhpMessageSource::class,
                     'basePath' => '@install/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [
-                        'df' => 'installsdfsdfd.php',
+                        'df' => 'install.php',
                         'app/error' => 'error.php',
                     ],
                 ],
@@ -43,12 +44,12 @@ if (!YII_ENV_TEST) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
-        'class' => 'yii\debug\Module',
+        'class' => yii\debug\Module::class,
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
-        'class' => 'yii\gii\Module',
+        'class' => yii\gii\Module::class,
     ];
 }
 return $config;
