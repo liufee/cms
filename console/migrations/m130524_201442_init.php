@@ -1038,6 +1038,7 @@ class m130524_201442_init extends Migration
             'id' => $this->primaryKey()->unsigned(),
             'aid' => $this->integer()->unsigned()->defaultValue(0),
             'uid' => $this->integer()->unsigned()->defaultValue(0),
+            'admin_id' => $this->integer()->unsigned()->defaultValue(0),
             'reply_to' => $this->integer()->unsigned()->defaultValue(0),
             'nickname' => $this->string()->defaultValue('游客'),
             'email' => $this->string()->defaultValue(''),
@@ -2593,7 +2594,7 @@ class m130524_201442_init extends Migration
                     '0',
                     '0',
                     '日志:查看',
-                    'log/view',
+                    'log/view-layer',
                     '',
                     '9',
                     '_blank',
@@ -2692,8 +2693,8 @@ class m130524_201442_init extends Migration
         $this->addForeignKey('fk_role_id', "{{%admin_role_permission}}", "role_id", "{{%admin_roles}}", "id", "CASCADE", "CASCADE");
         $this->batchInsert("{{%admin_role_permission}}", ['role_id','menu_id', 'created_at','updated_at'],
             [
-                ['2', '1', '1499502586', '1499502586'],
-                ['2', '2', '1499502586', '1499502586'],
+               // ['2', '1', '1499502586', '1499502586'],
+                //['2', '2', '1499502586', '1499502586'],
             ]
         );
 

@@ -72,7 +72,7 @@ use yii\helpers\Url;
 
     <div class="col-sm-6">
 
-        <div class="col-sm-12">
+        <div>
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5><?= Yii::t('app', 'Notify') ?></h5>
@@ -89,7 +89,7 @@ use yii\helpers\Url;
                     </div>
                 </div>
                 <div class="ibox-content no-padding">
-                    <style>ul#notify li{height:41px}</style>
+                    <style>ul#notify li{height:36px}</style>
                     <ul class="list-group" id="notify">
                         <li class="list-group-item">
                             <div class="sk-spinner sk-spinner-fading-circle">
@@ -113,7 +113,7 @@ use yii\helpers\Url;
         </div>
 
 
-        <div class="col-sm-12">
+        <div>
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5><?= Yii::t('app', 'Environment') ?></h5>
@@ -166,7 +166,7 @@ use yii\helpers\Url;
             </div>
         </div>
 
-        <div class="col-sm-12">
+        <div>
             <div class="ibox-title">
                 <h5><?= Yii::t('app', 'Status') ?></h5>
                 <div class="ibox-tools">
@@ -290,15 +290,15 @@ $(document).ready(function () {
             $("#notify").empty();
             for(var index in data){
                 var label = '';
-                if( index <= 1 ){
-                    label = "<span class=\"label label-danger pull-left\">New</span>&nbsp;&nbsp;&nbsp;&nbsp;";
+                if( data[index].label ){
+                    label = data[index].label;
                 }
                 $("#notify").append("\
                     <li class=\"list-group-item\"> \
                         <p>\
-                          " + label +  "\
-                            <a target='_blank' href=\" " + data[index].href +" \"> " + data[index].title + " </a>\
-                            <small class=\"block text-muted pull-right\"><i class=\"fa fa-clock-o\"></i> " + data[index].createdAt + "</small> \
+                            <a target='_blank' class='pull-left' href=\" " + data[index].href +" \"> " + data[index].title + " </a>\
+                            " + label +  "\
+                            <small class=\"block text-muted pull-right\">" + data[index].createdAt + "</small> \
                         </p> \
                     </li>"
                 );

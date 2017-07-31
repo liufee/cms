@@ -21,7 +21,7 @@ $this->title = yii::t('install', 'Congratuations! Success installed');
             <a target="_blank" class="btn btn-success"
                href="<?= yii::$app->getRequest()->hostInfo ?>"><?= yii::t('install', 'go Frontend') ?></a>
             <a target="_blank" class="btn btn-success"
-               href="<?= yii::$app->getRequest()->hostInfo ?>/admin"><?= yii::t('install', 'go Backend') ?></a>
+               href="<?= yii::$app->getRequest()->hostInfo ?>/admin/"><?= yii::t('install', 'go Backend') ?></a>
         </div>
     </div>
 </section>

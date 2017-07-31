@@ -1,18 +1,18 @@
 <?php
 $config = [
     'name' => 'Feehi CMS',
-    'version' => '0.0.9',
+    'version' => '0.1.0',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'db' => [
-            'class' => 'yii\db\Connection',
+            'class' => yii\db\Connection::class,
             'dsn' => 'mysql:host=localhost;dbname=feehi',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8mb4',
         ],
         'cache' => [
-            'class' => 'yii\caching\DummyCache',
+            'class' => yii\caching\DummyCache::class,
         ],
         'formatter' => [
             'dateFormat' => 'php:Y-m-d H:i',
@@ -22,7 +22,7 @@ $config = [
             'nullDisplay' => '-',
         ],
         'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
+            'class' => yii\swiftmailer\Mailer::class,
             'viewPath' => '@common/mail',
             'useFileTransport' => false,//false发送邮件，true只是生成邮件在runtime文件夹下，不发邮件
             'transport' => [
@@ -39,10 +39,10 @@ $config = [
             ],
         ],
         'view' => [
-            'class' => 'feehi\components\View',
+            'class' => feehi\components\View::class,
         ],
         'feehi' => [
-            'class' => 'feehi\components\Feehi',
+            'class' => feehi\components\Feehi::class,
         ],
     ],
 ];

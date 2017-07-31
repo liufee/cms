@@ -34,7 +34,7 @@ class LogController extends BaseController
      * @param $id
      * @return string
      */
-    public function actionView($id)
+    public function actionViewLayer($id)
     {
         $model = AdminLog::findOne(['id' => $id]);
         return $this->render('view', [

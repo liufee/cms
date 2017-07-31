@@ -102,7 +102,7 @@ $this->title = 'Pages';
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
                                     'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"
-                                ]) . \yii\helpers\Html::activeInput('text', $searchModel, 'create_end_at', [
+                                ]) . Html::activeInput('text', $searchModel, 'create_end_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
                                     'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
@@ -115,7 +115,7 @@ $this->title = 'Pages';
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
                                     'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
-                                ]) . \yii\helpers\Html::activeInput('text', $searchModel, 'update_end_at', [
+                                ]) . Html::activeInput('text', $searchModel, 'update_end_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
                                     'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
@@ -131,7 +131,7 @@ $this->title = 'Pages';
                                     ]), [
                                         'title' => Yii::t('app', 'Comments'),
                                         'data-pjax' => '0',
-                                        'class' => 'btn btn-white btn-sm J_menuItem',
+                                        'class' => 'btn btn-white btn-sm openContab',
                                     ]);
                                 }
                             ],

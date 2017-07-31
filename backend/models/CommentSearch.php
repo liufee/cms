@@ -110,6 +110,9 @@ class CommentSearch extends \common\models\Comment
             }
             $query->andFilterWhere(['aid' => $aidArray]);
         }
+        if( $this->aid ){
+            $this->article_title = Article::findOne($this->aid)['title'];
+        }
         return $dataProvider;
     }
 }

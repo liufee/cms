@@ -88,6 +88,7 @@ class Article extends \common\models\Article
         }
         $contentModel->content = $this->content;
         $contentModel->save();
+        parent::afterSave($insert, $changedAttributes);
     }
 
     /**
