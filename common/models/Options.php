@@ -92,6 +92,7 @@ class Options extends \yii\db\ActiveRecord
             'fileName' => 'options.txt',
         ]);
         $object->updateFile();
+        parent::afterSave($insert, $changedAttributes);
     }
 
 }
