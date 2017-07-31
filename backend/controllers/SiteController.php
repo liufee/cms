@@ -139,7 +139,7 @@ class SiteController extends BaseController
                     ])->count('id') / $temp['FRIEND_LINK'] * 100, 2)
             ],
         ];
-        $comments = BackendComment::getRecentComments(4);
+        $comments = BackendComment::getRecentComments(6);
         return $this->render('main', [
             'info' => $info,
             'status' => $status,

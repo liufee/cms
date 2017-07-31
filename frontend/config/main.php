@@ -52,7 +52,7 @@ return [
                 //'post/22'=>'site/detail',
                 //'<controller:detail>/<id:\d+>' => '<controller>/index',
                 '' => 'article/index',
-                '<controller:w+>/<action:\w+>'=>'<controller>/<action>',
+                //'<controller:w+>/<action:\w+>'=>'<controller>/<action>',
                 '<page:\d+>' => 'article/index',
                 'login' => 'site/login',
                 'sinup' => 'site/signup',

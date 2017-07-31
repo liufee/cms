@@ -137,7 +137,7 @@ if (yii::$app->controller->action->id != 'view' && yii::$app->controller->id != 
     <div class="footer-inner">
         <p>
             <a href="http://www.feehi.com/" title="Feehi CMS">Feehi
-                CMS</a> <?= yii::t('frontend', 'Copyright, all rights reserved') ?> © 2010-2016&nbsp;&nbsp;
+                CMS</a> <?= yii::t('frontend', 'Copyright, all rights reserved') ?> © 2015-<?=date('Y')?>&nbsp;&nbsp;
             <select onchange="location.href=this.options[this.selectedIndex].value;" style="height: 30px">
                 <option <?php if (yii::$app->language == 'zh-CN') {
                     echo 'selected';

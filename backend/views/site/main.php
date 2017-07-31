@@ -5,6 +5,7 @@
  * Email: job@feehi.com
  * Created at: 2016-03-31 14:17
  */
+use common\widgets\JsBlock;
 use yii\helpers\Url;
 
 ?>
@@ -17,8 +18,7 @@ use yii\helpers\Url;
             </div>
             <div class="ibox-content openContab" href="<?=Url::to(['article/index'])?>" title="<?=yii::t('app', 'Articles')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['ARTICLE'][0] ?></h1>
-                <div class="stat-percent font-bold text-success"><?= $statics['ARTICLE'][1] ?>% <i
-                            class="fa fa-bolt"></i>
+                <div class="stat-percent font-bold text-success"><?= $statics['ARTICLE'][1] ?>% <i class="fa fa-bolt"></i>
                 </div>
                 <small><?= yii::t('app', 'Total') ?></small>
             </div>
@@ -61,8 +61,7 @@ use yii\helpers\Url;
             </div>
             <div class="ibox-content openContab" href="<?=Url::to(['friend-link/index'])?>" title="<?=yii::t('app', 'Friendly Links')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['FRIEND_LINK'][0] ?></h1>
-                <div class="stat-percent font-bold text-info"><?= $statics['FRIEND_LINK'][1] ?>% <i
-                            class="fa fa-level-up"></i>
+                <div class="stat-percent font-bold text-info"><?= $statics['FRIEND_LINK'][1] ?>% <i class="fa fa-level-up"></i>
                 </div>
                 <small><?= yii::t('app', 'Total') ?></small>
             </div>
@@ -70,52 +69,50 @@ use yii\helpers\Url;
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-6">
-        <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5><?= yii::t('app', 'Latest Comments') ?></h5>
-                <div class="ibox-tools">
-                    <a class="collapse-link">
-                        <i class="fa fa-chevron-up"></i>
-                    </a>
-                    <a class="close-link">
-                        <i class="fa fa-times"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="ibox-content">
 
-                <div>
-                    <div class="feed-activity-list">
-                        <?php
-                        foreach ($comments as $comment) {
-                            ?>
-                            <div class="feed-element">
-                                <a class="pull-left">
-                                    <img alt="image" class="img-circle"
-                                         src="https://secure.gravatar.com/avatar/<?= md5($comment->email) ?>?s=50">
-                                </a>
-                                <div class="media-body ">
-                                    <small class="pull-right"><?= yii::$app->getFormatter()
-                                            ->asRelativeTime($comment->created_at) ?></small>
-                                    <strong><?= $comment->nickname ?></strong>
-                                    <br>
-                                    <small class="text-muted"><?= yii::$app->getFormatter()->asDate($comment->created_at) ?>
-                                        在 <a class="openContab" data-index="0" title="<?=yii::t('app',"Articles")?>" href="<?=Url::toRoute(['article/view-layer', 'id'=>$comment->article->id]) ?>"><?= $comment->article->title ?></a></small>
-                                    <div data-index="0" class="openContab well" href="<?=Url::toRoute(['comment/index']) ?>" title="<?=yii::t('app', 'Comments')?>" style="cursor: pointer">
-                                        <?= $comment->content ?>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php } ?>
+    <div class="col-sm-6">
+
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5><?= Yii::t('app', 'Notify') ?></h5>
+                    <div class="ibox-tools">
+                        <a target="_blank" href="http://cms.feehi.com/notify">
+                            <?=yii::t('app', 'More')?>
+                        </a>
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
                     </div>
                 </div>
-
+                <div class="ibox-content no-padding">
+                    <style>ul#notify li{height:41px}</style>
+                    <ul class="list-group" id="notify">
+                        <li class="list-group-item">
+                            <div class="sk-spinner sk-spinner-fading-circle">
+                                <div class="sk-circle1 sk-circle"></div>
+                                <div class="sk-circle2 sk-circle"></div>
+                                <div class="sk-circle3 sk-circle"></div>
+                                <div class="sk-circle4 sk-circle"></div>
+                                <div class="sk-circle5 sk-circle"></div>
+                                <div class="sk-circle6 sk-circle"></div>
+                                <div class="sk-circle7 sk-circle"></div>
+                                <div class="sk-circle8 sk-circle"></div>
+                                <div class="sk-circle9 sk-circle"></div>
+                                <div class="sk-circle10 sk-circle"></div>
+                                <div class="sk-circle11 sk-circle"></div>
+                                <div class="sk-circle12 sk-circle"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-    </div>
-    <div class="col-sm-6">
+
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
@@ -131,13 +128,15 @@ use yii\helpers\Url;
                 </div>
                 <div class="ibox-content no-padding">
                     <ul class="list-group">
-                        <style>.list-group-item > .badge {
+                        <style>
+                            .list-group-item > .badge {
                                 float: left
                             }
 
                             li.list-group-item strong {
                                 margin-left: 15px;
-                            }</style>
+                            }
+                        </style>
                         <li class="list-group-item">
                             <span class="badge badge-primary">&nbsp;&nbsp;</span><strong>Feehi
                                 CMS</strong>: <?= yii::$app->version ?>
@@ -168,7 +167,6 @@ use yii\helpers\Url;
         </div>
 
         <div class="col-sm-12">
-
             <div class="ibox-title">
                 <h5><?= Yii::t('app', 'Status') ?></h5>
                 <div class="ibox-tools">
@@ -225,18 +223,22 @@ use yii\helpers\Url;
                         <small class="pull-right"><?= $status['DISK_SPACE']['NUM'] ?></small>
                     </div>
                     <div class="progress progress-small">
-                        <div style="width: <?= $status['DISK_SPACE']['PERCENTAGE'] ?>%;"
-                             class="progress-bar progress-bar-danger"></div>
+                        <div style="width: <?= $status['DISK_SPACE']['PERCENTAGE'] ?>%;" class="progress-bar progress-bar-danger"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--
-        <div class="col-sm-4">
+    </div>
+
+    <div class="col-sm-6">
+        <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5><?= yii::t('app', 'Statics') ?></h5>
+                <h5><?= yii::t('app', 'Latest Comments') ?></h5>
                 <div class="ibox-tools">
-                    <a class="collapse-link ui-sortable">
+                    <a class="openContab" title="<?=yii::t('app', 'Comments')?>" target="_blank" href="<?=Url::to(['comment/index'])?>">
+                        <?=yii::t('app', 'More')?>
+                    </a>
+                    <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
                     </a>
                     <a class="close-link">
@@ -244,54 +246,69 @@ use yii\helpers\Url;
                     </a>
                 </div>
             </div>
-            <div>
-                <table class="table" style="background-color: white;">
-                    <tbody>
-                    <tr>
-                        <td>
-                            <button type="button" class="btn btn-danger m-r-sm"><?= $statics['ARTICLE'] ?></button>
-                            <?= yii::t('app', 'Articles') ?>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-primary m-r-sm"><?= $statics['CATEGORY'] ?></button>
-                            <?= yii::t('app', 'Categories') ?>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-info m-r-sm"><?= $statics['PAGE'] ?></button>
-                            <?= yii::t('app', 'Pages') ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button type="button" class="btn btn-info m-r-sm"><?= $statics['USER'] ?></button>
-                            <?= yii::t('app', 'Users') ?>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-success m-r-sm"><?= $statics['BACKEND_MENU'] ?></button>
-                            <?= yii::t('app', 'Backend Menus') ?>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger m-r-sm"><?= $statics['FRONTEND_MENU'] ?></button>
-                            <?= yii::t('app', 'Frontend Menus') ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button type="button" class="btn btn-warning m-r-sm"><?= $statics['ADMIN_USER'] ?></button>
-                            <?= yii::t('app', 'Administrators') ?>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-default m-r-sm"><?= $statics['ROLE'] ?></button>
-                            <?= yii::t('app', 'Roles') ?>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-warning m-r-sm"><?= $statics['FRIEND_LINK'] ?></button>
-                            <?= yii::t('app', 'Friendly Links') ?>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>-->
+            <div class="ibox-content">
+
+                <div>
+                    <div class="feed-activity-list">
+                        <?php
+                        foreach ($comments as $comment) {
+                            ?>
+                            <div class="feed-element">
+                                <a class="pull-left">
+                                    <img alt="image" class="img-circle"
+                                         src="https://secure.gravatar.com/avatar/<?= md5($comment->email) ?>?s=50">
+                                </a>
+                                <div class="media-body ">
+                                    <small class="pull-right"><?= yii::$app->getFormatter()
+                                            ->asRelativeTime($comment->created_at) ?></small>
+                                    <strong><?= $comment->nickname ?></strong>
+                                    <br>
+                                    <small class="text-muted"><?= yii::$app->getFormatter()->asDate($comment->created_at) ?>
+                                        在 <a class="openContab" data-index="0" title="<?=yii::t('app',"Articles")?>" href="<?=Url::toRoute(['article/view-layer', 'id'=>$comment->article->id]) ?>"><?= $comment->article->title ?></a></small>
+                                    <div data-index="0" class="openContab well" href="<?=Url::toRoute(['comment/index']) ?>" title="<?=yii::t('app', 'Comments')?>" style="cursor: pointer">
+                                        <?= $comment->content ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
+
 </div>
+<?php JsBlock::begin() ?>
+<script>
+$(document).ready(function () {
+    $.ajax({
+        dataType:"jsonp",
+        url:"//api.feehi.com/cms/notify",
+        success:function (dataAll) {
+            data = dataAll.rows;
+            $("#notify").empty();
+            for(var index in data){
+                var label = '';
+                if( index <= 1 ){
+                    label = "<span class=\"label label-danger pull-left\">New</span>&nbsp;&nbsp;&nbsp;&nbsp;";
+                }
+                $("#notify").append("\
+                    <li class=\"list-group-item\"> \
+                        <p>\
+                          " + label +  "\
+                            <a target='_blank' href=\" " + data[index].href +" \"> " + data[index].title + " </a>\
+                            <small class=\"block text-muted pull-right\"><i class=\"fa fa-clock-o\"></i> " + data[index].createdAt + "</small> \
+                        </p> \
+                    </li>"
+                );
+            }
+        },
+        error:function (data) {
+            $("#notify").empty();
+            $("#notify").append("<li class='list-group-item'>Connect error</li>");
+        }
+    });
+})
+</script>
+<?php JsBlock::end() ?>

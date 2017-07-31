@@ -234,6 +234,8 @@ return [
     'Latest Comments' => '最新评论',
     'Only supported linux system' => '仅支持Linux系统',
     'Total' => '总共',
+    'Notify' => '通知',
+    'More' => '更多',
     /*site/main*/
 
     /*admin-roles*/

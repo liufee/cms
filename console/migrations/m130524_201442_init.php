@@ -26,7 +26,7 @@ class m130524_201442_init extends Migration
         ], $tableOptions);
         $this->batchInsert("{{%user}}", ['id','username','auth_key','password_hash','email','status','created_at','updated_at',],
             [
-                [
+                /**[
                     '1',
                     'aaa',
                     'y-I4ci4glWqom_ZeW6IItOCWFx69FjqQ',
@@ -45,7 +45,7 @@ class m130524_201442_init extends Migration
                     '10',
                     '1469070568',
                     '0',
-                ],
+                ],**/
             ]
         );
 
@@ -75,7 +75,7 @@ class m130524_201442_init extends Migration
                     "1476711945",
 
                 ],
-                [
+                /*[
                     "2",
                     "fff",
                     "1JC2paBZhxrLPXNEpGDqW8Bp130x0_g6",
@@ -86,7 +86,7 @@ class m130524_201442_init extends Migration
                     "1469087451",
                     "1476711969",
 
-                ],
+                ],**/
             ]
         );
 
@@ -119,14 +119,14 @@ class m130524_201442_init extends Migration
                     "1476712649",
 
                 ],
-                [
+                /**[
                     "2",
                     "2",
                     "2",
                     "1476712714",
                     "1476712714",
 
-                ],
+                ],**/
             
             ]
         );
@@ -149,14 +149,14 @@ class m130524_201442_init extends Migration
                     '0',
                     '拥有所有权限',
                 ],
-                [
+                /**[
                     '2',
                     '0',
                     '编辑',
                     '1468309363',
                     '1469070673',
                     '拥有seo设置，文章添加、修改、编辑、删除的权限',
-                ],
+                ],**/
             ]
         );
 
