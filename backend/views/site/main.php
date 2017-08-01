@@ -199,7 +199,7 @@ use yii\helpers\Url;
                         <span><?= Yii::t('app', 'Real Memory Usage') ?></span>
                         <small class="pull-right">
                             <?php if (PHP_OS == 'Linux') {
-                                echo $status['MEM']['REAL_MEM'];
+                                echo $status['REAL_MEM']['NUM'];
                             } else {
                                 echo yii::t('app', 'Only supported linux system');
                             }

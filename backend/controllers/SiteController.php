@@ -76,23 +76,21 @@ class SiteController extends BaseController
             'UPLOAD_MAX_FILESIZE' => ini_get('upload_max_filesize'),
             'MAX_EXECUTION_TIME' => ini_get('max_execution_time') . "s"
         ];
-        $dt = round(@disk_total_space(".") / (1024 * 1024 * 1024), 3); //总
-        $df = round(@disk_free_space(".") / (1024 * 1024 * 1024), 3); //可用
-        $hdPercent = (floatval($dt) != 0) ? ($df / $dt) * 100 : 0;
         $obj = new ServerInfo();
         $serverInfo = $obj->getinfo();
+        error_reporting(E_ALL);
         $status = [
             'DISK_SPACE' => [
-                'NUM' => ceil($df) . 'G' . ' / ' . ceil($dt) . 'G',
-                'PERCENTAGE' => $hdPercent,
+                'NUM' => ceil($serverInfo['freeSpace']) . 'G' . ' / ' . ceil($serverInfo['diskTotal']) . 'G',
+                'PERCENTAGE' => (floatval($serverInfo['diskTotal']) != 0) ? round(($serverInfo['diskTotal'] - $serverInfo['freeSpace']) / $serverInfo['diskTotal'] * 100, 2) : 0,
             ],
             'MEM' => [
-                'NUM' => $serverInfo["memUsed"] . 'MB' . ' / ' . $serverInfo['memTotal'] . 'MB',
+                'NUM' => $serverInfo["UsedMemory"] . ' / ' . $serverInfo['TotalMemory'],
                 'PERCENTAGE' => $serverInfo["memPercent"],
             ],
             'REAL_MEM' => [
-                'NUM' => 'Used:' . $serverInfo["memRealUsed"] . ' / ' . 'Cached:' . $serverInfo["memCached"] . 'MB',
-                'PERCENTAGE' => (($serverInfo["memRealUsed"] / $serverInfo['memTotal']) * 100) . '%',
+                'NUM' => $serverInfo["memRealUsed"] . "(Cached {$serverInfo['CachedMemory']})" . ' / ' . $serverInfo['TotalMemory'],
+                'PERCENTAGE' => $serverInfo['memRealPercent'] . '%',
             ],
         ];
         $temp = [
@@ -104,6 +102,7 @@ class SiteController extends BaseController
         $statics = [
             'ARTICLE' => [
                 $temp['ARTICLE'],
+                $temp['ARTICLE'] == 0 ? 0 :
                 number_format(ArticleModel::find()->where([
                         'between',
                         'created_at',
@@ -113,6 +112,7 @@ class SiteController extends BaseController
             ],
             'COMMENT' => [
                 $temp['COMMENT'],
+                $temp['COMMENT'] == 0 ? 0 :
                 number_format(Comment::find()->where([
                         'between',
                         'created_at',
@@ -122,6 +122,7 @@ class SiteController extends BaseController
             ],
             'USER' => [
                 $temp['USER'],
+                $temp['USER'] == 0 ? 0 :
                 number_format(User::find()->where([
                         'between',
                         'created_at',
@@ -131,6 +132,7 @@ class SiteController extends BaseController
             ],
             'FRIEND_LINK' => [
                 $temp['FRIEND_LINK'],
+                $temp['FRIEND_LINK'] == 0 ? 0 :
                 number_format(FriendLink::find()->where([
                         'between',
                         'created_at',
