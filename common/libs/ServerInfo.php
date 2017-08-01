@@ -12,44 +12,26 @@ class ServerInfo
 {
     /**
      * 获取服务器实时信息，支持不同操作系统
+     *
      */
     public function getinfo()
     {
         error_reporting(0);    //会有多处报错，因此这里进行屏蔽
         switch (PHP_OS) {// 根据不同系统取得CPU相关信息
             case "Linux":
-                $sysReShow = (false !== ($sysInfo = self::sys_linux())) ? "show" : "none";
+                $sysInfo = self::sys_linux();
                 break;
             case "FreeBSD":
-                $sysReShow = (false !== ($sysInfo = self::sys_freebsd())) ? "show" : "none";
+                $sysInfo = self::sys_freebsd();
                 break;
             case "WINNT":
-                $sysReShow = (false !== ($sysInfo = self::sys_windows())) ? "show" : "none";
+                $sysInfo = self::sys_windows();
                 break;
             default:
+                $sysInfo = [];
                 break;
         }
-
-        $tmp = array(
-            'memTotal',
-            'memUsed',
-            'memFree',
-            'memPercent',
-            'memCached',
-            'memRealPercent',
-            'memCachedPercent',
-            'swapTotal',
-            'swapUsed',
-            'swapFree',
-            'swapPercent'
-        );
-        $sysInfo = [];
-        foreach ($tmp as $v) {
-            $sysInfo[$v] = $sysInfo[$v] ? $sysInfo[$v] : 0;
-        }
         $result = $sysInfo;
-        $result['sysReShow'] = $sysReShow;
-        $result['stime'] = date("Y-n-j H:i:s");
         $result['freeSpace'] = round(@disk_free_space(".") / (1024 * 1024 * 1024), 3);
         $result['diskTotal'] = round(@disk_total_space(".") / (1024 * 1024 * 1024), 3);    //总空间
         //网卡流量
