@@ -49,31 +49,30 @@ ViewAsset::register($this);
                 <span class="muted"><i class="fa fa-comments-o"></i> <a href="<?= Url::to([
                         'article/view',
                         'id' => $model->id
-                    ]) ?>#comments"><?= $model->comment_count ?>评论</a></span>
+                    ]) ?>#comments"><?= $model->comment_count ?><?=yii::t('frontend', 'Comment')?></a></span>
             </div>
         </header>
 
         <article class="article-content">
             <?= $model->articleContent->content ?>
-            <p><?= yii::t('frontend', 'Reproduced please indicate the source') ?>：<a href="<?= yii::$app->homeUrl ?>"
-                                                                                     data-original-title=""
-                                                                                     title=""><?= yii::$app->feehi->website_title ?></a>
-                » <a href="<?= Url::to(['article/view', 'id' => $model->id]) ?>" data-original-title=""
-                     title=""><?= $model->title ?></a></p>
+            <p>
+                <?= yii::t('frontend', 'Reproduced please indicate the source') ?>：
+                <a href="<?= yii::$app->homeUrl ?>" data-original-title="" title=""><?= yii::$app->feehi->website_title ?></a>
+                »
+                <a href="<?= Url::to(['article/view', 'id' => $model->id]) ?>" data-original-title="" title=""><?= $model->title ?></a>
+            </p>
 
             <div class="article-social">
-                <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#"
-                                                                                                  class="bds_qzone"
-                                                                                                  data-cmd="qzone"
-                                                                                                  title="分享到QQ空间"></a><a
-                            href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq"
-                                                                                               data-cmd="tqq"
-                                                                                               title="分享到腾讯微博"></a><a
-                            href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#"
-                                                                                                class="bds_weixin"
-                                                                                                data-cmd="weixin"
-                                                                                                title="分享到微信"></a></div>
-                <script>window._bd_share_config = {
+                <div class="bdsharebuttonbox">
+                    <a href="#" class="bds_more" data-cmd="more"></a>
+                    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+                    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+                    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
+                    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
+                    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+                </div>
+                <script>
+                    window._bd_share_config = {
                         "common": {
                             "bdSnsKey": {},
                             "bdText": "",
@@ -94,37 +93,27 @@ ViewAsset::register($this);
                             "bdSelectMiniList": ["qzone", "tsina", "tqq", "renren", "weixin"]
                         }
                     };
-                    with (document)0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
-                <a href="javascript:;" data-action="like" _csrf="<?= yii::$app->getRequest()->getCsrfToken() ?>"
-                   data-id="<?= $model->id ?>" id="Addlike" class="action" data-original-title="" title="">
+                    with (document)0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
+                </script>
+                <a href="javascript:;" data-action="like" _csrf="<?= yii::$app->getRequest()->getCsrfToken() ?>" data-id="<?= $model->id ?>" id="Addlike" class="action" data-original-title="" title="">
                     <i class="fa fa-heart-o"></i>喜欢 (<span class="count"><?= $likeCount ?></span>)
                 </a>
                 <span class="or">or</span>
-                <span class="action action-share bdsharebuttonbox bdshare-button-style0-24"
-                      data-bd-bind="1466409001285"><i class="fa fa-share-alt"></i>分享 (<span class="bds_count"
-                                                                                            data-cmd="count"
-                                                                                            title="累计分享0次">0</span>)
+                <span class="action action-share bdsharebuttonbox bdshare-button-style0-24" data-bd-bind="1466409001285"><i class="fa fa-share-alt"></i>分享 (<span class="bds_count" data-cmd="count" title="累计分享0次">0</span>)
                     <div class="action-popover">
                         <div class="popover top in">
                             <div class="arrow"></div>
                             <div class="popover-content">
-                                <a href="" class="sinaweibo fa fa-weibo" data-cmd="tsina" title=""
-                                   data-original-title="分享到新浪微博"></a>
-                                <a href="" class="bds_qzone fa fa-star" data-cmd="qzone" title=""
-                                   data-original-title="分享到QQ空间"></a>
-                                <a href="" class="tencentweibo fa fa-tencent-weibo" data-cmd="tqq" title=""
-                                   data-original-title="分享到腾讯微博"></a>
-                                <a href="" class="qq fa fa-qq" data-cmd="sqq" title=""
-                                   data-original-title="分享到QQ好友"></a>
-                                <a href="" class="bds_renren fa fa-renren" data-cmd="renren" title=""
-                                   data-original-title="分享到人人网"></a>
-                                <a href="" class="bds_weixin fa fa-weixin" data-cmd="weixin" title=""
-                                   data-original-title="分享到微信"></a>
-                                <a href="" class="bds_more fa fa-ellipsis-h" data-cmd="more" data-original-title=""
-                                   title=""></a>
+                                <a href="" class="sinaweibo fa fa-weibo" data-cmd="tsina" title="" data-original-title="分享到新浪微博"></a>
+                                <a href="" class="bds_qzone fa fa-star" data-cmd="qzone" title="" data-original-title="分享到QQ空间"></a>
+                                <a href="" class="tencentweibo fa fa-tencent-weibo" data-cmd="tqq" title="" data-original-title="分享到腾讯微博"></a>
+                                <a href="" class="qq fa fa-qq" data-cmd="sqq" title="" data-original-title="分享到QQ好友"></a>
+                                <a href="" class="bds_renren fa fa-renren" data-cmd="renren" title="" data-original-title="分享到人人网"></a>
+                                <a href="" class="bds_weixin fa fa-weixin" data-cmd="weixin" title="" data-original-title="分享到微信"></a>
+                                <a href="" class="bds_more fa fa-ellipsis-h" data-cmd="more" data-original-title="" title=""></a>
                             </div>
                         </div>
-                    </div>
+                   </div>
                 </span>
             </div>
         </article>

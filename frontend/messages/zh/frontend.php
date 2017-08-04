@@ -58,6 +58,11 @@ return [
     "Login" => "登录",
     /*site*/
 
+    /*article*/
+    "Article id {id} is not exists" => "文章id {id}不存在",
+    "Comment" => "评论",
+    /*article*/
+
     /*comment*/
     'This article is not allowed to comment' => '此文章不允许评论',
     'Website closed comment' => '本站不允许评论',

@@ -85,9 +85,6 @@ class SiteController extends \yii\web\Controller
         $data['phpversion'] = @phpversion();
         $data['os'] = PHP_OS;
         $tmp = function_exists('gd_info') ? gd_info() : array();
-        $server = $_SERVER["SERVER_SOFTWARE"];
-        $host = (empty($_SERVER["SERVER_ADDR"]) ? $_SERVER["SERVER_HOST"] : $_SERVER["SERVER_ADDR"]);
-        $name = $_SERVER["SERVER_NAME"];
         $max_execution_time = ini_get('max_execution_time');
         $allow_reference = (ini_get('allow_call_time_pass_reference') ? '<font color=green>[√]On</font>' : '<font color=red>[×]Off</font>');
         $allow_url_fopen = (ini_get('allow_url_fopen') ? '<font color=green>[√]On</font>' : '<font color=red>[×]Off</font>');

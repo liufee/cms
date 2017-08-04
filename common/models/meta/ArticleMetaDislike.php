@@ -6,9 +6,9 @@
  * Created at: 2016-11-10 10:50
  */
 
-namespace common\models;
+namespace common\models\meta;
 
-class ArticleMetaDislike extends ArticleMeta
+class ArticleMetaDislike extends \common\models\ArticleMeta
 {
 
     public $tag = "dislike";

@@ -26,6 +26,9 @@ return [
                 [
                     'class' => yii\log\EmailTarget::class,
                     'levels' => ['error', 'warning'],
+                    'except' => [
+                        'yii\debug\Module:checkAccess',
+                    ],
                     'message' => [
                         'to' => ['admin@feehi.com', 'liufee@126.com'],//当触发levels配置的错误级别时，发送到此些邮箱（请改成自己的邮箱）
                         'subject' => '来自 Feehi CMS 前台的新日志消息',
@@ -37,7 +40,7 @@ return [
             'errorAction' => 'site/error',
         ],
         'cache' => [
-            'class' => yii\caching\FileCache::class,
+            'class' => yii\caching\FileCache::class,//使用文件缓存，可根据需要改成apc redis memcache等其他缓存方式
             'keyPrefix' => 'frontend',       // 唯一键前缀
         ],
         'urlManager' => [
@@ -55,13 +58,12 @@ return [
                 //'<controller:w+>/<action:\w+>'=>'<controller>/<action>',
                 '<page:\d+>' => 'article/index',
                 'login' => 'site/login',
-                'sinup' => 'site/signup',
+                'signup' => 'site/signup',
                 'about|contact' => 'page/view',
                 'page/<name:\w+>' => 'page/view',
                 'view/<id:\d+>' => 'article/view',
                 'comment' => 'article/comment',
                 'article/view/id/<id:\d+>' => 'article/view',
-                'Index/detail/id/<id:\d+>' => 'site/detail',
                 'search' => 'search/index',
                 'cat/<cat:\w+>' => 'article/index',
                 'list/<page:\d+>' => 'site/index',

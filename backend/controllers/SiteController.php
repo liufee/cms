@@ -18,6 +18,7 @@ use common\models\FriendLink;
 use frontend\models\User;
 use yii\db\Query;
 use yii\web\HttpException;
+use yii\captcha\CaptchaAction;
 
 /**
  * Site controller
@@ -29,16 +30,16 @@ class SiteController extends BaseController
     {
         return [
             'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
+                'class' => CaptchaAction::class,
                 //'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,//本行可能引起更换验证码失效，必须刷新浏览器
                 'backColor' => 0x66b3ff,//背景颜色
-                'maxLength' => 4, //最大显示个数
+                'maxLength' => 4,//最大显示个数
                 'minLength' => 4,//最少显示个数
-                'padding' => 10,//间距
+                'padding' => 6,//验证码字体大小，数值越小字体越大
                 'height' => 34,//高度
-                'width' => 100,  //宽度
-                'foreColor' => 0xffffff,     //字体颜色
-                'offset' => 16,        //设置字符偏移量 有效果
+                'width' => 100,//宽度
+                'foreColor' => 0xffffff,//字体颜色
+                'offset' => 13,//设置字符偏移量
             ],
         ];
     }
@@ -81,7 +82,7 @@ class SiteController extends BaseController
         error_reporting(E_ALL);
         $status = [
             'DISK_SPACE' => [
-                'NUM' => ceil($serverInfo['freeSpace']) . 'G' . ' / ' . ceil($serverInfo['diskTotal']) . 'G',
+                'NUM' => ceil( $serverInfo['diskTotal'] - $serverInfo['freeSpace'] ) . 'G' . ' / ' . ceil($serverInfo['diskTotal']) . 'G',
                 'PERCENTAGE' => (floatval($serverInfo['diskTotal']) != 0) ? round(($serverInfo['diskTotal'] - $serverInfo['freeSpace']) / $serverInfo['diskTotal'] * 100, 2) : 0,
             ],
             'MEM' => [

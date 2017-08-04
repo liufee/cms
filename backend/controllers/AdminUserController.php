@@ -11,6 +11,7 @@ use yii;
 use backend\models\User;
 use yii\data\ActiveDataProvider;
 use backend\models\AdminRoleUser;
+use yii\web\BadRequestHttpException;
 
 class AdminUserController extends BaseController
 {
@@ -164,6 +165,8 @@ class AdminUserController extends BaseController
         }
         $model->uid = $uid;
         if (yii::$app->getRequest()->getIsPost()) {
+            $postRoleId = yii::$app->getRequest()->post(substr(AdminRoleUser::class, strrpos(AdminRoleUser::class,'\\')+1))['role_id'];
+            if($model->uid == 1 && ($postRoleId != 1) ) throw new BadRequestHttpException(yii::t('app', "Can not update default super administrator's role"));
             if ($model->load(yii::$app->getRequest()->post()) && $model->save()) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'success'));
             } else {

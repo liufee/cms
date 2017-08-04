@@ -84,7 +84,7 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout(false);
+        Yii::$app->getUser()->logout(false);
 
         return $this->goHome();
     }
@@ -185,7 +185,7 @@ class SiteController extends Controller
         if (isset($view)) {
             Yii::$app->session['view'] = $view;
         }
-        $this->goBack(Yii::$app->getRequest()->headers['Referer']);
+        $this->goBack( Yii::$app->getRequest()->getHeaders()->get('referer') );
     }
 
     /**
@@ -198,7 +198,7 @@ class SiteController extends Controller
         if (isset($language)) {
             Yii::$app->session['language'] = $language;
         }
-        $this->redirect(Yii::$app->getRequest()->headers['referer']);
+        $this->redirect( Yii::$app->getRequest()->getHeaders()->get('referer') );
     }
 
     /**

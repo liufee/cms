@@ -52,16 +52,33 @@ class AdminRolesController extends BaseController
         }
         if (yii::$app->getRequest()->getIsPost()) {
             $role_id = yii::$app->getRequest()->get('id');
-            $temp = yii::$app->getRequest()->post('ids', '');
-            $ids = [];
-            if(!empty($temp)) $ids = explode(',', $temp);
-            $model = new AdminRolePermission();
-            $model->assignPermission($role_id, $ids);
+            if( $role_id != 1 ) {//超级管理员无需写入权限信息
+                $temp = yii::$app->getRequest()->post('ids', '');
+                $ids = [];
+                if (! empty($temp)) {
+                    $ids = explode(',', $temp);
+                }
+                $model = new AdminRolePermission();
+                $model->assignPermission($role_id, $ids);
+            }
             Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             return $this->redirect(['assign', 'id' => yii::$app->request->get('id', '')]);
         }
         $model = AdminRolePermission::findAll(['role_id' => $id]);
         $treeJson = Menu::getBackendMenuJson();
+        if( $id == 1 ){//超级管理员拥有所有权限，且不能被修改
+            $treeJson = json_decode($treeJson, true);
+            foreach ($treeJson as &$v){
+                $v['state'] = [
+                    'selected' => true,
+                    'disabled' => true,
+                ];
+                if( isset($v['children']) ){
+                    $v['children'] = self::_defaultSuperAdministrator($v['children']);
+                }
+            }
+            $treeJson = json_encode($treeJson);
+        }
         return $this->render('assign', [
             'model' => $model,
             'treeJson' => $treeJson,
@@ -80,6 +97,21 @@ class AdminRolesController extends BaseController
             $model = AdminRoles::findOne(['id' => $id]);
         }
         return $model;
+    }
+
+    /**
+     * 默认超管的所有权限选中
+     *
+     * @param $children
+     * @return mixed
+     */
+    private static function _defaultSuperAdministrator($children)
+    {
+        foreach ($children as &$v) {
+            $v['state'] = ['selected' => true, 'disabled' => true];
+            if( isset($v['state']) ) $v['children'] = self::_defaultSuperAdministrator($v['children']);
+        }
+        return $children;
     }
 
 }

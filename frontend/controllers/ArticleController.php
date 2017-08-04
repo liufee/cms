@@ -29,7 +29,10 @@ class ArticleController extends Controller
                 'class' => HttpCache::class,
                 'only' => ['view'],
                 'lastModified' => function ($action, $params) {
-                    $article = Article::findOne(['id' => yii::$app->request->get('id')]);
+                    $id = yii::$app->getRequest()->get('id');
+                    $article = Article::findOne(['id' => $id]);
+                    if( $article === null ) throw new NotFoundHttpException(yii::t("frontend", "Article id {id} is not exists", ['id' => $id]));
+                    Article::updateAllCounters(['scan_count' => 1], ['id' => $id]);
                     return $article->updated_at;
                 },
             ],
@@ -84,7 +87,6 @@ class ArticleController extends Controller
     public function actionView($id)
     {
         $model = Article::findOne(['id' => $id]);
-        Article::updateAllCounters(['scan_count' => 1], ['id' => $id]);
         $prev = Article::find()
             ->where(['cid' => $model->cid])
             ->andWhere(['>', 'id', $id])

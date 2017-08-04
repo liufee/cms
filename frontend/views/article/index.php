@@ -17,6 +17,7 @@ use frontend\controllers\components\Article;
 use frontend\widgets\ScrollPicView;
 use common\widgets\JsBlock;
 use frontend\assets\IndexAsset;
+use yii\helpers\StringHelper;
 
 IndexAsset::register($this);
 $this->title = yii::$app->feehi->website_title;
@@ -38,7 +39,7 @@ $this->title = yii::$app->feehi->website_title;
                     $url = Url::to(['article/view', 'id' => $article->id]);
                     $imgUrl = Url::to(['/timthumb.php', 'src'=>$article->thumb, 'h'=>112, 'w'=>168, 'zc'=>0]);
                     $article->created_at = yii::$app->formatter->asDate($article->created_at);
-                    $article->summary = yii\helpers\StringHelper::truncate($article->summary, 20);
+                    $article->summary = StringHelper::truncate($article->summary, 20);
                     echo "<li>
                         <figure class='dd-img'>
                             <a title='{$article->title}' target='_blank' href='{$url}'>

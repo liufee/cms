@@ -1,15 +1,14 @@
 {
     "name": "feehi/cms",
     "description": "Feehi CMS Project Template",
-    "keywords": ["yii2", "framework", "yii2 advanced", "project template", "feehi", "feehi cms", "php", "php cms"],
+    "keywords": ["feehicms", "yii2 cms", "cms", "php framework", "yii2 advanced", "project template", "feehi", "php", "php cms"],
     "homepage": "http://cms.feehi.com/",
     "type": "project",
     "license": "BSD-3-Clause",
     "support": {
-        "issues": "https://github.com/yiisoft/yii2/issues?state=open",
-        "forum": "http://www.yiiframework.com/forum/",
-        "wiki": "http://www.yiiframework.com/wiki/",
-        "irc": "irc://irc.freenode.net/yii",
+        "issues": "https://github.com/liufee/cms/issues?state=open",
+        "forum": "http://cms.feehi.com/",
+        "wiki": "http://cms.feehi.com/help",
         "source": "https://github.com/feehi/cms"
     },
     "minimum-stability": "stable",
@@ -17,8 +16,7 @@
         "php": ">=5.4.0",
         "yiisoft/yii2": ">=2.0.6",
         "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*",
-        "feehi/standard": "*"
+        "yiisoft/yii2-swiftmailer": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

@@ -22,7 +22,7 @@ return [
     '日志' => 'Log',
     '角色' => 'Roles',
     '管理员' => 'Admin Users',
-    '友情链接' => 'Friend Link',
+    '友情链接' => 'Friendly Link',
     '缓存' => 'Cache',
     '清除前台' => 'Clear Frontend',
     '清除后台' => 'Clear Backend',

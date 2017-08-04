@@ -284,6 +284,10 @@ return [
     'New password was saved.' => '密码修改成功',
     /*user*/
 
+    /*admin user*/
+    "Can not update default super administrator's role" => '不允许修改系统默认的超级管理的角色',
+    /*admin user*/
+
     /*file*/
     'Files' => '文件',
     'Filesize' => '文件大小',
