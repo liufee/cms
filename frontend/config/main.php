@@ -27,7 +27,7 @@ return [
                     'class' => yii\log\EmailTarget::class,
                     'levels' => ['error', 'warning'],
                     'except' => [
-                        'yii\debug\Module:checkAccess',
+                        'yii\debug\Module::checkAccess',
                     ],
                     'message' => [
                         'to' => ['admin@feehi.com', 'liufee@126.com'],//当触发levels配置的错误级别时，发送到此些邮箱（请改成自己的邮箱）

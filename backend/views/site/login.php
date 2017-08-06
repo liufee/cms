@@ -41,33 +41,25 @@ $this->params['breadcrumbs'][] = $this->title;
                 text-align: left;
             }
 
-            img#captchaimg {
-                cursor: pointer;
-                position: absolute;
-                top: 0px;
-                left: 199px;
-            }
-
             .form-horizontal .form-group {
                 width: 300px;
                 margin-left: 0px;
             }
+
+            img#loginform-captcha-image{
+                position: absolute;
+                top: 2px;
+                right: 1px;
+            }
         </style>
     </head>
     <body class="gray-bg">
-    <style>
-        .m-t-md {
-            margin-top: 0px
-        }
-    </style>
     <?php $this->beginBody() ?>
     <div class="middle-box text-center loginscreen  animated fadeInDown">
         <?= $this->render('/widgets/_flash') ?>
         <div>
             <div>
-
                 <h1 class="logo-name">H+</h1>
-
             </div>
             <h3><?= yii::t('app', 'Welcome to') ?> Feehi CMS</h3>
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
@@ -77,21 +69,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'password', ['template' => "<div style='position:relative'>{input}\n{error}\n{hint}</div>"])
                 ->passwordInput(['placeholder' => yii::t("app", "Password")]) ?>
 
-            <?php $captcha = Captcha::widget([
-                'name' => 'captchaimg',
-                'captchaAction' => 'captcha',
-                'imageOptions' => [
-                    'id' => 'captchaimg',
-                    'title' => '换一个',
-                    'alt' => '换一个',
-                    'style' => 'cursor:pointer;'
-                ],
-                'template' => '{image}'
-            ]);
-            ?>
-            <?= $form->field($model, 'captcha', ['template' => '<div style="position:relative">{input}' . $captcha . '{error}{hint}</div>'])
-                ->textInput(['placeholder' => yii::t("app", "Captcha"), 'style' => 'width:200px']) ?>
-
+            <?= $form->field($model, 'captcha', ['template' => '<div style="position:relative">{input}{error}{hint}</div>'])->widget(Captcha::classname(), [
+                'template' => '{input}{image}',
+                'options' => [
+                    'style' => "width:300px;height:34px;position:relative;top:2px",
+                ]
+            ]) ?>
             <?= Html::submitButton(yii::t("app", "Login"), [
                 'class' => 'btn btn-primary block full-width m-b',
                 'name' => 'login-button'

@@ -39,7 +39,7 @@ return [
                     'except' => [//以下配置，除了匹配数组中的分类信息都会触发邮件提醒（黑名单）
                         'yii\web\HttpException:404',
                         'yii\web\HttpException:403',
-                        'yii\debug\Module:checkAccess',
+                        'yii\debug\Module::checkAccess',
                     ],
                     'message' => [
                         'to' => ['admin@feehi.com', 'liufee@126.com'],
