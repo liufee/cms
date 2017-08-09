@@ -163,7 +163,8 @@ class ActiveField extends \yii\widgets\ActiveField
     }
 
     /**
-     * @inheritdoc
+     * 图片输入框
+     *
      */
     public function imgInput($options = [])
     {

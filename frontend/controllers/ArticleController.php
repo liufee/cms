@@ -8,6 +8,8 @@
 
 namespace frontend\controllers;
 
+use common\libs\Constants;
+use frontend\models\ArticleContent;
 use yii;
 use yii\web\Controller;
 use frontend\models\Article;
@@ -107,6 +109,22 @@ class ArticleController extends Controller
             ->orderBy("rand()")
             ->limit(8)
             ->all();
+        switch ($model->visibility){
+            case Constants::ARTICLE_VISIBILITY_COMMENT:
+                if( yii::$app->getUser()->getIsGuest() ){
+                    $result = Comment::find()->where(['aid'=>$model->id, 'ip'=>yii::$app->getRequest()->getUserIP()])->one();
+                }else{
+                    $result = Comment::find()->where(['aid'=>$model->id, 'uid'=>yii::$app->getUser()->getId()])->one();
+                }
+                if( $result === null ) {
+                    $model->content = "<p style='color: red'>" . yii::t('frontend', "Only commented user can visit this article") . "</p>";
+                }
+                break;
+            default:
+                $model->content = ArticleContent::findOne(['aid'=>$model->id])['content'];
+                break;
+
+        }
         $likeModel = new ArticleMetaLike();
         return $this->render('view', [
             'model' => $model,

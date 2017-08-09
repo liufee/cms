@@ -138,6 +138,7 @@ $(document).ready(function(){
         location.reload();
         return false;
     });
+
     $('input[type=file]').bind('change', function () {
         if (typeof FileReader === 'undefined') {
             return;
@@ -156,8 +157,14 @@ $(document).ready(function(){
             }
         }
     });
+
     $(".openContab").click(function(){
         parent.openConTab($(this));
         return false;
     });
+
+    $("form").bind("beforeSubmit", function () {
+        $(this).find("button[type=submit]").attr("disabled", true);
+        layer.load(2);
+    })
 })

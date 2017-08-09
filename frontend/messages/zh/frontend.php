@@ -37,6 +37,7 @@ return [
     'Website' => '网址',
     'The above error occurred while the Web server was processing your request.' => '服务器在处理您的请求中发生了以上错误',
     'Please contact us if you think this is a server error. Thank you.' => '如果您认为是我们的服务器错误，请告知我们，谢谢!',
+    'Guest' => '游客',
     /*public*/
 
     /*site*/
@@ -61,6 +62,9 @@ return [
     /*article*/
     "Article id {id} is not exists" => "文章id {id}不存在",
     "Comment" => "评论",
+    "Only commented user can visit this article" => "文章仅对评论过的用户可见,可以点击下方评论后查看",
+    'Like' => '赞',
+    'Share' => '分享',
     /*article*/
 
     /*comment*/

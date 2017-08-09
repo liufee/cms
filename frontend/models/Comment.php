@@ -29,7 +29,8 @@ class Comment extends \common\models\Comment
                 } else {
                     $this->status = self::STATUS_PASSED;
                 }
-                $this->ip = yii::$app->request->getUserIP();
+                $this->ip = yii::$app->getRequest()->getUserIP();
+                $this->uid = yii::$app->getUser()->getIsGuest() ? 0 : yii::$app->getUser()->getId();
             } else {
                 $this->addError('content', yii::t('app', 'Website closed comment'));
                 return false;

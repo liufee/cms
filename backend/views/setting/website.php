@@ -45,7 +45,7 @@ $this->title = yii::t('app', 'Website Setting');
                 <?= $form->field($model, 'website_language')->dropDownList([
                     'zh-CN' => '简体中文',
                     'zh-TW' => '繁体中文',
-                    'en-US' => '英语'
+                    'en-US' => 'English'
                 ]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'website_comment')->radioList(Constants::getYesNoItems()) ?>
