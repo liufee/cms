@@ -33,7 +33,7 @@ class AdminLog
             if (isset($event->sender->id)) {
                 $id_des = '{{%ID%}} ' . $event->sender->id;
             }
-            $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->user->identity->username . ' ] {{%BY%}} ' . $class . ' [ ' . $class::tableName() . ' ] ' . " {{%CREATED%}} {$id_des} {{%RECORD%}}: " . $desc;
+            $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->getUser()->getIdentity()->username . ' ] {{%BY%}} ' . $class . ' [ ' . $class::tableName() . ' ] ' . " {{%CREATED%}} {$id_des} {{%RECORD%}}: " . $desc;
             $model->route = Yii::$app->controller->id . '/' . Yii::$app->controller->action->id;
             $model->user_id = yii::$app->user->id;
             $model->save();
@@ -49,7 +49,9 @@ class AdminLog
     {
         if (! empty($event->changedAttributes)) {
             $desc = '<br>';
+            $oldAttributes = $event->sender->oldAttributes;
             foreach ($event->changedAttributes as $name => $value) {
+                if( $oldAttributes[$name] == $value ) continue;
                 $desc .= $event->sender->getAttributeLabel($name) . '(' . $name . ') : ' . $value . '=>' . $event->sender->oldAttributes[$name] . ',<br>';
             }
             $desc = substr($desc, 0, -5);
@@ -59,9 +61,9 @@ class AdminLog
             if (isset($event->sender->id)) {
                 $id_des = '{{%ID%}} ' . $event->sender->id;
             }
-            $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->user->identity->username . ' ] {{%BY%}} ' . $class . ' [ ' . $class::tableName() . ' ] ' . " {{%UPDATED%}} {$id_des} {{%RECORD%}}: " . $desc;
+            $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->getUser()->getIdentity()->username . ' ] {{%BY%}} ' . $class . ' [ ' . $class::tableName() . ' ] ' . " {{%UPDATED%}} {$id_des} {{%RECORD%}}: " . $desc;
             $model->route = Yii::$app->controller->id . '/' . Yii::$app->controller->action->id;
-            $model->user_id = yii::$app->user->id;
+            $model->user_id = yii::$app->getUser()->id;
             $model->save();
         }
     }
@@ -84,9 +86,10 @@ class AdminLog
         if (isset($event->sender->id)) {
             $id_des = '{{%ID%}} ' . $event->sender->id;
         }
-        $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->user->identity->username . ' ] {{%BY%}} ' . $class . ' [ ' . $class::tableName() . ' ] ' . " {{%DELETED%}} {$id_des} {{%RECORD%}}: " . $desc;
+        $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->getUser()->getIdentity()->username . ' ] {{%BY%}} ' . $class . ' [ ' . $class::tableName() . ' ] ' . " {{%DELETED%}} {$id_des} {{%RECORD%}}: " . $desc;
         $model->route = Yii::$app->controller->id . '/' . Yii::$app->controller->action->id;
-        $model->user_id = yii::$app->user->id;
+        $model->user_id = yii::$app->getUser()->id;
         $model->save();
     }
+
 }
