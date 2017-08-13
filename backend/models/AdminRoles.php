@@ -48,6 +48,7 @@ class AdminRoles extends \yii\db\ActiveRecord
             [['parent_id', 'created_at', 'updated_at'], 'integer'],
             [['role_name', 'remark'], 'string', 'max' => 255],
             [['role_name'], 'required'],
+            [['role_name'], 'unique'],
         ];
     }
 

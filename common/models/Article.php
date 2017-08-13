@@ -101,14 +101,15 @@ class Article extends \yii\db\ActiveRecord
                     'flag_roll',
                     'flag_bold',
                     'flag_picture',
-                    'type',
                     'status',
                     'can_comment'
                 ],
                 'in',
                 'range' => [0, 1]
             ],
-            [['visibility'], 'in', 'range' => [1, 2, 3]]
+            [['visibility'], 'in', 'range' => [1, 2, 3]],
+            [['type'], 'default', 'value'=>self::ARTICLE, 'on'=>'article'],
+            [['type'], 'default', 'value'=>self::SINGLE_PAGE, 'on'=>'page']
         ];
     }
 
@@ -149,6 +150,7 @@ class Article extends \yii\db\ActiveRecord
                 'flag_picture'
             ],
             'page' => [
+                'type',
                 'title',
                 'sub_title',
                 'summary',

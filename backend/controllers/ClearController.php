@@ -12,7 +12,7 @@ use yii;
 use yii\helpers\FileHelper;
 
 
-class ClearController extends BaseController
+class ClearController extends \yii\web\Controller
 {
 
     /**

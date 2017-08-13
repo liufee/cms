@@ -42,7 +42,6 @@ $this->title = "Admin";
                 <?= $form->field($rolesModel, 'role_id', [
                     'labelOptions' => [
                         'label' => yii::t('app', 'Roles'),
-                        'class' => "col-sm-2 control-label"
                     ]
                 ])->radioList(AdminRoles::getRolesNames()) ?>
                 <div class="hr-line-dashed"></div>

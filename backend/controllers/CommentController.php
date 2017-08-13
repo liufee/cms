@@ -9,40 +9,38 @@
 namespace backend\controllers;
 
 use yii;
+use backend\models\Comment;
 use backend\models\CommentSearch;
-use yii\web\NotFoundHttpException;
+use backend\actions\IndexAction;
+use backend\actions\DeleteAction;
+use backend\actions\StatusAction;
 
-class CommentController extends BaseController
+class CommentController extends \yii\web\Controller
 {
 
-    /**
-     * @inheritdoc
-     */
-    public function getIndexData()
+    public function actions()
     {
-        $searchModel = new CommentSearch();
-        $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
         return [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
+            'index' => [
+                'class' => IndexAction::class,
+                'data' => function(){
+                    $searchModel = new CommentSearch();
+                    $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
+                    return [
+                        'dataProvider' => $dataProvider,
+                        'searchModel' => $searchModel,
+                    ];
+                }
+            ],
+            'delete' => [
+                'class' => DeleteAction::class,
+                'modelClass' => Comment::class,
+            ],
+            'status' => [
+                'class' => StatusAction::class,
+                'modelClass' => Comment::class,
+            ],
         ];
     }
 
-    public function actionCreate()
-    {
-        throw new NotFoundHttpException();
-    }
-
-    public function actionUpdate($id = '')
-    {
-        throw new NotFoundHttpException();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getModel($id = '')
-    {
-        return CommentSearch::findOne(['id' => $id]);
-    }
 }

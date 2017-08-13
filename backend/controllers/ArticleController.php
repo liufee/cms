@@ -11,58 +11,58 @@ namespace backend\controllers;
 use yii;
 use backend\models\Article;
 use backend\models\ArticleSearch;
-use backend\models\ArticleContent;
+use backend\actions\CreateAction;
+use backend\actions\UpdateAction;
+use backend\actions\IndexAction;
+use backend\actions\ViewAction;
+use backend\actions\DeleteAction;
+use backend\actions\SortAction;
+use backend\actions\StatusAction;
 
-class ArticleController extends BaseController
+class ArticleController extends \yii\web\Controller
 {
 
-    /**
-     * @inheritdoc
-     */
-    public function getIndexData()
+    public function actions()
     {
-        $searchModel = new ArticleSearch(['scenario' => 'article']);
-        $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
         return [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
+            'index' => [
+                'class' => IndexAction::class,
+                'data' => function(){
+                    $searchModel = new ArticleSearch(['scenario' => 'article']);
+                    $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
+                    return [
+                        'dataProvider' => $dataProvider,
+                        'searchModel' => $searchModel,
+                    ];
+                }
+            ],
+            'create' => [
+                'class' => CreateAction::class,
+                'modelClass' => Article::class,
+                'scenario' => 'article',
+            ],
+            'update' => [
+                'class' => UpdateAction::class,
+                'modelClass' => Article::class,
+                'scenario' => 'article',
+            ],
+            'view-layer' => [
+                'class' => ViewAction::class,
+                'modelClass' => Article::class,
+            ],
+            'delete' => [
+                'class' => DeleteAction::class,
+                'modelClass' => Article::class,
+            ],
+            'sort' => [
+                'class' => SortAction::class,
+                'modelClass' => Article::class,
+            ],
+            'status' => [
+                'class' => StatusAction::class,
+                'modelClass' => Article::class,
+            ],
         ];
-    }
-
-    /**
-     * 文章详情
-     *
-     * @param $id
-     * @return string
-     */
-    public function actionViewLayer($id)
-    {
-        $model = Article::findOne(['id' => $id]);
-        $contentModel = ArticleContent::findOne(['aid' => $id]);
-        $model->content = '';
-        if ($contentModel != null) {
-            $model->content = $contentModel->content;
-        }
-        return $this->render('view', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getModel($id = '')
-    {
-        if ($id == '') {
-            $model = new Article();
-        } else {
-            $model = Article::findOne(['id' => $id]);
-            if ($model == null) {
-                return null;
-            }
-        }
-        $model->setScenario('article');
-        return $model;
     }
 
 }

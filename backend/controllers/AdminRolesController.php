@@ -13,26 +13,46 @@ use backend\models\AdminRolePermission;
 use backend\models\Menu;
 use backend\models\AdminRoles;
 use yii\data\ActiveDataProvider;
+use backend\actions\CreateAction;
+use backend\actions\UpdateAction;
+use backend\actions\IndexAction;
+use backend\actions\DeleteAction;
 
-class AdminRolesController extends BaseController
+class AdminRolesController extends \yii\web\Controller
 {
 
-    /**
-     * @inheritdoc
-     */
-    public function getIndexData()
+    public function actions()
     {
-        $query = AdminRoles::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'sort' => [
-                'defaultOrder' => [
-                    'created_at' => SORT_ASC,
-                ]
-            ]
-        ]);
         return [
-            'dataProvider' => $dataProvider
+            'index' => [
+                'class' => IndexAction::class,
+                'data' => function(){
+                    $query = AdminRoles::find();
+                    $dataProvider = new ActiveDataProvider([
+                        'query' => $query,
+                        'sort' => [
+                            'defaultOrder' => [
+                                'created_at' => SORT_ASC,
+                            ]
+                        ]
+                    ]);
+                    return [
+                        'dataProvider' => $dataProvider
+                    ];
+                }
+            ],
+            'create' => [
+                'class' => CreateAction::class,
+                'modelClass' => AdminRoles::class,
+            ],
+            'update' => [
+                'class' => UpdateAction::class,
+                'modelClass' => AdminRoles::class,
+            ],
+            'delete' => [
+                'class' => DeleteAction::class,
+                'modelClass' => AdminRoles::class,
+            ],
         ];
     }
 
@@ -84,19 +104,6 @@ class AdminRolesController extends BaseController
             'treeJson' => $treeJson,
             'role_name' => $roleName,
         ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getModel($id = '')
-    {
-        if ($id == '') {
-            $model = new AdminRoles();
-        } else {
-            $model = AdminRoles::findOne(['id' => $id]);
-        }
-        return $model;
     }
 
     /**

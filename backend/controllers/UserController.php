@@ -9,59 +9,59 @@
 namespace backend\controllers;
 
 use yii;
-use backend\models\UserSearch;
 use frontend\models\User;
+use frontend\models\UserSearch;
 use backend\models\PasswordResetRequestForm;
 use backend\models\ResetPasswordForm;
 use yii\base\InvalidParamException;
-use yii\filters\AccessControl;
 use yii\web\BadRequestHttpException;
+use backend\actions\CreateAction;
+use backend\actions\UpdateAction;
+use backend\actions\IndexAction;
+use backend\actions\DeleteAction;
+use backend\actions\SortAction;
+use backend\actions\StatusAction;
 
-class UserController extends BaseController
+class UserController extends \yii\web\Controller
 {
 
-    public function behaviors()
+    public function actions()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['request-password-reset', 'reset-password'],
-                'rules' => [
-                    [
-                        'actions' => ['request-password-reset', 'reset-password'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                ],
+            'index' => [
+                'class' => IndexAction::class,
+                'data' => function(){
+                    $searchModel = new UserSearch();
+                    $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
+                    return [
+                        'dataProvider' => $dataProvider,
+                        'searchModel' => $searchModel,
+                    ];
+                }
+            ],
+            'create' => [
+                'class' => CreateAction::class,
+                'modelClass' => User::class,
+                'scenario' => 'create',
+            ],
+            'update' => [
+                'class' => UpdateAction::class,
+                'modelClass' => User::class,
+                'scenario' => 'update',
+            ],
+            'delete' => [
+                'class' => DeleteAction::class,
+                'modelClass' => User::class,
+            ],
+            'sort' => [
+                'class' => SortAction::class,
+                'modelClass' => User::class,
+            ],
+            'status' => [
+                'class' => StatusAction::class,
+                'modelClass' => User::class,
             ],
         ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getIndexData()
-    {
-        $searchModel = new UserSearch();
-        $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
-        return [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getModel($id = '')
-    {
-        if ($id == '') {
-            $model = new User(['scenario' => 'create']);
-        } else {
-            $model = User::findOne(['id' => $id]);
-            $model->setScenario('update');
-        }
-        return $model;
     }
 
     /**

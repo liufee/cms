@@ -8,7 +8,7 @@
 
 namespace backend\widgets;
 
-use Yii;
+use yii;
 use yii\helpers\Html;
 
 class ActiveField extends \yii\widgets\ActiveField
@@ -30,6 +30,22 @@ class ActiveField extends \yii\widgets\ActiveField
         'class' => 'help-block m-b-none'
     ];
 
+    public function init()
+    {
+        parent::init();
+
+        if( !isset($this->options['class']) ){
+            $this->options['class'] = 'form-group';
+        }
+
+        if(!isset($this->labelOptions['class'])){
+            $this->labelOptions['class'] = 'col-sm-2 control-label';
+        }
+
+        if(!isset($this->errorOptions['class'])){
+            $this->errorOptions['class'] = 'help-block m-b-none';
+        }
+    }
 
     /**
      * @inheritdoc
@@ -41,6 +57,10 @@ class ActiveField extends \yii\widgets\ActiveField
                 $this->parts['{input}'] = Html::activeTextInput($this->model, $this->attribute, $this->inputOptions);
             }
             if (! isset($this->parts['{label}'])) {
+                if( $this->model->isAttributeRequired($this->attribute) && ( !isset( $this->labelOptions['requiredSign'] ) || $this->labelOptions['requiredSign'] ) ){
+                    $requiredSign = !isset( $this->labelOptions['requiredSign'] ) ? "<span style='color:red'>*</span> " : $this->labelOptions['requiredSign'];
+                    $this->labelOptions['label'] = $requiredSign . ( isset( $this->labelOptions['label'] ) ? $this->labelOptions['label'] : $this->model->getAttributeLabel($this->attribute) );
+                }
                 $this->parts['{label}'] = Html::activeLabel($this->model, $this->attribute, $this->labelOptions);
             }
             if (! isset($this->parts['{error}'])) {

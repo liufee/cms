@@ -73,7 +73,7 @@ $this->title = "Frontend Menus";
                             'value' => function ($model, $key, $index, $column) {
                                 if ($model['is_display'] == Menu::DISPLAY_YES) {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model['id'],
                                         'status' => Menu::DISPLAY_NO,
                                         'field' => 'is_display'
@@ -82,7 +82,7 @@ $this->title = "Frontend Menus";
                                     $confirm = Yii::t('app', 'Are you sure you want to disable this item?');
                                 } else {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model['id'],
                                         'status' => Menu::DISPLAY_YES,
                                         'field' => 'is_display'

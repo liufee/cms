@@ -8,7 +8,8 @@
 
 namespace backend\controllers;
 
-use Yii;
+use yii;
+use Exception;
 use common\models\Comment;
 use backend\models\LoginForm;
 use common\libs\ServerInfo;
@@ -16,6 +17,7 @@ use backend\models\Article as ArticleModel;
 use backend\models\Comment as BackendComment;
 use common\models\FriendLink;
 use frontend\models\User;
+use yii\base\UserException;
 use yii\db\Query;
 use yii\web\HttpException;
 use yii\captcha\CaptchaAction;
@@ -23,7 +25,7 @@ use yii\captcha\CaptchaAction;
 /**
  * Site controller
  */
-class SiteController extends BaseController
+class SiteController extends \yii\web\Controller
 {
 
     public function actions()
@@ -214,20 +216,20 @@ class SiteController extends BaseController
         } else {
             $code = $exception->getCode();
         }
-        //if ($exception instanceof Exception) {
-        $name = $exception->getName();
-        //} else {
-        //$name = $this->defaultName ?: Yii::t('yii', 'Error');
-        //}
+        if ($exception instanceof Exception) {
+            $name = $exception->getName();
+        } else {
+            $name = $this->defaultName ?: Yii::t('yii', 'Error');
+        }
         if ($code) {
             $name .= " (#$code)";
         }
 
-        //if ($exception instanceof UserException) {
-        $message = $exception->getMessage();
-        //} else {
-        //$message = $this->defaultMessage ?: Yii::t('yii', 'An internal server error occurred.');
-        //}
+        if ($exception instanceof UserException) {
+            $message = $exception->getMessage();
+        } else {
+            $message = $this->defaultMessage ?: Yii::t('yii', 'An internal server error occurred.');
+        }
         $statusCode = $exception->statusCode ? $exception->statusCode : 500;
         if (Yii::$app->getRequest()->getIsAjax()) {
             return "$name: $message";

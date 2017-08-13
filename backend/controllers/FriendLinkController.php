@@ -10,44 +10,61 @@ namespace backend\controllers;
 
 use yii\data\ActiveDataProvider;
 use backend\models\FriendLink;
+use backend\actions\CreateAction;
+use backend\actions\UpdateAction;
+use backend\actions\IndexAction;
+use backend\actions\DeleteAction;
+use backend\actions\SortAction;
+use backend\actions\StatusAction;
 
 /**
  * FriendLink controller
  */
-class FriendLinkController extends BaseController
+class FriendLinkController extends \yii\web\Controller
 {
 
-    /**
-     * @inheritdoc
-     */
-    public function getIndexData()
+    public function actions()
     {
-        $query = FriendLink::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'sort' => [
-                'defaultOrder' => [
-                    'sort' => SORT_ASC,
-                    'id' => SORT_ASC,
-                ],
-            ]
-        ]);
         return [
-            'dataProvider' => $dataProvider,
+            'index' => [
+                'class' => IndexAction::class,
+                'data' => function(){
+                    $query = FriendLink::find();
+                    $dataProvider = new ActiveDataProvider([
+                        'query' => $query,
+                        'sort' => [
+                            'defaultOrder' => [
+                                'sort' => SORT_ASC,
+                                'id' => SORT_ASC,
+                            ],
+                        ]
+                    ]);
+                    return [
+                        'dataProvider' => $dataProvider,
+                    ];
+                }
+            ],
+            'create' => [
+                'class' => CreateAction::class,
+                'modelClass' => FriendLink::class,
+            ],
+            'update' => [
+                'class' => UpdateAction::class,
+                'modelClass' => FriendLink::class,
+            ],
+            'delete' => [
+                'class' => DeleteAction::class,
+                'modelClass' => FriendLink::class,
+            ],
+            'sort' => [
+                'class' => SortAction::class,
+                'modelClass' => FriendLink::class,
+            ],
+            'status' => [
+                'class' => StatusAction::class,
+                'modelClass' => FriendLink::class,
+            ],
         ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getModel($id = "")
-    {
-        if ($id == '') {
-            $model = new FriendLink();
-        } else {
-            $model = FriendLink::findOne(['id' => $id]);
-        }
-        return $model;
     }
 
 }

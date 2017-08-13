@@ -68,7 +68,7 @@ $this->title = 'Pages';
                             'value' => function ($model, $key, $index, $column) {
                                 if ($model->status == Article::ARTICLE_PUBLISHED) {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 0,
                                         'field' => 'status'
@@ -77,7 +77,7 @@ $this->title = 'Pages';
                                     $confirm = Yii::t('app', 'Are you sure you want to cancel release?');
                                 } else {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 1,
                                         'field' => 'status'

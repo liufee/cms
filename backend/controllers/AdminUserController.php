@@ -12,26 +12,46 @@ use backend\models\User;
 use yii\data\ActiveDataProvider;
 use backend\models\AdminRoleUser;
 use yii\web\BadRequestHttpException;
+use backend\actions\IndexAction;
+use backend\actions\DeleteAction;
+use backend\actions\SortAction;
+use backend\actions\StatusAction;
 
-class AdminUserController extends BaseController
+class AdminUserController extends \yii\web\Controller
 {
 
-    /**
-     * @inheritdoc
-     */
-    public function getIndexData()
+    public function actions()
     {
-        $query = User::find();
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-            'sort' => [
-                'defaultOrder' => [
-                    'created_at' => SORT_ASC,
-                ]
-            ]
-        ]);
         return [
-            'dataProvider' => $dataProvider,
+            'index' => [
+                'class' => IndexAction::class,
+                'data' => function(){
+                    $query = User::find();
+                    $dataProvider = new ActiveDataProvider([
+                        'query' => $query,
+                        'sort' => [
+                            'defaultOrder' => [
+                                'created_at' => SORT_ASC,
+                            ]
+                        ]
+                    ]);
+                    return [
+                        'dataProvider' => $dataProvider,
+                    ];
+                }
+            ],
+            'delete' => [
+                'class' => DeleteAction::class,
+                'modelClass' => User::class,
+            ],
+            'sort' => [
+                'class' => SortAction::class,
+                'modelClass' => User::class,
+            ],
+            'status' => [
+                'class' => StatusAction::class,
+                'modelClass' => User::class,
+            ],
         ];
     }
 
@@ -81,7 +101,7 @@ class AdminUserController extends BaseController
      */
     public function actionUpdate($id)
     {
-        $model = $this->getModel($id);
+        $model = User::findOne($id);
         $model->setScenario('update');
         $rolesModel = AdminRoleUser::findOne(['uid' => $id]);
         if ($rolesModel == null) {
@@ -113,14 +133,6 @@ class AdminUserController extends BaseController
             'model' => $model,
             'rolesModel' => $rolesModel,
         ]);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getModel($id = '')
-    {
-        return User::findOne(['id' => $id]);
     }
 
     /**
@@ -156,6 +168,7 @@ class AdminUserController extends BaseController
      *
      * @param string $uid
      * @return string
+     * @throws \yii\web\BadRequestHttpException
      */
     public function actionAssign($uid = '')
     {

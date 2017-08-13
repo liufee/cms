@@ -7,8 +7,8 @@
  */
 
 if (Yii::$app->getSession()->hasFlash('success')) {
-    $successTitle = yii::t('app', 'Success');
-    $info = Yii::$app->getSession()->getFlash('success');
+    $successTitle = addslashes( yii::t('app', 'Success') );
+    $info = addslashes( Yii::$app->getSession()->getFlash('success') );
     $str = <<<EOF
        toastr.options = {
           "closeButton": true,
@@ -29,8 +29,8 @@ EOF;
     $this->registerJs($str);
 }
 if (Yii::$app->getSession()->hasFlash('error')) {
-    $errorTitle = yii::t('app', 'Error');
-    $info = Yii::$app->getSession()->getFlash('error');
+    $errorTitle = addslashes( yii::t('app', 'Error') );
+    $info = addslashes( Yii::$app->getSession()->getFlash('error') );
     $str = <<<EOF
        toastr.options = {
           "closeButton": true,

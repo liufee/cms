@@ -61,7 +61,7 @@ $this->title = 'Articles';
                             'attribute' => 'sort',
                             'format' => 'raw',
                             'value' => function ($model) {
-                                return \yii\helpers\Html::input('number', "sort[{$model['id']}]", $model['sort'], ['style' => 'width:50px']);
+                                return Html::input('number', "sort[{$model['id']}]", $model['sort'], ['style' => 'width:50px']);
                             }
                         ],
                         [
@@ -97,7 +97,7 @@ $this->title = 'Articles';
                             'value' => function ($model, $key, $index, $column) {
                                 if ($model->flag_headline) {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 0,
                                         'field' => 'flag_headline'
@@ -106,7 +106,7 @@ $this->title = 'Articles';
                                     $confirm = Yii::t('app', 'Are you sure you want to disable this item?');
                                 } else {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 1,
                                         'field' => 'flag_headline'
@@ -129,7 +129,7 @@ $this->title = 'Articles';
                             'value' => function ($model, $key, $index, $column) {
                                 if ($model->flag_recommend) {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 0,
                                         'field' => 'flag_recommend'
@@ -138,7 +138,7 @@ $this->title = 'Articles';
                                     $confirm = Yii::t('app', 'Are you sure you want to disable this item?');
                                 } else {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 1,
                                         'field' => 'flag_recommend'
@@ -161,7 +161,7 @@ $this->title = 'Articles';
                             'value' => function ($model, $key, $index, $column) {
                                 if ($model->flag_slide_show) {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 0,
                                         'field' => 'flag_slide_show'
@@ -170,7 +170,7 @@ $this->title = 'Articles';
                                     $confirm = Yii::t('app', 'Are you sure you want to disable this item?');
                                 } else {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 1,
                                         'field' => 'flag_slide_show'
@@ -193,7 +193,7 @@ $this->title = 'Articles';
                             'value' => function ($model, $key, $index, $column) {
                                 if ($model->flag_special_recommend) {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 0,
                                         'field' => 'flag_special_recommend'
@@ -202,7 +202,7 @@ $this->title = 'Articles';
                                     $confirm = Yii::t('app', 'Are you sure you want to disable this item?');
                                 } else {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 1,
                                         'field' => 'flag_special_recommend'
@@ -225,7 +225,7 @@ $this->title = 'Articles';
                             'value' => function ($model, $key, $index, $column) {
                                 if ($model->flag_roll) {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 0,
                                         'field' => 'flag_roll'
@@ -234,7 +234,7 @@ $this->title = 'Articles';
                                     $confirm = Yii::t('app', 'Are you sure you want to disable this item?');
                                 } else {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 1,
                                         'field' => 'flag_roll'
@@ -257,7 +257,7 @@ $this->title = 'Articles';
                             'value' => function ($model, $key, $index, $column) {
                                 if ($model->flag_bold) {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 0,
                                         'field' => 'flag_bold'
@@ -266,7 +266,7 @@ $this->title = 'Articles';
                                     $confirm = Yii::t('app', 'Are you sure you want to disable this item?');
                                 } else {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 1,
                                         'field' => 'flag_bold'
@@ -289,7 +289,7 @@ $this->title = 'Articles';
                             'value' => function ($model, $key, $index, $column) {
                                 if ($model->flag_picture) {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 0,
                                         'field' => 'flag_picture'
@@ -298,7 +298,7 @@ $this->title = 'Articles';
                                     $confirm = Yii::t('app', 'Are you sure you want to disable this item?');
                                 } else {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 1,
                                         'field' => 'flag_picture'
@@ -320,7 +320,7 @@ $this->title = 'Articles';
                             'value' => function ($model, $key, $index, $column) {
                                 if ($model->status == Article::ARTICLE_PUBLISHED) {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 0,
                                         'field' => 'status'
@@ -329,7 +329,7 @@ $this->title = 'Articles';
                                     $confirm = Yii::t('app', 'Are you sure you want to cancel release?');
                                 } else {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 1,
                                         'field' => 'status'

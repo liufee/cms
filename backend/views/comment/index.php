@@ -105,7 +105,7 @@ $this->title = 'Comments';
                             'class' => ActionColumn::class,
                             'width' => '135',
                             'buttons' => [
-                                'change-status' => function ($url, $model, $key) {//echo $model->status;die;
+                                'status' => function ($url, $model, $key) {//echo $model->status;die;
                                     if ($model->status == Comment::STATUS_INIT) {
                                         return Html::a('<i class="fa fa-check"></i> ' . Yii::t('app', 'Passed'), $url . '&status=' . Comment::STATUS_PASSED, [
                                                 'title' => Yii::t('app', 'Passed'),
@@ -139,7 +139,7 @@ $this->title = 'Comments';
                                     }
                                 },
                             ],
-                            'template' => '{change-status}{delete}',
+                            'template' => '{status}{delete}',
                         ],
                     ]
                 ]); ?>
