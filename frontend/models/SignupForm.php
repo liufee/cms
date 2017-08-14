@@ -36,7 +36,7 @@ class SignupForm extends Model
             [
                 'username',
                 'unique',
-                'targetClass' => User::class,
+                'targetClass' => User::className(),
                 'message' => yii::t('frontend', 'This username has already been taken')
             ],
             ['username', 'string', 'min' => 2, 'max' => 255],
@@ -48,7 +48,7 @@ class SignupForm extends Model
             [
                 'email',
                 'unique',
-                'targetClass' => User::class,
+                'targetClass' => User::className(),
                 'message' => yii::t('frontend', 'This email address has already been taken')
             ],
 

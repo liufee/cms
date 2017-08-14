@@ -26,7 +26,7 @@ class PageController extends \yii\web\Controller
     {
         return [
             'index' => [
-                'class' => IndexAction::class,
+                'class' => IndexAction::className(),
                 'data' => function(){
                     $searchModel = new ArticleSearch(['scenario' => 'page']);
                     $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams(), Article::SINGLE_PAGE);
@@ -37,30 +37,30 @@ class PageController extends \yii\web\Controller
                 }
             ],
             'create' => [
-                'class' => CreateAction::class,
-                'modelClass' => Article::class,
+                'class' => CreateAction::className(),
+                'modelClass' => Article::className(),
                 'scenario' => 'page',
             ],
             'update' => [
-                'class' => UpdateAction::class,
-                'modelClass' => Article::class,
+                'class' => UpdateAction::className(),
+                'modelClass' => Article::className(),
                 'scenario' => 'page',
             ],
             'view-layer' => [
-                'class' => ViewAction::class,
-                'modelClass' => Article::class,
+                'class' => ViewAction::className(),
+                'modelClass' => Article::className(),
             ],
             'delete' => [
-                'class' => DeleteAction::class,
-                'modelClass' => Article::class,
+                'class' => DeleteAction::className(),
+                'modelClass' => Article::className(),
             ],
             'sort' => [
-                'class' => SortAction::class,
-                'modelClass' => Article::class,
+                'class' => SortAction::className(),
+                'modelClass' => Article::className(),
             ],
             'status' => [
-                'class' => StatusAction::class,
-                'modelClass' => Article::class,
+                'class' => StatusAction::className(),
+                'modelClass' => Article::className(),
             ],
         ];
     }

@@ -32,7 +32,7 @@ $this->title = "Frontend Menus";
                     'dataProvider' => $dataProvider,
                     'columns' => [
                         [
-                            'class' => CheckboxColumn::class,
+                            'class' => CheckboxColumn::className(),
                         ],
                         [
                             'attribute' => 'name',
@@ -110,7 +110,7 @@ $this->title = "Frontend Menus";
                             'format' => 'date',
                         ],
                         [
-                            'class' => ActionColumn::class,
+                            'class' => ActionColumn::className(),
                             'buttons' => [
                                 'create' => function ($url, $model, $key) {
                                     return Html::a('<i class="fa  fa-plus" aria-hidden="true"></i> ' . Yii::t('app', 'Create'), Url::to([

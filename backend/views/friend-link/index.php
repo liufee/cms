@@ -32,7 +32,7 @@ $this->title = "Friendly Links";
                     'dataProvider' => $dataProvider,
                     'columns' => [
                         [
-                            'class' => CheckboxColumn::class,
+                            'class' => CheckboxColumn::className(),
                         ],
                         [
                             'attribute' => 'name'
@@ -92,7 +92,7 @@ $this->title = "Friendly Links";
                             'format' => 'date',
                         ],
                         [
-                            'class' => ActionColumn::class,
+                            'class' => ActionColumn::className(),
                         ]
                     ]
                 ]) ?>

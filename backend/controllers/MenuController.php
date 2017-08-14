@@ -28,7 +28,7 @@ class MenuController extends \yii\web\Controller
     {
         return [
             'index' => [
-                'class' => IndexAction::class,
+                'class' => IndexAction::className(),
                 'data' => function(){
                     $searchModel = new MenuSearch(['scenario' => 'backend']);
                     $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
@@ -40,26 +40,26 @@ class MenuController extends \yii\web\Controller
                 }
             ],
             'create' => [
-                'class' => CreateAction::class,
-                'modelClass' => Menu::class,
+                'class' => CreateAction::className(),
+                'modelClass' => Menu::className(),
                 'scenario' => 'backend',
             ],
             'update' => [
-                'class' => UpdateAction::class,
-                'modelClass' => Menu::class,
+                'class' => UpdateAction::className(),
+                'modelClass' => Menu::className(),
                 'scenario' => 'backend',
             ],
             'delete' => [
-                'class' => DeleteAction::class,
-                'modelClass' => Menu::class,
+                'class' => DeleteAction::className(),
+                'modelClass' => Menu::className(),
             ],
             'sort' => [
-                'class' => SortAction::class,
-                'modelClass' => Menu::class,
+                'class' => SortAction::className(),
+                'modelClass' => Menu::className(),
             ],
             'status' => [
-                'class' => StatusAction::class,
-                'modelClass' => Menu::class,
+                'class' => StatusAction::className(),
+                'modelClass' => Menu::className(),
             ],
         ];
     }

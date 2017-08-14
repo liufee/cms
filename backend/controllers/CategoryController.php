@@ -24,7 +24,7 @@ class CategoryController extends \yii\web\Controller
     {
         return [
             'index' => [
-                'class' => IndexAction::class,
+                'class' => IndexAction::className(),
                 'data' => function(){
                     $data = Category::getCategories();
                     $dataProvider = new ArrayDataProvider([
@@ -39,24 +39,24 @@ class CategoryController extends \yii\web\Controller
                 }
             ],
             'create' => [
-                'class' => CreateAction::class,
-                'modelClass' => Category::class,
+                'class' => CreateAction::className(),
+                'modelClass' => Category::className(),
             ],
             'update' => [
-                'class' => UpdateAction::class,
-                'modelClass' => Category::class,
+                'class' => UpdateAction::className(),
+                'modelClass' => Category::className(),
             ],
             'delete' => [
-                'class' => DeleteAction::class,
-                'modelClass' => Category::class,
+                'class' => DeleteAction::className(),
+                'modelClass' => Category::className(),
             ],
             'sort' => [
-                'class' => SortAction::class,
-                'modelClass' => Category::class,
+                'class' => SortAction::className(),
+                'modelClass' => Category::className(),
             ],
             'status' => [
-                'class' => StatusAction::class,
-                'modelClass' => Category::class,
+                'class' => StatusAction::className(),
+                'modelClass' => Category::className(),
             ],
         ];
     }

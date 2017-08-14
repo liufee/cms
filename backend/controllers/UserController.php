@@ -29,7 +29,7 @@ class UserController extends \yii\web\Controller
     {
         return [
             'index' => [
-                'class' => IndexAction::class,
+                'class' => IndexAction::className(),
                 'data' => function(){
                     $searchModel = new UserSearch();
                     $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
@@ -40,26 +40,26 @@ class UserController extends \yii\web\Controller
                 }
             ],
             'create' => [
-                'class' => CreateAction::class,
-                'modelClass' => User::class,
+                'class' => CreateAction::className(),
+                'modelClass' => User::className(),
                 'scenario' => 'create',
             ],
             'update' => [
-                'class' => UpdateAction::class,
-                'modelClass' => User::class,
+                'class' => UpdateAction::className(),
+                'modelClass' => User::className(),
                 'scenario' => 'update',
             ],
             'delete' => [
-                'class' => DeleteAction::class,
-                'modelClass' => User::class,
+                'class' => DeleteAction::className(),
+                'modelClass' => User::className(),
             ],
             'sort' => [
-                'class' => SortAction::class,
-                'modelClass' => User::class,
+                'class' => SortAction::className(),
+                'modelClass' => User::className(),
             ],
             'status' => [
-                'class' => StatusAction::class,
-                'modelClass' => User::class,
+                'class' => StatusAction::className(),
+                'modelClass' => User::className(),
             ],
         ];
     }

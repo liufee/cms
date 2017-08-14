@@ -34,7 +34,7 @@ $this->title = "Admin Log";
                     'filterModel' => $searchModel,
                     'columns' => [
                         [
-                            'class' => CheckboxColumn::class,
+                            'class' => CheckboxColumn::className(),
                         ],
                         [
                             'attribute' => 'id',
@@ -69,7 +69,7 @@ $this->title = "Admin Log";
                                 ]),
                         ],
                         [
-                            'class' => ActionColumn::class,
+                            'class' => ActionColumn::className(),
                             'template' => '{view-layer} {delete}'
                         ],
                     ]

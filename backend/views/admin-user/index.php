@@ -45,7 +45,7 @@ $this->title = "Admin";
                     //'layout' => "{items}\n{pager}",
                     'columns' => [
                         [
-                            'class' => CheckboxColumn::class,
+                            'class' => CheckboxColumn::className(),
                         ],
                         [
                             'attribute' => 'username',
@@ -69,7 +69,7 @@ $this->title = "Admin";
                             'format' => 'date',
                         ],
                         [
-                            'class' => ActionColumn::class,
+                            'class' => ActionColumn::className(),
                             'template' => '{assignment}{update}{delete}',
                             'buttons' => ['assignment' => $assignment],
                         ],

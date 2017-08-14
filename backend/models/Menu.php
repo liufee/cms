@@ -12,6 +12,7 @@ use yii;
 use yii\helpers\Url;
 use common\helpers\FileDependencyHelper;
 use common\helpers\FamilyTree;
+use yii\helpers\ArrayHelper;
 
 class Menu extends \common\models\Menu
 {
@@ -36,7 +37,7 @@ class Menu extends \common\models\Menu
             && yii::$app->getUser()->getIdentity()->getId() != 1
             && $role_id != 1
         ) {
-            $permissionsIds = array_column($permissions, 'menu_id');
+            $permissionsIds = ArrayHelper::getColumn($permissions, 'menu_id');
             foreach ($menus as $menu) {
                 if( in_array($menu['id'],$permissionsIds ) ){
                     $newMenu[] = $menu;
@@ -277,7 +278,7 @@ EOF;
     public function removeBackendMenuCache()
     {
         $object = yii::createObject([
-            'class' => FileDependencyHelper::class,
+            'class' => FileDependencyHelper::className(),
             'fileName' => 'backend_menu.txt',
         ]);
         $object->updateFile();

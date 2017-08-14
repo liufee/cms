@@ -37,7 +37,7 @@ $this->title = "Pages";
                         <?= $form->field($model, 'title')->textInput(); ?>
                         <?= $form->field($model, 'sub_title')->textInput(); ?>
                         <?= $form->field($model, 'summary')->textArea(); ?>
-                        <?= $form->field($model, 'content')->widget(Ueditor::class) ?>
+                        <?= $form->field($model, 'content')->widget(Ueditor::className()) ?>
                     </div>
                     <!--left stop -->
 

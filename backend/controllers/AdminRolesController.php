@@ -25,7 +25,7 @@ class AdminRolesController extends \yii\web\Controller
     {
         return [
             'index' => [
-                'class' => IndexAction::class,
+                'class' => IndexAction::className(),
                 'data' => function(){
                     $query = AdminRoles::find();
                     $dataProvider = new ActiveDataProvider([
@@ -42,16 +42,16 @@ class AdminRolesController extends \yii\web\Controller
                 }
             ],
             'create' => [
-                'class' => CreateAction::class,
-                'modelClass' => AdminRoles::class,
+                'class' => CreateAction::className(),
+                'modelClass' => AdminRoles::className(),
             ],
             'update' => [
-                'class' => UpdateAction::class,
-                'modelClass' => AdminRoles::class,
+                'class' => UpdateAction::className(),
+                'modelClass' => AdminRoles::className(),
             ],
             'delete' => [
-                'class' => DeleteAction::class,
-                'modelClass' => AdminRoles::class,
+                'class' => DeleteAction::className(),
+                'modelClass' => AdminRoles::className(),
             ],
         ];
     }

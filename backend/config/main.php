@@ -16,7 +16,7 @@ return [
     'modules' => [],
     'components' => [
         'user' => [
-            'identityClass' => backend\models\User::class,
+            'identityClass' => backend\models\User::className(),
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_backend_identity'],
             'idParam' => '__backend__id',
@@ -26,11 +26,11 @@ return [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => yii\log\FileTarget::class,//当触发levels配置的错误级别时，保存到日志文件
+                    'class' => yii\log\FileTarget::className(),//当触发levels配置的错误级别时，保存到日志文件
                     'levels' => ['error', 'warning'],
                 ],
                 [
-                    'class' => yii\log\EmailTarget::class,//当触发levels配置的错误级别时，发送到此些邮箱（请改成自己的邮箱）
+                    'class' => yii\log\EmailTarget::className(),//当触发levels配置的错误级别时，发送到此些邮箱（请改成自己的邮箱）
                     'levels' => ['error', 'warning'],
                     /*'categories' => [//默认匹配所有分类。启用此项后，仅匹配数组中的分类信息会触发邮件提醒（白名单）
                         'yii\db\*',
@@ -52,7 +52,7 @@ return [
             'errorAction' => 'site/error',
         ],
         'rbac' => [
-            'class' => backend\components\Rbac::class,
+            'class' => backend\components\Rbac::className(),
             'superAdministrators' => [//超级管理员用户，不受权限管理的控制
                 'admin',
                 'administrator',
@@ -79,7 +79,7 @@ return [
         'i18n' => [
             'translations' => [//多语言包设置
                 'app*' => [
-                    'class' => yii\i18n\PhpMessageSource::class,
+                    'class' => yii\i18n\PhpMessageSource::className(),
                     'basePath' => '@backend/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [
@@ -88,7 +88,7 @@ return [
                     ],
                 ],
                 'menu' => [
-                    'class' => yii\i18n\PhpMessageSource::class,
+                    'class' => yii\i18n\PhpMessageSource::className(),
                     'basePath' => '@backend/messages',
                     'sourceLanguage' => 'zh-CN',
                     'fileMap' => [
@@ -99,7 +99,7 @@ return [
             ],
         ],
     ],
-    'on beforeRequest' => [feehi\components\Feehi::class, 'backendInit'],
-    'on beforeAction' => [backend\components\Rbac::class, 'checkPermission'],
+    'on beforeRequest' => [feehi\components\Feehi::className(), 'backendInit'],
+    'on beforeAction' => [backend\components\Rbac::className(), 'checkPermission'],
     'params' => $params,
 ];

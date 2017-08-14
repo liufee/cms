@@ -38,7 +38,7 @@ $this->title = 'Comments';
                     'layout' => "{items}\n{pager}",
                     'columns' => [
                         [
-                            'class' => CheckboxColumn::class,
+                            'class' => CheckboxColumn::className(),
                         ],
                         [
                             'attribute' => 'id',
@@ -102,7 +102,7 @@ $this->title = 'Comments';
                                 ]),
                         ],
                         [
-                            'class' => ActionColumn::class,
+                            'class' => ActionColumn::className(),
                             'width' => '135',
                             'buttons' => [
                                 'status' => function ($url, $model, $key) {//echo $model->status;die;

@@ -8,9 +8,10 @@
 
 namespace common\models;
 
-use common\helpers\FamilyTree;
 use Yii;
+use common\helpers\FamilyTree;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;;
 
 /**
  * This is the model class for table "{{%category}}".
@@ -84,7 +85,7 @@ class Category extends \yii\db\ActiveRecord
         $categories = self::_getCategories();
         $familyTree = new FamilyTree($categories);
         $array = $familyTree->getDescendants(0);
-        return array_column($array, null, 'id');
+        return ArrayHelper::getColumn($array, null, 'id');
     }
 
     /**

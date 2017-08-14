@@ -41,7 +41,7 @@ $assignment = function ($url, $model) {
                     'layout' => "{items}\n{pager}",
                     'columns' => [
                         [
-                            'class' => CheckboxColumn::class,
+                            'class' => CheckboxColumn::className(),
                         ],
                         [
                             'attribute' => 'role_name',
@@ -59,7 +59,7 @@ $assignment = function ($url, $model) {
                             'format' => 'date',
                         ],
                         [
-                            'class' => ActionColumn::class,
+                            'class' => ActionColumn::className(),
                             'template' => '{assignment}{update}{delete}',
                             'buttons' => ['assignment' => $assignment],
                         ],

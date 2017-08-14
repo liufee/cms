@@ -29,8 +29,8 @@ class SettingController extends \yii\web\Controller
     {
         return [
             "delete" => [
-                "class" => DeleteAction::class,
-                "modelClass" => Options::class,
+                "class" => DeleteAction::className(),
+                "modelClass" => Options::className(),
             ]
         ];
     }
@@ -193,7 +193,7 @@ class SettingController extends \yii\web\Controller
         yii::$app->getResponse()->format = Response::FORMAT_JSON;
         if ($model->load(yii::$app->getRequest()->post()) && $model->validate()) {
             $mailer = yii::createObject([
-                'class' => Mailer::class,
+                'class' => Mailer::className(),
                 'useFileTransport' => false,
                 'transport' => [
                     'class' => 'Swift_SmtpTransport',

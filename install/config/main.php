@@ -24,7 +24,7 @@ $config = [
         'i18n' => [
             'translations' => [
                 'install*' => [
-                    'class' => yii\i18n\PhpMessageSource::class,
+                    'class' => yii\i18n\PhpMessageSource::className(),
                     'basePath' => '@install/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [
@@ -44,12 +44,12 @@ if (!YII_ENV_TEST) {
     // configuration adjustments for 'dev' environment
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
-        'class' => yii\debug\Module::class,
+        'class' => yii\debug\Module::className(),
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
-        'class' => yii\gii\Module::class,
+        'class' => yii\gii\Module::className(),
     ];
 }
 return $config;

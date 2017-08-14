@@ -24,7 +24,7 @@ class AdminUserController extends \yii\web\Controller
     {
         return [
             'index' => [
-                'class' => IndexAction::class,
+                'class' => IndexAction::className(),
                 'data' => function(){
                     $query = User::find();
                     $dataProvider = new ActiveDataProvider([
@@ -41,16 +41,16 @@ class AdminUserController extends \yii\web\Controller
                 }
             ],
             'delete' => [
-                'class' => DeleteAction::class,
-                'modelClass' => User::class,
+                'class' => DeleteAction::className(),
+                'modelClass' => User::className(),
             ],
             'sort' => [
-                'class' => SortAction::class,
-                'modelClass' => User::class,
+                'class' => SortAction::className(),
+                'modelClass' => User::className(),
             ],
             'status' => [
-                'class' => StatusAction::class,
-                'modelClass' => User::class,
+                'class' => StatusAction::className(),
+                'modelClass' => User::className(),
             ],
         ];
     }
@@ -178,7 +178,7 @@ class AdminUserController extends \yii\web\Controller
         }
         $model->uid = $uid;
         if (yii::$app->getRequest()->getIsPost()) {
-            $postRoleId = yii::$app->getRequest()->post(substr(AdminRoleUser::class, strrpos(AdminRoleUser::class,'\\')+1))['role_id'];
+            $postRoleId = yii::$app->getRequest()->post(substr(AdminRoleUser::className(), strrpos(AdminRoleUser::className(),'\\')+1))['role_id'];
             if($model->uid == 1 && ($postRoleId != 1) ) throw new BadRequestHttpException(yii::t('app', "Can not update default super administrator's role"));
             if ($model->load(yii::$app->getRequest()->post()) && $model->save()) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'success'));

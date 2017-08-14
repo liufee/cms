@@ -22,7 +22,7 @@ class CommentController extends \yii\web\Controller
     {
         return [
             'index' => [
-                'class' => IndexAction::class,
+                'class' => IndexAction::className(),
                 'data' => function(){
                     $searchModel = new CommentSearch();
                     $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
@@ -33,12 +33,12 @@ class CommentController extends \yii\web\Controller
                 }
             ],
             'delete' => [
-                'class' => DeleteAction::class,
-                'modelClass' => Comment::class,
+                'class' => DeleteAction::className(),
+                'modelClass' => Comment::className(),
             ],
             'status' => [
-                'class' => StatusAction::class,
-                'modelClass' => Comment::class,
+                'class' => StatusAction::className(),
+                'modelClass' => Comment::className(),
             ],
         ];
     }

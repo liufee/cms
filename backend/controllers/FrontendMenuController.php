@@ -26,7 +26,7 @@ class FrontendMenuController extends \yii\web\Controller
     {
         return [
             'index' => [
-                'class' => IndexAction::class,
+                'class' => IndexAction::className(),
                 'data' => function(){
                     $data = Menu::getMenus(Menu::FRONTEND_TYPE);
                     $dataProvider = new ArrayDataProvider([
@@ -41,26 +41,26 @@ class FrontendMenuController extends \yii\web\Controller
                 }
             ],
             'create' => [
-                'class' => CreateAction::class,
-                'modelClass' => Menu::class,
+                'class' => CreateAction::className(),
+                'modelClass' => Menu::className(),
                 'scenario' => 'frontend',
             ],
             'update' => [
-                'class' => UpdateAction::class,
-                'modelClass' => Menu::class,
+                'class' => UpdateAction::className(),
+                'modelClass' => Menu::className(),
                 'scenario' => 'frontend',
             ],
             'delete' => [
-                'class' => DeleteAction::class,
-                'modelClass' => Menu::class,
+                'class' => DeleteAction::className(),
+                'modelClass' => Menu::className(),
             ],
             'sort' => [
-                'class' => SortAction::class,
-                'modelClass' => Menu::class,
+                'class' => SortAction::className(),
+                'modelClass' => Menu::className(),
             ],
             'status' => [
-                'class' => StatusAction::class,
-                'modelClass' => Menu::class,
+                'class' => StatusAction::className(),
+                'modelClass' => Menu::className(),
             ],
         ];
     }

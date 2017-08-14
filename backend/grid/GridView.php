@@ -20,7 +20,7 @@ use yii\widgets\BaseListView;
  */
 class GridView extends \yii\grid\GridView
 {
-    public $dataColumnClass = DataColumn::class;
+    public $dataColumnClass = DataColumn::className();
     //public $pager = ['class'=>'source\core\widgets\AdminLinkPager'];
 
     public $options = ['class' => 'fixed-table-header', 'style' => 'margin-right: 0px;'];

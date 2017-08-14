@@ -28,7 +28,7 @@ class ArticleController extends Controller
     {
         return [
             [
-                'class' => HttpCache::class,
+                'class' => HttpCache::className(),
                 'only' => ['view'],
                 'lastModified' => function ($action, $params) {
                     $id = yii::$app->getRequest()->get('id');

@@ -5,14 +5,14 @@ $config = [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'db' => [
-            'class' => yii\db\Connection::class,
+            'class' => yii\db\Connection::className(),
             'dsn' => 'mysql:host=localhost;dbname=feehi',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8mb4',
         ],
         'cache' => [
-            'class' => yii\caching\DummyCache::class,
+            'class' => yii\caching\DummyCache::className(),
         ],
         'formatter' => [
             'dateFormat' => 'php:Y-m-d H:i',
@@ -22,7 +22,7 @@ $config = [
             'nullDisplay' => '-',
         ],
         'mailer' => [
-            'class' => yii\swiftmailer\Mailer::class,
+            'class' => yii\swiftmailer\Mailer::className(),
             'viewPath' => '@common/mail',
             'useFileTransport' => false,//false发送邮件，true只是生成邮件在runtime文件夹下，不发邮件
             'transport' => [
@@ -39,10 +39,10 @@ $config = [
             ],
         ],
         'view' => [
-            'class' => feehi\components\View::class,
+            'class' => feehi\components\View::className(),
         ],
         'feehi' => [
-            'class' => feehi\components\Feehi::class,
+            'class' => feehi\components\Feehi::className(),
         ],
     ],
 ];

@@ -15,18 +15,18 @@ return [
         'log' => [
             'targets' => [
                 [
-                    'class' => yii\log\FileTarget::class,
+                    'class' => yii\log\FileTarget::className(),
                     'levels' => ['error', 'warning'],
                 ],
             ],
         ],
         'session' => [
-            'class' => yii\web\Session::class
+            'class' => yii\web\Session::className()
         ]
     ],
     'controllerMap'=>[
         'serve' => [
-            'class' => yii\console\controllers\ServeController::class,
+            'class' => yii\console\controllers\ServeController::className(),
             'docroot' => '@frontend/web',
         ]
     ],

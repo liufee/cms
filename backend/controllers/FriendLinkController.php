@@ -27,7 +27,7 @@ class FriendLinkController extends \yii\web\Controller
     {
         return [
             'index' => [
-                'class' => IndexAction::class,
+                'class' => IndexAction::className(),
                 'data' => function(){
                     $query = FriendLink::find();
                     $dataProvider = new ActiveDataProvider([
@@ -45,24 +45,24 @@ class FriendLinkController extends \yii\web\Controller
                 }
             ],
             'create' => [
-                'class' => CreateAction::class,
-                'modelClass' => FriendLink::class,
+                'class' => CreateAction::className(),
+                'modelClass' => FriendLink::className(),
             ],
             'update' => [
-                'class' => UpdateAction::class,
-                'modelClass' => FriendLink::class,
+                'class' => UpdateAction::className(),
+                'modelClass' => FriendLink::className(),
             ],
             'delete' => [
-                'class' => DeleteAction::class,
-                'modelClass' => FriendLink::class,
+                'class' => DeleteAction::className(),
+                'modelClass' => FriendLink::className(),
             ],
             'sort' => [
-                'class' => SortAction::class,
-                'modelClass' => FriendLink::class,
+                'class' => SortAction::className(),
+                'modelClass' => FriendLink::className(),
             ],
             'status' => [
-                'class' => StatusAction::class,
-                'modelClass' => FriendLink::class,
+                'class' => StatusAction::className(),
+                'modelClass' => FriendLink::className(),
             ],
         ];
     }

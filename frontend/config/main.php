@@ -13,18 +13,18 @@ return [
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'user' => [
-            'identityClass' => common\models\User::class,
+            'identityClass' => common\models\User::className(),
             'enableAutoLogin' => true,
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => yii\log\FileTarget::class,
+                    'class' => yii\log\FileTarget::className(),
                     'levels' => ['error', 'warning'],
                 ],
                 [
-                    'class' => yii\log\EmailTarget::class,
+                    'class' => yii\log\EmailTarget::className(),
                     'levels' => ['error', 'warning'],
                     'except' => [
                         'yii\debug\Module::checkAccess',
@@ -40,7 +40,7 @@ return [
             'errorAction' => 'site/error',
         ],
         'cache' => [
-            'class' => yii\caching\FileCache::class,//使用文件缓存，可根据需要改成apc redis memcache等其他缓存方式
+            'class' => yii\caching\FileCache::className(),//使用文件缓存，可根据需要改成apc redis memcache等其他缓存方式
             'keyPrefix' => 'frontend',       // 唯一键前缀
         ],
         'urlManager' => [
@@ -73,7 +73,7 @@ return [
         'i18n' => [
             'translations' => [
                 'app*' => [
-                    'class' => yii\i18n\PhpMessageSource::class,
+                    'class' => yii\i18n\PhpMessageSource::className(),
                     'basePath' => '@backend/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [
@@ -83,7 +83,7 @@ return [
                     ],
                 ],
                 'front*' => [
-                    'class' => yii\i18n\PhpMessageSource::class,
+                    'class' => yii\i18n\PhpMessageSource::className(),
                     'basePath' => '@frontend/messages',
                     'sourceLanguage' => 'en-US',
                     'fileMap' => [

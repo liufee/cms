@@ -22,7 +22,7 @@ class LogController extends \yii\web\Controller
     {
         return [
             'index' => [
-                'class' => IndexAction::class,
+                'class' => IndexAction::className(),
                 'data' => function(){
                     $searchModel = new AdminLogSearch();
                     $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
@@ -33,12 +33,12 @@ class LogController extends \yii\web\Controller
                 }
             ],
             'view-layer' => [
-                'class' => ViewAction::class,
-                'modelClass' => AdminLog::class,
+                'class' => ViewAction::className(),
+                'modelClass' => AdminLog::className(),
             ],
             'delete' => [
-                'class' => DeleteAction::class,
-                'modelClass' => AdminLog::class,
+                'class' => DeleteAction::className(),
+                'modelClass' => AdminLog::className(),
             ],
         ];
     }

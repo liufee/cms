@@ -34,7 +34,7 @@ $this->title = 'Users'
                     'layout' => "{items}\n{pager}",
                     'columns' => [
                         [
-                            'class' => CheckboxColumn::class,
+                            'class' => CheckboxColumn::className(),
                         ],
                         [
                             'attribute' => 'id',
@@ -72,7 +72,7 @@ $this->title = 'Users'
                                 ]),
                         ],
                         [
-                            'class' => ActionColumn::class,
+                            'class' => ActionColumn::className(),
                             'width' => '190px'
                         ],
                     ]

@@ -32,7 +32,7 @@ class SiteController extends \yii\web\Controller
     {
         return [
             'captcha' => [
-                'class' => CaptchaAction::class,
+                'class' => CaptchaAction::className(),
                 //'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,//本行可能引起更换验证码失效，必须刷新浏览器
                 'backColor' => 0x66b3ff,//背景颜色
                 'maxLength' => 4,//最大显示个数

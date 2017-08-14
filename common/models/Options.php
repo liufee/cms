@@ -88,7 +88,7 @@ class Options extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         $object = yii::createObject([
-            'class' => FileDependencyHelper::class,
+            'class' => FileDependencyHelper::className(),
             'fileName' => 'options.txt',
         ]);
         $object->updateFile();

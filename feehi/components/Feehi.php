@@ -106,15 +106,15 @@ class Feehi extends Component
     public static function backendInit()
     {
         Event::on(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_INSERT, [
-            AdminLog::class,
+            AdminLog::className(),
             'create'
         ]);
         Event::on(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_UPDATE, [
-            AdminLog::class,
+            AdminLog::className(),
             'update'
         ]);
         Event::on(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_DELETE, [
-            AdminLog::class,
+            AdminLog::className(),
             'delete'
         ]);
         Event::on(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_FIND, function ($event) {

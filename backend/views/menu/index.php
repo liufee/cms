@@ -34,7 +34,7 @@ $this->title = "Backend Menus";
                     'filterModel' => $searchModel,
                     'columns' => [
                         [
-                            'class' => CheckboxColumn::class,
+                            'class' => CheckboxColumn::className(),
                         ],
                         [
                             'attribute' => 'name',
@@ -117,7 +117,7 @@ $this->title = "Backend Menus";
                             'format' => 'date',
                         ],
                         [
-                            'class' => ActionColumn::class,
+                            'class' => ActionColumn::className(),
                             'width' => '190px',
                             'buttons' => [
                                 'create' => function ($url, $model, $key) {
