@@ -58,7 +58,7 @@ class ArticleController extends Controller
             if ($cat == yii::t('app', 'uncategoried')) {
                 $where['cid'] = 0;
             } else {
-                if (! $category = Category::findOne(['name' => $cat])) {
+                if (! $category = Category::findOne(['alias' => $cat])) {
                     throw new NotFoundHttpException(yii::t('frontend', 'None category named {name}', ['name' => $cat]));
                 }
                 $where['cid'] = $category['id'];

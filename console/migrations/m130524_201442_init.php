@@ -164,16 +164,18 @@ class m130524_201442_init extends Migration
             'id' => $this->primaryKey()->unsigned(),
             'parent_id' => $this->integer()->unsigned()->defaultValue(0),
             'name' => $this->string()->notNull(),
+            'alias' => $this->string()->notNull(),
             'sort' => $this->integer()->unsigned()->defaultValue(0),
             'remark' => $this->string()->defaultValue(''),
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
-        $this->batchInsert("{{%category}}", ['id','parent_id','name','sort','created_at','updated_at','remark'],
+        $this->batchInsert("{{%category}}", ['id','parent_id','name','alias','sort','created_at','updated_at','remark'],
             [
                 [
                     '1',
                     '0',
+                    'php',
                     'php',
                     '0',
                     '1468293958',
@@ -184,6 +186,7 @@ class m130524_201442_init extends Migration
                     '2',
                     '0',
                     'java',
+                    'java',
                     '0',
                     '1468293965',
                     '0',
@@ -192,6 +195,7 @@ class m130524_201442_init extends Migration
                 [
                     '3',
                     '0',
+                    'javascript',
                     'javascript',
                     '0',
                     '1468293974',

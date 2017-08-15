@@ -11,7 +11,7 @@ namespace backend\components;
 use yii;
 use backend\models\AdminLog as AdminLogModel;
 
-class AdminLog
+class AdminLog extends \yii\base\Object
 {
 
     /**

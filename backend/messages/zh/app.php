@@ -119,6 +119,10 @@ return [
     /*Article*/
 
     /*Comment*/
+    'Alias' => '别名',
+    /*Comment*/
+
+    /*Comment*/
     'Comments' => '评论',
     'Article Title' => '文章标题',
     /*Comment*/

@@ -44,6 +44,10 @@ $this->title = "Category";
                             }
                         ],
                         [
+                            'attribute' => 'alias',
+                            'label' => yii::t('app', 'Alias'),
+                        ],
+                        [
                             'attribute' => 'sort',
                             'label' => yii::t('app', 'Sort'),
                             'format' => 'raw',

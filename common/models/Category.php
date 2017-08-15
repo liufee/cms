@@ -48,8 +48,8 @@ class Category extends \yii\db\ActiveRecord
         return [
             [['sort', 'parent_id', 'created_at', 'updated_at'], 'integer'],
             [['sort'], 'compare', 'compareValue' => 0, 'operator' => '>='],
-            [['name', 'remark'], 'string', 'max' => 255],
-            [['name'], 'required'],
+            [['name', 'alias', 'remark'], 'string', 'max' => 255],
+            [['name', 'alias'], 'required'],
         ];
     }
 
@@ -62,6 +62,7 @@ class Category extends \yii\db\ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'parent_id' => Yii::t('app', 'Category Id'),
             'name' => Yii::t('app', 'Name'),
+            'alias' => Yii::t('app', 'Alias'),
             'sort' => Yii::t('app', 'Sort'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
@@ -85,7 +86,7 @@ class Category extends \yii\db\ActiveRecord
         $categories = self::_getCategories();
         $familyTree = new FamilyTree($categories);
         $array = $familyTree->getDescendants(0);
-        return ArrayHelper::getColumn($array, null, 'id');
+        return ArrayHelper::index($array, 'id');
     }
 
     /**

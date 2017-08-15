@@ -32,6 +32,8 @@ if ($parent_id != '') {
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>
+                <?= $form->field($model, 'alias')->textInput(['maxlength' => 64]) ?>
+                <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'sort')->textInput(['maxlength' => 512]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'remark')->textInput(['maxlength' => 64]) ?>

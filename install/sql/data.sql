@@ -212,6 +212,7 @@ CREATE TABLE `%__prefix__%category` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) unsigned DEFAULT '0',
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `alias` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `sort` int(11) unsigned DEFAULT '0',
   `remark` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   `created_at` int(11) unsigned NOT NULL,
@@ -223,7 +224,7 @@ CREATE TABLE `%__prefix__%category` (
 --  Records of `category`
 -- ----------------------------
 BEGIN;
-INSERT INTO `%__prefix__%category` VALUES ('1', '0', 'php', '0', '', '1468293958', '0'), ('2', '0', 'java', '0', '', '1468293965', '0'), ('3', '0', 'javascript', '0', '', '1468293974', '0');
+INSERT INTO `%__prefix__%category` VALUES ('1', '0', 'php', 'php', '0', '', '1468293958', '0'), ('2', '0', 'java', 'java', '0', '', '1468293965', '0'), ('3', '0', 'javascript', 'javascript', '0', '', '1468293974', '0');
 COMMIT;
 
 -- ----------------------------
