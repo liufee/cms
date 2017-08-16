@@ -18,7 +18,7 @@ class JstreeAsset extends AssetBundle
         'js/plugins/jstree/themes/default/style.min.css',
     ];
     public $js = [
-        'js/plugins/jstree/jstree.min.js',
+        'js/plugins/jstree/jstree.js',
     ];
     public $depends = [
         'feehi\assets\JqueryAsset',

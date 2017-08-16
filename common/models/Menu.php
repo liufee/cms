@@ -8,8 +8,9 @@
 
 namespace common\models;
 
-use common\helpers\FamilyTree;
 use Yii;
+use common\helpers\FamilyTree;
+use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -146,7 +147,7 @@ class Menu extends \yii\db\ActiveRecord
         $menus = self::_getMenus($type);
         $familyTree = new FamilyTree($menus);
         $array = $familyTree->getDescendants(0);
-        return array_column($array, null, 'id');
+        return ArrayHelper::index($array, 'id');
     }
 
     /**

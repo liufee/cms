@@ -258,7 +258,8 @@ class User extends ActiveRecord implements IdentityInterface
                 $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Avatar')]) . ': ' . $fullName);
                 return false;
             }
-            if(!empty($this->getOldAttribute('avatar'))) unlink(yii::getAlias('@frontend/web') . $this->getOldAttribute('avatar'));
+            $avatar = $this->getOldAttribute('avatar');
+            if(!empty($avatar)) unlink(yii::getAlias('@frontend/web') . $this->getOldAttribute('avatar'));
             $this->avatar = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
         } else {
             $this->avatar = $this->getOldAttribute('avatar');
@@ -278,7 +279,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @inheritdoc
      */
     public function selfUpdate()
-    {
+    {throw new \yii\web\ForbiddenHttpException("demo user cannot be update");
         if ($this->password != '') {
             if ($this->old_password == '') {
                 $this->addError('old_password', yii::t('yii', '{attribute} cannot be blank.', ['attribute' => yii::t('app', 'Old Password')]));
