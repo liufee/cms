@@ -28,59 +28,51 @@ QQ群 258780872
  
 快速体验
 ----------------
-#####演示站点
+1. 使用演示站点
 演示站点后台   **用户名:feehicms 密码123456**
-
-  * php7.0.0
-    * 后台 [http://demo.cms.feehi.com/admin](http://demo.cms.feehi.com/admin)
-    * 前台 [http://demo.cms.feehi.com/](http://demo.cms.feehi.com/)
-  * php7.1.8
-    * 备用演示前台1[http://demo.cms.qq.feehi.com/admin](http://demo.cms.qq.feehi.com/admin)
-    * 备用演示后台1[http://demo.cms.qq.feehi.com/admin](http://demo.cms.qq.feehi.com/admin)
-  * php5.4
-    * 备用演示前台2[http://php54.demo.cms.qq.feehi.com/admin](http://php54.demo.cms.feehi.qq.com/admin)
-    * 备用演示后台2[http://php54.demo.cms.qq.feehi.com/admin](http://php54.demo.cms.qq.feehi.com/admin)
-     
-  
-#####Docker容器
-
- ```bash
- $ docker pull registry.cn-hangzhou.aliyuncs.com/liufee/cms
- $ docker run --name feehicms -h feehicms -itd -p 80:80 -p 22:22 liufee/cms
- ```
+      * php7.0.0
+        * 后台 [http://demo.cms.feehi.com/admin](http://demo.cms.feehi.com/admin)
+        * 前台 [http://demo.cms.feehi.com/](http://demo.cms.feehi.com/)
+      * php7.1.8 (docker)
+        * 备用演示前台1[http://demo.cms.qq.feehi.com/admin](http://demo.cms.qq.feehi.com/admin)
+        * 备用演示后台1[http://demo.cms.qq.feehi.com/admin](http://demo.cms.qq.feehi.com/admin)
+      * php5.4 (docker)
+        * 备用演示前台2[http://php54.demo.cms.qq.feehi.com/](http://php54.demo.cms.qq.feehi.com/)
+        * 备用演示后台2[http://php54.demo.cms.qq.feehi.com/admin](http://php54.demo.cms.qq.feehi.com/admin)
+      
+2. 使用Docker容器
+    ```bash
+    $ docker pull registry.cn-hangzhou.aliyuncs.com/liufee/cms
+    $ docker run --name feehicms -h feehicms -itd -p 80:80 -p 22:22 liufee/cms
+    ```
  
  
 安装
 ---------------
 前置条件: 如未特别说明，已默认您把php命令加入了环境变量
-
-
-#####一：使用归档文件
->使用此方式安装，后台超管用户名和密码会在安装过程中让您填入
-1. 下载FeehiCMS源码 [点击此处下载最新版](http://7xjkuy.com1.z0.glb.clouddn.com/Feehi_CMS.zip)
-2. 解压到目录 
-3. 配置web服务器(参见下面)
-4. 浏览器打开http://localhost/install.php按照提示完成安装(若使用php内置web服务器则地址为http://localhost:8080/install.php)
-5. 完成
+1. 使用归档文件
+    >使用此方式安装，后台超管用户名和密码会在安装过程中让您填入
+    1. 下载FeehiCMS源码 [点击此处下载最新版](http://7xjkuy.com1.z0.glb.clouddn.com/Feehi_CMS.zip)
+    2. 解压到目录 
+    3. 配置web服务器(参见下面)
+    4. 浏览器打开http://localhost/install.php按照提示完成安装(若使用php内置web服务器则地址为http://localhost:8080/install.php)
+    5. 完成
     
-
-
-#####二：使用composer (推荐使用此方式安装)
->使用此方式安装，默认的后台超级管理员用户名admin密码123456
-
- composer的安装以及国内镜像设置请点击[此处](http://www.phpcomposer.com/)
- 1. 依次执行以下命令
-     ```bash
-     $ composer global require "fxp/composer-asset-plugin:~1.1.1"
-     $ composer create-project feehi/cms webApp
-     $ cd webApp
-     $ php ./init --env=Production #初始化yii2框架
-     $ php ./yii migrate/up --interactive=0 #导入FeehiCMSsql数据库，执行此步骤之前请先到common/config/main-local.php修改成正确的数据库配置
-     ```
- 2. 配置web服务器(参加下面)
- 3. 完成
+2. 使用composer (推荐使用此方式安装)
+    >使用此方式安装，默认的后台超级管理员用户名admin密码123456
+     composer的安装以及国内镜像设置请点击[此处](http://www.phpcomposer.com/)
+     1. 依次执行以下命令
+         ```bash
+         $ composer global require "fxp/composer-asset-plugin:~1.1.1"
+         $ composer create-project feehi/cms webApp
+         $ cd webApp
+         $ php ./init --env=Production #初始化yii2框架
+         $ php ./yii migrate/up --interactive=0 #导入FeehiCMSsql数据库，执行此步骤之前请先到common/config/main-local.php修改成正确的数据库配置
+         ```
+     2. 配置web服务器(参加下面)
+     3. 完成
  
-######附:web服务器配置(注意是设置"path/to/frontend/web为根目录)
+附:web服务器配置(注意是设置"path/to/frontend/web为根目录)
  
  * php内置web服务器(仅可用于开发环境,当您的环境中没有web服务器时)
  ```bash
