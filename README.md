@@ -55,7 +55,7 @@ QQ群 258780872
     1. 下载FeehiCMS源码 [点击此处下载最新版](http://7xjkuy.com1.z0.glb.clouddn.com/Feehi_CMS.zip)
     2. 解压到目录 
     3. 配置web服务器(参见下面)
-    4. 浏览器打开http://localhost/install.php按照提示完成安装(若使用php内置web服务器则地址为http://localhost:8080/install.php)
+    4. 浏览器打开 http://localhost/install.php 按照提示完成安装(若使用php内置web服务器则地址为 http://localhost:8080/install.php )
     5. 完成
     
 2. 使用composer (推荐使用此方式安装)

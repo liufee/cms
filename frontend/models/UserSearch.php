@@ -54,7 +54,9 @@ class UserSearch extends \common\models\User
         if (! $this->validate()) {
             return $dataProvider;
         }
-        $query->andFilterWhere(['like', 'username', $this->username])->andFilterWhere(['like', 'email', $this->email]);
+        $query->andFilterWhere(['like', 'username', $this->username])
+            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['=', 'status', $this->status]);
         $create_start_at_unixtimestamp = $create_end_at_unixtimestamp = $update_start_at_unixtimestamp = $update_end_at_unixtimestamp = '';
         if ($this->create_start_at != '') {
             $create_start_at_unixtimestamp = strtotime($this->create_start_at);

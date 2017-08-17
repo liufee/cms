@@ -14,6 +14,7 @@
 
 use backend\widgets\ActiveForm;
 use backend\models\AdminRoles;
+use backend\models\User;
 
 $this->title = "Admin";
 ?>
@@ -38,6 +39,8 @@ $this->title = "Admin";
                 <?= $form->field($model, 'email')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'password')->passwordInput(['maxlength' => 512]) ?>
+                <div class="hr-line-dashed"></div>
+                <?= $form->field($model, 'status')->radioList( User::getStatuses() ) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($rolesModel, 'role_id', [
                     'labelOptions' => [

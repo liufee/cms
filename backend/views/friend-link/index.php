@@ -57,7 +57,7 @@ $this->title = "Friendly Links";
                             'value' => function ($model, $key, $index, $column) {
                                 if ($model->status == FriendLink::DISPLAY_YES) {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 0,
                                         'field' => 'status'
@@ -66,7 +66,7 @@ $this->title = "Friendly Links";
                                     $confirm = Yii::t('app', 'Are you sure you want to disable this item?');
                                 } else {
                                     $url = Url::to([
-                                        'change-status',
+                                        'status',
                                         'id' => $model->id,
                                         'status' => 1,
                                         'field' => 'status'

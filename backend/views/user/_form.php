@@ -11,6 +11,7 @@
  * @var $model frontend\models\User
  */
 use backend\widgets\ActiveForm;
+use frontend\models\User;
 
 $this->title = 'User';
 ?>
@@ -36,6 +37,8 @@ $this->title = 'User';
             <?= $form->field($model, 'avatar')->imgInput(['width' => 200]) ?>
             <div class="hr-line-dashed"></div>
             <?= $form->field($model, 'email')->textInput(['maxlength' => 64]) ?>
+            <div class="hr-line-dashed"></div>
+            <?= $form->field($model, 'status')->radioList( User::getStatuses() ) ?>
             <div class="hr-line-dashed"></div>
             <?= $form->field($model, 'password')->textInput(['maxlength' => 512]) ?>
             <div class="hr-line-dashed"></div>

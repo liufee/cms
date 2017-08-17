@@ -64,6 +64,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['email', 'unique'],
             [['repassword'], 'compare', 'compareAttribute' => 'password'],
             [['avatar'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif, webp'],
+            [['status'], 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             [['username', 'email', 'password', 'repassword'], 'required', 'on' => ['create']],
             [['username', 'email'], 'required', 'on' => ['update', 'self-update']],
             [['username'], 'unique', 'on' => 'create'],
@@ -77,8 +78,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'default' => ['username', 'email'],
-            'create' => ['username', 'email', 'password', 'avatar'],
-            'update' => ['username', 'email', 'password', 'avatar'],
+            'create' => ['username', 'email', 'password', 'avatar', 'status'],
+            'update' => ['username', 'email', 'password', 'avatar', 'status'],
             'self-update' => ['username', 'email', 'password', 'avatar', 'old_password', 'repassword'],
         ];
     }
@@ -95,6 +96,7 @@ class User extends ActiveRecord implements IdentityInterface
             'password' => yii::t('app', 'Password'),
             'repassword' => yii::t('app', 'Repeat Password'),
             'avatar' => yii::t('app', 'Avatar'),
+            'status' => yii::t('app', 'Status'),
             'created_at' => yii::t('app', 'Created At'),
             'updated_at' => yii::t('app', 'Updated At')
         ];
@@ -107,6 +109,14 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             TimestampBehavior::className(),
+        ];
+    }
+
+    public static function getStatuses()
+    {
+        return [
+            self::STATUS_ACTIVE => yii::t('app', 'Normal'),
+            self::STATUS_DELETED => yii::t('app', 'Disabled'),
         ];
     }
 
@@ -279,7 +289,7 @@ class User extends ActiveRecord implements IdentityInterface
      * @inheritdoc
      */
     public function selfUpdate()
-    {throw new \yii\web\ForbiddenHttpException("demo user cannot be update");
+    {
         if ($this->password != '') {
             if ($this->old_password == '') {
                 $this->addError('old_password', yii::t('yii', '{attribute} cannot be blank.', ['attribute' => yii::t('app', 'Old Password')]));

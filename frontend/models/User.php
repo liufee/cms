@@ -32,6 +32,7 @@ class User extends \common\models\User
             [['username', 'email'], 'unique'],
             ['email', 'email'],
             [['repassword'], 'compare', 'compareAttribute' => 'password'],
+            [['status'], 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             [['username', 'email', 'password', 'repassword'], 'required', 'on' => ['create']],
             [['username', 'email'], 'required', 'on' => ['update']],
         ];
@@ -43,8 +44,8 @@ class User extends \common\models\User
     public function scenarios()
     {
         return [
-            'create' => ['username', 'email', 'password', 'avatar', 'repassword'],
-            'update' => ['username', 'email', 'password', 'repassword', 'avatar'],
+            'create' => ['username', 'email', 'password', 'avatar', 'repassword', 'status'],
+            'update' => ['username', 'email', 'password', 'repassword', 'avatar', 'status'],
             'self-update' => ['username', 'email', 'password', 'repassword', 'old_password', 'avatar'],
         ];
     }
@@ -61,8 +62,17 @@ class User extends \common\models\User
             'password' => yii::t('app', 'Password'),
             'repassword' => yii::t('app', 'Repeat Password'),
             'avatar' => yii::t('app', 'Avatar'),
+            'status' => yii::t('app', 'Status'),
             'created_at' => yii::t('app', 'Created At'),
             'updated_at' => yii::t('app', 'Updated At'),
+        ];
+    }
+
+    public static function getStatuses()
+    {
+        return [
+            self::STATUS_ACTIVE => yii::t('app', 'Normal'),
+            self::STATUS_DELETED => yii::t('app', 'Disabled'),
         ];
     }
 

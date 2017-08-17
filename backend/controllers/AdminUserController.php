@@ -9,7 +9,7 @@ namespace backend\controllers;
 
 use yii;
 use backend\models\User;
-use yii\data\ActiveDataProvider;
+use backend\models\UserSearch;
 use backend\models\AdminRoleUser;
 use yii\web\BadRequestHttpException;
 use backend\actions\IndexAction;
@@ -26,17 +26,11 @@ class AdminUserController extends \yii\web\Controller
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    $query = User::find();
-                    $dataProvider = new ActiveDataProvider([
-                        'query' => $query,
-                        'sort' => [
-                            'defaultOrder' => [
-                                'created_at' => SORT_ASC,
-                            ]
-                        ]
-                    ]);
+                    $searchModel = new UserSearch();
+                    $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
                     return [
                         'dataProvider' => $dataProvider,
+                        'searchModel' => $searchModel,
                     ];
                 }
             ],
@@ -86,7 +80,7 @@ class AdminUserController extends \yii\web\Controller
                 Yii::$app->getSession()->setFlash('error', $err);
             }
         }
-
+        $model->loadDefaultValues();
         return $this->render('create', [
             'model' => $model,
             'rolesModel' => $rolesModel,

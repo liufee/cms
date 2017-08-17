@@ -8,7 +8,6 @@
 namespace frontend\models;
 
 use common\models\Menu as CommonMenu;
-use yii\helpers\Url;
 
 class Menu extends CommonMenu
 {

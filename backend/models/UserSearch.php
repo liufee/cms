@@ -10,7 +10,7 @@ namespace backend\models;
 
 use yii\data\ActiveDataProvider;
 
-class UserSearch extends \common\models\User
+class UserSearch extends User
 {
     public $create_start_at;
 
@@ -20,6 +20,51 @@ class UserSearch extends \common\models\User
 
     public $update_end_at;
 
+    public function scenarios()
+    {
+        $scenarios = [self::SCENARIO_DEFAULT => []];
+        foreach ($this->getValidators() as $validator) {
+            foreach ($validator->on as $scenario) {
+                $scenarios[$scenario] = [];
+            }
+            foreach ($validator->except as $scenario) {
+                $scenarios[$scenario] = [];
+            }
+        }
+        $names = array_keys($scenarios);
+
+        foreach ($this->getValidators() as $validator) {
+            if (empty($validator->on) && empty($validator->except)) {
+                foreach ($names as $name) {
+                    foreach ($validator->attributes as $attribute) {
+                        $scenarios[$name][$attribute] = true;
+                    }
+                }
+            } elseif (empty($validator->on)) {
+                foreach ($names as $name) {
+                    if (!in_array($name, $validator->except, true)) {
+                        foreach ($validator->attributes as $attribute) {
+                            $scenarios[$name][$attribute] = true;
+                        }
+                    }
+                }
+            } else {
+                foreach ($validator->on as $name) {
+                    foreach ($validator->attributes as $attribute) {
+                        $scenarios[$name][$attribute] = true;
+                    }
+                }
+            }
+        }
+
+        foreach ($scenarios as $scenario => $attributes) {
+            if (!empty($attributes)) {
+                $scenarios[$scenario] = array_keys($attributes);
+            }
+        }
+
+        return $scenarios;
+    }
 
     /**
      * @inheritdoc
@@ -28,7 +73,6 @@ class UserSearch extends \common\models\User
     {
         return [
             [['username', 'email', 'create_start_at', 'create_end_at', 'update_start_at', 'update_end_at'], 'string'],
-            [['created_at', 'updated_at'], 'integer'],
             ['status', 'integer'],
         ];
     }
@@ -54,7 +98,9 @@ class UserSearch extends \common\models\User
         if (! $this->validate()) {
             return $dataProvider;
         }
-        $query->andFilterWhere(['like', 'username', $this->username])->andFilterWhere(['like', 'email', $this->email]);
+        $query->andFilterWhere(['like', 'username', $this->username])
+            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['=', 'status', $this->status]);
         $create_start_at_unixtimestamp = $create_end_at_unixtimestamp = $update_start_at_unixtimestamp = $update_end_at_unixtimestamp = '';
         if ($this->create_start_at != '') {
             $create_start_at_unixtimestamp = strtotime($this->create_start_at);

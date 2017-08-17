@@ -18,6 +18,7 @@ use backend\models\AdminRoles;
 use backend\widgets\Bar;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
+use backend\models\User;
 
 $assignment = function ($url, $model) {
     return Html::a('<i class="fa fa-tablet"></i> ' . yii::t('app', 'Assign Roles'), Url::to([
@@ -41,8 +42,8 @@ $this->title = "Admin";
                 ]) ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
-                    //'filterModel' => $searchModel,
-                    //'layout' => "{items}\n{pager}",
+                    'filterModel' => $searchModel,
+                    'layout' => "{items}\n{pager}",
                     'columns' => [
                         [
                             'class' => CheckboxColumn::className(),
@@ -61,12 +62,42 @@ $this->title = "Admin";
                             'attribute' => 'email',
                         ],
                         [
+                            'attribute' => 'status',
+                            'label' => yii::t('app', 'Status'),
+                            'value' => function ($model) {
+                                if($model->status == User::STATUS_ACTIVE){
+                                    return yii::t('app', 'Normal');
+                                }else if( $model->status == User::STATUS_DELETED ){
+                                    return yii::t('app', 'Disabled');
+                                }
+                            },
+                            'filter' => User::getStatuses(),
+                        ],
+                        [
                             'attribute' => 'created_at',
-                            'format' => 'date',
+                            'format' => ['date'],
+                            'filter' => Html::activeInput('text', $searchModel, 'create_start_at', [
+                                    'class' => 'form-control layer-date',
+                                    'placeholder' => '',
+                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"
+                                ]) . Html::activeInput('text', $searchModel, 'create_end_at', [
+                                    'class' => 'form-control layer-date',
+                                    'placeholder' => '',
+                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                                ]),
                         ],
                         [
                             'attribute' => 'updated_at',
-                            'format' => 'date',
+                            'format' => ['date'],
+                            'filter' => Html::activeInput('text', $searchModel, 'update_start_at', [
+                                    'class' => 'form-control layer-date',
+                                    'placeholder' => '',
+                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                                ]) . Html::activeInput('text', $searchModel, 'update_end_at', [
+                                    'class' => 'form-control layer-date',
+                                    'placeholder' => '',
+                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                                ]),
                         ],
                         [
                             'class' => ActionColumn::className(),

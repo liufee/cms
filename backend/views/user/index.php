@@ -13,6 +13,7 @@
  */
 
 use backend\grid\GridView;
+use frontend\models\User;
 use yii\helpers\Html;
 use backend\widgets\Bar;
 use backend\grid\CheckboxColumn;
@@ -46,13 +47,25 @@ $this->title = 'Users'
                             'attribute' => 'email',
                         ],
                         [
+                            'attribute' => 'status',
+                            'label' => yii::t('app', 'Status'),
+                            'value' => function ($model) {
+                                if($model->status == User::STATUS_ACTIVE){
+                                    return yii::t('app', 'Normal');
+                                }else if( $model->status == User::STATUS_DELETED ){
+                                    return yii::t('app', 'Disabled');
+                                }
+                            },
+                            'filter' => User::getStatuses(),
+                        ],
+                        [
                             'attribute' => 'created_at',
                             'format' => ['date'],
                             'filter' => Html::activeInput('text', $searchModel, 'create_start_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
                                     'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"
-                                ]) . \yii\helpers\Html::activeInput('text', $searchModel, 'create_end_at', [
+                                ]) . Html::activeInput('text', $searchModel, 'create_end_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
                                     'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
@@ -65,7 +78,7 @@ $this->title = 'Users'
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
                                     'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
-                                ]) . \yii\helpers\Html::activeInput('text', $searchModel, 'update_end_at', [
+                                ]) . Html::activeInput('text', $searchModel, 'update_end_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
                                     'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
