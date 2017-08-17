@@ -33,10 +33,14 @@
             "bower-asset-library": "vendor/bower"
         }
     },
-    "repositories": {
-        "packagist": {
+    "repositories": [
+        {
             "type": "composer",
             "url": "https://packagist.phpcomposer.com"
+        },
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
-    }
+    ]
 }

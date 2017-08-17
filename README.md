@@ -63,11 +63,11 @@ QQ群 258780872
      composer的安装以及国内镜像设置请点击[此处](http://www.phpcomposer.com/)
      1. 依次执行以下命令
          ```bash
-         $ composer global require "fxp/composer-asset-plugin:~1.1.1"
          $ composer create-project feehi/cms webApp
          $ cd webApp
+         $ composer install -vvv
          $ php ./init --env=Production #初始化yii2框架
-         $ php ./yii migrate/up --interactive=0 #导入FeehiCMSsql数据库，执行此步骤之前请先到common/config/main-local.php修改成正确的数据库配置
+         $ php ./yii migrate/up --interactive=0 #导入FeehiCMS sql数据库，执行此步骤之前请先到common/config/main-local.php修改成正确的数据库配置
          ```
      2. 配置web服务器(参加下面)
      3. 完成
