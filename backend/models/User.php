@@ -265,11 +265,14 @@ class User extends ActiveRecord implements IdentityInterface
             }
             $fullName = $uploadPath . uniqid() . '.' . $upload->extension;
             if (! $upload->saveAs($fullName)) {
-                $this->addError('avatar', yii::t('app', 'Upload {attribute} error', ['attribute' => yii::t('app', 'Avatar')]) . ': ' . $fullName);
+                $this->addError('avatar', yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', 'Avatar')]) . ': ' . $fullName);
                 return false;
             }
             $avatar = $this->getOldAttribute('avatar');
-            if(!empty($avatar)) unlink(yii::getAlias('@frontend/web') . $this->getOldAttribute('avatar'));
+            if(!empty($avatar)) {
+                $file = yii::getAlias('@frontend/web') . $this->getOldAttribute('avatar');
+                if(file_exists($file)) unlink($file);
+            }
             $this->avatar = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
         } else {
             $this->avatar = $this->getOldAttribute('avatar');

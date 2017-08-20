@@ -8,9 +8,7 @@
 
 namespace feehi\assets;
 
-use yii\web\AssetBundle;
-
-class ActiveFormAsset extends AssetBundle
+class ActiveFormAsset extends \yii\web\AssetBundle
 {
     public $sourcePath = '@yii/assets';
 

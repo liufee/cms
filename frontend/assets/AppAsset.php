@@ -8,13 +8,8 @@
 
 namespace frontend\assets;
 
-use yii\web\AssetBundle;
-
-class AppAsset extends AssetBundle
+class AppAsset extends \yii\web\AssetBundle
 {
-    public $basePath = '@webroot';
-
-    public $baseUrl = '@web';
 
     public $css = [
         'static/css/style.css',

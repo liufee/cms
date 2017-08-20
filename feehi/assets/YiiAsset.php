@@ -8,9 +8,7 @@
 
 namespace feehi\assets;
 
-use yii\web\AssetBundle;
-
-class YiiAsset extends AssetBundle
+class YiiAsset extends \yii\web\AssetBundle
 {
     public $sourcePath = '@yii/assets';
 

@@ -8,14 +8,9 @@
 
 namespace frontend\assets;
 
-use yii\web\AssetBundle;
 
-class IndexAsset extends AssetBundle
+class IndexAsset extends \yii\web\AssetBundle
 {
-    public $basePath = '@webroot';
-
-    public $baseUrl = '@web';
-
     public $js = [
         'static/js/responsiveslides.min.js',
     ];

@@ -8,9 +8,7 @@
 
 namespace feehi\assets;
 
-use yii\web\AssetBundle;
-
-class BootstrapAsset extends AssetBundle
+class BootstrapAsset extends \yii\web\AssetBundle
 {
     public $sourcePath = '@bower/bootstrap/dist';
 

@@ -8,18 +8,26 @@
 
 namespace backend\assets;
 
-use yii\web\AssetBundle;
+use yii;
 
-class JstreeAsset extends AssetBundle
+class JstreeAsset extends \yii\web\AssetBundle
 {
-    public $baseUrl = '@web/admin';
-    public $sourcePath = '@backend/web/static';
+    public function init()
+    {
+        parent::init();
+        if( yii::$app->getRequest()->getBaseUrl() !== "" ){
+            $this->sourcePath = '@backend/web';
+        }
+    }
+
     public $css = [
-        'js/plugins/jstree/themes/default/style.min.css',
+        'static/js/plugins/jstree/themes/default/style.min.css',
     ];
+
     public $js = [
-        'js/plugins/jstree/jstree.js',
+        'static/js/plugins/jstree/jstree.js',
     ];
+
     public $depends = [
         'feehi\assets\JqueryAsset',
     ];

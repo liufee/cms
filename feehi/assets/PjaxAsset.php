@@ -8,9 +8,7 @@
 
 namespace feehi\assets;
 
-use yii\web\AssetBundle;
-
-class PjaxAsset extends AssetBundle
+class PjaxAsset extends \yii\web\AssetBundle
 {
     public $sourcePath = '@bower/yii2-pjax';
 

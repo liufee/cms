@@ -8,28 +8,36 @@
 
 namespace backend\assets;
 
-use yii\web\AssetBundle;
+use yii;
 
-class IndexAsset extends AssetBundle
+class IndexAsset extends \yii\web\AssetBundle
 {
 
-    public $baseUrl = '@web/admin';
-    public $sourcePath = '@backend/web/static';
+    public function init()
+    {
+        parent::init();
+        if( yii::$app->getRequest()->getBaseUrl() !== "" ){
+            $this->sourcePath = '@backend/web';
+        }
+    }
+
     public $css = [
-        'css/bootstrap.min.css',
-        'css/font-awesome.min93e3.css?v=4.4.0',
-        'css/style.min862f.css?v=4.1.0',
+        'static/css/bootstrap.min.css',
+        'static/css/font-awesome.min93e3.css?v=4.4.0',
+        'static/css/style.min862f.css?v=4.1.0',
     ];
+
     public $js = [
-        "js/jquery.min.js?v=2.1.4",
-        "js/bootstrap.min.js?v=3.3.6",
-        "js/plugins/metisMenu/jquery.metisMenu.js",
-        "js/plugins/slimscroll/jquery.slimscroll.min.js",
-        "js/plugins/layer/layer.min.js",
-        "js/hplus.min.js?v=4.1.0",
-        "js/contabs.min.js",
-        "js/plugins/pace/pace.min.js",
+        "static/js/jquery.min.js?v=2.1.4",
+        "static/js/bootstrap.min.js?v=3.3.6",
+        "static/js/plugins/metisMenu/jquery.metisMenu.js",
+        "static/js/plugins/slimscroll/jquery.slimscroll.min.js",
+        "static/js/plugins/layer/layer.min.js",
+        "static/js/hplus.min.js?v=4.1.0",
+        "static/js/contabs.min.js",
+        "static/js/plugins/pace/pace.min.js",
     ];
+
     public $depends = [
         'feehi\assets\YiiAsset',
         'feehi\assets\BootstrapAsset',

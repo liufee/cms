@@ -8,11 +8,14 @@
 
 namespace backend\assets;
 
-use yii\web\AssetBundle;
+use yii;
 
-class UeditorAsset extends AssetBundle
+class UeditorAsset extends yii\web\AssetBundle
 {
-    public $sourcePath = "@backend/web/static/js/plugins/ueditor";
+
+    public $basePath = "@web";
+
+    public $sourcePath = '@backend/web/static/js/plugins/ueditor/';
 
     public $js = [
         'ueditor.all.min.js',

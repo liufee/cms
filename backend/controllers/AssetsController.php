@@ -8,6 +8,8 @@
 
 namespace backend\controllers;
 
+use backend\widgets\ueditor\UeditorAction;
+
 class AssetsController extends \yii\web\Controller
 {
 
@@ -15,7 +17,7 @@ class AssetsController extends \yii\web\Controller
     {
         return [
             'ueditor' => [
-                'class' => 'backend\widgets\ueditor\UeditorAction',
+                'class' => UeditorAction::className(),
             ],
         ];
     }

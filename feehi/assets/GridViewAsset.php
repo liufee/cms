@@ -8,9 +8,7 @@
 
 namespace feehi\assets;
 
-use yii\web\AssetBundle;
-
-class GridViewAsset extends AssetBundle
+class GridViewAsset extends \yii\web\AssetBundle
 {
     public $sourcePath = '@yii/assets';
 

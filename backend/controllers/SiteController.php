@@ -72,7 +72,7 @@ class SiteController extends \yii\web\Controller
                 $dbInfo = "Unknown";
         }
         $info = [
-            'OPERATING_ENVIRONMENT' => PHP_OS . ' ' . $_SERVER["SERVER_SOFTWARE"],
+            'OPERATING_ENVIRONMENT' => PHP_OS . ' ' . yii::$app->getRequest()->getServerName(),
             'PHP_RUN_MODE' => php_sapi_name(),
             'DB_INFO' => $dbInfo,
             'PROGRAM_VERSION' => "1.0",

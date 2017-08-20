@@ -155,7 +155,7 @@ class ArticleController extends Controller
                     $tips = "<span class='c-approved'>" . yii::t('frontend', 'Comment waiting for approved.') . "</span><br />";
                 }
                 $commentModel->afterFind();
-                echo "
+                return "
                 <li class='comment even thread-even depth-1' id='comment-{$commentModel->id}'>
                     <div class='c-avatar'><img src='{$avatar}' class='avatar avatar-108' height='50' width='50'>
                         <div class='c-main' id='div-comment-{$commentModel->id}'><p>{$commentModel->content}</p>
@@ -169,7 +169,7 @@ class ArticleController extends Controller
                 foreach ($temp as $v) {
                     $str .= $v[0] . "<br>";
                 }
-                echo "<font color='red'>" . $str . "</font>";
+                return "<font color='red'>" . $str . "</font>";
             }
         }
     }

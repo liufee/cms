@@ -8,14 +8,8 @@
 
 namespace frontend\assets;
 
-use yii\web\AssetBundle;
-
-class ViewAsset extends AssetBundle
+class ViewAsset extends \yii\web\AssetBundle
 {
-    public $basePath = '@webroot';
-
-    public $baseUrl = '@web';
-
     public $css = [
         'static/syntaxhighlighter/styles/shCoreDefault.css'
     ];

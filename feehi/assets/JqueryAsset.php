@@ -8,9 +8,7 @@
 
 namespace feehi\assets;
 
-use yii\web\AssetBundle;
-
-class JqueryAsset extends AssetBundle
+class JqueryAsset extends \yii\web\AssetBundle
 {
     public $sourcePath = '@bower/jquery/dist';
 
