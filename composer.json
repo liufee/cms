@@ -16,7 +16,8 @@
         "php": ">=5.4.0",
         "yiisoft/yii2": ">=2.0.6",
         "yiisoft/yii2-bootstrap": "*",
-        "yiisoft/yii2-swiftmailer": "*"
+        "yiisoft/yii2-swiftmailer": "*",
+        "feehi/yii2-swoole": ">=0.0.3"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
