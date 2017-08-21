@@ -17,7 +17,7 @@
         "yiisoft/yii2": ">=2.0.6",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
-        "feehi/yii2-swoole": ">=0.0.3"
+        "feehi/yii2-swoole": ">=0.0.5"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

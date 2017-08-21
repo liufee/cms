@@ -38,7 +38,7 @@ return [
                         'swooleConfig' => [//标准的swoole配置项都可以再此加入
                 'reactor_num' => 2,
                 'worker_num' => 4,
-                'daemonize' => false,
+                'daemonize' => true,
                 'log_file' => __DIR__ . '/../../frontend/runtime/logs/swoole.log',
                 'log_level' => 0,
                 'pid_file' => __DIR__ . '/../../frontend/runtime/server.pid',
@@ -53,7 +53,7 @@ return [
                         'swooleConfig' => [
                 'reactor_num' => 2,
                 'worker_num' => 4,
-                'daemonize' => false,
+                'daemonize' => true,
                 'log_file' => __DIR__ . '/../../backend/runtime/logs/swoole.log',
                 'log_level' => 0,
                 'pid_file' => __DIR__ . '/../../backend/runtime/server.pid',
