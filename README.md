@@ -5,6 +5,10 @@ FeehiCMS __[(English)](docs/README_EN.md)__
 FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀特性几乎都用在了FeehiCMS上，对于学习yii2框架提供了良好的实例。
 
 
+更新记录
+---------------
+0.1.3版本已经集成swoole作为FeehiCMS应用服务器，详细配置及使用参见[yii2-swoole](https://www.github.com/liufee/yii2-swoole)
+
 帮助
 ---------------
 开发文档 [http://doc.feehi.com](http://doc.feehi.com)
@@ -32,12 +36,15 @@ QQ群 258780872
 演示站点后台   **用户名:feehicms 密码123456**
       * php7.0.0
         * 后台 [http://demo.cms.feehi.com/admin](http://demo.cms.feehi.com/admin)
-        * 前台 [http://demo.cms.feehi.com/](http://demo.cms.feehi.com/)
+        * 前台 [http://demo.cms.feehi.com](http://demo.cms.feehi.com/)
+      * swoole (docker)
+        * swoole演示前台[http://swoole.demo.cms.qq.feehi.com](http://swoole.demo.cms.qq.feehi.com)
+        * swoole演示后台[http://swoole-admin.demo.cms.qq.feehi.com](http://swoole-admin.demo.cms.qq.feehi.com)
       * php7.1.8 (docker)
         * 备用演示前台1[http://demo.cms.qq.feehi.com/admin](http://demo.cms.qq.feehi.com/admin)
         * 备用演示后台1[http://demo.cms.qq.feehi.com/admin](http://demo.cms.qq.feehi.com/admin)
       * php5.4 (docker)
-        * 备用演示前台2[http://php54.demo.cms.qq.feehi.com/](http://php54.demo.cms.qq.feehi.com/)
+        * 备用演示前台2[http://php54.demo.cms.qq.feehi.com](http://php54.demo.cms.qq.feehi.com/)
         * 备用演示后台2[http://php54.demo.cms.qq.feehi.com/admin](http://php54.demo.cms.qq.feehi.com/admin)
       
 2. 使用Docker容器
