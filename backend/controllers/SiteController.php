@@ -72,7 +72,7 @@ class SiteController extends \yii\web\Controller
                 $dbInfo = "Unknown";
         }
         $info = [
-            'OPERATING_ENVIRONMENT' => PHP_OS . ' ' . yii::$app->getRequest()->getServerName(),
+            'OPERATING_ENVIRONMENT' => PHP_OS . ' ' . $_SERVER['SERVER_SOFTWARE'],
             'PHP_RUN_MODE' => php_sapi_name(),
             'DB_INFO' => $dbInfo,
             'PROGRAM_VERSION' => "1.0",
@@ -194,7 +194,8 @@ class SiteController extends \yii\web\Controller
     {
         $language = Yii::$app->getRequest()->get('lang');
         if (isset($language)) {
-            Yii::$app->session['language'] = $language;
+            $session = Yii::$app->getSession();
+            $session->set("language", $language);
         }
         $this->goBack(Yii::$app->getRequest()->headers['referer']);
     }

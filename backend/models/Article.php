@@ -36,7 +36,7 @@ class Article extends \common\models\Article
             $this->thumb = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
             if( !$insert ){
                 $file = yii::getAlias('@frontend/web') . $this->getOldAttribute('thumb');
-                if( file_exists($file) ) unlink($file);
+                if( file_exists($file) && is_file($file) ) unlink($file);
             }
         } else {
             $this->thumb = $this->getOldAttribute('thumb');

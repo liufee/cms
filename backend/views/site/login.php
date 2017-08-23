@@ -72,6 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'captcha', ['template' => '<div style="position:relative">{input}{error}{hint}</div>'])->widget(Captcha::classname(), [
                 'template' => '{input}{image}',
                 'options' => [
+                    "class"=>"form-control",
                     'style' => "width:300px;height:34px;position:relative;top:2px",
                 ]
             ]) ?>

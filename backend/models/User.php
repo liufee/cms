@@ -271,7 +271,7 @@ class User extends ActiveRecord implements IdentityInterface
             $avatar = $this->getOldAttribute('avatar');
             if(!empty($avatar)) {
                 $file = yii::getAlias('@frontend/web') . $this->getOldAttribute('avatar');
-                if(file_exists($file)) unlink($file);
+                if( file_exists($file) && is_file($file) ) unlink($file);
             }
             $this->avatar = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
         } else {

@@ -17,7 +17,7 @@ return [
     'components' => [
         'user' => [
             'identityClass' => backend\models\User::className(),
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
             'identityCookie' => ['name' => '_backend_identity'],
             'idParam' => '__backend__id',
             'returnUrlParam' => '_backend_returnUrl',
