@@ -38,13 +38,12 @@ return [
             'frontend/runtime',
             'frontend/web/assets',
             'frontend/web/uploads',
-            'frontend/web/cache',
             'frontend/web/admin/assets',
             'frontend/web/admin/uploads'
         ],
         'setExecutable' => [
             'yii',
-            'tests/codeception/bin/yii',
+            'yii_test',
         ],
         'setCookieValidationKey' => [
             'backend/config/main-local.php',
@@ -60,7 +59,6 @@ return [
             'frontend/runtime',
             'frontend/web/assets',
             'frontend/web/uploads',
-            'frontend/web/cache',
             'frontend/web/admin/assets',
             'frontend/web/admin/uploads'
         ],
