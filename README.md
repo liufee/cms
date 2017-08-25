@@ -4,9 +4,9 @@ FeehiCMS __[(English)](docs/README_EN.md)__
 基于yii2的CMS系统，运行环境与yii2(php>=5.4)一致。FeehiCMS旨在为yii2爱好者提供一个基础功能完善的CMS系统，使开发者更专注于业务功能开发。
 FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀特性几乎都用在了FeehiCMS上，对于学习yii2框架提供了良好的实例。
 
-![![Latest Stable Version](https://poser.pugx.org/feehi/cms/v/stable)](https://packagist.org/packages/feehi/cms)
-![![License](https://poser.pugx.org/feehi/cms/license)](https://packagist.org/packages/feehi/cms)
-![![Build Status](https://www.travis-ci.org/liufee/cms.svg?branch=master)](https://www.travis-ci.org/liufee/cms)
+[![Latest Stable Version](https://poser.pugx.org/feehi/cms/v/stable)](https://packagist.org/packages/feehi/cms)
+[![License](https://poser.pugx.org/feehi/cms/license)](https://packagist.org/packages/feehi/cms)
+[![Build Status](https://www.travis-ci.org/liufee/cms.svg?branch=master)](https://www.travis-ci.org/liufee/cms)
 
 
 更新记录

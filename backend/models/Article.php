@@ -9,7 +9,6 @@
 namespace backend\models;
 
 use yii;
-use frontend\models\Comment;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
 
