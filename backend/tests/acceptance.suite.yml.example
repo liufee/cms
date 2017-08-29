@@ -2,6 +2,6 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser:
-            url: http://localhost
+            url: http://localhost/admin
         - Yii2:
             part: init

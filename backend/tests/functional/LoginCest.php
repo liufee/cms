@@ -3,7 +3,7 @@
 namespace backend\tests\functional;
 
 use backend\tests\FunctionalTester;
-use common\fixtures\UserFixture;
+use backend\fixtures\UserFixture;
 
 /**
  * Class LoginCest
@@ -27,19 +27,38 @@ class LoginCest
             ]
         ];
     }
-    
-    /**
-     * @param FunctionalTester $I
-     */
-    public function loginUser(FunctionalTester $I)
-    {
-        $I->amOnPage('/site/login');
-        $I->fillField('Username', 'erau');
-        $I->fillField('Password', 'password_0');
-        $I->click('login-button');
 
-        $I->see('Logout (erau)', 'form button[type=submit]');
-        $I->dontSeeLink('Login');
-        $I->dontSeeLink('Signup');
+    public function _before(FunctionalTester $I)
+    {
+        $I->amOnRoute('site/login');
+    }
+
+    protected function formParams($login, $password)
+    {
+        return [
+            'LoginForm[username]' => $login,
+            'LoginForm[password]' => $password,
+        ];
+    }
+
+    public function checkEmpty(FunctionalTester $I)
+    {
+        $I->submitForm('button[name=login-button]', $this->formParams('', ''));
+        $I->see('用户名不能为空');
+        $I->see('密码不能为空');
+    }
+
+    public function checkWrongPassword(FunctionalTester $I)
+    {
+        $I->submitForm('button[name=login-button]', $this->formParams('admin', 'wrong'));
+        $I->see('用户名或密码错误');
+    }
+
+    public function checkValidLogin(FunctionalTester $I)
+    {
+        $I->submitForm('button[name=login-button]', array_merge($this->formParams('admin', 'password_0'), ['LoginForm[captcha]'=>'testme']));
+        $I->see('菜单');
+        $I->dontSeeLink('登陆');
+        $I->dontSeeLink('注册');
     }
 }

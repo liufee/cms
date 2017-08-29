@@ -2,12 +2,13 @@
 namespace frontend\tests\functional;
 
 use frontend\tests\FunctionalTester;
+use yii\helpers\Url;
 
 class AboutCest
 {
     public function checkAbout(FunctionalTester $I)
     {
-        $I->amOnRoute('site/about');
-        $I->see('About', 'h1');
+        $I->amOnPage(Url::toRoute(['/page/view', 'id'=>23]));
+        $I->see('关于我们');
     }
 }

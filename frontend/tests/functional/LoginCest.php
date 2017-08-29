@@ -39,21 +39,21 @@ class LoginCest
 
     public function checkEmpty(FunctionalTester $I)
     {
-        $I->submitForm('#login-form', $this->formParams('', ''));
-        $I->seeValidationError('Username cannot be blank.');
-        $I->seeValidationError('Password cannot be blank.');
+        $I->submitForm('#form-login', $this->formParams('', ''));
+        $I->seeValidationError('用户名不能为空');
+        $I->seeValidationError('密码不能为空');
     }
 
     public function checkWrongPassword(FunctionalTester $I)
     {
-        $I->submitForm('#login-form', $this->formParams('admin', 'wrong'));
-        $I->seeValidationError('Incorrect username or password.');
+        $I->submitForm('#form-login', $this->formParams('admin', 'wrong'));
+        $I->seeValidationError('用户名');
     }
     
     public function checkValidLogin(FunctionalTester $I)
     {
-        $I->submitForm('#login-form', $this->formParams('erau', 'password_0'));
-        $I->see('Logout (erau)', 'form button[type=submit]');
+        $I->submitForm('#form-login', $this->formParams('erau', 'password_0'));
+        $I->see('退出登陆');
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Signup');
     }

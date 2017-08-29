@@ -1,7 +1,7 @@
 language: php
 
 php:
-  - 5.4
+#  - 5.4
   - 5.5
   - 5.6
   - 7.0
@@ -27,7 +27,9 @@ install:
     sed -i "s/'cookieValidationKey' => ''/'cookieValidationKey' => 'testkey'/" backend/config/main.php
 before_script:
   - mysql -e 'CREATE DATABASE cms_test;'
+  - echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - printf "\n" | pecl install -f imagick
   - php yii_test migrate --interactive=0
 
 script:
-  - vendor/bin/codecept run unit -c backend
+  - vendor/bin/codecept run

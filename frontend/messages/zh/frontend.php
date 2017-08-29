@@ -57,6 +57,7 @@ return [
     'Signup' => '注册',
     "None category named {name}" => '未找到分类{name}',
     "Login" => "登录",
+    "Incorrect username or password." => "用户名或者密码错误",
     /*site*/
 
     /*article*/

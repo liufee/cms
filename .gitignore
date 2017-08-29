@@ -30,4 +30,6 @@ phpunit.phar
 # local phpunit config
 /phpunit.xml
 composer.lock
+backend/tests/acceptance.suite.yml
+frontend/tests/acceptance.suite.yml
 apps/*

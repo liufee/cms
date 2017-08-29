@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="row">
             <div class="col-lg-5">
-                <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+                <?php $form = ActiveForm::begin(['id' => 'form-login']); ?>
 
                 <?= $form->field($model, 'username', ['template' => "<div style='position:relative'>{label}{input}\n{error}\n{hint}</div>"])->textInput(['autofocus' => true]) ?>
 

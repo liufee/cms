@@ -123,7 +123,7 @@ class FileController extends \yii\console\Controller
         FileHelper::createDirectory($publishDir . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR .'conf', 0777);
         if( file_exists($publishDir . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR .'conf' . DIRECTORY_SEPARATOR . 'install.lock') ) unlink($publishDir . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR .'conf' . DIRECTORY_SEPARATOR . 'install.lock');
         file_put_contents($temp . 'common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'main-local.php', "<?php return [];?>" );
-        passthru("composer archive --dir=$publishDir --format=zip");
+        //passthru("composer archive --dir=$publishDir --format=zip");
         $this->stdout('Copy Success' . "\n", Console::FG_GREEN);
     }
 

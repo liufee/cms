@@ -74,6 +74,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'options' => [
                     "class"=>"form-control",
                     'style' => "width:300px;height:34px;position:relative;top:2px",
+                ],
+                'imageOptions' => [
+                    "style" => "cursor:pointer;right:0px"
                 ]
             ]) ?>
             <?= Html::submitButton(yii::t("app", "Login"), [
