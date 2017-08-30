@@ -15,7 +15,8 @@ class SettingWebsiteFormCest
 
     public function tryGetWebsiteSetting(UnitTester $I)
     {
-        ($model = new SettingWebsiteForm())->getWebsiteSetting();
+        $model = new SettingWebsiteForm();
+        $model->getWebsiteSetting();
         expect("result should have attribute website_title", $model)->hasAttribute('website_title');
     }
 }
