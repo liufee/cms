@@ -21,6 +21,7 @@ use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
 $this->title = "Friendly Links";
+$this->params['breadcrumbs'][] = yii::t('app', 'Friendly Links');
 ?>
 <div class="row">
     <div class="col-sm-12">

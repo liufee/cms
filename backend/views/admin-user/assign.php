@@ -5,14 +5,17 @@
  * Email: job@feehi.com
  * Created at: 2016-04-11 22:34
  */
-
 /**
  * @var $model backend\models\User;
  */
-
 use backend\models\AdminRoles;
 use backend\widgets\ActiveForm;
+use yii\helpers\Url;
 
+$this->params['breadcrumbs'] = [
+    ['label' => yii::t('app', 'Admin Users'), 'url' => Url::to(['index'])],
+    ['label' => yii::t('app', 'Assign Roles')],
+];
 ?>
 <div class="col-sm-12">
     <div class="ibox">

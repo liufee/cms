@@ -22,7 +22,7 @@ use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
 $this->title = 'Comments';
-
+$this->params['breadcrumbs'][] = yii::t('app', 'Comments');
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -139,7 +139,7 @@ $this->title = 'Comments';
                                     }
                                 },
                             ],
-                            'template' => '{status}{delete}',
+                            'template' => '{update}{status}{delete}',
                         ],
                     ]
                 ]); ?>

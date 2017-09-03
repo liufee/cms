@@ -19,25 +19,19 @@ $this->title = "Comments";
 <div class="row">
     <div class="col-sm-12">
         <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5><?= $this->title ?>
-                    <small></small>
-                </h5>
-                <div class="ibox-tools">
-                    <a class="collapse-link">
-                        <i class="fa fa-chevron-up"></i>
-                    </a>
-                    <a class="close-link">
-                        <i class="fa fa-times"></i>
-                    </a>
-                </div>
-            </div>
+            <?=$this->render('/widgets/_ibox-title')?>
             <div class="ibox-content">
                 <?php $form = ActiveForm::begin(); ?>
                 <?= $form->field($model, 'nickname') ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'content')->textarea() ?>
+                <div class="hr-line-dashed"></div>
+                <?= $form->field($model, 'website_url') ?>
+                <div class="hr-line-dashed"></div>
+                <?= $form->field($model, 'ip') ?>
+                <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'status')->radioList(Constants::getCommentStatusItems()) ?>
+                <div class="hr-line-dashed"></div>
                 <?= $form->defaultButtons() ?>
                 <?php ActiveForm::end(); ?>
             </div>

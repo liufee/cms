@@ -5,7 +5,12 @@
  * Email: job@feehi.com
  * Created at: 2016-03-24 12:51
  */
+use yii\helpers\Url;
 
+$this->params['breadcrumbs'] = [
+    ['label' => yii::t('app', 'Articles'), 'url' => Url::to(['index'])],
+    ['label' => yii::t('app', 'Update') . yii::t('app', 'Articles')],
+];
 /**
  * @var $model backend\models\Article
  */

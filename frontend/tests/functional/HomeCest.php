@@ -13,4 +13,10 @@ class HomeCest
         $I->see('最新发布');
         $I->seeLink('关于我们');
     }
+
+    public function checView(FunctionalTester $I)
+    {
+        $I->amOnPage(Url::toRoute(['/article/view', 'id'=>'19']));
+        $I->seeInTitle("Java 8最快的垃圾搜集器是什么？");
+    }
 }

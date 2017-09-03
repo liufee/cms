@@ -30,7 +30,8 @@ $assignment = function ($url, $model) {
     ]);
 };
 
-$this->title = "Admin";
+$this->title = "Admin Users";
+$this->params['breadcrumbs'][] = yii::t('app', 'Admin Users');
 ?>
 <div class="row">
     <div class="col-sm-12">

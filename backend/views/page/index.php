@@ -22,7 +22,7 @@ use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
 $this->title = 'Pages';
-
+$this->params['breadcrumbs'][] = yii::t('app', 'Pages');
 ?>
 <div class="row">
     <div class="col-sm-12">

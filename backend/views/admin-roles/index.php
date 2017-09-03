@@ -27,6 +27,7 @@ $assignment = function ($url, $model) {
         'class' => 'btn btn-white btn-sm'
     ]);
 };
+$this->params['breadcrumbs'][] = yii::t('app', 'Roles');
 ?>
 <div class="row">
     <div class="col-sm-12">

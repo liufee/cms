@@ -24,6 +24,7 @@ use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
 $this->title = 'Articles';
+$this->params['breadcrumbs'][] = yii::t('app', 'Articles');
 
 ?>
 <style>

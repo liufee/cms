@@ -22,6 +22,7 @@ use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
 $this->title = "Backend Menus";
+$this->params['breadcrumbs'][] = yii::t('app', 'Backend Menus');
 ?>
 <div class="row">
     <div class="col-sm-12">

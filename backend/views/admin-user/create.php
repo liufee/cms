@@ -5,12 +5,16 @@
  * Email: job@feehi.com
  * Created at: 2016-03-25 11:14
  */
+use yii\helpers\Url;
 
+$this->params['breadcrumbs'] = [
+    ['label' => yii::t('app', 'Admin Users'), 'url' => Url::to(['index'])],
+    ['label' => yii::t('app', 'Create') . yii::t('app', 'Admin Users')],
+];
 /**
  * @var $model backend\models\User
  * @var $rolesModel backend\models\AdminRoleUser
  */
-
 ?>
 <?= $this->render('_form', [
     'model' => $model,

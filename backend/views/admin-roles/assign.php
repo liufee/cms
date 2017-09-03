@@ -13,10 +13,15 @@
 use backend\widgets\ActiveForm;
 use common\widgets\JsBlock;
 use backend\assets\JstreeAsset;
+use yii\helpers\Url;
 
 JstreeAsset::register($this);
 
 $this->title = "Assign Permission";
+$this->params['breadcrumbs'] = [
+    ['label' => yii::t('app', 'Roles'), 'url' => Url::to(['index'])],
+    ['label' => yii::t('app', 'Assign Permission')],
+];
 ?>
 
 <div class="col-sm-12">

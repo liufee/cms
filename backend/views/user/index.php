@@ -19,7 +19,8 @@ use backend\widgets\Bar;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
-$this->title = 'Users'
+$this->title = 'Users';
+$this->params['breadcrumbs'][] = yii::t('app', 'Users');
 ?>
 <div class="row">
     <div class="col-sm-12">

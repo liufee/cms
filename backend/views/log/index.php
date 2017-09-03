@@ -20,6 +20,8 @@ use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
 $this->title = "Admin Log";
+
+$this->params['breadcrumbs'][] = yii::t('app', 'Admin Log');
 ?>
 <div class="row">
     <div class="col-sm-12">

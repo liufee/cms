@@ -19,6 +19,7 @@ use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
 $this->title = "Category";
+$this->params['breadcrumbs'][] = yii::t('app', 'Category');
 ?>
 <div class="row">
     <div class="col-sm-12">

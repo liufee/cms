@@ -62,7 +62,6 @@ return [
     'Other' => '其他',
     'Yes' => '是',
     'No' => '否',
-    'Status' => '状态',
     'Normal' => '正常',
     'Enable' => '启用',
     'Disabled' => '禁用',
@@ -128,6 +127,7 @@ return [
     /*Comment*/
     'Comments' => '评论',
     'Article Title' => '文章标题',
+    'Website' => '网址',
     /*Comment*/
 
     /*friend link*/
@@ -292,6 +292,7 @@ return [
     /*user*/
 
     /*admin user*/
+    "Admin Users" => "管理员",
     "Can not update default super administrator's role" => '不允许修改系统默认的超级管理的角色',
     /*admin user*/
 
