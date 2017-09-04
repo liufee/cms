@@ -225,6 +225,7 @@ class m130524_201442_init extends Migration
             'can_comment' => $this->smallInteger()->unsigned()->defaultValue(1),
             'visibility' => $this->smallInteger()->unsigned()->defaultValue(1),
             'tag' => $this->string()->defaultValue(''),
+            'password' => $this->string()->defaultValue(''),
             'flag_headline' => $this->smallInteger()->unsigned()->defaultValue(0),
             'flag_recommend' => $this->smallInteger()->unsigned()->defaultValue(0),
             'flag_slide_show' => $this->smallInteger()->unsigned()->defaultValue(0),

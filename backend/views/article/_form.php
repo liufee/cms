@@ -14,6 +14,7 @@
 use backend\widgets\ActiveForm;
 use common\models\Category;
 use common\libs\Constants;
+use common\widgets\JsBlock;
 use yii\helpers\Html;
 use backend\widgets\Ueditor;
 
@@ -47,14 +48,6 @@ $this->title = "Articles";
                     <div class="col-md-5 droppable sortable ui-droppable ui-sortable" style="">
                         <div class="ibox-title">
                             <h5><?= yii::t('app', 'Category') ?></h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
                         </div>
                         <div class="ibox-content">
                             <div class="row">
@@ -62,7 +55,7 @@ $this->title = "Articles";
                                     <div class="col-sm-12 col-sm-offset-1">
                                         <div class="form-group col-sm-12 field-article-parent_id">
                                             <div class="col-sm-12 m-l-n">
-                                                <?= $form->field($model, 'cid')->dropDownList(Category::getCategoriesName(), ['multiple'=>''])?>
+                                                <?= $form->field($model, 'cid')->label('')->dropDownList(Category::getCategoriesName(), ['multiple'=>''])?>
                                             </div>
                                             <div class="help-block m-b-none"></div>
                                         </div>
@@ -76,14 +69,6 @@ $this->title = "Articles";
                     <div class="col-md-5 droppable sortable ui-droppable ui-sortable" style="">
                         <div class="ibox-title">
                             <h5><?= yii::t('app', 'Attributes') ?></h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
                         </div>
                         <div class="ibox-content">
                             <div class="row">
@@ -113,14 +98,6 @@ $this->title = "Articles";
                     <div class="col-md-5 droppable sortable ui-droppable ui-sortable" style="">
                         <div class="ibox-title">
                             <h5><?= yii::t('app', 'Seo Setting') ?></h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="close-link">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
                         </div>
                         <div class="ibox-content">
                             <?= $form->field($model, 'seo_title', [
@@ -173,6 +150,8 @@ $this->title = "Articles";
                                     ])->dropDownList(Constants::getArticleVisibility()); ?>
                                 </div>
                             </div>
+                            <?php $hide=' hide ';if($model->visibility == Constants::ARTICLE_VISIBILITY_SECRET){$hide='';} ?>
+                            <?= $form->field($model, 'password', ['options'=>['class'=>"form-group $hide"]])->textInput(); ?>
                             <?= $form->field($model, 'tag')->textInput(); ?>
                             <?= $form->field($model, 'sort')->textInput(); ?>
 
@@ -185,3 +164,16 @@ $this->title = "Articles";
         </div>
     </div>
 </div>
+<?php JsBlock::begin()?>
+    <script>
+        $(document).ready(function () {
+            $("select#article-visibility").change(function () {
+                if( $(this).val() == <?=Constants::ARTICLE_VISIBILITY_SECRET?> ){
+                    $("div.field-article-password").removeClass('hide');
+                }else{
+                    $("div.field-article-password").addClass('hide');
+                }
+            })
+        })
+    </script>
+<?php JsBlock::end()?>

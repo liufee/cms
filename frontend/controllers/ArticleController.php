@@ -8,9 +8,10 @@
 
 namespace frontend\controllers;
 
+use yii;
 use common\libs\Constants;
 use frontend\models\ArticleContent;
-use yii;
+use frontend\models\ArticlePasswordForm;
 use yii\web\Controller;
 use frontend\models\Article;
 use common\models\Category;
@@ -19,6 +20,7 @@ use yii\data\ActiveDataProvider;
 use common\models\meta\ArticleMetaLike;
 use yii\web\NotFoundHttpException;
 use yii\filters\HttpCache;
+use yii\helpers\Url;
 
 class ArticleController extends Controller
 {
@@ -35,7 +37,7 @@ class ArticleController extends Controller
                     $article = Article::findOne(['id' => $id]);
                     if( $article === null ) throw new NotFoundHttpException(yii::t("frontend", "Article id {id} is not exists", ['id' => $id]));
                     Article::updateAllCounters(['scan_count' => 1], ['id' => $id]);
-                    return $article->updated_at;
+                    if($article->visibility == Constants::ARTICLE_VISIBILITY_PUBLIC) return $article->updated_at;
                 },
             ],
         ];
@@ -118,7 +120,14 @@ class ArticleController extends Controller
                 }
                 if( $result === null ) {
                     $model->content = "<p style='color: red'>" . yii::t('frontend', "Only commented user can visit this article") . "</p>";
+                }else{
+                    $model->content = ArticleContent::findOne(['aid'=>$model->id])['content'];
                 }
+                break;
+            case Constants::ARTICLE_VISIBILITY_SECRET:
+                $authorized = yii::$app->getSession()->get("article_password_" . $model->id, null);
+                if( $authorized === null ) $this->redirect(Url::toRoute(['password', 'id'=>$id]));
+                $model->content = ArticleContent::findOne(['aid'=>$model->id])['content'];
                 break;
             default:
                 $model->content = ArticleContent::findOne(['aid'=>$model->id])['content'];
@@ -171,6 +180,24 @@ class ArticleController extends Controller
                 }
                 return "<font color='red'>" . $str . "</font>";
             }
+        }
+    }
+
+    /**
+     * @param $id
+     * @return string|\yii\web\Response
+     */
+    public function actionPassword($id)
+    {
+        $model = new ArticlePasswordForm();
+
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->checkPassword($id)) {
+            return $this->redirect(Url::toRoute(['view', 'id'=>$id]));
+        } else {
+            return $this->render("password", [
+                'model' => $model,
+                'article' => Article::findOne($id),
+            ]);
         }
     }
 

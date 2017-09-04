@@ -27,7 +27,7 @@ $this->title = yii::t('app', 'Backend Manage System');
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-    <link rel="icon" href="<?= yii::$app->getRequest()->hostInfo ?>/favicon.ico" type="image/x-icon"/>
+    <link rel="icon" href="<?= yii::$app->getRequest()->getHostInfo() ?>/favicon.ico" type="image/x-icon"/>
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
 <?php $this->beginBody() ?>
@@ -40,38 +40,24 @@ $this->title = yii::t('app', 'Backend Manage System');
             <ul class="nav" id="side-menu">
                 <li class="nav-header">
                     <div class="dropdown profile-element">
-                        <span><img alt="image" class="img-circle" width="64px" height="64px"
-                                   src="<?php if (yii::$app->getUser()->getIdentity()->avatar) {
-                                       echo yii::$app->params['site']['url'] . yii::$app->getUser()
-                                               ->getIdentity()->avatar;
-                                   } else {
-                                       echo 'static/img/profile_small.jpg';
-                                   } ?>"/></span>
+                        <span>
+                            <img alt="image" class="img-circle" width="64px" height="64px" src="<?php if (yii::$app->getUser()->getIdentity()->avatar) {echo yii::$app->params['site']['url'] . yii::$app->getUser()->getIdentity()->avatar;} else {echo 'static/img/profile_small.jpg';} ?>"/>
+                        </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <span class="clear">
-                               <span class="block m-t-xs"><strong
-                                           class="font-bold"><?= yii::t('menu', yii::$app->rbac->roleName) ?></strong></span>
-                                <span class="text-muted text-xs block"><?= \yii::$app->getUser()
-                                        ->getIdentity()->username ?><b class="caret"></b></span>
-                                </span>
+                            <span class="clear">
+                                <span class="block m-t-xs"><strong class="font-bold"><?= yii::t('menu', yii::$app->rbac->roleName) ?></strong></span>
+                                <span class="text-muted text-xs block"><?= yii::$app->getUser()->getIdentity()->username ?><b class="caret"></b></span>
+                            </span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a class="J_menuItem"
-                                   href="<?= Url::to(['admin-user/update-self']) ?>"><?= yii::t('app', 'Profile') ?></a>
-                            </li>
-                            <li><a class="J_menuItem"
-                                   href="<?= Url::to(['article/index']) ?>"><?= yii::t('app', 'Articles') ?></a>
-                            </li>
-                            <li><a target="_blank"
-                                   href="<?= yii::$app->params['site']['url'] ?>"><?= yii::t('app', 'Frontend') ?></a>
-                            </li>
+                            <li><a class="J_menuItem" href="<?= Url::to(['admin-user/update-self']) ?>"><?= yii::t('app', 'Profile') ?></a></li>
+                            <li><a class="J_menuItem" href="<?= Url::to(['article/index']) ?>"><?= yii::t('app', 'Articles') ?></a></li>
+                            <li><a target="_blank" href="<?= yii::$app->params['site']['url'] ?>"><?= yii::t('app', 'Frontend') ?></a></li>
                             <li class="divider"></li>
-                            <li><a href="<?= Url::toRoute('site/logout') ?>"><?= yii::t('app', 'Logout') ?></a>
-                            </li>
+                            <li><a href="<?= Url::toRoute('site/logout') ?>"><?= yii::t('app', 'Logout') ?></a></li>
                         </ul>
                     </div>
-                    <div class="logo-element">H+
-                    </div>
+                    <div class="logo-element">H+</div>
                 </li>
                 <?php
                 $cacheDependencyObject = yii::createObject([
@@ -104,42 +90,33 @@ $this->title = yii::t('app', 'Backend Manage System');
     <div id="page-wrapper" class="gray-bg dashbard-1">
         <div class="row border-bottom">
             <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header" style="width: 50%;"><a
-                            class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
-                                class="fa fa-bars"></i> </a>
-                    <!--<form role="search" class="navbar-form-custom" method="get" target="_blank" action="http://www.baidu.com/s">
-                        <div class="form-group">
-                            <input type="text" placeholder="<?= yii::t('app', 'Please Enter the Question') ?> …" class="form-control" name="wd" id="top-search">
-                        </div>
-                    </form>-->
+                <div class="navbar-header" style="width: 50%;">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="hidden-xs">
-                        <a href="<?= yii::$app->params['site']['url'] ?>" target='_blank'><i
-                                    class="fa fa-internet-explorer"></i> <?= yii::t('app', 'Frontend') ?></a>
+                        <a href="<?= yii::$app->params['site']['url'] ?>" target='_blank'><i class="fa fa-internet-explorer"></i> <?= yii::t('app', 'Frontend') ?></a>
                     </li>
                     <li class="hidden-xs">
-                        <a href="javascript:void(0)" onclick="reloadIframe()"><i
-                                    class="fa fa-refresh"></i> <?= yii::t('app', 'Refresh') ?></a>
+                        <a href="javascript:void(0)" onclick="reloadIframe()"><i class="fa fa-refresh"></i> <?= yii::t('app', 'Refresh') ?></a>
                     </li>
                     <li class="hidden-xs">
-                        <a href="http://cms.feehi.com/help" class="J_menuItem" data-index="0"><i
-                                    class="fa fa-cart-arrow-down"></i> <?= yii::t('app', 'Support') ?></a>
+                        <a href="http://cms.feehi.com/help" class="J_menuItem" data-index="0"><i class="fa fa-cart-arrow-down"></i> <?= yii::t('app', 'Support') ?></a>
                     </li>
                     <li class="dropdown hidden-xs">
-                        <a class="right-sidebar-toggle" aria-expanded="false">
-                            <i class="fa fa-tasks"></i> <?= yii::t('app', 'Theme') ?>
-                        </a>
+                        <a class="right-sidebar-toggle" aria-expanded="false"><i class="fa fa-tasks"></i> <?= yii::t('app', 'Theme') ?></a>
                     </li>
                     <li class="hidden-xs">
                         <select onchange="location.href=this.options[this.selectedIndex].value;">
-                            <option <?php if (yii::$app->language == 'zh-CN') {
+                            <option
+                                <?php if (yii::$app->language == 'zh-CN') {
                                 echo 'selected';
-                            } ?> value="<?= Url::to(['site/language', 'lang' => 'zh-CN']) ?>">简体中文
+                                } ?> value="<?= Url::to(['site/language', 'lang' => 'zh-CN']) ?>">简体中文
                             </option>
-                            <option <?php if (yii::$app->language == 'en-US') {
-                                echo "selected";
-                            } ?> value="<?= Url::to(['site/language', 'lang' => 'en-US']) ?>">English
+                            <option
+                                <?php if (yii::$app->language == 'en-US') {
+                                    echo "selected";
+                                } ?> value="<?= Url::to(['site/language', 'lang' => 'en-US']) ?>">English
                             </option>
                         </select>
                     </li>
@@ -151,49 +128,36 @@ $this->title = yii::t('app', 'Backend Manage System');
             </button>
             <nav class="page-tabs J_menuTabs">
                 <div class="page-tabs-content">
-                    <a href="javascript:;" class="active J_menuTab"
-                       data-id="<?= Url::to(['site/main']) ?>"><?= yii::t('app', 'Home') ?></a>
+                    <a href="javascript:;" class="active J_menuTab" data-id="<?= Url::to(['site/main']) ?>"><?= yii::t('app', 'Home') ?></a>
                 </div>
             </nav>
-            <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i>
-            </button>
+            <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i></button>
             <div class="btn-group roll-nav roll-right">
-                <button class="dropdown J_tabClose" data-toggle="dropdown"><?= yii::t('app', 'Close') ?><span
-                            class="caret"></span>
-
-                </button>
+                <button class="dropdown J_tabClose" data-toggle="dropdown"><?= yii::t('app', 'Close') ?><span class="caret"></span></button>
                 <ul role="menu" class="dropdown-menu dropdown-menu-right">
-                    <li class="J_tabShowActive"><a><?= yii::t('app', 'Locate Current Tab') ?></a>
-                    </li>
+                    <li class="J_tabShowActive"><a><?= yii::t('app', 'Locate Current Tab') ?></a></li>
                     <li class="divider"></li>
-                    <li class="J_tabCloseAll"><a><?= yii::t('app', 'Close All Tab') ?></a>
-                    </li>
-                    <li class="J_tabCloseOther"><a><?= yii::t('app', 'Close Other Tab') ?></a>
-                    </li>
+                    <li class="J_tabCloseAll"><a><?= yii::t('app', 'Close All Tab') ?></a></li>
+                    <li class="J_tabCloseOther"><a><?= yii::t('app', 'Close Other Tab') ?></a></li>
                 </ul>
             </div>
-            <a href="<?= Url::toRoute('site/logout') ?>" class="roll-nav roll-right J_tabExit"><i
-                        class="fa fa fa-sign-out"></i> <?= yii::t('app', 'Logout') ?></a>
+            <a href="<?= Url::toRoute('site/logout') ?>" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> <?= yii::t('app', 'Logout') ?></a>
         </div>
         <div class="row J_mainContent" id="content-main">
-            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="<?= Url::to(['site/main']) ?>"
-                    frameborder="0" data-id="<?= Url::to(['site/main']) ?>" seamless></iframe>
+            <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="<?= Url::to(['site/main']) ?>" frameborder="0" data-id="<?= Url::to(['site/main']) ?>" seamless></iframe>
         </div>
         <div class="footer">
-            <div class="pull-right">&copy; 2015-<?=date('Y')?> <a href="http://blog.feehi.com/" target="_blank">feehi</a>
-            </div>
+            <div class="pull-right">&copy; 2015-<?=date('Y')?> <a href="http://blog.feehi.com/" target="_blank">feehi</a></div>
         </div>
     </div>
     <!--右侧部分结束-->
     <!--右侧边栏开始-->
     <div id="right-sidebar">
         <div class="sidebar-container">
-
             <ul class="nav nav-tabs navs-3">
-
                 <li class="active">
                     <a data-toggle="tab" href="#tab-1">
-                        <i class="fa fa-gear"></i> 主题
+                        <i class="fa fa-gear"></i> <?=yii::t('app', 'Theme')?>
                     </a>
                 </li><!--
                 <li class=""><a data-toggle="tab" href="#tab-2">

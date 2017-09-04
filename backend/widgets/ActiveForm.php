@@ -32,7 +32,7 @@ class ActiveForm extends \yii\widgets\ActiveForm
     public function defaultButtons(array $options = [])
     {
         $options['size'] = isset($options['size']) ? $options['size'] : 4;
-        echo '<div class="form-group">
+        return '<div class="form-group">
                                 <div class="col-sm-' . $options['size'] . ' col-sm-offset-2">
                                     <button class="btn btn-primary" type="submit">' . Yii::t('app', 'Save') . '</button>
                                     <button class="btn btn-white" type="reset">' . Yii::t('app', 'Reset') . '</button>

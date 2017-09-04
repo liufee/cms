@@ -42,7 +42,7 @@ return [
             ],
         ],
         'cache' => [
-            'class' => yii\caching\DummyCache::class,
+            'class' => yii\caching\DummyCache::className(),
             'keyPrefix' => 'api',       // 唯一键前缀
         ],
         'urlManager' => [

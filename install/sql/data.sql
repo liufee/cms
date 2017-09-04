@@ -145,6 +145,7 @@ CREATE TABLE `%__prefix__%article` (
   `can_comment` smallint(6) unsigned DEFAULT '1',
   `visibility` smallint(6) unsigned DEFAULT '1',
   `tag` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
+  `password` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
   `flag_headline` smallint(6) unsigned DEFAULT '0',
   `flag_recommend` smallint(6) unsigned DEFAULT '0',
   `flag_slide_show` smallint(6) unsigned DEFAULT '0',

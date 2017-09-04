@@ -4,7 +4,7 @@ MAINTAINER liufee job@feehi.com
 
 #root用户密码
 ENV ROOT_PASSWORD=123456
-#php版本
+#php版本,因为php版本间配置文件模板不相同，此处的版本号只能为大于7.0以上版本
 ENV PHP_VER=7.1.7
 #nginx版本
 ENV NGINX_VER=1.12.0
@@ -19,7 +19,7 @@ RUN mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backu
 
 
 #安装基础工具
-RUN yum install vim wget -y
+RUN yum install vim wget git net-tools -y
 
 
 #安装supervisor
@@ -31,7 +31,7 @@ RUN yum install openssh-server -y
 RUN echo PermitRootLogin  yes >> /etc/ssh/sshd_config\
     && echo PasswordAuthentication yes >> /etc/ssh/sshd_config\
     && echo RSAAuthentication yes >> etc/ssh/sshd_config\
-    && sed -i "129s/UseDNS yes/UseDNS no/g" /etc/ssh/sshd_config\
+    && sed -i "s/UseDNS yes/UseDNS no/" /etc/ssh/sshd_config\
     && echo "root:$ROOT_PASSWORD" | chpasswd\
     && ssh-keygen -t dsa -f /etc/ssh/ssh_host_rsa_key\
     && ssh-keygen -t rsa -f /etc/ssh/ssh_host_ecdsa_key\
@@ -51,22 +51,22 @@ RUN ./configure --prefix=/usr/local/php --with-config-file-path=/etc/php --enabl
     && cp /usr/src/php/sapi/fpm/init.d.php-fpm /etc/init.d/php-fpm && chmod +x /etc/init.d/php-fpm
 WORKDIR /usr/local/php/etc
 RUN cp php-fpm.conf.default php-fpm.conf \
-    && sed -i "/;daemonize = yes/s/;daemonize = yes/daemonize = no/g" php-fpm.conf \
+    && sed -i "s/;daemonize = yes/daemonize = no/" php-fpm.conf \
     && cp ./php-fpm.d/www.conf.default ./php-fpm.d/www.conf \
-    && sed -i "52a PATH=/usr/local/php/bin:$PATH" /etc/profile \
-    && sed -i "52a PATH=/etc/init.d:$PATH" /etc/profile
+    && sed -i "s/export PATH/PATH=\/usr\/local\/php\/bin:\$PATH\nexport PATH/" /etc/profile \
+    && sed -i "s/export PATH/PATH=\/etc\/init.d:\$PATH\nexport PATH/" /etc/profile
 
 
 #安装nginx
 WORKDIR /usr/src
 RUN wget -O nginx.tar.gz http://nginx.org/download/nginx-${NGINX_VER}.tar.gz -O nginx.tar.gz && mkdir nginx && tar -zxvf nginx.tar.gz -C ./nginx --strip-components 1
 WORKDIR nginx
-RUN ./configure --prefix=/usr/local/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/lock/nginx.lock --user=nginx --group=nginx --with-http_ssl_module --with-http_flv_module --with-http_stub_status_module --with-http_gzip_static_module --http-client-body-temp-path=/tmp/nginx/client/ --http-proxy-temp-path=/tmp/nginx/proxy/ --http-fastcgi-temp-path=/tmp/nginx/fcgi/ --with-pcre \
+RUN ./configure --prefix=/usr/local/nginx --conf-path=/etc/nginx/nginx.conf --error-log-path=/var/log/nginx/error.log --http-log-path=/var/log/nginx/access.log --pid-path=/var/run/nginx.pid --lock-path=/var/lock/nginx.lock --user=nginx --group=nginx --with-http_ssl_module --with-http_flv_module --with-http_stub_status_module --with-http_gzip_static_module --http-client-body-temp-path=/tmp/nginx/client/ --http-proxy-temp-path=/tmp/nginx/proxy/ --http-fastcgi-temp-path=/tmp/nginx/fcgi/ --with-pcre --with-http_dav_module \
      && make && make install \
      && useradd nginx \
      && mkdir -p -m 777 /tmp/nginx \
      && echo "#!/bin/sh" > /etc/init.d/nginx \
-     && echo "# description: Nginx web server." >> /etc/init.d/nginx \
+     && echo "#description: Nginx web server." >> /etc/init.d/nginx \
      && echo -e "case \$1 in \n\
             restart): \n\
                 /usr/local/nginx/sbin/nginx -s reload \n\
@@ -79,18 +79,11 @@ RUN ./configure --prefix=/usr/local/nginx --conf-path=/etc/nginx/nginx.conf --er
                 ;; \n\
         esac \n" >> /etc/init.d/nginx \
      && chmod +x /etc/init.d/nginx \
-     && sed -i "64a         }" /etc/nginx/nginx.conf \
-     && sed -i "64a             include        fastcgi_params;" /etc/nginx/nginx.conf \
-     && sed -i "64a             fastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;" /etc/nginx/nginx.conf \
-     && sed -i "64a             fastcgi_index  index.php;" /etc/nginx/nginx.conf \
-     && sed -i "64a             fastcgi_pass   127.0.0.1:9000;" /etc/nginx/nginx.conf \
-     && sed -i "64a             root           html/frontend/web;" /etc/nginx/nginx.conf \
-     && sed -i "64a             location ~ \.php$ {" /etc/nginx/nginx.conf \
      && sed -i "3a daemon off;" /etc/nginx/nginx.conf \
-     && echo "<?php phpinfo()?>" > /usr/local/nginx/html/index.php \
-     && sed -i '45s/html;/html\/frontend\/web;/g' /etc/nginx/nginx.conf \
-     && sed -i '46s/index  index.html index.htm;/index  index.php index.html index.htm;/g' /etc/nginx/nginx.conf \
-     && sed -i "46a try_files \$uri \$uri/ /index.php?\$args;" /etc/nginx/nginx.conf
+     && sed -i "s/root   html;/root   html\/frontend\/web;/" /etc/nginx/nginx.conf \
+     && sed -i "36,50s/index  index.html index.htm;/index  index.php index.html index.htm;\ntry_files \$uri \$uri\/ \/index.php?\$args;/" /etc/nginx/nginx.conf \
+     && sed -i "s/# pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000/location ~ \/api\/(?!index.php).*\$ {\n rewrite \/api\/(.*) \/api\/index.php?r=\$1 last; \n}\nlocation ~ \.php\$ { \nroot html\/frontend\/web;\nfastcgi_pass 127.0.0.1:9000;\nfastcgi_index  index.php;\nfastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;\ninclude fastcgi_params;\n }/" /etc/nginx/nginx.conf \
+     && echo "<?php phpinfo()?>" > /usr/local/nginx/html/index.php
 
 
 #安装mysql
@@ -116,23 +109,23 @@ RUN echo -e "#!/bin/sh \n\
     else \n\
         /usr/sbin/mysqld \n\
     fi" > /mysql.sh && chmod +x /mysql.sh
-
+RUN chmod +x /mysql.sh
 
 #安装必要的服务
-RUN yum install vixie-cron crontabs git -y \
+RUN yum install vixie-cron crontabs -y \
      && cd /usr/src && /usr/local/php/bin/php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && /usr/local/php/bin/php composer-setup.php  --install-dir=/usr/local/bin --filename=composer && rm -rf composer-setup.php
 
 
 #部署feehicms
 VOLUME ['/usr/local/nginx/html']
 WORKDIR '/usr/local/nginx'
-RUN echo '{"github-oauth": {"github.com": "4d2a2caa1e7ace6cdb06ca6afc82c6527f085952"}}' > ~/.composer/auth.json \
-     && rm -rf html && git clone https://git@github.com/liufee/cms.git html \
-     && cd html && /usr/local/php/bin/php /usr/local/bin/composer global require "fxp/composer-asset-plugin:~1.1.1" \
-     && /usr/local/php/bin/php /usr/local/bin/composer install
+RUN rm -rf html && git clone https://git@github.com/liufee/cms.git html \
+     && cd html \
+     && /usr/local/php/bin/php /usr/local/bin/composer install -vvv
 RUN cd /usr/local/nginx/html && /usr/local/php/bin/php ./init --env=Production \
      && sed -i "6s/'dsn' => 'mysql:host=localhost;dbname=yii2advanced'/'dsn' => 'mysql:host=127.0.0.1;dbname=cms'/g" common/config/main-local.php \
      && sed -i "8s/ 'password' => ''/ 'password' => '123456'/g" common/config/main-local.php
+
 
 #配置supervisor
 RUN echo [supervisord] > /etc/supervisord.conf \

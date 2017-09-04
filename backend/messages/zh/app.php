@@ -118,6 +118,7 @@ return [
     'uncategoried' => '未分类',
     'Please select' => '请选择',
     'Allowed not to be deleted, some article belongs to this category.' => '不允许被删除，还有文章属于此分类',
+    'Secret article must set a password' => '加密文章必须设置密码',
     /*Article*/
 
     /*Comment*/
@@ -243,6 +244,7 @@ return [
     'Total' => '总共',
     'Notify' => '通知',
     'More' => '更多',
+    "at" => '在',
     /*site/main*/
 
     /*admin-roles*/

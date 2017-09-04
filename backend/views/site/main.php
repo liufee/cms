@@ -18,8 +18,7 @@ use yii\helpers\Url;
             </div>
             <div class="ibox-content openContab" href="<?=Url::to(['article/index'])?>" title="<?=yii::t('app', 'Articles')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['ARTICLE'][0] ?></h1>
-                <div class="stat-percent font-bold text-success"><?= $statics['ARTICLE'][1] ?>% <i class="fa fa-bolt"></i>
-                </div>
+                <div class="stat-percent font-bold text-success"><?= $statics['ARTICLE'][1] ?>% <i class="fa fa-bolt"></i></div>
                 <small><?= yii::t('app', 'Total') ?></small>
             </div>
         </div>
@@ -32,9 +31,7 @@ use yii\helpers\Url;
             </div>
             <div class="ibox-content openContab" href="<?=Url::to(['comment/index'])?>" title="<?=yii::t('app', 'Comments')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['COMMENT'][0] ?></h1>
-                <div class="stat-percent font-bold text-info"><?= $statics['COMMENT'][1] ?>% <i
-                            class="fa fa-level-up"></i>
-                </div>
+                <div class="stat-percent font-bold text-info"><?= $statics['COMMENT'][1] ?>% <i class="fa fa-level-up"></i></div>
                 <small><?= yii::t('app', 'Total') ?></small>
             </div>
         </div>
@@ -47,8 +44,7 @@ use yii\helpers\Url;
             </div>
             <div class="ibox-content openContab" href="<?=Url::to(['user/index'])?>" title="<?=yii::t('app', 'Users')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['USER'][0] ?></h1>
-                <div class="stat-percent font-bold text-navy"><?= $statics['USER'][1] ?>% <i class="fa fa-level-up"></i>
-                </div>
+                <div class="stat-percent font-bold text-navy"><?= $statics['USER'][1] ?>% <i class="fa fa-level-up"></i></div>
                 <small><?= yii::t('app', 'Total') ?></small>
             </div>
         </div>
@@ -61,31 +57,22 @@ use yii\helpers\Url;
             </div>
             <div class="ibox-content openContab" href="<?=Url::to(['friend-link/index'])?>" title="<?=yii::t('app', 'Friendly Links')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['FRIEND_LINK'][0] ?></h1>
-                <div class="stat-percent font-bold text-info"><?= $statics['FRIEND_LINK'][1] ?>% <i class="fa fa-level-up"></i>
-                </div>
+                <div class="stat-percent font-bold text-info"><?= $statics['FRIEND_LINK'][1] ?>% <i class="fa fa-level-up"></i></div>
                 <small><?= yii::t('app', 'Total') ?></small>
             </div>
         </div>
     </div>
 </div>
 <div class="row">
-
     <div class="col-sm-6">
-
         <div>
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5><?= Yii::t('app', 'Notify') ?></h5>
                     <div class="ibox-tools">
-                        <a target="_blank" href="http://cms.feehi.com/notify">
-                            <?=yii::t('app', 'More')?>
-                        </a>
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
+                        <a target="_blank" href="http://api.feehi.com/cms"><?=yii::t('app', 'More')?></a>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        <a class="close-link"><i class="fa fa-times"></i></a>
                     </div>
                 </div>
                 <div class="ibox-content no-padding">
@@ -111,19 +98,13 @@ use yii\helpers\Url;
                 </div>
             </div>
         </div>
-
-
         <div>
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5><?= Yii::t('app', 'Environment') ?></h5>
                     <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        <a class="close-link"><i class="fa fa-times"></i></a>
                     </div>
                 </div>
                 <div class="ibox-content no-padding">
@@ -138,12 +119,10 @@ use yii\helpers\Url;
                             }
                         </style>
                         <li class="list-group-item">
-                            <span class="badge badge-primary">&nbsp;&nbsp;</span><strong>Feehi
-                                CMS</strong>: <?= yii::$app->version ?>
+                            <span class="badge badge-primary">&nbsp;&nbsp;</span><strong>Feehi CMS</strong>: <?= yii::$app->getVersion() ?>
                         </li>
                         <li class="list-group-item ">
-                            <span class="badge badge-info">&nbsp;&nbsp;</span> <strong>Web
-                                Server</strong>: <?= $info['OPERATING_ENVIRONMENT'] ?>
+                            <span class="badge badge-info">&nbsp;&nbsp;</span> <strong>Web Server</strong>: <?= $info['OPERATING_ENVIRONMENT'] ?>
                         </li>
                         <li class="list-group-item">
                             <span class="badge badge-success">&nbsp;&nbsp;</span>
@@ -235,36 +214,24 @@ use yii\helpers\Url;
             <div class="ibox-title">
                 <h5><?= yii::t('app', 'Latest Comments') ?></h5>
                 <div class="ibox-tools">
-                    <a class="openContab" title="<?=yii::t('app', 'Comments')?>" target="_blank" href="<?=Url::to(['comment/index'])?>">
-                        <?=yii::t('app', 'More')?>
-                    </a>
-                    <a class="collapse-link">
-                        <i class="fa fa-chevron-up"></i>
-                    </a>
-                    <a class="close-link">
-                        <i class="fa fa-times"></i>
-                    </a>
+                    <a class="openContab" title="<?=yii::t('app', 'Comments')?>" target="_blank" href="<?=Url::to(['comment/index'])?>"><?=yii::t('app', 'More')?></a>
+                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    <a class="close-link"><i class="fa fa-times"></i></a>
                 </div>
             </div>
             <div class="ibox-content">
-
                 <div>
                     <div class="feed-activity-list">
                         <?php
                         foreach ($comments as $comment) {
                             ?>
                             <div class="feed-element">
-                                <a class="pull-left">
-                                    <img alt="image" class="img-circle"
-                                         src="https://secure.gravatar.com/avatar/<?= md5($comment->email) ?>?s=50">
-                                </a>
+                                <a class="pull-left"><img alt="image" class="img-circle" src="https://secure.gravatar.com/avatar/<?= md5($comment->email) ?>?s=50"></a>
                                 <div class="media-body ">
-                                    <small class="pull-right"><?= yii::$app->getFormatter()
-                                            ->asRelativeTime($comment->created_at) ?></small>
+                                    <small class="pull-right"><?= yii::$app->getFormatter()->asRelativeTime($comment->created_at) ?></small>
                                     <strong><?= $comment->nickname ?></strong>
                                     <br>
-                                    <small class="text-muted"><?= yii::$app->getFormatter()->asDate($comment->created_at) ?>
-                                        在 <a class="openContab" data-index="0" title="<?=yii::t('app',"Articles")?>" href="<?=Url::toRoute(['article/view-layer', 'id'=>$comment->article->id]) ?>"><?= $comment->article->title ?></a></small>
+                                    <small class="text-muted"><?= yii::$app->getFormatter()->asDate($comment->created_at) ?> <?=yii::t('app', 'at')?> <a class="openContab" data-index="0" title="<?=yii::t('app',"Articles")?>" href="<?=Url::toRoute(['article/view-layer', 'id'=>$comment->article->id]) ?>"><?= $comment->article->title ?></a></small>
                                     <div data-index="0" class="openContab well" href="<?=Url::toRoute(['comment/index']) ?>" title="<?=yii::t('app', 'Comments')?>" style="cursor: pointer">
                                         <?= $comment->content ?>
                                     </div>
@@ -273,7 +240,6 @@ use yii\helpers\Url;
                         <?php } ?>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

@@ -8,6 +8,7 @@
 
 namespace backend\models;
 
+use common\libs\Constants;
 use yii;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
@@ -67,6 +68,14 @@ class Article extends \common\models\Article
             $this->author_id = yii::$app->getUser()->getIdentity()->id;
             $this->author_name = yii::$app->getUser()->getIdentity()->username;
 
+        }
+        if($this->visibility == Constants::ARTICLE_VISIBILITY_SECRET){//加密文章需要设置密码
+            if( empty( $this->password ) ){
+                $this->addError('password', yii::t('app', "Secret article must set a password"));
+                return false;
+            }
+        }else{
+            $this->password = '';
         }
         return parent::beforeSave($insert);
     }

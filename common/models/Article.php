@@ -36,6 +36,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $flag_roll,
  * @property string $flag_bold,
  * @property string $flag_picture,
+ * @property string $password,
  * @property string $created_at
  * @property string $updated_at
  */
@@ -109,7 +110,8 @@ class Article extends \yii\db\ActiveRecord
             ],
             [['visibility'], 'in', 'range' => [1, 2, 3]],
             [['type'], 'default', 'value'=>self::ARTICLE, 'on'=>'article'],
-            [['type'], 'default', 'value'=>self::SINGLE_PAGE, 'on'=>'page']
+            [['type'], 'default', 'value'=>self::SINGLE_PAGE, 'on'=>'page'],
+            [['password'], 'string', 'max'=>20],
         ];
     }
 
@@ -147,7 +149,8 @@ class Article extends \yii\db\ActiveRecord
                 'flag_special_recommend',
                 'flag_roll',
                 'flag_bold',
-                'flag_picture'
+                'flag_picture',
+                'password'
             ],
             'page' => [
                 'type',
@@ -200,6 +203,7 @@ class Article extends \yii\db\ActiveRecord
             'flag_roll' => Yii::t('app', 'Is Roll'),
             'flag_bold' => Yii::t('app', 'Is Bold'),
             'flag_picture' => Yii::t('app', 'Is Picture'),
+            'password' => yii::t('app', 'Password'),
         ];
     }
 
