@@ -129,6 +129,13 @@ class ArticleController extends Controller
                 if( $authorized === null ) $this->redirect(Url::toRoute(['password', 'id'=>$id]));
                 $model->content = ArticleContent::findOne(['aid'=>$model->id])['content'];
                 break;
+            case Constants::ARTICLE_VISIBILITY_LOGIN:
+                if( yii::$app->getUser()->getIsGuest() ) {
+                    $model->content = "<p style='color: red'>" . yii::t('frontend', "Only login user can visit this article") . "</p>";
+                }else{
+                    $model->content = ArticleContent::findOne(['aid'=>$model->id])['content'];
+                }
+                break;
             default:
                 $model->content = ArticleContent::findOne(['aid'=>$model->id])['content'];
                 break;

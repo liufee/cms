@@ -108,7 +108,7 @@ class Article extends \yii\db\ActiveRecord
                 'in',
                 'range' => [0, 1]
             ],
-            [['visibility'], 'in', 'range' => [1, 2, 3]],
+            [['visibility'], 'in', 'range' => array_keys(Constants::getArticleVisibility())],
             [['type'], 'default', 'value'=>self::ARTICLE, 'on'=>'article'],
             [['type'], 'default', 'value'=>self::SINGLE_PAGE, 'on'=>'page'],
             [['password'], 'string', 'max'=>20],

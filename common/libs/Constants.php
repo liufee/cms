@@ -105,6 +105,7 @@ class Constants
     const ARTICLE_VISIBILITY_PUBLIC = 1;
     const ARTICLE_VISIBILITY_COMMENT = 2;
     const ARTICLE_VISIBILITY_SECRET = 3;
+    const ARTICLE_VISIBILITY_LOGIN = 4;
 
     public static function getArticleVisibility($key = null)
     {
@@ -112,6 +113,7 @@ class Constants
             self::ARTICLE_VISIBILITY_PUBLIC => yii::t('app', 'Public'),
             self::ARTICLE_VISIBILITY_COMMENT => yii::t('app', 'Reply'),
             self::ARTICLE_VISIBILITY_SECRET => yii::t('app', 'Password'),
+            self::ARTICLE_VISIBILITY_LOGIN => yii::t('app', 'Login'),
         ];
         return self::getItems($items, $key);
     }

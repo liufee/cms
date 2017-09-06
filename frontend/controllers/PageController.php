@@ -28,7 +28,7 @@ class PageController extends Controller
         if ($name == '') {
             $name = yii::$app->getRequest()->getPathInfo();
         }
-        $model = Article::findOne(['sub_title' => $name]);
+        $model = Article::findOne(['type' => Article::SINGLE_PAGE, 'sub_title' => $name]);
         if (empty($model)) {
             throw new NotFoundHttpException('None page named ' . $name);
         }
