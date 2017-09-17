@@ -20,7 +20,7 @@ class Bar extends Widget
     public $options = [
         'class' => 'mail-tools tooltip-demo m-t-md',
     ];
-    public $template = "{refresh}  {create} {sort} {delete}";
+    public $template = "{refresh} {create} {sort} {delete}";
 
 
     /**
@@ -31,11 +31,14 @@ class Bar extends Widget
         $buttons = '';
         $this->initDefaultButtons();
         $buttons .= $this->renderDataCellContent();
-        ActiveForm::begin([
-            'action' => Url::to(['sort']),
-            'options' => ['class' => 'form-horizontal', 'name' => 'sort']
-        ]);
-        ActiveForm::end();
+        if( strpos($this->template, '{sort}' ) ){
+            ActiveForm::begin([
+                'action' => Url::to('sort'),
+                'method' => 'post',
+                'options' => ['class' => 'form-horizontal', 'name' => 'sort']
+            ]);
+            ActiveForm::end();
+        }
         return "<div class='{$this->options['class']}'>{$buttons}</div>";
     }
 
@@ -84,7 +87,7 @@ class Bar extends Widget
 
         if (! isset($this->buttons['sort'])) {
             $this->buttons['sort'] = function () {
-                return Html::a('<i class="fa  fa-sort-numeric-desc"></i> ' . yii::t('app', 'Sort'), Url::to(['sort']), [
+                return Html::a('<i class="fa  fa-sort-numeric-desc"></i> ' . yii::t('app', 'Sort'), Url::to(['upate']), [
                     'title' => yii::t('app', 'Sort'),
                     'data-pjax' => '0',
                     'class' => 'btn btn-white btn-sm sort',

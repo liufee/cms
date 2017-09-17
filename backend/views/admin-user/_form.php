@@ -9,12 +9,13 @@
 /**
  * @var $this yii\web\View
  * @var $model backend\models\User
- * @var $rolesModel backend\models\AdminRoles
  */
 
 use backend\widgets\ActiveForm;
-use backend\models\AdminRoles;
 use backend\models\User;
+use common\widgets\JsBlock;
+use backend\form\Rbac;
+use yii\helpers\ArrayHelper;
 
 $this->title = "Admin";
 ?>
@@ -42,11 +43,36 @@ $this->title = "Admin";
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'status')->radioList( User::getStatuses() ) ?>
                 <div class="hr-line-dashed"></div>
-                <?= $form->field($rolesModel, 'role_id', [
+                <?php
+                    $roles = yii::$app->getAuthManager()->getRoles();
+                    $temp = [];
+                    foreach (array_keys($roles) as $key){
+                        $temp[$key] = $key;
+                    }
+                ?>
+                <?= $form->field($model, 'roles', [
                     'labelOptions' => [
                         'label' => yii::t('app', 'Roles'),
                     ]
-                ])->radioList(AdminRoles::getRolesNames()) ?>
+                ])->checkboxList($temp) ?>
+                <div class="hr-line-dashed"></div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"> <?=yii::t('app', 'Permissions')?></label>
+                    <div class="col-sm-10">
+                        <?php
+                        $rbac = new Rbac();
+                        foreach ($rbac->getPermissionsByGroup('form') as $key => $value){
+                            echo "<div class='col-sm-1 text-center'><h2>{$key}</h2></div>";
+                            echo "<div class='col-sm-11'>";
+                            foreach ($value as $k => $val){
+                                echo $form->field($model, 'permissions', ['labelOptions'=>['class'=>'col-sm-1']])->label($k)->checkboxList(ArrayHelper::map($val, 'name', 'description'));
+                            }
+                            echo "</div><div class='col-sm-12' style='height: 20px'></div>";
+                        }
+                        ?>
+                        <div class="help-block m-b-none"></div>
+                    </div>
+                </div>
                 <div class="hr-line-dashed"></div>
                 <?= $form->defaultButtons() ?>
                 <?php ActiveForm::end(); ?>
@@ -54,3 +80,16 @@ $this->title = "Admin";
         </div>
     </div>
 </div>
+
+<?php JsBlock::begin()?>
+    <script>
+        $("form").bind("beforeSubmit", function () {
+            var permissions = [];
+            $("div.field-user-permissions input[type=checkbox]:checked").each(function(){
+                permissions.push($(this).val());
+
+            });
+            $(this).append("<input name='User[permissions]' value='" + permissions + "'>")
+        })
+    </script>
+<?php JsBlock::end()?>

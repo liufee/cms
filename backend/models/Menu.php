@@ -8,6 +8,7 @@
 
 namespace backend\models;
 
+use backend\components\AccessControl;
 use yii;
 use yii\helpers\Url;
 use common\helpers\FileDependencyHelper;
@@ -27,43 +28,44 @@ class Menu extends \common\models\Menu
      */
     public static function getBackendMenu()
     {
-        $role_id = AdminRoleUser::getRoleIdByUid();
         $model = new self();
-        $menus = $model->find()->where(['is_display' => self::DISPLAY_YES, 'type' => self::BACKEND_TYPE])->orderBy("sort asc")->all();
-        $permissions = AdminRolePermission::getPermissionsByRoleId($role_id);
-        $newMenu = [];
-        if (
-            ! in_array(yii::$app->getUser()->getIdentity()->username, yii::$app->rbac->getSuperAdministrators())
-            && yii::$app->getUser()->getIdentity()->getId() != 1
-            && $role_id != 1
-        ) {
-            $permissionsIds = ArrayHelper::getColumn($permissions, 'menu_id');
+        $menus = $model->find()->where(['is_display' => self::DISPLAY_YES, 'type' => self::BACKEND_TYPE])->orderBy("sort asc")->asArray()->all();
+        $permissions = yii::$app->getAuthManager()->getPermissionsByUser(yii::$app->getUser()->getId());
+        $permissions = array_keys($permissions);
+
+        if( !in_array( yii::$app->getUser()->getId(), yii::$app->getBehavior('access')->superAdminUserIds ) ) {
+            $newMenu = [];
             foreach ($menus as $menu) {
-                if( in_array($menu['id'],$permissionsIds ) ){
-                    $newMenu[] = $menu;
+                $url = $menu['url'];
+                if( strpos($url, '/') !== 0 ) $url = '/' . $url;
+                $url = $url . ':GET';
+                if (in_array($url, $permissions)) {
+                    $menu = self::getAncectorsByMenuId($menu['id']) + [$menu];
+                    $newMenu = array_merge($newMenu, $menu );
                 }
             }
             $menus = $newMenu;
         }
+
         $lis = '';
         foreach ($menus as $menu) {
-            if ($menu->parent_id != 0) {
+            if ($menu['parent_id'] != 0) {
                 continue;
             }
-            $subMenu = self::_getBackendSubMenu($menus, $menu->id, '2');
-            $menu->icon = $menu->icon ? $menu->icon : 'fa-desktop';
-            $menu->url = self::generateUrl($menu);
+            $subMenu = self::_getBackendSubMenu($menus, $menu['id'], '2');
+            $menu['icon'] = $menu['icon'] ? $menu['icon'] : 'fa-desktop';
+            $menu['url'] = self::generateUrl($menu);
             $arrow = '';
             $class = 'class="J_menuItem"';
             if ($subMenu != '') {
                 $arrow = ' arrow';
                 $class = '';
             }
-            $menu_name = yii::t('menu', $menu->name);
+            $menu_name = yii::t('menu', $menu['name']);
             $lis .= <<<EOF
                     <li>
-                        <a {$class} href="{$menu->url}">
-                            <i class="fa {$menu->icon}"></i>
+                        <a {$class} href="{$menu['url']}">
+                            <i class="fa {$menu['icon']}"></i>
                             <span class="nav-label">{$menu_name}</span>
                             <span class="fa {$arrow}"></span>
                         </a>
@@ -86,17 +88,17 @@ EOF;
         $times++;
         static $i = 1;
         foreach ($menus as $menu) {
-            if ($menu->parent_id != $cur_id) {
+            if ($menu['parent_id'] != $cur_id) {
                 continue;
             }
-            $subsubmenu = self::_getBackendSubMenu($menus, $menu->id, $times);
-            $url = $menu->url = self::generateUrl($menu);
+            $subsubmenu = self::_getBackendSubMenu($menus, $menu['id'], $times);
+            $url = $menu['url'] = self::generateUrl($menu);
             if ($subsubmenu == '') {
                 $arrow = '';
             } else {
                 $arrow = '<span class="fa arrow"></span>';
             }
-            $menu_name = yii::t('menu', $menu->name);
+            $menu_name = yii::t('menu', $menu['name']);
             $subMenu .= <<<EOF
 
                             <li>
@@ -117,13 +119,13 @@ EOF;
 
     private static function generateUrl($menu)
     {
-        if ($menu->url === '') {
+        if ($menu['url'] === '') {
             return '';
         } else {
-            if ($menu->is_absolute_url == 1) {
-                return $menu->url;
+            if ($menu['is_absolute_url'] == 1) {
+                return $menu['url'];
             } else {
-                return Url::to([$menu->url]);
+                return Url::to([$menu['url']]);
             }
         }
     }
@@ -233,36 +235,9 @@ EOF;
     /**
      * @inheritdoc
      */
-    public function beforeSave($insert)
-    {
-        $this->needDeletePermissionMenuIds = [ 'ancestors' => Menu::getAncectorsByMenuId($this->id), 'descendants' => Menu::getDescendantsByMenuId($this->id) ];
-        return parent::beforeSave($insert);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        if (isset($changedAttributes['parent_id'])) {//修改了菜单所属，清除该菜单整条链的所有权限关系
-            $menus = $this->needDeletePermissionMenuIds['descendants'];//删除所有子菜单的权限
-            $menus = array_column($menus, 'id');
-            $menus[] = $this->id;
-            AdminRolePermission::deleteAll(['in', 'menu_id', $menus]);
-
-            $menus = $this->needDeletePermissionMenuIds['ancestors'];//祖先菜单
-            if( empty($menus) ) return;
-            $menus = array_column($menus, 'id');
-            foreach ($menus as $id){
-                $tempMenu = Menu::getDescendantsByMenuId($id);
-                $tempMenu = array_column($tempMenu, 'id');
-                $res = AdminRolePermission::find()->where(['in', 'menu_id', $tempMenu])->all();
-                if( empty($res) ){//该菜单没有子菜单分配了权限
-                    AdminRolePermission::deleteAll(['menu_id'=>$id]);
-                }
-            }
-        }
         $this->removeBackendMenuCache();
     }
 

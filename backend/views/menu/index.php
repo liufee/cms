@@ -66,14 +66,6 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Backend Menus');
                             }
                         ],
                         [
-                            'attribute' => 'method',
-                            'label' => yii::t('app', 'HTTP Method'),
-                            'value' => function ($model) {
-                                return Constants::getHttpMethodItems($model['method']);
-                            },
-                            'filter' => Constants::getHttpMethodItems(),
-                        ],
-                        [
                             'attribute' => 'is_display',
                             'label' => yii::t('app', 'Is Display'),
                             'format' => 'raw',

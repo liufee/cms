@@ -45,7 +45,7 @@ $this->title = yii::t('app', 'Backend Manage System');
                         </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear">
-                                <span class="block m-t-xs"><strong class="font-bold"><?= yii::t('menu', yii::$app->rbac->roleName) ?></strong></span>
+                                <span class="block m-t-xs"><strong class="font-bold"><?= yii::t('menu', yii::$app->getUser()->getIdentity()->getRoleName())?></strong></span>
                                 <span class="text-muted text-xs block"><?= yii::$app->getUser()->getIdentity()->username ?><b class="caret"></b></span>
                             </span>
                         </a>
@@ -71,7 +71,7 @@ $this->title = yii::t('app', 'Backend Manage System');
                 if ($this->beginCache('backend_menu', [
                     'variations' => [
                         Yii::$app->language,
-                        yii::$app->rbac->getRoleId()
+                        yii::$app->getUser()->getId()
                     ],
                     'dependency' => $dependency
                 ])

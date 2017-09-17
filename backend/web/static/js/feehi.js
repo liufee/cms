@@ -126,8 +126,10 @@ $(document).ready(function(){
     })
 
     $('a.sort').click(function(){
+        var action = $(this).attr('href');
         $('input[type=number]').each(function(){
             $(this).clone().attr('type', 'hidden').appendTo('form[name=sort]');
+            $('form[name=sort]').attr('action', action).attr('method', 'post');
             $('form[name=sort]').append();
         })
         $('form[name=sort]').submit();

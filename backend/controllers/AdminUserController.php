@@ -10,8 +10,6 @@ namespace backend\controllers;
 use yii;
 use backend\models\User;
 use backend\models\UserSearch;
-use backend\models\AdminRoleUser;
-use yii\web\BadRequestHttpException;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
@@ -58,17 +56,8 @@ class AdminUserController extends \yii\web\Controller
     {
         $model = new User();
         $model->setScenario('create');
-        $rolesModel = new AdminRoleUser();
         if (yii::$app->getRequest()->getIsPost()) {
-            if (
-                $model->load(Yii::$app->getRequest()->post())
-                && $model->validate()
-                && $rolesModel->load(yii::$app->getRequest()->post())
-                && $rolesModel->validate()
-                && $model->save()
-            ) {
-                $rolesModel->uid = $model->getPrimaryKey();
-                $rolesModel->save();
+            if ( $model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->save() ) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['index']);
             } else {
@@ -83,7 +72,6 @@ class AdminUserController extends \yii\web\Controller
         $model->loadDefaultValues();
         return $this->render('create', [
             'model' => $model,
-            'rolesModel' => $rolesModel,
         ]);
     }
 
@@ -97,19 +85,10 @@ class AdminUserController extends \yii\web\Controller
     {
         $model = User::findOne($id);
         $model->setScenario('update');
-        $rolesModel = AdminRoleUser::findOne(['uid' => $id]);
-        if ($rolesModel == null) {
-            $rolesModel = new AdminRoleUser();
-            $rolesModel->uid = $id;
-        }
+        $model->roles = array_keys( yii::$app->getAuthManager()->getAssignments($id) );
+        $model->permissions = $model->roles;
         if (Yii::$app->getRequest()->getIsPost()) {
-            if (
-                $model->load(Yii::$app->request->post())
-                && $model->validate() && $rolesModel->load(yii::$app->getRequest()->post())
-                && $rolesModel->validate()
-                && $model->save()
-                && $rolesModel->save()
-            ) {
+            if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save() ) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['update', 'id' => $model->getPrimaryKey()]);
             } else {
@@ -125,7 +104,6 @@ class AdminUserController extends \yii\web\Controller
 
         return $this->render('update', [
             'model' => $model,
-            'rolesModel' => $rolesModel,
         ]);
     }
 
@@ -153,40 +131,6 @@ class AdminUserController extends \yii\web\Controller
         }
 
         return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * 给管理员分配角色
-     *
-     * @param string $uid
-     * @return string
-     * @throws \yii\web\BadRequestHttpException
-     */
-    public function actionAssign($uid = '')
-    {
-        $model = AdminRoleUser::findOne(['uid' => $uid]);//->createCommand()->getRawSql();var_dump($model);die;
-        if ($model == '') {
-            $model = new AdminRoleUser();
-        }
-        $model->uid = $uid;
-        if (yii::$app->getRequest()->getIsPost()) {
-            $postRoleId = yii::$app->getRequest()->post(substr(AdminRoleUser::className(), strrpos(AdminRoleUser::className(),'\\')+1))['role_id'];
-            if($model->uid == 1 && ($postRoleId != 1) ) throw new BadRequestHttpException(yii::t('app', "Can not update default super administrator's role"));
-            if ($model->load(yii::$app->getRequest()->post()) && $model->save()) {
-                Yii::$app->getSession()->setFlash('success', yii::t('app', 'success'));
-            } else {
-                $errors = $model->getErrors();
-                $err = '';
-                foreach ($errors as $v) {
-                    $err .= $v[0] . '<br>';
-                }
-                Yii::$app->getSession()->setFlash('error', $err);
-            }
-        }
-
-        return $this->render('assign', [
             'model' => $model,
         ]);
     }

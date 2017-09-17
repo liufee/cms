@@ -19,6 +19,7 @@ use common\models\FriendLink;
 use frontend\models\User;
 use yii\base\UserException;
 use yii\db\Query;
+use yii\filters\AccessControl;
 use yii\web\HttpException;
 use yii\captcha\CaptchaAction;
 
@@ -27,6 +28,22 @@ use yii\captcha\CaptchaAction;
  */
 class SiteController extends \yii\web\Controller
 {
+
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'except' =>['login','signup', 'captcha'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
+        ];
+    }
 
     public function actions()
     {

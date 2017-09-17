@@ -5,14 +5,11 @@
  * Email: job@feehi.com
  * Created at: 2016-03-25 11:15
  */
-
 /**
  * @var $this yii\web\View
  * @var $model backend\models\User
  */
-
 use backend\widgets\ActiveForm;
-
 $this->title = "Admin";
 ?>
 <div class="row">

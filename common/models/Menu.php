@@ -63,11 +63,10 @@ class Menu extends \yii\db\ActiveRecord
             [['parent_id', 'sort'], 'default', 'value' => 0],
             [['sort'], 'compare', 'compareValue' => 0, 'operator' => '>='],
             [['is_display'], 'integer'],
-            [['name', 'url', 'icon', 'method'], 'string', 'max' => 255],
+            [['name', 'url', 'icon'], 'string', 'max' => 255],
             [['type', 'is_absolute_url'], 'in', 'range' => [0, 1]],
             [['target'], 'in', 'range' => ['_blank', '_self']],
             [['name'], 'required'],
-            [['method'], 'required', 'on' => ['backend']],
         ];
     }
 
@@ -87,7 +86,6 @@ class Menu extends \yii\db\ActiveRecord
                 'target',
                 'sort',
                 'is_display',
-                'method'
             ],
             'frontend' => [
                 'parent_id',
@@ -114,7 +112,6 @@ class Menu extends \yii\db\ActiveRecord
             'parent_id' => Yii::t('app', 'Parent Id'),
             'name' => Yii::t('app', 'Name'),
             'url' => Yii::t('app', 'Url'),
-            'method' => Yii::t('app', 'HTTP Method'),
             'icon' => Yii::t('app', 'Icon'),
             'sort' => Yii::t('app', 'Sort'),
             'is_absolute_url' => Yii::t('app', 'Is Absolute Url'),

@@ -100,6 +100,19 @@ return [
         ],
     ],
     'on beforeRequest' => [feehi\components\Feehi::className(), 'backendInit'],
-    'on beforeAction' => [backend\components\Rbac::className(), 'checkPermission'],
+    'as access' => [
+        'class' => backend\components\AccessControl::className(),
+        'allowActions' => [
+            'site/login',
+            'site/captcha',
+            'site/error',
+            'site/index',
+            'site/main',
+            'site/logout',
+            'admin-user/update-self',
+            'debug/*',
+        ],
+        'superAdminUserIds' => [1],//超级管理员用户id，拥有所有权限，不受权限管理的控制
+    ],
     'params' => $params,
 ];

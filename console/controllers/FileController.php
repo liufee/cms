@@ -127,4 +127,54 @@ class FileController extends \yii\console\Controller
         $this->stdout('Copy Success' . "\n", Console::FG_GREEN);
     }
 
+    public function actionTest()
+    {
+        $result = \common\models\Menu::find()->asArray()->all();
+        $columns = array_keys($result[0]);
+        $str = "[";
+        foreach ($columns as $column){
+            $str .= "'{$column}',";
+        }
+        $str = rtrim($str, ',');
+        $str .= "]";
+        file_put_contents('db.txt', $str);
+
+        $str = "\n\n[\n";
+        foreach ($result as $val){
+            $str .= "  [";
+            foreach ($val as $v){
+                    $str .= "'{$v}',";
+            }
+            $str = rtrim($str, ',');
+            $str .= "],\n";
+        }
+        $str .= "]\n";
+        //var_dump($str);exit;
+        //file_put_contents('db.txt', $str, FILE_APPEND);
+        $str = '';
+        $authManager = yii::$app->getAuthManager();
+        $permissions = $authManager->getPermissions();
+        $columns = array_keys((array)$permissions['/setting/website:GET']);
+        $str = "[";
+        foreach ($columns as $column){
+            $str .= "'{$column}',";
+        }
+        $str .= "]\n";
+        foreach ($permissions as $permission){
+            $str .= "  [";
+            $i = 1;
+            foreach ($permission as $v){
+                if( $i == 5 ){
+                    $str .= "{$v},";
+                }else {
+                    $str .= "'{$v}',";
+                }
+                $i++;
+            }
+            $str = rtrim($str, ',');
+            $str .= "],\n";
+        }
+        file_put_contents('db.txt', $str);
+    }
+
 }

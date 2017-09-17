@@ -48,6 +48,9 @@ $config = [
         'feehi' => [
             'class' => feehi\components\Feehi::className(),
         ],
+        'authManager' => [
+            'class' => yii\rbac\DbManager::className(),
+        ],
     ],
 ];
 $install = yii::getAlias('@common/config/conf/db.php');

@@ -20,7 +20,6 @@ $this->params['breadcrumbs'] = [
 if (yii::$app->controller->action->id == 'update') {
     echo $this->render('_form', [
         'model' => $model,
-        'rolesModel' => $rolesModel,
     ]);
 } else {
     echo $this->render('_form-update-self', [

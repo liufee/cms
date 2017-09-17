@@ -139,6 +139,8 @@ return [
     'Parent Id' => '父分类Id',
     'Is Absolute Url' => '绝对地址',
     'HTTP Method' => '请求方式',
+    'Input new' => '输入',
+    'Select from exists' => '从已有选择',
     'Sub Menu exists, cannot be deleted' => '该菜单还有子菜单，不能被删除',
     /*menu*/
 
@@ -188,6 +190,10 @@ return [
     'default super administrator admin' => '默认的超级管理员admin',
     'Not allowed to delete {attribute}' => '不允许删除{attribute}',
     'Role does not exists' => '角色不存在',
+    'Permission exists' => '权限已存在',
+    'Role exists' => '角色已存在',
+    'Must begin with "/" like "/module/controller/action" format' => '必须以 "/" 开头,如 "/module/controller/action"',
+    'System' => '系统',
     /*RBAC*/
 
     /*site/index*/
@@ -247,9 +253,11 @@ return [
     "at" => '在',
     /*site/main*/
 
-    /*admin-roles*/
+    /*rbac*/
+    'Permissions' => '权限',
+    'Group' => '组',
     'Assign Permission' => '分配权限',
-    /*admin-roles*/
+    /*rbac*/
 
     /*js*/
     'Realy to do it?' => '确定要执行此操作？',

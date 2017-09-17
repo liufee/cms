@@ -42,6 +42,10 @@ class User extends ActiveRecord implements IdentityInterface
 
     public $old_password;
 
+    public $roles;
+
+    public $permissions;
+
 
     /**
      * 返回数据表名
@@ -68,6 +72,7 @@ class User extends ActiveRecord implements IdentityInterface
             [['username', 'email', 'password', 'repassword'], 'required', 'on' => ['create']],
             [['username', 'email'], 'required', 'on' => ['update', 'self-update']],
             [['username'], 'unique', 'on' => 'create'],
+            [['roles', 'permissions'], 'safe'],
         ];
     }
 
@@ -78,8 +83,8 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             'default' => ['username', 'email'],
-            'create' => ['username', 'email', 'password', 'avatar', 'status'],
-            'update' => ['username', 'email', 'password', 'avatar', 'status'],
+            'create' => ['username', 'email', 'password', 'avatar', 'status', 'roles', 'permissions'],
+            'update' => ['username', 'email', 'password', 'avatar', 'status', 'roles', 'permissions'],
             'self-update' => ['username', 'email', 'password', 'avatar', 'old_password', 'repassword'],
         ];
     }
@@ -288,6 +293,52 @@ class User extends ActiveRecord implements IdentityInterface
         return parent::beforeSave($insert);
     }
 
+    public function afterSave($insert, $changedAttributes)
+    {
+        $authManager = yii::$app->getAuthManager();
+        $assignments = $authManager->getAssignments($this->id);
+        $roles = $permissions = [];
+        foreach ($assignments as $key => $assignment){
+            if( strpos($assignment->roleName, ':GET') || strpos($assignment->roleName, ':POST') ){
+                $permissions[$key] = $assignment;
+            }else{
+                $roles[$key] = $assignment;
+            }
+        }
+        $roles = array_keys($roles);
+        $permissions = array_keys($permissions);
+
+        //角色roles
+        if( !is_array( $this->roles ) ) $this->roles = [];
+
+        $needAdds = array_diff($this->roles, $roles);
+        foreach ($needAdds as $role){
+            $authManager->assign($authManager->getRole($role), $this->id);
+        }
+
+        $needRemoves = array_diff($roles, $this->roles);
+        foreach ($needRemoves as $role){
+            $authManager->revoke($authManager->getRole($role), $this->id);
+        }
+
+       //权限permission
+        $this->permissions = explode(',', $this->permissions);
+        if($this->permissions[0] == '') $this->permissions = [];
+        if( !is_array( $this->permissions ) ) $this->permissions = [];
+
+        $needAdds = array_diff($this->permissions, $permissions);
+
+        foreach ($needAdds as $permission){
+            $authManager->assign($authManager->getPermission($permission), $this->id);
+        }
+
+        $needRemoves = array_diff($permissions, $this->permissions);
+        foreach ($needRemoves as $permission){
+            $authManager->revoke($authManager->getPermission($permission), $this->id);
+        }
+
+    }
+
     /**
      * @inheritdoc
      */
@@ -319,6 +370,16 @@ class User extends ActiveRecord implements IdentityInterface
             throw new ForbiddenHttpException(yii::t('app', "Not allowed to delete {attribute}", ['attribute' => yii::t('app', 'default super administrator admin')]));
         }
         return true;
+    }
+
+    public function getRoleName()
+    {
+        if( in_array( $this->getId(), yii::$app->getBehavior('access')->superAdminUserIds ) ){
+            return yii::t('app', 'System');
+        }
+        $role = array_keys( yii::$app->getAuthManager()->getRolesByUser($this->getId()) );
+        if( !isset( $role[0] ) ) return '';
+        return $role[0];
     }
 
 }

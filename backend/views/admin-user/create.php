@@ -13,10 +13,8 @@ $this->params['breadcrumbs'] = [
 ];
 /**
  * @var $model backend\models\User
- * @var $rolesModel backend\models\AdminRoleUser
  */
 ?>
 <?= $this->render('_form', [
     'model' => $model,
-    'rolesModel' => $rolesModel,
 ]); ?>
