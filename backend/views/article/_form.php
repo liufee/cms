@@ -74,19 +74,19 @@ $this->title = "Articles";
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <?= Html::activeCheckbox($model, 'flag_headline', []) ?>
+                                        <?= $form->field($model, 'flag_headline', ['options'=>['tag'=>'span']])->checkbox() ?>
                                         &nbsp;
-                                        <?= Html::activeCheckbox($model, 'flag_recommend', []) ?>
+                                        <?= $form->field($model, 'flag_recommend', ['options'=>['tag'=>'span']])->checkbox() ?>
                                         &nbsp;
-                                        <?= Html::activeCheckbox($model, 'flag_slide_show', []) ?>
+                                        <?= $form->field($model, 'flag_slide_show', ['options'=>['tag'=>'span']])->checkbox() ?>
                                         &nbsp;
-                                        <?= Html::activeCheckbox($model, 'flag_special_recommend', []) ?>
+                                        <?= $form->field($model, 'flag_special_recommend', ['options'=>['tag'=>'span']])->checkbox() ?>
                                         &nbsp;
-                                        <?= Html::activeCheckbox($model, 'flag_roll', []) ?>
+                                        <?= $form->field($model, 'flag_roll', ['options'=>['tag'=>'span']])->checkbox() ?>
                                         &nbsp;
-                                        <?= Html::activeCheckbox($model, 'flag_bold', []) ?>
+                                        <?= $form->field($model, 'flag_bold', ['options'=>['tag'=>'span']])->checkbox() ?>
                                         &nbsp;
-                                        <?= Html::activeCheckbox($model, 'flag_picture', []) ?>
+                                        <?= $form->field($model, 'flag_picture', ['options'=>['tag'=>'span']])->checkbox() ?>
                                     </div>
                                 </div>
                             </div>

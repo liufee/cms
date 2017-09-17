@@ -82,9 +82,17 @@ class ActiveField extends \yii\widgets\ActiveField
     /**
      * @inheritdoc
      */
-    public function checkbox($options = [], $enclosedByLabel = true)
+    public function checkbox($options = [], $enclosedByLabel = false)
     {
-        $options = array_merge($this->inputOptions, $options);
+        $unique = uniqid();
+        $for = 'inlineCheckbox' . $unique;
+        $options['id'] = $for;
+        $options['tag'] = 'a';
+        $this->labelOptions = [];
+        $this->options['class'] = '';
+        $this->template = "<span class=\"checkbox checkbox-success checkbox-inline\">{input}
+                              {label}
+                            </span>";
         return parent::checkbox($options, $enclosedByLabel);
     }
 

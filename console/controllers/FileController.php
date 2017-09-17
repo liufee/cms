@@ -150,7 +150,7 @@ class FileController extends \yii\console\Controller
         }
         $str .= "]\n";
         //var_dump($str);exit;
-        //file_put_contents('db.txt', $str, FILE_APPEND);
+        file_put_contents('db.txt', $str, FILE_APPEND);exit;
         $str = '';
         $authManager = yii::$app->getAuthManager();
         $permissions = $authManager->getPermissions();

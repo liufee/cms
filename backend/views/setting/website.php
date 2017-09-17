@@ -55,6 +55,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Website Setting');
                 <?= $form->field($model, 'website_statics_script')->textarea() ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'website_status')->radioList(Constants::getWebsiteStatusItems()) ?>
+                <div class="hr-line-dashed"></div>
                 <?= $form->defaultButtons() ?>
                 <?php ActiveForm::end(); ?>
             </div>

@@ -53,7 +53,7 @@ class MenuCest
         $this->setCookie($I);
         $I->amOnPage(Url::toRoute('/menu/index'));
         $I->see('后台菜单');
-        $I->see("请求方式");
+        $I->see("操作");
         $I->click("a[title=编辑]");
         $I->see("编辑后台菜单");
         $I->fillField("Menu[name]", '测试123');
