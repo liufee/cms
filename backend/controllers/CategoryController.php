@@ -15,7 +15,6 @@ use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
-use backend\actions\StatusAction;
 
 class CategoryController extends \yii\web\Controller
 {
@@ -52,10 +51,6 @@ class CategoryController extends \yii\web\Controller
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => Category::className(),
-            ],
-            'status' => [
-                'class' => StatusAction::className(),
                 'modelClass' => Category::className(),
             ],
         ];

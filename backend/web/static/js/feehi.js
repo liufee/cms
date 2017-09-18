@@ -1,6 +1,8 @@
 yii.confirm = function(message, ok, cancel) {
     var url = $(this).attr('href');
     var if_pjax = $(this).attr('data-pjax') ? $(this).attr('data-pjax') : 0;
+    var method = $(this).attr('data-method') ? $(this).attr('data-method') : "get";
+    var data = $(this).attr('data-params') ? JSON.parse( $(this).attr('data-params') ) : '';
     swal({
         title: message,
         text: tips.realyToDo,
@@ -19,14 +21,11 @@ yii.confirm = function(message, ok, cancel) {
                 $.ajax({
                     "url": url,
                     "dataType": "json",
-                    "type": $(this).attr('data-method') ? $(this).attr('data-method') : "get",
+                    "type": method,
+                    "data": data,
                     "success": function (data) {
-                        if (data.code == 0) {
-                            swal(tips.success + '!', tips.operatingSuccess + '.', "success");
-                            location.reload();
-                        } else {
-                            swal(tips.error + ': ' + data.message, tips.operatingFailed + '.', "error");
-                        }
+                        swal(tips.success + '!', tips.operatingSuccess + '.', "success");
+                        location.reload();
                     },
                     "error": function (jqXHR, textStatus, errorThrown) {
                         swal(tips.error + ': ' + jqXHR.responseJSON.message, tips.operatingFailed + '.', "error");
@@ -82,12 +81,8 @@ $(document).ready(function(){
                     "type" : "get",
                     "data":{'id':ids},
                     "success" : function (data) {
-                        if (data.code == 0) {
-                            swal(tips.success + '!', tips.operatingSuccess + '.', "success");
-                            location.reload();
-                        } else {
-                            swal(tips.error + ': ' + data.message, tips.operatingFailed + '.', "error");
-                        }
+                        swal(tips.success + '!', tips.operatingSuccess + '.', "success");
+                        location.reload();
                     },
                     "error": function (jqXHR, textStatus, errorThrown) {
                         swal(tips.error + ': ' + jqXHR.responseJSON.message, tips.operatingFailed + '.', "error");

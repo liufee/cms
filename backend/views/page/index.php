@@ -66,32 +66,15 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Pages');
                             'attribute' => 'status',
                             'format' => 'raw',
                             'value' => function ($model, $key, $index, $column) {
-                                if ($model->status == Article::ARTICLE_PUBLISHED) {
-                                    $url = Url::to([
-                                        'status',
-                                        'id' => $model->id,
-                                        'status' => 0,
-                                        'field' => 'status'
-                                    ]);
-                                    $class = 'btn btn-info btn-xs btn-rounded';
-                                    $confirm = Yii::t('app', 'Are you sure you want to cancel release?');
-                                } else {
-                                    $url = Url::to([
-                                        'status',
-                                        'id' => $model->id,
-                                        'status' => 1,
-                                        'field' => 'status'
-                                    ]);
-                                    $class = 'btn btn-default btn-xs btn-rounded';
-                                    $confirm = Yii::t('app', 'Are you sure you want to publish?');
-                                }
-                                return Html::a(Constants::getArticleStatus($model->status), $url, [
-                                    'class' => $class,
-                                    'data-confirm' => $confirm,
+                                return Html::a(Constants::getArticleStatus($model['status']), ['update', 'id' => $model['id']], [
+                                    'class' => 'btn btn-xs btn-rounded ' . ( $model['status'] == Constants::YesNo_Yes ? 'btn-info' : 'btn-default' ),
+                                    'data-confirm' => $model['status'] == Constants::YesNo_Yes ? Yii::t('app', 'Are you sure you want to cancel release?') : Yii::t('app', 'Are you sure you want to publish?'),
                                     'data-method' => 'post',
                                     'data-pjax' => '0',
+                                    'data-params' => [
+                                        $model->formName() . '[status]' => $model['status'] == Constants::YesNo_Yes ? Constants::YesNo_No : Constants::YesNo_Yes
+                                    ]
                                 ]);
-
                             },
                             'filter' => Constants::getArticleStatus(),
                         ],

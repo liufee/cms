@@ -11,6 +11,7 @@ namespace backend\actions;
 use yii;
 use yii\web\BadRequestHttpException;
 use yii\web\Response;
+use yii\web\UnprocessableEntityHttpException;
 
 class DeleteAction extends \yii\base\Action
 {
@@ -23,13 +24,13 @@ class DeleteAction extends \yii\base\Action
      * @param $id
      * @return array|\yii\web\Response
      * @throws \yii\web\BadRequestHttpException
+     * @throws \yii\web\UnprocessableEntityHttpException
      */
     public function run($id)
     {
         if (yii::$app->getRequest()->getIsAjax()) {//AJAX删除
-            Yii::$app->getResponse()->format = Response::FORMAT_JSON;
             if (! $id) {
-                return ['code' => 1, 'message' => yii::t('app', "Id doesn't exit")];
+                throw new BadRequestHttpException(yii::t('app', "Id doesn't exit"));
             }
             $ids = explode(',', $id);
             $errorIds = [];
@@ -44,7 +45,7 @@ class DeleteAction extends \yii\base\Action
                 }
             }
             if (count($errorIds) == 0) {
-                return ['code' => 0, 'message' => yii::t('app', 'Success')];
+                return [];
             } else {
                 $errors = $model->getErrors();
                 $err = '';
@@ -54,7 +55,7 @@ class DeleteAction extends \yii\base\Action
                 if ($err != '') {
                     $err = '.' . $err;
                 }
-                return ['code' => 1, 'message' => 'id ' . implode(',', $errorIds) . $err];
+                throw new UnprocessableEntityHttpException('id ' . implode(',', $errorIds) . $err);
             }
         } else {
             if (! $id) {

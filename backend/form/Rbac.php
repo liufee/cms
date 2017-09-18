@@ -55,7 +55,7 @@ class Rbac extends \yii\base\Model
                 'on' => 'permission'
             ],
 
-            [['name', 'description', 'sort'], 'required', 'on' => 'role'],
+            [['name', 'description'], 'required', 'on' => 'role'],
             [['roles', 'permissions'], 'default', 'value'=>[], 'on' => 'role'],
         ];
     }
@@ -141,6 +141,8 @@ class Rbac extends \yii\base\Model
             'sort' => $this->sort,
         ]);
         $authManager->add($role);
+
+        $this->permissions = explode(',', $this->permissions);
 
         foreach ($this->permissions as $permission){
             $permission = $authManager->getPermission($permission);

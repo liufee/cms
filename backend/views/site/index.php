@@ -141,7 +141,7 @@ $this->title = yii::t('app', 'Backend Manage System');
                     <li class="J_tabCloseOther"><a><?= yii::t('app', 'Close Other Tab') ?></a></li>
                 </ul>
             </div>
-            <a href="<?= Url::toRoute('site/logout') ?>" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i> <?= yii::t('app', 'Logout') ?></a>
+            <?= Html::a('<i class="fa fa fa-sign-out"></i>' . yii::t('app', 'Logout'), Url::toRoute('site/logout'), ['data-method'=>'post', 'class'=>'roll-nav roll-right J_tabExit'])?>
         </div>
         <div class="row J_mainContent" id="content-main">
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="<?= Url::to(['site/main']) ?>" frameborder="0" data-id="<?= Url::to(['site/main']) ?>" seamless></iframe>

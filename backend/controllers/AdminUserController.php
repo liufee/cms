@@ -13,7 +13,6 @@ use backend\models\UserSearch;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
-use backend\actions\StatusAction;
 
 class AdminUserController extends \yii\web\Controller
 {
@@ -38,10 +37,6 @@ class AdminUserController extends \yii\web\Controller
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => User::className(),
-            ],
-            'status' => [
-                'class' => StatusAction::className(),
                 'modelClass' => User::className(),
             ],
         ];

@@ -20,6 +20,7 @@ use frontend\models\User;
 use yii\base\UserException;
 use yii\db\Query;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\HttpException;
 use yii\captcha\CaptchaAction;
 
@@ -40,6 +41,12 @@ class SiteController extends \yii\web\Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'logout' => ['post'],
                 ],
             ],
         ];

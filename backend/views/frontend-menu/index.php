@@ -72,32 +72,16 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Frontend Menus');
                             'label' => yii::t('app', 'Is Display'),
                             'format' => 'raw',
                             'value' => function ($model, $key, $index, $column) {
-                                if ($model['is_display'] == Menu::DISPLAY_YES) {
-                                    $url = Url::to([
-                                        'status',
-                                        'id' => $model['id'],
-                                        'status' => Menu::DISPLAY_NO,
-                                        'field' => 'is_display'
-                                    ]);
-                                    $class = 'btn btn-info btn-xs btn-rounded';
-                                    $confirm = Yii::t('app', 'Are you sure you want to disable this item?');
-                                } else {
-                                    $url = Url::to([
-                                        'status',
-                                        'id' => $model['id'],
-                                        'status' => Menu::DISPLAY_YES,
-                                        'field' => 'is_display'
-                                    ]);
-                                    $class = 'btn btn-default btn-xs btn-rounded';
-                                    $confirm = Yii::t('app', 'Are you sure you want to enable this item?');
-                                }
-                                return Html::a(Constants::getYesNoItems($model['is_display']), $url, [
-                                    'class' => $class,
-                                    'data-confirm' => $confirm,
+                                $menu = new Menu();
+                                return Html::a(Constants::getYesNoItems($model['is_display']), ['update', 'id' => $model['id']], [
+                                    'class' => 'btn btn-xs btn-rounded ' . ( $model['is_display'] == Menu::DISPLAY_YES ? 'btn-info' : 'btn-default' ),
+                                    'data-confirm' => $model['is_display'] == Menu::DISPLAY_YES ? Yii::t('app', 'Are you sure you want to disable this item?') : Yii::t('app', 'Are you sure you want to enable this item?'),
                                     'data-method' => 'post',
                                     'data-pjax' => '0',
+                                    'data-params' => [
+                                        $menu->formName() . '[is_display]' => $model['is_display'] == Menu::DISPLAY_YES ? Menu::DISPLAY_NO : Menu::DISPLAY_YES
+                                    ]
                                 ]);
-
                             },
                         ],
                         [

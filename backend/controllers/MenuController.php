@@ -16,7 +16,6 @@ use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
-use backend\actions\StatusAction;
 
 /**
  * Menu controller
@@ -55,10 +54,6 @@ class MenuController extends \yii\web\Controller
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => Menu::className(),
-            ],
-            'status' => [
-                'class' => StatusAction::className(),
                 'modelClass' => Menu::className(),
             ],
         ];

@@ -10,6 +10,7 @@ namespace backend\actions;
 
 use yii;
 use yii\web\BadRequestHttpException;
+use yii\web\UnprocessableEntityHttpException;
 
 class UpdateAction extends \yii\base\Action
 {
@@ -23,8 +24,9 @@ class UpdateAction extends \yii\base\Action
      * update修改
      *
      * @param $id
-     * @return string|\yii\web\Response
+     * @return array|string|\yii\web\Response
      * @throws \yii\web\BadRequestHttpException
+     * @throws \yii\web\UnprocessableEntityHttpException
      */
     public function run($id)
     {
@@ -36,15 +38,24 @@ class UpdateAction extends \yii\base\Action
 
         if (yii::$app->getRequest()->getIsPost()) {
             if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->save()) {
-                yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-                return $this->controller->redirect(['update', 'id' => $model->getPrimaryKey()]);
+                if( yii::$app->getRequest()->getIsAjax() ){
+                    return [];
+                }else {
+                    yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+                    return $this->controller->redirect(['update', 'id' => $model->getPrimaryKey()]);
+                }
             } else {
                 $errors = $model->getErrors();
                 $err = '';
                 foreach ($errors as $v) {
                     $err .= $v[0] . '<br>';
                 }
-                yii::$app->getSession()->setFlash('error', $err);
+                if( yii::$app->getRequest()->getIsAjax() ){
+                    throw new UnprocessableEntityHttpException($err);
+                }else {
+                    yii::$app->getSession()->setFlash('error', $err);
+                }
+
             }
         }
 

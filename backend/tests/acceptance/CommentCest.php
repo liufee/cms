@@ -54,10 +54,6 @@ class CommentCest
         $I->amOnPage(Url::toRoute('/comment/index'));
         $I->see('评论');
         $I->see("文章标题");
-        $I->click("a[title=未通过]");
-        $I->see("未通过");
-        $I->click("a[title=通过]");
-        $I->see("通过");
     }
 
 }

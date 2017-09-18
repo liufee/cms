@@ -84,7 +84,9 @@ class ActiveField extends \yii\widgets\ActiveField
      */
     public function checkbox($options = [], $enclosedByLabel = false)
     {
-        $unique = uniqid();
+        static $i = 1;
+        $unique = uniqid() . $i;
+        $i++;
         $for = 'inlineCheckbox' . $unique;
         $options['id'] = $for;
         $options['tag'] = 'a';
@@ -171,7 +173,7 @@ class ActiveField extends \yii\widgets\ActiveField
         $unique = uniqid();
         $options['item'] = function ($index, $label, $name, $checked, $value) use ($encode, $itemOptions, $unique){
             static $i = 1;
-            $unique .= $i;
+            $unique .= rand(1, 99999) . $i;
             $i++;
             $checkbox = Html::checkbox($name, $checked, array_merge($itemOptions, [
                 'value' => $value,

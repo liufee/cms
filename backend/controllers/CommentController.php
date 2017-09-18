@@ -14,7 +14,6 @@ use backend\models\Comment;
 use backend\models\CommentSearch;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
-use backend\actions\StatusAction;
 
 class CommentController extends \yii\web\Controller
 {
@@ -39,10 +38,6 @@ class CommentController extends \yii\web\Controller
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => Comment::className(),
-            ],
-            'status' => [
-                'class' => StatusAction::className(),
                 'modelClass' => Comment::className(),
             ],
         ];

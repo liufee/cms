@@ -51,28 +51,6 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        'rbac' => [
-            'class' => backend\components\Rbac::className(),
-            'superAdministrators' => [//超级管理员用户，不受权限管理的控制
-                'admin',
-                'administrator',
-            ],
-            'noNeedAuthentication' => [//无需权限管理的控制器/操作，任意角色、用户，包括未登录均可访问
-                'site/index',
-                'site/login',
-                'site/logout',
-                'site/main',
-                'site/captcha',
-                'site/error',
-                'site/language',
-                'admin-user/update-self',
-                'error/forbidden',
-                'error/not-found',
-                'debug/default/toolbar',
-                'debug/default/view',
-                'assets/ueditor'
-            ],
-        ],
         'request' => [
             'csrfParam' =>'_csrf_backend',
         ],

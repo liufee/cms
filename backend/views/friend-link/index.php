@@ -56,32 +56,15 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Friendly Links');
                             'attribute' => 'status',
                             'format' => 'raw',
                             'value' => function ($model, $key, $index, $column) {
-                                if ($model->status == FriendLink::DISPLAY_YES) {
-                                    $url = Url::to([
-                                        'status',
-                                        'id' => $model->id,
-                                        'status' => 0,
-                                        'field' => 'status'
-                                    ]);
-                                    $class = 'btn btn-info btn-xs btn-rounded';
-                                    $confirm = Yii::t('app', 'Are you sure you want to disable this item?');
-                                } else {
-                                    $url = Url::to([
-                                        'status',
-                                        'id' => $model->id,
-                                        'status' => 1,
-                                        'field' => 'status'
-                                    ]);
-                                    $class = 'btn btn-default btn-xs btn-rounded';
-                                    $confirm = Yii::t('app', 'Are you sure you want to enable this item?');
-                                }
-                                return Html::a(Constants::getYesNoItems($model->status), $url, [
-                                    'class' => $class,
-                                    'data-confirm' => $confirm,
+                                return Html::a(Constants::getYesNoItems($model['status']), ['update', 'id' => $model['id']], [
+                                    'class' => 'btn btn-xs btn-rounded ' . ( $model['status'] == FriendLink::DISPLAY_YES ? 'btn-info' : 'btn-default' ),
+                                    'data-confirm' => $model['status'] == FriendLink::DISPLAY_YES ? Yii::t('app', 'Are you sure you want to disable this item?') : Yii::t('app', 'Are you sure you want to enable this item?'),
                                     'data-method' => 'post',
                                     'data-pjax' => '0',
+                                    'data-params' => [
+                                        $model->formName() . '[status]' => $model['status'] == FriendLink::DISPLAY_YES ? FriendLink::DISPLAY_NO : FriendLink::DISPLAY_YES
+                                    ]
                                 ]);
-
                             },
                         ],
                         [
