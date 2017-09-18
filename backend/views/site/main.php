@@ -250,7 +250,7 @@ use yii\helpers\Url;
 $(document).ready(function () {
     $.ajax({
         dataType:"jsonp",
-        url:"//sapi.feehi.com/cms/notify",
+        url:"//api.feehi.com/cms/notify",
         success:function (dataAll) {
             data = dataAll.rows;
             $("#notify").empty();

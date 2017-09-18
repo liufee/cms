@@ -42,6 +42,14 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Permissions');
                                 'data-pjax' => '0',
                                 'class' => 'btn btn-white btn-sm sort',
                             ]);
+                        },
+                        'delete' => function () {
+                            return Html::a('<i class="fa fa-trash-o"></i> ' . yii::t('app', 'Delete'), Url::to(['permission-delete']), [
+                                'title' => yii::t('app', 'Delete'),
+                                'data-pjax' => '0',
+                                'data-confirm' => yii::t('app', 'Realy to delete?'),
+                                'class' => 'btn btn-white btn-sm multi-operate',
+                            ]);
                         }
                     ],
                     'template' => '{refresh} {create} {sort} {delete}'

@@ -13,6 +13,7 @@ use backend\form\RbacSearch;
 use backend\form\Rbac;
 use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
+use yii\web\Response;
 
 class RbacController extends \yii\web\Controller
 {
@@ -93,14 +94,36 @@ class RbacController extends \yii\web\Controller
         ]);
     }
 
-    public function actionPermissionDelete($name)
+    public function actionPermissionDelete($name='')
     {
-        $authManager = yii::$app->authManager;
-        $permission = $authManager->getPermission($name);
-        if( $authManager->remove($permission) ){
-            return $this->redirect(Url::to(['permissions']));
-        }else{
-            throw new BadRequestHttpException(yii::t('app', "Auth item delete failed"));
+        $authManager = yii::$app->getAuthManager();
+        if ($name == '') {
+            Yii::$app->getResponse()->format = Response::FORMAT_JSON;
+            $id = yii::$app->getRequest()->get('id', '');
+            if (! $id) {
+                return ['code' => 1, 'message' => yii::t('app', "Name doesn't exit")];
+            }
+            $ids = explode(',', $id);
+            $errorIds = [];
+            $model = null;
+            foreach ($ids as $one) {
+                $permission = $authManager->getPermission($one);
+                if (! $authManager->remove($permission)) {
+                    $errorIds[] = $one;
+                }
+            }
+            if (count($errorIds) == 0) {
+                return ['code' => 0, 'message' => yii::t('app', 'Success')];
+            } else {
+                return ['code' => 1, 'message' => 'id ' . implode(',', $errorIds) . yii::t('app', 'Error')];
+            }
+        }else {
+            $permission = $authManager->getPermission($name);
+            if ($authManager->remove($permission)) {
+                return ['code' => 0, 'message' => yii::t('app', 'Success')];
+            } else {
+                return ['code' => 1, 'message' => yii::t('app', 'Error')];
+            }
         }
     }
 
@@ -179,14 +202,36 @@ class RbacController extends \yii\web\Controller
         $this->redirect(['roles']);
     }
 
-    public function actionRoleDelete($name)
+    public function actionRoleDelete($name='')
     {
         $authManager = yii::$app->getAuthManager();
-        $role = $authManager->getRole($name);
-        if( $authManager->remove($role) ){
-            return $this->redirect(Url::to(['roles']));
-        }else{
-            throw new BadRequestHttpException(yii::t('app', "Role delete failed"));
+        if ($name == '') {
+            Yii::$app->getResponse()->format = Response::FORMAT_JSON;
+            $id = yii::$app->getRequest()->get('id', '');
+            if (! $id) {
+                return ['code' => 1, 'message' => yii::t('app', "Name doesn't exit")];
+            }
+            $ids = explode(',', $id);
+            $errorIds = [];
+            $model = null;
+            foreach ($ids as $one) {
+                $role = $authManager->getRole($one);
+                if (! $authManager->remove($role)) {
+                    $errorIds[] = $one;
+                }
+            }
+            if (count($errorIds) == 0) {
+                return ['code' => 0, 'message' => yii::t('app', 'Success')];
+            } else {
+                return ['code' => 1, 'message' => 'id ' . implode(',', $errorIds) . yii::t('app', 'Error')];
+            }
+        }else {
+            $role = $authManager->getRole($name);
+            if ($authManager->remove($role)) {
+                return ['code' => 0, 'message' => yii::t('app', 'Success')];
+            } else {
+                return ['code' => 1, 'message' => yii::t('app', 'Error')];
+            }
         }
     }
 
