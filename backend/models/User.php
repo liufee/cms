@@ -312,27 +312,25 @@ class User extends ActiveRecord implements IdentityInterface
         if( !is_array( $this->roles ) ) $this->roles = [];
 
         $needAdds = array_diff($this->roles, $roles);
+        $needRemoves = array_diff($roles, $this->roles);
         foreach ($needAdds as $role){
             $authManager->assign($authManager->getRole($role), $this->id);
         }
 
-        $needRemoves = array_diff($roles, $this->roles);
         foreach ($needRemoves as $role){
             $authManager->revoke($authManager->getRole($role), $this->id);
         }
 
        //权限permission
-        $this->permissions = explode(',', $this->permissions);
-        if($this->permissions[0] == '') $this->permissions = [];
-        if( !is_array( $this->permissions ) ) $this->permissions = [];
+        if( !is_array( $this->permissions ) ) $this->permissions = explode(',', $this->permissions);
 
         $needAdds = array_diff($this->permissions, $permissions);
+        $needRemoves = array_diff($permissions, $this->permissions);
 
         foreach ($needAdds as $permission){
             $authManager->assign($authManager->getPermission($permission), $this->id);
         }
 
-        $needRemoves = array_diff($permissions, $this->permissions);
         foreach ($needRemoves as $permission){
             $authManager->revoke($authManager->getPermission($permission), $this->id);
         }

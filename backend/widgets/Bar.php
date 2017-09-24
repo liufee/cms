@@ -87,7 +87,7 @@ class Bar extends Widget
 
         if (! isset($this->buttons['sort'])) {
             $this->buttons['sort'] = function () {
-                return Html::a('<i class="fa  fa-sort-numeric-desc"></i> ' . yii::t('app', 'Sort'), Url::to(['upate']), [
+                return Html::a('<i class="fa  fa-sort-numeric-desc"></i> ' . yii::t('app', 'Sort'), Url::to(['sort']), [
                     'title' => yii::t('app', 'Sort'),
                     'data-pjax' => '0',
                     'class' => 'btn btn-white btn-sm sort',

@@ -194,6 +194,7 @@ return [
     'Role exists' => '角色已存在',
     'Must begin with "/" like "/module/controller/action" format' => '必须以 "/" 开头,如 "/module/controller/action"',
     'System' => '系统',
+    'System user own all permissions, cannot be edit by web. you can edit config file to cancel' => '系统用户拥有所有权限，不能在线编辑权限，可以修改配置文件取消为系统用户',
     /*RBAC*/
 
     /*site/index*/

@@ -50,22 +50,32 @@ $this->title = "Admin";
                         $temp[$key] = $key;
                     }
                 ?>
+                <?php
+                    $itemsOptions = [];
+                    if(in_array( $model->getId(), yii::$app->getBehavior('access')->superAdminUserIds)){
+                        $itemsOptions = ['disabled'=>'true'];
+                    }//var_dump($itemsOptions);exit;
+                ?>
                 <?= $form->field($model, 'roles', [
                     'labelOptions' => [
                         'label' => yii::t('app', 'Roles'),
                     ]
-                ])->checkboxList($temp) ?>
+                ])->checkboxList($temp, ['itemOptions'=>$itemsOptions]) ?>
                 <div class="hr-line-dashed"></div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label"> <?=yii::t('app', 'Permissions')?></label>
                     <div class="col-sm-10">
                         <?php
+                        $itemsOptions = [];
+                        if(in_array($model->getId(), yii::$app->getBehavior('access')->superAdminUserIds)){
+                            $itemsOptions = ['disabled'=>'true'];
+                        }
                         $rbac = new Rbac();
                         foreach ($rbac->getPermissionsByGroup('form') as $key => $value){
                             echo "<div class='col-sm-1 text-center'><h2>{$key}</h2></div>";
                             echo "<div class='col-sm-11'>";
                             foreach ($value as $k => $val){
-                                echo $form->field($model, 'permissions', ['labelOptions'=>['class'=>'col-sm-1']])->label($k)->checkboxList(ArrayHelper::map($val, 'name', 'description'));
+                                echo $form->field($model, 'permissions', ['labelOptions'=>['class'=>'col-sm-1']])->label($k)->checkboxList(ArrayHelper::map($val, 'name', 'description'), ['itemOptions'=>$itemsOptions]);
                             }
                             echo "</div><div class='col-sm-12' style='height: 20px'></div>";
                         }

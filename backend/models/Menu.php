@@ -8,18 +8,13 @@
 
 namespace backend\models;
 
-use backend\components\AccessControl;
 use yii;
 use yii\helpers\Url;
 use common\helpers\FileDependencyHelper;
 use common\helpers\FamilyTree;
-use yii\helpers\ArrayHelper;
 
 class Menu extends \common\models\Menu
 {
-
-    private $needDeletePermissionMenuIds = [];
-
 
     /**
      * 生成后台首页菜单html
@@ -44,7 +39,11 @@ class Menu extends \common\models\Menu
                     $newMenu = array_merge($newMenu, $menu );
                 }
             }
-            $menus = $newMenu;
+
+            $menus = [];
+            foreach ($newMenu as $v){
+                $menus[$v['id']] = $v;
+            }
         }
 
         $lis = '';

@@ -147,7 +147,7 @@ class ActiveField extends \yii\widgets\ActiveField
                 //'label' => $encode ? Html::encode($label) : $label,
             ]));
             $radio .= "<label for=\"$name$i\"> $label </label>";
-            $radio = "<div class='radio radio-info radio-inline'>{$radio}</div>";
+            $radio = "<div class='radio radio-success radio-inline'>{$radio}</div>";
             //var_dump($radio);die;
             $i++;
             return $radio;

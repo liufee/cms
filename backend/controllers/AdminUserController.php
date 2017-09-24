@@ -80,8 +80,11 @@ class AdminUserController extends \yii\web\Controller
     {
         $model = User::findOne($id);
         $model->setScenario('update');
-        $model->roles = array_keys( yii::$app->getAuthManager()->getAssignments($id) );
-        $model->permissions = $model->roles;
+        $model->roles = $model->permissions = array_keys( yii::$app->getAuthManager()->getAssignments($id) );
+        if( in_array($id, yii::$app->getBehavior('access')->superAdminUserIds) ){
+            $model->permissions = array_keys( yii::$app->getAuthManager()->getPermissions() );
+            $model->roles = array_keys( yii::$app->getAuthManager()->getRoles() );
+        }
         if (Yii::$app->getRequest()->getIsPost()) {
             if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save() ) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
