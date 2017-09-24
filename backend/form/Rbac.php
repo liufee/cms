@@ -7,11 +7,13 @@
  */
 namespace backend\form;
 
+use backend\components\CustomLog;
+use yii\base\Event;
 use yii;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
-class Rbac extends \yii\base\Model
+class Rbac extends Model
 {
     public $name;
 
@@ -70,49 +72,54 @@ class Rbac extends \yii\base\Model
 
     public function attributeLabels()
     {
-        if( $this->getScenario() == 'permission' ) {
-            return [
-                "route" => yii::t('app', 'Route'),
-                "method" => yii::t('app', 'HTTP Method'),
-                "description" => yii::t('app', 'Description'),
-                "group" => yii::t('app', 'Group'),
-                "category" => yii::t('app', 'Category'),
-                "sort" => yii::t('app', 'Sort'),
-            ];
-        }else{
-            return [
-                "name" => yii::t('app', 'Role'),
-                "description" => yii::t('app', 'Description'),
-                "sort" => yii::t('app', 'Sort'),
-            ];
-        }
+        return [
+            "route" => yii::t('app', 'Route'),
+            "method" => yii::t('app', 'HTTP Method'),
+            "description" => yii::t('app', 'Description'),
+            "group" => yii::t('app', 'Group'),
+            "category" => yii::t('app', 'Category'),
+            "sort" => yii::t('app', 'Sort'),
+            "name" => yii::t('app', 'Role'),
+            "permissions" => yii::t('app', 'Permissions'),
+            "roles" => yii::t('app', 'Role'),
+        ];
     }
 
     public function createPermission()
     {
+        $this->name = $this->route . ':' . $this->method;
         $authManager = yii::$app->getAuthManager();
-        if ($authManager->getPermission($this->route . ':' . $this->method) !== null) {
+        if ($authManager->getPermission($this->name) !== null) {
             $this->addError('route', yii::t('app', 'Permission exists'));
             $this->addError('method', yii::t('app', 'Permission exists'));
             return false;
         }
-        $permission = $authManager->createPermission($this->route . ':' . $this->method);
+        $permission = $authManager->createPermission($this->name);
         $permission->description = $this->description;
         $permission->data = json_encode([
             'group' => $this->group,
             'sort' => $this->sort,
             'category' => $this->category,
         ]);
-        return $authManager->add($permission);
+         if( $authManager->add($permission) ){
+             Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new Event([
+                 'sender' => $this,
+             ]));
+             return true;
+         }
+         return false;
     }
 
     public function updatePermission($name)
     {
+        $oldModel = clone $this;
+        $oldModel->fillModel($name);
+        $this->setOldModel($oldModel);
         $this->name = $this->route . ':' . $this->method;
         $authManager = yii::$app->getAuthManager();
         $permission = $authManager->getPermission($name);
-        if( $permission->name != $this->name ){//修改权限名称
-            if( $authManager->getPermission($this->name) !== null ){
+        if( $permission->name != $name ){//修改权限名称
+            if( $authManager->getPermission($name) !== null ){
                 $this->addError('route', yii::t('app', 'Permission exists'));
                 $this->addError('method', yii::t('app', 'Permission exists'));
                 return false;
@@ -125,11 +132,33 @@ class Rbac extends \yii\base\Model
             'sort' => $this->sort,
             'category' => $this->category,
         ]);
-        return $authManager->update($name, $permission);
+        if( $authManager->update($name, $permission) ){
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_UPDATE, new Event([
+                'sender' => $this,
+            ]));
+            return true;
+        }
+        return false;
+    }
+
+    public function deletePermission()
+    {
+        $authManager = yii::$app->getAuthManager();
+        $permission = $authManager->getPermission($this->name);
+        if( $authManager->remove($permission) ){
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_DELETE, new Event([
+                'sender' => $this,
+            ]));
+            return true;
+        }
+        return false;
     }
 
     public function createRole()
     {
+        if( !is_array($this->permissions) ) $this->permissions = explode(',', $this->permissions);
+        if( !is_array($this->roles) ) $this->permissions = explode(',', $this->roles);
+
         $authManager = yii::$app->getAuthManager();
         if ($authManager->getRole($this->name) !== null) {
             $this->addError('name', yii::t('app', 'Role exists'));
@@ -140,28 +169,38 @@ class Rbac extends \yii\base\Model
         $role->data = json_encode([
             'sort' => $this->sort,
         ]);
-        $authManager->add($role);
+        if( $authManager->add($role) ){
+            foreach ($this->permissions as $permission){
+                $permission = $authManager->getPermission($permission);
+                $authManager->addChild($role, $permission);
+            }
 
-        $this->permissions = explode(',', $this->permissions);
+            foreach ($this->roles as $r){
+                $r = $authManager->getRole($r);
+                $authManager->addChild($role, $r);
+            }
 
-        foreach ($this->permissions as $permission){
-            $permission = $authManager->getPermission($permission);
-            $authManager->addChild($role, $permission);
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new Event([
+                'sender' => $this,
+            ]));
+            return true;
         }
-
-        foreach ($this->roles as $r){
-            $r = $authManager->getRole($r);
-            $authManager->addChild($role, $r);
-        }
-        return true;
+        return false;
     }
 
     public function updateRole($name)
     {
+        $oldModel = clone $this;
+        $oldModel->fillModel($name);
+        $this->setOldModel($oldModel);
+
+        if( !is_array($this->permissions) ) $this->permissions = explode(',', $this->permissions);
+        if( !is_array($this->roles) ) $this->permissions = explode(',', $this->roles);
+
         $authManager = yii::$app->getAuthManager();
         $role = $authManager->getRole($name);
         if( $role->name != $this->name ){//修改角色名称
-            if( $authManager->getRole($role->name) !== null ){
+            if( $authManager->getRole($this->name) !== null ){
                 $this->addError('name', yii::t('app', 'Role exists'));
                 return false;
             }
@@ -171,44 +210,61 @@ class Rbac extends \yii\base\Model
         $role->data = json_encode([
             "sort" => $this->sort,
         ]);
-        $authManager->update($name, $role);
 
-        $oldPermissions = array_keys( $authManager->getPermissionsByRole($name) );
-        $this->permissions = explode(',', $this->permissions);
+        if( $authManager->update($name, $role) ){
+            $oldPermissions = array_keys( $authManager->getPermissionsByRole($name) );
 
-        $needAdds = array_diff($this->permissions, $oldPermissions);
-        foreach ($needAdds as $permission){
-            $permission = $authManager->getPermission($permission);
-            $authManager->addChild($role, $permission);
+            $needAdds = array_diff($this->permissions, $oldPermissions);
+            foreach ($needAdds as $permission){
+                $permission = $authManager->getPermission($permission);
+                $authManager->addChild($role, $permission);
+            }
+
+            $needRemoves = array_diff($oldPermissions, $this->permissions);
+            foreach ($needRemoves as $permission){
+                $permission = $authManager->getPermission($permission);
+                $authManager->removeChild($role, $permission);
+            }
+
+            $oldChildRoles = array_keys( $authManager->getChildRoles($name) );
+            $oldChildRoles = array_flip($oldChildRoles);
+            unset($oldChildRoles[$name]);
+            $oldChildRoles = array_flip($oldChildRoles);
+
+            $needAdds = array_diff($this->roles, $oldChildRoles);
+
+            foreach ($needAdds as $r){
+                $r = $authManager->getRole($r);
+                $authManager->addChild($role, $r);
+            }
+
+            $needRemoves = array_diff($oldChildRoles, $this->roles);
+            foreach ($needRemoves as $r){
+                $r = $authManager->getRole($r);
+                $authManager->removeChild($role, $r);
+            }
+
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_UPDATE, new Event([
+                'sender' => $this,
+            ]));
+            return true;
         }
+        return false;
 
-        $needRemoves = array_diff($oldPermissions, $this->permissions);
-        foreach ($needRemoves as $permission){
-            $permission = $authManager->getPermission($permission);
-            $authManager->removeChild($role, $permission);
+    }
+
+    public function deleteRole()
+    {
+        $authManager = yii::$app->getAuthManager();
+        $role = $authManager->getRole($this->name);
+        if ($authManager->remove($role)) {
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_DELETE, new Event([
+                'sender' => $this,
+            ]));
+            return true;
+        } else {
+            return false;
         }
-
-        $oldChildRoles = array_keys( $authManager->getChildRoles($name) );
-        $oldChildRoles = array_flip($oldChildRoles);
-        unset($oldChildRoles[$name]);
-        $oldChildRoles = array_flip($oldChildRoles);
-
-        if( $this->roles == '' ) $this->roles = [];
-
-        $needAdds = array_diff($this->roles, $oldChildRoles);
-        foreach ($needAdds as $r){
-            $r = $authManager->getRole($r);
-            $authManager->addChild($role, $r);
-        }
-
-        $needRemoves = array_diff($oldChildRoles, $this->roles);
-        foreach ($needRemoves as $r){
-            $r = $authManager->getRole($r);
-            $authManager->removeChild($role, $r);
-        }
-
-        return true;
-
     }
 
     public function getPermissionsByGroup($type='index')
@@ -283,16 +339,13 @@ class Rbac extends \yii\base\Model
             if( $permission === null ) throw new NotFoundHttpException("Cannot find permission $name");
             $data = json_decode($permission->data, true);
             $temp = explode(":", $permission->name);
-            return new self([
-                'name' => $permission->name,
-                'route' => $temp[0],
-                'method' => $temp[1],
-                'description' => $permission->description,
-                'group' => $data['group'],
-                'category' => isset( $data['category'] ) ? $data['category'] : '',
-                'sort' => $data['sort'],
-                'scenario' => $this->getScenario(),
-            ]);
+            $this->name = $permission->name;
+            $this->route = $temp[0];
+            $this->method = $temp[1];
+            $this->description = $permission->description;
+            $this->group = $data['group'];
+            $this->category = isset( $data['category'] ) ? $data['category'] : '';
+            $this->sort = $data['sort'];
         }else{
             $role = $authManager->getRole($name);
             $data = json_decode($role->data, true);
@@ -301,14 +354,11 @@ class Rbac extends \yii\base\Model
             foreach ($temp as $permission){
                 $permissions[$permission->name] = $permission->name;
             }
-            return new self( [
-                'name' => $role->name,
-                'description' => $role->description,
-                'sort' => $data['sort'],
-                'permissions' => $permissions,
-                'roles' => array_keys( $authManager->getChildRoles($role->name) ),
-                'scenario' => $this->getScenario(),
-            ]);
+            $this->name = $role->name;
+            $this->description = $role->description;
+            $this->sort = $data['sort'];
+            $this->permissions = $permissions;
+            $this->roles = array_keys( $authManager->getChildRoles($role->name) );
         }
     }
 

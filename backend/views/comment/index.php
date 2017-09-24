@@ -105,41 +105,54 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Comments');
                             'class' => ActionColumn::className(),
                             'width' => '135',
                             'buttons' => [
-                                'status' => function ($url, $model, $key) {//echo $model->status;die;
-                                    if ($model->status == Comment::STATUS_INIT) {
-                                        return Html::a('<i class="fa fa-check"></i> ' . Yii::t('app', 'Passed'), $url . '&status=' . Comment::STATUS_PASSED, [
-                                                'title' => Yii::t('app', 'Passed'),
-                                                'data-pjax' => '0',
-                                                'class' => 'btn btn-white btn-sm',
-                                                'data-confirm' => Yii::t('app', 'Are you sure you want to enable this item?'),
-                                            ]) . Html::a('<i class="fa fa-remove"></i> ' . Yii::t('app', 'Unpassed'), $url . '&status=' . Comment::STATUS_UNPASS, [
-                                                'title' => Yii::t('app', 'Unpassed'),
-                                                'data-pjax' => '0',
-                                                'class' => 'btn btn-white btn-sm',
-                                                'data-confirm' => Yii::t('app', 'Are you sure you want to disable this item?'),
-                                            ]);
-                                    } else {
-                                        if ($model->status == Comment::STATUS_UNPASS) {
-                                            return Html::a('<i class="fa fa-check"></i> ' . Yii::t('app', 'Passed'), $url . '&status=' . Comment::STATUS_PASSED, [
-                                                'title' => Yii::t('app', 'Passed'),
-                                                'data-pjax' => '0',
-                                                'class' => 'btn btn-white btn-sm',
-                                                'data-confirm' => Yii::t('app', 'Are you sure you want to enable this item?'),
-                                            ]);
-                                        } else {
-                                            if ($model->status == Comment::STATUS_PASSED) {
-                                                return Html::a('<i class="fa fa-remove"></i> ' . Yii::t('app', 'Unpassed'), $url . '&status=' . Comment::STATUS_UNPASS, [
-                                                    'title' => Yii::t('app', 'Unpassed'),
-                                                    'data-pjax' => '0',
-                                                    'class' => 'btn btn-white btn-sm',
-                                                    'data-confirm' => Yii::t('app', 'Are you sure you want to disable this item?'),
-                                                ]);
-                                            }
-                                        }
+                                'status_init' => function($url, $model, $key){
+                                    $comment = new Comment();
+                                    if( $model->status != Comment::STATUS_INIT ) return '';
+                                    return Html::a('<i class="fa fa-check"></i> ' . Yii::t('app', 'Passed'), ['update', 'id' => $model['id']], [
+                                            'class' => 'btn btn-white btn-sm',
+                                            'data-confirm' => Yii::t('app', 'Are you sure you want to enable this item?'),
+                                            'data-method' => 'post',
+                                            'data-pjax' => '0',
+                                            'data-params' => [
+                                                $comment->formName() . '[status]' => Comment::STATUS_PASSED
+                                            ]
+                                        ]) . Html::a('<i class="fa fa-remove"></i> ' . Yii::t('app', 'Unpassed'), ['update', 'id' => $model['id']], [
+                                            'class' => 'btn btn-white btn-sm',
+                                            'data-confirm' => Yii::t('app', 'Are you sure you want to disable this item?'),
+                                            'data-method' => 'post',
+                                            'data-pjax' => '0',
+                                            'data-params' => [
+                                                $comment->formName() . '[status]' => Comment::STATUS_UNPASS
+                                            ]
+                                        ]);
+                                },
+                                'status_operated' => function ($url, $model, $key) {
+                                    if( $model->status == Comment::STATUS_INIT ) return '';
+                                    $comment = new Comment();
+                                    if ($model->status == Comment::STATUS_PASSED ) {
+                                        return Html::a('<i class="fa fa-remove"></i> ' . Yii::t('app', 'Unpassed'), ['update', 'id' => $model['id']], [
+                                            'class' => 'btn btn-white btn-sm',
+                                            'data-confirm' => Yii::t('app', 'Are you sure you want to enable this item?'),
+                                            'data-method' => 'post',
+                                            'data-pjax' => '0',
+                                            'data-params' => [
+                                                $comment->formName() . '[status]' => Comment::STATUS_UNPASS
+                                            ]
+                                        ]);
+                                    } else if( $model->status == Comment::STATUS_UNPASS ) {
+                                        return Html::a('<i class="fa fa-check"></i> ' . Yii::t('app', 'Passed'), ['update', 'id' => $model['id']], [
+                                            'class' => 'btn btn-white btn-sm',
+                                            'data-confirm' => Yii::t('app', 'Are you sure you want to disable this item?'),
+                                            'data-method' => 'post',
+                                            'data-pjax' => '0',
+                                            'data-params' => [
+                                                $comment->formName() . '[status]' => Comment::STATUS_PASSED
+                                            ]
+                                        ]);
                                     }
                                 },
                             ],
-                            'template' => '{update}{status}{delete}',
+                            'template' => '{update}{status_init} {status_operated}{delete}',
                         ],
                     ]
                 ]); ?>

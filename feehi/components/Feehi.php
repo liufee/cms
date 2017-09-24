@@ -8,6 +8,7 @@
 
 namespace feehi\components;
 
+use backend\components\CustomLog;
 use yii;
 use yii\base\Component;
 use backend\components\AdminLog;
@@ -116,6 +117,18 @@ class Feehi extends Component
         Event::on(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_DELETE, [
             AdminLog::className(),
             'delete'
+        ]);
+        Event::on(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, [
+            AdminLog::className(),
+            'customCreate'
+        ]);
+        Event::on(CustomLog::className(), CustomLog::EVENT_AFTER_UPDATE, [
+            AdminLog::className(),
+            'customUpdate'
+        ]);
+        Event::on(CustomLog::className(), CustomLog::EVENT_AFTER_DELETE, [
+            AdminLog::className(),
+            'customDelete'
         ]);
         Event::on(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_FIND, function ($event) {
             if (isset($event->sender->updated_at) && $event->sender->updated_at == 0) {
