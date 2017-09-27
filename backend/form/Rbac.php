@@ -13,7 +13,7 @@ use yii;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
-class Rbac extends Model
+class Rbac extends yii\base\Model
 {
     public $name;
 
@@ -102,7 +102,7 @@ class Rbac extends Model
             'category' => $this->category,
         ]);
          if( $authManager->add($permission) ){
-             Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new Event([
+             Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new CustomLog([
                  'sender' => $this,
              ]));
              return true;
@@ -114,7 +114,6 @@ class Rbac extends Model
     {
         $oldModel = clone $this;
         $oldModel->fillModel($name);
-        $this->setOldModel($oldModel);
         $this->name = $this->route . ':' . $this->method;
         $authManager = yii::$app->getAuthManager();
         $permission = $authManager->getPermission($name);
@@ -133,8 +132,9 @@ class Rbac extends Model
             'category' => $this->category,
         ]);
         if( $authManager->update($name, $permission) ){
-            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_UPDATE, new Event([
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
                 'sender' => $this,
+                'old' => $oldModel,
             ]));
             return true;
         }
@@ -146,7 +146,7 @@ class Rbac extends Model
         $authManager = yii::$app->getAuthManager();
         $permission = $authManager->getPermission($this->name);
         if( $authManager->remove($permission) ){
-            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_DELETE, new Event([
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_DELETE, new CustomLog([
                 'sender' => $this,
             ]));
             return true;
@@ -180,7 +180,7 @@ class Rbac extends Model
                 $authManager->addChild($role, $r);
             }
 
-            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new Event([
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new CustomLog([
                 'sender' => $this,
             ]));
             return true;
@@ -192,7 +192,6 @@ class Rbac extends Model
     {
         $oldModel = clone $this;
         $oldModel->fillModel($name);
-        $this->setOldModel($oldModel);
 
         if( !is_array($this->permissions) ) $this->permissions = explode(',', $this->permissions);
         if( !is_array($this->roles) ) $this->permissions = explode(',', $this->roles);
@@ -211,8 +210,13 @@ class Rbac extends Model
             "sort" => $this->sort,
         ]);
 
+        $oldPermissions = array_keys( $authManager->getPermissionsByRole($name) );
+        $oldChildRoles = array_keys( $authManager->getChildRoles($name) );
+        $oldChildRoles = array_flip($oldChildRoles);
+        unset($oldChildRoles[$name]);
+        $oldChildRoles = array_flip($oldChildRoles);
+
         if( $authManager->update($name, $role) ){
-            $oldPermissions = array_keys( $authManager->getPermissionsByRole($name) );
 
             $needAdds = array_diff($this->permissions, $oldPermissions);
             foreach ($needAdds as $permission){
@@ -225,11 +229,6 @@ class Rbac extends Model
                 $permission = $authManager->getPermission($permission);
                 $authManager->removeChild($role, $permission);
             }
-
-            $oldChildRoles = array_keys( $authManager->getChildRoles($name) );
-            $oldChildRoles = array_flip($oldChildRoles);
-            unset($oldChildRoles[$name]);
-            $oldChildRoles = array_flip($oldChildRoles);
 
             $needAdds = array_diff($this->roles, $oldChildRoles);
 
@@ -244,8 +243,9 @@ class Rbac extends Model
                 $authManager->removeChild($role, $r);
             }
 
-            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_UPDATE, new Event([
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
                 'sender' => $this,
+                'old' => $oldModel,
             ]));
             return true;
         }
@@ -258,7 +258,7 @@ class Rbac extends Model
         $authManager = yii::$app->getAuthManager();
         $role = $authManager->getRole($this->name);
         if ($authManager->remove($role)) {
-            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_DELETE, new Event([
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_DELETE, new CustomLog([
                 'sender' => $this,
             ]));
             return true;

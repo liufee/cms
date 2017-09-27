@@ -10,9 +10,6 @@ namespace backend\components;
 
 use yii;
 use backend\models\AdminLog as AdminLogModel;
-use yii\base\InvalidParamException;
-use yii\base\Model;
-use backend\form\Model as BackendFormModel;
 
 class AdminLog extends \yii\base\Event
 {
@@ -95,98 +92,10 @@ class AdminLog extends \yii\base\Event
         $model->save();
     }
 
-    public static function customCreate($event)
+    public static function custom(CustomLog $event)
     {
         $model = new AdminLogModel();
-        $desc = "<br>";
-        if( $event->sender instanceof Model){//使用form
-            foreach ($event->sender->activeAttributes() as $field) {
-                $value = $event->sender->$field;
-                if( is_array($value) ) $value = implode(',', $value);
-                $desc .= $event->sender->getAttributeLabel($field) . '(' . $field . ') => ' . $value . ',<br>';
-            }
-            $desc = substr($desc, 0, -5);
-            $class = $event->sender->className();
-            $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->getUser()->getIdentity()->username . ' ] {{%BY%}} ' . $class . " {{%CREATED%}} {{%RECORD%}}: " . $desc;
-        }else{
-            $class = $event->sender->className();
-            switch ($class){//不同的类名做不同的处理
-                case self::className()://特殊的类产生的日子
-                    break;
-                default:
-                    $desc = $event->data;
-            }
-            $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->getUser()->getIdentity()->username . ' ] {{%BY%}} ' . $class . " {{%CREATED%}} {{%RECORD%}}: " . $desc;
-        }
-        $model->route = Yii::$app->controller->id . '/' . Yii::$app->controller->action->id;
-        $model->user_id = yii::$app->getUser()->getId();
-        $model->save();
-    }
-
-    /**
-     * @param $event
-     */
-    public static function customUpdate($event)
-    {
-        $model = new AdminLogModel();
-        $desc = "<br>";
-        if( $event->sender instanceof BackendFormModel){//使用form
-            if( $event->sender->getOldModel() == null ) throw new InvalidParamException("Must set oldModel property");
-            $oldAttributes = $event->sender->getOldModel()->getAttributes();
-            $unchangedDesc = '';
-            foreach ($event->sender->activeAttributes() as $field) {
-                $value = $event->sender->$field;
-                if( is_array($value) ) $value = implode(',', $value);
-                $oldValue = $oldAttributes[$field];
-                if( is_array($oldValue) ) $oldValue = implode(',', $oldValue);
-                if( $oldValue == $value ){
-                    $unchangedDesc .= $event->sender->getAttributeLabel($field) . '(' . $field . ') : ' . $value . ',<br>';
-                }else {
-                    $desc .= $event->sender->getAttributeLabel($field) . '(' . $field . ') : ' . $oldValue . '=>' . $value . ',<br>';
-                }
-            }
-            $desc .= $unchangedDesc;
-            $desc = substr($desc, 0, -5);
-            $class = $event->sender->className();
-            $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->getUser()->getIdentity()->username . ' ] {{%BY%}} ' . $class . " {{%UPDATED%}} {{%RECORD%}}: " . $desc;
-        }else{
-            $class = $event->sender->className();
-            switch ($class){//不同的类名做不同的处理
-                case self::className()://特殊的类产生的日子
-                    break;
-                default:
-                    $desc = $event->data;
-            }
-            $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->getUser()->getIdentity()->username . ' ] {{%BY%}} ' . $class . " {{%DELETED%}} {{%RECORD%}}: " . $desc;
-        }
-        $model->route = Yii::$app->controller->id . '/' . Yii::$app->controller->action->id;
-        $model->user_id = yii::$app->getUser()->getId();
-        $model->save();
-    }
-
-    public static function customDelete($event)
-    {
-        $model = new AdminLogModel();
-        $desc = "<br>";
-        if( $event->sender instanceof Model){//使用form
-            foreach ($event->sender->activeAttributes() as $field) {
-                $value = $event->sender->$field;
-                if( is_array($value) ) $value = implode(',', $value);
-                $desc .= $event->sender->getAttributeLabel($field) . '(' . $field . ') => ' . $value . ',<br>';
-            }
-            $desc = substr($desc, 0, -5);
-            $class = $event->sender->className();
-            $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->getUser()->getIdentity()->username . ' ] {{%BY%}} ' . $class . " {{%DELETED%}} {{%RECORD%}}: " . $desc;
-        }else{
-            $class = $event->sender->className();
-            switch ($class){//不同的类名做不同的处理
-                case self::className()://特殊的类产生的日子
-                    break;
-                default:
-                    $desc = $event->data;
-            }
-            $model->description = '{{%ADMIN_USER%}} [ ' . yii::$app->getUser()->getIdentity()->username . ' ] {{%BY%}} ' . $class . " {{%DELETED%}} {{%RECORD%}}: " . $desc;
-        }
+        $model->description = $event->getDescription();
         $model->route = Yii::$app->controller->id . '/' . Yii::$app->controller->action->id;
         $model->user_id = yii::$app->getUser()->getId();
         $model->save();

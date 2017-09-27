@@ -120,15 +120,15 @@ class Feehi extends Component
         ]);
         Event::on(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, [
             AdminLog::className(),
-            'customCreate'
-        ]);
-        Event::on(CustomLog::className(), CustomLog::EVENT_AFTER_UPDATE, [
-            AdminLog::className(),
-            'customUpdate'
+            'custom'
         ]);
         Event::on(CustomLog::className(), CustomLog::EVENT_AFTER_DELETE, [
             AdminLog::className(),
-            'customDelete'
+            'custom'
+        ]);
+        Event::on(CustomLog::className(), CustomLog::EVENT_CUSTOM, [
+            AdminLog::className(),
+            'custom'
         ]);
         Event::on(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_FIND, function ($event) {
             if (isset($event->sender->updated_at) && $event->sender->updated_at == 0) {

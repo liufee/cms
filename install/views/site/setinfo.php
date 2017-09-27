@@ -214,7 +214,7 @@ $this->title = yii::t('install', 'Create Data');
                     dbuser: {required: true},
                     /* dbpw: {required	: true}, */
                     dbname: {required: true},
-                    dbprefix: {required: true},
+                    //dbprefix: {required: true},
                     manager: {required: true},
                     manager_pwd: {required: true},
                     manager_ckpwd: {required: true, equalTo: '#js-manager-pwd'},
@@ -245,11 +245,11 @@ $this->title = yii::t('install', 'Create Data');
 
                 },
                 messages: {
-                    dbhost: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'Database Host')])?>'},
-                    dbport: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'Database Port')])?>'},
-                    dbuser: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'Database Username')])?>'},
-                    dbpw: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'Database Password')])?>'},
-                    dbname: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'Database Name')])?>'},
+                    dbhost: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'DB Host')])?>'},
+                    dbport: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'DB Port')])?>'},
+                    dbuser: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'DB Username')])?>'},
+                    dbpw: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'DB Password')])?>'},
+                    dbname: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'DB Name')])?>'},
                     dbprefix: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'Table Prefix')])?>'},
                     manager: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'Admin Username')])?>'},
                     manager_pwd: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'Admin Password')])?>'},

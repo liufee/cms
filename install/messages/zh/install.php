@@ -58,6 +58,7 @@ return [
     'Database Username' => '数据库用户名',
     'Database Password' => '数据库密码',
     'Database Name' => '数据库名',
+    'Admin Username' => '管理员用户名',
     'Only in one database install various cms should update' => '若一个数据库安装多个cms时以区分不同cms',
     'Database host, localhost is the common' => '数据库地址一般为localhost',
     'Default mysql 3306, PostgreSQL 5432' => '一般MySQL 3306, PostgreSQL 5432',
