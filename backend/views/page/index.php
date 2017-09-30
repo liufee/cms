@@ -12,6 +12,7 @@
  * @var $searchModel backend\models\ArticleSearch
  */
 
+use backend\grid\DateColumn;
 use backend\grid\GridView;
 use yii\helpers\Url;
 use common\libs\Constants;
@@ -79,8 +80,8 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Pages');
                             'filter' => Constants::getArticleStatus(),
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'attribute' => 'created_at',
-                            'format' => ['date'],
                             'filter' => Html::activeInput('text', $searchModel, 'create_start_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
@@ -92,8 +93,8 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Pages');
                                 ]),
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'attribute' => 'updated_at',
-                            'format' => ['date'],
                             'filter' => Html::activeInput('text', $searchModel, 'update_start_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',

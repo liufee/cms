@@ -197,7 +197,7 @@ class SiteController extends \yii\web\Controller
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 $dbtype = $request->post('dbtype', 'mysql');
                 $dbhost = $request->post('dbhost', 'dbhost');
-                $dbuser = $request->post('dbuer', 'root');
+                $dbuser = $request->post('dbuser', 'root');
                 $dbpassword = $request->post('dbpw', '');
                 $dbport = $request->post('dbport', '3306');
                 $dbname = $request->post('dbname', '');

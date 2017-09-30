@@ -12,6 +12,7 @@
  * @var $searchModel backend\models\CommentSearch
  */
 
+use backend\grid\DateColumn;
 use backend\grid\GridView;
 use common\libs\Constants;
 use yii\helpers\Html;
@@ -76,8 +77,8 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Comments');
                             'filter' => Constants::getCommentStatusItems(),
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'attribute' => 'created_at',
-                            'format' => ['date'],
                             'filter' => Html::activeInput('text', $searchModel, 'create_start_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
@@ -89,8 +90,8 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Comments');
                                 ]),
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'attribute' => 'updated_at',
-                            'format' => ['date'],
                             'filter' => Html::activeInput('text', $searchModel, 'update_start_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',

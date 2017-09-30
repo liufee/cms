@@ -11,6 +11,7 @@
  * @var $searchModel backend\models\ArticleSearch
  */
 
+use backend\grid\DateColumn;
 use backend\grid\GridView;
 use common\widgets\JsBlock;
 use yii\helpers\Url;
@@ -22,6 +23,7 @@ use common\widgets\Pjax;
 use backend\models\Article;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
+use backend\grid\StatusColumn;
 
 $this->title = 'Articles';
 $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
@@ -81,7 +83,6 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
                         ],
                         [
                             'attribute' => 'thumb',
-                            'filter' => Constants::getYesNoItems(),
                             'value' => function ($model, $key, $index, $column) {
                                 if ($model->thumb == '') {
                                     $num = 0;
@@ -89,119 +90,43 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
                                     $num = 1;
                                 }
                                 return Constants::getYesNoItems($num);
-                            },
+                           },
+                            'filter' => Constants::getYesNoItems(),
                         ],
                         [
+                            'class' => StatusColumn::className(),
                             'attribute' => 'flag_headline',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'raw',
-                            'value' => function ($model, $key, $index, $column) {
-                                return Html::a(Constants::getYesNoItems($model['flag_headline']), ['update', 'id' => $model['id']], [
-                                    'class' => 'btn btn-xs btn-rounded ' . ( $model['flag_headline'] == Constants::YesNo_Yes ? 'btn-info' : 'btn-default' ),
-                                    'data-confirm' => $model['flag_headline'] == Constants::YesNo_Yes ? Yii::t('app', 'Are you sure you want to disable this item?') : Yii::t('app', 'Are you sure you want to enable this item?'),
-                                    'data-method' => 'post',
-                                    'data-pjax' => '0',
-                                    'data-params' => [
-                                        $model->formName() . '[flag_headline]' => $model['flag_headline'] == Constants::YesNo_Yes ? Constants::YesNo_No : Constants::YesNo_Yes
-                                    ]
-                                ]);
-                            },
                         ],
                         [
+                            'class' =>StatusColumn::className(),
                             'attribute' => 'flag_recommend',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'raw',
-                            'value' => function ($model, $key, $index, $column) {
-                                return Html::a(Constants::getYesNoItems($model['flag_recommend']), ['update', 'id' => $model['id']], [
-                                    'class' => 'btn btn-xs btn-rounded ' . ( $model['flag_recommend'] == Constants::YesNo_Yes ? 'btn-info' : 'btn-default' ),
-                                    'data-confirm' => $model['flag_recommend'] == Constants::YesNo_Yes ? Yii::t('app', 'Are you sure you want to disable this item?') : Yii::t('app', 'Are you sure you want to enable this item?'),
-                                    'data-method' => 'post',
-                                    'data-pjax' => '0',
-                                    'data-params' => [
-                                        $model->formName() . '[flag_recommend]' => $model['flag_recommend'] == Constants::YesNo_Yes ? Constants::YesNo_No : Constants::YesNo_Yes
-                                    ]
-                                ]);
-                            },
                         ],
                         [
+                            'class' =>StatusColumn::className(),
                             'attribute' => 'flag_slide_show',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'raw',
-                            'value' => function ($model, $key, $index, $column) {
-                                return Html::a(Constants::getYesNoItems($model['flag_slide_show']), ['update', 'id' => $model['id']], [
-                                    'class' => 'btn btn-xs btn-rounded ' . ( $model['flag_slide_show'] == Constants::YesNo_Yes ? 'btn-info' : 'btn-default' ),
-                                    'data-confirm' => $model['flag_slide_show'] == Constants::YesNo_Yes ? Yii::t('app', 'Are you sure you want to disable this item?') : Yii::t('app', 'Are you sure you want to enable this item?'),
-                                    'data-method' => 'post',
-                                    'data-pjax' => '0',
-                                    'data-params' => [
-                                        $model->formName() . '[flag_slide_show]' => $model['flag_slide_show'] == Constants::YesNo_Yes ? Constants::YesNo_No : Constants::YesNo_Yes
-                                    ]
-                                ]);
-                            },
                         ],
                         [
+                            'class' =>StatusColumn::className(),
                             'attribute' => 'flag_special_recommend',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'raw',
-                            'value' => function ($model, $key, $index, $column) {
-                                return Html::a(Constants::getYesNoItems($model['flag_special_recommend']), ['update', 'id' => $model['id']], [
-                                    'class' => 'btn btn-xs btn-rounded ' . ( $model['flag_special_recommend'] == Constants::YesNo_Yes ? 'btn-info' : 'btn-default' ),
-                                    'data-confirm' => $model['flag_special_recommend'] == Constants::YesNo_Yes ? Yii::t('app', 'Are you sure you want to disable this item?') : Yii::t('app', 'Are you sure you want to enable this item?'),
-                                    'data-method' => 'post',
-                                    'data-pjax' => '0',
-                                    'data-params' => [
-                                        $model->formName() . '[flag_special_recommend]' => $model['flag_special_recommend'] == Constants::YesNo_Yes ? Constants::YesNo_No : Constants::YesNo_Yes
-                                    ]
-                                ]);
-                            },
                         ],
                         [
+                            'class' =>StatusColumn::className(),
                             'attribute' => 'flag_roll',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'raw',
-                            'value' => function ($model, $key, $index, $column) {
-                                return Html::a(Constants::getYesNoItems($model['flag_roll']), ['update', 'id' => $model['id']], [
-                                    'class' => 'btn btn-xs btn-rounded ' . ( $model['flag_roll'] == Constants::YesNo_Yes ? 'btn-info' : 'btn-default' ),
-                                    'data-confirm' => $model['flag_roll'] == Constants::YesNo_Yes ? Yii::t('app', 'Are you sure you want to disable this item?') : Yii::t('app', 'Are you sure you want to enable this item?'),
-                                    'data-method' => 'post',
-                                    'data-pjax' => '0',
-                                    'data-params' => [
-                                        $model->formName() . '[flag_roll]' => $model['flag_roll'] == Constants::YesNo_Yes ? Constants::YesNo_No : Constants::YesNo_Yes
-                                    ]
-                                ]);
-                            },
                         ],
                         [
+                            'class' =>StatusColumn::className(),
                             'attribute' => 'flag_bold',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'raw',
-                            'value' => function ($model, $key, $index, $column) {
-                                return Html::a(Constants::getYesNoItems($model['flag_bold']), ['update', 'id' => $model['id']], [
-                                    'class' => 'btn btn-xs btn-rounded ' . ( $model['flag_bold'] == Constants::YesNo_Yes ? 'btn-info' : 'btn-default' ),
-                                    'data-confirm' => $model['flag_bold'] == Constants::YesNo_Yes ? Yii::t('app', 'Are you sure you want to disable this item?') : Yii::t('app', 'Are you sure you want to enable this item?'),
-                                    'data-method' => 'post',
-                                    'data-pjax' => '0',
-                                    'data-params' => [
-                                        $model->formName() . '[flag_bold]' => $model['flag_bold'] == Constants::YesNo_Yes ? Constants::YesNo_No : Constants::YesNo_Yes
-                                    ]
-                                ]);
-                            },
                         ],
                         [
+                            'class' =>StatusColumn::className(),
                             'attribute' => 'flag_picture',
                             'filter' => Constants::getYesNoItems(),
-                            'format' => 'raw',
-                            'value' => function ($model, $key, $index, $column) {
-                                return Html::a(Constants::getYesNoItems($model['flag_picture']), ['update', 'id' => $model['id']], [
-                                    'class' => 'btn btn-xs btn-rounded ' . ( $model['flag_picture'] == Constants::YesNo_Yes ? 'btn-info' : 'btn-default' ),
-                                    'data-confirm' => $model['flag_picture'] == Constants::YesNo_Yes ? Yii::t('app', 'Are you sure you want to disable this item?') : Yii::t('app', 'Are you sure you want to enable this item?'),
-                                    'data-method' => 'post',
-                                    'data-pjax' => '0',
-                                    'data-params' => [
-                                        $model->formName() . '[flag_picture]' => $model['flag_picture'] == Constants::YesNo_Yes ? Constants::YesNo_No : Constants::YesNo_Yes
-                                    ]
-                                ]);
-                            },
                         ],
                         [
                             'attribute' => 'status',
@@ -220,8 +145,8 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
                             'filter' => Constants::getArticleStatus(),
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'attribute' => 'created_at',
-                            'format' => ['date'],
                             'filter' => Html::activeInput('text', $searchModel, 'create_start_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',
@@ -233,8 +158,8 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
                                 ]),
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'attribute' => 'updated_at',
-                            'format' => ['date'],
                             'filter' => Html::activeInput('text', $searchModel, 'update_start_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',

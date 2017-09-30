@@ -12,6 +12,7 @@
  * @var $searchModel backend\models\AdminLogSearch
  */
 
+use backend\grid\DateColumn;
 use backend\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
@@ -58,8 +59,8 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Admin Log');
                             }
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'attribute' => 'created_at',
-                            'format' => ['date'],
                             'filter' => Html::activeInput('text', $searchModel, 'create_start_at', [
                                     'class' => 'form-control layer-date',
                                     'placeholder' => '',

@@ -11,6 +11,7 @@
  * @var $model common\models\Category
  */
 
+use backend\grid\DateColumn;
 use backend\grid\GridView;
 use backend\widgets\Bar;
 use yii\helpers\Url;
@@ -56,16 +57,15 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Category');
                                 return Html::input('number', "sort[{$model['id']}]", $model['sort'], ['style' => 'width:50px']);
                             }
                         ],
-
                         [
+                            'class' => DateColumn::className(),
                             'label' => yii::t('app', 'Created At'),
                             'attribute' => 'created_at',
-                            'format' => 'date',
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'label' => yii::t('app', 'Updated At'),
                             'attribute' => 'updated_at',
-                            'format' => 'date',
                         ],
                         [
                             'class' => ActionColumn::className(),

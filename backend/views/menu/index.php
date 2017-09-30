@@ -12,6 +12,7 @@
  * @var $searchModel backend\models\MenuSearch
  */
 
+use backend\grid\DateColumn;
 use backend\grid\GridView;
 use backend\widgets\Bar;
 use yii\helpers\Html;
@@ -84,14 +85,14 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Backend Menus');
                             'filter' => Constants::getYesNoItems(),
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'attribute' => 'created_at',
                             'label' => yii::t('app', 'Created At'),
-                            'format' => 'date'
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'attribute' => 'updated_at',
                             'label' => yii::t('app', 'Updated At'),
-                            'format' => 'date',
                         ],
                         [
                             'class' => ActionColumn::className(),

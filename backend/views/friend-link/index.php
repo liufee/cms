@@ -11,6 +11,7 @@
  * @var $dataProvider yii\data\ActiveDataProvider
  */
 
+use backend\grid\DateColumn;
 use backend\grid\GridView;
 use backend\widgets\Bar;
 use yii\helpers\Html;
@@ -68,12 +69,12 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Friendly Links');
                             },
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'attribute' => 'created_at',
-                            'format' => 'date',
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'attribute' => 'updated_at',
-                            'format' => 'date',
                         ],
                         [
                             'class' => ActionColumn::className(),

@@ -11,6 +11,7 @@
  * @var $dataProvider frontend\models\Menu
  */
 
+use backend\grid\DateColumn;
 use backend\grid\GridView;
 use backend\widgets\Bar;
 use yii\helpers\Html;
@@ -85,14 +86,14 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Frontend Menus');
                             },
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'attribute' => 'created_at',
                             'label' => yii::t('app', 'Created At'),
-                            'format' => 'date',
                         ],
                         [
+                            'class' => DateColumn::className(),
                             'attribute' => 'updated_at',
                             'label' => yii::t('app', 'Updated At'),
-                            'format' => 'date',
                         ],
                         [
                             'class' => ActionColumn::className(),
