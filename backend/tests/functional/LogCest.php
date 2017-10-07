@@ -34,11 +34,5 @@ class LogCest
         $I->see('日志');
         $I->see("管理员");
     }
-
-    public function checkView(FunctionalTester $I)
-    {
-        $I->amOnPage(Url::toRoute(['/log/view-layer', 'id'=>1]));
-        $I->see('管理员');
-        $I->see("通过");
-    }
+    
 }
