@@ -14,7 +14,7 @@
 use backend\widgets\ActiveForm;
 use backend\models\User;
 use common\widgets\JsBlock;
-use backend\form\Rbac;
+use backend\models\form\Rbac;
 use yii\helpers\ArrayHelper;
 
 $this->title = "Admin";

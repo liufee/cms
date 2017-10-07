@@ -9,8 +9,8 @@
 namespace backend\controllers;
 
 use yii;
-use backend\form\RbacSearch;
-use backend\form\Rbac;
+use backend\models\search\RbacSearch;
+use backend\models\form\Rbac;
 use yii\web\Response;
 use yii\web\UnprocessableEntityHttpException;
 

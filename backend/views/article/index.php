@@ -13,6 +13,7 @@
 
 use backend\grid\DateColumn;
 use backend\grid\GridView;
+use backend\grid\SortColumn;
 use common\widgets\JsBlock;
 use yii\helpers\Url;
 use common\models\Category;
@@ -20,7 +21,6 @@ use common\libs\Constants;
 use yii\helpers\Html;
 use backend\widgets\Bar;
 use common\widgets\Pjax;
-use backend\models\Article;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 use backend\grid\StatusColumn;
@@ -44,7 +44,6 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
-                    'layout' => "{items}\n{pager}",
                     'columns' => [
                         [
                             'class' => CheckboxColumn::className(),
@@ -61,35 +60,28 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
                             'filter' => Category::getCategoriesName(),
                         ],
                         [
-                            'attribute' => 'sort',
-                            'format' => 'raw',
-                            'value' => function ($model) {
-                                return Html::input('number', "sort[{$model['id']}]", $model['sort'], ['style' => 'width:50px']);
-                            }
+                            'class' => SortColumn::className(),
                         ],
                         [
                             'attribute' => 'title',
-                            'format' => 'html',
                             'width' => '170',
-                            'value' => function ($model, $key, $index, $column) {
-                                return Html::a($model->title, 'javascript:void(0)', [
-                                    'title' => $model->thumb,
-                                    'class' => 'title'
-                                ]);
-                            }
                         ],
                         [
                             'attribute' => 'author_name',
                         ],
                         [
                             'attribute' => 'thumb',
+                            'format' => 'raw',
                             'value' => function ($model, $key, $index, $column) {
                                 if ($model->thumb == '') {
-                                    $num = 0;
+                                    $num = Constants::YesNo_No;
                                 } else {
-                                    $num = 1;
+                                    $num = Constants::YesNo_Yes;
                                 }
-                                return Constants::getYesNoItems($num);
+                                return Html::a(Constants::getYesNoItems($num), 'javascript:void(0)', [
+                                    'img' => $model->thumb,
+                                    'class' => 'thumbImg'
+                                ]);
                            },
                             'filter' => Constants::getYesNoItems(),
                         ],
@@ -198,16 +190,16 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
     function showImg() {
         t = setTimeout(function () {
         }, 200);
-        var node = $(this).attr('title');
-        if (node.length == 0) {
+        var url = $(this).attr('img');
+        if (url.length == 0) {
             layer.tips('<?=yii::t('app', 'No picture')?>', $(this));
         } else {
-            layer.tips('<img src=' + node + '>', $(this));
+            layer.tips('<img src=' + url + '>', $(this));
         }
     }
     $(document).ready(function(){
         var t;
-        $('table tr td a.title').hover(showImg,function(){
+        $('table tr td a.thumbImg').hover(showImg,function(){
             clearTimeout(t);
         });
     });
@@ -217,7 +209,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
     });
     container.on('pjax:complete',function(args){
         layer.closeAll('loading');
-        $('table tr td a.title').bind('mouseover mouseout', showImg);
+        $('table tr td a.thumbImg').bind('mouseover mouseout', showImg);
     });
 </script>
 <?php JsBlock::end()?>

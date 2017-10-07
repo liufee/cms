@@ -13,6 +13,7 @@
 
 use backend\grid\DateColumn;
 use backend\grid\GridView;
+use backend\grid\SortColumn;
 use backend\widgets\Bar;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -50,12 +51,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Category');
                             'label' => yii::t('app', 'Alias'),
                         ],
                         [
-                            'attribute' => 'sort',
-                            'label' => yii::t('app', 'Sort'),
-                            'format' => 'raw',
-                            'value' => function ($model) {
-                                return Html::input('number', "sort[{$model['id']}]", $model['sort'], ['style' => 'width:50px']);
-                            }
+                            'class' => SortColumn::className()
                         ],
                         [
                             'class' => DateColumn::className(),

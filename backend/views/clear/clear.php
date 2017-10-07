@@ -28,7 +28,7 @@ $this->title = yii::t('app', 'Clear Backend');
         if( parent != 'undefined' ) {
             setTimeout(function () {
                 parent.closeContab($(parent.document).find(".active.J_menuTab[data-id$='clear%2Ffrontend'] i, .active.J_menuTab[data-id$='clear%2Fbackend'] i"))
-            }, 3000);
+            }, 1000);
         }
     })
 </script>

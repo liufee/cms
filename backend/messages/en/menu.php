@@ -28,7 +28,8 @@ return [
     '清除后台' => 'Clear Backend',
     '前台用户' => 'Frontend Users',
     '后台用户' => 'Backend Users',
-
+    '权限管理' => 'RBAC',
+    '权限' => 'Permissions',
     '超级管理员' => 'Super Administrators',
     '编辑' => 'Editors',
     '测试组' => 'Demo Group',

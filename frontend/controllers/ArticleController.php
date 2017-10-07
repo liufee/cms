@@ -11,7 +11,7 @@ namespace frontend\controllers;
 use yii;
 use common\libs\Constants;
 use frontend\models\ArticleContent;
-use frontend\models\ArticlePasswordForm;
+use frontend\models\form\ArticlePasswordForm;
 use yii\web\Controller;
 use frontend\models\Article;
 use common\models\Category;

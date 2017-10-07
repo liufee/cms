@@ -8,7 +8,7 @@
 
 /**
  * @var $this yii\web\View
- * @var $model backend\form\Rbac
+ * @var $model backend\models\form\Rbac
  */
 
 use backend\widgets\ActiveForm;
@@ -48,12 +48,16 @@ $this->title = "Roles";
                 </div>
                 <div class="hr-line-dashed"></div>
                 <?php
-                    $roles = yii::$app->getAuthManager()->getRoles();
-                    $temp = [];
-                    foreach ($roles as $role){
-                        if( $model->name == $role->name ) continue;
-                        $temp[$role->name] = $role->name;
-                    }
+                $roles = yii::$app->getAuthManager()->getRoles();
+                $curChainRoles = [];
+                if( $model->name != '' ) {
+                    $curChainRoles = array_keys(yii::$app->getAuthManager()->getChildRoles($model->name));
+                }
+                $temp = [];
+                foreach ($roles as $role){
+                    if( in_array($role->name, $curChainRoles) ) continue;
+                    $temp[$role->name] = $role->name;
+                }
                 ?>
                 <?= $form->field($model, 'roles')->label(yii::t('app', 'Roles'))->checkboxList($temp) ?>
                 <div class="hr-line-dashed"></div>

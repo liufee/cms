@@ -8,7 +8,7 @@
  */
 namespace backend\components;
 
-use backend\form\Rbac;
+use backend\models\form\Rbac;
 use yii;
 use yii\base\ErrorException;
 

@@ -9,10 +9,11 @@
 /**
  * @var $this yii\web\View
  * @var $dataProvider yii\data\ArrayDataProvider
- * @var $searchModel backend\components\Rbac
+ * @var $searchModel backend\models\form\Rbac
  */
 
 use backend\grid\GridView;
+use backend\grid\SortColumn;
 use backend\widgets\Bar;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -71,11 +72,8 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Roles');
                             'attribute' => 'description',
                         ],
                         [
-                            'attribute' => 'sort',
-                            'format' => 'raw',
-                            'value' => function ($model) {
-                                return Html::input('number', "sort[{$model['name']}]", $model['sort'], ['style' => 'width:50px']);
-                            }
+                            'class' => SortColumn::className(),
+                            'primaryKey' => 'name'
                         ],
                         [
                             'class' => ActionColumn::className(),

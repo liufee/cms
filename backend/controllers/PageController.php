@@ -10,7 +10,7 @@ namespace backend\controllers;
 
 use yii;
 use backend\models\Article;
-use backend\models\ArticleSearch;
+use backend\models\search\ArticleSearch;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;

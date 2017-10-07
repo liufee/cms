@@ -8,6 +8,7 @@
 
 /**
  * @var $this yii\web\View
+ * @var $model backend\models\form\Rbac
  */
 
 use backend\widgets\ActiveForm;

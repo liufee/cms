@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'name' => 'login-button'
             ]) ?>
 
-            <p class="text-muted text-center"><a href="<?= Url::to(['user/request-password-reset']) ?>">
+            <p class="text-muted text-center"><a href="<?= Url::to(['admin-user/request-password-reset']) ?>">
                     <small><?= yii::t('app', 'Forgot password') ?></small>
                 </a> |
                 <?php

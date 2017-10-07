@@ -15,7 +15,6 @@ use backend\widgets\ActiveForm;
 use common\models\Category;
 use common\libs\Constants;
 use common\widgets\JsBlock;
-use yii\helpers\Html;
 use backend\widgets\Ueditor;
 
 $this->title = "Articles";

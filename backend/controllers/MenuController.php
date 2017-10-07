@@ -10,7 +10,7 @@ namespace backend\controllers;
 
 use yii;
 use backend\models\Menu;
-use backend\models\MenuSearch;
+use backend\models\search\MenuSearch;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;

@@ -295,7 +295,7 @@ class User extends ActiveRecord implements IdentityInterface
         return parent::beforeSave($insert);
     }
 
-    public function afterSave($insert, $changedAttributes)
+    public function assignPermission()
     {
         $authManager = yii::$app->getAuthManager();
         $assignments = $authManager->getAssignments($this->id);
@@ -335,7 +335,11 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
        //权限permission
-        if( !is_array( $this->permissions ) ) $this->permissions = explode(',', $this->permissions);
+        if( $this->permissions === null ){
+            $this->permissions = [];
+        }else if( !is_array( $this->permissions ) ) {
+            $this->permissions = explode(',', $this->permissions);
+        }
 
         $needAdds = array_diff($this->permissions, $permissions);
         $needRemoves = array_diff($permissions, $this->permissions);
@@ -360,6 +364,8 @@ class User extends ActiveRecord implements IdentityInterface
             'sender' => $this,
             'description' => "修改了 用户(uid {$this->id}) {$this->username} 的权限: {$str}",
         ]));
+
+        return true;
 
     }
 

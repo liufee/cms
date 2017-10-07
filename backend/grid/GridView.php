@@ -22,13 +22,12 @@ class GridView extends \yii\grid\GridView
 {
     /* @var $dataColumnClass \backend\grid\DataColumn */
     public $dataColumnClass = 'backend\grid\DataColumn';
-    //public $pager = ['class'=>'source\core\widgets\AdminLinkPager'];
 
     public $options = ['class' => 'fixed-table-header', 'style' => 'margin-right: 0px;'];
 
     public $tableOptions = ['class' => 'table table-hover'];
 
-    public $layout = "{items}\n{pager}";
+    public $layout = "{items}\n<div class='row'><div class='col-sm-2' style='line-height: 567%'>{summary}</div><div class='col-sm-10'><div class='dataTables_paginate paging_simple_numbers'>{pager}</div></div></div>";
 
     public $pagerOptions = [
         'firstPageLabel' => '首页',

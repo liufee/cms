@@ -23,15 +23,17 @@ class StatusColumn extends DataColumn
 
     public $attribute = 'status';
 
+    public $label = 'label';
+
     public $headerOptions = ['width' => '25px'];
 
     public $url = '';
 
     public $aOptions = [];
 
-    public $yesClass = "btn-info";
+    public $yesClass = "label-primary";
 
-    public $noClass = "btn-default";
+    public $noClass = "label-default";
 
     public $formName = "";
 
@@ -41,6 +43,10 @@ class StatusColumn extends DataColumn
     public function init()
     {
         parent::init();
+
+        if( $this->label == 'label' ){
+            $this->label = yii::t('app', 'Status');
+        }
 
         if( empty($this->aOptions) ){
             if( $this->url !== false ){
@@ -75,7 +81,7 @@ class StatusColumn extends DataColumn
                 if( !isset( $this->aOptions['class'] ) ){
                     $class = $model[$field] == Constants::YesNo_Yes ? $this->yesClass : $this->noClass;
                     $aOptions = array_merge([
-                        'class' => 'btn btn-xs btn-rounded ' . $class,
+                        'class' => 'label ' . $class,
                     ],$this->aOptions, $aOptions);
                 }
                 if( !isset( $this->aOptions['data-confirm'] ) ){

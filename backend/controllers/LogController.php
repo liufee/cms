@@ -9,7 +9,7 @@
 namespace backend\controllers;
 
 use yii;
-use backend\models\AdminLogSearch;
+use backend\models\search\AdminLogSearch;
 use backend\models\AdminLog;
 use backend\actions\IndexAction;
 use backend\actions\ViewAction;

@@ -14,11 +14,11 @@
 
 use backend\grid\DateColumn;
 use backend\grid\GridView;
+use backend\grid\SortColumn;
 use yii\helpers\Url;
 use common\libs\Constants;
 use yii\helpers\Html;
 use backend\widgets\Bar;
-use backend\models\Article;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
@@ -43,11 +43,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Pages');
                             'attribute' => 'id',
                         ],
                         [
-                            'attribute' => 'sort',
-                            'format' => 'raw',
-                            'value' => function ($model) {
-                                return Html::input('number', "sort[{$model['id']}]", $model['sort'], ['style' => 'width:50px']);
-                            }
+                            'class' => SortColumn::className()
                         ],
                         [
                             'attribute' => 'title',

@@ -69,7 +69,7 @@ QQ群 258780872
 前置条件: 如未特别说明，已默认您把php命令加入了环境变量
 1. 使用归档文件
     >使用此方式安装，后台超管用户名和密码会在安装过程中让您填入
-    1. 下载FeehiCMS源码 [点击此处下载最新版](http://7xjkuy.com1.z0.glb.clouddn.com/Feehi_CMS.zip)
+    1. 下载FeehiCMS源码 [点击此处下载最新版](http://resource-1251086492.file.myqcloud.com/Feehi_CMS.zip)
     2. 解压到目录 
     3. 配置web服务器(参见下面)
     4. 浏览器打开 http://localhost/install.php 按照提示完成安装(若使用php内置web服务器则地址为 http://localhost:8080/install.php )

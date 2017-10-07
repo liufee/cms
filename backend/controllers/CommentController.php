@@ -11,7 +11,7 @@ namespace backend\controllers;
 use yii;
 use backend\actions\UpdateAction;
 use backend\models\Comment;
-use backend\models\CommentSearch;
+use backend\models\search\CommentSearch;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 

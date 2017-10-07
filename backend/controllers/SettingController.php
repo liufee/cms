@@ -9,8 +9,8 @@
 namespace backend\controllers;
 
 use yii;
-use backend\models\SettingWebsiteForm;
-use backend\models\SettingSmtpForm;
+use backend\models\form\SettingWebsiteForm;
+use backend\models\form\SettingSmtpForm;
 use common\models\Options;
 use common\libs\Constants;
 use yii\base\Model;

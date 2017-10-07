@@ -13,11 +13,12 @@
 
 use backend\grid\DateColumn;
 use backend\grid\GridView;
+use backend\grid\SortColumn;
+use backend\grid\StatusColumn;
 use backend\widgets\Bar;
+use frontend\models\Menu;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use common\libs\Constants;
-use frontend\models\Menu;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
@@ -32,6 +33,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Frontend Menus');
                 <?= Bar::widget() ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
+                    'layout' => '{items}',
                     'columns' => [
                         [
                             'class' => CheckboxColumn::className(),
@@ -61,29 +63,13 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Frontend Menus');
                             'label' => yii::t('app', 'Url'),
                         ],
                         [
-                            'attribute' => 'Sort',
-                            'label' => yii::t('app', 'Sort'),
-                            'format' => 'raw',
-                            'value' => function ($model) {
-                                return Html::input('number', "sort[{$model['id']}]", $model['sort']);
-                            }
+                            'class' => SortColumn::className(),
                         ],
                         [
                             'attribute' => 'is_display',
+                            'class' => StatusColumn::className(),
                             'label' => yii::t('app', 'Is Display'),
-                            'format' => 'raw',
-                            'value' => function ($model, $key, $index, $column) {
-                                $menu = new Menu();
-                                return Html::a(Constants::getYesNoItems($model['is_display']), ['update', 'id' => $model['id']], [
-                                    'class' => 'btn btn-xs btn-rounded ' . ( $model['is_display'] == Menu::DISPLAY_YES ? 'btn-info' : 'btn-default' ),
-                                    'data-confirm' => $model['is_display'] == Menu::DISPLAY_YES ? Yii::t('app', 'Are you sure you want to disable this item?') : Yii::t('app', 'Are you sure you want to enable this item?'),
-                                    'data-method' => 'post',
-                                    'data-pjax' => '0',
-                                    'data-params' => [
-                                        $menu->formName() . '[is_display]' => $model['is_display'] == Menu::DISPLAY_YES ? Menu::DISPLAY_NO : Menu::DISPLAY_YES
-                                    ]
-                                ]);
-                            },
+                            'formName' => (new Menu)->formName() . '[is_display]',
                         ],
                         [
                             'class' => DateColumn::className(),
