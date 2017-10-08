@@ -12,7 +12,7 @@ $this->params['breadcrumbs'] = [
     ['label' => yii::t('app', 'Create') . yii::t('app', 'Friendly Links')],
 ];
 /**
- * @var $model backend\models\FriendLink
+ * @var $model backend\models\FriendlyLink
  */
 ?>
 <?= $this->render('_form', [

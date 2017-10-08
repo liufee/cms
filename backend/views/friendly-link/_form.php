@@ -8,7 +8,7 @@
 
 /**
  * @var $this yii\web\View
- * @var $model backend\models\FriendLink
+ * @var $model backend\models\FriendlyLink
  */
 
 use backend\widgets\ActiveForm;

@@ -8,6 +8,7 @@
 
 /**
  * @var $this yii\web\View
+ * @var $model frontend\models\Article
  * @var $commentModel frontend\models\Comment
  */
 
@@ -24,6 +25,7 @@ $this->registerMetaTag(['description' => $model->seo_description]);
 $this->registerMetaTag(['tags' => $model->tag]);
 $this->registerMetaTag(['property' => 'article:author', 'content' => $model->author_name]);
 $categoryName = $model->category ? $model->category->name : yii::t('app', 'uncategoried');
+
 ViewAsset::register($this);
 ?>
 <div class="content-wrap">
@@ -178,8 +180,7 @@ ViewAsset::register($this);
                         } ?> <span><?= yii::t('frontend', 'Post my comment') ?></span> &nbsp;
                         <a class="switch-author" href="javascript:void(0)" data-type="switch-author" style="font-size:12px;"><?= yii::t('frontend', 'Change account') ?></a>
                     </div>
-                    <a id="cancel-comment-reply-link" class="pull-right"
-                       href="javascript:;"><?= yii::t('frontend', 'Cancel comment') ?></a>
+                    <a id="cancel-comment-reply-link" class="pull-right" href="javascript:;"><?= yii::t('frontend', 'Cancel comment') ?></a>
                 </div>
 
                 <div class="comt">

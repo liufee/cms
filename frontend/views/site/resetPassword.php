@@ -8,13 +8,16 @@
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\ResetPasswordForm */
+/* @var $model \frontend\models\form\ResetPasswordForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = yii::t('app', 'Reset Password');
+$this->title = yii::t('app', 'Reset Password') . '-' . yii::$app->feehi->website_title;
 $this->params['breadcrumbs'][] = $this->title;
+
+$this->registerMetaTag(['keywords' => yii::$app->feehi->seo_keywords]);
+$this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
 ?>
 <div class="site-reset-password">
     <h1><?= Html::encode($this->title) ?></h1>

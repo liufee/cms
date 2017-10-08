@@ -14,9 +14,8 @@ use yii\behaviors\TimestampBehavior;
 /**
  * This is the model class for table "{{%article_meta}}".
  *
- * @property string $id
  * @property string $aid
- * @property string $key
+ * @property string $keyName
  * @property string $value
  * @property string $ip
  * @property string $created_at
@@ -50,7 +49,6 @@ class ArticleMeta extends \yii\db\ActiveRecord
             [['aid'], 'required'],
             [['aid', 'created_at'], 'integer'],
             [['key'], 'string', 'max' => 255],
-            [['ip'], 'string', 'max' => 15],
         ];
     }
 
@@ -64,14 +62,7 @@ class ArticleMeta extends \yii\db\ActiveRecord
             'aid' => Yii::t('app', 'Aid'),
             'key' => Yii::t('app', 'Key'),
             'value' => Yii::t('app', 'Value'),
-            'ip' => Yii::t('app', 'Ip'),
             'created_at' => Yii::t('app', 'Created At'),
         ];
-    }
-
-    public function beforeSave($insert)
-    {
-        $this->ip = yii::$app->getRequest()->userIP;
-        return parent::beforeSave($insert);
     }
 }

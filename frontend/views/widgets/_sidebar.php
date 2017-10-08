@@ -9,42 +9,36 @@
 use frontend\controllers\components\Article;
 use yii\helpers\Url;
 use frontend\models\Comment;
-use frontend\models\FriendLink;
+use frontend\models\FriendlyLink;
 
 ?>
 <aside class="sidebar">
     <div class="widget widget_text">
         <div class="textwidget">
             <div class="social">
-                <a href="<?= yii::$app->feehi->weibo ?>" rel="external nofollow" title="" target="_blank"
-                   data-original-title="新浪微博"><i class="sinaweibo fa fa-weibo"></i></a>
-                <a href="<?= yii::$app->feehi->facebook ?>" rel="external nofollow" title="" target="_blank"
-                   data-original-title="Facebook"><i class="facebook fa fa-facebook"></i></a>
+                <a href="<?= yii::$app->feehi->weibo ?>" rel="external nofollow" title="" target="_blank" data-original-title="新浪微博"><i class="sinaweibo fa fa-weibo"></i></a>
+                <a href="<?= yii::$app->feehi->facebook ?>" rel="external nofollow" title="" target="_blank" data-original-title="Facebook"><i class="facebook fa fa-facebook"></i></a>
                 <a class="weixin" data-original-title="" title=""><i class="weixins fa fa-weixin"></i>
                     <div class="weixin-popover">
                         <div class="popover bottom in">
                             <div class="arrow"></div>
-                            <div class="popover-title">订阅号“<?= yii::$app->feehi->wechat ?>”</div>
+                            <div class="popover-title"><?=yii::t('frontend', 'Follow Wechat')?>“<?= yii::$app->feehi->wechat ?>”</div>
                             <div class="popover-content"><img src="/static/images/weixin.jpg"></div>
                         </div>
                     </div>
                 </a>
-                <a href="mailto:<?= yii::$app->feehi->email ?>" rel="external nofollow" title="" target="_blank"
-                   data-original-title="Email"><i class="email fa fa-envelope-o"></i></a>
-                <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=<?= yii::$app->feehi->qq ?>&amp;site=qq&amp;menu=yes"
-                   rel="external nofollow" title="" target="_blank" data-original-title="联系QQ"><i
-                            class="qq fa fa-qq"></i></a>
-                <a href="<?= yii::$app->feehi->rss ?>" rel="external nofollow" target="_blank" title=""
-                   data-original-title="订阅本站"><i class="rss fa fa-rss"></i></a>
+                <a href="mailto:<?= yii::$app->feehi->email ?>" rel="external nofollow" title="" target="_blank" data-original-title="Email"><i class="email fa fa-envelope-o"></i></a>
+                <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=<?= yii::$app->feehi->qq ?>&amp;site=qq&amp;menu=yes" rel="external nofollow" title="" target="_blank" data-original-title="联系QQ"><i class="qq fa fa-qq"></i></a>
+                <a href="<?= yii::$app->feehi->rss ?>" rel="external nofollow" target="_blank" title="" data-original-title="订阅本站"><i class="rss fa fa-rss"></i></a>
             </div>
         </div>
     </div>
     <div class="widget d_textbanner">
         <a class="style03" target="_blank"
            href="http://shang.qq.com/wpa/qunwpa?idkey=3693ea25b07705069bc9210c5272830f2b00bd891b14bb6f60ce7bb070570aa9">
-            <strong>加群啦</strong>
-            <h2>官方QQ群-主群</h2>
-            <p>飞嗨官方QQ群-主群 群号：258780872，欢迎大家！
+            <strong><?=yii::t('frontend', 'Join group')?></strong>
+            <h2><?=yii::t('frontend', 'Official QQ group - main')?></h2>
+            <p><?=yii::t('frontend', 'FeehiCMS official QQ group number: {number}', ['number'=>'258780872'])?>
                 <br>
                 <br>
                 <img border="0" src="/static/images/group.png" alt="feehi cms" title="feehi cms">
@@ -54,9 +48,9 @@ use frontend\models\FriendLink;
 
     <div class="widget d_textbanner">
         <a class="style01" href="http://cms.feehi.com">
-            <strong>Feehi cms 新一代内容管理系统</strong>
-            <h2>吐血推荐</h2>
-            <p>Feehi cms是一款机遇优秀php框架yii2开发的新一代cms系统，使用了php最新版本(php7)带来的新特性，会让网站显得内涵而出色...</p>
+            <strong><?=yii::t('frontend', 'New generation CMS FeehiCMS')?></strong>
+            <h2><?=yii::t('frontend', 'Highly recommend')?></h2>
+            <p><?=yii::t('frontend', 'FeehiCMS based on yii2, support php7, makes website more excellent...')?></p>
         </a>
     </div>
 
@@ -107,11 +101,10 @@ use frontend\models\FriendLink;
         </div>
         <div class="d_tags">
             <?php
-            $tags = Article::getTags(12);
+            $tags = Article::getHotestTags(12);
             foreach ($tags as $k => $v) {
                 echo "<a title='' href='" . Url::to([
-                        'search/index',
-                        'q' => $k
+                        '/tag/' . $k,
                     ]) . "' data-original-title='{$v}" . yii::t('frontend', ' Topics') . "'>{$k} ({$v})</a>";
             }
             ?>
@@ -166,9 +159,9 @@ use frontend\models\FriendLink;
         <div class="textwidget">
             <div class="d_tags_1">
                 <?php
-                $links = FriendLink::find()->where(['status' => FriendLink::DISPLAY_YES])->asArray()->all();
-                foreach ($links as $v) {
-                    echo "<a target='_blank' href='{$v['url']}'>{$v['name']}</a>";
+                $links = FriendlyLink::find()->where(['status' => FriendlyLink::DISPLAY_YES])->asArray()->all();
+                foreach ($links as $link) {
+                    echo "<a target='_blank' href='{$link['url']}'>{$link['name']}</a>";
                 }
                 ?>
             </div>

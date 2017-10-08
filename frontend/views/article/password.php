@@ -7,8 +7,9 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $form backend\widgets\ActiveForm */
-/* @var $model \frontend\models\ArticlePasswordForm */
+/* @var $form yii\bootstrap\ActiveForm */
+/* @var $article frontend\models\Article */
+/* @var $model frontend\models\form\ArticlePasswordForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;

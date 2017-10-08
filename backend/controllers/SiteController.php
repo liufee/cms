@@ -15,7 +15,7 @@ use backend\models\form\LoginForm;
 use common\libs\ServerInfo;
 use backend\models\Article as ArticleModel;
 use backend\models\Comment as BackendComment;
-use common\models\FriendLink;
+use common\models\FriendlyLink;
 use frontend\models\User;
 use yii\base\UserException;
 use yii\db\Query;
@@ -125,7 +125,7 @@ class SiteController extends \yii\web\Controller
             'ARTICLE' => ArticleModel::find()->where(['type' => ArticleModel::ARTICLE])->count('id'),
             'COMMENT' => Comment::find()->count('id'),
             'USER' => User::find()->count('id'),
-            'FRIEND_LINK' => FriendLink::find()->count('id'),
+            'FRIEND_LINK' => FriendlyLink::find()->count('id'),
         ];
         $statics = [
             'ARTICLE' => [
@@ -161,7 +161,7 @@ class SiteController extends \yii\web\Controller
             'FRIEND_LINK' => [
                 $temp['FRIEND_LINK'],
                 $temp['FRIEND_LINK'] == 0 ? 0 :
-                number_format(FriendLink::find()->where([
+                number_format(FriendlyLink::find()->where([
                         'between',
                         'created_at',
                         strtotime(date('Y-m-01')),

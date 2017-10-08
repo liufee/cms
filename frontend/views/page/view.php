@@ -13,6 +13,8 @@
 
 use frontend\models\Article;
 
+$this->title = $model->title . '-' . yii::$app->feehi->website_title;
+
 $this->registerMetaTag(['keywords' => $model->seo_keywords]);
 $this->registerMetaTag(['description' => $model->seo_description]);
 $this->registerMetaTag(['tags' => $model->tag]);

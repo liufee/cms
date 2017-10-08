@@ -23,7 +23,7 @@ use Yii;
  * @property string $created_at
  * @property string $updated_at
  */
-class FriendLink extends \yii\db\ActiveRecord
+class FriendlyLink extends \yii\db\ActiveRecord
 {
 
     const DISPLAY_YES = 1;
@@ -34,7 +34,7 @@ class FriendLink extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return '{{%friend_link}}';
+        return '{{%friendly_link}}';
     }
 
     /**

@@ -12,6 +12,8 @@ class m130524_201442_init extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
         }
 
+
+        //table user
         $this->createTable('{{%user}}', [
             'id' => $this->primaryKey(),
             'username' => $this->string()->notNull()->unique(),
@@ -24,6 +26,7 @@ class m130524_201442_init extends Migration
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ], $tableOptions);
+
         $this->batchInsert("{{%user}}", ['id','username','auth_key','password_hash','email','status','created_at','updated_at',],
             [
                 /**[
@@ -49,6 +52,8 @@ class m130524_201442_init extends Migration
             ]
         );
 
+
+        //table admin_user
         $this->createTable('{{%admin_user}}', [
             'id' => $this->primaryKey()->unsigned(),
             'username' => $this->string()->notNull()->unique(),
@@ -61,6 +66,7 @@ class m130524_201442_init extends Migration
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->defaultValue(0),
         ], $tableOptions);
+
         $this->batchInsert("{{%admin_user}}", ['id','username','auth_key','password_hash','email','avatar','status','created_at','updated_at'],
             [
                 [
@@ -90,6 +96,8 @@ class m130524_201442_init extends Migration
             ]
         );
 
+
+        //table admin_log
         $this->createTable('{{%admin_log}}', [
             'id' => $this->primaryKey()->unsigned(),
             'user_id' => $this->integer()->unsigned()->notNull(),
@@ -98,8 +106,9 @@ class m130524_201442_init extends Migration
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
-        $this->addForeignKey('fk_user_id', "{{%admin_log}}", "user_id", "{{%admin_user}}", "id", "CASCADE", "CASCADE");
 
+
+        //table category
         $this->createTable('{{%category}}', [
             'id' => $this->primaryKey()->unsigned(),
             'parent_id' => $this->integer()->unsigned()->defaultValue(0),
@@ -110,6 +119,7 @@ class m130524_201442_init extends Migration
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
+
         $this->batchInsert("{{%category}}", ['id','parent_id','name','alias','sort','created_at','updated_at','remark'],
             [
                 [
@@ -145,6 +155,8 @@ class m130524_201442_init extends Migration
             ]
         );
 
+
+        //table article
         $this->createTable('{{%article}}', [
             'id' => $this->primaryKey()->unsigned(),
             'cid' => $this->integer()->unsigned()->defaultValue(0),
@@ -164,7 +176,6 @@ class m130524_201442_init extends Migration
             'comment_count' => $this->integer()->unsigned()->defaultValue(0),
             'can_comment' => $this->smallInteger()->unsigned()->defaultValue(1),
             'visibility' => $this->smallInteger()->unsigned()->defaultValue(1),
-            'tag' => $this->string()->defaultValue(''),
             'password' => $this->string()->defaultValue(''),
             'flag_headline' => $this->smallInteger()->unsigned()->defaultValue(0),
             'flag_recommend' => $this->smallInteger()->unsigned()->defaultValue(0),
@@ -176,9 +187,10 @@ class m130524_201442_init extends Migration
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
-       // $this->addForeignKey("fk_cid", "{{%article}}", "cid", "{{%category}}", "id", "CASCADE", "CASCADE");
-        $this->createIndex("index_title", "{{%article}}",['title', 'cid', 'tag']);
-        $this->batchInsert("{{%article}}", ['id','cid','type','title','sub_title','summary','thumb','seo_title','seo_keywords','seo_description','status','sort','author_id','author_name','scan_count','comment_count','can_comment','visibility','tag','flag_headline','flag_recommend','flag_slide_show','flag_special_recommend','flag_roll','flag_bold','flag_picture','created_at','updated_at'],
+
+        $this->createIndex("index_title", "{{%article}}", "title");
+
+        $this->batchInsert("{{%article}}", ['id','cid','type','title','sub_title','summary','thumb','seo_title','seo_keywords','seo_description','status','sort','author_id','author_name','scan_count','comment_count','can_comment','visibility','flag_headline','flag_recommend','flag_slide_show','flag_special_recommend','flag_roll','flag_bold','flag_picture','created_at','updated_at'],
             [
                 [
                     "1",
@@ -199,7 +211,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "JavaScript,AngularJS",
                     "0",
                     "0",
                     "0",
@@ -230,7 +241,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "",
                     "0",
                     "0",
                     "0",
@@ -261,7 +271,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "Facebook, hack, php",
                     "0",
                     "0",
                     "0",
@@ -292,7 +301,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "",
                     "0",
                     "0",
                     "0",
@@ -323,7 +331,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "gc,垃圾回收,java",
                     "0",
                     "0",
                     "0",
@@ -354,7 +361,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "php7,php,wordpress",
                     "0",
                     "0",
                     "0",
@@ -385,7 +391,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "",
                     "0",
                     "0",
                     "0",
@@ -416,7 +421,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "spring,java",
                     "0",
                     "0",
                     "0",
@@ -447,7 +451,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "css,重构",
                     "0",
                     "0",
                     "0",
@@ -478,7 +481,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "php,分页",
                     "0",
                     "0",
                     "0",
@@ -509,7 +511,6 @@ class m130524_201442_init extends Migration
                     "1",
                     "1",
                     "1",
-                    "php脚本,下载,代码下载",
                     "0",
                     "0",
                     "1",
@@ -540,7 +541,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "java, Javascript, Lisp, php, Python, Ruby, 编程语言, 趣文",
                     "0",
                     "0",
                     "0",
@@ -571,7 +571,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "缓存,浏览器缓存,http协议",
                     "0",
                     "0",
                     "0",
@@ -602,7 +601,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "javascript,流行",
                     "0",
                     "0",
                     "0",
@@ -633,7 +631,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "java",
                     "0",
                     "0",
                     "1",
@@ -664,7 +661,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "java,用户界面",
                     "0",
                     "0",
                     "1",
@@ -695,7 +691,6 @@ class m130524_201442_init extends Migration
                     "2",
                     "1",
                     "1",
-                    "css,样式",
                     "0",
                     "0",
                     "0",
@@ -726,7 +721,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "java,入门,编程书籍",
                     "0",
                     "0",
                     "0",
@@ -757,7 +751,6 @@ class m130524_201442_init extends Migration
                     "7",
                     "1",
                     "1",
-                    "java,java8,垃圾收集",
                     "0",
                     "0",
                     "0",
@@ -788,7 +781,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "jvm,java",
                     "0",
                     "0",
                     "0",
@@ -819,7 +811,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "jvm,java",
                     "0",
                     "0",
                     "0",
@@ -850,7 +841,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "java,java集合",
                     "0",
                     "0",
                     "0",
@@ -881,7 +871,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "",
                     "0",
                     "0",
                     "0",
@@ -912,7 +901,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "",
                     "0",
                     "0",
                     "0",
@@ -943,7 +931,6 @@ class m130524_201442_init extends Migration
                     "0",
                     "1",
                     "1",
-                    "",
                     "0",
                     "0",
                     "0",
@@ -958,11 +945,14 @@ class m130524_201442_init extends Migration
             ]
         );
 
+
+        //table article_content
         $this->createTable('{{%article_content}}', [
             'id' => $this->primaryKey()->unsigned(),
             'aid' => $this->integer()->unsigned()->defaultValue(0),
             'content' => $this->text(),
         ], $tableOptions);
+
         $this->addForeignKey('fk_aid', "{{%article_content}}", "aid", "{{%article}}", "id", "CASCADE", "CASCADE");
         //$this->batchInsert("{{%article_content}}", ['id','aid','content'], require(__DIR__.'/article.php'));
         $contents = require(__DIR__.'/article.php');
@@ -970,15 +960,23 @@ class m130524_201442_init extends Migration
             $this->insert("{{%article_content}}", ['aid'=>$v[1], 'content'=>$v[2]]);
         }
 
+
+        //table article_meta
         $this->createTable('{{%article_meta}}', [
             'id' => $this->primaryKey()->unsigned(),
             'aid' => $this->integer()->unsigned()->notNull(),
             'key' => $this->string()->defaultValue(''),
             'value' => $this->text(),
-            'ip' => $this->string(15),
             'created_at' => $this->integer()->unsigned()->notNull(),
         ], $tableOptions);
 
+        $this->createIndex("index_aid", "{{%article_meta}}", 'aid');
+        $this->createIndex("index_key", "{{%article_meta}}", 'key');
+
+        $this->addForeignKey('fk_article_meta_aid', "{{%article_meta}}", "aid", "{{%article}}", "id", "CASCADE", "CASCADE");
+
+
+        //table content
         $this->createTable('{{%comment}}', [
             'id' => $this->primaryKey()->unsigned(),
             'aid' => $this->integer()->unsigned()->defaultValue(0),
@@ -994,6 +992,11 @@ class m130524_201442_init extends Migration
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
+
+        $this->addForeignKey('fk_comment_aid', "{{%comment}}", "aid", "{{%article}}", "id", "CASCADE", "CASCADE");
+
+        $this->createIndex("index_aid", "{{%comment}}", "aid");
+
         $this->batchInsert("{{%comment}}", ['id','aid','uid','reply_to','nickname','email','website_url','content','ip','status','created_at','updated_at'],
             [
                 [
@@ -1089,7 +1092,9 @@ class m130524_201442_init extends Migration
             ]
         );
 
-        $this->createTable('{{%friend_link}}', [
+
+        //table friendly_link
+        $this->createTable('{{%friendly_link}}', [
             'id' => $this->primaryKey()->unsigned(),
             'name' => $this->string()->notNull(),
             'image' => $this->string()->defaultValue(''),
@@ -1100,7 +1105,8 @@ class m130524_201442_init extends Migration
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
-        $this->batchInsert("{{%friend_link}}", ['id','name','image','url','target','sort','status','created_at','updated_at'],
+
+        $this->batchInsert("{{%friendly_link}}", ['id','name','image','url','target','sort','status','created_at','updated_at'],
             [
                 [
                     '1',
@@ -1160,6 +1166,8 @@ class m130524_201442_init extends Migration
             ]
         );
 
+
+        //table menu
         $this->createTable('{{%menu}}', [
             'id' => $this->primaryKey()->unsigned(),
             'type' => $this->integer()->unsigned()->defaultValue(0),
@@ -1174,8 +1182,7 @@ class m130524_201442_init extends Migration
             'created_at' => $this->integer()->unsigned()->notNull(),
             'updated_at' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
-        $this->createIndex("index_name", "{{%menu}}", "name");
-        $this->createIndex("index_url", "{{%menu}}", "url");
+
         $this->batchInsert("{{%menu}}", ['id','type','parent_id','name','url','icon','sort','target','is_absolute_url','is_display','created_at','updated_at'
             ],
             [
@@ -1208,6 +1215,8 @@ class m130524_201442_init extends Migration
             ]
         );
 
+
+        //table options
         $this->createTable('{{%options}}', [
             'id' => $this->primaryKey()->unsigned(),
             'type' => $this->integer()->unsigned()->defaultValue(0),
@@ -1218,10 +1227,8 @@ class m130524_201442_init extends Migration
             'tips' => $this->string()->defaultValue(''),
             'sort' => $this->integer()->unsigned()->defaultValue(0),
         ], $tableOptions);
-        $this->batchInsert(
-            "{{%options}}",
-            [
-                'type','name','value','input_type','tips','autoload','sort'],
+
+        $this->batchInsert("{{%options}}", ['type','name','value','input_type','tips','autoload','sort'],
             [
                 [
                     '0',

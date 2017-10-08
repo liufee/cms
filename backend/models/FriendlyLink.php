@@ -13,7 +13,7 @@ use yii\web\UploadedFile;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\FileHelper;
 
-class FriendLink extends \common\models\FriendLink
+class FriendlyLink extends \common\models\FriendlyLink
 {
 
     public function behaviors()

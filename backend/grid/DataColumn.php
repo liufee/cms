@@ -18,6 +18,8 @@ class DataColumn extends \yii\grid\DataColumn
 
     public $width = '60px';
 
+    public $contentOptions = ['style' => 'word-wrap: break-word; word-break: break-all;'];
+
     /**
      * @inheritdoc
      */
@@ -28,7 +30,6 @@ class DataColumn extends \yii\grid\DataColumn
         if (! isset($this->headerOptions['width'])) {
             $this->headerOptions['width'] = $this->width;
         }
-        $this->contentOptions = ['style' => 'word-wrap: break-word; word-break: break-all;'];
     }
 
 }

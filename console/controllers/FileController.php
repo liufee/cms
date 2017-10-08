@@ -10,7 +10,7 @@ namespace console\controllers;
 
 use yii;
 use backend\models\ArticleContent;
-use common\models\FriendLink;
+use common\models\FriendlyLink;
 use common\models\Article;
 use yii\helpers\Console;
 use yii\helpers\FileHelper;
@@ -47,7 +47,7 @@ class FileController extends \yii\console\Controller
         }
 
         $friendlink = [];
-        foreach (FriendLink::find()->where(['<>', 'image', ''])->each(100) as $link) {
+        foreach (FriendlyLink::find()->where(['<>', 'image', ''])->each(100) as $link) {
             $friendlink[] = $rootPath . $link->image;
         }
 

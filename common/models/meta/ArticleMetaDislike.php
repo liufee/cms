@@ -8,22 +8,24 @@
 
 namespace common\models\meta;
 
+use yii;
+
 class ArticleMetaDislike extends \common\models\ArticleMeta
 {
 
-    public $tag = "dislike";
+    public $keyName = "dislike";
 
 
     /**
      * @param $aid
      * @param int $value
      */
-    public function setDislike($aid, $value = 1)
+    public function setDislike($aid)
     {
         $this->aid = $aid;
-        $this->key = $this->tag;
-        $this->value = $value;
-        $this->save();
+        $this->key = $this->keyName;
+        $this->value = yii::$app->getRequest()->getUserIP();
+        $this->save(false);
     }
 
     /**
@@ -32,7 +34,7 @@ class ArticleMetaDislike extends \common\models\ArticleMeta
      */
     public function getDislikeCount($aid)
     {
-        return $this->find()->where(['aid' => $aid, 'key' => $this->tag])->count("id");
+        return $this->find()->where(['aid' => $aid, 'key' => $this->keyName])->count("aid");
     }
 
 }

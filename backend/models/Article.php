@@ -9,6 +9,7 @@
 namespace backend\models;
 
 use common\libs\Constants;
+use common\models\meta\ArticleMetaTag;
 use yii;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
@@ -62,7 +63,6 @@ class Article extends \common\models\Article
         if ($this->flag_picture == null) {
             $this->flag_picture = 0;
         }
-        $this->tag = str_replace('，', ',', $this->tag);
         $this->seo_keywords = str_replace('，', ',', $this->seo_keywords);
         if ($insert) {
             $this->author_id = yii::$app->getUser()->getIdentity()->id;
@@ -85,6 +85,8 @@ class Article extends \common\models\Article
      */
     public function afterSave($insert, $changedAttributes)
     {
+        $articleMetaTag = new ArticleMetaTag();
+        $articleMetaTag->setArticleTags($this->id, $this->tag);
         if ($insert) {
             $contentModel = new ArticleContent();
             $contentModel->aid = $this->id;
@@ -121,6 +123,8 @@ class Article extends \common\models\Article
     public function afterFind()
     {
         parent::afterFind();
+        $metaModel = new ArticleMetaTag();
+        $this->tag = $metaModel->getTagsByArticle($this->id, true);
         $this->content = ArticleContent::findOne(['aid' => $this->id])['content'];
     }
 

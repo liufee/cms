@@ -78,7 +78,8 @@ class ArticleController extends Controller
             ]
         ]);
         return $this->render('index', [
-            'dataProvider' => $dataProvider
+            'dataProvider' => $dataProvider,
+            'type' => ( !empty($cat) ? yii::t('frontend', 'Category {cat} articles', ['cat'=>$cat]) : yii::t('frontend', 'Latest Articles') ),
         ]);
     }
 

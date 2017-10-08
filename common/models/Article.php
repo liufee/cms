@@ -15,8 +15,8 @@ use yii\behaviors\TimestampBehavior;
 /**
  * This is the model class for table "{{%article}}".
  *
- * @property string $id
- * @property string $cid
+ * @property integer $id
+ * @property integer $cid
  * @property integer $type
  * @property string $title
  * @property string $sub_title
@@ -26,19 +26,25 @@ use yii\behaviors\TimestampBehavior;
  * @property string $seo_keywords
  * @property string $seo_description
  * @property integer $status
- * @property string $sort
- * @property string $author_id
+ * @property integer $sort
+ * @property integer $author_id
  * @property string $author_name
- * @property string $flag_headline
- * @property string $flag_recommend
- * @property string $flag_slide_show,
- * @property string $flag_special_recommend,
- * @property string $flag_roll,
- * @property string $flag_bold,
- * @property string $flag_picture,
- * @property string $password,
- * @property string $created_at
- * @property string $updated_at
+ * @property integer $scan_count
+ * @property integer $comment_count
+ * @property integer $can_comment
+ * @property integer $visibility
+ * @property string $password
+ * @property integer $flag_headline
+ * @property integer $flag_recommend
+ * @property integer $flag_slide_show
+ * @property integer $flag_special_recommend
+ * @property integer $flag_roll
+ * @property integer $flag_bold
+ * @property integer $flag_picture
+ * @property integer $created_at
+ * @property integer $updated_at
+ *
+ * @property ArticleContent[] $articleContents
  */
 class Article extends \yii\db\ActiveRecord
 {
@@ -47,6 +53,8 @@ class Article extends \yii\db\ActiveRecord
 
     const ARTICLE_PUBLISHED = 1;
     const ARTICLE_DRAFT = 0;
+
+    public $tag = '';
 
     public $content = null;
 

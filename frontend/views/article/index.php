@@ -9,6 +9,7 @@
 /**
  * @var $this yii\web\View
  * @var $dataProvider yii\data\ActiveDataProvider
+ * @var $type string
  */
 
 use yii\helpers\Url;
@@ -21,6 +22,9 @@ use yii\helpers\StringHelper;
 
 IndexAsset::register($this);
 $this->title = yii::$app->feehi->website_title;
+
+$this->registerMetaTag(['keywords' => yii::$app->feehi->seo_keywords]);
+$this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
 ?>
 <div class="content-wrap">
     <div class="content">
@@ -58,7 +62,7 @@ $this->title = yii::$app->feehi->website_title;
             </ul>
         </div>
 
-        <header class="archive-header"><h1><?= yii::t('frontend', 'Latest Articles') ?></h1></header>
+        <header class="archive-header"><h1><?=$type?></h1></header>
         <?= ArticleListView::widget([
             'dataProvider' => $dataProvider,
         ]) ?>

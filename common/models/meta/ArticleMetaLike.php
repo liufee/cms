@@ -8,10 +8,12 @@
 
 namespace common\models\meta;
 
+use yii;
+
 class ArticleMetaLike extends \common\models\ArticleMeta
 {
 
-    public $tag = "like";
+    public $keyName = "like";
 
 
     /**
@@ -19,12 +21,12 @@ class ArticleMetaLike extends \common\models\ArticleMeta
      * @param int $value
      * @return bool
      */
-    public function setLike($aid, $value = 1)
+    public function setLike($aid)
     {
         $this->aid = $aid;
-        $this->key = $this->tag;
-        $this->value = $value;
-        return $this->save();
+        $this->key = $this->keyName;
+        $this->value = yii::$app->getRequest()->getUserIP();
+        return $this->save(false);
     }
 
     /**
@@ -33,7 +35,7 @@ class ArticleMetaLike extends \common\models\ArticleMeta
      */
     public function getLikeCount($aid)
     {
-        return $this->find()->where(['aid' => $aid, 'key' => $this->tag])->count("id");
+        return $this->find()->where(['aid' => $aid, 'key' => $this->keyName])->count("aid");
     }
 
 }

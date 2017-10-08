@@ -16,10 +16,6 @@ use frontend\widgets\MenuView;
 
 AppAsset::register($this);
 
-if (yii::$app->controller->action->id != 'view' && yii::$app->controller->id != 'page') {
-    $this->registerMetaTag(['keywords' => yii::$app->feehi->seo_keywords]);
-    $this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
-}
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -34,18 +30,13 @@ if (yii::$app->controller->action->id != 'view' && yii::$app->controller->id != 
     <script>
         window._deel = {
             name: '<?=yii::$app->feehi->website_title?>',
-            url: '<?=yii::$app->homeUrl?>',
+            url: '<?=yii::$app->getHomeUrl()?>',
             comment_url: '<?=Url::to(['article/comment'])?>',
             ajaxpager: '',
             commenton: 0,
             roll: [4,]
         }
     </script>
-    <style>
-        p.help-block {
-            color: red
-        }
-    </style>
 </head>
 <?php $this->beginBody() ?>
 <body class="home blog">
@@ -63,8 +54,7 @@ if (yii::$app->controller->action->id != 'view' && yii::$app->controller->id != 
                             <a href="<?= Url::to(['site/signup']) ?>" class="signup-loader"><?= yii::t('frontend', 'Sign up') ?></a>
                         <?php } else { ?>
                             Welcome, <?= Html::encode(yii::$app->user->identity->username) ?>
-                            <a href="<?= Url::to(['site/logout']) ?>"
-                               class="signup-loader"><?= yii::t('frontend', 'Log out') ?></a>
+                            <a href="<?= Url::to(['site/logout']) ?>" class="signup-loader"><?= yii::t('frontend', 'Log out') ?></a>
                         <?php } ?>
                     </span>
                 </span>
@@ -85,7 +75,7 @@ if (yii::$app->controller->action->id != 'view' && yii::$app->controller->id != 
                 <span class="nav-search_1"><i class="fa fa-navicon"></i></span>
                 <hgroup class="logo-site" style="margin-top: 10px;">
                     <h1 class="site-title">
-                        <a href="<?= yii::$app->homeUrl ?>"><img src="/static/images/logo.png" alt="<?= yii::$app->feehi->website_title ?>"></a>
+                        <a href="<?= yii::$app->getHomeUrl() ?>"><img src="/static/images/logo.png" alt="<?= yii::$app->feehi->website_title ?>"></a>
                     </h1>
                 </hgroup>
                 <div id="site-nav-wrap">
@@ -120,6 +110,7 @@ if (yii::$app->controller->action->id != 'view' && yii::$app->controller->id != 
     </div>
     <div class="clear"></div>
 </div>
+
 <section class="container">
     <div class="speedbar"></div>
     <?= $content ?>
@@ -141,11 +132,12 @@ if (yii::$app->controller->action->id != 'view' && yii::$app->controller->id != 
                 <option <?php if (yii::$app->language == 'en-US') {echo "selected";} ?> value="<?= Url::to(['site/language', 'lang' => 'en-US']) ?>">English</option>
             </select>
         </p>
-        <p>Powered by Feehi CMS · Theme by <a title="飞嗨" href="http://blog.feehi.com">飞嗨</a></p>
+        <p>Powered by Feehi CMS <a title="飞嗨" target="_blank" href="http://blog.feehi.com">飞嗨</a></p>
     </div>
 </footer>
+
 <div class="rollto" style="display: none;">
-    <button class="btn btn-inverse" data-type="totop" title="回顶部"><i class="fa fa-arrow-up"></i></button>
+    <button class="btn btn-inverse" data-type="totop" title="back to top"><i class="fa fa-arrow-up"></i></button>
 </div>
 
 </body>

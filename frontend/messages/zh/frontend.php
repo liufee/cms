@@ -70,6 +70,16 @@ return [
     "Password error" => '密码错误',
     'Go' => '确认',
     'Only login user can visit this article' => '本文章仅对登陆用户可见',
+    'Search keyword {keyword} results' => '搜索 {keyword} 的结果',
+    'Tag {tag} related articles' => 'Tag {tag} 的相关文章',
+    'Category {cat} articles' => '分类 {cat} 文章',
+    'Follow Wechat' => '微信公众号',
+    'Join group' => '加群啦',
+    'Official QQ group - main' => '官方QQ群-主群',
+    'FeehiCMS official QQ group number: {number}' => '飞嗨官方QQ群-主群 群号：{number}，欢迎大家！',
+    'New generation CMS FeehiCMS' => 'Feehi cms 新一代内容管理系统',
+    'Highly recommend' => '吐血推荐',
+    'FeehiCMS based on yii2, support php7, makes website more excellent...' => 'Feehi cms是一款基于优秀php框架yii2开发的新一代cms系统，使用了php最新版本(php7)带来的新特性，会让网站显得内涵而出色...',
     /*article*/
 
     /*comment*/
