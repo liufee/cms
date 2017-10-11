@@ -7,11 +7,11 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
+/* @var $form frontend\widgets\ActiveForm */
 /* @var $model frontend\models\form\SignupForm */
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use frontend\widgets\ActiveForm;
 
 $this->title = yii::t('frontend', 'Sign up') . '-' . yii::$app->feehi->website_title;
 $this->params['breadcrumbs'][] = $this->title;
@@ -26,15 +26,6 @@ $this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
             label {
                 float: left;
                 width: 100px
-            }
-            .form-horizontal .form-group {
-                width: 300px;
-                margin-left: 0px;
-            }
-            .help-block-error{
-                position: absolute;
-                top: 0px;
-                right: 0px;
             }
         </style>
         <p><?= yii::t('frontend', 'Please fill out the following fields to signup') ?>:</p>

@@ -7,11 +7,11 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $form yii\bootstrap\ActiveForm */
+/* @var $form \frontend\widgets\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
 use yii\helpers\Html;
-use yii\bootstrap\ActiveForm;
+use frontend\widgets\ActiveForm;
 
 $this->registerMetaTag(['keywords' => yii::$app->feehi->seo_keywords]);
 $this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
@@ -32,11 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 margin-right: 110px;
                 width: 220px;
             }
-            .help-block-error{
-                position: absolute;
-                top: 0px;
-                right: 0px;
-            }
+
             div.field-loginform-rememberme{
                 margin-left: 110px;
             }

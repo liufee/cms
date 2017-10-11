@@ -111,4 +111,14 @@ input,textarea,.uneditable-input{width:206px}textarea{height:auto}textarea,input
     .excerpt p.auth-span{ float:right;}
 }
 
-.help-block-error{color:red}
+.form-horizontal .form-group {
+    width: 300px;
+    margin-left: 0px;
+}
+.site-login .help-block, .site-signup .help-block{
+    float: left;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    color: red;
+}
