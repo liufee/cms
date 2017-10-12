@@ -10,7 +10,6 @@ namespace backend\actions;
 
 use yii;
 use yii\web\BadRequestHttpException;
-use yii\web\Response;
 use yii\web\UnprocessableEntityHttpException;
 
 class DeleteAction extends \yii\base\Action

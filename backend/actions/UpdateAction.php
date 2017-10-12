@@ -37,7 +37,7 @@ class UpdateAction extends \yii\base\Action
         $model->setScenario( $this->scenario );
 
         if (yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->save()) {
+            if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
                 if( yii::$app->getRequest()->getIsAjax() ){
                     return [];
                 }else {

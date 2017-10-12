@@ -56,7 +56,7 @@ class AdminUserController extends \yii\web\Controller
         $model = new User();
         $model->setScenario('create');
         if (yii::$app->getRequest()->getIsPost()) {
-            if ( $model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->save() && $model->assignPermission() ) {
+            if ( $model->load(Yii::$app->getRequest()->post()) && $model->save() && $model->assignPermission() ) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['index']);
             } else {
@@ -90,7 +90,7 @@ class AdminUserController extends \yii\web\Controller
             $model->roles = array_keys( yii::$app->getAuthManager()->getRoles() );
         }
         if (Yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->save() && $model->assignPermission() ) {
+            if ($model->load(Yii::$app->request->post()) && $model->save() && $model->assignPermission() ) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->redirect(['update', 'id' => $model->getPrimaryKey()]);
             } else {
@@ -119,7 +119,7 @@ class AdminUserController extends \yii\web\Controller
         $model = User::findOne(['id' => yii::$app->getUser()->getIdentity()->getId()]);
         $model->setScenario('self-update');
         if (yii::$app->getRequest()->getIsPost()) {
-            if ($model->validate() && $model->load(yii::$app->getRequest()->post()) && $model->selfUpdate()) {
+            if ($model->load(yii::$app->getRequest()->post()) && $model->selfUpdate()) {
                 Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
             } else {
                 $errors = $model->getErrors();
