@@ -18,7 +18,6 @@ class ArticleMetaLike extends \common\models\ArticleMeta
 
     /**
      * @param $aid
-     * @param int $value
      * @return bool
      */
     public function setLike($aid)

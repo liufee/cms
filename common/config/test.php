@@ -4,8 +4,8 @@ return [
     'basePath' => dirname(__DIR__),
     'components' => [
         'user' => [
-            'class' => 'yii\web\User',
-            'identityClass' => 'backend\models\User',
+            'class' => yii\web\User::className(),
+            'identityClass' => backend\models\User::className(),
         ],
     ],
 ];

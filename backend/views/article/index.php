@@ -8,7 +8,7 @@
 
 /**
  * @var $dataProvider yii\data\ActiveDataProvider
- * @var $searchModel backend\models\ArticleSearch
+ * @var $searchModel backend\models\search\ArticleSearch
  */
 
 use backend\grid\DateColumn;

@@ -8,7 +8,8 @@
 
 namespace backend\controllers;
 
-use yii\data\ActiveDataProvider;
+use Yii;
+use backend\models\search\FriendlyLinkSearch;
 use backend\models\FriendlyLink;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
@@ -28,18 +29,11 @@ class FriendlyLinkController extends \yii\web\Controller
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    $query = FriendlyLink::find();
-                    $dataProvider = new ActiveDataProvider([
-                        'query' => $query,
-                        'sort' => [
-                            'defaultOrder' => [
-                                'sort' => SORT_ASC,
-                                'id' => SORT_ASC,
-                            ],
-                        ]
-                    ]);
+                    $searchModel = new FriendlyLinkSearch();
+                    $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
                     return [
                         'dataProvider' => $dataProvider,
+                        'searchModel' => $searchModel,
                     ];
                 }
             ],

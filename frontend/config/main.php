@@ -16,6 +16,9 @@ return [
             'identityClass' => common\models\User::className(),
             'enableAutoLogin' => true,
         ],
+        'session' => [
+            'timeout' => 1440,//session过期时间，单位为秒
+        ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [

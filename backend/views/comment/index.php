@@ -9,7 +9,7 @@
 /**
  * @var $this yii\web\View
  * @var $dataProvider backend\models\Comment
- * @var $searchModel backend\models\CommentSearch
+ * @var $searchModel backend\models\search\CommentSearch
  */
 
 use backend\grid\DateColumn;

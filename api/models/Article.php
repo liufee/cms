@@ -1,9 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2017/8/30
- * Time: 18:10
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-08-30 18:10
  */
 namespace api\models;
 

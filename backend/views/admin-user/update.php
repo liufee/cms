@@ -13,7 +13,6 @@ $this->params['breadcrumbs'] = [
 ];
 /**
  * @var $model backend\models\User
- * @var $rolesModel backend\models\AdminRoleUser
  */
 ?>
 <?php

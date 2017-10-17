@@ -9,7 +9,7 @@
 /**
  * @var $this yii\web\View
  * @var $dataProvider backend\models\AdminLog
- * @var $searchModel backend\models\AdminLogSearch
+ * @var $searchModel backend\models\search\AdminLogSearch
  */
 
 use backend\grid\DateColumn;

@@ -1,8 +1,9 @@
 <?php
 /**
- * User: Sampson
- * Date: 2017/7/24
- * Time: 17:21
+ * Author: lf
+ * Blog: https://blog.feehi.com
+ * Email: job@feehi.com
+ * Created at: 2017-07-24 17:21
  */
 
 namespace common\helpers;

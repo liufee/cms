@@ -9,6 +9,7 @@
 /**
  * @var $this yii\web\View
  * @var $dataProvider yii\data\ActiveDataProvider
+ * @var $searchModel backend\models\search\FriendlyLinkSearch
  */
 
 use backend\grid\DateColumn;
@@ -19,6 +20,7 @@ use backend\widgets\Bar;
 use yii\helpers\Html;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
+use common\libs\Constants;
 
 $this->title = "Friendly Links";
 $this->params['breadcrumbs'][] = yii::t('app', 'Friendly Links');
@@ -31,6 +33,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Friendly Links');
                 <?= Bar::widget() ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
+                    'filterModel' => $searchModel,
                     'columns' => [
                         [
                             'class' => CheckboxColumn::className(),
@@ -49,15 +52,34 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Friendly Links');
                             'class' => SortColumn::className()
                         ],
                         [
-                            'class' => StatusColumn::className()
+                            'class' => StatusColumn::className(),
+                            'filter' => Constants::getYesNoItems(),
                         ],
                         [
                             'class' => DateColumn::className(),
                             'attribute' => 'created_at',
+                            'filter' => Html::activeInput('text', $searchModel, 'create_start_at', [
+                                    'class' => 'form-control layer-date',
+                                    'placeholder' => '',
+                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"
+                                ]) . Html::activeInput('text', $searchModel, 'create_end_at', [
+                                    'class' => 'form-control layer-date',
+                                    'placeholder' => '',
+                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                                ]),
                         ],
                         [
                             'class' => DateColumn::className(),
                             'attribute' => 'updated_at',
+                            'filter' => Html::activeInput('text', $searchModel, 'update_start_at', [
+                                    'class' => 'form-control layer-date',
+                                    'placeholder' => '',
+                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                                ]) . Html::activeInput('text', $searchModel, 'update_end_at', [
+                                    'class' => 'form-control layer-date',
+                                    'placeholder' => '',
+                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
+                                ]),
                         ],
                         [
                             'class' => ActionColumn::className(),
