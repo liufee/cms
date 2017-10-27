@@ -16,6 +16,7 @@ use yii\helpers\Url;
 use backend\models\User;
 use common\models\Options;
 use yii\web\Response;
+use yii\web\ErrorAction;
 
 /**
  * Site controller
@@ -44,7 +45,7 @@ class SiteController extends \yii\web\Controller
     {
         return [
             'error' => [
-                'class' => 'yii\web\ErrorAction',
+                'class' => ErrorAction::className(),
             ],
         ];
     }
@@ -65,7 +66,7 @@ class SiteController extends \yii\web\Controller
     }
 
     public function actionAccept()
-    {//var_dump(Yii::$app->session['language']);die;
+    {
         return $this->render('accept');
     }
 
@@ -202,13 +203,7 @@ class SiteController extends \yii\web\Controller
                 $dbport = $request->post('dbport', '3306');
                 $dbname = $request->post('dbname', '');
                 $table_prefix = $request->post("dbprefix", '');
-                $dsn = $this->_getDsn($dbtype, $dbhost, $dbuser, $dbpassword, $dbport, $dbname);
-                switch ($dbtype) {
-                    case "mysql":
-                    case "postgresql":
-                        $dsn .= ";dbname=" . $dbname;
-                        break;
-                }
+                $dsn = $this->_getDsn($dbtype, $dbhost, $dbport, $dbname);
                 $db = new Connection([
                     'dsn' => $dsn,
                     'username' => $dbuser,
@@ -229,34 +224,34 @@ class SiteController extends \yii\web\Controller
 
                 $model = Options::findOne(['name' => 'website_title']);
                 $model->value = $request->post('sitename', 'Feehi CMS');
-                $model->save();
+                $model->save(false);
                 $model = Options::findOne(['name' => 'website_url']);
                 $model->value = $request->post('website_url', '');
-                $model->save();
+                $model->save(false);
                 $model = Options::findOne(['name' => 'website_url']);
                 $model->value = $request->post('siteurl', '');
-                $model->save();
+                $model->save(false);
                 $model = Options::findOne(['name' => 'seo_keywords']);
                 $model->value = $request->post('sitekeywords', '');
-                $model->save();
+                $model->save(false);
                 $model = Options::findOne(['name' => 'seo_description']);
                 $model->value = $request->post('siteinfo', '');
-                $model->save();
+                $model->save(false);
                 $configFile = yii::getAlias("@common/config/conf/db.php");
                 $str = <<<EOF
 <?php
 return [
     'components' => [
         'db' => [
-            'class' => 'yii\db\Connection',
-            'dsn' => '{$dbtype}:host={$dbhost};dbname={$dbname}',
+            'class' => yii\db\Connection::className(),
+            'dsn' => '{$dsn}',
             'username' => '{$dbuser}',
             'password' => '{$dbpassword}',
             'charset' => 'utf8',
             'tablePrefix' => '{$table_prefix}',
         ],
         'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
+            'class' => yii\swiftmailer\Mailer::className(),
             'viewPath' => '@common/mail',
             // send all mails to a file by default. You have to set
             // 'useFileTransport' to false and configure a transport
@@ -267,14 +262,15 @@ return [
     'bootstrap' => ['debug'],
     'modules' => [
         'debug' => [
-            'class' => 'yii\debug\Module',
-            //'allowedIPs' => ['192.168.1.2','120.85.82.47', '127.0.0.1', '::1']
+            'class' => yii\debug\Module::className(),
+            'allowedIPs' => ['127.0.0.1', '::1']
         ]
     ]
 ];
 EOF;
 
                 file_put_contents($configFile, $str);
+                file_put_contents(yii::getAlias("@common/config/main-local.php"), "<?php return [];?>");
                 $_SESSION["_install_setinfo"] = 1;
                 sleep(1);
                 echo "<script>location.href='" . Url::to(['success']) . "';</script>";
@@ -299,7 +295,7 @@ EOF;
         $dbpassword = $request->post('dbpw', '');
         $dbport = $request->post('dbport', '3306');
         $dbname = $request->post('dbname', '');
-        $dsn = $this->_getDsn($dbtype, $dbhost, $dbuser, $dbpassword, $dbport, $dbname);
+        $dsn = $this->_getDsn($dbtype, $dbhost, $dbport, $dbname);
         $db = new Connection([
             'dsn' => $dsn,
             'username' => $dbuser,
@@ -320,13 +316,13 @@ EOF;
         return ['message' => ''];
     }
 
-    private function _getDsn($dbtype, $dbhost, $dbuser, $dbpassword, $dbport, $dbname)
+    private function _getDsn($dbtype, $dbhost, $dbport, $dbname)
     {
         $dsn = '';
         switch ($dbtype) {
             case "postgresql":
             case "mysql":
-                $dsn = $dbtype . ":host=" . $dbhost . ';port=' . $dbport;
+                $dsn = $dbtype . ":host=" . $dbhost . ';port=' . $dbport . ";dbname=" . $dbname;
                 break;
 
             case "sqlite":

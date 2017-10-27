@@ -378,10 +378,10 @@ INSERT INTO `%__prefix__%comment` VALUES ('1', '25', '0', '0', 'aaa', '', '', '�
 COMMIT;
 
 -- ----------------------------
---  Table structure for `friend_link`
+--  Table structure for `friendly_link`
 -- ----------------------------
-DROP TABLE IF EXISTS `%__prefix__%friend_link`;
-CREATE TABLE `%__prefix__%friend_link` (
+DROP TABLE IF EXISTS `%__prefix__%friendly_link`;
+CREATE TABLE `%__prefix__%friendly_link` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `image` varchar(255) COLLATE utf8_unicode_ci DEFAULT '',
@@ -395,10 +395,10 @@ CREATE TABLE `%__prefix__%friend_link` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
---  Records of `friend_link`
+--  Records of `friendly_link`
 -- ----------------------------
 BEGIN;
-INSERT INTO `%__prefix__%friend_link` VALUES ('1', '飞嗨博客', '', 'http://blog.feehi.com', '_blank', '0', '1', '1468303851', '0'), ('2', '飞嗨网', '', 'http://www.feehi.com', '_blank', '0', '1', '1468303882', '0'), ('3', '36kr', '', 'http://www.36kr.com', '_blank', '0', '1', '1468303902', '0'), ('4', '破晓电影', '', 'http://www.poxiao.com', '_blank', '0', '1', '1468303938', '0'), ('5', '翠竹林主题', '', 'http://www.cuizl.com/', '_blank', '0', '1', '1468303974', '0');
+INSERT INTO `%__prefix__%friendly_link` VALUES ('1', '飞嗨博客', '', 'http://blog.feehi.com', '_blank', '0', '1', '1468303851', '0'), ('2', '飞嗨网', '', 'http://www.feehi.com', '_blank', '0', '1', '1468303882', '0'), ('3', '36kr', '', 'http://www.36kr.com', '_blank', '0', '1', '1468303902', '0'), ('4', '破晓电影', '', 'http://www.poxiao.com', '_blank', '0', '1', '1468303938', '0'), ('5', '翠竹林主题', '', 'http://www.cuizl.com/', '_blank', '0', '1', '1468303974', '0');
 COMMIT;
 
 -- ----------------------------
@@ -443,7 +443,7 @@ INSERT INTO `%__prefix__%menu` VALUES ('14', '0', '0', '权限管理', '', 'fa f
 INSERT INTO `%__prefix__%menu` VALUES ('15', '0', '14', '权限', 'rbac/permissions', '', '0', '_blank', '0', '1', '1505570862', '1505570862');
 INSERT INTO `%__prefix__%menu` VALUES ('16', '0', '14', '角色', 'rbac/roles', '', '0', '_blank', '0', '1', '1505570882', '1505570882');
 INSERT INTO `%__prefix__%menu` VALUES ('17', '0', '14', '管理员', 'admin-user/index', '', '0', '_blank', '0', '1', '1505570902', '1505570902');
-INSERT INTO `%__prefix__%menu` VALUES ('18', '0', '0', '友情链接', 'friend-link/index', 'fa fa-link', '0', '_blank', '0', '1', '1505570934', '1505571307');
+INSERT INTO `%__prefix__%menu` VALUES ('18', '0', '0', '友情链接', 'friendly-link/index', 'fa fa-link', '0', '_blank', '0', '1', '1505570934', '1505571307');
 INSERT INTO `%__prefix__%menu` VALUES ('19', '0', '0', '缓存', '', 'fa fa-file', '0', '_blank', '0', '1', '1505570947', '1505571292');
 INSERT INTO `%__prefix__%menu` VALUES ('20', '0', '19', '清除前台', 'clear/frontend', '', '0', '_blank', '0', '1', '1505570974', '1505570974');
 INSERT INTO `%__prefix__%menu` VALUES ('21', '0', '19', '清除后台', 'clear/backend', '', '0', '_blank', '0', '1', '1505570994', '1505570994');
