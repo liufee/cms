@@ -9,6 +9,7 @@
 namespace backend\grid;
 
 use yii;
+use InvalidArgumentException;
 use common\libs\Constants;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -22,8 +23,6 @@ class StatusColumn extends DataColumn
     public $format = 'raw';
 
     public $attribute = 'status';
-
-    public $label = 'label';
 
     public $headerOptions = ['width' => '25px'];
 
@@ -44,10 +43,6 @@ class StatusColumn extends DataColumn
     {
         parent::init();
 
-        if( $this->label == 'label' ){
-            $this->label = yii::t('app', 'Status');
-        }
-
         if( empty($this->aOptions) ){
             if( $this->url !== false ){
                 $this->aOptions = array_merge($this->aOptions, [
@@ -61,6 +56,7 @@ class StatusColumn extends DataColumn
             /* @var $model array|yii\db\ActiveRecord */
             $field = $this->attribute;
             $text = Constants::getYesNoItems($model[$field]);
+            if( !is_string($text) ) throw new InvalidArgumentException("No status valued {$model[$field]}");
             if( $this->url === false ){
                 $url = '';
             }else {

@@ -22,13 +22,16 @@ class SortAction extends \yii\base\Action
     public function run()
     {
         if (yii::$app->getRequest()->getIsPost()) {
-            $data = yii::$app->getRequest()->post();
-            if (! empty($data['sort'])) {
-                foreach ($data['sort'] as $key => $value) {
+            $post = yii::$app->getRequest()->post();
+            if( isset( $post[yii::$app->getRequest()->csrfParam] ) ) {
+                unset($post[yii::$app->getRequest()->csrfParam]);
+            }
+            foreach ($post as $field => $array){
+                foreach ($array as $key => $value){
                     /* @var $model yii\db\ActiveRecord */
                     $model = call_user_func([$this->modelClass, 'findOne'], $key);
-                    if ($model->sort != $value) {
-                        $model->sort = $value;
+                    if ($model->$field != $value) {
+                        $model->$field = $value;
                         $model->save(false);
                     }
                 }

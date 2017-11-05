@@ -343,7 +343,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         $needAdds = array_diff($this->permissions, $permissions);
         $needRemoves = array_diff($permissions, $this->permissions);
-        if( !empty($needAdds) ) {
+        if( !empty($needAdds) && !empty($needAdds[0]) ) {
             $str .= ' 增加了权限: ';
             foreach ($needAdds as $permission) {
                 $permissionItem = $authManager->getPermission($permission);

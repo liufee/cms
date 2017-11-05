@@ -8,7 +8,6 @@
 
 namespace backend\grid;
 
-use yii;
 use yii\helpers\Html;
 
 class SortColumn extends DataColumn
@@ -16,9 +15,9 @@ class SortColumn extends DataColumn
 
     public $attribute = 'sort';
 
-    public $primaryKey = 'id';
+    public $primaryKey = '';
 
-    public $label = 'label';
+    public $options = ['style'=>'width:50px'];
 
     /**
      * @inheritdoc
@@ -27,12 +26,10 @@ class SortColumn extends DataColumn
     {
         parent::init();
 
-        if( $this->label == 'label' ){
-            $this->label = yii::t('app', 'Sort');
-        }
-
         $this->content = function ($model, $key, $index, $gridView) {
-            return Html::input('number', "sort[{$model[$this->primaryKey]}]", $model['sort'], ['style' => 'width:50px']);
+            /* @var $model \backend\models\Article */
+            if( $this->primaryKey == '' ) $this->primaryKey = $model->getPrimaryKey(false);
+            return Html::input('number', "{$this->attribute}[{$this->primaryKey}]", $model[$this->attribute], $this->options);
         };
     }
 
