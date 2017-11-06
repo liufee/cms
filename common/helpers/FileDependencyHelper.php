@@ -11,7 +11,7 @@ namespace common\helpers;
 use yii;
 use yii\helpers\FileHelper;
 
-class FileDependencyHelper extends \yii\base\Object
+class FileDependencyHelper extends \yii\base\BaseObject
 {
 
     /**
