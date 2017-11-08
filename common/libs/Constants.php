@@ -91,6 +91,7 @@ class Constants
     const INPUT_INPUT = 1;
     const INPUT_TEXTAREA = 2;
     const INPUT_UEDITOR = 3;
+    const INPUT_IMG = 4;
 
     public static function getInputTypeItems($key = null)
     {
@@ -98,6 +99,7 @@ class Constants
             self::INPUT_INPUT => 'input',
             self::INPUT_TEXTAREA => 'textarea',
             self::INPUT_UEDITOR => 'ueditor',
+            self::INPUT_IMG => 'image',
         ];
         return self::getItems($items, $key);
     }

@@ -8,8 +8,11 @@
 
 namespace common\models;
 
+use common\libs\Constants;
 use Yii;
 use common\helpers\FileDependencyHelper;
+use yii\helpers\FileHelper;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "{{%options}}".
@@ -93,6 +96,39 @@ class Options extends \yii\db\ActiveRecord
         ]);
         $object->updateFile();
         parent::afterSave($insert, $changedAttributes);
+    }
+
+    public function beforeSave($insert)
+    {
+        if(!$insert){
+            if( $this->input_type == Constants::INPUT_IMG ) {
+                $temp = explode('\\', self::className());
+                $modelName = end( $temp );
+                $key = "{$modelName}[{$this->id}][value]";
+                $upload = UploadedFile::getInstanceByName($key);
+                $old = Options::findOne($this->id);
+                if($upload !== null){
+                    $uploadPath = yii::getAlias('@admin/uploads/custom-setting/');
+                    if (! FileHelper::createDirectory($uploadPath)) {
+                        $this->addError($key, "Create directory failed " . $uploadPath);
+                        return false;
+                    }
+                    $fullName = $uploadPath . uniqid() . '_' . $upload->baseName . '.' . $upload->extension;
+                    if (! $upload->saveAs($fullName)) {
+                        $this->addError($key, yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', 'Picture')]) . ': ' . $fullName);
+                        return false;
+                    }
+                    $this->value = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
+                    if( $old !== null ){
+                        $file = yii::getAlias('@frontend/web') . $old->value;
+                        if( file_exists($file) && is_file($file) ) unlink($file);
+                    }
+                }else{
+                    $this->value = $old->value;
+                }
+            }
+        }
+        return true;
     }
 
 }
