@@ -58,7 +58,7 @@ class Rbac extends yii\base\Model
             ],
 
             [['name', 'description'], 'required', 'on' => 'role'],
-            [['roles', 'permissions'], 'default', 'value'=>[], 'on' => 'role'],
+            [['roles', 'permissions'], 'default', 'on' => 'role'],
         ];
     }
 
@@ -156,9 +156,6 @@ class Rbac extends yii\base\Model
 
     public function createRole()
     {
-        if( !is_array($this->permissions) ) $this->permissions = explode(',', $this->permissions);
-        if( !is_array($this->roles) ) $this->permissions = explode(',', $this->roles);
-
         $authManager = yii::$app->getAuthManager();
         if ($authManager->getRole($this->name) !== null) {
             $this->addError('name', yii::t('app', 'Role exists'));
@@ -170,14 +167,12 @@ class Rbac extends yii\base\Model
             'sort' => $this->sort,
         ]);
         if( $authManager->add($role) ){
+            $this->permissions = array_flip($this->permissions);
+            if (isset($this->permissions[0])) unset($this->permissions[0]);
+            $this->permissions = array_flip($this->permissions);
             foreach ($this->permissions as $permission){
                 $permission = $authManager->getPermission($permission);
                 $authManager->addChild($role, $permission);
-            }
-
-            foreach ($this->roles as $r){
-                $r = $authManager->getRole($r);
-                $authManager->addChild($role, $r);
             }
 
             Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new CustomLog([
@@ -192,9 +187,6 @@ class Rbac extends yii\base\Model
     {
         $oldModel = clone $this;
         $oldModel->fillModel($name);
-
-        if( !is_array($this->permissions) ) $this->permissions = explode(',', $this->permissions);
-        if( !is_array($this->roles) ) $this->permissions = explode(',', $this->roles);
 
         $authManager = yii::$app->getAuthManager();
         $role = $authManager->getRole($name);
@@ -211,12 +203,11 @@ class Rbac extends yii\base\Model
         ]);
 
         $oldPermissions = array_keys( $authManager->getPermissionsByRole($name) );
-        $oldChildRoles = array_keys( $authManager->getChildRoles($name) );
-        $oldChildRoles = array_flip($oldChildRoles);
-        unset($oldChildRoles[$name]);
-        $oldChildRoles = array_flip($oldChildRoles);
 
         if( $authManager->update($name, $role) ){
+            $this->permissions = array_flip($this->permissions);
+            if (isset($this->permissions[0])) unset($this->permissions[0]);
+            $this->permissions = array_flip($this->permissions);
 
             $needAdds = array_diff($this->permissions, $oldPermissions);
             foreach ($needAdds as $permission){
@@ -228,19 +219,6 @@ class Rbac extends yii\base\Model
             foreach ($needRemoves as $permission){
                 $permission = $authManager->getPermission($permission);
                 $authManager->removeChild($role, $permission);
-            }
-
-            $needAdds = array_diff($this->roles, $oldChildRoles);
-
-            foreach ($needAdds as $r){
-                $r = $authManager->getRole($r);
-                $authManager->addChild($role, $r);
-            }
-
-            $needRemoves = array_diff($oldChildRoles, $this->roles);
-            foreach ($needRemoves as $r){
-                $r = $authManager->getRole($r);
-                $authManager->removeChild($role, $r);
             }
 
             Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([

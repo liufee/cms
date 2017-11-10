@@ -151,7 +151,7 @@ class RbacController extends \yii\web\Controller
     public function actionRoleUpdate($name)
     {
         $model = new Rbac(['scenario'=>'role']);
-        $model->fillModel($name);
+        $model->fillModel($name);//var_dump($model->roles);exit;
         if( yii::$app->getRequest()->getIsPost() ) {
             if ($model->load(yii::$app->getRequest()->post()) && $model->validate() && $model->updateRole($name)) {
                 yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));

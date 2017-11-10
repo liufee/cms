@@ -298,6 +298,9 @@ class User extends ActiveRecord implements IdentityInterface
     public function assignPermission()
     {
         $authManager = yii::$app->getAuthManager();
+        if(!$this->getIsNewRecord() && in_array($this->id, yii::$app->getBehavior('access')->superAdminUserIds)){
+            $this->permissions = $this->roles = [];
+        }
         $assignments = $authManager->getAssignments($this->id);
         $roles = $permissions = [];
         foreach ($assignments as $key => $assignment){
@@ -335,15 +338,13 @@ class User extends ActiveRecord implements IdentityInterface
         }
 
        //权限permission
-        if( $this->permissions === null ){
-            $this->permissions = [];
-        }else if( !is_array( $this->permissions ) ) {
-            $this->permissions = explode(',', $this->permissions);
-        }
+        $this->permissions = array_flip($this->permissions);
+        if (isset($this->permissions[0])) unset($this->permissions[0]);
+        $this->permissions = array_flip($this->permissions);
 
         $needAdds = array_diff($this->permissions, $permissions);
         $needRemoves = array_diff($permissions, $this->permissions);
-        if( !empty($needAdds) && !empty($needAdds[0]) ) {
+        if( !empty($needAdds) ) {
             $str .= ' 增加了权限: ';
             foreach ($needAdds as $permission) {
                 $permissionItem = $authManager->getPermission($permission);
