@@ -15,9 +15,9 @@ class SortColumn extends DataColumn
 
     public $attribute = 'sort';
 
-    public $primaryKey = '';
-
     public $options = ['style'=>'width:50px'];
+
+    public $primaryKey = "";
 
     /**
      * @inheritdoc
@@ -28,8 +28,14 @@ class SortColumn extends DataColumn
 
         $this->content = function ($model, $key, $index, $gridView) {
             /* @var $model \backend\models\Article */
-            if( $this->primaryKey == '' ) $this->primaryKey = $model->getPrimaryKey(false);
-            return Html::input('number', "{$this->attribute}[{$this->primaryKey}]", $model[$this->attribute], $this->options);
+            if( $this->primaryKey !== '' ){
+                if( $this->primaryKey instanceof \Closure){
+                    $key = call_user_func($this->primaryKey, $model);
+                }else{
+                    $key = $this->primaryKey;
+                }
+            }
+            return Html::input('number', "{$this->attribute}[{$key}]", $model[$this->attribute], $this->options);
         };
     }
 

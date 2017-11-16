@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Custom Setting');
                     } else if($setting->input_type == Constants::INPUT_IMG){
                         echo $form->field($setting,"[$index]value", ['template'=>"{label}\n<div class=\"col-sm-8 image\">{input}{img}\n{error}</div>\n{hint}<div class='col-sm-2'><span class='tips'><i class='fa fa-info-circle'></i> {$setting->tips}  <a class='btn-delete' href='{$deleteUrl}' title='' data-confirm='' data-method='' data-pjax='1'><i style='float: right' class='fa fa-trash-o'></i></a><a href='{$editUrl}' class='btn_edit' title='编辑' data-pjax=''><i style='float: right;margin-right: 10px;' class='fa fa-pencil'></i></a> </span></div>"])
                             ->label($setting->name)
-                            ->imgInput( ['value' => $setting->value] );
+                            ->imgInput( ['value' => $setting->value, 'style'=>"max-width:766px;max-height:600px"] );
                     } else {
                         if ($setting->input_type == Constants::INPUT_INPUT) {
                             echo $form->field($setting, "[$index]value", ['template' => $template])

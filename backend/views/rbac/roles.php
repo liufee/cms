@@ -73,7 +73,9 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Roles');
                         ],
                         [
                             'class' => SortColumn::className(),
-                            'primaryKey' => 'name'
+                            'primaryKey' => function($model){
+                                return $model['name'];
+                            }
                         ],
                         [
                             'class' => ActionColumn::className(),

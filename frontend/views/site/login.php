@@ -30,11 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
             div.row input{
                 margin-right: 110px;
-                width: 220px;
-            }
-
-            div.field-loginform-rememberme{
-                margin-left: 110px;
             }
         </style>
 
@@ -46,9 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'password', ['template' => "<div style='position:relative'>{label}{input}\n{error}\n{hint}</div>"])->passwordInput() ?>
 
-                <?= $form->field($model, 'rememberMe')->checkbox()?>
+                <?= $form->field($model, 'rememberMe', ['labelOptions'=>['style'=>'width:117px;margin-left:79px;position:relative;left:34px;top:3px']])->checkbox(['style'=>'margin-right:0px;position:relative;top:-2px'])?>
 
-                <div style="color:#999;margin-right: 120px;">
+                <div class="form-group" style="color:#999;margin-right: 120px;">
                     <?= yii::t('frontend', 'If you forgot your password you can') ?> <?= Html::a(yii::t('frontend', 'reset it'), ['site/request-password-reset']) ?>
                 </div>
 

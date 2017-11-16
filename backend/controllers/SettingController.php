@@ -18,6 +18,7 @@ use yii\web\Response;
 use backend\actions\DeleteAction;
 use backend\widgets\ActiveForm;
 use yii\swiftmailer\Mailer;
+use yii\web\BadRequestHttpException;
 
 /**
  * Setting controller
@@ -220,7 +221,7 @@ class SettingController extends \yii\web\Controller
             foreach ($model->getErrors() as $item) {
                 $error .= $item[0] . "<br/>";
             }
-            return $error;
+            throw new BadRequestHttpException( $error );
         }
     }
 

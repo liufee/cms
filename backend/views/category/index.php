@@ -52,7 +52,6 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Category');
                         ],
                         [
                             'class' => SortColumn::className(),
-                            'primaryKey' => 'id',
                             'label' => yii::t('app', 'Sort')
                         ],
                         [
