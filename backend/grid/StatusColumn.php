@@ -71,7 +71,7 @@ class StatusColumn extends DataColumn
                 if( !isset( $this->aOptions['data-params']  ) ){
                     $aOptions = array_merge([
                         'data-params' => [
-                            $this->formName ? $this->formName : $model->formName() . "[{$field}]" => $model[$field] == Constants::YesNo_Yes ? Constants::YesNo_No : Constants::YesNo_Yes],
+                            $this->formName ? $this->formName : ( strpos( strrev($model->formName()), 'hcraeS') === 0 ? strrev( substr( strrev($model->formName()), 6) ) : $model->formName() ) . "[{$field}]" => $model[$field] == Constants::YesNo_Yes ? Constants::YesNo_No : Constants::YesNo_Yes],
                     ],$this->aOptions, $aOptions);
                 }
                 if( !isset( $this->aOptions['class'] ) ){

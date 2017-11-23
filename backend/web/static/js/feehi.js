@@ -53,6 +53,7 @@ $(document).ready(function(){
     //$('.info').animate({opacity: 1.0}, 3000).fadeOut('slow');
     $("input[type=file]").prettyFile({text:common.chooseFile});
     $(".multi-operate").click(function () {
+        var that = $(this);
         var url = $(this).attr('href');
         var ids = new Array();
         $("tr td input[type=checkbox]:checked").each(function(){
@@ -75,6 +76,12 @@ $(document).ready(function(){
         }, function (isConfirm) {
             if(isConfirm) {
                 swal(tips.waitingAndNoRefresh, tips.operating+'...', "success");
+                if( that.hasClass("jump") ){//含有jump的class不做ajax处理，跳转页面
+                    var paramSign = that.attr('param-sign') ? that.attr('param-sign') : "id";
+                    var jumpUrl = url.indexOf('?') !== -1 ? url + '&' + paramSign + '=' + ids : url + '?' + paramSign + '=' + ids;
+                    location.href = jumpUrl;
+                    return;
+                }
                 $.ajax({
                     "url":url,
                     "dataType" : "json",
@@ -150,7 +157,10 @@ $(document).ready(function(){
             var reader = new FileReader();
             reader.readAsDataURL(files[0]);
             reader.onload = function (e) {
-                that.parents("div.image").children("img").attr("src", this.result);
+                if( that.parents("div.image").children().find('img').next().length >= 1 ){
+                    that.parents("div.image").children().find('img').next().remove();
+                }
+                that.parents("div.image").children().find('img').attr("src", this.result).after('<div onclick="$(this).parents(\'.image\').find(\'input[type=hidden]\').val(0);$(this).prev().attr(\'src\', $(this).prev().attr(\'nonePicUrl\'));$(this).parents(\'.form-group\').find(\'input[type=file]\').val(\'\');$(this).remove();" style="position: absolute;width: 50px;padding: 5px 3px 3px 5px;top:5px;left:6px;background: black;opacity: 0.6;color: white;cursor: pointer"><i class="fa fa-trash" aria-hidden="true"> '+ common.deleteText +'</i></div>');
             }
         }
     });

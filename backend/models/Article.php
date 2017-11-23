@@ -40,7 +40,13 @@ class Article extends \common\models\Article
                 if( file_exists($file) && is_file($file) ) unlink($file);
             }
         } else {
-            $this->thumb = $this->getOldAttribute('thumb');
+            if( $this->thumb !== '' ){//删除
+                $file = yii::getAlias('@frontend/web') . $this->getOldAttribute('thumb');
+                if( file_exists($file) && is_file($file) ) unlink($file);
+                $this->thumb = '';
+            }else {
+                $this->thumb = $this->getOldAttribute('thumb');
+            }
         }
         if ($this->flag_headline == null) {
             $this->flag_headline = 0;

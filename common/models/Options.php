@@ -124,7 +124,13 @@ class Options extends \yii\db\ActiveRecord
                         if( file_exists($file) && is_file($file) ) unlink($file);
                     }
                 }else{
-                    $this->value = $old->value;
+                    if( $this->value !== '' ){
+                        $file = yii::getAlias('@frontend/web') . $old->value;
+                        if( file_exists($file) && is_file($file) ) unlink($file);
+                        $this->value = '';
+                    }else {
+                        $this->value = $old->value;
+                    }
                 }
             }
         }

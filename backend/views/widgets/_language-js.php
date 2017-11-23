@@ -9,6 +9,7 @@
 <script>
     var common = {
         chooseFile: "<?=yii::t('app', 'Choose File')?>",
+        deleteText: "<?=yii::t('app', 'Delete')?>",
     }
     var tips = {
         realyToDo: "<?=yii::t('app', 'Realy to do it?')?>",

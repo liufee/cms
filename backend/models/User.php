@@ -282,7 +282,13 @@ class User extends ActiveRecord implements IdentityInterface
             }
             $this->avatar = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
         } else {
-            $this->avatar = $this->getOldAttribute('avatar');
+            if( $this->avatar !== '' ){
+                $file = yii::getAlias('@frontend/web') . $this->getOldAttribute('avatar');
+                if( file_exists($file) && is_file($file) ) unlink($file);
+                $this->avatar = '';
+            }else {
+                $this->avatar = $this->getOldAttribute('avatar');
+            }
         }
         if ($insert) {
             $this->generateAuthKey();
