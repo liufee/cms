@@ -8,6 +8,8 @@
 
 namespace common\models;
 
+use common\models\meta\ArticleMetaLike;
+use common\models\meta\ArticleMetaTag;
 use Yii;
 use common\libs\Constants;
 use yii\behaviors\TimestampBehavior;
@@ -53,10 +55,6 @@ class Article extends \yii\db\ActiveRecord
 
     const ARTICLE_PUBLISHED = 1;
     const ARTICLE_DRAFT = 0;
-
-    public $tag = '';
-
-    public $content = null;
 
     public function behaviors()
     {
@@ -232,12 +230,26 @@ class Article extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param $id
-     * @return static
+     * @return \yii\db\ActiveQuery
      */
-    public static function getArticleById($id)
+    public function getArticleLikes()
     {
-        return self::findOne(['id' => $id]);
+        $tempModel = new ArticleMetaLike();
+        return $this->hasMany(ArticleMetaLike::className(), ['aid' => 'id'])->where(['key'=>$tempModel->keyName]);
+    }
+
+    public function getArticleTags()
+    {
+        $tempModel = new ArticleMetaTag();
+        return $this->hasMany(ArticleMetaLike::className(), ['aid' => 'id'])->where(['key'=>$tempModel->keyName]);
+    }
+
+    /**
+     * @return integer
+     */
+    public function getArticleLikeCount()
+    {
+        return $this->getArticleLikes()->count('id');
     }
 
     public function afterFind()

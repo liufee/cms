@@ -61,6 +61,7 @@ return [
     /*site*/
 
     /*article*/
+    "Return Home" => '返回首页',
     "Article id {id} is not exists" => "文章id {id}不存在",
     "Comment" => "评论",
     "Only commented user can visit this article" => "文章仅对评论过的用户可见,可以点击下方评论后查看",

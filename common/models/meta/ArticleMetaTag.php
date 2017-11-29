@@ -17,7 +17,7 @@ class ArticleMetaTag extends \common\models\ArticleMeta
 
     public function getTagsByArticle($aid, $isString=false)
     {
-        $result = $this->find()->where(['key'=>$this->keyName])->where(['aid'=>$aid])->asArray()->all();
+        $result = $this->find()->where(['key'=>$this->keyName])->andWhere(['aid'=>$aid])->asArray()->all();
         if( $result === null ){
             if( $isString ){
                 return '';

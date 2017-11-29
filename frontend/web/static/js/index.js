@@ -850,14 +850,15 @@ eval(function (h, b, i, d, g, f) {
             } else {
                 a(this).addClass("actived");
                 var z = a(this).data("id"), y = a(this).data("action"), x = a(this).children(".count");
-                var w = {action: "bigfa_like", um_id: z, um_action: y, _csrf: a(this).attr('_csrf')};
+                var w = {aid: z};
+                w[a("meta[name=csrf-param]").attr('content')] = a("meta[name=csrf-token]").attr('content');
                 a.post("/article/like", w, function (A) {
                     a(x).html(A)
                 });
-                a.tipsBox({
+                /*a.tipsBox({
                     obj: a(this), str: "+1", callback: function () {
                     }
-                });
+                });*/
                 return false
             }
         };

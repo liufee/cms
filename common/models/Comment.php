@@ -104,7 +104,6 @@ class Comment extends \yii\db\ActiveRecord
             $v = $row->getAttributes();
             if ($v['reply_to'] == 0) {
                 $v['sub'] = self::getCommentChildren($list, $v['id']);
-                $v['content'] = $v['content'];
                 $newList[] = $v;
             }
         }

@@ -16,6 +16,15 @@ use yii\helpers\FileHelper;
 
 class Article extends \common\models\Article
 {
+    /**
+     * @var string
+     */
+    public $tag = '';
+
+    /**
+     * @var null|string
+     */
+    public $content = null;
 
     /**
      * @inheritdoc
@@ -129,8 +138,13 @@ class Article extends \common\models\Article
     public function afterFind()
     {
         parent::afterFind();
-        $metaModel = new ArticleMetaTag();
-        $this->tag = $metaModel->getTagsByArticle($this->id, true);
+        $this->tag = call_user_func(function(){
+            $tags = '';
+            foreach ($this->articleTags as $tag) {
+                $tags .= $tag->value . ',';
+            }
+            return rtrim($tags, ',');
+        });
         $this->content = ArticleContent::findOne(['aid' => $this->id])['content'];
     }
 

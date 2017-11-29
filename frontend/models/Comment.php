@@ -46,9 +46,8 @@ class Comment extends \common\models\Comment
     {
         if ($insert) {
             $model = Article::findOne($this->aid);
-            $model->setScenario('article');
             $model->comment_count += 1;
-            $model->save();
+            $model->save(false);
         }
         parent::afterSave($insert, $changedAttributes);
     }

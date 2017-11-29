@@ -8,6 +8,7 @@
 
 namespace backend\models\search;
 
+use common\models\Article as CommonArticle;
 use backend\models\Article;
 use common\models\Category;
 use yii\data\ActiveDataProvider;
@@ -72,7 +73,7 @@ class ArticleSearch extends Article
      */
     public function search($params, $type = self::ARTICLE)
     {
-        $query = Article::find()->select([])->where(['type' => $type]);
+        $query = CommonArticle::find()->select([])->where(['type' => $type])->with('category');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [

@@ -7,11 +7,11 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $form frontend\widgets\ActiveForm */
+/* @var $form yii\bootstrap\ActiveForm */
 /* @var $model frontend\models\form\SignupForm */
 
 use yii\helpers\Html;
-use frontend\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 
 $this->title = yii::t('frontend', 'Sign up') . '-' . yii::$app->feehi->website_title;
 $this->params['breadcrumbs'][] = $this->title;

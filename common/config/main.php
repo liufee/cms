@@ -42,14 +42,39 @@ $config = [
                 'from' => ['admin@feehi.com' => 'Feehi CMS robot ']
             ],
         ],
-        'view' => [
-            'class' => feehi\components\View::className(),
-        ],
         'feehi' => [
             'class' => feehi\components\Feehi::className(),
         ],
         'authManager' => [
             'class' => yii\rbac\DbManager::className(),
+        ],
+        'assetManager' => [
+            'bundles' => [
+                yii\widgets\ActiveFormAsset::className() => [
+                    'js' => ['yii.activeForm.js'],
+                ],
+                yii\bootstrap\BootstrapAsset::className() => [
+                    'css' => ['css/bootstrap.css'],
+                ],
+                yii\captcha\CaptchaAsset::className() => [
+                    'js' => ['yii.captcha.js'],
+                ],
+                yii\grid\GridViewAsset::className() => [
+                    'js' => ['yii.gridView.js'],
+                ],
+                yii\web\JqueryAsset::className() => [
+                    'js' => ['jquery.js'],
+                ],
+                yii\widgets\PjaxAsset::className() => [
+                    'js' => ['jquery.pjax.js'],
+                ],
+                yii\web\YiiAsset::className() => [
+                    'js' => ['yii.js'],
+                ],
+                yii\validators\ValidationAsset::className() => [
+                    'js' => ['yii.validation.js'],
+                ],
+            ],
         ],
     ],
 ];

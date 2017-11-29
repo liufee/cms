@@ -10,6 +10,10 @@
  * @var $this yii\web\View
  * @var $model frontend\models\Article
  * @var $commentModel frontend\models\Comment
+ * @var $prev frontend\models\Article
+ * @var $next frontend\models\Article
+ * @var $recommends array
+ * @var $commentList array
  */
 
 use yii\helpers\Url;
@@ -22,7 +26,14 @@ $this->title = $model->title;
 
 $this->registerMetaTag(['keywords' => $model->seo_keywords]);
 $this->registerMetaTag(['description' => $model->seo_description]);
-$this->registerMetaTag(['tags' => $model->tag]);
+$this->registerMetaTag(['tags' => call_user_func(function()use($model) {
+    $tags = '';
+    foreach ($model->articleTags as $tag) {
+        $tags .= $tag->value . ',';
+    }
+    return rtrim($tags, ',');
+    }
+)]);
 $this->registerMetaTag(['property' => 'article:author', 'content' => $model->author_name]);
 $categoryName = $model->category ? $model->category->name : yii::t('app', 'uncategoried');
 
@@ -31,7 +42,7 @@ ViewAsset::register($this);
 <div class="content-wrap">
     <div class="content">
         <div class="breadcrumbs">
-            <a title="返回首页" href="<?= yii::$app->getHomeUrl() ?>"><i class="fa fa-home"></i></a>
+            <a title="<?=yii::t('frontend', 'Return Home')?>" href="<?= yii::$app->getHomeUrl() ?>"><i class="fa fa-home"></i></a>
             <small>&gt;</small>
             <a href="<?= Url::to(['article/index', 'cat' => $categoryName]) ?>"><?= $categoryName ?></a>
             <small>&gt;</small>
@@ -62,7 +73,7 @@ ViewAsset::register($this);
         </header>
 
         <article class="article-content">
-            <?= $model->content ?>
+            <?= $model->articleContent->content ?>
             <p>
                 <?= yii::t('frontend', 'Reproduced please indicate the source') ?>：
                 <a href="<?= yii::$app->homeUrl ?>" data-original-title="" title=""><?= yii::$app->feehi->website_title ?></a>
@@ -71,61 +82,33 @@ ViewAsset::register($this);
             </p>
 
             <div class="article-social">
-                <div class="bdsharebuttonbox">
-                    <a href="#" class="bds_more" data-cmd="more"></a>
-                    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
-                    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
-                    <a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a>
-                    <a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a>
-                    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
-                </div>
-                <script>
-                    window._bd_share_config = {
-                        "common": {
-                            "bdSnsKey": {},
-                            "bdText": "",
-                            "bdMini": "1",
-                            "bdMiniList": false,
-                            "bdPic": "",
-                            "bdStyle": "1",
-                            "bdSize": "16"
-                        },
-                        "share": {},
-                        "image": {
-                            "viewList": ["qzone", "tsina", "tqq", "renren", "weixin"],
-                            "viewText": "分享到：",
-                            "viewSize": "16"
-                        },
-                        "selectShare": {
-                            "bdContainerClass": null,
-                            "bdSelectMiniList": ["qzone", "tsina", "tqq", "renren", "weixin"]
-                        }
-                    };
-                    with (document)0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];
-                </script>
-                <a href="javascript:;" data-action="like" _csrf="<?= yii::$app->getRequest()->getCsrfToken() ?>" data-id="<?= $model->id ?>" id="Addlike" class="action" data-original-title="" title="">
-                    <i class="fa fa-heart-o"></i><?=yii::t('frontend', 'Like')?> (<span class="count"><?= $likeCount ?></span>)
-                </a>
+                <a href="javascript:;" data-action="ding" data-id="<?=$model->id?>" id="Addlike" class="action"><i class="fa fa-heart-o"></i><?=yii::t('frontend', 'Like')?> (<span class="count"><?= $model->getArticleLikeCount() ?></span>)</a>
                 <span class="or">or</span>
-                <span class="action action-share bdsharebuttonbox bdshare-button-style0-24" data-bd-bind="1466409001285"><i class="fa fa-share-alt"></i><?=yii::t('frontend', 'Share')?> (<span class="bds_count" data-cmd="count" title="累计分享0次">0</span>)
+                <span class="action action-share bdsharebuttonbox"><i class="fa fa-share-alt"></i><?=yii::t('frontend', 'Share')?> (<span class="bds_count" data-cmd="count" title="累计分享0次">0</span>)
                     <div class="action-popover">
-                        <div class="popover top in">
-                            <div class="arrow"></div>
+                        <div class="popover top in"><div class="arrow"></div>
                             <div class="popover-content">
-                                <a href="" class="sinaweibo fa fa-weibo" data-cmd="tsina" title="" data-original-title="分享到新浪微博"></a>
-                                <a href="" class="bds_qzone fa fa-star" data-cmd="qzone" title="" data-original-title="分享到QQ空间"></a>
-                                <a href="" class="tencentweibo fa fa-tencent-weibo" data-cmd="tqq" title="" data-original-title="分享到腾讯微博"></a>
-                                <a href="" class="qq fa fa-qq" data-cmd="sqq" title="" data-original-title="分享到QQ好友"></a>
-                                <a href="" class="bds_renren fa fa-renren" data-cmd="renren" title="" data-original-title="分享到人人网"></a>
-                                <a href="" class="bds_weixin fa fa-weixin" data-cmd="weixin" title="" data-original-title="分享到微信"></a>
-                                <a href="" class="bds_more fa fa-ellipsis-h" data-cmd="more" data-original-title="" title=""></a>
+                                <a href="#" class="sinaweibo fa fa-weibo" data-cmd="tsina" title="分享到新浪微博"></a>
+                                <a href="#" class="bds_qzone fa fa-star" data-cmd="qzone" title="分享到QQ空间"></a>
+                                <a href="#" class="tencentweibo fa fa-tencent-weibo" data-cmd="tqq" title="分享到腾讯微博"></a>
+                                <a href="#" class="qq fa fa-qq" data-cmd="sqq" title="分享到QQ好友"></a>
+                                <a href="#" class="bds_renren fa fa-renren" data-cmd="renren" title="分享到人人网"></a>
+                                <a href="#" class="bds_weixin fa fa-weixin" data-cmd="weixin" title="分享到微信"></a>
+                                <a href="#" class="bds_more fa fa-ellipsis-h" data-cmd="more"></a>
                             </div>
                         </div>
-                   </div>
+                    </div>
                 </span>
             </div>
         </article>
-        <footer class="article-footer"></footer>
+        <footer class="article-footer">
+            <div class="article-tags">
+                <i class="fa fa-tags"></i>
+                <?php foreach ($model->articleTags as $tag){ ?>
+                    <a href="<?=Url::to(['search/tag', 'tag'=>$tag->value])?>" rel="tag" data-original-title="" title=""><?=$tag->value?></a>
+                <?php } ?>
+            </div>
+        </footer>
         <nav class="article-nav">
             <?php
                 if ($prev !== null) {
@@ -286,4 +269,5 @@ ViewAsset::register($this);
 <script type="text/javascript">
     SyntaxHighlighter.all();
 </script>
+<script>with(document)0[(getElementsByTagName("head")[0]||body).appendChild(createElement("script")).src="http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion="+~(-new Date()/36e5)];</script>
 <?php JsBlock::end(); ?>

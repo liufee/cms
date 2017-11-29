@@ -98,6 +98,13 @@ return [
                 ],
             ],
         ],
+        'assetManager' => [
+            'bundles' => [
+                yii\web\JqueryAsset::className() => [
+                    'js' => [],
+                ],
+            ]
+        ]
     ],
     'params' => $params,
     'on beforeRequest' => function($event){

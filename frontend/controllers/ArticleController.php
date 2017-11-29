@@ -10,7 +10,6 @@ namespace frontend\controllers;
 
 use yii;
 use common\libs\Constants;
-use frontend\models\ArticleContent;
 use frontend\models\form\ArticlePasswordForm;
 use yii\web\Controller;
 use frontend\models\Article;
@@ -66,7 +65,7 @@ class ArticleController extends Controller
                 $where['cid'] = $category['id'];
             }
         }
-        $query = Article::find()->select([])->where($where);
+        $query = Article::find()->with('category')->where($where);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
@@ -95,7 +94,7 @@ class ArticleController extends Controller
         $prev = Article::find()
             ->where(['cid' => $model->cid])
             ->andWhere(['>', 'id', $id])
-            ->orderBy("sort asc,created_at asc,id desc")
+            ->orderBy("sort asc,created_at desc,id desc")
             ->limit(1)
             ->one();
         $next = Article::find()
@@ -113,39 +112,28 @@ class ArticleController extends Controller
             ->limit(8)
             ->all();
         switch ($model->visibility){
-            case Constants::ARTICLE_VISIBILITY_COMMENT:
+            case Constants::ARTICLE_VISIBILITY_COMMENT://评论可见
                 if( yii::$app->getUser()->getIsGuest() ){
                     $result = Comment::find()->where(['aid'=>$model->id, 'ip'=>yii::$app->getRequest()->getUserIP()])->one();
                 }else{
                     $result = Comment::find()->where(['aid'=>$model->id, 'uid'=>yii::$app->getUser()->getId()])->one();
                 }
                 if( $result === null ) {
-                    $model->content = "<p style='color: red'>" . yii::t('frontend', "Only commented user can visit this article") . "</p>";
-                }else{
-                    $model->content = ArticleContent::findOne(['aid'=>$model->id])['content'];
+                    $model->articleContent->content = "<p style='color: red'>" . yii::t('frontend', "Only commented user can visit this article") . "</p>";
                 }
                 break;
-            case Constants::ARTICLE_VISIBILITY_SECRET:
+            case Constants::ARTICLE_VISIBILITY_SECRET://加密文章
                 $authorized = yii::$app->getSession()->get("article_password_" . $model->id, null);
                 if( $authorized === null ) $this->redirect(Url::toRoute(['password', 'id'=>$id]));
-                $model->content = ArticleContent::findOne(['aid'=>$model->id])['content'];
                 break;
-            case Constants::ARTICLE_VISIBILITY_LOGIN:
+            case Constants::ARTICLE_VISIBILITY_LOGIN://登陆可见
                 if( yii::$app->getUser()->getIsGuest() ) {
-                    $model->content = "<p style='color: red'>" . yii::t('frontend', "Only login user can visit this article") . "</p>";
-                }else{
-                    $model->content = ArticleContent::findOne(['aid'=>$model->id])['content'];
+                    $model->articleContent->content = "<p style='color: red'>" . yii::t('frontend', "Only login user can visit this article") . "</p>";
                 }
                 break;
-            default:
-                $model->content = ArticleContent::findOne(['aid'=>$model->id])['content'];
-                break;
-
         }
-        $likeModel = new ArticleMetaLike();
         return $this->render('view', [
             'model' => $model,
-            'likeCount' => $likeModel->getLikeCount($id),
             'prev' => $prev,
             'next' => $next,
             'recommends' => $recommends,
@@ -216,7 +204,7 @@ class ArticleController extends Controller
      */
     public function actionLike()
     {
-        $aid = yii::$app->getRequest()->post("um_id");
+        $aid = yii::$app->getRequest()->post("aid");
         $model = new ArticleMetaLike();
         $model->setLike($aid);
         return $model->getLikeCount($aid);

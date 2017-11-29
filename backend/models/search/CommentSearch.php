@@ -42,7 +42,7 @@ class CommentSearch extends \common\models\Comment
      */
     public function search($params)
     {
-        $query = self::find();
+        $query = self::find()->with('article');
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
@@ -110,9 +110,6 @@ class CommentSearch extends \common\models\Comment
                 array_push($aidArray, $k);
             }
             $query->andFilterWhere(['aid' => $aidArray]);
-        }
-        if( $this->aid ){
-            $this->article_title = Article::findOne($this->aid)['title'];
         }
         return $dataProvider;
     }

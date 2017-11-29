@@ -7,11 +7,11 @@
  */
 
 /* @var $this yii\web\View */
-/* @var $form \frontend\widgets\ActiveForm */
+/* @var $form \yii\bootstrap\ActiveForm*/
 /* @var $model \common\models\LoginForm */
 
 use yii\helpers\Html;
-use frontend\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 
 $this->registerMetaTag(['keywords' => yii::$app->feehi->seo_keywords]);
 $this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);

@@ -17,12 +17,9 @@ class AppAsset extends \yii\web\AssetBundle
     ];
 
     public $js = [
+        'static/js/jquery.min.js',
         'static/js/index.js',
         'static/plugins/toastr/toastr.min.js',
-    ];
-
-    public $depends = [
-        'feehi\assets\JqueryAsset',
     ];
 
 }

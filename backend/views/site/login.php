@@ -15,7 +15,7 @@ use backend\assets\AppAsset;
 use yii\helpers\Html;
 use backend\widgets\ActiveForm;
 use yii\helpers\Url;
-use feehi\components\Captcha;
+use yii\captcha\Captcha;
 
 AppAsset::register($this);
 $this->title = yii::t('app', 'Login');

@@ -11,7 +11,7 @@ namespace backend\grid;
 use yii;
 use yii\helpers\ArrayHelper;
 use yii\widgets\LinkPager;
-use feehi\assets\GridViewAsset;
+use yii\grid\GridViewAsset;
 use yii\helpers\Json;
 use yii\widgets\BaseListView;
 

@@ -12,7 +12,7 @@ use Yii;
 use yii\base\InvalidCallException;
 use yii\helpers\Html;
 use yii\helpers\Json;
-use feehi\assets\ActiveFormAsset;
+use yii\widgets\ActiveFormAsset;
 
 class ActiveForm extends \yii\widgets\ActiveForm
 {

@@ -20,7 +20,7 @@ use common\models\Category;
 use common\libs\Constants;
 use yii\helpers\Html;
 use backend\widgets\Bar;
-use common\widgets\Pjax;
+use yii\widgets\Pjax;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 use backend\grid\StatusColumn;
