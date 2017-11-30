@@ -8,7 +8,9 @@
 
 use common\widgets\JsBlock;
 use yii\helpers\Url;
+use install\assets\LayerAsset;
 
+LayerAsset::register($this);
 $this->title = yii::t('install', 'Create Data');
 ?>
     <section class="section">

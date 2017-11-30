@@ -85,28 +85,39 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
  
 安装
 ---------------
-前置条件: 如未特别说明，已默认您把php命令加入了环境变量
+前置条件: 如未特别说明，本文档已默认您把php命令加入了环境变量，如果您未把php加入环境变量，请把以下命令中的php替换成/path/to/php
 1. 使用归档文件(简单，适合没有yii2经验者)
     >使用此方式安装，后台超管用户名和密码会在安装过程中让您填入
     1. 下载FeehiCMS源码 [点击此处下载最新版](http://resource-1251086492.file.myqcloud.com/Feehi_CMS.zip)
     2. 解压到目录 
     3. 配置web服务器(参见下面)
-    4. 浏览器打开 http://localhost/install.php 按照提示完成安装(若使用php内置web服务器则地址为 http://localhost:8080/install.php )
+    4. 浏览器打开 http://localhost/install.php 按照提示完成安装(若使用php内置web服务a器则地址为 http://localhost:8080/install.php )
     5. 完成
     
-2. 使用composer (`推荐使用此方式安装,可以通过composer update平滑升级feehicms版本`)
+2. 使用composer (`推荐使用此方式安装`)
     >使用此方式安装，默认的后台超级管理员用户名admin密码123456
-     composer的安装以及国内镜像设置请点击 [此处](http://www.phpcomposer.com/)
-     1. 依次执行以下命令
+    
+     >composer的安装以及国内镜像设置请点击 [此处](http://www.phpcomposer.com/)
+     
+     >以下命令默认您已全局安装composer，如果您是局部安装的composer:请使用php /path/to/composer.phar来替换以下命令中的composer
+     
+     1. 使用composer下载创建FeehiCMS项目
+        **以下两个命令任选其一。如果喜欢简单且日后不需要升级FeehiCMS请选择命令一,如果日后需要平滑升级FeehiCMS请选择命令二**
+        
+        ```bash
+            $ composer create-project feehi/cms webApp //此命令创建的FeehiCMS项目不能平滑升级新版本(目录结构简单,目前主力维护版本)
+        ```
+        ```bash
+            $ composer create-project feehi/feehicms webApp //此命令创建的FeehiCMS项目能够通过运行composer update平滑升级到FeehiCMS新版本(FeehiCMS以composer包提供,未来可能主力维护此版本)
+        ```
+     2. 依次执行以下命令初始化yii2框架以及导入数据库
          ```bash
-         $ composer create-project feehi/feehicms webApp
          $ cd webApp
-         $ composer install -vvv
          $ php ./init --env=Production #初始化yii2框架
          $ php ./yii migrate/up --interactive=0 #导入FeehiCMS sql数据库，执行此步骤之前请先到common/config/main-local.php修改成正确的数据库配置
          ```
-     2. 配置web服务器(参加下面)
-     3. 完成
+     3. 配置web服务器(参加下面)
+     4. 完成
  
 附:web服务器配置(注意是设置"path/to/frontend/web为根目录)
  

@@ -81,4 +81,8 @@ return [
     'go Backend' => '进入后台',
     'Has been installed, if you want to reinstall please remove ' => '已经安装过了，如果想要重新安装请删除 ',
     ' and try it again' => '并重新运行',
+    'Check Environment' => '检测环境',
+    'Create Data' => '创建数据',
+    'Finish Install' => '完成安装',
+    'Installing' => '正在安装',
 ];

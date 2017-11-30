@@ -20,6 +20,8 @@ use common\models\meta\ArticleMetaLike;
 use yii\web\NotFoundHttpException;
 use yii\filters\HttpCache;
 use yii\helpers\Url;
+use yii\web\Response;
+use yii\web\XmlResponseFormatter;
 
 class ArticleController extends Controller
 {
@@ -143,6 +145,25 @@ class ArticleController extends Controller
     }
 
     /**
+     * 获取文章的点赞数和浏览数
+     *
+     * @param $id
+     * @return array
+     * @throws NotFoundHttpException
+     */
+    public function actionViewAjax($id)
+    {
+        $model = Article::findOne($id);
+        if( $model === null ) throw new NotFoundHttpException("None exists article id");
+        if( yii::$app->getRequest()->getIsAjax() ) yii::$app->getResponse()->format = Response::FORMAT_JSON;
+        return [
+            'likeCount' => (int)$model->getArticleLikeCount(),
+            'scanCount' => $model->scan_count * 100,
+            'commentCount' => $model->comment_count,
+        ];
+    }
+
+    /**
      * 评论
      *
      */
@@ -209,6 +230,42 @@ class ArticleController extends Controller
         $model->setLike($aid);
         return $model->getLikeCount($aid);
 
+    }
+
+    /**
+     * rss订阅
+     *
+     * @return mixed
+     */
+    public function actionRss()
+    {
+        $xml['channel']['title'] = yii::$app->feehi->website_title;
+        $xml['channel']['description'] = yii::$app->feehi->seo_description;
+        $xml['channel']['lin'] = yii::$app->getUrlManager()->getHostInfo();
+        $xml['channel']['generator'] = yii::$app->getUrlManager()->getHostInfo();
+        $models = Article::find()->limit(10)->where(['status'=>Article::ARTICLE_PUBLISHED, 'type'=>Article::ARTICLE])->orderBy('id desc')->all();
+        foreach ($models as $model){
+            $xml['channel']['item'][] = [
+                'title' => $model->title,
+                'link' => Url::to(['article/view', 'id'=>$model->id]),
+                'pubData' => date('Y-m-d H:i:s', $model->created_at),
+                'source' => yii::$app->feehi->website_title,
+                'author' => $model->author_name,
+                'description' => $model->summary,
+            ];
+        }
+        yii::configure(yii::$app->getResponse(), [
+            'formatters' => [
+                Response::FORMAT_XML => [
+                    'class' => XmlResponseFormatter::className(),
+                    'rootTag' => 'rss',
+                    'version' => '1.0',
+                    'encoding' => 'utf-8'
+                ]
+            ]
+        ]);
+        yii::$app->getResponse()->format = Response::FORMAT_XML;
+        return $xml;
     }
 
 }

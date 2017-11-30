@@ -69,6 +69,7 @@ return [
                 'article/view/id/<id:\d+>' => 'article/view',
                 'search' => 'search/index',
                 'tag/<tag:\w+>' => 'search/tag',
+                'rss' => 'article/rss',
                 'cat/<cat:\w+>' => 'article/index',
                 'list/<page:\d+>' => 'site/index',
                 'python|java|javascript' => 'article/index',

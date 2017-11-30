@@ -29,7 +29,7 @@ use frontend\models\FriendlyLink;
                 </a>
                 <a href="mailto:<?= yii::$app->feehi->email ?>" rel="external nofollow" title="" target="_blank" data-original-title="Email"><i class="email fa fa-envelope-o"></i></a>
                 <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=<?= yii::$app->feehi->qq ?>&amp;site=qq&amp;menu=yes" rel="external nofollow" title="" target="_blank" data-original-title="联系QQ"><i class="qq fa fa-qq"></i></a>
-                <a href="<?= yii::$app->feehi->rss ?>" rel="external nofollow" target="_blank" title="" data-original-title="订阅本站"><i class="rss fa fa-rss"></i></a>
+                <a href="<?= Url::to(['article/rss'])?>" rel="external nofollow" target="_blank" title="" data-original-title="订阅本站"><i class="rss fa fa-rss"></i></a>
             </div>
         </div>
     </div>
@@ -47,7 +47,7 @@ use frontend\models\FriendlyLink;
     </div>
 
     <div class="widget d_textbanner">
-        <a class="style01" href="http://cms.feehi.com">
+        <a class="style01" target="_blank" href="http://cms.feehi.com">
             <strong><?=yii::t('frontend', 'New generation CMS FeehiCMS')?></strong>
             <h2><?=yii::t('frontend', 'Highly recommend')?></h2>
             <p><?=yii::t('frontend', 'FeehiCMS based on yii2, support php7, makes website more excellent...')?></p>
@@ -111,20 +111,6 @@ use frontend\models\FriendlyLink;
         </div>
     </div>
 
-    <div class="widget d_subscribe">
-        <div class="title">
-            <h2>
-                <sapn class="title_span"><?= yii::t('frontend', 'Email Suscribe') ?></sapn>
-            </h2>
-        </div>
-        <form action="http://list.qq.com/cgi-bin/qf_compose_send" target="_blank" method="post">
-            <p><?= yii::t('frontend', 'Subscribe to the wonderful content') ?></p>
-            <input type="hidden" name="t" value="qf_booked_feedback">
-            <input type="hidden" name="id" value="">
-            <input type="email" name="to" class="rsstxt" placeholder="your@email.com" value="" required="">
-            <input type="submit" class="rssbutton" value="<?= yii::t('frontend', 'Subscribe') ?>">
-        </form>
-    </div>
     <div class="widget d_comment">
         <div class="title">
             <h2>
@@ -159,7 +145,7 @@ use frontend\models\FriendlyLink;
         <div class="textwidget">
             <div class="d_tags_1">
                 <?php
-                $links = FriendlyLink::find()->where(['status' => FriendlyLink::DISPLAY_YES])->asArray()->all();
+                $links = FriendlyLink::find()->where(['status' => FriendlyLink::DISPLAY_YES])->orderBy("sort asc, id asc")->asArray()->all();
                 foreach ($links as $link) {
                     echo "<a target='_blank' href='{$link['url']}'>{$link['name']}</a>";
                 }

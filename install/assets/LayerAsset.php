@@ -20,6 +20,6 @@ class LayerAsset extends AssetBundle
         'js/plugins/layer/layer.min.js',
     ];
     public $depends = [
-        'feehi\assets\JqueryAsset',
+        'yii\web\JqueryAsset',
     ];
 }

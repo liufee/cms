@@ -60,13 +60,13 @@ ViewAsset::register($this);
                 </span>
                 <span class="muted"><i class="fa fa-user"></i> <a href="">admin</a></span>
                 <time class="muted"><i class="fa fa-clock-o"></i> <?= yii::$app->getFormatter()->asDate($model->created_at) ?></time>
-                <span class="muted"><i class="fa fa-eye"></i> <?= $model->scan_count * 100 ?>℃</span>
+                <span class="muted"><i class="fa fa-eye"></i> <span id="scanCount"><?= $model->scan_count * 100 ?></span>℃</span>
                 <span class="muted"><i class="fa fa-comments-o"></i>
                     <a href="<?= Url::to([
                         'article/view',
                         'id' => $model->id
                     ]) ?>#comments">
-                    <?= $model->comment_count ?>
+                        <span id="commentCount"><?= $model->comment_count ?></span>
                     <?=yii::t('frontend', 'Comment')?></a>
                 </span>
             </div>
@@ -82,7 +82,7 @@ ViewAsset::register($this);
             </p>
 
             <div class="article-social">
-                <a href="javascript:;" data-action="ding" data-id="<?=$model->id?>" id="Addlike" class="action"><i class="fa fa-heart-o"></i><?=yii::t('frontend', 'Like')?> (<span class="count"><?= $model->getArticleLikeCount() ?></span>)</a>
+                <a href="javascript:;" data-action="ding" data-id="<?=$model->id?>" like-url="<?=Url::to(['article/like'])?>" id="Addlike" class="action"><i class="fa fa-heart-o"></i><?=yii::t('frontend', 'Like')?> (<span class="count"><?= $model->getArticleLikeCount() ?></span>)</a>
                 <span class="or">or</span>
                 <span class="action action-share bdsharebuttonbox"><i class="fa fa-share-alt"></i><?=yii::t('frontend', 'Share')?> (<span class="bds_count" data-cmd="count" title="累计分享0次">0</span>)
                     <div class="action-popover">
@@ -189,7 +189,7 @@ ViewAsset::register($this);
                             </div>
                             <span data-type="comment-insert-smilie" class="muted comt-smilie"><i class="fa fa-smile-o"></i> <?= yii::t('frontend', 'emoj') ?></span>
                             <span class="muted comt-mailme"><label for="comment_mail_notify" class="checkbox inline" style="padding-top:0">
-                                <input type="checkbox" name="comment_mail_notify" id="comment_mail_notify" value="comment_mail_notify" checked="checked">有人回复时邮件通知我</label>
+                                <input type="checkbox" name="comment_mail_notify" id="comment_mail_notify" value="comment_mail_notify" checked="checked"><?=yii::t('frontend', 'Send email at someone replied')?></label>
                             </span>
                         </div>
                     </div>
@@ -268,6 +268,17 @@ ViewAsset::register($this);
 <?php JsBlock::begin(); ?>
 <script type="text/javascript">
     SyntaxHighlighter.all();
+    $(document).ready(function () {
+        $.ajax({
+            url:"<?=Url::to(['article/view-ajax'])?>",
+            data:{id:<?=$model->id?>},
+            success:function (data) {
+                $("span.count").html(data.likeCount);
+                $("span#scanCount").html(data.scanCount);
+                $("span#commentCount").html(data.commentCount);
+            }
+        });
+    })
 </script>
 <script>with(document)0[(getElementsByTagName("head")[0]||body).appendChild(createElement("script")).src="http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion="+~(-new Date()/36e5)];</script>
 <?php JsBlock::end(); ?>

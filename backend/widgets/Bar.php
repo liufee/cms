@@ -33,7 +33,6 @@ class Bar extends Widget
         $buttons .= $this->renderDataCellContent();
         if( strpos($this->template, '{sort}' ) ){
             ActiveForm::begin([
-                'action' => Url::to('sort'),
                 'method' => 'post',
                 'options' => ['class' => 'form-horizontal', 'name' => 'sort']
             ]);

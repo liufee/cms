@@ -55,6 +55,8 @@ $(document).ready(function(){
     $(".multi-operate").click(function () {
         var that = $(this);
         var url = $(this).attr('href');
+        var method = $(this).attr('data-method') ? $(this).attr('data-method') : "get";
+        var paramSign = that.attr('param-sign') ? that.attr('param-sign') : "id";
         var ids = new Array();
         $("tr td input[type=checkbox]:checked").each(function(){
             ids.push($(this).val());
@@ -77,16 +79,17 @@ $(document).ready(function(){
             if(isConfirm) {
                 swal(tips.waitingAndNoRefresh, tips.operating+'...', "success");
                 if( that.hasClass("jump") ){//含有jump的class不做ajax处理，跳转页面
-                    var paramSign = that.attr('param-sign') ? that.attr('param-sign') : "id";
                     var jumpUrl = url.indexOf('?') !== -1 ? url + '&' + paramSign + '=' + ids : url + '?' + paramSign + '=' + ids;
                     location.href = jumpUrl;
                     return;
                 }
+                var data = {};
+                data[paramSign] = ids;
                 $.ajax({
                     "url":url,
                     "dataType" : "json",
-                    "type" : "get",
-                    "data":{'id':ids},
+                    "type" : method,
+                    "data":data,
                     "success" : function (data) {
                         swal(tips.success + '!', tips.operatingSuccess + '.', "success");
                         location.reload();
@@ -170,7 +173,7 @@ $(document).ready(function(){
         return false;
     });
 
-    $("form").bind("beforeSubmit", function () {
+    $("form:not(.none-loading)").bind("beforeSubmit", function () {
         $(this).find("button[type=submit]").attr("disabled", true);
         layer.load(2);
     })

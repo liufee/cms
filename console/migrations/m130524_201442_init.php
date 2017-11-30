@@ -1499,15 +1499,6 @@ class m130524_201442_init extends Migration
                     '1',
                     '0',
                 ],
-                [
-                    '1',
-                    'rss',
-                    'http://www.feehi.com/rss',
-                    '1',
-                    'RSS订阅地址',
-                    '1',
-                    '0',
-                ],
             ]
         );
 
