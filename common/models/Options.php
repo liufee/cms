@@ -31,6 +31,10 @@ class Options extends \yii\db\ActiveRecord
 
     const TYPE_SYSTEM = 0;
     const TYPE_CUSTOM = 1;
+    const TYPE_BANNER = 2;
+
+    const CUNSTOM_AUTOLOAD_NO = 0;
+    const CUSTOM_AUTOLOAD_YES = 1;
 
     /**
      * @inheritdoc

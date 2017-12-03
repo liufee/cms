@@ -119,6 +119,7 @@ return [
     'Please select' => '请选择',
     'Allowed not to be deleted, some article belongs to this category.' => '不允许被删除，还有文章属于此分类',
     'Secret article must set a password' => '加密文章必须设置密码',
+    'Only includes alphabet,_,and number' => '仅允许字母数字和下划线',
     /*Article*/
 
     /*Comment*/
@@ -140,8 +141,8 @@ return [
     'Is Absolute Url' => '绝对地址',
     'HTTP Method' => '请求方式',
     'Input new' => '输入',
-    'Select from exists' => '从已有选择',
     'Sub Menu exists, cannot be deleted' => '该菜单还有子菜单，不能被删除',
+    'Select from article category' => '从文章分类选择',
     /*menu*/
 
     /*setting*/
@@ -258,6 +259,7 @@ return [
     'Permissions' => '权限',
     'Group' => '组',
     'Assign Permission' => '分配权限',
+    'Select from exists' => '从已有选择',
     /*rbac*/
 
     /*js*/
@@ -321,4 +323,11 @@ return [
     /*mail*/
     'Follow the link below to reset your password' => '点击以下链接重置密码',
     /*mail*/
+
+    /*banner*/
+    'Sign' => '标识',
+    'Banner Types' => 'Banner类型',
+    'Jump Link' => '跳转链接',
+    'Entry' => '进入',
+    /*banner*/
 ];

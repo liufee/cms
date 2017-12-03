@@ -44,7 +44,7 @@ return [
     'Hot Recommends' => '热门推荐',
     'Clound Tags' => '云标签',
     'Email Suscribe' => '邮件订阅',
-    'Frinendly Links' => '友情链接',
+    'Friendly Links' => '友情链接',
     'Latest Comments' => '最新评论',
     'Subscribe to the wonderful content' => '订阅精彩内容',
     ' Topics' => '个话题',

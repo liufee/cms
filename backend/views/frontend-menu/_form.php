@@ -13,6 +13,8 @@
 
 use backend\widgets\ActiveForm;
 use common\libs\Constants;
+use common\models\Category;
+use common\widgets\JsBlock;
 use frontend\models\Menu;
 use yii\helpers\Html;
 
@@ -35,7 +37,7 @@ if ($parent_id != '') {
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'is_absolute_url')->radioList(Constants::getYesNoItems()) ?>
                 <div class="hr-line-dashed"></div>
-                <?= $form->field($model, 'url')->textInput(['maxlength' => 512]) ?>
+                <?= $form->field($model, 'url', ['template'=>'{label}<div class="col-sm-{size}"><input name="urlType" checked value="new" type="radio">' . yii::t('app', 'Input new') . ' &nbsp;&nbsp;<input value="select" name="urlType" type="radio">' . yii::t('app', 'Select from article category') . '<div class="form-group field-menu-url required">{input}</div>{error}</div>{hint}'])->textInput()?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'sort')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>
@@ -49,3 +51,40 @@ if ($parent_id != '') {
         </div>
     </div>
 </div>
+
+<?php JsBlock::begin() ?>
+<script>
+    String.prototype.trim = function (char, type) {
+        if (char) {
+            if (type == 'left') {
+                return this.replace(new RegExp('^\\'+char+'+', 'g'), '');
+            } else if (type == 'right') {
+                return this.replace(new RegExp('\\'+char+'+$', 'g'), '');
+            }
+            return this.replace(new RegExp('^\\'+char+'+|\\'+char+'+$', 'g'), '');
+        }
+        return this.replace(/^\s+|\s+$/g, '');
+    };
+    $(document).ready(function () {
+        $("input[name=urlType]").change(function () {
+            var val = $(this).val();
+            if (val == 'select') {
+                var input = '<?= str_replace("\n", '', $form->field($model, 'url', ['template' => '{input}'])
+                    ->label(false)
+                    ->dropDownList(Category::getMenuCategories())) ?>';
+            } else {
+                var input = '<?= str_replace("\n", '', $form->field($model, 'url', ['template' => '{input}'])
+                    ->label(false)
+                    ->textInput())?>';
+            }
+            $(this).parent().children("div.field-menu-url").remove();
+            $(this).parent().append(input);
+            if(val == 'select'){
+                $("select[id=menu-url]").bind('change', function(){
+                    $("input[id=menu-name]").val( $("select[id=menu-url] :selected").html().trim('-', 'left') );
+                })
+            }
+        })
+    })
+</script>
+<?php JsBlock::end() ?>

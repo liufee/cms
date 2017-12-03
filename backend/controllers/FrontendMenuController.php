@@ -8,7 +8,7 @@
 namespace backend\controllers;
 
 use yii\data\ArrayDataProvider;
-use common\models\Menu;
+use frontend\models\Menu;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;

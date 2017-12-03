@@ -64,7 +64,7 @@ class ArticleMetaTag extends \common\models\ArticleMeta
     public function getHotestTags($limit=12)
     {
         $model = new self();
-        $tags = $model->findBySql("select value,COUNT(value) as times from {$model->tableName()} where `key`='{$this->keyName}' GROUP BY value order by times desc limit {$limit}")->asArray()->all();
+        $tags = $model->findBySql("select value,any_value(COUNT(value)) as times from {$model->tableName()} where `key`='{$this->keyName}' GROUP BY value order by times desc limit {$limit}")->asArray()->all();
         return ArrayHelper::map($tags, 'value', 'times');
     }
 

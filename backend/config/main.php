@@ -79,6 +79,53 @@ return [
                 ],
             ],
         ],
+        'assetManager' => [
+            'bundles' => [
+                backend\assets\AppAsset::className() => [
+                    'css' => [
+                        'a' => 'static/css/bootstrap.min14ed.css?v=3.3.6',
+                        'b' => 'static/css/font-awesome.min93e3.css?v=4.4.0',
+                        'c' => 'static/css/animate.min.css',
+                        'd' => 'static/css/style.min862f.css?v=4.1.0',
+                        'e' => 'static/css/plugins/sweetalert/sweetalert.css',
+                        'f' => 'static/js/plugins/layer/laydate/need/laydate.css',
+                        'g' => 'static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
+                        'h' => 'static/css/plugins/toastr/toastr.min.css',
+
+                    ],
+                    'js' => [
+                        'a' => 'static/js/feehi.js',
+                        'b' => 'static/js/plugins/sweetalert/sweetalert.min.js',
+                        'c' => 'static/js/plugins/layer/laydate/laydate.js',
+                        'd' => 'static/js/plugins/layer/layer.min.js',
+                        'e' => 'static/js/plugins/prettyfile/bootstrap-prettyfile.js',
+                        'f' => 'static/js/plugins/toastr/toastr.min.js',
+                    ],
+                ],
+                backend\assets\IndexAsset::className() => [
+                    'css' => [
+                        'a' => 'static/css/bootstrap.min.css',
+                        'b' => 'static/css/font-awesome.min93e3.css?v=4.4.0',
+                        'c' => 'static/css/style.min862f.css?v=4.1.0',
+                    ],
+                    'js' => [
+                        'a' => "static/js/jquery.min.js?v=2.1.4",
+                        'b' => "static/js/bootstrap.min.js?v=3.3.6",
+                        'c' => "static/js/plugins/metisMenu/jquery.metisMenu.js",
+                        'd' => "static/js/plugins/slimscroll/jquery.slimscroll.min.js",
+                        'e' => "static/js/plugins/layer/layer.min.js",
+                        'f' => "static/js/hplus.min.js?v=4.1.0",
+                        'g' => "static/js/contabs.min.js",
+                        'h' => "static/js/plugins/pace/pace.min.js",
+                    ]
+                ],
+                backend\assets\UeditorAsset::className() => [
+                    'css' => [
+                        'a' => 'ueditor.all.min.js'
+                    ],
+                ],
+            ]
+        ],
     ],
     'on beforeRequest' => [feehi\components\Feehi::className(), 'backendInit'],
     'as access' => [

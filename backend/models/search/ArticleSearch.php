@@ -36,6 +36,7 @@ class ArticleSearch extends Article
             [['create_start_at', 'create_end_at', 'update_start_at', 'update_end_at'], 'string'],
             [
                 [
+                    'id',
                     'status',
                     'flag_headline',
                     'flag_recommend',
@@ -61,7 +62,8 @@ class ArticleSearch extends Article
             'create_start_at',
             'create_end_at',
             'update_start_at',
-            'update_end_at'
+            'update_end_at',
+            'id'
         ]);
         return $scenarios;
     }
@@ -88,6 +90,7 @@ class ArticleSearch extends Article
             return $dataProvider;
         }
         $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['id' => $this->id])
             ->andFilterWhere(['status' => $this->status])
             ->andFilterWhere(['flag_headline' => $this->flag_headline])
             ->andFilterWhere(['flag_recommend' => $this->flag_recommend])

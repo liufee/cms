@@ -139,7 +139,7 @@ use frontend\models\FriendlyLink;
     <div class="widget widget_text">
         <div class="title">
             <h2>
-                <sapn class="title_span"><?= yii::t('frontend', 'Frinendly Links') ?></sapn>
+                <sapn class="title_span"><?= yii::t('frontend', 'Friendly Links') ?></sapn>
             </h2>
         </div>
         <div class="textwidget">

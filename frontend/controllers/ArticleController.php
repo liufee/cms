@@ -11,6 +11,7 @@ namespace frontend\controllers;
 use yii;
 use common\libs\Constants;
 use frontend\models\form\ArticlePasswordForm;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use frontend\models\Article;
 use common\models\Category;
@@ -35,10 +36,10 @@ class ArticleController extends Controller
                 'only' => ['view'],
                 'lastModified' => function ($action, $params) {
                     $id = yii::$app->getRequest()->get('id');
-                    $article = Article::findOne(['id' => $id]);
-                    if( $article === null ) throw new NotFoundHttpException(yii::t("frontend", "Article id {id} is not exists", ['id' => $id]));
+                    $model = Article::findOne(['id' => $id, 'type' => Article::ARTICLE, 'status' => Article::ARTICLE_PUBLISHED]);
+                    if( $model === null ) throw new NotFoundHttpException(yii::t("frontend", "Article id {id} is not exists", ['id' => $id]));
                     Article::updateAllCounters(['scan_count' => 1], ['id' => $id]);
-                    if($article->visibility == Constants::ARTICLE_VISIBILITY_PUBLIC) return $article->updated_at;
+                    if($model->visibility == Constants::ARTICLE_VISIBILITY_PUBLIC) return $model->updated_at;
                 },
             ],
         ];
@@ -64,7 +65,14 @@ class ArticleController extends Controller
                 if (! $category = Category::findOne(['alias' => $cat])) {
                     throw new NotFoundHttpException(yii::t('frontend', 'None category named {name}', ['name' => $cat]));
                 }
-                $where['cid'] = $category['id'];
+                $descendants = Category::getDescendants($category['id']);
+                if( empty($descendants) ) {
+                    $where['cid'] = $category['id'];
+                }else{
+                    $cids = ArrayHelper::getColumn($descendants, 'id');
+                    $cids[] = $category['id'];
+                    $where['cid'] = $cids;
+                }
             }
         }
         $query = Article::find()->with('category')->where($where);
@@ -85,14 +93,16 @@ class ArticleController extends Controller
     }
 
     /**
-     * 文章详情页
+     * 文章详情
      *
-     * @param integer $id 文章id
+     * @param $id
      * @return string
+     * @throws \yii\web\NotFoundHttpException
      */
     public function actionView($id)
     {
-        $model = Article::findOne(['id' => $id]);
+        $model = Article::findOne(['id' => $id, 'type' => Article::ARTICLE, 'status' => Article::ARTICLE_PUBLISHED]);
+        if( $model === null ) throw new NotFoundHttpException(yii::t("frontend", "Article id {id} is not exists", ['id' => $id]));
         $prev = Article::find()
             ->where(['cid' => $model->cid])
             ->andWhere(['>', 'id', $id])
@@ -155,7 +165,6 @@ class ArticleController extends Controller
     {
         $model = Article::findOne($id);
         if( $model === null ) throw new NotFoundHttpException("None exists article id");
-        if( yii::$app->getRequest()->getIsAjax() ) yii::$app->getResponse()->format = Response::FORMAT_JSON;
         return [
             'likeCount' => (int)$model->getArticleLikeCount(),
             'scanCount' => $model->scan_count * 100,

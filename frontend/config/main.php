@@ -58,21 +58,15 @@ return [
                 //'post/22'=>'site/detail',
                 //'<controller:detail>/<id:\d+>' => '<controller>/index',
                 '' => 'article/index',
-                //'<controller:w+>/<action:\w+>'=>'<controller>/<action>',
                 '<page:\d+>' => 'article/index',
                 'login' => 'site/login',
                 'signup' => 'site/signup',
-                'about|contact' => 'page/view',
-                'page/<name:\w+>' => 'page/view',
                 'view/<id:\d+>' => 'article/view',
                 'comment' => 'article/comment',
-                'article/view/id/<id:\d+>' => 'article/view',
                 'search' => 'search/index',
                 'tag/<tag:\w+>' => 'search/tag',
                 'rss' => 'article/rss',
-                'cat/<cat:\w+>' => 'article/index',
                 'list/<page:\d+>' => 'site/index',
-                'python|java|javascript' => 'article/index',
             ],
         ],
         'i18n' => [
@@ -104,13 +98,38 @@ return [
                 yii\web\JqueryAsset::className() => [
                     'js' => [],
                 ],
+                frontend\assets\AppAsset::className() => [
+                    'css' => [
+                        'a' => 'static/css/style.css',
+                        'b' => 'static/plugins/toastr/toastr.min.css',
+                    ],
+                    'js' => [
+                        'a' => 'static/js/jquery.min.js',
+                        'b' => 'static/js/index.js',
+                        'c' => 'static/plugins/toastr/toastr.min.js',
+                    ],
+                ],
+                frontend\assets\IndexAsset::className() => [
+                    'js' => [
+                        'a' => 'static/js/responsiveslides.min.js',
+                    ]
+                ],
+                frontend\assets\ViewAsset::className() => [
+                    'css' => [
+                        'a' => 'static/syntaxhighlighter/styles/shCoreDefault.css'
+                    ],
+                    'js' => [
+                        'a' => 'static/syntaxhighlighter/scripts/shCore.js',
+                        'b' => 'static/syntaxhighlighter/scripts/shBrushJScript.js',
+                        'c' => 'static/syntaxhighlighter/scripts/shBrushPython.js',
+                        'd' => 'static/syntaxhighlighter/scripts/shBrushPhp.js',
+                        'e' => 'static/syntaxhighlighter/scripts/shBrushJava.js',
+                        'f' =>'static/syntaxhighlighter/scripts/shBrushCss.js',
+                    ]
+                ],
             ]
         ]
     ],
     'params' => $params,
-    'on beforeRequest' => function($event){
-        \feehi\components\Feehi::frontendInit();
-        if(isset(\yii::$app->session['view'])) \yii::$app->viewPath = dirname(__DIR__).'/'.\yii::$app->session['view'];
-        if(isset(\yii::$app->session['language'])) \yii::$app->language = yii::$app->session['language'];
-    }
+    'on beforeRequest' => [feehi\components\Feehi::className(), 'frontendInit'],
 ];

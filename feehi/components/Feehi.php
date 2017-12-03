@@ -8,8 +8,10 @@
 
 namespace feehi\components;
 
-use backend\components\CustomLog;
+use common\models\Category;
 use yii;
+use common\helpers\FileDependencyHelper;
+use backend\components\CustomLog;
 use yii\base\Component;
 use backend\components\AdminLog;
 use common\models\Options;
@@ -41,10 +43,10 @@ class Feehi extends Component
         if (($data = $cache->get($key)) === false) {
             $data = Options::find()->where(['type' => Options::TYPE_SYSTEM])->orwhere([
                 'type' => Options::TYPE_CUSTOM,
-                'autoload' => 1
+                'autoload' => Options::CUSTOM_AUTOLOAD_YES,
             ])->asArray()->indexBy("name")->all();
             $cacheDependencyObject = yii::createObject([
-                'class' => 'common\helpers\FileDependencyHelper',
+                'class' => FileDependencyHelper::className(),
                 'rootDir' => '@backend/runtime/cache/file_dependency/',
                 'fileName' => 'options.txt',
             ]);
@@ -69,6 +71,15 @@ class Feehi extends Component
         }
         if (stripos(yii::$app->params['site']['url'], 'http://') !== 0 && stripos(yii::$app->params['site']['url'], 'https://') !== 0) {
             yii::$app->params['site']['url'] = "http://" . yii::$app->params['site']['url'];
+        }
+
+        if (isset(yii::$app->session['language'])) {
+            yii::$app->language = yii::$app->session['language'];
+        }
+        if (yii::$app->getRequest()->getIsAjax()) {
+            yii::$app->getResponse()->format = Response::FORMAT_JSON;
+        } else {
+            yii::$app->getResponse()->format = Response::FORMAT_HTML;
         }
 
         if (! empty(yii::$app->feehi->smtp_host) && ! empty(yii::$app->feehi->smtp_username)) {
@@ -101,6 +112,13 @@ class Feehi extends Component
         if (! isset(yii::$app->params['site']['url']) || empty(yii::$app->params['site']['url'])) {
             yii::$app->params['site']['url'] = yii::$app->request->getHostInfo();
         }
+        if(isset(yii::$app->session['view'])) yii::$app->viewPath = yii::getAlias('@frontend/view') . yii::$app->session['view'];
+
+        yii::configure(yii::$app->getUrlManager(), [
+            'rules' => array_merge(yii::$app->getUrlManager()->rules, Category::getUrlRules())
+        ]);
+        yii::$app->getUrlManager()->init();
+
         self::configInit();
     }
 
@@ -135,14 +153,6 @@ class Feehi extends Component
                 $event->sender->updated_at = null;
             }
         });
-        if (isset(yii::$app->session['language'])) {
-            yii::$app->language = yii::$app->session['language'];
-        }
-        if (yii::$app->getRequest()->getIsAjax()) {
-            yii::$app->getResponse()->format = Response::FORMAT_JSON;
-        } else {
-            yii::$app->getResponse()->format = Response::FORMAT_HTML;
-        }
         self::configInit();
     }
 

@@ -21,9 +21,6 @@ class UeditorAsset extends yii\web\AssetBundle
         'ueditor.all.min.js',
     ];
 
-    public $css = [];
-
-
     public $publishOptions = [
         'except' => [
             'php/',

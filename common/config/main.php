@@ -51,28 +51,43 @@ $config = [
         'assetManager' => [
             'bundles' => [
                 yii\widgets\ActiveFormAsset::className() => [
-                    'js' => ['yii.activeForm.js'],
+                    'js' => [
+                        'a' => 'yii.activeForm.js'
+                    ],
                 ],
                 yii\bootstrap\BootstrapAsset::className() => [
-                    'css' => ['css/bootstrap.css'],
+                    'css' => [],
+                    'sourcePath' => null,
                 ],
                 yii\captcha\CaptchaAsset::className() => [
-                    'js' => ['yii.captcha.js'],
+                    'js' => [
+                        'a' => 'yii.captcha.js'
+                    ],
                 ],
                 yii\grid\GridViewAsset::className() => [
-                    'js' => ['yii.gridView.js'],
+                    'js' => [
+                        'a' => 'yii.gridView.js'
+                    ],
                 ],
                 yii\web\JqueryAsset::className() => [
-                    'js' => ['jquery.js'],
+                    'js' => [
+                        'a' => 'jquery.js'
+                    ],
                 ],
                 yii\widgets\PjaxAsset::className() => [
-                    'js' => ['jquery.pjax.js'],
+                    'js' => [
+                        'a' => 'jquery.pjax.js'
+                    ],
                 ],
                 yii\web\YiiAsset::className() => [
-                    'js' => ['yii.js'],
+                    'js' => [
+                        'a' => 'yii.js'
+                    ],
                 ],
                 yii\validators\ValidationAsset::className() => [
-                    'js' => ['yii.validation.js'],
+                    'js' => [
+                        'a' => 'yii.validation.js'
+                    ],
                 ],
             ],
         ],
