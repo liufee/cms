@@ -35,4 +35,6 @@ return [
     '测试组' => 'Demo Group',
     '评论' => 'Comments',
     '附件管理' => 'Attachment',
+    '运营管理' => 'Operation Management',
+    'Banner管理' => 'Banner',
 ];

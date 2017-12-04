@@ -8,6 +8,7 @@
 
 namespace backend\grid;
 
+use Closure;
 use yii;
 use InvalidArgumentException;
 use common\libs\Constants;
@@ -63,7 +64,11 @@ class StatusColumn extends DataColumn
                 if( $this->url == '' ) {
                     $url = Url::to(['update', 'id' => $model['id']]);
                 }else {
-                    $url = $this->url;
+                    if( $this->url instanceof Closure){
+                        $url = call_user_func($this->url, $model, $key, $index, $gridView);
+                    }else {
+                        $url = $this->url;
+                    }
                 }
             }
             $aOptions = [];

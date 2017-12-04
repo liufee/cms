@@ -10,10 +10,11 @@ use yii\helpers\Url;
 
 /**
  * @var $model backend\models\form\BannerForm
+ * @var $banner common\models\Options
  */
 $this->params['breadcrumbs'] = [
     ['label' => yii::t('app', 'Banner Types'), 'url' => Url::to(['index'])],
-    ['label' => yii::t('app', 'Banner'), 'url' => Url::to(['banners', 'id'=>yii::$app->getRequest()->get('id')])],
+    ['label' => yii::t('app', 'Banner') . ' (' . $banner->tips . "-{$banner->name})", 'url' => Url::to(['banners', 'id'=>$banner->id])],
     ['label' => yii::t('app', 'Create') . yii::t('app', 'Banner')],
 ];
 ?>

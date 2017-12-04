@@ -11,7 +11,9 @@ namespace common\models;
 use common\libs\Constants;
 use Yii;
 use common\helpers\FileDependencyHelper;
+use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
+use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
 /**
@@ -139,6 +141,18 @@ class Options extends \yii\db\ActiveRecord
             }
         }
         return true;
+    }
+
+    public static function getBannersByType($name)
+    {
+        $model = Options::findOne(['type'=>self::TYPE_BANNER, 'name'=>$name]);
+        if( $model == null ) throw new NotFoundHttpException("None banner type named $name");
+        $banners = json_decode($model->value, true);
+        ArrayHelper::multisort($banners, 'sort');
+        foreach ($banners as $k => $banner){
+            if( $banner['status'] == Constants::Status_Desable ) unset($banners[$k]);
+        }
+        return $banners;
     }
 
 }

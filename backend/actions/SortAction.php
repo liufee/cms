@@ -37,7 +37,7 @@ class SortAction extends \yii\base\Action
                 }
             }
         }
-        $this->controller->redirect(['index']);
+        return $this->controller->redirect(['index']);
     }
 
 }

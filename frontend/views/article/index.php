@@ -12,6 +12,7 @@
  * @var $type string
  */
 
+use common\models\Options;
 use yii\helpers\Url;
 use frontend\widgets\ArticleListView;
 use frontend\controllers\components\Article;
@@ -30,7 +31,7 @@ $this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
     <div class="content">
         <div class="slick_bor">
             <?= ScrollPicView::widget([
-                'dataProvider' => Article::getArticleList(['flag_slide_show' => 1]),
+                'banners' => Options::getBannersByType('index'),
             ]) ?>
             <div class="ws_shadow"></div>
         </div>

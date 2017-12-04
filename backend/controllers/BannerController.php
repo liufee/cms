@@ -17,6 +17,7 @@ use common\models\Options;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\web\BadRequestHttpException;
+use yii\web\UnprocessableEntityHttpException;
 
 class BannerController extends \yii\web\Controller
 {
@@ -62,6 +63,7 @@ class BannerController extends \yii\web\Controller
         ]);
         return $this->render('banners', [
             'dataProvider' => $dataProvider,
+            'banner' => $form->getBannerTypeById($id)
         ]);
     }
 
@@ -84,50 +86,56 @@ class BannerController extends \yii\web\Controller
         $model->loadDefaultValues();
         return $this->render('banner-create', [
             'model' => $model,
+            'banner' => $model->getBannerTypeById($id)
         ]);
     }
 
-    public function actionBannerUpdate($id, $img)
+    public function actionBannerUpdate($id, $sign)
     {
         $model = new BannerForm(['scenario' => 'banner']);
         if (yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(yii::$app->getRequest()->post()) && $model->saveBanner($id, $img)) {
-                yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-                return $this->redirect(['banners', 'id' => $id]);
+            if ($model->load(yii::$app->getRequest()->post()) && $model->saveBanner($id, $sign)) {
+                if( yii::$app->getRequest()->getIsAjax() ) {
+                    return [];
+                }else {
+                    yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+                    return $this->redirect(['banners', 'id' => $id]);
+                }
             } else {
                 $errors = $model->getErrors();
                 $err = '';
                 foreach ($errors as $v) {
                     $err .= $v[0] . '<br>';
                 }
-                Yii::$app->getSession()->setFlash('error', $err);
+                if( yii::$app->getRequest()->getIsAjax() ){
+                    throw new UnprocessableEntityHttpException($err);
+                }else {
+                    yii::$app->getSession()->setFlash('error', $err);
+                }
             }
         }
-        $model = $model->getBannerByImg($id, $img);
+        $model = $model->getBannerBySign($id, $sign);
         return $this->render('banner-update', [
             'model' => $model,
+            'banner' => $model->getBannerTypeById($id)
         ]);
     }
 
-    public function actionBannerDelete($id, $img)
+    public function actionBannerDelete($id, $sign)
     {
         if (yii::$app->getRequest()->getIsAjax()) {//AJAX删除
             if (! $id) {
                 throw new BadRequestHttpException(yii::t('app', "Id doesn't exit"));
             }
-            if (! $img) {
+            if (! $sign) {
                 throw new BadRequestHttpException(yii::t('app', "Img doesn't exit"));
             }
-            $imgs = explode(',', $img);
+            $signs = explode(',', $sign);
             $errorIds = [];
-            /* @var $model yii\db\ActiveRecord */
-            $model = null;
-            foreach ($imgs as $one) {
-
-                if ($model) {
-                    if (! $result = $model->delete()) {
-                        $errorIds[] = $one;
-                    }
+            $model = new BannerForm();
+            foreach ($signs as $one) {
+                if (! $model->deleteBanner($id, $one)) {
+                    $errorIds[] = $one;
                 }
             }
             if (count($errorIds) == 0) {
@@ -147,12 +155,35 @@ class BannerController extends \yii\web\Controller
             if (! $id) {
                 throw new BadRequestHttpException(yii::t('app', "Id doesn't exit"));
             }
-            if (! $img) {
+            if (! $sign) {
                 throw new BadRequestHttpException(yii::t('app', "Img doesn't exit"));
             }
             $model = new BannerForm();
-            $model->deleteBanner($id, $img);
+            $model->deleteBanner($id, $sign);
             return $this->redirect(yii::$app->request->headers['referer']);
         }
+    }
+
+    public function actionBannerSort($id)
+    {
+        if (yii::$app->getRequest()->getIsPost()) {
+            $post = yii::$app->getRequest()->post();
+            if( isset( $post[yii::$app->getRequest()->csrfParam] ) ) {
+                unset($post[yii::$app->getRequest()->csrfParam]);
+            }
+            $model = new BannerForm();
+            $banners = $model->getBannersById($id);
+            foreach ($post['sort'] as $sign => $sort){
+                foreach ($banners as &$banner){
+                    if( $banner['sign'] == $sign ){
+                        $banner['sort'] = $sort;
+                    }
+                }
+            }
+            $model = Options::findOne($id);
+            $model->value = json_encode($banners);
+            $model->save(false);
+        }
+        return $this->redirect(['banners', 'id'=>$id]);
     }
 }
