@@ -6,6 +6,7 @@
  * Created at: 2016-06-21 14:26
  */
 
+use common\models\Options;
 use frontend\controllers\components\Article;
 use yii\helpers\Url;
 use frontend\models\Comment;
@@ -56,8 +57,9 @@ use frontend\models\FriendlyLink;
 
     <div class="widget d_banner">
         <div class="d_banner_inner">
-            <a href="http://www.feehi.com" target="_blank" title="feehi cms">
-                <img src="/static/images/cms.jpg" alt="feehi cms"><span></span>
+            <?php $ad = Options::getAdByName('sidebar_right_1')?>
+            <a href="<?=$ad->link?>" target="<?=$ad->target?>" title="<?=$ad->desc?>">
+                <img src="<?=$ad->ad?>" alt="<?=$ad->desc?>"><span></span>
             </a>
         </div>
     </div>
@@ -89,8 +91,7 @@ use frontend\models\FriendlyLink;
 
     <div class="widget d_banner">
         <div class="d_banner_inner">
-            <img class="alignnone size-full wp-image-516" src="/static/images/t01605ab9200e1b43f8.jpg" alt="ddy"
-                 width="308">
+            <img class="alignnone size-full wp-image-516" src="<?php $ad = Options::getAdByName('sidebar_right_2');echo $ad->ad?>" alt="ddy" width="308">
         </div>
     </div>
     <div class="widget d_tag">

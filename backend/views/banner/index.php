@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Banner Types');
                                         'banners',
                                         'id' => $model['id']
                                     ]), [
-                                        'title' => Yii::t('app', 'Create'),
+                                        'title' => Yii::t('app', 'Entry'),
                                         'data-pjax' => '0',
                                         'class' => 'btn btn-white btn-sm J_menuItem',
                                     ]);

@@ -8,7 +8,7 @@
 
 /**
  * @var $this yii\web\View
- * @var $dataProvider frontend\models\User
+ * @var $dataProvider yii\data\ActiveDataProvider
  * @var $searchModel backend\models\search\UserSearch
  */
 

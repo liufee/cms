@@ -142,4 +142,18 @@ class Constants
         }
         return $items;
     }
+
+    const AD_IMG = 1;
+    const AD_VIDEO = 2;
+    const AD_TEXT = 3;
+
+    public static function getAdTypeItems($key = null)
+    {
+        $items = [
+            self::AD_IMG => 'image',
+            self::AD_VIDEO => 'video',
+            self::AD_TEXT => 'text',
+        ];
+        return self::getItems($items, $key);
+    }
 }

@@ -56,7 +56,12 @@ class BannerForm extends \Common\models\Options
     {
         return [
             [['name'], 'unique'],
-            [['name'],  'match', 'pattern' => '/^[a-zA-Z0-9_]+$/', 'message' => yii::t('app', 'Only includes alphabet,_,and number')],
+            [
+                ['name'],
+                'match',
+                'pattern' => '/^[a-zA-Z][0-9_]*/',
+                'message' => yii::t('app', 'Must begin with alphabet and can only includes alphabet,_,and number')
+            ],
             [['name', 'tips'], 'required'],
             [['sort', 'status'], 'integer'],
             [['sign', 'target', 'link', 'desc'], 'string'],

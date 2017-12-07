@@ -185,9 +185,8 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 * [lcs消费金融](http://118.89.241.65/)   
 * [吉安市食品药品监督管理局](http://jamsda.jsz2.com:8011/)  
 * [微信公众号益乐游戏](http://www.ylegame.com/)  
-* [Usens Dev博客](http://dev.usenslnc.com/)  
+* [Usens Dev博客](http://dev.usensinc.com/)  
 * [最美容颜](http://www.zmface.com/)  
-* [有温度](http://youwendu.cn/)  
 * [云上旅游集团](http://www.ys517.cn/)  
 * [微信公众号蚂蚁鲜生](http://www.chijidun.com/) 
 *  ......

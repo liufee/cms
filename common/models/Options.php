@@ -8,6 +8,7 @@
 
 namespace common\models;
 
+use backend\models\form\AdForm;
 use common\libs\Constants;
 use Yii;
 use common\helpers\FileDependencyHelper;
@@ -34,6 +35,7 @@ class Options extends \yii\db\ActiveRecord
     const TYPE_SYSTEM = 0;
     const TYPE_CUSTOM = 1;
     const TYPE_BANNER = 2;
+    const TYPE_AD = 3;
 
     const CUNSTOM_AUTOLOAD_NO = 0;
     const CUSTOM_AUTOLOAD_YES = 1;
@@ -145,7 +147,7 @@ class Options extends \yii\db\ActiveRecord
 
     public static function getBannersByType($name)
     {
-        $model = Options::findOne(['type'=>self::TYPE_BANNER, 'name'=>$name]);
+        $model = Options::findOne(['type'=>self::TYPE_BANNER, 'name'=>$name, 'autoload'=>Constants::Status_Enable]);
         if( $model == null ) throw new NotFoundHttpException("None banner type named $name");
         $banners = json_decode($model->value, true);
         ArrayHelper::multisort($banners, 'sort');
@@ -153,6 +155,17 @@ class Options extends \yii\db\ActiveRecord
             if( $banner['status'] == Constants::Status_Desable ) unset($banners[$k]);
         }
         return $banners;
+    }
+
+    public static function getAdByName($name)
+    {
+        $model = AdForm::findOne(['type'=>self::TYPE_AD, 'name'=>$name]);
+        if( $model == null ) throw new NotFoundHttpException("None ad named $name");
+        $temp = json_decode($model->value);
+        foreach ($temp as $k => $v){
+            $model->$k = $v;
+        }
+        return $model;
     }
 
 }
