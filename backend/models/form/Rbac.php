@@ -167,6 +167,7 @@ class Rbac extends yii\base\Model
             'sort' => $this->sort,
         ]);
         if( $authManager->add($role) ){
+            if( $this->permissions === null ) $this->permissions = [];
             $this->permissions = array_flip($this->permissions);
             if (isset($this->permissions[0])) unset($this->permissions[0]);
             $this->permissions = array_flip($this->permissions);
@@ -205,6 +206,7 @@ class Rbac extends yii\base\Model
         $oldPermissions = array_keys( $authManager->getPermissionsByRole($name) );
 
         if( $authManager->update($name, $role) ){
+            if( $this->permissions === null ) $this->permissions = [];
             $this->permissions = array_flip($this->permissions);
             if (isset($this->permissions[0])) unset($this->permissions[0]);
             $this->permissions = array_flip($this->permissions);

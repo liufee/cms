@@ -1,7 +1,7 @@
 yii.confirm = function(message, ok, cancel) {
     var url = $(this).attr('href');
     var if_pjax = $(this).attr('data-pjax') ? $(this).attr('data-pjax') : 0;
-    var method = $(this).attr('data-method') ? $(this).attr('data-method') : "get";
+    var method = $(this).attr('data-method') ? $(this).attr('data-method') : "post";
     var data = $(this).attr('data-params') ? JSON.parse( $(this).attr('data-params') ) : '';
     swal({
         title: message,
@@ -55,7 +55,7 @@ $(document).ready(function(){
     $(".multi-operate").click(function () {
         var that = $(this);
         var url = $(this).attr('href');
-        var method = $(this).attr('data-method') ? $(this).attr('data-method') : "get";
+        var method = $(this).attr('data-method') ? $(this).attr('data-method') : "post";
         var paramSign = that.attr('param-sign') ? that.attr('param-sign') : "id";
         var ids = new Array();
         $("tr td input[type=checkbox]:checked").each(function(){

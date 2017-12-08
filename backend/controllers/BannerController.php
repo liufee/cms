@@ -17,6 +17,7 @@ use common\models\Options;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\web\BadRequestHttpException;
+use yii\web\MethodNotAllowedHttpException;
 use yii\web\UnprocessableEntityHttpException;
 
 class BannerController extends \yii\web\Controller
@@ -121,14 +122,18 @@ class BannerController extends \yii\web\Controller
         ]);
     }
 
-    public function actionBannerDelete($id, $sign)
+    public function actionBannerDelete($id, $sign=null)
     {
-        if (yii::$app->getRequest()->getIsAjax()) {//AJAX删除
+        if (yii::$app->getRequest()->getIsPost()) {
             if (! $id) {
                 throw new BadRequestHttpException(yii::t('app', "Id doesn't exit"));
             }
+            $param = yii::$app->getRequest()->post('sign', null);
+            if( $param !== null ){
+                $sign = $param;
+            }
             if (! $sign) {
-                throw new BadRequestHttpException(yii::t('app', "Img doesn't exit"));
+                throw new BadRequestHttpException(yii::t('app', "Sign doesn't exit"));
             }
             $signs = explode(',', $sign);
             $errorIds = [];
@@ -152,15 +157,7 @@ class BannerController extends \yii\web\Controller
                 throw new UnprocessableEntityHttpException('id ' . implode(',', $errorIds) . $err);
             }
         } else {
-            if (! $id) {
-                throw new BadRequestHttpException(yii::t('app', "Id doesn't exit"));
-            }
-            if (! $sign) {
-                throw new BadRequestHttpException(yii::t('app', "Img doesn't exit"));
-            }
-            $model = new BannerForm();
-            $model->deleteBanner($id, $sign);
-            return $this->redirect(yii::$app->request->headers['referer']);
+            throw new MethodNotAllowedHttpException(yii::t('app', "Delete must be POST http method"));
         }
     }
 

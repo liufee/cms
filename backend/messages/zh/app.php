@@ -47,7 +47,7 @@ return [
     'next' => '下一页',
     'last' => '尾页',
     'No picture' => '无图',
-    'Realy to delete?' => '真的要删除吗？',
+    'Really to delete?' => '真的要删除吗？',
     'Are you sure you want to delete this item?' => '确认要删除此项吗?',
     '{attribute} cannot be blank.' => '{attribute}不能为空.',
     'Allowed not to be deleted, sub level exsited.' => '还有子项存在,不允许被删除',
@@ -78,6 +78,7 @@ return [
     '{attribute} is incorrect.' => '{attribute}不正确',
     'Permission denied' => "无权限",
     'Cannot be themselves descendants sub' => '不能是他自己子类的子类',
+    'Delete must be POST http method' => '只允许使用POST删除',
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',

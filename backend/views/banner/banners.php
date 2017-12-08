@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] =  yii::t('app', 'Banner') . ' (' . $banner->tips
                             return Html::a('<i class="fa fa-trash-o"></i> ' . yii::t('app', 'Delete'), Url::to(['banner-delete', 'id' => yii::$app->getRequest()->get('id')]), [
                                 'title' => yii::t('app', 'Delete'),
                                 'data-pjax' => '0',
-                                'data-confirm' => yii::t('app', 'Realy to delete?'),
+                                'data-confirm' => yii::t('app', 'Really to delete?'),
                                 'param-sign'=>'sign',
                                 'class' => 'btn btn-white btn-sm multi-operate',
                             ]);

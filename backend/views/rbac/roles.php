@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Roles');
                             return Html::a('<i class="fa fa-trash-o"></i> ' . yii::t('app', 'Delete'), Url::to(['role-delete']), [
                                 'title' => yii::t('app', 'Delete'),
                                 'data-pjax' => '0',
-                                'data-confirm' => yii::t('app', 'Realy to delete?'),
+                                'data-confirm' => yii::t('app', 'Really to delete?'),
                                 'class' => 'btn btn-white btn-sm multi-operate',
                             ]);
                         }

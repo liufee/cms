@@ -48,12 +48,12 @@ class BannerCest
     public function checkBanners(FunctionalTester $I)
     {
         $I->amOnPage(Url::toRoute('/banner/index'));
-        $urls = $I->grabMultiple("a[title=编辑]", 'href');
-        $I->amOnPage($urls[0]);
         $I->see("图片");
         $I->click("a[title=进入]");
+        $I->click("a[title=编辑]");
         $I->fillField("BannerForm[desc]", 'banner图片描述');
         $I->submitForm("button[type=submit]", []);
+        $I->click("a[title=编辑]");
         $I->seeInField("BannerForm[desc]", "banner图片描述");
     }
 }

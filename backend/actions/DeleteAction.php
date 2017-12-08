@@ -10,24 +10,49 @@ namespace backend\actions;
 
 use yii;
 use yii\web\BadRequestHttpException;
+use yii\web\MethodNotAllowedHttpException;
+use yii\web\Response;
 use yii\web\UnprocessableEntityHttpException;
 
 class DeleteAction extends \yii\base\Action
 {
 
+    /**
+     * @var string model类名
+     */
     public $modelClass;
+
+    /**
+     * @var string post过来的主键key名
+     */
+    public $paramSign = 'id';
+
+    /**
+     * @var string ajax请求返回数据格式
+     */
+    public $ajaxResponseFormat = Response::FORMAT_JSON;
 
     /**
      * delete删除
      *
-     * @param $id
-     * @return array|\yii\web\Response
-     * @throws \yii\web\BadRequestHttpException
-     * @throws \yii\web\UnprocessableEntityHttpException
+     * @param string $id
+     * @return array|Response
+     * @throws BadRequestHttpException
+     * @throws MethodNotAllowedHttpException
+     * @throws UnprocessableEntityHttpException
      */
-    public function run($id)
+    public function run($id=null)
     {
-        if (yii::$app->getRequest()->getIsAjax()) {//AJAX删除
+        if (yii::$app->getRequest()->getIsPost()) {//只允许post删除
+
+            $param = yii::$app->getRequest()->post($this->paramSign, null);
+            if($param !== null){
+                $id = $param;
+            }
+
+            if( yii::$app->getRequest()->getIsAjax() ){
+                yii::$app->getResponse()->format = $this->ajaxResponseFormat;
+            }
             if (! $id) {
                 throw new BadRequestHttpException(yii::t('app', "Id doesn't exit"));
             }
@@ -44,6 +69,7 @@ class DeleteAction extends \yii\base\Action
                 }
             }
             if (count($errorIds) == 0) {
+                if( !yii::$app->getRequest()->getIsAjax() ) return $this->controller->redirect(yii::$app->getRequest()->headers['referer']);
                 return [];
             } else {
                 $errors = $model->getErrors();
@@ -57,14 +83,7 @@ class DeleteAction extends \yii\base\Action
                 throw new UnprocessableEntityHttpException('id ' . implode(',', $errorIds) . $err);
             }
         } else {
-            if (! $id) {
-                throw new BadRequestHttpException(yii::t('app', "Id doesn't exit"));
-            }
-            $model = call_user_func([$this->modelClass, 'findOne'], $id);
-            if ($model) {
-                $model->delete();
-            }
-            return $this->controller->redirect(yii::$app->request->headers['referer']);
+            throw new MethodNotAllowedHttpException(yii::t('app', "Delete must be POST http method"));
         }
     }
 

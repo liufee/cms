@@ -11,6 +11,7 @@ namespace backend\controllers;
 use yii;
 use backend\models\search\RbacSearch;
 use backend\models\form\Rbac;
+use yii\web\MethodNotAllowedHttpException;
 use yii\web\Response;
 use yii\web\UnprocessableEntityHttpException;
 
@@ -87,13 +88,16 @@ class RbacController extends \yii\web\Controller
         ]);
     }
 
-    public function actionPermissionDelete($name='')
+    public function actionPermissionDelete($name=null)
     {
         $model = new Rbac(['scenario'=>'permission']);
-        if( yii::$app->getRequest()->getIsAjax() ){
+        if( yii::$app->getRequest()->getIsPost() ){
             yii::$app->getResponse()->format = Response::FORMAT_JSON;
-            $id = yii::$app->getRequest()->get('name', '');
-            $ids = explode(',', $id);
+            $param = yii::$app->getRequest()->post('id', null);
+            if($param !== null){
+                $name = $param;
+            }
+            $ids = explode(',', $name);
             $errorIds = [];
             foreach ($ids as $id) {
                 $model->fillModel($id);
@@ -107,13 +111,7 @@ class RbacController extends \yii\web\Controller
                 return ['code' => 1, 'message' => 'id ' . implode(',', $errorIds) . yii::t('app', 'Error')];
             }
         }else {
-            $model->fillModel($name);
-            if ($model->deletePermission() ) {
-                yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-            } else {
-                yii::$app->getSession()->setFlash('error', yii::t('app', 'Error'));
-            }
-            return $this->redirect('permissions');
+            throw new MethodNotAllowedHttpException(yii::t('app', "Delete must be POST http method"));
         }
     }
 
@@ -188,39 +186,44 @@ class RbacController extends \yii\web\Controller
         $this->redirect(['roles']);
     }
 
-    public function actionRoleDelete($name='')
+    public function actionRoleDelete($name='', $id=null)
     {
-        $model = new Rbac(['scenario'=>'role']);
-        if ($name == '') {
-            Yii::$app->getResponse()->format = Response::FORMAT_JSON;
-            $id = yii::$app->getRequest()->get('id', '');
-            if (! $id) {
-                return ['code' => 1, 'message' => yii::t('app', "Name doesn't exit")];
-            }
-            $ids = explode(',', $id);
-            $errorIds = [];
-            foreach ($ids as $one) {
-                $model->fillModel($one);
-                if (! $model->deleteRole()) {
-                    $errorIds[] = $one;
+        if( yii::$app->getRequest()->getIsPost() ) {
+            $model = new Rbac(['scenario' => 'role']);
+            if ($name == '') {
+                Yii::$app->getResponse()->format = Response::FORMAT_JSON;
+                $param = yii::$app->getRequest()->post('id', null);
+                if($param !== null) $id = $param;
+                if (!$id) {
+                    return ['code' => 1, 'message' => yii::t('app', "Name doesn't exit")];
                 }
-            }
-            if (count($errorIds) == 0) {
-                return [];
-            } else {
-                throw new UnprocessableEntityHttpException('id ' . implode(',', $errorIds));
-            }
-        }else {
-            $model->fillModel($name);
-            if ($model->deleteRole()) {
-                if (yii::$app->getRequest()->getIsAjax()) {
+                $ids = explode(',', $id);
+                $errorIds = [];
+                foreach ($ids as $one) {
+                    $model->fillModel($one);
+                    if (!$model->deleteRole()) {
+                        $errorIds[] = $one;
+                    }
+                }
+                if (count($errorIds) == 0) {
                     return [];
-                }else{
-                    return $this->redirect(yii::$app->request->headers['referer']);
+                } else {
+                    throw new UnprocessableEntityHttpException('id ' . implode(',', $errorIds));
                 }
             } else {
-                throw new UnprocessableEntityHttpException(yii::t('app', 'Error'));
+                $model->fillModel($name);
+                if ($model->deleteRole()) {
+                    if (yii::$app->getRequest()->getIsAjax()) {
+                        return [];
+                    } else {
+                        return $this->redirect(yii::$app->request->headers['referer']);
+                    }
+                } else {
+                    throw new UnprocessableEntityHttpException(yii::t('app', 'Error'));
+                }
             }
+        }else{
+            throw new MethodNotAllowedHttpException(yii::t('app', "Delete must be POST http method"));
         }
     }
 
