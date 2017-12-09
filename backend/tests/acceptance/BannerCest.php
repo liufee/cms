@@ -52,10 +52,10 @@ class BannerCest
     {
         $this->setCookie($I);
         $I->amOnPage(Url::toRoute('/banner/index'));
-        $I->see('	Banner类型');
-        $I->see("	描述");
+        $I->see('Banner类型');
+        $I->see("描述");
         $I->click("a[title=编辑]");
-        $I->see("	编辑Banner类型");
+        $I->see("编辑Banner类型");
         $I->fillField("BannerForm[tips]", 'banner类型描述');
         $I->submitForm("button[type=submit]", []);
         $I->seeInField("BannerForm[tips]", "banner类型描述");

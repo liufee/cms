@@ -39,7 +39,8 @@ class BannerController extends \yii\web\Controller
             'delete' => [
                 'class' => DeleteAction::className(),
                 'modelClass' => BannerForm::className(),
-            ]
+                'scenario' => 'type',
+            ],
         ];
     }
 

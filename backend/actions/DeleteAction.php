@@ -33,6 +33,11 @@ class DeleteAction extends \yii\base\Action
     public $ajaxResponseFormat = Response::FORMAT_JSON;
 
     /**
+     * @var string 场景
+     */
+    public $scenario = 'default';
+
+    /**
      * delete删除
      *
      * @param string $id
@@ -63,6 +68,7 @@ class DeleteAction extends \yii\base\Action
             foreach ($ids as $one) {
                 $model = call_user_func([$this->modelClass, 'findOne'], $one);
                 if ($model) {
+                    $model->setScenario($this->scenario);
                     if (! $result = $model->delete()) {
                         $errorIds[] = $one;
                     }

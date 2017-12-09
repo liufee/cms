@@ -149,6 +149,7 @@ class Options extends \yii\db\ActiveRecord
     {
         $model = Options::findOne(['type'=>self::TYPE_BANNER, 'name'=>$name, 'autoload'=>Constants::Status_Enable]);
         if( $model == null ) throw new NotFoundHttpException("None banner type named $name");
+        if( $model->value == '' ) $model->value = '[]';
         $banners = json_decode($model->value, true);
         ArrayHelper::multisort($banners, 'sort');
         foreach ($banners as $k => $banner){
@@ -161,6 +162,7 @@ class Options extends \yii\db\ActiveRecord
     {
         $model = AdForm::findOne(['type'=>self::TYPE_AD, 'name'=>$name]);
         if( $model == null ) throw new NotFoundHttpException("None ad named $name");
+        if( $model->value == '' ) $model->value = '[]';
         $temp = json_decode($model->value);
         foreach ($temp as $k => $v){
             $model->$k = $v;
