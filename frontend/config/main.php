@@ -62,6 +62,7 @@ return [
                 'login' => 'site/login',
                 'signup' => 'site/signup',
                 'view/<id:\d+>' => 'article/view',
+                'page/<name:\w+>' => 'page/view',
                 'comment' => 'article/comment',
                 'search' => 'search/index',
                 'tag/<tag:\w+>' => 'search/tag',

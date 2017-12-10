@@ -118,7 +118,7 @@ class AdForm extends \Common\models\Options
     public function afterFind()
     {
         $value = json_decode($this->value);
-        $this->ad = $value->ad;
+        $this->ad = ($this->input_type == Constants::AD_TEXT ? $value->ad : yii::$app->params['site']['url'] . $value->ad);
         $this->link = $value->link;
         $this->desc = $value->desc;
         $this->target = $value->target;
@@ -126,7 +126,6 @@ class AdForm extends \Common\models\Options
         $this->created_at = $value->created_at;
         $this->setOldAttributes([
             'id' => $this->id,
-            'type' => $this->type,
             'name' => $this->name,
             'value' => $this->value,
             'input_type' => $this->input_type,

@@ -1262,9 +1262,9 @@ class m130524_201442_init extends Migration
                 ['21','0','19','清除后台','clear/backend','','0','_blank','0','1','1505570994','1505570994'],
                 ['22','0','0','日志','log/index','fa fa-history','8','_blank','0','1','1505571212','1512380045'],
                 ['23','1','0','首页','/','','0','_self','0','1','1505636890','1505637024'],
-                ['24','1','0','php','cat/php','','0','_self','0','1','1505636915','1505636937'],
-                ['25','1','0','java','cat/java','','0','_self','0','1','1505636975','1505636975'],
-                ['26','1','0','javascript','cat/javascript','','0','_self','0','1','1505637000','1505637000'],
+                ['24','1','0','php','/php','','0','_self','0','1','1505636915','1505636937'],
+                ['25','1','0','java','/java','','0','_self','0','1','1505636975','1505636975'],
+                ['26','1','0','javascript','/javascript','','0','_self','0','1','1505637000','1505637000'],
                 ['27','0','0','运营管理','','fa fa-ils','1','_self','0','1','1505637000','1505637000'],
                 ['28','0','27','Banner管理','banner/index','','0','_self','0','1','1505637000','1505637000'],
                 ['29','0','27','广告管理','ad/index','','0','_self','0','1','1505637000','1505637000'],
@@ -1503,7 +1503,7 @@ class m130524_201442_init extends Migration
                     '0',
                 ],
                 ['2', 'index', '[{"sign":"5a251a3013586","img":"\/uploads\/setting\/banner\/5a251a301280d_1.png","target":"_blank","link":"\/view\/11","sort":"3","status":"1","desc":""},{"sign":"5a251a4932a52","img":"\/uploads\/setting\/banner\/5a251a4930fc2_2.jpg","target":"_blank","link":"\/view\/15","sort":"2","status":"1","desc":""},{"sign":"5a251a5690fe9","img":"\/uploads\/setting\/banner\/5a251a568f966_3.jpg","target":"_blank","link":"\/view\/16","sort":"1","status":"1","desc":""}]', '1', '首页banner', '1', '0'],
-                ['3', 'sidebar_right_1', '{"ad":"\/uploads\/setting\/ad\/5a292c0fda836_cms.jpg","link":"http://www.feehi.com","target":"_blank","desc":"FeehiCMS","created_at":1512641320,"updated_at":1512647776}', '1', '网站右侧广告位1', '1', '1'],
+                ['3', 'sidebar_right_1', '{"ad":"\/uploads\/setting\/ad\/5a292c0fda836_cms.jpg","link":"http://www.feehi.com","target":"_blank","desc":"FeehiCMS","created_at":1512641320,"updated_at":1512647776}', '1', '网站右侧广告位1', '1', '0'],
                 ['3', 'sidebar_right_2', '{"ad":"\/uploads\/setting\/ad\/5a291f9236479_22.jpg","link":"","target":"_blank","desc":"\u6700\u597d\u7684\u8fd0\u52a8\u624b\u8868","created_at":1512644498,"updated_at":1512647586}', '1', '网站右侧广告位2', '1', '0'],
 
             ]

@@ -61,9 +61,9 @@ AppAsset::register($this);
             </div>
             <div class="menu-container">
                 <ul id="menu-page" class="top-menu">
-                    <a target="_blank" href="/about"><?= yii::t('frontend', 'About us') ?></a>
+                    <a target="_blank" href="<?=Url::to(['page/view', 'name'=>'about'])?>"><?= yii::t('frontend', 'About us') ?></a>
                     |
-                    <a target="_blank" href="/contact"><?= yii::t('frontend', 'Contact us') ?></a>
+                    <a target="_blank" href="<?=Url::to(['page/view', 'name'=>'contact'])?>"><?= yii::t('frontend', 'Contact us') ?></a>
                 </ul>
             </div>
         </div>

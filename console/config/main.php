@@ -43,14 +43,14 @@ return [
                 'log_level' => 0,
                 'pid_file' => __DIR__ . '/../../frontend/runtime/server.pid',
             ],
-                ],
-                'swoole-backend' => [
-                'class' => \feehi\console\SwooleController::className(),
-                'rootDir' => str_replace('console/config', '', __DIR__ ),//yii2项目根路径
-                        'app' => 'backend',
-                        'host' => '127.0.0.1',
-                        'port' => 9998,
-                        'swooleConfig' => [
+        ],
+        'swoole-backend' => [
+        'class' => \feehi\console\SwooleController::className(),
+        'rootDir' => str_replace('console/config', '', __DIR__ ),//yii2项目根路径
+            'app' => 'backend',
+            'host' => '127.0.0.1',
+            'port' => 9998,
+            'swooleConfig' => [
                 'reactor_num' => 2,
                 'worker_num' => 4,
                 'daemonize' => true,
@@ -58,7 +58,7 @@ return [
                 'log_level' => 0,
                 'pid_file' => __DIR__ . '/../../backend/runtime/server.pid',
             ],
-                ]
+        ]
     ],
     'params' => $params,
 ];

@@ -116,7 +116,7 @@ class Options extends \yii\db\ActiveRecord
                 $upload = UploadedFile::getInstanceByName($key);
                 $old = Options::findOne($this->id);
                 if($upload !== null){
-                    $uploadPath = yii::getAlias('@admin/uploads/custom-setting/');
+                    $uploadPath = yii::getAlias('@uploads/custom-setting/');
                     if (! FileHelper::createDirectory($uploadPath)) {
                         $this->addError($key, "Create directory failed " . $uploadPath);
                         return false;

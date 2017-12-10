@@ -106,7 +106,7 @@ class BannerForm extends \Common\models\Options
             $models[] = new self([
                 'id' => $model->id,
                 'sign' => $banner->sign,
-                'img' => $banner->img,
+                'img' => yii::$app->params['site']['url'] . $banner->img,
                 'target' => $banner->target,
                 'desc' => $banner->desc,
                 'link' => $banner->link,

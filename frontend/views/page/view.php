@@ -12,12 +12,20 @@
  */
 
 use frontend\models\Article;
+use yii\helpers\Url;
 
 $this->title = $model->title . '-' . yii::$app->feehi->website_title;
 
 $this->registerMetaTag(['keywords' => $model->seo_keywords]);
 $this->registerMetaTag(['description' => $model->seo_description]);
-$this->registerMetaTag(['tags' => $model->tag]);
+$this->registerMetaTag(['tags' => call_user_func(function()use($model) {
+    $tags = '';
+    foreach ($model->articleTags as $tag) {
+        $tags .= $tag->value . ',';
+    }
+    return rtrim($tags, ',');
+}
+)]);
 ?>
 <div class="pagewrapper clearfix">
     <aside class="pagesidebar">
@@ -25,7 +33,7 @@ $this->registerMetaTag(['tags' => $model->tag]);
             <?php
             $menus = Article::find()->where(['type' => Article::SINGLE_PAGE])->all();
             foreach ($menus as $menu) {
-                $url = '/' . $menu['sub_title'];
+                $url = Url::to(['page/view', 'name'=>$menu['sub_title']]);
                 $current = '';
                 if (yii::$app->request->get('id', '') == $menu->id) {
                     $current = " current-menu-item current-page-item ";

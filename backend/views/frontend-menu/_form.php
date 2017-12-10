@@ -66,12 +66,35 @@ if ($parent_id != '') {
         return this.replace(/^\s+|\s+$/g, '');
     };
     $(document).ready(function () {
-        $("input[name=urlType]").change(function () {
+        var urlType = $("input[name=urlType]");
+        var categoryUrl =
+        <?php
+            $menuCategories = Category::getMenuCategories();
+            if($model->id){
+                foreach ($menuCategories as $k => $menuCategory){
+                    if($k == $model->url){
+                        echo "'" . $k ."';";
+                        break;
+                    }
+                }
+                echo "'';";
+            }
+        ?>
+        if( categoryUrl != '' ){
+            $("input[value=new]").attr('checked', false);
+            $("input[value=select]").attr('checked', true);
+            var input = '<?= str_replace("\n", '', $form->field($model, 'url', ['template' => '{input}'])
+                ->label(false)
+                ->dropDownList($menuCategories)) ?>';
+            urlType.parent().children("div.field-menu-url").remove();
+            urlType.parent().append(input);
+        }
+        urlType.change(function () {
             var val = $(this).val();
             if (val == 'select') {
                 var input = '<?= str_replace("\n", '', $form->field($model, 'url', ['template' => '{input}'])
                     ->label(false)
-                    ->dropDownList(Category::getMenuCategories())) ?>';
+                    ->dropDownList($menuCategories)) ?>';
             } else {
                 var input = '<?= str_replace("\n", '', $form->field($model, 'url', ['template' => '{input}'])
                     ->label(false)
@@ -81,7 +104,7 @@ if ($parent_id != '') {
             $(this).parent().append(input);
             if(val == 'select'){
                 $("select[id=menu-url]").bind('change', function(){
-                    $("input[id=menu-name]").val( $("select[id=menu-url] :selected").html().trim('-', 'left') );
+                    $("input[id=menu-name]").val( $("select[id=menu-url] :selected").html().trim(' │', 'left').trim(' ├', 'left').trim(' └', 'left').trim('-', 'left') );
                 })
             }
         })
