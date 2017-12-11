@@ -78,6 +78,8 @@ if ($parent_id != '') {
                     }
                 }
                 echo "'';";
+            }else{
+                echo "'';";
             }
         ?>
         if( categoryUrl != '' ){
@@ -88,6 +90,7 @@ if ($parent_id != '') {
                 ->dropDownList($menuCategories)) ?>';
             urlType.parent().children("div.field-menu-url").remove();
             urlType.parent().append(input);
+            $("select[id=menu-url]").bind('change', changeCategoryMenu);
         }
         urlType.change(function () {
             var val = $(this).val();
@@ -103,11 +106,13 @@ if ($parent_id != '') {
             $(this).parent().children("div.field-menu-url").remove();
             $(this).parent().append(input);
             if(val == 'select'){
-                $("select[id=menu-url]").bind('change', function(){
-                    $("input[id=menu-name]").val( $("select[id=menu-url] :selected").html().trim(' │', 'left').trim(' ├', 'left').trim(' └', 'left').trim('-', 'left') );
-                })
+                $("select[id=menu-url]").bind('change', changeCategoryMenu);
             }
         })
     })
+    function changeCategoryMenu()
+    {
+        $("input[id=menu-name]").val( $("select[id=menu-url] :selected").html().trim(' │', 'left').trim(' ├', 'left').trim(' └', 'left').trim('-', 'left') );
+    }
 </script>
 <?php JsBlock::end() ?>

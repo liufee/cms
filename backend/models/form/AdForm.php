@@ -94,11 +94,11 @@ class AdForm extends \Common\models\Options
                 if (file_exists($file) && is_file($file)) unlink($file);
             }
             if ($upload === null) {
-                if ($this->ad !== '' && $this->input_type == Constants::AD_IMG) {//删除
+                if ($this->ad === '0' && $this->input_type == Constants::AD_IMG) {//删除
                     $file = yii::getAlias('@frontend/web') . $this->getOldAttribute('ad');
                     if (file_exists($file) && is_file($file)) unlink($file);
                     $this->ad = '';
-                } else if( $this->input_type != Constants::AD_TEXT ){
+                }else{
                     $this->ad = $this->getOldAttribute('ad');
                 }
             }
@@ -118,7 +118,7 @@ class AdForm extends \Common\models\Options
     public function afterFind()
     {
         $value = json_decode($this->value);
-        $this->ad = ($this->input_type == Constants::AD_TEXT ? $value->ad : yii::$app->params['site']['url'] . $value->ad);
+        $this->ad = $value->ad;
         $this->link = $value->link;
         $this->desc = $value->desc;
         $this->target = $value->target;

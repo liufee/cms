@@ -60,6 +60,13 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Pages');
                             'attribute' => 'author_name',
                         ],
                         [
+                            'label' => yii::t('app', 'Url'),
+                            'format' => 'raw',
+                            'value' => function($model){
+                                return "<a target='_blank' href='" . yii::$app->params['site']['url'] . 'page/' . $model->sub_title . "'>" . yii::$app->params['site']['url'] . 'page/' . $model->sub_title . '</a>';
+                            },
+                        ],
+                        [
                             'attribute' => 'status',
                             'format' => 'raw',
                             'value' => function ($model, $key, $index, $column) {

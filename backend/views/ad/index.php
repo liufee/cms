@@ -52,9 +52,11 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Ad');
                             'value' => function($model){
                                 switch ($model->input_type){
                                     case Constants::AD_IMG:
-                                        return "<img style='max-width: 200px;max-height: 150px' src='{$model->ad}'>";
+                                        $ad = yii::$app->params['site']['url'] . $model->ad;
+                                        return "<img style='max-width: 200px;max-height: 150px' src='{$ad}'>";
                                     case Constants::AD_VIDEO:
-                                        return "<video style='max-width: 200px;max-height: 150px' src='{$model->ad}' controls='controls'></video>";
+                                        $ad = yii::$app->params['site']['url'] . $model->ad;
+                                        return "<video style='max-width: 200px;max-height: 150px' src='{$ad}' controls='controls'></video>";
                                     case Constants::AD_TEXT:
                                         return $model->ad;
                                 }

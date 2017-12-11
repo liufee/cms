@@ -417,7 +417,7 @@ CREATE TABLE `%__prefix__%friendly_link` (
 --  Records of `friendly_link`
 -- ----------------------------
 BEGIN;
-INSERT INTO `%__prefix__%friendly_link` VALUES ('1', '飞嗨博客', '', 'http://blog.feehi.com', '_blank', '0', '1', '1468303851', '0'), ('2', '飞嗨网', '', 'http://www.feehi.com', '_blank', '0', '1', '1468303882', '0'), ('3', '36kr', '', 'http://www.36kr.com', '_blank', '0', '1', '1468303902', '0'), ('4', '破晓电影', '', 'http://www.poxiao.com', '_blank', '0', '1', '1468303938', '0'), ('5', '翠竹林主题', '', 'http://www.cuizl.com/', '_blank', '0', '1', '1468303974', '0');
+INSERT INTO `%__prefix__%friendly_link` VALUES ('1', '飞嗨博客', '', 'http://blog.feehi.com', '_blank', '0', '1', '1468303851', '1468303974'), ('2', '飞嗨网', '', 'http://www.feehi.com', '_blank', '0', '1', '1468303882', '1468303974'), ('3', '36kr', '', 'http://www.36kr.com', '_blank', '0', '1', '1468303902', '1468303974'), ('4', '破晓电影', '', 'http://www.poxiao.com', '_blank', '0', '1', '1468303938', '1468303974'), ('5', '翠竹林主题', '', 'http://www.cuizl.com/', '_blank', '0', '1', '1468303974', '1468303974');
 COMMIT;
 
 -- ----------------------------
@@ -445,33 +445,33 @@ CREATE TABLE `%__prefix__%menu` (
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
-INSERT INTO `%__prefix__%menu` VALUES ('1', '0', '0', '设置', '', 'fa fa-cogs', '0', '_blank', '0', '1', '1505570067', '1505570067');
+INSERT INTO `%__prefix__%menu` VALUES ('1', '0', '0', '设置', '', 'fa fa-cogs', '1', '_blank', '0', '1', '1505570067', '1505570067');
 INSERT INTO `%__prefix__%menu` VALUES ('2', '0', '1', '网站设置', '/setting/website', '', '0', '_blank', '0', '1', '1505570108', '1505570108');
 INSERT INTO `%__prefix__%menu` VALUES ('3', '0', '1', 'SMTP设置', 'setting/smtp', '', '0', '_blank', '0', '1', '1505570155', '1505570283');
 INSERT INTO `%__prefix__%menu` VALUES ('4', '0', '1', '自定义设置', 'setting/custom', '', '0', '_blank', '0', '1', '1505570187', '1505570187');
-INSERT INTO `%__prefix__%menu` VALUES ('5', '0', '0', '菜单', '', 'fa fa-th-list', '0', '_blank', '0', '1', '1505570320', '1505570498');
+INSERT INTO `%__prefix__%menu` VALUES ('5', '0', '0', '菜单', '', 'fa fa-th-list', '3', '_blank', '0', '1', '1505570320', '1505570498');
 INSERT INTO `%__prefix__%menu` VALUES ('6', '0', '5', '前台菜单', 'frontend-menu/index', '', '0', '_blank', '0', '1', '1505570366', '1505570366');
 INSERT INTO `%__prefix__%menu` VALUES ('7', '0', '5', '后台菜单', 'menu/index', '', '0', '_blank', '0', '1', '1505570382', '1505570382');
-INSERT INTO `%__prefix__%menu` VALUES ('8', '0', '0', '内容', '', 'fa fa-edit', '0', '_blank', '0', '1', '1505570558', '1505570585');
+INSERT INTO `%__prefix__%menu` VALUES ('8', '0', '0', '内容', '', 'fa fa-edit', '4', '_blank', '0', '1', '1505570558', '1505570585');
 INSERT INTO `%__prefix__%menu` VALUES ('9', '0', '8', '文章', 'article/index', '', '0', '_blank', '0', '1', '1505570610', '1505570610');
 INSERT INTO `%__prefix__%menu` VALUES ('10', '0', '8', '分类', 'category/index', '', '0', '_blank', '0', '1', '1505570638', '1505570638');
 INSERT INTO `%__prefix__%menu` VALUES ('11', '0', '8', '评论', 'comment/index', '', '0', '_blank', '0', '1', '1505570661', '1505570707');
 INSERT INTO `%__prefix__%menu` VALUES ('12', '0', '8', '单页', 'page/index', '', '0', '_blank', '0', '1', '1505570687', '1505570687');
-INSERT INTO `%__prefix__%menu` VALUES ('13', '0', '0', '用户', 'user/index', 'fa fa-users', '0', '_blank', '0', '1', '1505570745', '1505570780');
-INSERT INTO `%__prefix__%menu` VALUES ('14', '0', '0', '权限管理', '', 'fa fa-th-large', '0', '_blank', '0', '1', '1505570819', '1505571574');
+INSERT INTO `%__prefix__%menu` VALUES ('13', '0', '0', '用户', 'user/index', 'fa fa-users', '5', '_blank', '0', '1', '1505570745', '1505570780');
+INSERT INTO `%__prefix__%menu` VALUES ('14', '0', '0', '权限管理', '', 'fa fa-th-large', '6', '_blank', '0', '1', '1505570819', '1505571574');
 INSERT INTO `%__prefix__%menu` VALUES ('15', '0', '14', '权限', 'rbac/permissions', '', '0', '_blank', '0', '1', '1505570862', '1505570862');
 INSERT INTO `%__prefix__%menu` VALUES ('16', '0', '14', '角色', 'rbac/roles', '', '0', '_blank', '0', '1', '1505570882', '1505570882');
 INSERT INTO `%__prefix__%menu` VALUES ('17', '0', '14', '管理员', 'admin-user/index', '', '0', '_blank', '0', '1', '1505570902', '1505570902');
-INSERT INTO `%__prefix__%menu` VALUES ('18', '0', '0', '友情链接', 'friendly-link/index', 'fa fa-link', '0', '_blank', '0', '1', '1505570934', '1505571307');
-INSERT INTO `%__prefix__%menu` VALUES ('19', '0', '0', '缓存', '', 'fa fa-file', '0', '_blank', '0', '1', '1505570947', '1505571292');
+INSERT INTO `%__prefix__%menu` VALUES ('18', '0', '0', '友情链接', 'friendly-link/index', 'fa fa-link', '7', '_blank', '0', '1', '1505570934', '1505571307');
+INSERT INTO `%__prefix__%menu` VALUES ('19', '0', '0', '缓存', '', 'fa fa-file', '8', '_blank', '0', '1', '1505570947', '1505571292');
 INSERT INTO `%__prefix__%menu` VALUES ('20', '0', '19', '清除前台', 'clear/frontend', '', '0', '_blank', '0', '1', '1505570974', '1505570974');
 INSERT INTO `%__prefix__%menu` VALUES ('21', '0', '19', '清除后台', 'clear/backend', '', '0', '_blank', '0', '1', '1505570994', '1505570994');
-INSERT INTO `%__prefix__%menu` VALUES ('22', '0', '0', '日志', 'log/index', 'fa fa-history', '0', '_blank', '0', '1', '1505571212', '1505571247');
+INSERT INTO `%__prefix__%menu` VALUES ('22', '0', '0', '日志', 'log/index', 'fa fa-history', '9', '_blank', '0', '1', '1505571212', '1505571247');
 INSERT INTO `%__prefix__%menu` VALUES ('23', '1', '0', '首页', '/', '', '0', '_self', '0', '1', '1505636890', '1505637024');
 INSERT INTO `%__prefix__%menu` VALUES ('24', '1', '0', 'php', '/php', '', '0', '_self', '0', '1', '1505636915', '1505636937');
 INSERT INTO `%__prefix__%menu` VALUES ('25', '1', '0', 'java', '/java', '', '0', '_self', '0', '1', '1505636975', '1505636975');
 INSERT INTO `%__prefix__%menu` VALUES ('26', '1', '0', 'javascript', '/javascript', '', '0', '_self', '0', '1', '1505637000', '1505637000');
-INSERT INTO `%__prefix__%menu` VALUES ('27', '0', '0', '运营管理', '', '', '0', '_self', '0', '1', '1505637000', '1505637000');
+INSERT INTO `%__prefix__%menu` VALUES ('27', '0', '0', '运营管理', '', 'fa fa-ils', '2', '_self', '0', '1', '1505637000', '1505637000');
 INSERT INTO `%__prefix__%menu` VALUES ('28', '0', '27', 'Banner管理', 'banner/index', '', '0', '_self', '0', '1', '1505637000', '1505637000');
 INSERT INTO `%__prefix__%menu` VALUES ('29', '0', '27', '广告管理', 'ad/index', '', '0', '_self', '0', '1', '1505637000', '1505637000');
 
@@ -512,7 +512,7 @@ CREATE TABLE `%__prefix__%options` (
 --  Records of `options`
 -- ----------------------------
 BEGIN;
-INSERT INTO `%__prefix__%options` VALUES ('1', '0', 'seo_keywords', '飞嗨,cms,yii2,php,feehi cms', '1', '0', '', '0'), ('2', '0', 'seo_description', 'Feehi CMS，最好的cms之一', '1', '0', '', '0'), ('3', '0', 'website_title', 'Feehi CMS', '1', '0', '', '0'), ('4', '0', 'website_description', 'Based on most popular php framework yii2', '1', '0', '', '0'), ('5', '0', 'website_email', 'admin@feehi.com', '1', '0', '', '0'), ('6', '0', 'website_language', 'zh-CN', '1', '0', '', '0'), ('7', '0', 'website_icp', '粤ICP备15018643号', '1', '0', '', '0'), ('8', '0', 'website_statics_script', '', '1', '0', '', '0'), ('9', '0', 'website_status', '1', '1', '0', '', '0'), ('10', '0', 'website_comment', '1', '1', '0', '', '0'), ('11', '0', 'website_comment_need_verify', '0', '1', '0', '', '0'), ('12', '0', 'website_timezone', 'Asia/Shanghai', '1', '0', '', '0'), ('13', '0', 'website_url', 'http://www.feehi.com', '1', '0', '', '0'), ('14', '0', 'smtp_host', '', '1', '0', '', '0'), ('15', '0', 'smtp_username', '', '1', '0', '', '0'), ('16', '0', 'smtp_password', '', '1', '0', '', '0'), ('17', '0', 'smtp_port', '', '1', '0', '', '0'), ('18', '0', 'smtp_encryption', '', '1', '0', '', '0'), ('19', '0', 'smtp_nickname', '', '1', '0', '', '0'), ('20', '1', 'weibo', 'http://www.weibo.com/feeppp', '1', '1', '新浪微博', '0'), ('21', '1', 'facebook', 'http://www.facebook.com/liufee', '1', '1', 'facebook', '0'), ('22', '1', 'wechat', '飞得更高', '1', '1', '微信', '0'), ('23', '1', 'qq', '1838889850', '1', '1', 'QQ号码', '0'), ('24', '1', 'qq', '1838889850', '1', '1', 'QQ号码', '0'),('25', '2', 'index', '[{"sign":"5a251a3013586","img":"\/uploads\/setting\/banner\/5a251a301280d_1.png","target":"_blank","link":"\/view\/11","sort":"3","status":"1","desc":""},{"sign":"5a251a4932a52","img":"\/uploads\/setting\/banner\/5a251a4930fc2_2.jpg","target":"_blank","link":"\/view\/15","sort":"2","status":"1","desc":""},{"sign":"5a251a5690fe9","img":"\/uploads\/setting\/banner\/5a251a568f966_3.jpg","target":"_blank","link":"\/view\/16","sort":"1","status":"1","desc":""}]', '1', '1', '首页banner', '0'),('26', '3', 'sidebar_right_1', '{"ad":"\/uploads\/setting\/ad\/5a292c0fda836_cms.jpg","link":"http://www.feehi.com","target":"_blank","desc":"FeehiCMS","created_at":1512641320,"updated_at":1512647776}', '1', '1', '网站右侧广告位1', '0'),('26', '3', 'sidebar_right_2', '{"ad":"\/uploads\/setting\/ad\/5a291f9236479_22.jpg","link":"","target":"_blank","desc":"\u6700\u597d\u7684\u8fd0\u52a8\u624b\u8868","created_at":1512644498,"updated_at":1512647586}', '1', '1', '网站右侧广告位2', '0');
+INSERT INTO `%__prefix__%options` VALUES ('1', '0', 'seo_keywords', '飞嗨,cms,yii2,php,feehi cms', '1', '0', '', '0'), ('2', '0', 'seo_description', 'Feehi CMS，最好的cms之一', '1', '0', '', '0'), ('3', '0', 'website_title', 'Feehi CMS', '1', '0', '', '0'), ('4', '0', 'website_description', 'Based on most popular php framework yii2', '1', '0', '', '0'), ('5', '0', 'website_email', 'admin@feehi.com', '1', '0', '', '0'), ('6', '0', 'website_language', 'zh-CN', '1', '0', '', '0'), ('7', '0', 'website_icp', '粤ICP备15018643号', '1', '0', '', '0'), ('8', '0', 'website_statics_script', '', '1', '0', '', '0'), ('9', '0', 'website_status', '1', '1', '0', '', '0'), ('10', '0', 'website_comment', '1', '1', '0', '', '0'), ('11', '0', 'website_comment_need_verify', '0', '1', '0', '', '0'), ('12', '0', 'website_timezone', 'Asia/Shanghai', '1', '0', '', '0'), ('13', '0', 'website_url', 'http://www.feehi.com', '1', '0', '', '0'), ('14', '0', 'smtp_host', '', '1', '0', '', '0'), ('15', '0', 'smtp_username', '', '1', '0', '', '0'), ('16', '0', 'smtp_password', '', '1', '0', '', '0'), ('17', '0', 'smtp_port', '', '1', '0', '', '0'), ('18', '0', 'smtp_encryption', '', '1', '0', '', '0'), ('19', '0', 'smtp_nickname', '', '1', '0', '', '0'), ('20', '1', 'weibo', 'http://www.weibo.com/feeppp', '1', '1', '新浪微博', '0'), ('21', '1', 'facebook', 'http://www.facebook.com/liufee', '1', '1', 'facebook', '0'), ('22', '1', 'wechat', '飞得更高', '1', '1', '微信', '0'), ('23', '1', 'qq', '1838889850', '1', '1', 'QQ号码', '0'), ('24', '1', 'qq', '1838889850', '1', '1', 'QQ号码', '0'), ('25', '1', 'email', 'admin@feehi.com', '1', '1', '邮箱', '0'),('26', '2', 'index', '[{"sign":"5a251a3013586","img":"\/uploads\/setting\/banner\/5a251a301280d_1.png","target":"_blank","link":"\/view\/11","sort":"3","status":"1","desc":""},{"sign":"5a251a4932a52","img":"\/uploads\/setting\/banner\/5a251a4930fc2_2.jpg","target":"_blank","link":"\/view\/15","sort":"2","status":"1","desc":""},{"sign":"5a251a5690fe9","img":"\/uploads\/setting\/banner\/5a251a568f966_3.jpg","target":"_blank","link":"\/view\/16","sort":"1","status":"1","desc":""}]', '1', '1', '首页banner', '0'),('27', '3', 'sidebar_right_1', '{"ad":"\/uploads\/setting\/ad\/5a292c0fda836_cms.jpg","link":"http://www.feehi.com","target":"_blank","desc":"FeehiCMS","created_at":1512641320,"updated_at":1512647776}', '1', '1', '网站右侧广告位1', '0'),('28', '3', 'sidebar_right_2', '{"ad":"\/uploads\/setting\/ad\/5a291f9236479_22.jpg","link":"","target":"_blank","desc":"\u6700\u597d\u7684\u8fd0\u52a8\u624b\u8868","created_at":1512644498,"updated_at":1512647586}', '1', '1', '网站右侧广告位2', '0');
 
 COMMIT;
 

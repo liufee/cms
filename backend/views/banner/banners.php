@@ -9,7 +9,7 @@
  * @var $this yii\web\View
  * @var $dataProvider yii\data\ArrayDataProvider
  * @var $searchModel backend\models\search\MenuSearch
- * @var $model common\models\Options
+ * @var $model backend\models\form\BannerForm
  * @var $banner common\models\Options
  */
 
@@ -81,7 +81,8 @@ $this->params['breadcrumbs'][] =  yii::t('app', 'Banner') . ' (' . $banner->tips
                             'label' => yii::t('app', 'Image'),
                             'format' => 'raw',
                             'value' => function($model){
-                                return "<img style='max-width: 200px;max-height: 100px' src='{$model->img}'>";
+                                $img = yii::$app->params['site']['url'] . $model->img;
+                                return "<img style='max-width: 200px;max-height: 100px' src='{$img}'>";
                             }
                         ],
                         [
