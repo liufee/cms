@@ -16,7 +16,17 @@ class Comment extends \common\models\Comment
      */
     public static function getRecentComments($limit = 10)
     {
-        return self::find()->orderBy('created_at desc')->limit($limit)->all();
+        return self::find()->orderBy('created_at desc')->with('article')->limit($limit)->all();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterDelete()
+    {
+        $model = Article::findOne($this->aid);
+        $model->comment_count -= 1;
+        $model->save(false);
     }
 
 }

@@ -98,7 +98,7 @@ class AdForm extends \Common\models\Options
                     $file = yii::getAlias('@frontend/web') . $this->getOldAttribute('ad');
                     if (file_exists($file) && is_file($file)) unlink($file);
                     $this->ad = '';
-                }else{
+                }else if($this->input_type != Constants::AD_TEXT){
                     $this->ad = $this->getOldAttribute('ad');
                 }
             }

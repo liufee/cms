@@ -128,7 +128,8 @@ class Menu extends \yii\db\ActiveRecord
      */
     protected  static function _getMenus($type)
     {
-        $menus = self::find()->where(['type' => $type])->orderBy("sort asc,parent_id asc")->asArray()->all();
+        static $menus = null;
+        if( $menus === null ) $menus = self::find()->where(['type' => $type])->orderBy("sort asc,parent_id asc")->asArray()->all();
         foreach ($menus as &$menu){
             $menu['name'] = yii::t('menu', $menu['name']);
         }

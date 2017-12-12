@@ -31,11 +31,14 @@ class MenuView extends \yii\base\Widget
     public function run()
     {
         parent::run();
-        $menus = Menu::find()
-            ->where(['type' => Menu::FRONTEND_TYPE, 'is_display' => Menu::DISPLAY_YES])
-            ->orderBy("sort asc,parent_id asc")
-            ->asArray()
-            ->all();
+        static $menus = null;
+        if( $menus === null ) {
+            $menus = Menu::find()
+                ->where(['type' => Menu::FRONTEND_TYPE, 'is_display' => Menu::DISPLAY_YES])
+                ->orderBy("sort asc,parent_id asc")
+                ->asArray()
+                ->all();
+        }
         $content = '';
         foreach ($menus as $key => $menu) {
             if ($menu['parent_id'] == 0) {

@@ -9,6 +9,7 @@
 namespace backend\models;
 
 use yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use common\helpers\FileDependencyHelper;
 use common\helpers\FamilyTree;
@@ -44,6 +45,7 @@ class Menu extends \common\models\Menu
             foreach ($newMenu as $v){
                 $menus[$v['id']] = $v;
             }
+            ArrayHelper::multisort($menus, 'sort', SORT_ASC);
         }
 
         $lis = '';
