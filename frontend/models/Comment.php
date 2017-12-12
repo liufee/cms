@@ -9,6 +9,7 @@
 namespace frontend\models;
 
 use yii;
+use yii\helpers\Html;
 
 class Comment extends \common\models\Comment
 {
@@ -36,6 +37,10 @@ class Comment extends \common\models\Comment
                 return false;
             }
         }
+        $this->nickname = Html::encode($this->nickname);
+        $this->email = Html::encode($this->email);
+        $this->website_url = Html::encode($this->website_url);
+        $this->content = Html::encode($this->content);
         return parent::beforeSave($insert);
     }
 
