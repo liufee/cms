@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <style>
             label {
                 float: left;
-                width: 100px
+                width: 103px
             }
 
             div.row input{

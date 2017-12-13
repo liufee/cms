@@ -52,8 +52,8 @@ class UserCest
     {
         $this->setCookie($I);
         $I->amOnPage(Url::toRoute('/user/index'));
-        $I->see('admin');
         $I->see("用户名");
+        $I->see('邮箱');
     }
 
 }

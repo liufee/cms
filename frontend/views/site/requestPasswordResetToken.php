@@ -22,7 +22,7 @@ $this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
 <style>
     .form-group label {
         float: left;
-        width: 60px
+        width: 69px
     }
     p.help-block{
         float: left;
