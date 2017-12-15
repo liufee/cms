@@ -49,6 +49,7 @@ $config = [
             'class' => yii\rbac\DbManager::className(),
         ],
         'assetManager' => [
+            'linkAssets' => true,
             'bundles' => [
                 yii\widgets\ActiveFormAsset::className() => [
                     'js' => [

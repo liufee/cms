@@ -39,6 +39,9 @@ class Comment extends \common\models\Comment
         }
         $this->nickname = Html::encode($this->nickname);
         $this->email = Html::encode($this->email);
+        if (stripos($this->website_url, 'http://') !== 0 && stripos($this->website_url, 'https://') !== 0) {
+            $this->website_url = "http://" . $this->website_url;
+        }
         $this->website_url = Html::encode($this->website_url);
         $this->content = Html::encode($this->content);
         return parent::beforeSave($insert);

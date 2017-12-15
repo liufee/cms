@@ -198,7 +198,7 @@ ViewAsset::register($this);
                         <ul>
                             <li class="form-inline">
                                 <label class="hide" for="author"><?= yii::t('app', 'Nickname') ?></label>
-                                <?php if (yii::$app->user->isGuest) {
+                                <?php if (yii::$app->getUser()->getIsGuest()) {
                                     $defaultNickname = yii::t('frontend', 'Guest');
                                 } else {
                                     $defaultNickname = yii::$app->getUser()->getIdentity()->username;

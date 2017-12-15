@@ -80,6 +80,7 @@ return [
             ],
         ],
         'assetManager' => [
+            'linkAssets' => true,
             'bundles' => [
                 backend\assets\AppAsset::className() => [
                     'css' => [
@@ -141,6 +142,7 @@ return [
             'admin-user/request-password-reset',
             'admin-user/reset-password',
             'admin-user/update-self',
+            'assets/*',
             'debug/*',
             'gii/*',
         ],

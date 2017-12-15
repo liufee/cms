@@ -43,7 +43,7 @@ $this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
                 foreach ($articles as $article) {
                     $url = Url::to(['article/view', 'id' => $article->id]);
                     $imgUrl = Url::to(['/timthumb.php', 'src'=>$article->thumb, 'h'=>112, 'w'=>168, 'zc'=>0]);
-                    $article->created_at = yii::$app->formatter->asDate($article->created_at);
+                    $article->created_at = yii::$app->getFormatter()->asDate($article->created_at);
                     $article->summary = StringHelper::truncate($article->summary, 20);
                     echo "<li>
                         <figure class='dd-img'>

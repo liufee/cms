@@ -6,6 +6,9 @@ $params = array_merge(
     require(__DIR__ . '/params-local.php')
 );
 
+defined('SWOOLE_PROCESS') or define('SWOOLE_PROCESS', 1);
+defined('SWOOLE_TCP') or define('SWOOLE_TCP', 1);
+
 return [
     'id' => 'app-console',
     'basePath' => dirname(__DIR__),
