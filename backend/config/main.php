@@ -80,7 +80,7 @@ return [
             ],
         ],
         'assetManager' => [
-            'linkAssets' => true,
+            'linkAssets' => false,
             'bundles' => [
                 backend\assets\AppAsset::className() => [
                     'css' => [

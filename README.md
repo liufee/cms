@@ -12,6 +12,8 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 
 更新记录
 -------
+1.0.0rc2 修复bug
+
 1.0.0rc1 优化使用
 
 1.0.0beta 3 修复bug
@@ -53,7 +55,7 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
  * 文章管理 
  * 操作日志
  
- FeehiCMS提供完备的web系统基础通用功能，包括前后台菜单管理,文章标签,缓存,网站设置,seo设置,邮件设置,分类管理,单页...
+ FeehiCMS提供完备的web系统基础通用功能，包括前后台菜单管理,文章标签,广告,banner,缓存,网站设置,seo设置,邮件设置,分类管理,单页...
  
  
 快速体验
@@ -79,7 +81,7 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 2. 使用Docker容器
     ```bash
     $ docker pull registry.cn-hangzhou.aliyuncs.com/liufee/cms
-    $ docker run --name feehicms -h feehicms -itd -p 80:80 -p 22:22 liufee/cms
+    $ docker run --name feehicms -h feehicms -itd -p 80:80 liufee/cms
     ```
  
  
@@ -113,7 +115,7 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
      2. 依次执行以下命令初始化yii2框架以及导入数据库
          ```bash
          $ cd webApp
-         $ php ./init --env=Production #初始化yii2框架
+         $ php ./init --env=Development #初始化yii2框架，线上环境请使用--env=Production
          $ php ./yii migrate/up --interactive=0 #导入FeehiCMS sql数据库，执行此步骤之前请先到common/config/main-local.php修改成正确的数据库配置
          ```
      3. 配置web服务器(参加下面)
@@ -191,9 +193,9 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 * [微信公众号蚂蚁鲜生](http://www.chijidun.com/) 
 *  ......
 
+
 运行效果
 ---------
-
 ![后台](docs/backend.png)
 
 ![前台](docs/frontend.png)
