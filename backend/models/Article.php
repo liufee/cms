@@ -38,7 +38,7 @@ class Article extends \common\models\Article
                 $this->addError('thumb', "Create directory failed " . $uploadPath);
                 return false;
             }
-            $fullName = $uploadPath . uniqid() . '_' . $upload->baseName . '.' . $upload->extension;
+            $fullName = $uploadPath . uniqid() . '_' . $upload->getBaseName() . '.' . $upload->getExtension();
             if (! $upload->saveAs($fullName)) {
                 $this->addError('thumb', yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', 'Thumb')]) . ': ' . $fullName);
                 return false;

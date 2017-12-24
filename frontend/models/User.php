@@ -116,7 +116,7 @@ class User extends \common\models\User
                 $this->addError('avatar', "Create directory failed " . $uploadPath);
                 return false;
             }
-            $fullName = $uploadPath . uniqid() . '.' . $upload->extension;
+            $fullName = $uploadPath . uniqid() . '.' . $upload->getExtension();
             if (! $upload->saveAs($fullName)) {
                 $this->addError('avatar', yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', 'avatar')]) . ': ' . $fullName);
                 return false;

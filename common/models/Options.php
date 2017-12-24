@@ -8,9 +8,9 @@
 
 namespace common\models;
 
+use Yii;
 use backend\models\form\AdForm;
 use common\libs\Constants;
-use Yii;
 use common\helpers\FileDependencyHelper;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
@@ -121,7 +121,7 @@ class Options extends \yii\db\ActiveRecord
                         $this->addError($key, "Create directory failed " . $uploadPath);
                         return false;
                     }
-                    $fullName = $uploadPath . uniqid() . '_' . $upload->baseName . '.' . $upload->extension;
+                    $fullName = $uploadPath . uniqid() . '_' . $upload->getBaseName() . '.' . $upload->getExtension();
                     if (! $upload->saveAs($fullName)) {
                         $this->addError($key, yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', 'Picture')]) . ': ' . $fullName);
                         return false;
