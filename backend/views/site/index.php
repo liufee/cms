@@ -256,6 +256,9 @@ $this->title = yii::t('app', 'Backend Manage System');
         current_iframe[0].contentWindow.location.reload();
         return false;
     }
+    if (window.top !== window.self) {
+        window.top.location = window.location;
+    }
 </script>
 </html>
 <?php $this->endPage() ?>

@@ -55,7 +55,6 @@ class MenuView extends \yii\base\Widget
                 if ($url == yii::$app->getRequest()->getUrl()) {
                     $current_menu_class = ' current-menu-item ';
                 }
-                unset($menus[$key]);
                 $submenu = $this->getSubMenu($menus, $menu['id']);
                 $content .= str_replace([
                     '{menu_id}',
@@ -74,7 +73,7 @@ class MenuView extends \yii\base\Widget
                 ], $this->liTemplate);
             }
         }
-        echo str_replace('{lis}', $content, $this->template);
+        return str_replace('{lis}', $content, $this->template);
     }
 
     /**
@@ -111,7 +110,6 @@ class MenuView extends \yii\base\Widget
                     '{target}',
                     '{title}'
                 ], [$menu['id'], $current_menu_class, $url, $menu['target'], $menu['name']], $this->subLitemplate);
-                unset($menus[$key]);
             }
         }
         if ($content != '') {
