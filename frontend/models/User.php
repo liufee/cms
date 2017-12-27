@@ -9,8 +9,7 @@
 namespace frontend\models;
 
 use yii;
-use yii\helpers\FileHelper;
-use yii\web\UploadedFile;
+use common\helpers\Util;;
 
 class User extends \common\models\User
 {
@@ -109,27 +108,7 @@ class User extends \common\models\User
                 $this->setPassword($this->password);
             }
         }
-        $upload = UploadedFile::getInstance($this, 'avatar');
-        if ($upload !== null) {
-            $uploadPath = yii::getAlias('@frontend/web/uploads/avatar/');
-            if (! FileHelper::createDirectory($uploadPath)) {
-                $this->addError('avatar', "Create directory failed " . $uploadPath);
-                return false;
-            }
-            $fullName = $uploadPath . uniqid() . '.' . $upload->getExtension();
-            if (! $upload->saveAs($fullName)) {
-                $this->addError('avatar', yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', 'avatar')]) . ': ' . $fullName);
-                return false;
-            }
-            $avatar = $this->getOldAttribute('avatar');
-            if(!empty($avatar)) {
-                $file = yii::getAlias('@frontend/web') . $this->getOldAttribute('avatar');
-                if( file_exists($file) && is_file($file) ) unlink($file);
-            }
-            $this->avatar = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
-        } else {
-            $this->avatar = $this->getOldAttribute('avatar');
-        }
+        Util::handleModelSingleFileUpload($this, 'avatar', $insert, '@frontend/web/uploads/avatar/');
         return true;
     }
 

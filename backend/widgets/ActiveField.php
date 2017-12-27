@@ -87,6 +87,7 @@ class ActiveField extends \yii\widgets\ActiveField
         static $i = 1;
         $unique = uniqid() . $i;
         $i++;
+        if($i >= 10000) $i = 1;
         $for = 'inlineCheckbox' . $unique;
         $options['id'] = $for;
         $options['tag'] = 'a';
@@ -175,6 +176,7 @@ class ActiveField extends \yii\widgets\ActiveField
             static $i = 1;
             $unique .= rand(1, 99999) . $i;
             $i++;
+            if($i >= 10000) $i = 1;
             $checkbox = Html::checkbox($name, $checked, array_merge($itemOptions, [
                 'value' => $value,
                 'id' => 'inlineCheckbox' . $unique,

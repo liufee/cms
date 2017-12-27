@@ -55,7 +55,7 @@ class UpdateAction extends \yii\base\Action
                 }else {
                     yii::$app->getSession()->setFlash('error', $err);
                 }
-
+                $model = call_user_func([$this->modelClass, 'findOne'], $id);
             }
         }
 

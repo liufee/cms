@@ -121,7 +121,7 @@ class Options extends \yii\db\ActiveRecord
                         $this->addError($key, "Create directory failed " . $uploadPath);
                         return false;
                     }
-                    $fullName = $uploadPath . uniqid() . '_' . $upload->getBaseName() . '.' . $upload->getExtension();
+                    $fullName = $uploadPath . date('YmdHis') . '_' . uniqid() . '.' . $upload->getExtension();
                     if (! $upload->saveAs($fullName)) {
                         $this->addError($key, yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', 'Picture')]) . ': ' . $fullName);
                         return false;

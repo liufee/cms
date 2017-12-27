@@ -9,6 +9,7 @@
 namespace backend\models;
 
 use backend\components\CustomLog;
+use common\helpers\Util;
 use Yii;
 use yii\base\Event;
 use yii\base\NotSupportedException;
@@ -16,8 +17,6 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use \yii\web\ForbiddenHttpException;
-use yii\web\UploadedFile;
-use yii\helpers\FileHelper;
 
 /**
  * User model
@@ -263,33 +262,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function beforeSave($insert)
     {
-        $upload = UploadedFile::getInstance($this, 'avatar');
-        if ($upload !== null) {
-            $uploadPath = yii::getAlias('@admin/uploads/avatar/');
-            if (! FileHelper::createDirectory($uploadPath)) {
-                $this->addError('thumb', "Create directory failed " . $uploadPath);
-                return false;
-            }
-            $fullName = $uploadPath . uniqid() . '.' . $upload->getExtension();
-            if (! $upload->saveAs($fullName)) {
-                $this->addError('avatar', yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', 'Avatar')]) . ': ' . $fullName);
-                return false;
-            }
-            $avatar = $this->getOldAttribute('avatar');
-            if(!empty($avatar)) {
-                $file = yii::getAlias('@frontend/web') . $this->getOldAttribute('avatar');
-                if( file_exists($file) && is_file($file) ) unlink($file);
-            }
-            $this->avatar = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
-        } else {
-            if( $this->avatar !== '' ){
-                $file = yii::getAlias('@frontend/web') . $this->getOldAttribute('avatar');
-                if( file_exists($file) && is_file($file) ) unlink($file);
-                $this->avatar = '';
-            }else {
-                $this->avatar = $this->getOldAttribute('avatar');
-            }
-        }
+        Util::handleModelSingleFileUpload($this, 'avatar', $insert, '@admin/uploads/avatar/');
         if ($insert) {
             $this->generateAuthKey();
             $this->setPassword($this->password);

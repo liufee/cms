@@ -31,13 +31,8 @@ class SortAction extends \yii\base\Action
                     /* @var $model yii\db\ActiveRecord */
                     $model = call_user_func([$this->modelClass, 'findOne'], $key);
                     if ($model->$field != $value) {
-                        $primaryKey = $model->getPrimaryKey(true);
-                        if( empty($primaryKey) ) throw new Exception("Cannot find primary key");
-                        $primaryKeyName = key($primaryKey);
-                        $primaryKeyValue = $primaryKey[$primaryKeyName];
-                        $field = addslashes($field);
-                        $tableName = call_user_func([$this->modelClass, 'tableName']);
-                        yii::$app->db->createCommand("UPDATE {$tableName} SET $field=:value WHERE $primaryKeyName='$primaryKeyValue'")->bindParam(':value', $value)->execute();
+                        $model->$field = $value;
+                        $model->save(false);
                     }
                 }
             }

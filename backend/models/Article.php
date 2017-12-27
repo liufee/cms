@@ -8,11 +8,10 @@
 
 namespace backend\models;
 
+use yii;
+use common\helpers\Util;
 use common\libs\Constants;
 use common\models\meta\ArticleMetaTag;
-use yii;
-use yii\web\UploadedFile;
-use yii\helpers\FileHelper;
 
 class Article extends \common\models\Article
 {
@@ -29,68 +28,26 @@ class Article extends \common\models\Article
     /**
      * @inheritdoc
      */
-    public function beforeSave($insert)
+    public function afterValidate()
     {
-        $upload = UploadedFile::getInstance($this, 'thumb');
-        if ($upload !== null) {
-            $uploadPath = yii::getAlias('@thumb/');
-            if (! FileHelper::createDirectory($uploadPath)) {
-                $this->addError('thumb', "Create directory failed " . $uploadPath);
-                return false;
-            }
-            $fullName = $uploadPath . uniqid() . '_' . $upload->getBaseName() . '.' . $upload->getExtension();
-            if (! $upload->saveAs($fullName)) {
-                $this->addError('thumb', yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', 'Thumb')]) . ': ' . $fullName);
-                return false;
-            }
-            $this->thumb = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
-            if( !$insert ){
-                $file = yii::getAlias('@frontend/web') . $this->getOldAttribute('thumb');
-                if( file_exists($file) && is_file($file) ) unlink($file);
-            }
-        } else {
-            if( $this->thumb !== '' ){//删除
-                $file = yii::getAlias('@frontend/web') . $this->getOldAttribute('thumb');
-                if( file_exists($file) && is_file($file) ) unlink($file);
-                $this->thumb = '';
-            }else {
-                $this->thumb = $this->getOldAttribute('thumb');
-            }
-        }
-        if ($this->flag_headline == null) {
-            $this->flag_headline = 0;
-        }
-        if ($this->flag_recommend == null) {
-            $this->flag_recommend = 0;
-        }
-        if ($this->flag_slide_show == null) {
-            $this->flag_slide_show = 0;
-        }
-        if ($this->flag_special_recommend == null) {
-            $this->flag_special_recommend = 0;
-        }
-        if ($this->flag_roll == null) {
-            $this->flag_roll = 0;
-        }
-        if ($this->flag_bold == null) {
-            $this->flag_bold = 0;
-        }
-        if ($this->flag_picture == null) {
-            $this->flag_picture = 0;
-        }
-        $this->seo_keywords = str_replace('，', ',', $this->seo_keywords);
-        if ($insert) {
-            $this->author_id = yii::$app->getUser()->getIdentity()->id;
-            $this->author_name = yii::$app->getUser()->getIdentity()->username;
-
-        }
+        parent::afterValidate();
         if($this->visibility == Constants::ARTICLE_VISIBILITY_SECRET){//加密文章需要设置密码
             if( empty( $this->password ) ){
                 $this->addError('password', yii::t('app', "Secret article must set a password"));
-                return false;
             }
-        }else{
-            $this->password = '';
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert)
+    {
+        Util::handleModelSingleFileUpload($this, 'thumb', $insert, '@thumb');
+        $this->seo_keywords = str_replace('，', ',', $this->seo_keywords);
+        if ($insert) {
+            $this->author_id = yii::$app->getUser()->getIdentity()->getId();
+            $this->author_name = yii::$app->getUser()->getIdentity()->username;
         }
         return parent::beforeSave($insert);
     }
