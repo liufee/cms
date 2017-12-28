@@ -56,6 +56,7 @@ class ArticleController extends \yii\web\Controller
             'sort' => [
                 'class' => SortAction::className(),
                 'modelClass' => Article::className(),
+                'scenario' => 'article',
             ],
         ];
     }

@@ -211,6 +211,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
     container.on('pjax:complete',function(args){
         layer.closeAll('loading');
         $('table tr td a.thumbImg').bind('mouseover mouseout', showImg);
+        $("input.sort").bind('blur', indexSort);
     });
 </script>
 <?php JsBlock::end()?>

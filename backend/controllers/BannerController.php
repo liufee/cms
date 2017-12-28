@@ -180,8 +180,8 @@ class BannerController extends \yii\web\Controller
             }
             $model = Options::findOne($id);
             $model->value = json_encode($banners);
-            $model->save(false);
+            $model->save();
         }
-        return $this->redirect(['banners', 'id'=>$id]);
+        return [];
     }
 }

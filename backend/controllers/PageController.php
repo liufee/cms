@@ -56,6 +56,7 @@ class PageController extends \yii\web\Controller
             'sort' => [
                 'class' => SortAction::className(),
                 'modelClass' => Article::className(),
+                'scenario' => 'page',
             ],
         ];
     }

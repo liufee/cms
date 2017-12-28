@@ -42,7 +42,7 @@ class RbacController extends \yii\web\Controller
                 }
             }
         }
-        $this->redirect(['permissions']);
+        return [];
     }
 
     public function actionPermissionCreate()
@@ -168,7 +168,7 @@ class RbacController extends \yii\web\Controller
         ]);
     }
 
-    public function actionRoleSort()
+    public function actionRolesSort()
     {
         if (yii::$app->getRequest()->getIsPost()) {
             $data = yii::$app->getRequest()->post();
@@ -183,7 +183,7 @@ class RbacController extends \yii\web\Controller
                 }
             }
         }
-        $this->redirect(['roles']);
+        return [];
     }
 
     public function actionRoleDelete($name='', $id=null)

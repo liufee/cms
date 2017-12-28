@@ -48,13 +48,6 @@ $this->params['breadcrumbs'][] =  yii::t('app', 'Banner') . ' (' . $banner->tips
                                 'class' => 'btn btn-white btn-sm sort',
                             ]);
                         },
-                        'sort' => function () {
-                            return Html::a('<i class="fa  fa-sort-numeric-desc"></i> ' . yii::t('app', 'Sort'), Url::to(['banner-sort', 'id' => yii::$app->getRequest()->get('id')]), [
-                                'title' => yii::t('app', 'Sort'),
-                                'data-pjax' => '0',
-                                'class' => 'btn btn-white btn-sm sort',
-                            ]);
-                        },
                         'delete' => function () {
                             return Html::a('<i class="fa fa-trash-o"></i> ' . yii::t('app', 'Delete'), Url::to(['banner-delete', 'id' => yii::$app->getRequest()->get('id')]), [
                                 'title' => yii::t('app', 'Delete'),
@@ -98,7 +91,8 @@ $this->params['breadcrumbs'][] =  yii::t('app', 'Banner') . ' (' . $banner->tips
                             'label' => yii::t('app', 'Sort'),
                             'primaryKey' => function($model){
                                 return $model->sign;
-                            }
+                            },
+                            'action' => Url::to(['banner-sort', 'id'=>yii::$app->getRequest()->get('id')]),
                         ],
                         [
                             'class' => StatusColumn::className(),

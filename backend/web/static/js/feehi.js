@@ -130,16 +130,7 @@ $(document).ready(function(){
 
     })
 
-    $('a.sort').click(function(){
-        var action = $(this).attr('href');
-        $('input[type=number]').each(function(){
-            $(this).clone().attr('type', 'hidden').appendTo('form[name=sort]');
-            $('form[name=sort]').attr('action', action).attr('method', 'post');
-            $('form[name=sort]').append();
-        })
-        $('form[name=sort]').submit();
-        return false;
-    })
+    $('input.sort').blur(indexSort);
 
     $('a.refresh').click(function(){
         location.reload();
@@ -178,3 +169,23 @@ $(document).ready(function(){
         layer.load(2);
     })
 })
+
+function indexSort(){
+    layer.load(2);
+    var data = {};
+    var name = $(this).attr('name');
+    data[name] = $(this).val();
+    var sortHeader = $("th[sort-header=1]");
+    $.ajax({
+        url: sortHeader.attr('action'),
+        method: sortHeader.attr('method'),
+        data: data,
+        error: function (jqXHR, textStatus, errorThrown) {
+            swal(tips.error + ': ' + jqXHR.responseJSON.message, tips.operatingFailed + '.', "error");
+        },
+        complete: function () {
+            layer.closeAll('loading');
+        }
+    })
+    return false;
+}

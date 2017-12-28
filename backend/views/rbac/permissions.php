@@ -37,13 +37,6 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Permissions');
                                 'class' => 'btn btn-white btn-sm',
                             ]);
                         },
-                        'sort' => function () {
-                            return Html::a('<i class="fa fa-sort-numeric-desc"></i> ' . yii::t('app', 'Sort'), Url::to(['permissions-sort']), [
-                                'title' => yii::t('app', 'Sort'),
-                                'data-pjax' => '0',
-                                'class' => 'btn btn-white btn-sm sort',
-                            ]);
-                        },
                         'delete' => function () {
                             return Html::a('<i class="fa fa-trash-o"></i> ' . yii::t('app', 'Delete'), Url::to(['permission-delete']), [
                                 'title' => yii::t('app', 'Delete'),
@@ -53,7 +46,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Permissions');
                             ]);
                         }
                     ],
-                    'template' => '{refresh} {create} {sort} {delete}'
+                    'template' => '{refresh} {create} {delete}'
                 ]) ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
@@ -88,7 +81,8 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Permissions');
                             'class' => SortColumn::className(),
                             'primaryKey' => function($model){
                                 return $model['name'];
-                            }
+                            },
+                            'action' => Url::to(['permissions-sort'])
                         ],
                         [
                             'class' => ActionColumn::className(),

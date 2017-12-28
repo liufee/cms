@@ -56,6 +56,7 @@ class FrontendMenuController extends \yii\web\Controller
             'sort' => [
                 'class' => SortAction::className(),
                 'modelClass' => Menu::className(),
+                'scenario' => 'frontend',
             ],
         ];
     }
