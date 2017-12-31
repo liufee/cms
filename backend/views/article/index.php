@@ -78,9 +78,10 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
                                 } else {
                                     $num = Constants::YesNo_Yes;
                                 }
-                                return Html::a(Constants::getYesNoItems($num), 'javascript:void(0)', [
+                                return Html::a(Constants::getYesNoItems($num), $model->thumb ? yii::$app->params['site']['url'] . $model->thumb : 'javascript:void(0)', [
                                     'img' => $model->thumb ? yii::$app->params['site']['url'] . $model->thumb : '',
-                                    'class' => 'thumbImg'
+                                    'class' => 'thumbImg',
+                                    'target' => '_blank',
                                 ]);
                            },
                             'filter' => Constants::getYesNoItems(),
@@ -195,7 +196,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
         if (url.length == 0) {
             layer.tips('<?=yii::t('app', 'No picture')?>', $(this));
         } else {
-            layer.tips('<img src=' + url + '>', $(this));
+            layer.tips('<img style="max-width: 100px;max-height: 60px" src=' + url + '>', $(this));
         }
     }
     $(document).ready(function(){

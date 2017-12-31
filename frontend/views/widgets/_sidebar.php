@@ -72,7 +72,7 @@ use frontend\models\FriendlyLink;
         </div>
         <ul>
             <?php
-            $articles = Article::getArticleLists(['flag_roll' => 1], 8);
+            $articles = Article::getArticleLists(['flag_special_recommend' => 1], 8);
             foreach ($articles as $article) {
                 $url = Url::to(['article/view', 'id' => $article->id]);
                 $imgUrl = Url::to(['/timthumb.php', 'src'=>$article->thumb, 'w'=>125, 'h'=>86, 'zc'=>0]);

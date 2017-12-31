@@ -39,7 +39,7 @@ $this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
             <div class="tip"><h4><?= yii::t('frontend', 'Well-choosen') ?></h4></div>
             <ul class="dd-list">
                 <?php
-                $articles = Article::getArticleLists(['flag_special_recommend' => 1], 4);
+                $articles = Article::getArticleLists(['flag_headline' => 1], 4);
                 foreach ($articles as $article) {
                     $url = Url::to(['article/view', 'id' => $article->id]);
                     $imgUrl = Url::to(['/timthumb.php', 'src'=>$article->thumb, 'h'=>112, 'w'=>168, 'zc'=>0]);

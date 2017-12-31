@@ -304,7 +304,6 @@ class UeditorAction extends yii\base\Action
         ) {
             $info['thumbnail'] = Yii::$app->request->baseUrl . $this->imageHandle($info['url']);
         }
-        $info['url'] = $info['url'];
         $info['original'] = htmlspecialchars($info['original']);
         $info['width'] = $info['height'] = 500;
         return $info;

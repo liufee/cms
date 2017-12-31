@@ -79,6 +79,7 @@ return [
     'Permission denied' => "无权限",
     'Cannot be themselves descendants sub' => '不能是他自己子类的子类',
     'Delete must be POST http method' => '只允许使用POST删除',
+    'Value' => '值',
     /*Login*/
     'Welcome to' => '欢迎使用',
     'Forgot password' => '忘记密码',
@@ -175,6 +176,7 @@ return [
     'Encryption' => '连接类型',
     'SMTP Setting' => 'SMTP设置',
     'Test' => '测试',
+    'Type restrict, please type in after create' => '类型受限，请创建完成后再录入值',
     /*setting*/
 
     /*Log*/

@@ -147,6 +147,7 @@ class SettingController extends \yii\web\Controller
             echo $form->field($model, 'input_type')->dropDownList(Constants::getInputTypeItems());
             echo $form->field($model, 'tips')->textInput();
             echo $form->field($model, 'autoload')->dropDownList(Constants::getYesNoItems());
+            echo $form->field($model, 'value')->textInput();
             echo $form->field($model, 'sort')->textInput();
             echo $form->defaultButtons();
             ActiveForm::end();
@@ -186,7 +187,8 @@ class SettingController extends \yii\web\Controller
     /**
      * 发送测试邮件确认smtp设置是否正确
      *
-     * @return string
+     * @return mixed
+     * @throws \yii\web\BadRequestHttpException
      */
     public function actionTestSmtp()
     {
