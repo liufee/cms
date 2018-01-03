@@ -48,6 +48,7 @@ class Category extends \yii\db\ActiveRecord
         return [
             [['sort', 'parent_id', 'created_at', 'updated_at'], 'integer'],
             [['sort'], 'compare', 'compareValue' => 0, 'operator' => '>='],
+            [['parent_id'], 'default', 'value' => 0],
             [['name', 'alias', 'remark'], 'string', 'max' => 255],
             [['alias'],  'match', 'pattern' => '/^[a-zA-Z0-9_]+$/', 'message' => yii::t('app', 'Only includes alphabet,_,and number')],
             [['name', 'alias'], 'required'],

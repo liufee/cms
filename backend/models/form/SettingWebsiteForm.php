@@ -111,13 +111,15 @@ class SettingWebsiteForm extends \common\models\Options
         foreach ($names as $name) {
             $model = self::findOne(['name' => $name]);
             if ($model != null) {
-                $model->value = $this->$name;
+                $value = $this->$name;
+                $value === null && $value = '';
+                $model->value = $value;
                 $result = $model->save();
             } else {
                 $model = new Options();
                 $model->name = $name;
                 $model->value = '';
-                $result = $model->save(false);
+                $result = $model->save();
             }
             if ($result == false) {
                 return $result;

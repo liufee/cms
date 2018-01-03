@@ -15,16 +15,16 @@ class m130524_201442_init extends Migration
 
         //table user
         $this->createTable('{{%user}}', [
-            'id' => $this->primaryKey(),
-            'username' => $this->string()->notNull()->unique(),
-            'auth_key' => $this->string(32)->notNull(),
-            'password_hash' => $this->string()->notNull(),
-            'password_reset_token' => $this->string()->unique(),
-            'email' => $this->string()->notNull()->unique(),
-            'avatar' => $this->string()->defaultValue(''),
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->notNull(),
+            'id' => $this->primaryKey()->comment("自增用户id"),
+            'username' => $this->string()->notNull()->unique()->comment("用户名"),
+            'auth_key' => $this->string(32)->notNull()->comment("cookie验证auth_key"),
+            'password_hash' => $this->string()->notNull()->comment("加密后密码"),
+            'password_reset_token' => $this->string()->unique()->comment("找回密码token"),
+            'email' => $this->string()->notNull()->unique()->comment("用户邮箱"),
+            'avatar' => $this->string()->defaultValue('')->comment("用户头像url"),
+            'status' => $this->smallInteger()->notNull()->defaultValue(10)->comment("用户状态,10为正常"),
+            'created_at' => $this->integer()->notNull()->comment("创建时间"),
+            'updated_at' => $this->integer()->notNull()->comment("最后修改时间"),
         ], $tableOptions);
 
         $this->batchInsert("{{%user}}", ['id','username','auth_key','password_hash','email','status','created_at','updated_at',],
@@ -55,16 +55,16 @@ class m130524_201442_init extends Migration
 
         //table admin_user
         $this->createTable('{{%admin_user}}', [
-            'id' => $this->primaryKey()->unsigned(),
-            'username' => $this->string()->notNull()->unique(),
-            'auth_key' => $this->string(32)->notNull(),
-            'password_hash' => $this->string()->notNull(),
-            'password_reset_token' => $this->string()->unique(),
-            'email' => $this->string()->notNull()->unique(),
-            'avatar' => $this->string()->defaultValue(''),
-            'status' => $this->smallInteger()->notNull()->defaultValue(10),
-            'created_at' => $this->integer()->notNull(),
-            'updated_at' => $this->integer()->defaultValue(0),
+            'id' => $this->primaryKey()->unsigned()->comment("自增管理员用户id"),
+            'username' => $this->string()->notNull()->unique()->comment("管理员用户名"),
+            'auth_key' => $this->string(32)->notNull()->comment("管理员cookie验证auth_key"),
+            'password_hash' => $this->string()->notNull()->comment("管理员加密密码"),
+            'password_reset_token' => $this->string()->unique()->comment("管理员找回密码token"),
+            'email' => $this->string()->notNull()->unique()->comment("管理员邮箱"),
+            'avatar' => $this->string()->defaultValue('')->comment("管理员头像url"),
+            'status' => $this->smallInteger()->notNull()->defaultValue(10)->comment("管理员状态,10正常"),
+            'created_at' => $this->integer()->notNull()->comment("创建时间"),
+            'updated_at' => $this->integer()->defaultValue(0)->notNull()->comment("最后修改时间"),
         ], $tableOptions);
 
         $this->batchInsert("{{%admin_user}}", ['id','username','auth_key','password_hash','email','avatar','status','created_at','updated_at'],
@@ -99,25 +99,25 @@ class m130524_201442_init extends Migration
 
         //table admin_log
         $this->createTable('{{%admin_log}}', [
-            'id' => $this->primaryKey()->unsigned(),
-            'user_id' => $this->integer()->unsigned()->notNull(),
-            'route' => $this->string()->defaultValue(''),
-            'description' => $this->text(),
-            'created_at' => $this->integer()->unsigned()->notNull(),
-            'updated_at' => $this->integer()->unsigned()->defaultValue(0),
+            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
+            'user_id' => $this->integer()->unsigned()->notNull()->comment("管理员用户id"),
+            'route' => $this->string()->defaultValue('')->notNull()->comment("操作路由"),
+            'description' => $this->text()->comment("操作描述"),
+            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间"),
+            'updated_at' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("最后修改时间"),
         ], $tableOptions);
 
 
         //table category
         $this->createTable('{{%category}}', [
             'id' => $this->primaryKey()->unsigned(),
-            'parent_id' => $this->integer()->unsigned()->defaultValue(0),
+            'parent_id' => $this->integer()->unsigned()->defaultValue(0)->notNull(),
             'name' => $this->string()->notNull(),
             'alias' => $this->string()->notNull(),
-            'sort' => $this->integer()->unsigned()->defaultValue(0),
-            'remark' => $this->string()->defaultValue(''),
+            'sort' => $this->integer()->unsigned()->defaultValue(0)->notNull(),
+            'remark' => $this->string()->defaultValue('')->notNull(),
             'created_at' => $this->integer()->unsigned()->notNull(),
-            'updated_at' => $this->integer()->unsigned()->defaultValue(0),
+            'updated_at' => $this->integer()->unsigned()->defaultValue(0)->notNull(),
         ], $tableOptions);
 
         $this->batchInsert("{{%category}}", ['id','parent_id','name','alias','sort','created_at','updated_at','remark'],
@@ -158,34 +158,34 @@ class m130524_201442_init extends Migration
 
         //table article
         $this->createTable('{{%article}}', [
-            'id' => $this->primaryKey()->unsigned(),
-            'cid' => $this->integer()->unsigned()->defaultValue(0),
-            'type' => $this->integer()->unsigned()->defaultValue(0),
-            'title' => $this->string()->notNull(),
-            'sub_title' => $this->string()->defaultValue(''),
-            'summary' => $this->string()->defaultValue(''),
-            'thumb' => $this->string()->defaultValue(''),
-            'seo_title' => $this->string()->defaultValue(''),
-            'seo_keywords' => $this->string()->defaultValue(''),
-            'seo_description' => $this->string()->defaultValue(''),
-            'status' => $this->smallInteger()->unsigned()->defaultValue(1),
-            'sort' => $this->integer()->unsigned()->defaultValue(0),
-            'author_id' => $this->integer()->unsigned()->defaultValue(0),
-            'author_name' => $this->string()->defaultValue(''),
-            'scan_count' => $this->integer()->unsigned()->defaultValue(0),
-            'comment_count' => $this->integer()->unsigned()->defaultValue(0),
-            'can_comment' => $this->smallInteger()->unsigned()->defaultValue(1),
-            'visibility' => $this->smallInteger()->unsigned()->defaultValue(1),
-            'password' => $this->string()->defaultValue(''),
-            'flag_headline' => $this->smallInteger()->unsigned()->defaultValue(0),
-            'flag_recommend' => $this->smallInteger()->unsigned()->defaultValue(0),
-            'flag_slide_show' => $this->smallInteger()->unsigned()->defaultValue(0),
-            'flag_special_recommend' => $this->smallInteger()->unsigned()->defaultValue(0),
-            'flag_roll' => $this->smallInteger()->unsigned()->defaultValue(0),
-            'flag_bold' => $this->smallInteger()->unsigned()->defaultValue(0),
-            'flag_picture' => $this->smallInteger()->unsigned()->defaultValue(0),
-            'created_at' => $this->integer()->unsigned()->notNull(),
-            'updated_at' => $this->integer()->unsigned()->defaultValue(0),
+            'id' => $this->primaryKey()->unsigned()->comment("文章自增id"),
+            'cid' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("文章分类id"),
+            'type' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("类型.0文章,1单页"),
+            'title' => $this->string()->notNull()->comment("文章标题"),
+            'sub_title' => $this->string()->defaultValue('')->notNull()->comment("用户名"),
+            'summary' => $this->string()->defaultValue('')->notNull()->comment("文章概要"),
+            'thumb' => $this->string()->defaultValue('')->notNull()->comment("缩略图"),
+            'seo_title' => $this->string()->defaultValue('')->notNull()->comment("seo标题"),
+            'seo_keywords' => $this->string()->defaultValue('')->notNull()->comment("seo关键字"),
+            'seo_description' => $this->string()->defaultValue('')->notNull()->comment("seo描述"),
+            'status' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("状态.0草稿,1发布"),
+            'sort' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("排序"),
+            'author_id' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("发布文章管理员id"),
+            'author_name' => $this->string()->defaultValue('')->notNull()->comment("发布文章管理员用户名"),
+            'scan_count' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("浏览次数"),
+            'comment_count' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("浏览次数"),
+            'can_comment' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("是否可评论.0否,1是"),
+            'visibility' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("文章可见性.1.公开,2.评论可见,3.加密文章,4.登陆可见"),
+            'password' => $this->string()->defaultValue('')->notNull()->comment("文章明文密码"),
+            'flag_headline' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("头条.0否,1.是"),
+            'flag_recommend' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("推荐.0否,1.是"),
+            'flag_slide_show' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("幻灯.0否,1.是"),
+            'flag_special_recommend' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("特别推荐.0否,1.是"),
+            'flag_roll' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("滚动.0否,1.是"),
+            'flag_bold' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("加粗.0否,1.是"),
+            'flag_picture' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("图片.0否,1.是"),
+            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间"),
+            'updated_at' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("最后修改时间"),
         ], $tableOptions);
 
         $this->createIndex("index_title", "{{%article}}", "title");
@@ -948,9 +948,9 @@ class m130524_201442_init extends Migration
 
         //table article_content
         $this->createTable('{{%article_content}}', [
-            'id' => $this->primaryKey()->unsigned(),
-            'aid' => $this->integer()->unsigned()->defaultValue(0),
-            'content' => $this->text(),
+            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
+            'aid' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("文章id"),
+            'content' => $this->text()->notNull()->comment("文章详细内容"),
         ], $tableOptions);
 
         $this->addForeignKey('fk_aid', "{{%article_content}}", "aid", "{{%article}}", "id", "CASCADE", "CASCADE");
@@ -963,11 +963,11 @@ class m130524_201442_init extends Migration
 
         //table article_meta
         $this->createTable('{{%article_meta}}', [
-            'id' => $this->primaryKey()->unsigned(),
-            'aid' => $this->integer()->unsigned()->notNull(),
-            'key' => $this->string()->defaultValue(''),
-            'value' => $this->text(),
-            'created_at' => $this->integer()->unsigned()->notNull(),
+            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
+            'aid' => $this->integer()->unsigned()->notNull()->comment("文章id"),
+            'key' => $this->string()->defaultValue('')->notNull()->comment("tag名"),
+            'value' => $this->text()->notNull()->comment("tag值"),
+            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间"),
         ], $tableOptions);
 
         $this->createIndex("index_aid", "{{%article_meta}}", 'aid');
@@ -1031,19 +1031,19 @@ class m130524_201442_init extends Migration
 
         //table content
         $this->createTable('{{%comment}}', [
-            'id' => $this->primaryKey()->unsigned(),
-            'aid' => $this->integer()->unsigned()->defaultValue(0),
-            'uid' => $this->integer()->unsigned()->defaultValue(0),
-            'admin_id' => $this->integer()->unsigned()->defaultValue(0),
-            'reply_to' => $this->integer()->unsigned()->defaultValue(0),
-            'nickname' => $this->string()->defaultValue('游客'),
-            'email' => $this->string()->defaultValue(''),
-            'website_url' => $this->string()->defaultValue(''),
-            'content' => $this->string()->notNull(),
-            'ip' => $this->string()->defaultValue(''),
-            'status' => $this->smallInteger()->unsigned()->defaultValue(0),
-            'created_at' => $this->integer()->unsigned()->notNull(),
-            'updated_at' => $this->integer()->unsigned()->defaultValue(0),
+            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
+            'aid' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("文章id"),
+            'uid' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("用户id,游客为0"),
+            'admin_id' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("管理员id,其他人员对其回复为0"),
+            'reply_to' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("回复的评论id"),
+            'nickname' => $this->string()->defaultValue('游客')->notNull()->comment("昵称"),
+            'email' => $this->string()->defaultValue('')->notNull()->comment("邮箱"),
+            'website_url' => $this->string()->defaultValue('')->notNull()->comment("个人网址"),
+            'content' => $this->string()->notNull()->comment("回复内容"),
+            'ip' => $this->string()->defaultValue('')->notNull()->comment("回复ip"),
+            'status' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("状态,0.未审核,1.已通过"),
+            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间"),
+            'updated_at' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("最后修改时间"),
         ], $tableOptions);
 
         $this->addForeignKey('fk_comment_aid', "{{%comment}}", "aid", "{{%article}}", "id", "CASCADE", "CASCADE");
@@ -1148,15 +1148,15 @@ class m130524_201442_init extends Migration
 
         //table friendly_link
         $this->createTable('{{%friendly_link}}', [
-            'id' => $this->primaryKey()->unsigned(),
-            'name' => $this->string()->notNull(),
-            'image' => $this->string()->defaultValue(''),
-            'url' => $this->string()->defaultValue(''),
-            'target' => $this->string()->defaultValue('_blank'),
-            'sort' => $this->integer()->unsigned()->defaultValue(0),
-            'status' => $this->smallInteger()->unsigned()->defaultValue(0),
-            'created_at' => $this->integer()->unsigned()->notNull(),
-            'updated_at' => $this->integer()->unsigned()->defaultValue(0),
+            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
+            'name' => $this->string()->notNull()->comment("网站名称"),
+            'image' => $this->string()->defaultValue('')->notNull()->comment("图片url"),
+            'url' => $this->string()->defaultValue('')->notNull()->comment("链接地址"),
+            'target' => $this->string()->defaultValue('_blank')->notNull()->comment("打开方式._blank新窗口,_self本窗口"),
+            'sort' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("排序"),
+            'status' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("状态.0禁用,1启用"),
+            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间"),
+            'updated_at' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("最后修改时间"),
         ], $tableOptions);
 
         $this->batchInsert("{{%friendly_link}}", ['id','name','image','url','target','sort','status','created_at','updated_at'],
@@ -1222,18 +1222,18 @@ class m130524_201442_init extends Migration
 
         //table menu
         $this->createTable('{{%menu}}', [
-            'id' => $this->primaryKey()->unsigned(),
-            'type' => $this->integer()->unsigned()->defaultValue(0),
-            'parent_id' => $this->integer()->unsigned()->defaultValue(0),
-            'name' => $this->string()->notNull(),
-            'url' => $this->string()->notNull(),
-            'icon' => $this->string()->defaultValue(''),
-            'sort' => $this->float()->unsigned()->defaultValue(0),
-            'target' => $this->string()->defaultValue('_blank'),
-            'is_absolute_url' => $this->smallInteger()->unsigned()->defaultValue(0),
-            'is_display' => $this->smallInteger()->unsigned()->defaultValue(1),
-            'created_at' => $this->integer()->unsigned()->notNull(),
-            'updated_at' => $this->integer()->unsigned()->defaultValue(0),
+            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
+            'type' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("菜单类型.0后台,1前台"),
+            'parent_id' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("上级菜单id"),
+            'name' => $this->string()->notNull()->comment("名称"),
+            'url' => $this->string()->notNull()->comment("url地址"),
+            'icon' => $this->string()->defaultValue('')->notNull()->comment("图标"),
+            'sort' => $this->float()->unsigned()->defaultValue(0)->notNull()->comment("排序"),
+            'target' => $this->string()->defaultValue('_blank')->notNull()->comment("打开方式._blank新窗口,_self本窗口"),
+            'is_absolute_url' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("是否绝对地址"),
+            'is_display' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("是否显示.0否,1是"),
+            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间"),
+            'updated_at' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("最后修改时间"),
         ], $tableOptions);
 
         $this->batchInsert("{{%menu}}", ['id','type','parent_id','name','url','icon','sort','target','is_absolute_url','is_display','created_at','updated_at'
@@ -1274,14 +1274,14 @@ class m130524_201442_init extends Migration
 
         //table options
         $this->createTable('{{%options}}', [
-            'id' => $this->primaryKey()->unsigned(),
-            'type' => $this->integer()->unsigned()->defaultValue(0),
-            'name' => $this->string()->notNull(),
-            'value' => $this->text(),
-            'input_type' => $this->smallInteger()->unsigned()->defaultValue(1),
-            'autoload' => $this->smallInteger()->unsigned()->defaultValue(1),
-            'tips' => $this->string()->defaultValue(''),
-            'sort' => $this->integer()->unsigned()->defaultValue(0),
+            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
+            'type' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("类型.0系统,1自定义,2banner,3广告"),
+            'name' => $this->string()->notNull()->comment("标识符"),
+            'value' => $this->text()->notNull()->comment("值"),
+            'input_type' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("输入框类型"),
+            'autoload' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("自动加载.0否,1是"),
+            'tips' => $this->string()->defaultValue('')->notNull()->comment("提示备注信息"),
+            'sort' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("排序"),
         ], $tableOptions);
 
         $this->batchInsert("{{%options}}", ['type','name','value','input_type','tips','autoload','sort'],

@@ -24,9 +24,6 @@ class ServerInfo
             case "FreeBSD":
                 $sysInfo = self::sys_freebsd();
                 break;
-            case "WINNT":
-                $sysInfo = self::sys_windows();
-                break;
             default:
                 $sysInfo = [];
                 break;
@@ -286,83 +283,6 @@ class ServerInfo
             return trim($buffer);
         }
         return false;
-    }
-
-    //windows系统探测
-    public function sys_windows()
-    {
-        if (PHP_VERSION >= 5) {
-            if (! class_exists('COM')) {
-                return false;
-            }
-            $objLocator = new \COM("WbemScripting.SWbemLocator");
-            $wmi = $objLocator->ConnectServer();
-            $prop = $wmi->get("Win32_PnPEntity");
-        } else {
-            return false;
-        }
-
-        //CPU
-        $cpuinfo = self::GetWMI($wmi, "Win32_Processor", array("Name", "L2CacheSize", "NumberOfCores"));
-        $res['cpu']['num'] = $cpuinfo[0]['NumberOfCores'];
-        if (null == $res['cpu']['num']) {
-            $res['cpu']['num'] = 1;
-        }
-        /*
-        for ($i=0;$i<$res['cpu']['num'];$i++){
-            $res['cpu']['model'] .= $cpuinfo[0]['Name']."<br />";
-            $res['cpu']['cache'] .= $cpuinfo[0]['L2CacheSize']."<br />";
-        }*/
-        $cpuinfo[0]['L2CacheSize'] = ' (' . $cpuinfo[0]['L2CacheSize'] . ')';
-        if ($res['cpu']['num'] == 1) {
-            $x1 = '';
-        } else {
-            $x1 = ' ×' . $res['cpu']['num'];
-        }
-        $res['cpu']['model'] = $cpuinfo[0]['Name'] . $cpuinfo[0]['L2CacheSize'] . $x1;
-        // SYSINFO
-        $sysinfo = self::GetWMI($wmi, "Win32_OperatingSystem", array(
-            'LastBootUpTime',
-            'TotalVisibleMemorySize',
-            'FreePhysicalMemory',
-            'Caption',
-            'CSDVersion',
-            'SerialNumber',
-            'InstallDate'
-        ));
-        $sysinfo[0]['Caption'] = iconv('GBK', 'UTF-8', $sysinfo[0]['Caption']);
-        $sysinfo[0]['CSDVersion'] = iconv('GBK', 'UTF-8', $sysinfo[0]['CSDVersion']);
-        $res['win_n'] = $sysinfo[0]['Caption'] . " " . $sysinfo[0]['CSDVersion'] . " 序列号:{$sysinfo[0]['SerialNumber']} 于" . date('Y年m月d日H:i:s', strtotime(substr($sysinfo[0]['InstallDate'], 0, 14))) . "安装";
-        //UPTIME
-        $res['uptime'] = $sysinfo[0]['LastBootUpTime'];
-
-        $sys_ticks = 3600 * 8 + time() - strtotime(substr($res['uptime'], 0, 14));
-        $min = $sys_ticks / 60;
-        $hours = $min / 60;
-        $days = floor($hours / 24);
-        $hours = floor($hours - ($days * 24));
-        $min = floor($min - ($days * 60 * 24) - ($hours * 60));
-        if ($days !== 0) {
-            $res['uptime'] = $days . "天";
-        }
-        if ($hours !== 0) {
-            $res['uptime'] .= $hours . "小时";
-        }
-        $res['uptime'] .= $min . "分钟";
-
-        //MEMORY
-        $res['memTotal'] = round($sysinfo[0]['TotalVisibleMemorySize'] / 1024, 2);
-        $res['memFree'] = round($sysinfo[0]['FreePhysicalMemory'] / 1024, 2);
-        $res['memUsed'] = $res['memTotal'] - $res['memFree'];    //上面两行已经除以1024,这行不用再除了
-        $res['memPercent'] = round($res['memUsed'] / $res['memTotal'] * 100, 2);
-
-        $swapinfo = self::GetWMI($wmi, "Win32_PageFileUsage", array('AllocatedBaseSize', 'CurrentUsage'));
-
-        // LoadPercentage
-        $loadinfo = self::GetWMI($wmi, "Win32_Processor", array("LoadPercentage"));
-        $res['loadAvg'] = $loadinfo[0]['LoadPercentage'];
-
-        return $res;
     }
 
     private function GetWMI($wmi, $strClass, $strValue = array())

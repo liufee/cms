@@ -14,11 +14,13 @@ if (!YII_ENV_TEST) {
     $config['bootstrap'][] = 'debug';
     $config['modules']['debug'] = [
         'class' => yii\debug\Module::className(),
+        //'allowedIPs' => ['127.0.0.1'],
     ];
 
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => yii\gii\Module::className(),
+        //'allowedIPs' => ['127.0.0.1'],
         'generators' => [
             'crud' => [
                 'class' => yii\gii\generators\crud\Generator::className(),
