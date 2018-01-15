@@ -25,6 +25,7 @@ class SiteController extends \yii\web\Controller
 {
 
     public $enableCsrfValidation = false;
+
     public static $installLockFile = '@common/config/conf/install.lock';
 
     public function init()

@@ -18,6 +18,7 @@ use backend\grid\SortColumn;
 use backend\grid\StatusColumn;
 use backend\models\Menu;
 use backend\widgets\Bar;
+use common\libs\Constants;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use backend\grid\CheckboxColumn;
@@ -69,6 +70,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Backend Menus');
                             'attribute' => 'is_display',
                             'formName' => (new Menu)->formName() . '[is_display]',
                             'label' => yii::t('app', 'Is Display'),
+                            'filter' => Constants::getYesNoItems()
                         ],
                         [
                             'class' => DateColumn::className(),

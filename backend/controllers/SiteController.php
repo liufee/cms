@@ -72,7 +72,9 @@ class SiteController extends \yii\web\Controller
     }
 
     /**
-     * @inheritdoc
+     * 后台首页
+     *
+     * @return string
      */
     public function actionIndex()
     {

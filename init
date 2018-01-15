@@ -84,6 +84,9 @@ foreach ($callbacks as $callback) {
     }
 }
 
+$installLockFile = $root . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'conf' . DIRECTORY_SEPARATOR . 'install.lock';
+if( !file_exists($installLockFile) ) mkdir(str_replace(DIRECTORY_SEPARATOR . "install.lock", '', $installLockFile)) && touch($installLockFile);
+
 echo "\n  ... initialization completed.\n\n";
 
 function getFileList($root, $basePath = '')

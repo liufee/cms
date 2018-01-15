@@ -8,24 +8,24 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
-        'db' => [
+        'db' => [//数据库配置，这里的配置可能会被conf/db.local main-local.php配置覆盖
             'class' => yii\db\Connection::className(),
             'dsn' => 'mysql:host=localhost;dbname=feehi',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8mb4',
         ],
-        'cache' => [
+        'cache' => [//缓存组件配置
             'class' => yii\caching\DummyCache::className(),
         ],
-        'formatter' => [
+        'formatter' => [//格式显示配置
             'dateFormat' => 'php:Y-m-d H:i',
             'decimalSeparator' => ',',
             'thousandSeparator' => ' ',
             'currencyCode' => 'CHY',
             'nullDisplay' => '-',
         ],
-        'mailer' => [
+        'mailer' => [//邮箱发件人配置，会被main-local.php以及后台管理页面中的smtp配置覆盖
             'class' => yii\swiftmailer\Mailer::className(),
             'viewPath' => '@common/mail',
             'useFileTransport' => false,//false发送邮件，true只是生成邮件在runtime文件夹下，不发邮件
