@@ -88,7 +88,6 @@ return [
                         'b' => 'static/css/font-awesome.min93e3.css?v=4.4.0',
                         'c' => 'static/css/animate.min.css',
                         'd' => 'static/css/style.min862f.css?v=4.1.0',
-                        'e' => 'static/css/plugins/sweetalert/sweetalert.css',
                         'f' => 'static/js/plugins/layer/laydate/need/laydate.css',
                         'g' => 'static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
                         'h' => 'static/css/plugins/toastr/toastr.min.css',
@@ -96,7 +95,6 @@ return [
                     ],
                     'js' => [
                         'a' => 'static/js/feehi.js',
-                        'b' => 'static/js/plugins/sweetalert/sweetalert.min.js',
                         'c' => 'static/js/plugins/layer/laydate/laydate.js',
                         'd' => 'static/js/plugins/layer/layer.min.js',
                         'e' => 'static/js/plugins/prettyfile/bootstrap-prettyfile.js',

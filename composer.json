@@ -17,7 +17,8 @@
         "yiisoft/yii2": ">=2.0.13",
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
-        "feehi/yii2-swoole": ">=0.0.5"
+        "feehi/yii2-swoole": ">=0.0.5",
+        "feehi/yii2-cdn" : "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

@@ -265,15 +265,10 @@ return [
     /*rbac*/
 
     /*js*/
-    'Realy to do it?' => '确定要执行此操作？',
+    'Confirm' => '确认',
     'ok' => '确定',
     'cancel' => '取消',
     'None item selected!' => '啊哦,神马都都没有选中!',
-    'Please at least select one item.' => '请至少选中一项',
-    'Waiting and no refresh window' => '执行中,请勿刷新页面',
-    'Operating' => '执行中',
-    'Done, operating success' => '执行成功',
-    'Sorry, operating failed' => '啊哦,执行失败啦~',
     'Only picture file be permitted.' => '只能选择图片类型',
     'Choose File' => '选择文件',
     /*js*/

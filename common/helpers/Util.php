@@ -18,6 +18,8 @@ class Util
     public static function handleModelSingleFileUpload(ActiveRecord &$model, $field, $insert, $uploadPath)
     {
         $upload = UploadedFile::getInstance($model, $field);
+        /* @var $cdn \feehi\cdn\TargetInterface */
+        $cdn = yii::$app->get('cdn');
         if ($upload !== null) {
             $uploadPath = yii::getAlias($uploadPath);
             if (! FileHelper::createDirectory($uploadPath)) {
@@ -30,14 +32,17 @@ class Util
                 return false;
             }
             $model->$field = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
+            $cdn->upload($fullName, $model->$field);
             if( !$insert ){
                 $file = yii::getAlias('@frontend/web') . $model->getOldAttribute($field);
                 if( file_exists($file) && is_file($file) ) unlink($file);
+                if( $cdn->exists( $model->getOldAttribute($field) ) ) $cdn->delete($model->getOldAttribute($field));
             }
         } else {
             if( $model->$field === '0' ){//删除
                 $file = yii::getAlias('@frontend/web') . $model->getOldAttribute($field);
                 if( file_exists($file) && is_file($file) ) unlink($file);
+                if( $cdn->exists( $model->getOldAttribute($field) ) ) $cdn->delete($model->getOldAttribute($field));
                 $model->$field = '';
             }else {
                 $model->$field = $model->getOldAttribute($field);

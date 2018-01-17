@@ -3,38 +3,41 @@ yii.confirm = function(message, ok, cancel) {
     var if_pjax = $(this).attr('data-pjax') ? $(this).attr('data-pjax') : 0;
     var method = $(this).attr('data-method') ? $(this).attr('data-method') : "post";
     var data = $(this).attr('data-params') ? JSON.parse( $(this).attr('data-params') ) : '';
-    swal({
-        title: message,
-        text: tips.realyToDo,
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        cancelButtonText: tips.cancel,
-        confirmButtonText: tips.ok,
-        closeOnConfirm: false
-    }, function (isConfirm) {
-        if(isConfirm) {
-            if( parseInt( if_pjax ) ){
-                !ok || ok();
-            }else {
-                swal(tips.waitingAndNoRefresh, tips.operating + '...', "success");
-                $.ajax({
-                    "url": url,
-                    "dataType": "json",
-                    "type": method,
-                    "data": data,
-                    "success": function (data) {
-                        swal(tips.success + '!', tips.operatingSuccess + '.', "success");
-                        location.reload();
-                    },
-                    "error": function (jqXHR, textStatus, errorThrown) {
-                        swal(tips.error + ': ' + jqXHR.responseJSON.message, tips.operatingFailed + '.', "error");
-                    }
-                });
-            }
-        }else{
-            !cancel || cancel();
+    layer.confirm(message, {
+        title:tips.confirmTitle,
+        btn: [tips.ok, tips.cancel] //按钮
+    }, function(){//ok
+        if( parseInt( if_pjax ) ){
+            !ok || ok();
+        }else {
+            $.ajax({
+                "url": url,
+                "dataType": "json",
+                "type": method,
+                "data": data,
+                beforeSend: function () {
+                    layer.load(2,{
+                        shade: [0.1,'#fff'] //0.1透明度的白色背景
+                    });
+                },
+                "success": function (data) {
+                    location.reload();
+                },
+                "error": function (jqXHR, textStatus, errorThrown) {
+                    layer.alert(jqXHR.responseJSON.message, {
+                        title:tips.error,
+                        btn: [tips.ok],
+                        icon: 2,
+                        skin: 'layer-ext-moon'
+                    })
+                },
+                "complete": function () {
+                    layer.closeAll('loading');
+                }
+            });
         }
+    }, function(){//cancel
+        !cancel || cancel();
     });
 }
 function viewLayer(url, obj)
@@ -57,51 +60,59 @@ $(document).ready(function(){
         var url = $(this).attr('href');
         var method = $(this).attr('data-method') ? $(this).attr('data-method') : "post";
         var paramSign = that.attr('param-sign') ? that.attr('param-sign') : "id";
-        var ids = new Array();
+        var ids = [];
         $("tr td input[type=checkbox]:checked").each(function(){
             ids.push($(this).val());
         });
         if(ids.length <= 0){
-            swal(tips.noItemSelected, tips.PleaseSelectOne);
+            layer.alert(tips.noItemSelected, {
+                title:tips.error,
+                btn: [tips.ok],
+                icon: 2,
+                skin: 'layer-ext-moon'
+            })
             return false;
         }
         ids = ids.join(',');
-        swal({
-            title: $(this).attr("data-confirm"),
-            text: ids,
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            cancelButtonText: tips.cancel,
-            confirmButtonText: tips.ok,
-            closeOnConfirm: false
-        }, function (isConfirm) {
-            if(isConfirm) {
-                swal(tips.waitingAndNoRefresh, tips.operating+'...', "success");
-                if( that.hasClass("jump") ){//含有jump的class不做ajax处理，跳转页面
-                    var jumpUrl = url.indexOf('?') !== -1 ? url + '&' + paramSign + '=' + ids : url + '?' + paramSign + '=' + ids;
-                    location.href = jumpUrl;
-                    return;
-                }
-                var data = {};
-                data[paramSign] = ids;
-                $.ajax({
-                    "url":url,
-                    "dataType" : "json",
-                    "type" : method,
-                    "data":data,
-                    "success" : function (data) {
-                        swal(tips.success + '!', tips.operatingSuccess + '.', "success");
-                        location.reload();
-                    },
-                    "error": function (jqXHR, textStatus, errorThrown) {
-                        swal(tips.error + ': ' + jqXHR.responseJSON.message, tips.operatingFailed + '.', "error");
-                    }
-                });
-            }else{
+        layer.confirm($(this).attr("data-confirm") + "<br>" + paramSign + ": " + ids, {
+            title:tips.confirmTitle,
+            btn: [tips.ok, tips.cancel] //按钮
+        }, function() {//ok
+            if( that.hasClass("jump") ){//含有jump的class不做ajax处理，跳转页面
+                var jumpUrl = url.indexOf('?') !== -1 ? url + '&' + paramSign + '=' + ids : url + '?' + paramSign + '=' + ids;
+                location.href = jumpUrl;
                 return false;
             }
-        });
+            var data = {};
+            data[paramSign] = ids;
+            $.ajax({
+                "url":url,
+                "dataType" : "json",
+                "type" : method,
+                "data":data,
+                beforeSend: function () {
+                    layer.load(2,{
+                        shade: [0.1,'#fff'] //0.1透明度的白色背景
+                    });
+                },
+                "success" : function (data) {
+                    location.reload();
+                },
+                "error": function (jqXHR, textStatus, errorThrown) {
+                    layer.alert(jqXHR.responseJSON.message, {
+                        title:tips.error,
+                        btn: [tips.ok],
+                        icon: 2,
+                        skin: 'layer-ext-moon'
+                    })
+                },
+                "complete": function () {
+                    layer.closeAll('loading');
+                }
+            });
+        }, function (index) {
+            layer.close(index);
+        })
         return false;
     })
 
@@ -166,12 +177,16 @@ $(document).ready(function(){
 
     $("form:not(.none-loading)").bind("beforeSubmit", function () {
         $(this).find("button[type=submit]").attr("disabled", true);
-        layer.load(2);
+        layer.load(2,{
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
     })
 })
 
 function indexSort(){
-    layer.load(2);
+    layer.load(2,{
+        shade: [0.1,'#fff'] //0.1透明度的白色背景
+    });
     var data = {};
     var name = $(this).attr('name');
     data[name] = $(this).val();
@@ -181,7 +196,12 @@ function indexSort(){
         method: sortHeader.attr('method'),
         data: data,
         error: function (jqXHR, textStatus, errorThrown) {
-            swal(tips.error + ': ' + jqXHR.responseJSON.message, tips.operatingFailed + '.', "error");
+            layer.alert(jqXHR.responseJSON.message, {
+                title:tips.error,
+                btn: [tips.ok],
+                icon: 2,
+                skin: 'layer-ext-moon'
+            })
         },
         complete: function () {
             layer.closeAll('loading');

@@ -10,6 +10,7 @@ namespace common\models;
 
 use common\models\meta\ArticleMetaLike;
 use common\models\meta\ArticleMetaTag;
+use feehi\cdn\TargetAbstract;
 use Yii;
 use common\libs\Constants;
 use yii\behaviors\TimestampBehavior;
@@ -256,7 +257,9 @@ class Article extends \yii\db\ActiveRecord
     {
         parent::afterFind();
         if ($this->thumb) {
-            $this->thumb = str_replace(yii::$app->params['site']['sign'], yii::$app->params['site']['url'], $this->thumb);
+            /** @var TargetAbstract $cdn */
+            $cdn = yii::$app->get('cdn');
+            $this->thumb = $cdn->getCdnUrl($this->thumb);
         }
     }
     

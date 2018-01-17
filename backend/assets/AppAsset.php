@@ -27,7 +27,6 @@ class AppAsset extends \yii\web\AssetBundle
         'static/css/font-awesome.min93e3.css?v=4.4.0',
         'static/css/animate.min.css',
         'static/css/style.min862f.css?v=4.1.0',
-        'static/css/plugins/sweetalert/sweetalert.css',
         'static/js/plugins/layer/laydate/need/laydate.css',
         //'js/plugins/layer/laydate/skins/default/laydate.css'
         'static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
@@ -37,7 +36,6 @@ class AppAsset extends \yii\web\AssetBundle
 
     public $js = [
         'static/js/feehi.js',
-        'static/js/plugins/sweetalert/sweetalert.min.js',
         'static/js/plugins/layer/laydate/laydate.js',
         'static/js/plugins/layer/layer.min.js',
         'static/js/plugins/prettyfile/bootstrap-prettyfile.js',
