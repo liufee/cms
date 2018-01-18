@@ -16,6 +16,8 @@
  * @var $commentList array
  */
 
+use frontend\widgets\ArticleListView;
+use yii\data\ArrayDataProvider;
 use yii\helpers\Url;
 use frontend\assets\ViewAsset;
 use common\widgets\JsBlock;
@@ -128,23 +130,19 @@ ViewAsset::register($this);
 
         <div class="related_top">
             <div class="related_posts">
-                <ul class="related_img">
-                    <h2><?= yii::t('frontend', 'Related Recommends') ?></h2>
-                    <?php
-                    //$articles = Article::getArticleLists(['flag_picture'=>1], 8, 'rand()');
-                    $articles = $recommends;
-                    foreach ($articles as $article) {
-                        $url = Url::to(['article/view', 'id' => $article->id]);
-                        $imgUrl = Url::to(['/timthumb.php', 'src'=>$article->thumb, 'h'=>110, 'w'=>185, 'zc'=>0]);
-                        echo "<li class='related_box'>
-                             <a href='{$url}' title='{$article->title}' target='_blank'>
-                                <img src='{$imgUrl}' alt='{$article->title}'><br>
-                                <span class='r_title'>{$article->title}</span>
-                             </a>
-                        </li>";
-                    }
-                    ?>
-                </ul>
+                <?= ArticleListView::widget([
+                    'dataProvider' => new ArrayDataProvider([
+                        'allModels' => $recommends,
+                    ]),
+                    'layout' => "<ul class='related_img'><h2>" . yii::t('frontend', 'Related Recommends') . "</h2>{items}</ul>",
+                    'template' => "<a href='{article_url}' title='{title}' target='_blank'>
+                                        <img src='{img_url}' alt='{title}'><br>
+                                        <span class='r_title'>{title}</span>
+                                     </a>",
+                    'itemOptions' => ['tag'=>'li', 'class'=>'related_box'],
+                    'thumbWidth' => 185,
+                    'thumbHeight' => 110,
+                ]) ?>
             </div>
         </div>
 

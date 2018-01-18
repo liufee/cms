@@ -8,6 +8,8 @@
 
 namespace common\helpers;
 
+use Imagine\Image\Box;
+use yii\imagine\Image;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
@@ -15,13 +17,22 @@ use yii\web\UploadedFile;
 
 class Util
 {
-    public static function handleModelSingleFileUpload(ActiveRecord &$model, $field, $insert, $uploadPath)
+    /**
+     * @param ActiveRecord $model
+     * @param $field
+     * @param $insert
+     * @param $uploadPath
+     * @param array $options $options[thumbSizes]需要截图的尺寸
+     * @return bool
+     */
+    public static function handleModelSingleFileUpload(ActiveRecord &$model, $field, $insert, $uploadPath, $options=[])
     {
         $upload = UploadedFile::getInstance($model, $field);
         /* @var $cdn \feehi\cdn\TargetInterface */
         $cdn = yii::$app->get('cdn');
         if ($upload !== null) {
             $uploadPath = yii::getAlias($uploadPath);
+            if( strpos(strrev($uploadPath), '/') !== 0 ) $uploadPath .= '/';
             if (! FileHelper::createDirectory($uploadPath)) {
                 $model->addError($field, "Create directory failed " . $uploadPath);
                 return false;
@@ -33,20 +44,76 @@ class Util
             }
             $model->$field = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
             $cdn->upload($fullName, $model->$field);
+            if(isset($options['thumbSizes'])) self::thumbnails($fullName, $options['thumbSizes']);
             if( !$insert ){
                 $file = yii::getAlias('@frontend/web') . $model->getOldAttribute($field);
                 if( file_exists($file) && is_file($file) ) unlink($file);
                 if( $cdn->exists( $model->getOldAttribute($field) ) ) $cdn->delete($model->getOldAttribute($field));
+                if(isset($options['thumbSizes'])) self::deleteThumbnails($file, $options['thumbSizes']);
             }
         } else {
             if( $model->$field === '0' ){//删除
                 $file = yii::getAlias('@frontend/web') . $model->getOldAttribute($field);
                 if( file_exists($file) && is_file($file) ) unlink($file);
                 if( $cdn->exists( $model->getOldAttribute($field) ) ) $cdn->delete($model->getOldAttribute($field));
+                if(isset($options['thumbSizes'])) self::deleteThumbnails($file, $options['thumbSizes']);
                 $model->$field = '';
             }else {
                 $model->$field = $model->getOldAttribute($field);
             }
         }
+    }
+
+    /**
+     * 生成各个尺寸的缩略图
+     *
+     * @param $fullName string 原图路径
+     * @param array $thumbSizes 二维数组 如 [["w"=>110,"height"=>"20"],["w"=>200,"h"=>"30"]]则生成两张缩量图，分别为宽110高20和宽200高30
+     */
+    public static function thumbnails($fullName, array $thumbSizes)
+    {
+        foreach ($thumbSizes as $info){
+            $thumbFullName = self::getThumbName($fullName, $info['w'], $info['h']);
+            Image::thumbnail($fullName, $info['w'], $info['h'])->save($thumbFullName);
+            /** @var $cdn \feehi\cdn\TargetInterface */
+            $cdn = yii::$app->get('cdn');
+            $cdn->upload($thumbFullName, str_replace(yii::getAlias('@frontend/web'), '', $thumbFullName));
+        }
+    }
+
+    /**
+     * 删除各个尺寸的缩略图
+     *
+     * @param $fullName string 原图图片路径
+     * @param $thumbSizes array 二维数组 如 [["w"=>110,"height"=>"20"],["w"=>200,"h"=>"30"]]则生成两张缩量图，分别为宽110高20和宽200高30
+     */
+    private static function deleteThumbnails($fullName, array $thumbSizes)
+    {
+        foreach ($thumbSizes as $info){
+            $thumbFullName = self::getThumbName($fullName, $info['w'], $info['h']);
+            if( file_exists($thumbFullName) && is_file($thumbFullName) ) unlink($thumbFullName);
+            $cdn = yii::$app->get('cdn');
+            $cdn->delete(str_replace(yii::getAlias("@frontend/web"), '', $thumbFullName));
+        }
+    }
+
+    /**
+     * 根据原图路径生成缩略图路径
+     *
+     * @param $fullName string 原图路径
+     * @param $width int 长
+     * @param $heith int 宽
+     * @return string 如/path/to/uploads/article/xx@100x20.png
+     */
+    public static function getThumbName($fullName, $width, $heith)
+    {
+        $dotPosition = strrpos($fullName, '.');
+        $thumbExt = "@" . $width . 'x' . $heith;
+        if( $dotPosition === false ){
+            $thumbFullName = $fullName . $thumbExt;
+        }else{
+            $thumbFullName = substr_replace($fullName,$thumbExt, $dotPosition, 0);
+        }
+        return $thumbFullName;
     }
 }

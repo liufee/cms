@@ -122,6 +122,7 @@ class ArticleController extends Controller
             ->andWhere(['<>', 'thumb', ''])
             ->orderBy("rand()")
             ->limit(8)
+            ->with('category')
             ->all();
         switch ($model->visibility){
             case Constants::ARTICLE_VISIBILITY_COMMENT://评论可见

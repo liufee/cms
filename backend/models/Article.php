@@ -43,7 +43,7 @@ class Article extends \common\models\Article
      */
     public function beforeSave($insert)
     {
-        Util::handleModelSingleFileUpload($this, 'thumb', $insert, '@thumb');
+        Util::handleModelSingleFileUpload($this, 'thumb', $insert, '@thumb', ['thumbSizes'=>self::THUMB_SIZES]);
         $this->seo_keywords = str_replace('，', ',', $this->seo_keywords);
         if ($insert) {
             $this->author_id = yii::$app->getUser()->getIdentity()->getId();

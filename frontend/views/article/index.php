@@ -13,13 +13,12 @@
  */
 
 use common\models\Options;
-use yii\helpers\Url;
+use frontend\models\Article;
 use frontend\widgets\ArticleListView;
-use frontend\controllers\components\Article;
 use frontend\widgets\ScrollPicView;
 use common\widgets\JsBlock;
 use frontend\assets\IndexAsset;
-use yii\helpers\StringHelper;
+use yii\data\ArrayDataProvider;
 
 IndexAsset::register($this);
 $this->title = yii::$app->feehi->website_title;
@@ -36,31 +35,30 @@ $this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
             <div class="ws_shadow"></div>
         </div>
         <div class="daodu clr">
-            <div class="tip"><h4><?= yii::t('frontend', 'Well-choosen') ?></h4></div>
-            <ul class="dd-list">
-                <?php
-                $articles = Article::getArticleLists(['flag_headline' => 1], 4);
-                foreach ($articles as $article) {
-                    $url = Url::to(['article/view', 'id' => $article->id]);
-                    $imgUrl = Url::to(['/timthumb.php', 'src'=>$article->thumb, 'h'=>112, 'w'=>168, 'zc'=>0]);
-                    $article->created_at = yii::$app->getFormatter()->asDate($article->created_at);
-                    $article->summary = StringHelper::truncate($article->summary, 20);
-                    echo "<li>
-                        <figure class='dd-img'>
-                            <a title='{$article->title}' target='_blank' href='{$url}'>
-                                <img src='{$imgUrl}' style='display: inline;' alt='{$article->title}'>
-                            </a>
-                        </figure>
-                        <div class='dd-content'>
-                            <h2 class='dd-title'>
-                                <a rel='bookmark' title='{$article->title}' href='{$url}'>{$article->title}</a>
-                            </h2>
-                            <div class='dd-site xs-hidden'>{$article->summary}</div>
-                        </div>
-                    </li>";
-                }
-                ?>
-            </ul>
+            <?= ArticleListView::widget([
+                'dataProvider' => new ArrayDataProvider([
+                    'allModels' => Article::find()->limit(1)->where(['flag_headline'=>1])->limit(4)->with('category')->orderBy("sort asc")->all(),
+                ]),
+                'layout' => "<div class='tip'><h4>" . yii::t('frontend', 'Well-choosen') . "</h4></div>
+                                <ul class=\"dd-list\">
+                                    {items}
+                                </ul>
+                             ",
+                'template' => "<figure class='dd-img'>
+                                        <a title='{title}' target='_blank' href='{article_url}'>
+                                            <img src='{img_url}' style='display: inline;' alt='{title}'>
+                                        </a>
+                                    </figure>
+                                    <div class='dd-content'>
+                                        <h2 class='dd-title'>
+                                            <a rel='bookmark' title='{title}' href='{article_url}'>{title}</a>
+                                        </h2>
+                                        <div class='dd-site xs-hidden'>{summary}</div>
+                                    </div>",
+                'itemOptions' => ['tag'=>'li'],
+                'thumbWidth' => 168,
+                'thumbHeight' => 112,
+            ]) ?>
         </div>
 
         <header class="archive-header"><h1><?=$type?></h1></header>

@@ -149,6 +149,10 @@ class Uploader
             $this->stateInfo = $this->getStateInfo("ERROR_FILE_MOVE");
         } else { //移动成功
             $this->stateInfo = $this->stateMap[0];
+            /** @var $cdn \feehi\cdn\TargetInterface */
+            $cdn = yii::$app->get('cdn');
+            $destFile = str_replace(yii::getAlias("@frontend/web"), '', $this->filePath);
+            $cdn->upload($this->filePath, $destFile);
         }
     }
 

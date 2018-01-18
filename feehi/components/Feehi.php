@@ -69,7 +69,7 @@ class Feehi extends Component
         if (substr(yii::$app->params['site']['url'], -1, 1) != '/') {
             yii::$app->params['site']['url'] .= '/';
         }
-        if (stripos(yii::$app->params['site']['url'], 'http://') !== 0 && stripos(yii::$app->params['site']['url'], 'https://') !== 0) {
+        if (stripos(yii::$app->params['site']['url'], 'http://') !== 0 && stripos(yii::$app->params['site']['url'], 'https://') !== 0 && stripos(yii::$app->params['site']['url'], '//')) {
             yii::$app->params['site']['url'] = ( yii::$app->getRequest()->getIsSecureConnection() ? "https://" : "http://" ) . yii::$app->params['site']['url'];
         }
 

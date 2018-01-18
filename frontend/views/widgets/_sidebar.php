@@ -6,8 +6,9 @@
  * Created at: 2016-06-21 14:26
  */
 
+use common\models\meta\ArticleMetaTag;
 use common\models\Options;
-use frontend\controllers\components\Article;
+use frontend\models\Article;
 use yii\helpers\Url;
 use frontend\models\Comment;
 use frontend\models\FriendlyLink;
@@ -72,10 +73,11 @@ use frontend\models\FriendlyLink;
         </div>
         <ul>
             <?php
-            $articles = Article::getArticleLists(['flag_special_recommend' => 1], 8);
+            $articles = Article::find()->where(['flag_special_recommend' => 1])->limit(8)->orderBy("sort asc")->all();
             foreach ($articles as $article) {
+                /** @var $article \frontend\models\Article */
                 $url = Url::to(['article/view', 'id' => $article->id]);
-                $imgUrl = Url::to(['/timthumb.php', 'src'=>$article->thumb, 'w'=>125, 'h'=>86, 'zc'=>0]);
+                $imgUrl = $article->getThumbUrlBySize(125, 86);
                 $article->created_at = yii::$app->formatter->asDate($article->created_at);
                 echo "<li>
                     <a href=\"{$url}\" title=\"{$article->title}\">
@@ -102,11 +104,9 @@ use frontend\models\FriendlyLink;
         </div>
         <div class="d_tags">
             <?php
-            $tags = Article::getHotestTags(12);
-            foreach ($tags as $k => $v) {
-                echo "<a title='' href='" . Url::to([
-                        '/tag/' . $k,
-                    ]) . "' data-original-title='{$v}" . yii::t('frontend', ' Topics') . "'>{$k} ({$v})</a>";
+            $tagsModel = new ArticleMetaTag();
+            foreach ($tagsModel->getHotestTags() as $k => $v) {
+                echo "<a title='' href='" . Url::to(['search/tag', 'tag' => $k]) . "' data-original-title='{$v}" . yii::t('frontend', ' Topics') . "'>{$k} ({$v})</a>";
             }
             ?>
         </div>

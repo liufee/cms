@@ -14,6 +14,7 @@ use feehi\cdn\TargetAbstract;
 use Yii;
 use common\libs\Constants;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "{{%article}}".
@@ -56,6 +57,16 @@ class Article extends \yii\db\ActiveRecord
 
     const ARTICLE_PUBLISHED = 1;
     const ARTICLE_DRAFT = 0;
+
+    /**
+     * 需要截取的文章缩略图尺寸
+     */
+    const THUMB_SIZES = [
+        ["w"=>220, "h"=>150],//首页文章列表
+        ["w"=>168, "h"=>112],//精选导读
+        ["w"=>185, "h"=>110],//文章详情下边图片推荐
+        ["w"=>125, "h"=>86],//热门推荐
+    ];
 
     public function behaviors()
     {
@@ -261,6 +272,33 @@ class Article extends \yii\db\ActiveRecord
             $cdn = yii::$app->get('cdn');
             $this->thumb = $cdn->getCdnUrl($this->thumb);
         }
+    }
+
+    public function getThumbUrlBySize($width='', $height='')
+    {
+        if( empty($width) || empty($height) ){
+            return $this->thumb;
+        }
+        if( empty($this->thumb) ){//未配图
+            return $this->thumb = '/static/images/' . rand(1, 10) . '.jpg';
+        }
+        static $str = null;
+        if( $str === null ) {
+            $str = "";
+            foreach (self::THUMB_SIZES as $temp){
+                $str .= $temp['w'] . 'x' . $temp['h'] . '---';
+            }
+        }
+        if( strpos($str, $width . 'x' . $height) !== false ){
+            $dotPosition = strrpos($this->thumb, '.');
+            $thumbExt = "@" . $width . 'x' . $height;
+            if( $dotPosition === false ){
+                return $this->thumb . $thumbExt;
+            }else{
+                return substr_replace($this->thumb,$thumbExt, $dotPosition, 0);
+            }
+        }
+        return Url::to(['/timthumb.php', 'src'=>$this->thumb, 'h'=>$height, 'w'=>$width, 'zc'=>0]);;
     }
     
 }

@@ -8,12 +8,14 @@
 
 namespace console\controllers;
 
+use common\helpers\Util;
 use yii;
 use backend\models\ArticleContent;
 use common\models\FriendlyLink;
 use common\models\Article;
 use yii\helpers\Console;
 use yii\helpers\FileHelper;
+use yii\imagine\Image;
 
 set_time_limit(0);
 
@@ -238,6 +240,20 @@ class FileController extends \yii\console\Controller
             $str .= "],\n";
         }
         file_put_contents('db.txt', $str);
+    }
+
+    public function actionGenArticleThumbnails()
+    {
+        $path = yii::getAlias("@uploads/article/thumb/");
+        $fp = opendir($path);
+        while (($file = readdir($fp)) != false){
+            if( $file == '.' || $file == '..' ) continue;
+            $fullName = $path . $file;
+            foreach (Article::THUMB_SIZES as $info){
+                $thumbFullName = Util::getThumbName($fullName, $info['w'], $info['h']);
+                Image::thumbnail($fullName, $info['w'], $info['h'])->save($thumbFullName);
+            }
+        }
     }
 
 }
