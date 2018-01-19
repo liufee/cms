@@ -10,7 +10,7 @@
  * @var $dataProvider yii\data\ArrayDataProvider
  * @var $searchModel backend\models\search\MenuSearch
  * @var $model backend\models\form\BannerForm
- * @var $banner common\models\Options
+ * @var $bannerType common\models\Options
  */
 
 use backend\grid\GridView;
@@ -24,7 +24,7 @@ use backend\grid\ActionColumn;
 
 $this->title = "Banners";
 $this->params['breadcrumbs'][] = ['label' => yii::t('app', 'Banner Types'), 'url' => Url::to(['index'])];
-$this->params['breadcrumbs'][] =  yii::t('app', 'Banner') . ' (' . $banner->tips . "-{$banner->name})";
+$this->params['breadcrumbs'][] =  yii::t('app', 'Banner') . ' (' . $bannerType->tips . "-{$bannerType->name})";
 ?>
 <div class="row">
     <div class="col-sm-12">

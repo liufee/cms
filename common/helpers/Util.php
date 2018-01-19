@@ -8,7 +8,6 @@
 
 namespace common\helpers;
 
-use Imagine\Image\Box;
 use yii\imagine\Image;
 use Yii;
 use yii\db\ActiveRecord;
@@ -22,7 +21,9 @@ class Util
      * @param $field
      * @param $insert
      * @param $uploadPath
-     * @param array $options $options[thumbSizes]需要截图的尺寸
+     * @param array $options
+     *                  $options[thumbSizes] array 需要截图的尺寸，如[['w'=>100,'h'=>100]]
+     *                  $options['filename'] string 新文件名，默认自动生成
      * @return bool
      */
     public static function handleModelSingleFileUpload(ActiveRecord &$model, $field, $insert, $uploadPath, $options=[])
@@ -37,7 +38,7 @@ class Util
                 $model->addError($field, "Create directory failed " . $uploadPath);
                 return false;
             }
-            $fullName = $uploadPath . date('YmdHis') . '_' . uniqid() . '.' . $upload->getExtension();
+            $fullName = isset($options['filename']) ? $uploadPath . $options['filename'] : $uploadPath . date('YmdHis') . '_' . uniqid() . '.' . $upload->getExtension();
             if (! $upload->saveAs($fullName)) {
                 $model->addError($field, yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', ucfirst($field))]) . ': ' . $fullName);
                 return false;
@@ -60,6 +61,46 @@ class Util
                 $model->$field = '';
             }else {
                 $model->$field = $model->getOldAttribute($field);
+            }
+        }
+    }
+
+    public static function handleModelSingleFileUploadAbnormal(ActiveRecord &$model, $field, $uploadPath, $insert, $oldFullname, $options=[])
+    {
+        if( !isset($options['successDeleteOld']) ) $options['successDeleteOld'] = true;//成功后删除旧文件
+        $upload = UploadedFile::getInstance($model, $field);
+        /* @var $cdn \feehi\cdn\TargetInterface */
+        $cdn = yii::$app->get('cdn');
+        if ($upload !== null) {
+            $uploadPath = yii::getAlias($uploadPath);
+            if( strpos(strrev($uploadPath), '/') !== 0 ) $uploadPath .= '/';
+            if (! FileHelper::createDirectory($uploadPath)) {
+                $model->addError($field, "Create directory failed " . $uploadPath);
+                return false;
+            }
+            $fullName = isset($options['filename']) ? $uploadPath . $options['filename'] : $uploadPath . date('YmdHis') . '_' . uniqid() . '.' . $upload->getExtension();
+            if (! $upload->saveAs($fullName)) {
+                $model->addError($field, yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', ucfirst($field))]) . ': ' . $fullName);
+                return false;
+            }
+            $model->$field = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
+            $cdn->upload($fullName, $model->$field);
+            if(isset($options['thumbSizes'])) self::thumbnails($fullName, $options['thumbSizes']);
+            if( $options['successDeleteOld'] && $insert && $oldFullname ){
+                $file = yii::getAlias('@frontend/web') . $oldFullname;
+                if( file_exists($file) && is_file($file) ) unlink($file);
+                if( $cdn->exists( $oldFullname ) ) $cdn->delete($oldFullname);
+                if(isset($options['thumbSizes'])) self::deleteThumbnails($file, $options['thumbSizes']);
+            }
+        } else {
+            if( $model->$field === '0' ){//删除
+                $file = yii::getAlias('@frontend/web') . $oldFullname;
+                if( file_exists($file) && is_file($file) ) unlink($file);
+                if( $cdn->exists( $oldFullname ) ) $cdn->delete($oldFullname);
+                if(isset($options['thumbSizes'])) self::deleteThumbnails($file, $options['thumbSizes']);
+                $model->$field = '';
+            }else {
+                $model->$field = $oldFullname;
             }
         }
     }
@@ -87,13 +128,16 @@ class Util
      * @param $fullName string 原图图片路径
      * @param $thumbSizes array 二维数组 如 [["w"=>110,"height"=>"20"],["w"=>200,"h"=>"30"]]则生成两张缩量图，分别为宽110高20和宽200高30
      */
-    private static function deleteThumbnails($fullName, array $thumbSizes)
+    public static function deleteThumbnails($fullName, array $thumbSizes, $deleteOrigin=false)
     {
         foreach ($thumbSizes as $info){
             $thumbFullName = self::getThumbName($fullName, $info['w'], $info['h']);
             if( file_exists($thumbFullName) && is_file($thumbFullName) ) unlink($thumbFullName);
             $cdn = yii::$app->get('cdn');
             $cdn->delete(str_replace(yii::getAlias("@frontend/web"), '', $thumbFullName));
+        }
+        if( $deleteOrigin ){
+            file_exists($fullName) && unlink($fullName);
         }
     }
 

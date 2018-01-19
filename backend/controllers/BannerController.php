@@ -8,6 +8,8 @@
 
 namespace backend\controllers;
 
+use backend\actions\IndexAction;
+use backend\models\form\BannerTypeForm;
 use yii;
 use backend\actions\CreateAction;
 use backend\actions\DeleteAction;
@@ -26,34 +28,68 @@ class BannerController extends \yii\web\Controller
     public function actions()
     {
         return [
+            'index' => [
+                'class' => IndexAction::className(),
+                'data' => function(){
+                    $dataProvider = new ActiveDataProvider([
+                        'query' => BannerTypeForm::find()->where(['type' => Options::TYPE_BANNER]),
+                    ]);
+                    return [
+                        'dataProvider' => $dataProvider,
+                    ];
+                }
+            ],
             'create' => [
                 'class' => CreateAction::className(),
-                'modelClass' => BannerForm::className(),
-                'scenario' => 'type',
+                'modelClass' => BannerTypeForm::className(),
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'modelClass' => BannerForm::className(),
-                'scenario' => 'type',
+                'modelClass' => BannerTypeForm::className(),
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
+                'modelClass' => BannerTypeForm::className(),
+            ],
+
+            'banners' => [
+                'class' => IndexAction::className(),
+                'data' => function(){
+                    $id = yii::$app->getRequest()->get('id', null);
+                    $form = new BannerForm();
+                    $banners = $form->getBanners($id);
+                    $dataProvider = new ArrayDataProvider([
+                        'allModels' => $banners,
+                    ]);
+                    return [
+                        'dataProvider' => $dataProvider,
+                        'bannerType' => BannerTypeForm::findOne($id),
+                    ];
+                }
+            ],
+            'banner-create' => [
+                'class' => UpdateAction::className(),
                 'modelClass' => BannerForm::className(),
-                'scenario' => 'type',
+                'data' => function($model, $updateAction){
+                    /** @var $model BannerForm */
+                    $model->id = yii::$app->getRequest()->get('id', '');
+                    return [
+                        'model' => $model
+                    ];
+                }
+            ],
+            'banner-update' => [
+                'class' => UpdateAction::className(),
+                'modelClass' => BannerForm::className(),
+                'data' => function($model, $updateAction){
+                    /** @var $model BannerForm */
+                    $sign = yii::$app->getRequest()->get('sign', '');
+                    return [
+                        'model' => $model->getBanner($sign)
+                    ];
+                }
             ],
         ];
-    }
-
-    public function actionIndex()
-    {
-        $model = new BannerForm(['scenario' => 'type']);
-        $query = $model->find()->where(['type' => Options::TYPE_BANNER]);
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query,
-        ]);
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
     }
 
     public function actionBanners($id)
@@ -92,36 +128,7 @@ class BannerController extends \yii\web\Controller
         ]);
     }
 
-    public function actionBannerUpdate($id, $sign)
-    {
-        $model = new BannerForm(['scenario' => 'banner']);
-        if (yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(yii::$app->getRequest()->post()) && $model->saveBanner($id, $sign)) {
-                if( yii::$app->getRequest()->getIsAjax() ) {
-                    return [];
-                }else {
-                    yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-                    return $this->redirect(['banners', 'id' => $id]);
-                }
-            } else {
-                $errors = $model->getErrors();
-                $err = '';
-                foreach ($errors as $v) {
-                    $err .= $v[0] . '<br>';
-                }
-                if( yii::$app->getRequest()->getIsAjax() ){
-                    throw new UnprocessableEntityHttpException($err);
-                }else {
-                    yii::$app->getSession()->setFlash('error', $err);
-                }
-            }
-        }
-        $model = $model->getBannerBySign($id, $sign);
-        return $this->render('banner-update', [
-            'model' => $model,
-            'banner' => $model->getBannerTypeById($id)
-        ]);
-    }
+
 
     public function actionBannerDelete($id, $sign=null)
     {

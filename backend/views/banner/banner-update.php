@@ -7,19 +7,17 @@
  */
 
 /**
- * @var $banner common\models\Options
+ * @var $model backend\models\form\BannerForm
  */
 
 use yii\helpers\Url;
 
 $this->params['breadcrumbs'] = [
     ['label' => yii::t('app', 'Banner Types'), 'url' => Url::to(['index'])],
-    ['label' => yii::t('app', 'Banner') . ' (' . $banner->tips . "-{$banner->name})", 'url' => Url::to(['banners', 'id'=>$banner->id])],
+    ['label' => yii::t('app', 'Banner') . ' (' . $model->bannerType->tips . "-{$model->bannerType->name})", 'url' => Url::to(['banners', 'id'=>$model->bannerType->id])],
     ['label' => yii::t('app', 'Update') . yii::t('app', 'Banner')],
 ];
-/**
- * @var $model backend\models\form\BannerForm
- */
+
 ?>
 <?= $this->render('_banner_form', [
     'model' => $model,

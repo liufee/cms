@@ -18,6 +18,11 @@ class CreateAction extends \yii\base\Action
 
     public $data = [];
 
+    /** @var string 模板路径，默认为action id  */
+    public $viewFile = null;
+
+    /** @var  string|array 编辑成功后跳转地址,此参数直接传给yii::$app->controller->redirect() */
+    public $successRedirect;
 
     /**
      * create创建页
@@ -43,8 +48,16 @@ class CreateAction extends \yii\base\Action
             }
         }
         $model->loadDefaultValues();
-        $data = array_merge(['model' => $model], $this->data);
-        return $this->controller->render('create', $data);
+        $data = [
+            'model' => $model,
+        ];
+        if( is_array($this->data) ){
+            $data = array_merge($data, $this->data);
+        }elseif ($this->data instanceof \Closure){
+            $data = call_user_func_array($this->data, [$model, $this]);
+        }
+        $this->viewFile === null && $this->viewFile = $this->id;
+        return $this->controller->render($this->viewFile, $data);
     }
 
 }

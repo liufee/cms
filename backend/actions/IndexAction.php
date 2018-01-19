@@ -15,13 +15,18 @@ class IndexAction extends \yii\base\Action
 
     public $data;
 
+    /** @var $viewFile string 模板路径，默认为action id  */
+    public $viewFile = null;
+
+
     public function run()
     {
         $data = $this->data;
         if( $data instanceof Closure){
             $data = call_user_func( $this->data );
         }
-        return $this->controller->render('index', $data);
+        $this->viewFile === null && $this->viewFile = $this->id;
+        return $this->controller->render($this->viewFile, $data);
     }
 
 }
