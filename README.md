@@ -12,6 +12,8 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 
 更新记录
 -------
+2.0.1 增加gii自动生成后台crud,优化后台排序,优化其他功能
+
 2.0.0 修复bug,增加1.0.0系列alpha、beta、rc版所有的功能
 
 1.0.0rc2 修复bug
@@ -75,11 +77,7 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
         * 备用演示前台1 [http://demo.cms.qq.feehi.com](http://demo.cms.qq.feehi.com)
         * 备用演示api1 [http://demo.cms.qq.feehi.com/admin](http://demo.cms.qq.feehi.com/admin)
         * 备用演示后台1 [http://demo.cms.qq.feehi.com/api](http://demo.cms.qq.feehi.com/api/articles)
-      * php5.4 (docker)
-        * 备用演示前台2 [http://php54.demo.cms.qq.feehi.com](http://php54.demo.cms.qq.feehi.com/)
-        * 备用演示后台2 [http://php54.demo.cms.qq.feehi.com/admin](http://php54.demo.cms.qq.feehi.com/admin)
-        * 备用演示api2 [http://php54.demo.cms.qq.feehi.com/api](http://php54.demo.cms.qq.feehi.com/api/articles)
-      
+
 2. 使用Docker容器
     ```bash
     $ docker pull registry.cn-hangzhou.aliyuncs.com/liufee/cms

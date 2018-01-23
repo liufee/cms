@@ -98,7 +98,7 @@ RUN echo -e "#!/bin/sh \n\
         sleep 5s \n\
         /usr/bin/mysql --connect-expired-password -e \"set password=password('\$MYSQL_PASSWORD');update mysql.user set host='%' where user='root' && host='localhost';flush privileges;create database cms DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\" \n\
         echo -e \"[client] \\\n  password=\"\${MYSQL_PASSWORD}\" \\\n user=root\" > ~/.my.cnf \n\
-        /usr/local/php/bin/php /usr/local/nginx/html/yii migrate/up --interactive=0 \n\
+        /usr/local/php/bin/php /usr/local/nginx/html/yii migrate/up --interactive=0 frontendUri=//localhost \n\
     else \n\
         rm -rf /var/lib/mysql/mysql.sock.locl \n\
         /usr/sbin/mysqld \n\

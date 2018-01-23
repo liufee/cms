@@ -6,6 +6,18 @@ class m130524_201442_init extends Migration
 {
     public function up()
     {
+        $params = $this->getParams();
+        $frontendUri = "";
+        isset($params['frontendUri']) && $frontendUri = $params['frontendUri'];
+        while( strpos($frontendUri, 'http://') !== 0 && strpos($frontendUri, 'https://') !== 0 && strpos($frontendUri, '//') !== 0 ){
+            if( $frontendUri == "" ){
+                yii::$app->controller->stdout("Input your frontend web url(like http://www.xxx.com) :");
+            }else {
+                yii::$app->controller->stdout("Must begin with 'http', 'https' or '//' :");
+            }
+            $frontendUri = trim(fgets(STDIN));
+        }
+
         $tableOptions = null;
         if ($this->db->driverName === 'mysql') {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
@@ -1397,7 +1409,7 @@ class m130524_201442_init extends Migration
                 [
                     '0',
                     'website_url',
-                    'http://www.feehi.com',
+                    $frontendUri,
                     '1',
                     '',
                     '0',
@@ -1524,5 +1536,34 @@ class m130524_201442_init extends Migration
         $this->dropTable('{{%friend_link}}');
         $this->dropTable('{{%menu}}');
         $this->dropTable('{{%options}}');
+    }
+
+    public function getParams()
+    {
+        $rawParams = [];
+        if (isset($_SERVER['argv'])) {
+            $rawParams = $_SERVER['argv'];
+            array_shift($rawParams);
+        }
+
+        $params = [];
+        foreach ($rawParams as $param) {
+            if (preg_match('/^--(\w+)(=(.*))?$/', $param, $matches)) {
+                $name = $matches[1];
+                $params[$name] = isset($matches[3]) ? $matches[3] : true;
+            } else {
+                $params[] = $param;
+            }
+        }
+        $return = [];
+        foreach ($params as $v){
+            if( strpos($v, '=') !== false ) {
+                $array = explode('=', $v);
+                $return[$array[0]] = $array[1];
+            }else{
+                $return[$v] = "";
+            }
+        }
+        return $return;
     }
 }

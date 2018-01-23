@@ -88,6 +88,7 @@ return [
     'Verification code error.' => '验证码错误。',
     /*Login*/
     'Login' => '登陆',
+    'Verification Code' => '验证码',
     /*public*/
     /*Article*/
     'Category Id' => '分类ID',

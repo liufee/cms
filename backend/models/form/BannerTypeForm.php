@@ -8,7 +8,7 @@
 
 namespace backend\models\form;
 
-use Yii;
+use yii;
 
 class BannerTypeForm extends \common\models\Options
 {
@@ -27,6 +27,13 @@ class BannerTypeForm extends \common\models\Options
             ],
             [['name', 'tips'], 'required'],
         ];
+    }
+
+    public function attributeLabels()
+    {
+        $attributeLabels = parent::attributeLabels();
+        $attributeLabels['tips'] = yii::t('app', 'Description');
+        return $attributeLabels;
     }
 
     public function beforeSave($insert)

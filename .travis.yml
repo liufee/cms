@@ -30,7 +30,7 @@ before_script:
   - mysql -e 'CREATE DATABASE cms_test;'
   - echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - printf "\n" | pecl install -f imagick
-  - php yii_test migrate --interactive=0
+  - php yii_test migrate --interactive=0 frontendUri=//localhost
 
 script:
   - vendor/bin/codecept run
