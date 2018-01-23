@@ -27,7 +27,7 @@ class PageController extends \yii\web\Controller
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    $searchModel = new ArticleSearch(['scenario' => 'page']);
+                    $searchModel = new ArticleSearch();
                     $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams(), Article::SINGLE_PAGE);
                     return [
                         'dataProvider' => $dataProvider,

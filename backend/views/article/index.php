@@ -141,28 +141,10 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
                         [
                             'class' => DateColumn::className(),
                             'attribute' => 'created_at',
-                            'filter' => Html::activeInput('text', $searchModel, 'create_start_at', [
-                                    'class' => 'form-control layer-date',
-                                    'placeholder' => '',
-                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"
-                                ]) . Html::activeInput('text', $searchModel, 'create_end_at', [
-                                    'class' => 'form-control layer-date',
-                                    'placeholder' => '',
-                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
-                                ]),
                         ],
                         [
                             'class' => DateColumn::className(),
                             'attribute' => 'updated_at',
-                            'filter' => Html::activeInput('text', $searchModel, 'update_start_at', [
-                                    'class' => 'form-control layer-date',
-                                    'placeholder' => '',
-                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
-                                ]) . Html::activeInput('text', $searchModel, 'update_end_at', [
-                                    'class' => 'form-control layer-date',
-                                    'placeholder' => '',
-                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
-                                ]),
                         ],
                         [
                             'class' => ActionColumn::className(),

@@ -60,14 +60,19 @@ class Util
                 if(isset($options['thumbSizes'])) self::deleteThumbnails($file, $options['thumbSizes']);
                 $model->$field = '';
             }else {
-                $model->$field = $model->getOldAttribute($field);
+                if($insert) {
+                    $model->$field = '';
+                }else{
+                    $model->$field = $model->getOldAttribute($field);
+                }
             }
         }
     }
 
-    public static function handleModelSingleFileUploadAbnormal(ActiveRecord &$model, $field, $uploadPath, $insert, $oldFullname, $options=[])
+    public static function handleModelSingleFileUploadAbnormal(ActiveRecord &$model, $field, $uploadPath, $oldFullname, $options=[])
     {
         if( !isset($options['successDeleteOld']) ) $options['successDeleteOld'] = true;//成功后删除旧文件
+        if( !isset($options['deleteOldFile']) ) $options['deleteOldFile'] = false;//删除旧文件
         $upload = UploadedFile::getInstance($model, $field);
         /* @var $cdn \feehi\cdn\TargetInterface */
         $cdn = yii::$app->get('cdn');
@@ -86,7 +91,7 @@ class Util
             $model->$field = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
             $cdn->upload($fullName, $model->$field);
             if(isset($options['thumbSizes'])) self::thumbnails($fullName, $options['thumbSizes']);
-            if( $options['successDeleteOld'] && $insert && $oldFullname ){
+            if( $options['successDeleteOld'] && $oldFullname ){
                 $file = yii::getAlias('@frontend/web') . $oldFullname;
                 if( file_exists($file) && is_file($file) ) unlink($file);
                 if( $cdn->exists( $oldFullname ) ) $cdn->delete($oldFullname);
@@ -102,6 +107,12 @@ class Util
             }else {
                 $model->$field = $oldFullname;
             }
+        }
+        if( $options['deleteOldFile'] ){
+            $file = yii::getAlias('@frontend/web') . $oldFullname;
+            if( file_exists($file) && is_file($file) ) unlink($file);
+            if( $cdn->exists( $oldFullname ) ) $cdn->delete($oldFullname);
+            if(isset($options['thumbSizes'])) self::deleteThumbnails($file, $options['thumbSizes']);
         }
     }
 

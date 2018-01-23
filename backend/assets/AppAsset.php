@@ -27,7 +27,7 @@ class AppAsset extends \yii\web\AssetBundle
         'static/css/font-awesome.min93e3.css?v=4.4.0',
         'static/css/animate.min.css',
         'static/css/style.min862f.css?v=4.1.0',
-        'static/js/plugins/layer/laydate/need/laydate.css',
+        'static/js/plugins/layer/laydate/theme/default/laydate.css',
         //'js/plugins/layer/laydate/skins/default/laydate.css'
         'static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
         'static/css/plugins/toastr/toastr.min.css',

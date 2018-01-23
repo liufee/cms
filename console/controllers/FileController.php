@@ -249,7 +249,7 @@ class FileController extends \yii\console\Controller
         while (($file = readdir($fp)) != false){
             if( $file == '.' || $file == '..' ) continue;
             $fullName = $path . $file;
-            foreach (Article::THUMB_SIZES as $info){
+            foreach ($this->thumbSizes as $info){
                 $thumbFullName = Util::getThumbName($fullName, $info['w'], $info['h']);
                 Image::thumbnail($fullName, $info['w'], $info['h'])->save($thumbFullName);
             }

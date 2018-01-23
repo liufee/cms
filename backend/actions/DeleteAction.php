@@ -40,16 +40,15 @@ class DeleteAction extends \yii\base\Action
     /**
      * delete删除
      *
-     * @param string $id
      * @return array|Response
      * @throws BadRequestHttpException
      * @throws MethodNotAllowedHttpException
      * @throws UnprocessableEntityHttpException
      */
-    public function run($id=null)
+    public function run()
     {
         if (yii::$app->getRequest()->getIsPost()) {//只允许post删除
-
+            $id = yii::$app->getRequest()->get($this->paramSign, null);
             $param = yii::$app->getRequest()->post($this->paramSign, null);
             if($param !== null){
                 $id = $param;

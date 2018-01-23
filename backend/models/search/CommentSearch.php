@@ -8,32 +8,32 @@
 
 namespace backend\models\search;
 
+use backend\behaviors\TimeSearchBehavior;
+use backend\components\search\SearchEvent;
 use backend\models\Article;
 use yii\data\ActiveDataProvider;
 
 class CommentSearch extends \common\models\Comment
 {
 
-    public $article_title;
+    public $articleTitle;
 
-    public $create_start_at;
-
-    public $create_end_at;
-
-    public $update_start_at;
-
-    public $update_end_at;
-
+    public function behaviors()
+    {
+        return [
+            TimeSearchBehavior::className()
+        ];
+    }
 
     /**
      * @inheritdoc
      */
     public function rules()
     {
-        $rules = parent::rules();
-        $rules[] = [['article_title'], 'string'];
-        unset($rules[1]);
-        return $rules;
+        return [
+            [['articleTitle', 'created_at', 'updated_at', 'nickname', 'content'], 'string'],
+            [['status'], 'integer'],
+        ];
     }
 
     /**
@@ -52,7 +52,7 @@ class CommentSearch extends \common\models\Comment
                 ]
             ]
         ]);
-        $this->load($params);//var_dump($params);die;
+        $this->load($params);
         if (! $this->validate()) {
             return $dataProvider;
         }
@@ -60,47 +60,10 @@ class CommentSearch extends \common\models\Comment
             ->andFilterWhere(['status' => $this->status])
             ->andFilterWhere(['aid' => $this->aid])
             ->andFilterWhere(['like', 'content', $this->content]);
-        $create_start_at_unixtimestamp = $create_end_at_unixtimestamp = $update_start_at_unixtimestamp = $update_end_at_unixtimestamp = '';
-        if ($this->create_start_at != '') {
-            $create_start_at_unixtimestamp = strtotime($this->create_start_at);
-        }
-        if ($this->create_end_at != '') {
-            $create_end_at_unixtimestamp = strtotime($this->create_end_at);
-        }
-        if ($this->update_start_at != '') {
-            $update_start_at_unixtimestamp = strtotime($this->update_start_at);
-        }
-        if ($this->update_end_at != '') {
-            $update_end_at_unixtimestamp = strtotime($this->update_end_at);
-        }
-        if ($create_start_at_unixtimestamp != '' && $create_end_at_unixtimestamp == '') {
-            $query->andFilterWhere(['>', 'created_at', $create_start_at_unixtimestamp]);
-        } elseif ($create_start_at_unixtimestamp == '' && $create_end_at_unixtimestamp != '') {
-            $query->andFilterWhere(['<', 'created_at', $create_end_at_unixtimestamp]);
-        } else {
-            $query->andFilterWhere([
-                'between',
-                'created_at',
-                $create_start_at_unixtimestamp,
-                $create_end_at_unixtimestamp
-            ]);
-        }
 
-        if ($update_start_at_unixtimestamp != '' && $update_end_at_unixtimestamp == '') {
-            $query->andFilterWhere(['>', 'updated_at', $update_start_at_unixtimestamp]);
-        } elseif ($update_start_at_unixtimestamp == '' && $update_end_at_unixtimestamp != '') {
-            $query->andFilterWhere(['<', 'updated_at', $update_start_at_unixtimestamp]);
-        } else {
-            $query->andFilterWhere([
-                'between',
-                'updated_at',
-                $update_start_at_unixtimestamp,
-                $update_end_at_unixtimestamp
-            ]);
-        }
-        if ($this->article_title != '') {
+        if ($this->articleTitle != '') {
             $articles = Article::find()
-                ->where(['like', 'title', $this->article_title])
+                ->where(['like', 'title', $this->articleTitle])
                 ->select(['id', 'title'])
                 ->indexBy('id')
                 ->asArray()
@@ -111,6 +74,8 @@ class CommentSearch extends \common\models\Comment
             }
             $query->andFilterWhere(['aid' => $aidArray]);
         }
+
+        $this->trigger(SearchEvent::BEFORE_SEARCH, new SearchEvent(['query'=>$query]));
         return $dataProvider;
     }
 }

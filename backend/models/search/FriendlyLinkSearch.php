@@ -8,21 +8,13 @@
 
 namespace backend\models\search;
 
+use backend\behaviors\TimeSearchBehavior;
+use backend\components\search\SearchEvent;
 use backend\models\FriendlyLink;
 use yii\data\ActiveDataProvider;
 
 class FriendlyLinkSearch extends \backend\models\FriendlyLink
 {
-
-    public $create_start_at;
-
-    public $create_end_at;
-
-    public $update_start_at;
-
-    public $update_end_at;
-
-
     /**
      * @inheritdoc
      */
@@ -31,7 +23,14 @@ class FriendlyLinkSearch extends \backend\models\FriendlyLink
         return [
             [['name', 'url'], 'string'],
             [['status', 'image'], 'integer'],
-            [['create_start_at', 'create_end_at', 'update_start_at', 'update_end_at'], 'string'],
+            [['created_at', 'updated_at'], 'string'],
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimeSearchBehavior::className()
         ];
     }
 
@@ -65,44 +64,7 @@ class FriendlyLinkSearch extends \backend\models\FriendlyLink
                 $query->andWhere(['image' => '']);
             }
         }
-        $create_start_at_unixtimestamp = $create_end_at_unixtimestamp = $update_start_at_unixtimestamp = $update_end_at_unixtimestamp = '';
-        if ($this->create_start_at != '') {
-            $create_start_at_unixtimestamp = strtotime($this->create_start_at);
-        }
-        if ($this->create_end_at != '') {
-            $create_end_at_unixtimestamp = strtotime($this->create_end_at);
-        }
-        if ($this->update_start_at != '') {
-            $update_start_at_unixtimestamp = strtotime($this->update_start_at);
-        }
-        if ($this->update_end_at != '') {
-            $update_end_at_unixtimestamp = strtotime($this->update_end_at);
-        }
-        if ($create_start_at_unixtimestamp != '' && $create_end_at_unixtimestamp == '') {
-            $query->andFilterWhere(['>', 'created_at', $create_start_at_unixtimestamp]);
-        } elseif ($create_start_at_unixtimestamp == '' && $create_end_at_unixtimestamp != '') {
-            $query->andFilterWhere(['<', 'created_at', $create_end_at_unixtimestamp]);
-        } else {
-            $query->andFilterWhere([
-                'between',
-                'created_at',
-                $create_start_at_unixtimestamp,
-                $create_end_at_unixtimestamp
-            ]);
-        }
-
-        if ($update_start_at_unixtimestamp != '' && $update_end_at_unixtimestamp == '') {
-            $query->andFilterWhere(['>', 'updated_at', $update_start_at_unixtimestamp]);
-        } elseif ($update_start_at_unixtimestamp == '' && $update_end_at_unixtimestamp != '') {
-            $query->andFilterWhere(['<', 'updated_at', $update_start_at_unixtimestamp]);
-        } else {
-            $query->andFilterWhere([
-                'between',
-                'updated_at',
-                $update_start_at_unixtimestamp,
-                $update_end_at_unixtimestamp
-            ]);
-        }
+        $this->trigger(SearchEvent::BEFORE_SEARCH, new SearchEvent(['query'=>$query]));
         return $dataProvider;
     }
 

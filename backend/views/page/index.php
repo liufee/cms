@@ -70,6 +70,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Pages');
                             'attribute' => 'status',
                             'format' => 'raw',
                             'value' => function ($model, $key, $index, $column) {
+                                /** @var $model backend\models\Article */
                                 return Html::a(Constants::getArticleStatus($model['status']), ['update', 'id' => $model['id']], [
                                     'class' => 'btn btn-xs btn-rounded ' . ( $model['status'] == Constants::YesNo_Yes ? 'btn-info' : 'btn-default' ),
                                     'data-confirm' => $model['status'] == Constants::YesNo_Yes ? Yii::t('app', 'Are you sure you want to cancel release?') : Yii::t('app', 'Are you sure you want to publish?'),
@@ -85,28 +86,10 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Pages');
                         [
                             'class' => DateColumn::className(),
                             'attribute' => 'created_at',
-                            'filter' => Html::activeInput('text', $searchModel, 'create_start_at', [
-                                    'class' => 'form-control layer-date',
-                                    'placeholder' => '',
-                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"
-                                ]) . Html::activeInput('text', $searchModel, 'create_end_at', [
-                                    'class' => 'form-control layer-date',
-                                    'placeholder' => '',
-                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
-                                ]),
                         ],
                         [
                             'class' => DateColumn::className(),
                             'attribute' => 'updated_at',
-                            'filter' => Html::activeInput('text', $searchModel, 'update_start_at', [
-                                    'class' => 'form-control layer-date',
-                                    'placeholder' => '',
-                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
-                                ]) . Html::activeInput('text', $searchModel, 'update_end_at', [
-                                    'class' => 'form-control layer-date',
-                                    'placeholder' => '',
-                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
-                                ]),
                         ],
                         [
                             'class' => ActionColumn::className(),

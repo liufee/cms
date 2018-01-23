@@ -19,6 +19,8 @@ class UpdateAction extends \yii\base\Action
 
     public $scenario = 'default';
 
+    public $paramSign = "id";
+
     /** @var string 模板路径，默认为action id  */
     public $viewFile = null;
 
@@ -32,14 +34,14 @@ class UpdateAction extends \yii\base\Action
     /**
      * update修改
      *
-     * @param $id
      * @return array|string|\yii\web\Response
      * @throws \yii\web\BadRequestHttpException
      * @throws \yii\web\UnprocessableEntityHttpException
      */
-    public function run($id)
+    public function run()
     {
-        if (! $id) throw new BadRequestHttpException(yii::t('app', "Id doesn't exit"));
+        $id = yii::$app->getRequest()->get($this->paramSign, null);
+        if (! $id) throw new BadRequestHttpException(yii::t('app', "{$this->paramSign} doesn't exit"));
         /* @var $model yii\db\ActiveRecord */
         $model = call_user_func([$this->modelClass, 'findOne'], $id);
         if (! $model) throw new BadRequestHttpException(yii::t('app', "Cannot find model by $id"));

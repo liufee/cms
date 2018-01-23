@@ -88,7 +88,7 @@ return [
                         'b' => 'static/css/font-awesome.min93e3.css?v=4.4.0',
                         'c' => 'static/css/animate.min.css',
                         'd' => 'static/css/style.min862f.css?v=4.1.0',
-                        'f' => 'static/js/plugins/layer/laydate/need/laydate.css',
+                        'f' => 'static/js/plugins/layer/laydate/theme/default/laydate.css',
                         'g' => 'static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
                         'h' => 'static/css/plugins/toastr/toastr.min.css',
 

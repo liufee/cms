@@ -61,7 +61,7 @@ class Article extends \yii\db\ActiveRecord
     /**
      * 需要截取的文章缩略图尺寸
      */
-    const THUMB_SIZES = [
+    public $thumbSizes = [
         ["w"=>220, "h"=>150],//首页文章列表
         ["w"=>168, "h"=>112],//精选导读
         ["w"=>185, "h"=>110],//文章详情下边图片推荐
@@ -285,7 +285,7 @@ class Article extends \yii\db\ActiveRecord
         static $str = null;
         if( $str === null ) {
             $str = "";
-            foreach (self::THUMB_SIZES as $temp){
+            foreach ($this->thumbSizes as $temp){
                 $str .= $temp['w'] . 'x' . $temp['h'] . '---';
             }
         }
