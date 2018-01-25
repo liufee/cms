@@ -158,22 +158,18 @@ class Options extends \yii\db\ActiveRecord
         if( $model->value == '' ) $model->value = '[]';
         $banners = json_decode($model->value, true);
         ArrayHelper::multisort($banners, 'sort');
-        foreach ($banners as $k => $banner){
+        /** @var $cdn \feehi\cdn\TargetInterface */
+        $cdn = yii::$app->get('cdn');
+        foreach ($banners as $k => &$banner){
             if( $banner['status'] == Constants::Status_Desable ) unset($banners[$k]);
+            $banner['img'] = $cdn->getCdnUrl($banner['img']);
         }
         return $banners;
     }
 
     public static function getAdByName($name)
     {
-        $model = AdForm::findOne(['type'=>self::TYPE_AD, 'name'=>$name]);
-        if( $model == null ) throw new NotFoundHttpException("None ad named $name");
-        if( $model->value == '' ) $model->value = '[]';
-        $temp = json_decode($model->value);
-        foreach ($temp as $k => $v){
-            $model->$k = $v;
-        }
-        return $model;
+        return AdForm::findOne(['type'=>self::TYPE_AD, 'name'=>$name]);
     }
 
 }

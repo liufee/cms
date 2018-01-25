@@ -12,6 +12,8 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 
 更新记录
 -------
+2.0.2 增加cdn,使用layer弹窗替换swal,修复时间范围搜索需要按回车的bug
+
 2.0.1 增加gii自动生成后台crud,优化后台排序,优化其他功能
 
 2.0.0 修复bug,增加1.0.0系列alpha、beta、rc版所有的功能
@@ -75,8 +77,8 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
         * swoole演示后台 [http://swoole-admin.demo.cms.qq.feehi.com](http://swoole-admin.demo.cms.qq.feehi.com)
       * php7.1.8 (docker)
         * 备用演示前台1 [http://demo.cms.qq.feehi.com](http://demo.cms.qq.feehi.com)
-        * 备用演示api1 [http://demo.cms.qq.feehi.com/admin](http://demo.cms.qq.feehi.com/admin)
-        * 备用演示后台1 [http://demo.cms.qq.feehi.com/api](http://demo.cms.qq.feehi.com/api/articles)
+        * 备用演示后台1 [http://demo.cms.qq.feehi.com/admin](http://demo.cms.qq.feehi.com/admin)
+        * 备用演示api1 [http://demo.cms.qq.feehi.com/api](http://demo.cms.qq.feehi.com/api/articles)
 
 2. 使用Docker容器
     ```bash
@@ -105,6 +107,7 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
      
      1. 使用composer下载创建FeehiCMS项目
         **以下两个命令任选其一。如果喜欢简单且日后不需要升级FeehiCMS请选择命令一,如果日后需要平滑升级FeehiCMS请选择命令二**
+        **2018.01.25备注:当前推荐使用命令一，命令二还有一些bug，遇到清空请反馈给我**
         
         ```bash
             $ composer create-project feehi/cms webApp //此命令创建的FeehiCMS项目不能平滑升级新版本(目录结构简单,目前主力维护版本)
@@ -164,7 +167,6 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
          fastcgi_index  index.php;
          fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
          include        fastcgi_params;
-         try_files $uri=404;
      }
  }
  ```
@@ -184,8 +186,7 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 
 项目展示
 ------------
-* [lcs消费金融](http://118.89.241.65/)   
-* [吉安市食品药品监督管理局](http://jamsda.jsz2.com:8011/)  
+* [选校通](https://www.xuanxt.com/)   
 * [微信公众号益乐游戏](http://www.ylegame.com/)  
 * [Usens Dev博客](http://dev.usensinc.com/)  
 * [最美容颜](http://www.zmface.com/)  
@@ -209,3 +210,8 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 ![后台文章编辑](docs/backend_custom_setting.png)
 
 ![后台文章编辑](docs/backend_log.png)
+
+
+特别鸣谢
+---------
+[twitf](https://github.com/twitf) 在后台时间搜索范围提供的建议和代码片段
