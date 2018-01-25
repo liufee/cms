@@ -64,6 +64,7 @@ class Options extends \yii\db\ActiveRecord
                 'message' => yii::t('app', 'Must begin with alphabet and can only includes alphabet,_,and number')
             ],
             [['value'], 'string'],
+            [['value'], 'default', 'value' => ''],
             [['name', 'tips'], 'string', 'max' => 255],
         ];
     }
@@ -115,6 +116,8 @@ class Options extends \yii\db\ActiveRecord
                 $key = "{$modelName}[{$this->id}][value]";
                 $upload = UploadedFile::getInstanceByName($key);
                 $old = Options::findOne($this->id);
+                /* @var $cdn \feehi\cdn\TargetInterface */
+                $cdn = yii::$app->get('cdn');
                 if($upload !== null){
                     $uploadPath = yii::getAlias('@uploads/setting/custom-setting/');
                     if (! FileHelper::createDirectory($uploadPath)) {
@@ -127,14 +130,17 @@ class Options extends \yii\db\ActiveRecord
                         return false;
                     }
                     $this->value = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
+                    $cdn->upload($fullName, $this->value);
                     if( $old !== null ){
                         $file = yii::getAlias('@frontend/web') . $old->value;
                         if( file_exists($file) && is_file($file) ) unlink($file);
+                        if( $cdn->exists($old->value) ) $cdn->delete($old->value);
                     }
                 }else{
                     if( $this->value !== '' ){
                         $file = yii::getAlias('@frontend/web') . $old->value;
                         if( file_exists($file) && is_file($file) ) unlink($file);
+                        if( $cdn->exists($old->value) ) $cdn->delete($old->value);
                         $this->value = '';
                     }else {
                         $this->value = $old->value;

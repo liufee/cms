@@ -44,9 +44,8 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Admin Log');
                         ],
                         [
                             'label' => Yii::t('app', 'Admin'),
-                            'attribute' => 'user_username',
+                            'attribute' => 'adminUsername',
                             'value' => 'user.username',
-                            'filter' => Html::activeTextInput($searchModel, 'user_username', ['class' => 'form-control'])
                         ],
                         [
                             'attribute' => 'route',
@@ -55,21 +54,12 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Admin Log');
                             'attribute' => 'description',
                             'format' => 'html',
                             'value' => function ($model, $key, $index, $column) {
-                                return StringHelper::truncate($model->description, '200');
+                                return StringHelper::truncate($model->description, 200);
                             }
                         ],
                         [
                             'class' => DateColumn::className(),
                             'attribute' => 'created_at',
-                            'filter' => Html::activeInput('text', $searchModel, 'create_start_at', [
-                                    'class' => 'form-control layer-date',
-                                    'placeholder' => '',
-                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'});"
-                                ]) . Html::activeInput('text', $searchModel, 'create_end_at', [
-                                    'class' => 'form-control layer-date',
-                                    'placeholder' => '',
-                                    'onclick' => "laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"
-                                ]),
                         ],
                         [
                             'class' => ActionColumn::className(),

@@ -9,6 +9,7 @@
 namespace feehi\components;
 
 use common\models\Category;
+use feehi\cdn\DummyTarget;
 use yii;
 use common\helpers\FileDependencyHelper;
 use backend\components\CustomLog;
@@ -98,6 +99,13 @@ class Feehi extends Component
                     'charset' => 'UTF-8',
                     'from' => [yii::$app->feehi->smtp_username => yii::$app->feehi->smtp_nickname]
                 ],
+            ]);
+        }
+
+        $cdn = yii::$app->get('cdn');
+        if( $cdn instanceof DummyTarget){
+            Yii::configure(yii::$app->cdn, [
+                'host' => yii::$app->params['site']['url']
             ]);
         }
     }

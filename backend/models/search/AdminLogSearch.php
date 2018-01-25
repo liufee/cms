@@ -8,16 +8,14 @@
 
 namespace backend\models\search;
 
+use backend\behaviors\TimeSearchBehavior;
+use backend\components\search\SearchEvent;
 use yii\data\ActiveDataProvider;
 
 class AdminLogSearch extends \backend\models\AdminLog
 {
 
-    public $user_username;
-
-    public $create_start_at;
-
-    public $create_end_at;
+    public $adminUsername;
 
 
     /**
@@ -26,10 +24,20 @@ class AdminLogSearch extends \backend\models\AdminLog
     public function rules()
     {
         return [
-            [['description', 'create_start_at', 'create_end_at'], 'string'],
-            [['created_at', 'user_id'], 'integer'],
+            [['description', 'created_at'], 'string'],
+            [['user_id'], 'integer'],
             [['route'], 'string', 'max' => 255],
-            ['user_username', 'safe']
+            ['adminUsername', 'safe']
+        ];
+    }
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => TimeSearchBehavior::className(),
+                'timeAttributes' => ['admin_log.created_at' => 'created_at'],
+            ]
         ];
     }
 
@@ -75,26 +83,8 @@ class AdminLogSearch extends \backend\models\AdminLog
         $query->andFilterWhere(['id' => $this->id])
             ->andFilterWhere(['like', 'route', $this->route])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'admin_user.username', $this->user_username]);
-        $create_start_at_unixtimestamp = $create_end_at_unixtimestamp = $update_start_at_unixtimestamp = $update_end_at_unixtimestamp = '';
-        if ($this->create_start_at != '') {
-            $create_start_at_unixtimestamp = strtotime($this->create_start_at);
-        }
-        if ($this->create_end_at != '') {
-            $create_end_at_unixtimestamp = strtotime($this->create_end_at);
-        }
-        if ($create_start_at_unixtimestamp != '' && $create_end_at_unixtimestamp == '') {
-            $query->andFilterWhere(['>', 'admin_log.created_at', $create_start_at_unixtimestamp]);
-        } elseif ($create_start_at_unixtimestamp == '' && $create_end_at_unixtimestamp != '') {
-            $query->andFilterWhere(['<', 'admin_log.created_at', $create_end_at_unixtimestamp]);
-        } else {
-            $query->andFilterWhere([
-                'between',
-                'admin_log.created_at',
-                $create_start_at_unixtimestamp,
-                $create_end_at_unixtimestamp
-            ]);
-        }
+            ->andFilterWhere(['like', 'admin_user.username', $this->adminUsername]);
+        $this->trigger(SearchEvent::BEFORE_SEARCH, new SearchEvent(['query'=>$query]));
         return $dataProvider;
     }
 

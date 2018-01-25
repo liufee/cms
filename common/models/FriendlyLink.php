@@ -69,4 +69,12 @@ class FriendlyLink extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
+
+    public function afterFind()
+    {
+        /** @var $cdn \feehi\cdn\TargetAbstract $cdn */
+        $cdn = yii::$app->get('cdn');
+        $this->image = $cdn->getCdnUrl($this->image);
+        parent::afterFind();
+    }
 }

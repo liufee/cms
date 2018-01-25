@@ -25,7 +25,7 @@ class TimeSearchBehavior extends \yii\base\Behavior
     public function init()
     {
         parent::init();
-        empty($this->timeAttributes) && $this->timeAttributes = [$this->createdAtAttribute, $this->updatedAtAttribute] ;
+        empty($this->timeAttributes) && $this->timeAttributes = [$this->createdAtAttribute => $this->createdAtAttribute, $this->updatedAtAttribute => $this->updatedAtAttribute] ;
     }
 
     public function events()
@@ -38,7 +38,7 @@ class TimeSearchBehavior extends \yii\base\Behavior
     public function beforeSearch($event)
     {
         /** @var $event \backend\components\search\SearchEvent */
-        foreach ($this->timeAttributes as $attribute) {
+        foreach ($this->timeAttributes as $filed => $attribute) {
             if($attribute !== null) $timeAt = $event->sender->{$attribute};
             if( !empty($timeAt) ){
                 $time = explode($this->delimiter, $timeAt);
@@ -51,7 +51,7 @@ class TimeSearchBehavior extends \yii\base\Behavior
                 }
                 $event->query->andFilterWhere([
                     'between',
-                    $attribute,
+                    $filed,
                     $startAt,
                     $endAt
                 ]);

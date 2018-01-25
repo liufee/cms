@@ -19,6 +19,7 @@ use backend\actions\DeleteAction;
 use backend\widgets\ActiveForm;
 use yii\swiftmailer\Mailer;
 use yii\web\BadRequestHttpException;
+use yii\web\UnprocessableEntityHttpException;
 
 /**
  * Setting controller
@@ -91,7 +92,8 @@ class SettingController extends \yii\web\Controller
     /**
      * 增加自定义设置项
      *
-     * @return array|\yii\web\Response
+     * @return array
+     * @throws UnprocessableEntityHttpException
      */
     public function actionCustomCreate()
     {
@@ -99,18 +101,15 @@ class SettingController extends \yii\web\Controller
         $model->type = Options::TYPE_CUSTOM;
         if ($model->load(yii::$app->getRequest()->post()) && $model->save()) {
             yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-            return $this->redirect(['custom']);
+            return [];
         } else {
             $errors = $model->getErrors();
             $err = '';
             foreach ($errors as $v) {
                 $err .= $v[0] . '<br>';
             }
-            //Yii::$app->getSession()->setFlash('error', yii::t('app', $err));
             yii::$app->getResponse()->format = Response::FORMAT_JSON;
-            return [
-                'err_msg' => $err,
-            ];
+            throw new UnprocessableEntityHttpException($err);
         }
     }
 
@@ -118,7 +117,8 @@ class SettingController extends \yii\web\Controller
      * 修改自定义设置项
      *
      * @param string $id
-     * @return array|\yii\web\Response
+     * @return array
+     * @throws UnprocessableEntityHttpException
      */
     public function actionCustomUpdate($id = '')
     {
@@ -126,7 +126,7 @@ class SettingController extends \yii\web\Controller
         if (yii::$app->getRequest()->getIsPost()) {
             if ($model->load(yii::$app->getRequest()->post()) && $model->save()) {
                 yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-                return $this->redirect(['custom']);
+                return [];
             } else {
                 $errors = $model->getErrors();
                 $err = '';
@@ -134,9 +134,7 @@ class SettingController extends \yii\web\Controller
                     $err .= $v[0] . '<br>';
                 }
                 yii::$app->getResponse()->format = Response::FORMAT_JSON;
-                return [
-                    'err_msg' => $err,
-                ];
+                throw new UnprocessableEntityHttpException($err);
             }
         } else {
             yii::$app->getResponse()->format = Response::FORMAT_HTML;

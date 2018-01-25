@@ -84,20 +84,30 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Custom Setting');
                 content: $("#addForm").html(),
             });
             $("form#w1").bind('submit', function () {
-                /*
-                 var index = parent.layer.load(1, {
-                 shade: [0.1,'red'] //0.1透明度的白色背景
-                 });*/
                 var $form = $(this);
                 $.ajax({
                     url: $form.attr('action'),
                     type: "post",
+                    beforeSend: function () {
+                        layer.load(2,{
+                            shade: [0.1,'#fff'] //0.1透明度的白色背景
+                        });
+                    },
                     data: $form.serialize(),
                     success: function (data) {
-                        layer.msg(data.err_msg);
+                        location.reload();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        layer.alert(jqXHR.responseJSON.message, {
+                            title:tips.error,
+                            btn: [tips.ok],
+                            icon: 2,
+                            skin: 'layer-ext-moon'
+                        })
+                    },
+                    complete: function () {
+                        layer.closeAll("loading");
                     }
-                }).always(function () {
-                    //clearTimeout(index);
                 });
                 return false;
             });
@@ -117,20 +127,30 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Custom Setting');
                         content: data,
                     });
                     $("form[name=edit]").bind('submit', function () {
-                        /*
-                         var index = parent.layer.load(1, {
-                         shade: [0.1,'red'] //0.1透明度的白色背景
-                         });*/
                         var $form = $(this);
                         $.ajax({
                             url: $form.attr('action'),
                             type: "post",
                             data: $form.serialize(),
+                            beforeSend: function () {
+                                layer.load(2,{
+                                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+                                });
+                            },
                             success: function (data) {
-                                layer.msg(data.err_msg);
+                                location.reload();
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                layer.alert(jqXHR.responseJSON.message, {
+                                    title:tips.error,
+                                    btn: [tips.ok],
+                                    icon: 2,
+                                    skin: 'layer-ext-moon'
+                                })
+                            },
+                            complete: function () {
+                                layer.closeAll("loading");
                             }
-                        }).always(function () {
-                            //clearTimeout(index);
                         });
                         return false;
                     });
