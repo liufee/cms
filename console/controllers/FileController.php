@@ -113,6 +113,7 @@ class FileController extends \yii\console\Controller
             $temp . 'frontend' . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'assets',
             $temp . 'frontend' . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'uploads',
             $temp . 'common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR .'conf',
+            $temp . 'api' . DIRECTORY_SEPARATOR . 'runtime',
         ];
         FileHelper::copyDirectory($origin, $publishDir);
         foreach ($needEmptyDirectories as $v) {

@@ -145,18 +145,7 @@ class Menu extends \yii\db\ActiveRecord
         $menus = self::_getMenus($type);
         $familyTree = new FamilyTree($menus);
         $array = $familyTree->getDescendants(0);
-        return ArrayHelper::index($array, 'id');
-    }
-
-    /**
-     * @param int $type
-     * @return array
-     */
-    public static function getMenusName($type=self::BACKEND_TYPE)
-    {
-        $menus = self::getMenus($type);
-        $data = [];
-        foreach ($menus as $k => $menu){
+        foreach ($array as $k => &$menu){
             if( isset($menus[$k+1]['level']) && $menus[$k+1]['level'] == $menu['level'] ){
                 $name = ' ├' . $menu['name'];
             }else{
@@ -167,9 +156,21 @@ class Menu extends \yii\db\ActiveRecord
             }else{
                 $sign = ' │';
             }
-            $data[$menu['id']] = str_repeat($sign, $menu['level']-1) . $name;
+            $menu['treename'] = str_repeat($sign, $menu['level']-1) . $name;
         }
-        return $data;
+        return ArrayHelper::index($array, 'id');
+    }
+
+    /**
+     * @param int $type
+     * @return array
+     */
+    public static function getMenusName($type=self::BACKEND_TYPE)
+    {
+
+        $menus = self::getMenus();
+        $menus = ArrayHelper::getColumn($menus, 'treename');
+        return $menus;
     }
 
     /**

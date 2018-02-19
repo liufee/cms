@@ -9,6 +9,8 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use common\helpers\FileDependencyHelper;
+use yii\caching\FileDependency;
 use yii\helpers\Html;
 use backend\models\Menu;
 use yii\helpers\Url;
@@ -61,11 +63,11 @@ $this->title = yii::t('app', 'Backend Manage System');
                 </li>
                 <?php
                 $cacheDependencyObject = yii::createObject([
-                    'class' => 'common\helpers\FileDependencyHelper',
+                    'class' => FileDependencyHelper::className(),
                     'fileName' => 'backend_menu.txt',
                 ]);
                 $dependency = [
-                    'class' => 'yii\caching\FileDependency',
+                    'class' => FileDependency::className(),
                     'fileName' => $cacheDependencyObject->createFile(),
                 ];
                 if ($this->beginCache('backend_menu', [

@@ -29,6 +29,8 @@ class StatusColumn extends DataColumn
 
     public $url = '';
 
+    public $text = '';
+
     public $aOptions = [];
 
     public $yesClass = "label-primary";
@@ -56,7 +58,15 @@ class StatusColumn extends DataColumn
         $this->content = function ($model, $key, $index, $gridView) {
             /* @var $model array|yii\db\ActiveRecord */
             $field = $this->attribute;
-            $text = Constants::getYesNoItems($model[$field]);
+            if( $this->text === '' ) {
+                $text = Constants::getYesNoItems($model[$field]);
+            }else{
+                if( $this->text instanceof Closure){
+                    $text = call_user_func($this->text, $model, $key, $index, $gridView);
+                }else{
+                    $text = $this->text;
+                }
+            }
             if( !is_string($text) ) throw new InvalidArgumentException("No status valued {$model[$field]}");
             if( $this->url === false ){
                 $url = '';

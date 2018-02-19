@@ -39,7 +39,9 @@ use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
-
+<?php if (empty($generator->searchModelClass)){ ?>
+use yii\data\ActiveDataProvider;
+<?php } ?>
 /**
  * <?= $controllerClass ?> implements the CRUD actions for <?= $modelClass ?> model.
  */

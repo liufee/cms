@@ -288,6 +288,7 @@ EOF;
 
     public function actionCreateDatabase()
     {
+        set_time_limit(0);
         $request = yii::$app->getRequest();
         Yii::$app->response->format = Response::FORMAT_JSON;
         $dbtype = $request->post('dbtype', 'mysql');
