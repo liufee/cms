@@ -8,7 +8,8 @@
 
 namespace backend\controllers;
 
-use Yii;
+use backend\actions\ViewAction;
+use yii;
 use backend\models\search\FriendlyLinkSearch;
 use backend\models\FriendlyLink;
 use backend\actions\CreateAction;
@@ -51,6 +52,10 @@ class FriendlyLinkController extends \yii\web\Controller
             ],
             'sort' => [
                 'class' => SortAction::className(),
+                'modelClass' => FriendlyLink::className(),
+            ],
+            'view-layer' => [
+                'class' => ViewAction::className(),
                 'modelClass' => FriendlyLink::className(),
             ],
         ];

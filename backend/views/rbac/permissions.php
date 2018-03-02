@@ -88,6 +88,14 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Permissions');
                             'class' => ActionColumn::className(),
                             'width' => '190px',
                             'buttons' => [
+                                'view-layer' => function($url, $model, $key){
+                                    return Html::a('<i class="fa fa-folder"></i> ' . Yii::t('yii', 'View'), 'javascript:void(0)', [
+                                        'title' => Yii::t('yii', 'View'),
+                                        'onclick' => "viewLayer('" . Url::to(['permission-view-layer', 'name' => $model->name]) . "',$(this))",
+                                        'data-pjax' => '0',
+                                        'class' => 'btn btn-white btn-sm',
+                                    ]);
+                                },
                                 'update' => function ($url, $model, $key) {
                                     return Html::a('<i class="fa  fa-edit" aria-hidden="true"></i> ' . Yii::t('app', 'Update'), Url::to([
                                         'permission-update',
@@ -107,7 +115,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Permissions');
                                     ]);
                                 },
                             ],
-                            'template' => '{update} {delete}',
+                            'template' => '{view-layer} {update} {delete}',
                         ]
                     ]
                 ]) ?>

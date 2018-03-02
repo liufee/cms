@@ -69,15 +69,16 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'aid' => Yii::t('app', 'Aid'),
-            'uid' => Yii::t('app', 'Uid'),
+            'aid' => yii::t('app', 'Article Id'),
+            'uid' => Yii::t('app', 'User Id'),
             'nickname' => Yii::t('app', 'Nickname'),
             'content' => Yii::t('app', 'Content'),
-            'reply_to' => Yii::t('app', 'Replay To'),
-            'ip' => Yii::t('app', 'Ip'),
+            'reply_to' => Yii::t('app', 'Replay User Id'),
+            'ip' => Yii::t('app', 'IP Address'),
             'status' => Yii::t('app', 'Status'),
             'email' => Yii::t('app', 'Email'),
             'website_url' => Yii::t('app', 'Website'),
+            'admin_id' => yii::t('app', 'Admin User Id'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];

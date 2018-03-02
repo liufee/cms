@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Backend Menus');
                                     ]);
                                 }
                             ],
-                            'template' => '{create} {update} {delete}',
+                            'template' => '{create} {view-layer} {update} {delete}',
                         ]
                     ]
                 ]) ?>

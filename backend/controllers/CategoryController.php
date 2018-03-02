@@ -8,6 +8,7 @@
 
 namespace backend\controllers;
 
+use backend\actions\ViewAction;
 use yii\data\ArrayDataProvider;
 use common\models\Category;
 use backend\actions\CreateAction;
@@ -36,6 +37,10 @@ class CategoryController extends \yii\web\Controller
                         'dataProvider' => $dataProvider,
                     ];
                 }
+            ],
+            'view-layer' => [
+                'class' => ViewAction::className(),
+                'modelClass' => Category::className(),
             ],
             'create' => [
                 'class' => CreateAction::className(),

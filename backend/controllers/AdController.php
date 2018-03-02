@@ -8,6 +8,7 @@
 
 namespace backend\controllers;
 
+use backend\actions\ViewAction;
 use backend\models\form\AdForm;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
@@ -31,6 +32,10 @@ class AdController extends \yii\web\Controller
                         'dataProvider' => $dataProvider,
                     ];
                 }
+            ],
+            'view-layer' => [
+                'class' => ViewAction::className(),
+                'modelClass' => AdForm::className(),
             ],
             'create' => [
                 'class' => CreateAction::className(),

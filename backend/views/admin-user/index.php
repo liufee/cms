@@ -86,7 +86,6 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Admin Users');
                         ],
                         [
                             'class' => ActionColumn::className(),
-                            'template' => '{update}{delete}',
                             'buttons' => ['assignment' => $assignment],
                         ],
                     ]

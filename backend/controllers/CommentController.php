@@ -9,6 +9,7 @@
 namespace backend\controllers;
 
 use yii;
+use backend\actions\ViewAction;
 use backend\actions\UpdateAction;
 use backend\models\Comment;
 use backend\models\search\CommentSearch;
@@ -31,6 +32,10 @@ class CommentController extends \yii\web\Controller
                         'searchModel' => $searchModel,
                     ];
                 }
+            ],
+            'view-layer' => [
+                'class' => ViewAction::className(),
+                'modelClass' => Comment::className(),
             ],
             'update' => [
                 'class' => UpdateAction::className(),

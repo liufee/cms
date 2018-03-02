@@ -88,7 +88,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Users');
                         ],
                         [
                             'class' => ActionColumn::className(),
-                            'width' => '190px'
+                            'width' => '190px',
                         ],
                     ]
                 ]); ?>

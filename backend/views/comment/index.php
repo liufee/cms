@@ -16,7 +16,6 @@ use backend\grid\DateColumn;
 use backend\grid\GridView;
 use common\libs\Constants;
 use yii\helpers\Html;
-use backend\models\Article;
 use backend\widgets\Bar;
 use backend\models\Comment;
 use backend\grid\CheckboxColumn;
@@ -135,7 +134,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Comments');
                                     }
                                 },
                             ],
-                            'template' => '{update}{status_init} {status_operated}{delete}',
+                            'template' => '{view-layer} {status_init} {status_operated} {update} {delete}',
                         ],
                     ]
                 ]); ?>

@@ -222,6 +222,9 @@ class Article extends \yii\db\ActiveRecord
             'flag_bold' => Yii::t('app', 'Is Bold'),
             'flag_picture' => Yii::t('app', 'Is Picture'),
             'password' => yii::t('app', 'Password'),
+            'scan_count' => yii::t('app', 'Scan Count'),
+            'comment_count' => yii::t('app', 'Comment Count'),
+            'category' => yii::t('app', 'Category'),
         ];
     }
 

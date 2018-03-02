@@ -160,7 +160,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
                                     ]);
                                 }
                             ],
-                            'template' => '{view-layer} {update} {delete}{comment}',
+                            'template' => '{view-layer} {update} {delete} {comment}',
                         ],
                     ]
                 ]); ?>

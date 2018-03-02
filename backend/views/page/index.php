@@ -106,7 +106,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Pages');
                                 }
                             ],
                             'width' => '135',
-                            'template' => '{view-layer} {update} {delete}{comment}',
+                            'template' => '{view-layer} {update} {delete} {comment}',
                         ],
                     ]
                 ]); ?>

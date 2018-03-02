@@ -16,12 +16,14 @@ use yii\helpers\ArrayHelper;;
 /**
  * This is the model class for table "{{%category}}".
  *
- * @property string $id
+ * @property integer $id
+ * @property integer $parent_id
  * @property string $name
- * @property string $sort
+ * @property string $alias
+ * @property integer $sort
+ * @property string $remark
  * @property string $created_at
  * @property string $updated_at
- * @property string $remark
  */
 class Category extends \yii\db\ActiveRecord
 {
@@ -62,7 +64,7 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'parent_id' => Yii::t('app', 'Category Id'),
+            'parent_id' => Yii::t('app', 'Parent Category Id'),
             'name' => Yii::t('app', 'Name'),
             'alias' => Yii::t('app', 'Alias'),
             'sort' => Yii::t('app', 'Sort'),
@@ -230,6 +232,11 @@ class Category extends \yii\db\ActiveRecord
             self::_generateUrlRules();
         }
         return json_decode(file_get_contents($file), true);
+    }
+
+    public function getParent()
+    {
+        return $this->hasOne(self::className(), ['id' => 'parent_id']);
     }
 
 }

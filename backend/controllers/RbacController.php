@@ -88,6 +88,15 @@ class RbacController extends \yii\web\Controller
         ]);
     }
 
+    public function actionPermissionViewLayer($name)
+    {
+        $model = new Rbac(['scenario'=>'permission']);
+        $model->fillModel($name);
+        return $this->render('permission-view-layer', [
+            'model' => $model,
+        ]);
+    }
+
     public function actionPermissionDelete($name=null)
     {
         $model = new Rbac(['scenario'=>'permission']);
@@ -149,7 +158,7 @@ class RbacController extends \yii\web\Controller
     public function actionRoleUpdate($name)
     {
         $model = new Rbac(['scenario'=>'role']);
-        $model->fillModel($name);//var_dump($model->roles);exit;
+        $model->fillModel($name);
         if( yii::$app->getRequest()->getIsPost() ) {
             if ($model->load(yii::$app->getRequest()->post()) && $model->validate() && $model->updateRole($name)) {
                 yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
@@ -165,6 +174,15 @@ class RbacController extends \yii\web\Controller
         }
         return $this->render('role-update', [
             'model' => $model
+        ]);
+    }
+
+    public function actionRoleViewLayer($name)
+    {
+        $model = new Rbac(['scenario'=>'role']);
+        $model->fillModel($name);
+        return $this->render('role-view-layer', [
+            'model' => $model,
         ]);
     }
 

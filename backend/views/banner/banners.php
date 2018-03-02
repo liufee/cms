@@ -104,6 +104,14 @@ $this->params['breadcrumbs'][] =  yii::t('app', 'Banner') . ' (' . $bannerType->
                             'class' => ActionColumn::className(),
                             'width' => '190px',
                             'buttons' => [
+                                'view-layer' => function ($url, $model, $key, $index, $gridView) {
+                                    return Html::a('<i class="fa fa-folder"></i> ' . Yii::t('yii', 'View'), 'javascript:void(0)', [
+                                        'title' => Yii::t('yii', 'View'),
+                                        'onclick' => "viewLayer('" . Url::toRoute(['banner-view-layer', 'id'=>$model->id, 'sign'=>$model->sign]) . "',$(this))",
+                                        'data-pjax' => '0',
+                                        'class' => 'btn btn-white btn-sm',
+                                    ]);
+                                },
                                 'update' => function ($url, $model, $key, $index, $gridView) {
                                     return Html::a('<i class="fa fa-pencil"></i> ' . Yii::t('app', 'Update'), Url::toRoute(['banner-update', 'id'=>$model->id, 'sign'=>$model->sign]), [
                                         'title' => Yii::t('app', 'Update'),

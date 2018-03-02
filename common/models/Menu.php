@@ -207,4 +207,9 @@ class Menu extends \yii\db\ActiveRecord
         }
         return true;
     }
+
+    public function getParent()
+    {
+        return $this->hasOne(self::className(), ['id'=>'parent_id']);
+    }
 }

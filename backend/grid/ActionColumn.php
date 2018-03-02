@@ -25,7 +25,7 @@ class ActionColumn extends \yii\grid\ActionColumn
 
     public $width = '30px';
 
-    public $template = '{update} {delete}';
+    public $template = '{view-layer} {update} {delete}';
 
     /**
      * @inheritdoc

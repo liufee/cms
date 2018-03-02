@@ -8,6 +8,7 @@
 
 namespace backend\controllers;
 
+use backend\actions\ViewAction;
 use yii;
 use frontend\models\User;
 use frontend\models\search\UserSearch;
@@ -33,6 +34,10 @@ class UserController extends \yii\web\Controller
                         'searchModel' => $searchModel,
                     ];
                 }
+            ],
+            'view-layer' => [
+                'class' => ViewAction::className(),
+                'modelClass' => User::className(),
             ],
             'create' => [
                 'class' => CreateAction::className(),

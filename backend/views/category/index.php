@@ -78,7 +78,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Category');
                                     ]);
                                 }
                             ],
-                            'template' => '{create} {update} {delete}',
+                            'template' => '{create} {view-layer} {update} {delete}',
                         ]
                     ]
                 ]) ?>

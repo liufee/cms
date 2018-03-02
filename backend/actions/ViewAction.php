@@ -14,6 +14,8 @@ class ViewAction extends \yii\base\Action
 
     public $modelClass;
 
+    public $scenario = 'default';
+
 
     /**
      * view详情页
@@ -25,6 +27,7 @@ class ViewAction extends \yii\base\Action
     {
         /* @var $model \yii\db\ActiveRecord */
         $model = call_user_func([$this->modelClass, 'findOne'], $id);
+        $model->setScenario( $this->scenario );
         return $this->controller->render('view', [
             'model' => $model,
         ]);

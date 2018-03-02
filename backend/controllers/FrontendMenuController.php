@@ -7,6 +7,7 @@
  */
 namespace backend\controllers;
 
+use backend\actions\ViewAction;
 use yii\data\ArrayDataProvider;
 use frontend\models\Menu;
 use backend\actions\CreateAction;
@@ -38,6 +39,11 @@ class FrontendMenuController extends \yii\web\Controller
                         'dataProvider' => $dataProvider,
                     ];
                 }
+            ],
+            'view-layer' => [
+                'class' => ViewAction::className(),
+                'modelClass' => Menu::className(),
+                'scenario' => 'frontend',
             ],
             'create' => [
                 'class' => CreateAction::className(),

@@ -8,10 +8,11 @@
 
 namespace backend\controllers;
 
+use backend\actions\ViewAction;
+use yii;
 use backend\actions\IndexAction;
 use backend\actions\SortAction;
 use backend\models\form\BannerTypeForm;
-use yii;
 use backend\actions\CreateAction;
 use backend\actions\DeleteAction;
 use backend\actions\UpdateAction;
@@ -19,9 +20,6 @@ use backend\models\form\BannerForm;
 use common\models\Options;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
-use yii\web\BadRequestHttpException;
-use yii\web\MethodNotAllowedHttpException;
-use yii\web\UnprocessableEntityHttpException;
 
 class BannerController extends \yii\web\Controller
 {
@@ -70,6 +68,10 @@ class BannerController extends \yii\web\Controller
             ],
             'banner-create' => [
                 'class' => UpdateAction::className(),
+                'modelClass' => BannerForm::className(),
+            ],
+            'banner-view-layer' => [
+                'class' => ViewAction::className(),
                 'modelClass' => BannerForm::className(),
             ],
             'banner-update' => [

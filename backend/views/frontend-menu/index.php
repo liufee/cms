@@ -96,7 +96,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Frontend Menus');
                                     ]);
                                 }
                             ],
-                            'template' => '{create} {update} {delete}',
+                            'template' => '{create} {view-layer} {update} {delete}',
                             'width' => '190px'
                         ]
                     ]

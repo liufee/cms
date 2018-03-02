@@ -17,6 +17,7 @@ use backend\actions\DeleteAction;
 use backend\actions\SortAction;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
+use backend\actions\ViewAction;
 
 class AdminUserController extends \yii\web\Controller
 {
@@ -34,6 +35,10 @@ class AdminUserController extends \yii\web\Controller
                         'searchModel' => $searchModel,
                     ];
                 }
+            ],
+            'view-layer' => [
+                'class' => ViewAction::className(),
+                'modelClass' => User::className(),
             ],
             'delete' => [
                 'class' => DeleteAction::className(),

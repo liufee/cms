@@ -59,7 +59,7 @@ class AdminLog extends \yii\db\ActiveRecord
             'route' => Yii::t('app', 'Route'),
             'description' => Yii::t('app', 'Description'),
             'created_at' => Yii::t('app', 'Created At'),
-            'user_id' => Yii::t('app', 'User Id'),
+            'user_id' => Yii::t('app', 'Admin User Id'),
         ];
     }
 
