@@ -31,7 +31,7 @@ if ($parent_id != '') {
             <div class="ibox-content">
                 <?php $form = ActiveForm::begin(); ?>
                 <?= Html::activeHiddenInput($model, 'type', ['value' => Menu::FRONTEND_TYPE]) ?>
-                <?= $form->field($model, 'parent_id')->label(yii::t('app', 'Parent Menu'))->dropDownList(Menu::getMenusName(Menu::FRONTEND_TYPE)) ?>
+                <?= $form->field($model, 'parent_id')->label(yii::t('app', 'Parent Menu Name'))->dropDownList(Menu::getMenusName(Menu::FRONTEND_TYPE)) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>

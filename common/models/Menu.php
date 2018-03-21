@@ -168,7 +168,7 @@ class Menu extends \yii\db\ActiveRecord
     public static function getMenusName($type=self::BACKEND_TYPE)
     {
 
-        $menus = self::getMenus();
+        $menus = self::getMenus($type);
         $menus = ArrayHelper::getColumn($menus, 'treename');
         return $menus;
     }
