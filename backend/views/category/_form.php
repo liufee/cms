@@ -12,6 +12,7 @@
  */
 
 use backend\widgets\ActiveForm;
+use common\helpers\FamilyTree;
 use common\models\Category;
 
 $this->title = "Category";
@@ -26,9 +27,21 @@ if ($parent_id != '') {
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?php $form = ActiveForm::begin(); ?>
+                <?php
+                $disabledOptions = [];
+                if(!$model->getIsNewRecord()){
+                    $disabledOptions[$model->id] = ['disabled' => true];
+                    $familyTree = new FamilyTree(Category::getCategories());
+                    $descendants = $familyTree->getDescendants($model->id);
+                    $descendants = array_column($descendants, 'id');
+                    foreach ($descendants as $descendant){
+                        $disabledOptions[$descendant] = ['disabled' => true];
+                    }
+                }
+                ?>
                 <?= $form->field($model, 'parent_id')
                     ->label(yii::t('app', 'Parent Id'))
-                    ->dropDownList(Category::getCategoriesName()) ?>
+                    ->dropDownList(Category::getCategoriesName(), ['options' => $disabledOptions]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>

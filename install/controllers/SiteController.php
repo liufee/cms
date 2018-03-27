@@ -280,7 +280,9 @@ EOF;
             $html = $this->render('installing');
             echo $html;
             flush();
-            ob_flush();
+            if(ob_get_level() > 0){
+                ob_flush();
+            }
         } else {
             return $this->render('setinfo');
         }

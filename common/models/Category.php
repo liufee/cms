@@ -11,7 +11,10 @@ namespace common\models;
 use Yii;
 use common\helpers\FamilyTree;
 use yii\behaviors\TimestampBehavior;
-use yii\helpers\ArrayHelper;;
+use yii\helpers\ArrayHelper;
+use yii\helpers\FileHelper;
+
+;
 
 /**
  * This is the model class for table "{{%category}}".
@@ -222,7 +225,9 @@ class Category extends \yii\db\ActiveRecord
             $data[$url] = 'article/index';
         }
         $json = json_encode($data);
-        file_put_contents(yii::getAlias('@frontend/runtime/cache/category.txt'), $json);
+        $path = yii::getAlias('@frontend/runtime/cache');
+        if( !file_exists($path) ) FileHelper::createDirectory($path);
+        file_put_contents($path . '/category.txt', $json);
     }
 
     public static function getUrlRules()

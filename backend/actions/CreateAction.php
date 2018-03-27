@@ -7,6 +7,7 @@
  */
 namespace backend\actions;
 
+use Closure;
 use yii;
 
 class CreateAction extends \yii\base\Action
@@ -22,7 +23,7 @@ class CreateAction extends \yii\base\Action
     public $viewFile = null;
 
     /** @var  string|array 编辑成功后跳转地址,此参数直接传给yii::$app->controller->redirect() */
-    public $successRedirect;
+    public $successRedirect = ['index'];
 
     /**
      * create创建页
@@ -37,7 +38,7 @@ class CreateAction extends \yii\base\Action
         if (yii::$app->getRequest()->getIsPost()) {
             if ($model->load(yii::$app->getRequest()->post()) && $model->save()) {
                 yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
-                return $this->controller->redirect(['index']);
+                return $this->controller->redirect($this->successRedirect);
             } else {
                 $errors = $model->getErrors();
                 $err = '';
@@ -53,7 +54,7 @@ class CreateAction extends \yii\base\Action
         ];
         if( is_array($this->data) ){
             $data = array_merge($data, $this->data);
-        }elseif ($this->data instanceof \Closure){
+        }elseif ($this->data instanceof Closure){
             $data = call_user_func_array($this->data, [$model, $this]);
         }
         $this->viewFile === null && $this->viewFile = $this->id;
