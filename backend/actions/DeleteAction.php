@@ -58,10 +58,10 @@ class DeleteAction extends \yii\base\Action
                 yii::$app->getResponse()->format = $this->ajaxResponseFormat;
             }
             if (! $id) {
-                throw new BadRequestHttpException(yii::t('app', "Id doesn't exit"));
+                throw new BadRequestHttpException(yii::t('app', "{$this->paramSign} doesn't exist"));
             }
             $ids = explode(',', $id);
-            $errorIds = [];
+            $errors = [];
             /* @var $model yii\db\ActiveRecord */
             $model = null;
             foreach ($ids as $one) {
@@ -69,23 +69,25 @@ class DeleteAction extends \yii\base\Action
                 if ($model) {
                     $model->setScenario($this->scenario);
                     if (! $result = $model->delete()) {
-                        $errorIds[] = $one;
+                        $errors[$one] = $model;
                     }
                 }
             }
-            if (count($errorIds) == 0) {
+            if (count($errors) == 0) {
                 if( !yii::$app->getRequest()->getIsAjax() ) return $this->controller->redirect(yii::$app->getRequest()->headers['referer']);
                 return [];
             } else {
-                $errors = $model->getErrors();
                 $err = '';
-                foreach ($errors as $v) {
-                    $err .= $v[0];
+                foreach ($errors as $one => $model){
+                    $err .= $one . ':';
+                    $errorReasons = $model->getErrors();
+                    foreach ($errorReasons as $errorReason) {
+                        $err .= $errorReason[0] . ';';
+                    }
+                    $err = rtrim($err, ';') . '<br>';
                 }
-                if ($err != '') {
-                    $err = '.' . $err;
-                }
-                throw new UnprocessableEntityHttpException('id ' . implode(',', $errorIds) . $err);
+                $err = rtrim($err, '<br>');
+                throw new UnprocessableEntityHttpException($err);
             }
         } else {
             throw new MethodNotAllowedHttpException(yii::t('app', "Delete must be POST http method"));

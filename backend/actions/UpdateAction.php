@@ -41,7 +41,7 @@ class UpdateAction extends \yii\base\Action
     public function run()
     {
         $id = yii::$app->getRequest()->get($this->paramSign, null);
-        if (! $id) throw new BadRequestHttpException(yii::t('app', "{$this->paramSign} doesn't exit"));
+        if (! $id) throw new BadRequestHttpException(yii::t('app', "{$this->paramSign} doesn't exist"));
         /* @var $model yii\db\ActiveRecord */
         $model = call_user_func([$this->modelClass, 'findOne'], $id);
         if (! $model) throw new BadRequestHttpException(yii::t('app', "Cannot find model by $id"));

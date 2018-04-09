@@ -9,6 +9,9 @@
 namespace backend\actions;
 
 
+use yii;
+use yii\web\BadRequestHttpException;
+
 class ViewAction extends \yii\base\Action
 {
 
@@ -16,19 +19,25 @@ class ViewAction extends \yii\base\Action
 
     public $scenario = 'default';
 
+    /** @var string 模板路径，默认为action id  */
+    public $viewFile = null;
+
 
     /**
      * view详情页
      *
      * @param $id
      * @return string
+     * @throws \yii\web\BadRequestHttpException
      */
     public function run($id)
     {
         /* @var $model \yii\db\ActiveRecord */
         $model = call_user_func([$this->modelClass, 'findOne'], $id);
+        if (! $model) throw new BadRequestHttpException(yii::t('app', "Cannot find model by $id"));
         $model->setScenario( $this->scenario );
-        return $this->controller->render('view', [
+        $this->viewFile === null && $this->viewFile = $this->id;
+        return $this->controller->render($this->viewFile, [
             'model' => $model,
         ]);
     }

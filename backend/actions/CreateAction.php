@@ -40,12 +40,13 @@ class CreateAction extends \yii\base\Action
                 yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
                 return $this->controller->redirect($this->successRedirect);
             } else {
-                $errors = $model->getErrors();
+                $errorReasons = $model->getErrors();
                 $err = '';
-                foreach ($errors as $v) {
-                    $err .= $v[0] . '<br>';
+                foreach ($errorReasons as $errorReason) {
+                    $err .= $errorReason[0] . '<br>';
                 }
-                Yii::$app->getSession()->setFlash('error', $err);
+                $err = rtrim($err, '<br>');
+                yii::$app->getSession()->setFlash('error', $err);
             }
         }
         $model->loadDefaultValues();

@@ -44,8 +44,8 @@ class SortAction extends \yii\base\Action
                             }else{
                                 $err .= '<br>' . $key . ' : ';
                             }
-                            foreach ($model->getErrors() as $v) {
-                                $err .= $v[0] . ';';
+                            foreach ($model->getErrors() as $errorReason) {
+                                $err .= $errorReason[0] . ';';
                             }
                         }
                     }
