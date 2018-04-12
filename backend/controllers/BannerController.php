@@ -73,6 +73,7 @@ class BannerController extends \yii\web\Controller
             'banner-view-layer' => [
                 'class' => ViewAction::className(),
                 'modelClass' => BannerForm::className(),
+                'viewFile' => 'view',
             ],
             'banner-update' => [
                 'class' => UpdateAction::className(),

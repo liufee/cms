@@ -90,10 +90,12 @@ class BannerForm extends \Common\models\Options
             $this->value = $temp;
             $sign = yii::$app->getRequest()->get('sign', null);
             if($sign !== null) {
+                /** @var $cdn \feehi\cdn\TargetAbstract */
+                $cdn = yii::$app->get('cdn');
                 foreach ($this->value as $value) {
                     if( $sign === $value['sign'] ){
                         $this->sign = $value['sign'];
-                        $this->img = $value['img'];
+                        $this->img = $cdn->getCdnUrl($value['img']);
                         $this->target = $value['target'];
                         $this->desc = $value['desc'];
                         $this->link = $value['link'];
@@ -110,12 +112,14 @@ class BannerForm extends \Common\models\Options
     {
         $model = parent::findOne(['id'=>$id, 'type'=>self::TYPE_BANNER]);
         if( $model == '' ) throw new NotFoundHttpException("Cannot find id $id");
+        /** @var $cdn \feehi\cdn\TargetAbstract */
+        $cdn = yii::$app->get('cdn');
         $models = [];
         foreach ($model->value as $banner){
             $temp = [
                 'id' => $id,
                 'sign' => $banner['sign'],
-                'img' => $banner['img'],
+                'img' => $cdn->getCdnUrl($banner['img']),
                 'target' => $banner['target'],
                 'desc' => $banner['desc'],
                 'link' => $banner['link'],
