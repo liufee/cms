@@ -382,14 +382,24 @@ class User extends ActiveRecord implements IdentityInterface
         return true;
     }
 
-    public function getRoleName()
+    public function getRolesName()
     {
         if( in_array( $this->getId(), yii::$app->getBehavior('access')->superAdminUserIds ) ){
-            return yii::t('app', 'System');
+            return [yii::t('app', 'System')];
         }
         $role = array_keys( yii::$app->getAuthManager()->getRolesByUser($this->getId()) );
-        if( !isset( $role[0] ) ) return '';
-        return $role[0];
+        if( !isset( $role[0] ) ) return [];
+        return $role;
+    }
+
+    public function getRolesNameString($glue=',')
+    {
+        $roles = $this->getRolesName();
+        $str = '';
+        foreach ($roles as $role){
+            $str .= yii::t('menu', $role) . $glue;
+        }
+        return rtrim($str, $glue);
     }
 
 }

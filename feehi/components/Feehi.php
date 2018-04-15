@@ -31,7 +31,7 @@ class Feehi extends Component
 
     public function __get($name)
     {
-        return $this->$name;
+        return isset($this->$name) ? $this->$name : '';
     }
 
 

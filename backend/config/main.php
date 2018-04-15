@@ -83,42 +83,45 @@ return [
             'linkAssets' => false,//若为unix like系统这里可以修改成true则创建css js文件软链接到assets而不是拷贝css js到assets目录
             'bundles' => [
                 backend\assets\AppAsset::className() => [
+                    'sourcePath' => '@backend/web/static',
                     'css' => [
-                        'a' => 'static/css/bootstrap.min14ed.css?v=3.3.6',
-                        'b' => 'static/css/font-awesome.min93e3.css?v=4.4.0',
-                        'c' => 'static/css/animate.min.css',
-                        'd' => 'static/css/style.min862f.css?v=4.1.0',
-                        'f' => 'static/js/plugins/layer/laydate/theme/default/laydate.css',
-                        'g' => 'static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
-                        'h' => 'static/css/plugins/toastr/toastr.min.css',
+                        'a' => 'css/bootstrap.min14ed.css?v=3.3.6',
+                        'b' => 'css/font-awesome.min93e3.css?v=4.4.0',
+                        'c' => 'css/animate.min.css',
+                        'd' => 'css/style.min862f.css?v=4.1.0',
+                        'f' => 'js/plugins/layer/laydate/theme/default/laydate.css',
+                        'g' => 'css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
+                        'h' => 'css/plugins/toastr/toastr.min.css',
 
                     ],
                     'js' => [
-                        'a' => 'static/js/feehi.js',
-                        'c' => 'static/js/plugins/layer/laydate/laydate.js',
-                        'd' => 'static/js/plugins/layer/layer.min.js',
-                        'e' => 'static/js/plugins/prettyfile/bootstrap-prettyfile.js',
-                        'f' => 'static/js/plugins/toastr/toastr.min.js',
+                        'a' => 'js/feehi.js',
+                        'c' => 'js/plugins/layer/laydate/laydate.js',
+                        'd' => 'js/plugins/layer/layer.min.js',
+                        'e' => 'js/plugins/prettyfile/bootstrap-prettyfile.js',
+                        'f' => 'js/plugins/toastr/toastr.min.js',
                     ],
                 ],
                 backend\assets\IndexAsset::className() => [
+                    'sourcePath' => '@backend/web/static',
                     'css' => [
-                        'a' => 'static/css/bootstrap.min.css',
-                        'b' => 'static/css/font-awesome.min93e3.css?v=4.4.0',
-                        'c' => 'static/css/style.min862f.css?v=4.1.0',
+                        'a' => 'css/bootstrap.min.css',
+                        'b' => 'css/font-awesome.min93e3.css?v=4.4.0',
+                        'c' => 'css/style.min862f.css?v=4.1.0',
                     ],
                     'js' => [
-                        'a' => "static/js/jquery.min.js?v=2.1.4",
-                        'b' => "static/js/bootstrap.min.js?v=3.3.6",
-                        'c' => "static/js/plugins/metisMenu/jquery.metisMenu.js",
-                        'd' => "static/js/plugins/slimscroll/jquery.slimscroll.min.js",
-                        'e' => "static/js/plugins/layer/layer.min.js",
-                        'f' => "static/js/hplus.min.js?v=4.1.0",
-                        'g' => "static/js/contabs.min.js",
-                        'h' => "static/js/plugins/pace/pace.min.js",
+                        'a' => "js/jquery.min.js?v=2.1.4",
+                        'b' => "js/bootstrap.min.js?v=3.3.6",
+                        'c' => "js/plugins/metisMenu/jquery.metisMenu.js",
+                        'd' => "js/plugins/slimscroll/jquery.slimscroll.min.js",
+                        'e' => "js/plugins/layer/layer.min.js",
+                        'f' => "js/hplus.min.js?v=4.1.0",
+                        'g' => "js/contabs.min.js",
+                        'h' => "js/plugins/pace/pace.min.js",
                     ]
                 ],
                 backend\assets\UeditorAsset::className() => [
+                    'sourcePath' => '@backend/web/static/js/plugins/ueditor',
                     'css' => [
                         'a' => 'ueditor.all.min.js'
                     ],

@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Admin Users');
                             'label' => yii::t('app', 'Role'),
                             'value' => function ($model) {
                                 /** @var $model backend\models\User */
-                                return $model->getRoleName();
+                                return $model->getRolesNameString();
                             },
                         ],
                         [

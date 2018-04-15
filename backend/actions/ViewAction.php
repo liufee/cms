@@ -20,7 +20,7 @@ class ViewAction extends \yii\base\Action
     public $scenario = 'default';
 
     /** @var string 模板路径，默认为action id  */
-    public $viewFile = null;
+    public $viewFile = 'view';
 
 
     /**
@@ -36,7 +36,6 @@ class ViewAction extends \yii\base\Action
         $model = call_user_func([$this->modelClass, 'findOne'], $id);
         if (! $model) throw new BadRequestHttpException(yii::t('app', "Cannot find model by $id"));
         $model->setScenario( $this->scenario );
-        $this->viewFile === null && $this->viewFile = $this->id;
         return $this->controller->render($this->viewFile, [
             'model' => $model,
         ]);

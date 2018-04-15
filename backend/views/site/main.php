@@ -8,6 +8,10 @@
 use common\widgets\JsBlock;
 use yii\helpers\Url;
 
+/**
+ * @var $statics array
+ */
+
 ?>
 <div class="row">
     <div class="col-sm-3">
@@ -171,7 +175,7 @@ use yii\helpers\Url;
                         </small>
                     </div>
                     <div class="progress progress-small">
-                        <div style="width: <?= $status['MEM']['PERCENTAGE'] ?>;" class="progress-bar"></div>
+                        <div style="width: <?= $status['MEM']['PERCENTAGE'] ?>;" class="progress-bar progress-bar<?=$status['MEM']['PERCENTAGE']>80 ? '-danger' : ''?>"></div>
                     </div>
 
                     <div>
@@ -186,7 +190,7 @@ use yii\helpers\Url;
                         </small>
                     </div>
                     <div class="progress progress-small">
-                        <div style="width: <?= $status['REAL_MEM']['PERCENTAGE'] ?>;" class="progress-bar"></div>
+                        <div style="width: <?= $status['REAL_MEM']['PERCENTAGE'] ?>;" class="progress-bar progress-bar<?=$status['REAL_MEM']['PERCENTAGE']>80 ? '-danger' : ''?>"></div>
                     </div>
                     <!--
                     <div>
@@ -202,7 +206,7 @@ use yii\helpers\Url;
                         <small class="pull-right"><?= $status['DISK_SPACE']['NUM'] ?></small>
                     </div>
                     <div class="progress progress-small">
-                        <div style="width: <?= $status['DISK_SPACE']['PERCENTAGE'] ?>%;" class="progress-bar progress-bar-danger"></div>
+                        <div style="width: <?= $status['DISK_SPACE']['PERCENTAGE'] ?>%;" class="progress-bar progress-bar<?=$status['DISK_SPACE']['PERCENTAGE']>80 ? '-danger' : ''?>"></div>
                     </div>
                 </div>
             </div>

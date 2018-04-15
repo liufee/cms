@@ -26,6 +26,7 @@ class BannerTypeForm extends \common\models\Options
                 'message' => yii::t('app', 'Must begin with alphabet and can only includes alphabet,_,and number')
             ],
             [['name', 'tips'], 'required'],
+            [['value'], 'default', 'value' => ''],
         ];
     }
 

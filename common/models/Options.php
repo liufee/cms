@@ -169,7 +169,9 @@ class Options extends \yii\db\ActiveRecord
 
     public static function getAdByName($name)
     {
-        return AdForm::findOne(['type'=>self::TYPE_AD, 'name'=>$name]);
+        $ad = AdForm::findOne(['type'=>self::TYPE_AD, 'name'=>$name]);
+        $ad === null && $ad = new AdForm();
+        return $ad;
     }
 
 }

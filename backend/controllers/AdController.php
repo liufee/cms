@@ -36,7 +36,6 @@ class AdController extends \yii\web\Controller
             'view-layer' => [
                 'class' => ViewAction::className(),
                 'modelClass' => AdForm::className(),
-                'viewFile' => 'view',
             ],
             'create' => [
                 'class' => CreateAction::className(),

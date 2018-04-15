@@ -48,7 +48,6 @@ class ArticleController extends \yii\web\Controller
             'view-layer' => [
                 'class' => ViewAction::className(),
                 'modelClass' => Article::className(),
-                'viewFile' => 'view',
             ],
             'delete' => [
                 'class' => DeleteAction::className(),

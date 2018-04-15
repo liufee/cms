@@ -43,11 +43,11 @@ $this->title = yii::t('app', 'Backend Manage System');
                 <li class="nav-header">
                     <div class="dropdown profile-element">
                         <span>
-                            <img alt="image" class="img-circle" width="64px" height="64px" src="<?php if (yii::$app->getUser()->getIdentity()->avatar) {echo yii::$app->params['site']['url'] . yii::$app->getUser()->getIdentity()->avatar;} else {echo 'static/img/profile_small.jpg';} ?>"/>
+                            <img alt="image" class="img-circle" width="64px" height="64px" src="<?php if (yii::$app->getUser()->getIdentity()->avatar) {echo yii::$app->params['site']['url'] . yii::$app->getUser()->getIdentity()->avatar;} else {echo yii::$app->getRequest()->getBaseUrl() . '/static/img/profile_small.jpg';} ?>"/>
                         </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear">
-                                <span class="block m-t-xs"><strong class="font-bold"><?= yii::t('menu', yii::$app->getUser()->getIdentity()->getRoleName())?></strong></span>
+                                <span class="block m-t-xs"><strong class="font-bold"><?=yii::$app->getUser()->getIdentity()->getRolesNameString()?></strong></span>
                                 <span class="text-muted text-xs block"><?= yii::$app->getUser()->getIdentity()->username ?><b class="caret"></b></span>
                             </span>
                         </a>

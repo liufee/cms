@@ -101,32 +101,35 @@ return [
                     'js' => [],
                 ],
                 frontend\assets\AppAsset::className() => [
+                    'sourcePath' => '@frontend/web/static',
                     'css' => [
-                        'a' => 'static/css/style.css',
-                        'b' => 'static/plugins/toastr/toastr.min.css',
+                        'a' => 'css/style.css',
+                        'b' => 'plugins/toastr/toastr.min.css',
                     ],
                     'js' => [
-                        'a' => 'static/js/jquery.min.js',
-                        'b' => 'static/js/index.js',
-                        'c' => 'static/plugins/toastr/toastr.min.js',
+                        'a' => 'js/jquery.min.js',
+                        'b' => 'js/index.js',
+                        'c' => 'plugins/toastr/toastr.min.js',
                     ],
                 ],
                 frontend\assets\IndexAsset::className() => [
+                    'sourcePath' => '@frontend/web/static',
                     'js' => [
-                        'a' => 'static/js/responsiveslides.min.js',
+                        'a' => 'js/responsiveslides.min.js',
                     ]
                 ],
                 frontend\assets\ViewAsset::className() => [
+                    'sourcePath' => '@frontend/web/static',
                     'css' => [
-                        'a' => 'static/syntaxhighlighter/styles/shCoreDefault.css'
+                        'a' => 'syntaxhighlighter/styles/shCoreDefault.css'
                     ],
                     'js' => [
-                        'a' => 'static/syntaxhighlighter/scripts/shCore.js',
-                        'b' => 'static/syntaxhighlighter/scripts/shBrushJScript.js',
-                        'c' => 'static/syntaxhighlighter/scripts/shBrushPython.js',
-                        'd' => 'static/syntaxhighlighter/scripts/shBrushPhp.js',
-                        'e' => 'static/syntaxhighlighter/scripts/shBrushJava.js',
-                        'f' =>'static/syntaxhighlighter/scripts/shBrushCss.js',
+                        'a' => 'syntaxhighlighter/scripts/shCore.js',
+                        'b' => 'syntaxhighlighter/scripts/shBrushJScript.js',
+                        'c' => 'syntaxhighlighter/scripts/shBrushPython.js',
+                        'd' => 'syntaxhighlighter/scripts/shBrushPhp.js',
+                        'e' => 'syntaxhighlighter/scripts/shBrushJava.js',
+                        'f' =>'syntaxhighlighter/scripts/shBrushCss.js',
                     ]
                 ],
             ]
