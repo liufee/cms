@@ -273,6 +273,7 @@ $this->title = yii::t('install', 'Create Data');
                         success: function (data) {
                             $(".layui-layer").remove();
                             if (data.message == '') {
+                                $("button[type=submit]").attr('disabled', true);
                                 form.submit();
                             } else {
                                 alert(data.message);
@@ -280,11 +281,7 @@ $this->title = yii::t('install', 'Create Data');
                         },
                         error: function (data) {
                             $(".layui-layer").remove();
-                            if (data.responseText == '<pre></pre>') {
-                                alert("<?=yii::t('install', 'Cannot find database host')?>");
-                            } else {
-                                alert(data.responseJSON.message);
-                            }
+                            alert(data.responseJSON.message);
                         }
                     });
                 }

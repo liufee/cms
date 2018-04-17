@@ -105,15 +105,10 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
      
      >以下命令默认您已全局安装composer，如果您是局部安装的composer:请使用php /path/to/composer.phar来替换以下命令中的composer
      
-     1. 使用composer下载创建FeehiCMS项目
-        **以下两个命令任选其一。如果喜欢简单且日后不需要升级FeehiCMS请选择命令一,如果日后需要平滑升级FeehiCMS请选择命令二**
-        **2018.01.25备注:当前推荐使用命令一，命令二还有一些bug，遇到情况请反馈给我**
+     1. 使用composer下创建FeehiCMS项目
         
         ```bash
             $ composer create-project feehi/cms webApp //此命令创建的FeehiCMS项目不能平滑升级新版本(目录结构简单,目前主力维护版本)
-        ```
-        ```bash
-            $ composer create-project feehi/feehicms webApp //此命令创建的FeehiCMS项目能够通过运行composer update平滑升级到FeehiCMS新版本(FeehiCMS以composer包提供,未来可能主力维护此版本)
         ```
      2. 依次执行以下命令初始化yii2框架以及导入数据库
          ```bash

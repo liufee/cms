@@ -59,7 +59,7 @@ use yii\helpers\Url;
                 <span class="label label-success pull-right"><?= Yii::t('app', 'Month') ?></span>
                 <h5><?= yii::t('app', 'Friendly Links') ?></h5>
             </div>
-            <div class="ibox-content openContab" href="<?=Url::to(['friend-link/index'])?>" title="<?=yii::t('app', 'Friendly Links')?>" style="cursor: pointer">
+            <div class="ibox-content openContab" href="<?=Url::to(['friendly-link/index'])?>" title="<?=yii::t('app', 'Friendly Links')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['FRIEND_LINK'][0] ?></h1>
                 <div class="stat-percent font-bold text-info"><?= $statics['FRIEND_LINK'][1] ?>% <i class="fa fa-level-up"></i></div>
                 <small><?= yii::t('app', 'Total') ?></small>
