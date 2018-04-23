@@ -77,13 +77,11 @@ $this->title = yii::t('app', 'Backend Manage System');
                     ],
                     'dependency' => $dependency
                 ])
-                ) {
-                    ?>
+                )
+                {?>
                     <?= Menu::getBackendMenu(); ?>
-                    <?php
-                    $this->endCache();
-                }
-                ?>
+                    <?php $this->endCache();
+                } ?>
             </ul>
         </div>
     </nav>

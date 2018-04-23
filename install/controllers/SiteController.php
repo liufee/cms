@@ -9,7 +9,7 @@
 namespace install\controllers;
 
 use Yii;
-use \Exception;
+use Exception;
 use yii\db\Connection;
 use yii\helpers\FileHelper;
 use yii\helpers\Url;
@@ -426,7 +426,11 @@ EOF;
                 throw new Exception(yii::t('install', 'Access to database `{database}` error.Maybe permission denied', ['database' => $dbname]));
             }
         }
-        $db->createCommand("use $dbname;drop table test")->execute();
+        try {
+            $db->createCommand("use $dbname;drop table test")->execute();
+        }catch (Exception $exception){
+
+        }
 
     }
 }

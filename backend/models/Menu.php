@@ -62,12 +62,12 @@ class Menu extends \common\models\Menu
                 $arrow = ' arrow';
                 $class = '';
             }
-            $menu_name = yii::t('menu', $menu['name']);
+            $menuName = yii::t('menu', $menu['name']);
             $lis .= <<<EOF
                     <li>
                         <a {$class} href="{$menu['url']}">
                             <i class="fa {$menu['icon']}"></i>
-                            <span class="nav-label">{$menu_name}</span>
+                            <span class="nav-label">{$menuName}</span>
                             <span class="fa {$arrow}"></span>
                         </a>
                         $subMenu
