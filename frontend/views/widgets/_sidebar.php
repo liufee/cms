@@ -25,7 +25,7 @@ use frontend\models\FriendlyLink;
                         <div class="popover bottom in">
                             <div class="arrow"></div>
                             <div class="popover-title"><?=yii::t('frontend', 'Follow Wechat')?>“<?= yii::$app->feehi->wechat ?>”</div>
-                            <div class="popover-content"><img src="/static/images/weixin.jpg"></div>
+                            <div class="popover-content"><img src="<?=yii::$app->getRequest()->getBaseUrl()?>/static/images/weixin.jpg"></div>
                         </div>
                     </div>
                 </a>
@@ -43,7 +43,7 @@ use frontend\models\FriendlyLink;
             <p><?=yii::t('frontend', 'FeehiCMS official QQ group number: {number}', ['number'=>'258780872'])?>
                 <br>
                 <br>
-                <img border="0" src="/static/images/group.png" alt="feehi cms" title="feehi cms">
+                <img border="0" src="<?=yii::$app->getRequest()->getBaseUrl()?>/static/images/group.png" alt="feehi cms" title="feehi cms">
             </p>
         </a>
     </div>
@@ -126,7 +126,7 @@ use frontend\models\FriendlyLink;
                 <li>
                     <a href="<?= Url::to(['article/view', 'id' => $v['aid'], '#' => 'comment-' . $v['id']]) ?>"
                        title="">
-                        <img data-original="/static/images/comment-user-avatar.png" class="avatar avatar-72" height="50"
+                        <img data-original="<?=yii::$app->getRequest()->getBaseUrl()?>/static/images/comment-user-avatar.png" class="avatar avatar-72" height="50"
                              width="50" src="" style="display: block;">
                         <div class="muted">
                             <i><?= $v['nickname'] ?></i>&nbsp;&nbsp;<?= yii::$app->formatter->asRelativeTime($v['created_at']) ?>
