@@ -277,6 +277,16 @@ class Article extends \yii\db\ActiveRecord
         }
     }
 
+    public function beforeSave($insert)
+    {
+        if ($this->thumb) {
+            /** @var TargetAbstract $cdn */
+            $cdn = yii::$app->get('cdn');
+            $this->thumb = str_replace($cdn->host, '', $this->thumb);
+        }
+        return parent::beforeSave($insert);
+    }
+
     public function getThumbUrlBySize($width='', $height='')
     {
         if( empty($width) || empty($height) ){
@@ -301,7 +311,7 @@ class Article extends \yii\db\ActiveRecord
                 return substr_replace($this->thumb,$thumbExt, $dotPosition, 0);
             }
         }
-        return Url::to(['/timthumb.php', 'src'=>$this->thumb, 'h'=>$height, 'w'=>$width, 'zc'=>0]);;
+        return yii::$app->getRequest()->getBaseUrl() . '/timthumb.php' . http_build_query(['src'=>$this->thumb, 'h'=>$height, 'w'=>$width, 'zc'=>0]);
     }
     
 }
