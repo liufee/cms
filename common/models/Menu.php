@@ -86,6 +86,8 @@ class Menu extends \yii\db\ActiveRecord
                 'target',
                 'sort',
                 'is_display',
+                'created_at',
+                'updated_at',
             ],
             'frontend' => [
                 'parent_id',
@@ -96,7 +98,9 @@ class Menu extends \yii\db\ActiveRecord
                 'is_absolute_url',
                 'target',
                 'sort',
-                'is_display'
+                'is_display',
+                'created_at',
+                'updated_at',
             ],
         ];
     }

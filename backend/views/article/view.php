@@ -55,7 +55,7 @@ use yii\widgets\DetailView;
         [
             'attribute' => 'visibility',
             'value' => function($model){
-                return Constants::getYesNoItems($model->visibility);
+                return Constants::getArticleVisibility($model->visibility);
             }
         ],
         'password',

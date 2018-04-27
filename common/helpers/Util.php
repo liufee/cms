@@ -17,6 +17,8 @@ use yii\web\UploadedFile;
 class Util
 {
     /**
+     * 处理单模型单文件上传
+     *
      * @param ActiveRecord $model
      * @param $field
      * @param $insert
@@ -25,6 +27,7 @@ class Util
      *                  $options[thumbSizes] array 需要截图的尺寸，如[['w'=>100,'h'=>100]]
      *                  $options['filename'] string 新文件名，默认自动生成
      * @return bool
+     * @throws \yii\base\Exception
      */
     public static function handleModelSingleFileUpload(ActiveRecord &$model, $field, $insert, $uploadPath, $options=[])
     {
@@ -69,6 +72,17 @@ class Util
         }
     }
 
+    /**
+     * 处理单模型单文件非常态上传
+     *
+     * @param ActiveRecord $model
+     * @param $field
+     * @param $uploadPath
+     * @param $oldFullname
+     * @param array $options
+     * @return bool
+     * @throws \yii\base\Exception
+     */
     public static function handleModelSingleFileUploadAbnormal(ActiveRecord &$model, $field, $uploadPath, $oldFullname, $options=[])
     {
         if( !isset($options['successDeleteOld']) ) $options['successDeleteOld'] = true;//成功后删除旧文件

@@ -10,6 +10,7 @@ namespace backend\models\search;
 
 use backend\behaviors\TimeSearchBehavior;
 use backend\components\search\SearchEvent;
+use backend\models\AdminLog;
 use yii\data\ActiveDataProvider;
 
 class AdminLogSearch extends \backend\models\AdminLog
@@ -36,7 +37,7 @@ class AdminLogSearch extends \backend\models\AdminLog
         return [
             [
                 'class' => TimeSearchBehavior::className(),
-                'timeAttributes' => ['admin_log.created_at' => 'created_at'],
+                'timeAttributes' => [AdminLog::tableName() . '.created_at' => 'created_at'],
             ]
         ];
     }
@@ -83,7 +84,7 @@ class AdminLogSearch extends \backend\models\AdminLog
         $query->andFilterWhere(['id' => $this->id])
             ->andFilterWhere(['like', 'route', $this->route])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'admin_user.username', $this->adminUsername]);
+            ->andFilterWhere(['like', 'username', $this->adminUsername]);
         $this->trigger(SearchEvent::BEFORE_SEARCH, new SearchEvent(['query'=>$query]));
         return $dataProvider;
     }

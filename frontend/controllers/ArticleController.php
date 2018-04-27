@@ -11,6 +11,7 @@ namespace frontend\controllers;
 use yii;
 use common\libs\Constants;
 use frontend\models\form\ArticlePasswordForm;
+use yii\base\Event;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use frontend\models\Article;
@@ -276,6 +277,14 @@ class ArticleController extends Controller
         ]);
         yii::$app->getResponse()->format = Response::FORMAT_XML;
         return $xml;
+    }
+
+    public function actionA()
+    {
+        $model = new Article();
+        $model->off(Article::EVENT_AFTER_FIND, [$this, 'afterFind']);
+        $model = Article::findOne(22);
+        var_dump(111);exit;
     }
 
 }

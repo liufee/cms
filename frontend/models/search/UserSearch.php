@@ -28,7 +28,7 @@ class UserSearch extends \common\models\User
     {
         return [
             [['username', 'email', 'create_start_at', 'create_end_at', 'update_start_at', 'update_end_at'], 'string'],
-            [['created_at', 'updated_at'], 'integer'],
+            [['created_at', 'updated_at'], 'string'],
             ['status', 'integer'],
         ];
     }

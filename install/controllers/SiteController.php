@@ -417,7 +417,9 @@ EOF;
 
     private function checkAccountPermission(Connection $db, $dbname, $afterAutoCreate=false)
     {
-        $db->createCommand("use $dbname;create table test(id integer);insert test values(1)")->execute();
+        $db->createCommand("use $dbname")->execute();
+        $db->createCommand("create table test(id integer)")->execute();
+        $db->createCommand("insert test values(1)")->execute();
         $result = $db->createCommand("select * from test where id=1")->queryOne();
         if( $result === false ){//失败
             if( $afterAutoCreate ){
@@ -427,7 +429,8 @@ EOF;
             }
         }
         try {
-            $db->createCommand("use $dbname;drop table test")->execute();
+            $db->createCommand("use $dbname")->execute();
+            $db->createCommand("drop table test")->execute();
         }catch (Exception $exception){
 
         }
