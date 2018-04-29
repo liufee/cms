@@ -1525,17 +1525,26 @@ class m130524_201442_init extends Migration
 
     public function down()
     {
-        $this->dropTable('{{%user}}');
+        $this->dropForeignKey('fk_aid', '{{%article_content}}');
+        $this->dropForeignKey('fk_article_meta_aid', '{{%article_meta}}');
+        $this->dropForeignKey('fk_comment_aid', '{{%comment}}');
+
+        $this->dropIndex('index_key', '{{%article_meta}}');
+        $this->dropIndex('index_aid', '{{%article_meta}}');
+        $this->dropIndex('index_aid', '{{%comment}}');
+
+        $this->dropTable('{{%options}}');
+        $this->dropTable('{{%menu}}');
+        $this->dropTable('{{%friendly_link}}');
+        $this->dropTable('{{%comment}}');
+        $this->dropTable('{{%article_meta}}');
+        $this->dropTable('{{%article_content}}');
+        $this->dropIndex('index_title', '{{%article}}');
+        $this->dropTable('{{%article}}');
+        $this->dropTable('{{%category}}');
         $this->dropTable('{{%admin_log}}');
         $this->dropTable('{{%admin_user}}');
-        $this->dropTable('{{%article_content}}');
-        $this->dropTable('{{%article}}');
-        $this->dropTable('{{%article_meta}}');
-        $this->dropTable('{{%category}}');
-        $this->dropTable('{{%comment}}');
-        $this->dropTable('{{%friend_link}}');
-        $this->dropTable('{{%menu}}');
-        $this->dropTable('{{%options}}');
+        $this->dropTable('{{%user}}');
     }
 
     public function getParams()
