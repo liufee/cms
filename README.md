@@ -12,6 +12,8 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 
 更新记录
 -------
+2.0.4 修复bug;增强seo
+
 2.0.3 增加后台详情页;增加x.com/cms/frontend/web访问;修复批量删除不显示原因bug
 
 2.0.2 增加cdn;使用layer弹窗替换swal;修复时间范围搜索需要按回车的bug
