@@ -213,10 +213,15 @@ class ActiveField extends \yii\widgets\ActiveField
         }
         $attribute = $this->attribute;
         $src = key_exists('value', $options) ? $options['value'] : $this->model->$attribute;
-        $nonePicUrl = isset($options['default']) ? $options['default'] : yii::$app->params['site']['url'] . '/static/images/none.jpg';
+        /** @var $cdn \feehi\cdn\TargetAbstract */
+         $cdn = yii::$app->cdn;
+         $baseUrl = $cdn->host;
+        $nonePicUrl = isset($options['default']) ? $options['default'] : $baseUrl . '/static/images/none.jpg';
         if ($src != '') {
-            $temp = parse_url($src);
-            $src = !isset($temp['host']) ? ( yii::$app->cdn instanceof DummyTarget ?  yii::$app->params['site']['url'] . $src : yii::$app->cdn->getCdnUrl($src) ) : $src;
+            if( strpos($src, $baseUrl) !== 0 ){
+                $temp = parse_url($src);
+                $src = (! isset($temp['host'])) ? $cdn->getCdnUrl($src) : $src;
+            }
             $delete = yii::t('app', 'Delete');
             $this->parts['{actions}'] = "<div onclick=\"$(this).parents('.image').find('input[type=hidden]').val(0);$(this).prev().attr('src', '$nonePicUrl');$(this).remove()\" style='position: absolute;width: 50px;padding: 5px 3px 3px 5px;top:5px;left:6px;background: black;opacity: 0.6;color: white;cursor: pointer'><i class='fa fa-trash' aria-hidden='true'> {$delete}</i></div>";
         }else{

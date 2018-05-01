@@ -17,7 +17,7 @@ use common\libs\Constants;
 use common\models\Category;
 use common\widgets\JsBlock;
 use frontend\models\Menu;
-use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 
 $this->title = "Frontend Menus";
 $parent_id = yii::$app->getRequest()->get('parent_id', '');
@@ -37,7 +37,7 @@ if ($parent_id != '') {
                     $disabledOptions[$model->id] = ['disabled' => true];
                     $familyTree = new FamilyTree(Menu::getMenus(Menu::FRONTEND_TYPE));
                     $descendants = $familyTree->getDescendants($model->id);
-                    $descendants = array_column($descendants, 'id');
+                    $descendants = ArrayHelper::getColumn($descendants, 'id');
                     foreach ($descendants as $descendant){
                         $disabledOptions[$descendant] = ['disabled' => true];
                     }

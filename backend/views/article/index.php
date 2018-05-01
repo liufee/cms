@@ -78,8 +78,8 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Articles');
                                 } else {
                                     $num = Constants::YesNo_Yes;
                                 }
-                                return Html::a(Constants::getYesNoItems($num), $model->thumb ? yii::$app->params['site']['url'] . $model->thumb : 'javascript:void(0)', [
-                                    'img' => $model->thumb ? yii::$app->params['site']['url'] . $model->thumb : '',
+                                return Html::a(Constants::getYesNoItems($num), $model->thumb ? $model->thumb : 'javascript:void(0)', [
+                                    'img' => $model->thumb ? $model->thumb : '',
                                     'class' => 'thumbImg',
                                     'target' => '_blank',
                                 ]);

@@ -15,9 +15,6 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = yii::t('app', 'Request password reset') . '-' . yii::$app->feehi->website_title;
 $this->params['breadcrumbs'][] = $this->title;
-
-$this->registerMetaTag(['keywords' => yii::$app->feehi->seo_keywords]);
-$this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
 ?>
 <style>
     .form-group label {

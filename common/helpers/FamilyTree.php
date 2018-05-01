@@ -9,6 +9,8 @@
 namespace common\helpers;
 
 
+use yii\helpers\ArrayHelper;
+
 class FamilyTree
 {
 
@@ -112,7 +114,7 @@ class FamilyTree
     public function getParents($id)
     {
         $nodes = [];
-        $tree = array_column($this->_tree, null, 'id');//var_dump($tree);exit;
+        $tree = ArrayHelper::index($this->_tree, 'id');
         foreach ($tree as $key => $value) {
             if ($tree[$id][$this->_parentSign] == $value['id']) {
                 $nodes[] = $value;

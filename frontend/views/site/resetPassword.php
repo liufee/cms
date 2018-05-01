@@ -15,9 +15,6 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = yii::t('app', 'Reset Password') . '-' . yii::$app->feehi->website_title;
 $this->params['breadcrumbs'][] = $this->title;
-
-$this->registerMetaTag(['keywords' => yii::$app->feehi->seo_keywords]);
-$this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
 ?>
 <div class="content-wrap">
     <div class="site-signup article-content" style="width:100%; margin: 0 auto">

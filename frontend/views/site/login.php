@@ -13,9 +13,6 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->registerMetaTag(['keywords' => yii::$app->feehi->seo_keywords]);
-$this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
-
 $this->title = yii::t('app', 'Login') . '-' . yii::$app->feehi->website_title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>

@@ -15,6 +15,7 @@ use backend\widgets\ActiveForm;
 use common\helpers\FamilyTree;
 use common\libs\Constants;
 use backend\models\Menu;
+use yii\helpers\ArrayHelper;
 
 $this->title = "Backend Menus";
 
@@ -35,7 +36,7 @@ if ($parent_id != '') {
                         $disabledOptions[$model->id] = ['disabled' => true];
                         $familyTree = new FamilyTree(Menu::getMenus(Menu::BACKEND_TYPE));
                         $descendants = $familyTree->getDescendants($model->id);
-                        $descendants = array_column($descendants, 'id');
+                        $descendants = ArrayHelper::getColumn($descendants, 'id');
                         foreach ($descendants as $descendant){
                             $disabledOptions[$descendant] = ['disabled' => true];
                         }

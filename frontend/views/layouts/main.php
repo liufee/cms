@@ -23,6 +23,8 @@ AppAsset::register($this);
 <head>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <?php !isset($this->metaTags['keywords']) && $this->registerMetaTag(['name' => 'keywords', 'content' => yii::$app->feehi->seo_keywords], 'keywords');?>
+    <?php !isset($this->metaTags['description']) && $this->registerMetaTag(['name' => 'description', 'content' => yii::$app->feehi->seo_description], 'description');?>
     <meta charset="<?= yii::$app->charset ?>">
     <?= Html::csrfMetaTags() ?>
     <meta http-equiv="X-UA-Compatible" content="IE=10,IE=9,IE=8">

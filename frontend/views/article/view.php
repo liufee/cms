@@ -26,16 +26,16 @@ use yii\widgets\ActiveForm;
 
 $this->title = $model->title;
 
-$this->registerMetaTag(['keywords' => $model->seo_keywords]);
-$this->registerMetaTag(['description' => $model->seo_description]);
-$this->registerMetaTag(['tags' => call_user_func(function()use($model) {
+$this->registerMetaTag(['name' => 'keywords', 'content' => $model->seo_keywords], 'keywords');
+$this->registerMetaTag(['name' => 'description', 'content' => $model->seo_description], 'description');
+$this->registerMetaTag(['name' => 'tags', 'content' => call_user_func(function()use($model) {
     $tags = '';
     foreach ($model->articleTags as $tag) {
         $tags .= $tag->value . ',';
     }
     return rtrim($tags, ',');
     }
-)]);
+)], 'tags');
 $this->registerMetaTag(['property' => 'article:author', 'content' => $model->author_name]);
 $categoryName = $model->category ? $model->category->name : yii::t('app', 'uncategoried');
 

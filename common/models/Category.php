@@ -193,7 +193,7 @@ class Category extends \yii\db\ActiveRecord
             }
             $familyTree = new FamilyTree(self::_getCategories());
             $descendants = $familyTree->getDescendants($this->id);
-            $descendants = array_column($descendants, 'id');
+            $descendants = ArrayHelper::getColumn($descendants, 'id');
             if( in_array($this->parent_id, $descendants) ){
                 $this->addError('parent_id', yii::t('app', 'Cannot be themselves descendants sub'));
                 return false;

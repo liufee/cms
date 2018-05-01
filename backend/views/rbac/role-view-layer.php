@@ -19,13 +19,11 @@ use yii\widgets\DetailView;
             'attribute' => 'permissions',
             'format' => 'raw',
             'value' => function($model){
+                $authManager = yii::$app->getAuthManager();
+                $permissions = $authManager->getPermissionsByRole($model->name);
                 $str = '';
-                foreach ($model->getPermissionsByGroup('form') as $key => $value){
-                    foreach ($value as $k => $val){
-                        foreach ($val as $v) {
-                             $str .= $v['description'] . '<br>';
-                        }
-                    }
+                foreach ($permissions as $permission){
+                   $str .= $permission->description . '<br>';
                 }
                 return $str;
             }

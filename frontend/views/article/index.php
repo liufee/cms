@@ -22,9 +22,6 @@ use yii\data\ArrayDataProvider;
 
 IndexAsset::register($this);
 $this->title = yii::$app->feehi->website_title;
-
-$this->registerMetaTag(['keywords' => yii::$app->feehi->seo_keywords]);
-$this->registerMetaTag(['description' => yii::$app->feehi->seo_description]);
 ?>
 <div class="content-wrap">
     <div class="content">
