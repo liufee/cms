@@ -148,7 +148,6 @@ class Menu extends \yii\db\ActiveRecord
     {
         $menus = self::_getMenus($type);
         $familyTree = new FamilyTree($menus);
-        $a = $familyTree->getParents(24);
         $array = $familyTree->getDescendants(0);
         foreach ($array as $k => &$menu){
             if( isset($menus[$k+1]['level']) && $menus[$k+1]['level'] == $menu['level'] ){

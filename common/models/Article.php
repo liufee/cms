@@ -311,7 +311,7 @@ class Article extends \yii\db\ActiveRecord
                 return substr_replace($this->thumb,$thumbExt, $dotPosition, 0);
             }
         }
-        return yii::$app->getRequest()->getBaseUrl() . '/timthumb.php' . http_build_query(['src'=>$this->thumb, 'h'=>$height, 'w'=>$width, 'zc'=>0]);
+        return yii::$app->getRequest()->getBaseUrl() . '/timthumb.php?' . http_build_query(['src'=>$this->thumb, 'h'=>$height, 'w'=>$width, 'zc'=>0]);
     }
     
 }

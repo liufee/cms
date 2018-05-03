@@ -279,12 +279,4 @@ class ArticleController extends Controller
         return $xml;
     }
 
-    public function actionA()
-    {
-        $model = new Article();
-        $model->off(Article::EVENT_AFTER_FIND, [$this, 'afterFind']);
-        $model = Article::findOne(22);
-        var_dump(111);exit;
-    }
-
 }
