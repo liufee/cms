@@ -8,7 +8,6 @@
 
 namespace backend\widgets;
 
-use feehi\cdn\DummyTarget;
 use yii;
 use yii\helpers\Html;
 

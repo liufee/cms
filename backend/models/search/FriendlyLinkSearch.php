@@ -8,6 +8,8 @@
 
 namespace backend\models\search;
 
+use yii;
+use common\libs\Constants;
 use backend\behaviors\TimeSearchBehavior;
 use backend\components\search\SearchEvent;
 use backend\models\FriendlyLink;
@@ -15,6 +17,13 @@ use yii\data\ActiveDataProvider;
 
 class FriendlyLinkSearch extends \backend\models\FriendlyLink
 {
+    public function behaviors()
+    {
+        return [
+            TimeSearchBehavior::className()
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -27,13 +36,6 @@ class FriendlyLinkSearch extends \backend\models\FriendlyLink
         ];
     }
 
-    public function behaviors()
-    {
-        return [
-            TimeSearchBehavior::className()
-        ];
-    }
-
     /**
      * @param $params
      * @return ActiveDataProvider
@@ -41,7 +43,8 @@ class FriendlyLinkSearch extends \backend\models\FriendlyLink
     public function search($params)
     {
         $query = FriendlyLink::find();
-        $dataProvider = new ActiveDataProvider([
+        $dataProvider = yii::createObject([
+            'class' => ActiveDataProvider::className(),
             'query' => $query,
             'sort' => [
                 'defaultOrder' => [
@@ -50,6 +53,7 @@ class FriendlyLinkSearch extends \backend\models\FriendlyLink
                 ]
             ]
         ]);
+        /** @var $dataProvider ActiveDataProvider */
         $this->load($params);
         if (! $this->validate()) {
             return $dataProvider;
@@ -57,14 +61,14 @@ class FriendlyLinkSearch extends \backend\models\FriendlyLink
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['status' => $this->status])
             ->andFilterWhere(['like', 'url', $this->url]);
-        if ($this->image == 1) {
+        if ($this->image == Constants::YesNo_Yes) {
             $query->andWhere(['<>', 'image', '']);
         } else {
             if ($this->image === '0') {
                 $query->andWhere(['image' => '']);
             }
         }
-        $this->trigger(SearchEvent::BEFORE_SEARCH, new SearchEvent(['query'=>$query]));
+        $this->trigger(SearchEvent::BEFORE_SEARCH, yii::createObject(['class' => SearchEvent::className(), 'query'=>$query]));
         return $dataProvider;
     }
 

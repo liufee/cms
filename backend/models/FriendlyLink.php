@@ -24,9 +24,8 @@ class FriendlyLink extends \common\models\FriendlyLink
     /**
      * @inheritdoc
      */
-    public function beforeSave($insert)
+    public function customBeforeSave($event)
     {
-        Util::handleModelSingleFileUpload($this, 'image', $insert, '@friendlylink/');
-        return parent::beforeSave($insert);
+        Util::handleModelSingleFileUpload($this, 'image', $event->sender->getIsNewRecord(), '@friendlylink/');
     }
 }
