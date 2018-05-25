@@ -18,8 +18,8 @@ use common\libs\Constants;
 use yii\helpers\Url;
 use backend\widgets\Ueditor;
 
-$this->title = yii::t('app', 'Custom Setting');
-$this->params['breadcrumbs'][] = yii::t('app', 'Custom Setting');
+$this->title = Yii::t('app', 'Custom Setting');
+$this->params['breadcrumbs'][] = Yii::t('app', 'Custom Setting');
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Custom Setting');
                     <label class="col-sm-2 control-label"></label>
                     <div class="col-sm-8">
                         <a style="float:right;" type="button" class="btn btn-outline btn-default"
-                           id="add"><?= yii::t('app', 'Add') ?></a>
+                           id="add"><?= Yii::t('app', 'Add') ?></a>
                     </div>
                 </div>
                 <?= $form->defaultButtons() ?>
@@ -77,7 +77,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Custom Setting');
         $('#add').click(function () {
             layer.open({
                 type: 1,
-                title: '<?=yii::t('app', 'Add')?>',
+                title: '<?=Yii::t('app', 'Add')?>',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
                 area: ['70%', '80%'],
@@ -120,7 +120,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Custom Setting');
                 success: function (data) {
                     layer.open({
                         type: 1,
-                        title: '<?=yii::t('app', 'Update')?> ' + name,
+                        title: '<?=Yii::t('app', 'Update')?> ' + name,
                         maxmin: true,
                         shadeClose: true, //点击遮罩关闭层
                         area: ['70%', '80%'],
@@ -168,7 +168,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Custom Setting');
 
     function onCheckCanTypeInValue() {
         var type = $(this).val();
-        var restrictTypeTips = '<?=yii::t('app', 'Type restrict, please type in after create')?>';
+        var restrictTypeTips = '<?=Yii::t('app', 'Type restrict, please type in after create')?>';
         var input = $(this).parents('form').attr('name') == 'edit' ? $("#editForm input#options-value") : $("#w1 input#options-value");
         if(type != <?=Constants::INPUT_INPUT?> && type != <?=Constants::INPUT_TEXTAREA?>){
             if( input.val() == restrictTypeTips ){
@@ -178,7 +178,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Custom Setting');
             }
             input.val(restrictTypeTips).attr('disabled', true);
         }else{
-            if( input.val() == '<?=yii::t('app', 'Type restrict, please type in after create')?>' ){
+            if( input.val() == '<?=Yii::t('app', 'Type restrict, please type in after create')?>' ){
                 input.val(input.attr('oldValue'));
             }else{
                 input.attr('oldValue', input.val());

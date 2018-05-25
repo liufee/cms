@@ -6,7 +6,6 @@
  * Created at: 2017-12-03 22:17
  */
 
-
 /**
  * @var $this yii\web\View
  * @var $model backend\models\form\BannerForm

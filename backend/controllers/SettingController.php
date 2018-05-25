@@ -8,7 +8,7 @@
 
 namespace backend\controllers;
 
-use yii;
+use Yii;
 use backend\models\form\SettingWebsiteForm;
 use backend\models\form\SettingSmtpForm;
 use common\models\Options;
@@ -44,17 +44,17 @@ class SettingController extends \yii\web\Controller
      */
     public function actionWebsite()
     {
-        $model = new SettingWebsiteForm();
-        if (yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(yii::$app->getRequest()->post()) && $model->validate() && $model->setWebsiteConfig()) {
-                yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+        $model = Yii::createObject( SettingWebsiteForm::className() );
+        if (Yii::$app->getRequest()->getIsPost()) {
+            if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->setWebsiteConfig()) {
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
             } else {
                 $errors = $model->getErrors();
                 $err = '';
                 foreach ($errors as $v) {
                     $err .= $v[0] . '<br>';
                 }
-                yii::$app->getSession()->setFlash('error', $err);
+                Yii::$app->getSession()->setFlash('error', $err);
             }
         }
 
@@ -74,13 +74,13 @@ class SettingController extends \yii\web\Controller
     {
         $settings = Options::find()->where(['type' => Options::TYPE_CUSTOM])->orderBy("sort")->indexBy('id')->all();
 
-        if (Model::loadMultiple($settings, yii::$app->request->post()) && Model::validateMultiple($settings)) {
+        if (Model::loadMultiple($settings, Yii::$app->getRequest()->post()) && Model::validateMultiple($settings)) {
             foreach ($settings as $setting) {
                 $setting->save(false);
             }
-            yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
         }
-        $options = new Options();
+        $options = Yii::createObject( Options::className() );
         $options->loadDefaultValues();
 
         return $this->render('custom', [
@@ -97,10 +97,10 @@ class SettingController extends \yii\web\Controller
      */
     public function actionCustomCreate()
     {
-        $model = new Options();
+        $model = Yii::createObject( Options::className() );
         $model->type = Options::TYPE_CUSTOM;
-        if ($model->load(yii::$app->getRequest()->post()) && $model->save()) {
-            yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
+            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
             return [];
         } else {
             $errors = $model->getErrors();
@@ -108,7 +108,7 @@ class SettingController extends \yii\web\Controller
             foreach ($errors as $v) {
                 $err .= $v[0] . '<br>';
             }
-            yii::$app->getResponse()->format = Response::FORMAT_JSON;
+            Yii::$app->getResponse()->format = Response::FORMAT_JSON;
             throw new UnprocessableEntityHttpException($err);
         }
     }
@@ -123,9 +123,9 @@ class SettingController extends \yii\web\Controller
     public function actionCustomUpdate($id = '')
     {
         $model = Options::findOne(['id' => $id]);
-        if (yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(yii::$app->getRequest()->post()) && $model->save()) {
-                yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+        if (Yii::$app->getRequest()->getIsPost()) {
+            if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
                 return [];
             } else {
                 $errors = $model->getErrors();
@@ -133,11 +133,11 @@ class SettingController extends \yii\web\Controller
                 foreach ($errors as $v) {
                     $err .= $v[0] . '<br>';
                 }
-                yii::$app->getResponse()->format = Response::FORMAT_JSON;
+                Yii::$app->getResponse()->format = Response::FORMAT_JSON;
                 throw new UnprocessableEntityHttpException($err);
             }
         } else {
-            yii::$app->getResponse()->format = Response::FORMAT_HTML;
+            Yii::$app->getResponse()->format = Response::FORMAT_HTML;
             echo '<div class="" id="editForm">';
             echo '<div class="ibox-content">';
             $form = ActiveForm::begin(['options' => ['name' => 'edit']]);
@@ -161,17 +161,17 @@ class SettingController extends \yii\web\Controller
      */
     public function actionSmtp()
     {
-        $model = new SettingSmtpForm();
-        if (yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(yii::$app->getRequest()->post()) && $model->validate() && $model->setSmtpConfig()) {
-                yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+        $model = Yii::createObject( SettingSmtpForm::className() );
+        if (Yii::$app->getRequest()->getIsPost()) {
+            if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->setSmtpConfig()) {
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
             } else {
                 $errors = $model->getErrors();
                 $err = '';
                 foreach ($errors as $v) {
                     $err .= $v[0] . '<br>';
                 }
-                yii::$app->getSession()->setFlash('error', $err);
+                Yii::$app->getSession()->setFlash('error', $err);
             }
         }
 
@@ -190,10 +190,10 @@ class SettingController extends \yii\web\Controller
      */
     public function actionTestSmtp()
     {
-        $model = new SettingSmtpForm();
-        yii::$app->getResponse()->format = Response::FORMAT_JSON;
-        if ($model->load(yii::$app->getRequest()->post()) && $model->validate()) {
-            $mailer = yii::createObject([
+        $model = Yii::createObject( SettingSmtpForm::className() );
+        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()) {
+            $mailer = Yii::createObject([
                 'class' => Mailer::className(),
                 'useFileTransport' => false,
                 'transport' => [
@@ -213,7 +213,7 @@ class SettingController extends \yii\web\Controller
             return $mailer->compose()
                 ->setFrom($model->smtp_username)
                 ->setTo($model->smtp_username)
-                ->setSubject('Email SMTP test ' . yii::$app->name)
+                ->setSubject('Email SMTP test ' . Yii::$app->name)
                 ->setTextBody('Email SMTP config works successful')
                 ->send();
         } else {

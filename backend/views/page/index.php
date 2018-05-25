@@ -23,7 +23,7 @@ use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
 $this->title = 'Pages';
-$this->params['breadcrumbs'][] = yii::t('app', 'Pages');
+$this->params['breadcrumbs'][] = Yii::t('app', 'Pages');
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -60,10 +60,10 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Pages');
                             'attribute' => 'author_name',
                         ],
                         [
-                            'label' => yii::t('app', 'Url'),
+                            'label' => Yii::t('app', 'Url'),
                             'format' => 'raw',
                             'value' => function($model){
-                                return "<a target='_blank' href='" . yii::$app->params['site']['url'] . 'page/' . $model->sub_title . "'>" . yii::$app->params['site']['url'] . 'page/' . $model->sub_title . '</a>';
+                                return "<a target='_blank' href='" . Yii::$app->params['site']['url'] . 'page/' . $model->sub_title . "'>" . Yii::$app->params['site']['url'] . 'page/' . $model->sub_title . '</a>';
                             },
                         ],
                         [

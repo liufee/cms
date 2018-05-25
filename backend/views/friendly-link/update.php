@@ -5,11 +5,12 @@
  * Email: job@feehi.com
  * Created at: 2016-03-21 14:32
  */
+
 use yii\helpers\Url;
 
 $this->params['breadcrumbs'] = [
-    ['label' => yii::t('app', 'Friendly Links'), 'url' => Url::to(['index'])],
-    ['label' => yii::t('app', 'Update') . yii::t('app', 'Friendly Links')],
+    ['label' => Yii::t('app', 'Friendly Links'), 'url' => Url::to(['index'])],
+    ['label' => Yii::t('app', 'Update') . Yii::t('app', 'Friendly Links')],
 ];
 /**
  * @var $model backend\models\FriendlyLink

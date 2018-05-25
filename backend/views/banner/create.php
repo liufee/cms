@@ -12,8 +12,8 @@ use yii\helpers\Url;
  * @var $model backend\models\form\BannerForm
  */
 $this->params['breadcrumbs'] = [
-    ['label' => yii::t('app', 'Banner Types'), 'url' => Url::to(['index'])],
-    ['label' => yii::t('app', 'Create') . yii::t('app', 'Banner Types')],
+    ['label' => Yii::t('app', 'Banner Types'), 'url' => Url::to(['index'])],
+    ['label' => Yii::t('app', 'Create') . Yii::t('app', 'Banner Types')],
 ];
 ?>
 <?= $this->render('_form', [

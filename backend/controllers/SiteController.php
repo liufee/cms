@@ -8,7 +8,7 @@
 
 namespace backend\controllers;
 
-use yii;
+use Yii;
 use Exception;
 use common\models\Comment;
 use backend\models\form\LoginForm;
@@ -88,7 +88,7 @@ class SiteController extends \yii\web\Controller
      */
     public function actionMain()
     {
-        switch (yii::$app->getDb()->driverName) {
+        switch (Yii::$app->getDb()->driverName) {
             case "mysql":
                 $dbInfo = 'MySQL ' . (new Query())->select('version()')->one()['version()'];
                 break;

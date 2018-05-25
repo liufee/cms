@@ -11,6 +11,7 @@ namespace backend\models\search;
 use backend\behaviors\TimeSearchBehavior;
 use backend\components\search\SearchEvent;
 use backend\models\AdminLog;
+use Yii;
 use yii\data\ActiveDataProvider;
 
 class AdminLogSearch extends \backend\models\AdminLog
@@ -44,13 +45,16 @@ class AdminLogSearch extends \backend\models\AdminLog
 
     /**
      * @param $params
-     * @return \yii\data\ActiveDataProvider
+     * @return ActiveDataProvider
+     * @throws \yii\base\InvalidConfigException
      */
     public function search($params)
     {
         $query = self::find()->orderBy("id desc");
         $query->joinWith(['user']);
-        $dataProvider = new ActiveDataProvider([
+        /** @var ActiveDataProvider $dataProvider */
+        $dataProvider = Yii::createObject([
+            'class' => ActiveDataProvider::className(),
             'query' => $query,
         ]);
         $dataProvider->setSort([

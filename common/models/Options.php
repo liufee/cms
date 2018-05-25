@@ -40,6 +40,13 @@ class Options extends \yii\db\ActiveRecord
     const CUNSTOM_AUTOLOAD_NO = 0;
     const CUSTOM_AUTOLOAD_YES = 1;
 
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_BEFORE_INSERT, [$this, 'beforeSaveEvent']);
+        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'beforeSaveEvent']);
+    }
+
     /**
      * @inheritdoc
      */
@@ -61,7 +68,7 @@ class Options extends \yii\db\ActiveRecord
                 ['name'],
                 'match',
                 'pattern' => '/^[a-zA-Z][0-9_]*/',
-                'message' => yii::t('app', 'Must begin with alphabet and can only includes alphabet,_,and number')
+                'message' => Yii::t('app', 'Must begin with alphabet and can only includes alphabet,_,and number')
             ],
             [['value'], 'string'],
             [['value'], 'default', 'value' => ''],
@@ -99,7 +106,7 @@ class Options extends \yii\db\ActiveRecord
      */
     public function afterSave($insert, $changedAttributes)
     {
-        $object = yii::createObject([
+        $object = Yii::createObject([
             'class' => FileDependencyHelper::className(),
             'fileName' => 'options.txt',
         ]);
@@ -107,48 +114,47 @@ class Options extends \yii\db\ActiveRecord
         parent::afterSave($insert, $changedAttributes);
     }
 
-    public function beforeSave($insert)
+    public function beforeSaveEvent($event)
     {
-        if(!$insert){
-            if( $this->input_type == Constants::INPUT_IMG ) {
+        if(!$event->sender->getIsNewRecord()){
+            if( $event->sender->input_type == Constants::INPUT_IMG ) {
                 $temp = explode('\\', self::className());
                 $modelName = end( $temp );
-                $key = "{$modelName}[{$this->id}][value]";
+                $key = "{$modelName}[{$event->sender->id}][value]";
                 $upload = UploadedFile::getInstanceByName($key);
-                $old = Options::findOne($this->id);
+                $old = Options::findOne($event->sender->id);
                 /* @var $cdn \feehi\cdn\TargetInterface */
-                $cdn = yii::$app->get('cdn');
+                $cdn = Yii::$app->get('cdn');
                 if($upload !== null){
-                    $uploadPath = yii::getAlias('@uploads/setting/custom-setting/');
+                    $uploadPath = Yii::getAlias('@uploads/setting/custom-setting/');
                     if (! FileHelper::createDirectory($uploadPath)) {
-                        $this->addError($key, "Create directory failed " . $uploadPath);
+                        $event->sender->addError($key, "Create directory failed " . $uploadPath);
                         return false;
                     }
                     $fullName = $uploadPath . date('YmdHis') . '_' . uniqid() . '.' . $upload->getExtension();
                     if (! $upload->saveAs($fullName)) {
-                        $this->addError($key, yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', 'Picture')]) . ': ' . $fullName);
+                        $event->sender->addError($key, Yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => Yii::t('app', 'Picture')]) . ': ' . $fullName);
                         return false;
                     }
-                    $this->value = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
-                    $cdn->upload($fullName, $this->value);
+                    $event->sender->value = str_replace(Yii::getAlias('@frontend/web'), '', $fullName);
+                    $cdn->upload($fullName, $event->sender->value);
                     if( $old !== null ){
-                        $file = yii::getAlias('@frontend/web') . $old->value;
+                        $file = Yii::getAlias('@frontend/web') . $old->value;
                         if( file_exists($file) && is_file($file) ) unlink($file);
                         if( $cdn->exists($old->value) ) $cdn->delete($old->value);
                     }
                 }else{
-                    if( $this->value !== '' ){
-                        $file = yii::getAlias('@frontend/web') . $old->value;
+                    if( $event->sender->value !== '' ){
+                        $file = Yii::getAlias('@frontend/web') . $old->value;
                         if( file_exists($file) && is_file($file) ) unlink($file);
                         if( $cdn->exists($old->value) ) $cdn->delete($old->value);
-                        $this->value = '';
+                        $event->sender->value = '';
                     }else {
-                        $this->value = $old->value;
+                        $event->sender->value = $old->value;
                     }
                 }
             }
         }
-        return true;
     }
 
     public static function getBannersByType($name)
@@ -159,7 +165,7 @@ class Options extends \yii\db\ActiveRecord
         $banners = json_decode($model->value, true);
         ArrayHelper::multisort($banners, 'sort');
         /** @var $cdn \feehi\cdn\TargetInterface */
-        $cdn = yii::$app->get('cdn');
+        $cdn = Yii::$app->get('cdn');
         foreach ($banners as $k => &$banner){
             if( $banner['status'] == Constants::Status_Desable ) unset($banners[$k]);
             $banner['img'] = $cdn->getCdnUrl($banner['img']);
@@ -170,7 +176,7 @@ class Options extends \yii\db\ActiveRecord
     public static function getAdByName($name)
     {
         $ad = AdForm::findOne(['type'=>self::TYPE_AD, 'name'=>$name]);
-        $ad === null && $ad = new AdForm();
+        $ad === null && $ad = Yii::createObject( AdForm::className() );
         return $ad;
     }
 

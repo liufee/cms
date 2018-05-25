@@ -15,8 +15,8 @@ use backend\widgets\ActiveForm;
 use common\widgets\JsBlock;
 use yii\helpers\Url;
 
-$this->title = yii::t('app', 'SMTP Setting');
-$this->params['breadcrumbs'][] = yii::t('app', 'SMTP Setting');
+$this->title = Yii::t('app', 'SMTP Setting');
+$this->params['breadcrumbs'][] = Yii::t('app', 'SMTP Setting');
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'SMTP Setting');
                 method: 'post',
                 data: $("form").serialize(),
                 success: function (data) {
-                    layer.msg("<?=yii::t('app', 'Success')?>");
+                    layer.msg("<?=Yii::t('app', 'Success')?>");
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     layer.msg(jqXHR.responseJSON.message);

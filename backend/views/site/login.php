@@ -18,7 +18,7 @@ use yii\helpers\Url;
 use yii\captcha\Captcha;
 
 AppAsset::register($this);
-$this->title = yii::t('app', 'Login');
+$this->title = Yii::t('app', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php $this->beginPage() ?>
@@ -61,36 +61,36 @@ $this->params['breadcrumbs'][] = $this->title;
             <div>
                 <h1 class="logo-name">H+</h1>
             </div>
-            <h3><?= yii::t('app', 'Welcome to') ?> Feehi CMS</h3>
+            <h3><?= Yii::t('app', 'Welcome to') ?> Feehi CMS</h3>
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
             <?= $form->field($model, 'username', ['template' => "<div style='position:relative'>{input}\n{error}\n{hint}</div>"])
-                ->textInput(['autofocus' => true, 'placeholder' => yii::t("app", "Username")]) ?>
+                ->textInput(['autofocus' => true, 'placeholder' => Yii::t("app", "Username")]) ?>
 
             <?= $form->field($model, 'password', ['template' => "<div style='position:relative'>{input}\n{error}\n{hint}</div>"])
-                ->passwordInput(['placeholder' => yii::t("app", "Password")]) ?>
+                ->passwordInput(['placeholder' => Yii::t("app", "Password")]) ?>
 
             <?= $form->field($model, 'captcha', ['template' => '<div style="position:relative">{input}{error}{hint}</div>'])->widget(Captcha::classname(), [
                 'template' => '{input}{image}',
                 'options' => [
                     "class"=>"form-control",
                     'style' => "width:300px;height:34px;position:relative;top:2px",
-                    'placeholder' => yii::t("app", "Verification Code"),
+                    'placeholder' => Yii::t("app", "Verification Code"),
                 ],
                 'imageOptions' => [
                     "style" => "cursor:pointer;right:0px"
                 ]
             ]) ?>
-            <?= Html::submitButton(yii::t("app", "Login"), [
+            <?= Html::submitButton(Yii::t("app", "Login"), [
                 'class' => 'btn btn-primary block full-width m-b',
                 'name' => 'login-button'
             ]) ?>
 
             <p class="text-muted text-center">
                 <a href="<?= Url::to(['admin-user/request-password-reset']) ?>">
-                    <small><?= yii::t('app', 'Forgot password') ?></small>
+                    <small><?= Yii::t('app', 'Forgot password') ?></small>
                 </a> |
                 <?php
-                if (yii::$app->language == 'en-US') {
+                if (Yii::$app->language == 'en-US') {
                     echo "<a href = " . Url::to(['site/language', 'lang' => 'zh-CN']) . " > 简体中文</a >";
                 } else {
                     echo "<a href=" . Url::to(['site/language', 'lang' => 'en-US']) . ">English</a>";

@@ -5,9 +5,11 @@
  * Email: job@feehi.com
  * Created at: 2017-03-15 21:16
  */
+
 namespace backend\controllers;
 
 use backend\actions\ViewAction;
+use Yii;
 use yii\data\ArrayDataProvider;
 use frontend\models\Menu;
 use backend\actions\CreateAction;
@@ -29,7 +31,8 @@ class FrontendMenuController extends \yii\web\Controller
                 'class' => IndexAction::className(),
                 'data' => function(){
                     $data = Menu::getMenus(Menu::FRONTEND_TYPE);
-                    $dataProvider = new ArrayDataProvider([
+                    $dataProvider = Yii::createObject([
+                        'class' => ArrayDataProvider::className(),
                         'allModels' => $data,
                         'pagination' => [
                             'pageSize' => -1

@@ -34,6 +34,12 @@ class Comment extends \yii\db\ActiveRecord
     const STATUS_PASSED = 1;
     const STATUS_UNPASS = 2;
 
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_AFTER_FIND, [$this, 'afterFindEvent']);
+    }
+
     /**
      * @inheritdoc
      */
@@ -69,7 +75,7 @@ class Comment extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'aid' => yii::t('app', 'Article Id'),
+            'aid' => Yii::t('app', 'Article Id'),
             'uid' => Yii::t('app', 'User Id'),
             'nickname' => Yii::t('app', 'Nickname'),
             'content' => Yii::t('app', 'Content'),
@@ -78,7 +84,7 @@ class Comment extends \yii\db\ActiveRecord
             'status' => Yii::t('app', 'Status'),
             'email' => Yii::t('app', 'Email'),
             'website_url' => Yii::t('app', 'Website'),
-            'admin_id' => yii::t('app', 'Admin User Id'),
+            'admin_id' => Yii::t('app', 'Admin User Id'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
@@ -132,9 +138,9 @@ class Comment extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function afterFind()
+    public function afterFindEvent($event)
     {
-        $this->content = str_replace([
+        $event->sender->content = str_replace([
             ':mrgreen:',
             ':razz:',
             ':sad:',
@@ -180,11 +186,11 @@ class Comment extends \yii\db\ActiveRecord
             "<img src='{%URL%}evil{%EXT%}'>",
             "<img src='{%URL%}eek{%EXT%}'>",
             "<img src='{%URL%}exclaim{%EXT%}'>"
-        ], $this->content);
-        $this->content = str_replace([
+        ], $event->sender->content);
+        $event->sender->content = str_replace([
             '{%URL%}',
             '{%EXT%}'
-        ], [yii::$app->params['site']['url'] . '/static/images/smilies/icon_', '.gif'], $this->content);
+        ], [Yii::$app->params['site']['url'] . '/static/images/smilies/icon_', '.gif'], $event->sender->content);
 
     }
 

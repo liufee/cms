@@ -15,6 +15,7 @@ use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
+use Yii;
 use yii\data\ActiveDataProvider;
 
 class AdController extends \yii\web\Controller
@@ -25,7 +26,8 @@ class AdController extends \yii\web\Controller
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    $dataProvider = new ActiveDataProvider([
+                    $dataProvider = Yii::createObject([
+                        'class' => ActiveDataProvider::className(),
                         'query' => AdForm::find()->where(['type'=>AdForm::TYPE_AD])->orderBy('sort,id'),
                     ]);
                     return [

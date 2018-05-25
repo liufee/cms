@@ -8,7 +8,7 @@
 
 namespace backend\controllers;
 
-use yii;
+use Yii;
 use backend\models\search\AdminLogSearch;
 use backend\models\AdminLog;
 use backend\actions\IndexAction;
@@ -24,8 +24,9 @@ class LogController extends \yii\web\Controller
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    $searchModel = new AdminLogSearch();
-                    $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
+                    /** @var AdminLogSearch $searchModel */
+                    $searchModel = Yii::createObject( AdminLogSearch::className() );
+                    $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams());
                     return [
                         'dataProvider' => $dataProvider,
                         'searchModel' => $searchModel,

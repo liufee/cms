@@ -8,10 +8,18 @@
 
 namespace backend\models\form;
 
-use yii;
+use Yii;
 
 class BannerTypeForm extends \common\models\Options
 {
+
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_BEFORE_INSERT, [$this, 'beforeSaveEvent']);
+        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'beforeSaveEvent']);
+    }
+
     /**
      * @inheritdoc
      */
@@ -23,7 +31,7 @@ class BannerTypeForm extends \common\models\Options
                 ['name'],
                 'match',
                 'pattern' => '/^[a-zA-Z][0-9_]*/',
-                'message' => yii::t('app', 'Must begin with alphabet and can only includes alphabet,_,and number')
+                'message' => Yii::t('app', 'Must begin with alphabet and can only includes alphabet,_,and number')
             ],
             [['name', 'tips'], 'required'],
             [['value'], 'default', 'value' => ''],
@@ -33,14 +41,13 @@ class BannerTypeForm extends \common\models\Options
     public function attributeLabels()
     {
         $attributeLabels = parent::attributeLabels();
-        $attributeLabels['tips'] = yii::t('app', 'Description');
+        $attributeLabels['tips'] = Yii::t('app', 'Description');
         return $attributeLabels;
     }
 
-    public function beforeSave($insert)
+    public function beforeSaveEvent($event)
     {
-        $this->type = self::TYPE_BANNER;
-        return parent::beforeSave($insert);
+        $event->sender->type = self::TYPE_BANNER;
     }
 
 }

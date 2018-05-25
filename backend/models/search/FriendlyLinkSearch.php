@@ -8,7 +8,7 @@
 
 namespace backend\models\search;
 
-use yii;
+use Yii;
 use common\libs\Constants;
 use backend\behaviors\TimeSearchBehavior;
 use backend\components\search\SearchEvent;
@@ -38,12 +38,13 @@ class FriendlyLinkSearch extends \backend\models\FriendlyLink
 
     /**
      * @param $params
-     * @return ActiveDataProvider
+     * @return object|ActiveDataProvider
+     * @throws \yii\base\InvalidConfigException
      */
     public function search($params)
     {
         $query = FriendlyLink::find();
-        $dataProvider = yii::createObject([
+        $dataProvider = Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => $query,
             'sort' => [
@@ -68,7 +69,7 @@ class FriendlyLinkSearch extends \backend\models\FriendlyLink
                 $query->andWhere(['image' => '']);
             }
         }
-        $this->trigger(SearchEvent::BEFORE_SEARCH, yii::createObject(['class' => SearchEvent::className(), 'query'=>$query]));
+        $this->trigger(SearchEvent::BEFORE_SEARCH, Yii::createObject(['class' => SearchEvent::className(), 'query'=>$query]));
         return $dataProvider;
     }
 

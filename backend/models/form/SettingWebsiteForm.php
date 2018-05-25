@@ -5,6 +5,7 @@
  * Email: job@feehi.com
  * Created at: 2016-03-23 12:54
  */
+
 namespace backend\models\form;
 
 use yii;
@@ -43,18 +44,18 @@ class SettingWebsiteForm extends \common\models\Options
     public function attributeLabels()
     {
         return [
-            'website_title' => yii::t('app', 'Website Title'),
-            'website_email' => yii::t('app', 'Website Email'),
-            'website_language' => yii::t('app', 'Website Language'),
-            'website_icp' => yii::t('app', 'Icp Sn'),
-            'website_statics_script' => yii::t('app', 'Statics Script'),
-            'website_status' => yii::t('app', 'Website Status'),
-            'website_timezone' => yii::t('app', 'Website Timezone'),
-            'website_comment' => yii::t('app', 'Open Comment'),
-            'website_comment_need_verify' => yii::t('app', 'Open Comment Verify'),
-            'website_url' => yii::t('app', 'Website Url'),
-            'seo_keywords' => yii::t('app', 'Seo Keywords'),
-            'seo_description' => yii::t('app', 'Seo Description'),
+            'website_title' => Yii::t('app', 'Website Title'),
+            'website_email' => Yii::t('app', 'Website Email'),
+            'website_language' => Yii::t('app', 'Website Language'),
+            'website_icp' => Yii::t('app', 'Icp Sn'),
+            'website_statics_script' => Yii::t('app', 'Statics Script'),
+            'website_status' => Yii::t('app', 'Website Status'),
+            'website_timezone' => Yii::t('app', 'Website Timezone'),
+            'website_comment' => Yii::t('app', 'Open Comment'),
+            'website_comment_need_verify' => Yii::t('app', 'Open Comment Verify'),
+            'website_url' => Yii::t('app', 'Website Url'),
+            'seo_keywords' => Yii::t('app', 'Seo Keywords'),
+            'seo_description' => Yii::t('app', 'Seo Description'),
         ];
     }
 

@@ -44,7 +44,7 @@ $this->title = "Pages";
                     <!--seo设置start-->
                     <div class="col-md-5 droppable sortable ui-droppable ui-sortable" style="">
                         <div class="ibox-title">
-                            <h5><?= yii::t('app', 'Seo Setting') ?></h5>
+                            <h5><?= Yii::t('app', 'Seo Setting') ?></h5>
                         </div>
                         <div class="ibox-content">
                             <?= $form->field($model, 'seo_title', [
@@ -66,7 +66,7 @@ $this->title = "Pages";
 
                     <div class="col-md-5 droppable sortable ui-droppable ui-sortable" style="">
                         <div class="ibox-title">
-                            <h5><?= yii::t('app', 'Other') ?></h5>
+                            <h5><?= Yii::t('app', 'Other') ?></h5>
                         </div>
                         <div class="ibox-content">
                             <div class="row">

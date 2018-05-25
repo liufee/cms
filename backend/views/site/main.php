@@ -5,6 +5,7 @@
  * Email: job@feehi.com
  * Created at: 2016-03-31 14:17
  */
+
 use common\widgets\JsBlock;
 use yii\helpers\Url;
 
@@ -18,12 +19,12 @@ use yii\helpers\Url;
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <span class="label label-success pull-right"><?= Yii::t('app', 'Month') ?></span>
-                <h5><?= yii::t('app', 'Articles') ?></h5>
+                <h5><?= Yii::t('app', 'Articles') ?></h5>
             </div>
-            <div class="ibox-content openContab" href="<?=Url::to(['article/index'])?>" title="<?=yii::t('app', 'Articles')?>" style="cursor: pointer">
+            <div class="ibox-content openContab" href="<?=Url::to(['article/index'])?>" title="<?= Yii::t('app', 'Articles')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['ARTICLE'][0] ?></h1>
                 <div class="stat-percent font-bold text-success"><?= $statics['ARTICLE'][1] ?>% <i class="fa fa-bolt"></i></div>
-                <small><?= yii::t('app', 'Total') ?></small>
+                <small><?= Yii::t('app', 'Total') ?></small>
             </div>
         </div>
     </div>
@@ -31,12 +32,12 @@ use yii\helpers\Url;
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <span class="label label-info pull-right"><?= Yii::t('app', 'Today') ?></span>
-                <h5><?= yii::t('app', 'Comments') ?></h5>
+                <h5><?= Yii::t('app', 'Comments') ?></h5>
             </div>
-            <div class="ibox-content openContab" href="<?=Url::to(['comment/index'])?>" title="<?=yii::t('app', 'Comments')?>" style="cursor: pointer">
+            <div class="ibox-content openContab" href="<?=Url::to(['comment/index'])?>" title="<?= Yii::t('app', 'Comments')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['COMMENT'][0] ?></h1>
                 <div class="stat-percent font-bold text-info"><?= $statics['COMMENT'][1] ?>% <i class="fa fa-level-up"></i></div>
-                <small><?= yii::t('app', 'Total') ?></small>
+                <small><?= Yii::t('app', 'Total') ?></small>
             </div>
         </div>
     </div>
@@ -44,12 +45,12 @@ use yii\helpers\Url;
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <span class="label label-primary pull-right"><?= Yii::t('app', 'Month') ?></span>
-                <h5><?= yii::t('app', 'Users') ?></h5>
+                <h5><?= Yii::t('app', 'Users') ?></h5>
             </div>
-            <div class="ibox-content openContab" href="<?=Url::to(['user/index'])?>" title="<?=yii::t('app', 'Users')?>" style="cursor: pointer">
+            <div class="ibox-content openContab" href="<?=Url::to(['user/index'])?>" title="<?= Yii::t('app', 'Users')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['USER'][0] ?></h1>
                 <div class="stat-percent font-bold text-navy"><?= $statics['USER'][1] ?>% <i class="fa fa-level-up"></i></div>
-                <small><?= yii::t('app', 'Total') ?></small>
+                <small><?= Yii::t('app', 'Total') ?></small>
             </div>
         </div>
     </div>
@@ -57,12 +58,12 @@ use yii\helpers\Url;
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <span class="label label-success pull-right"><?= Yii::t('app', 'Month') ?></span>
-                <h5><?= yii::t('app', 'Friendly Links') ?></h5>
+                <h5><?= Yii::t('app', 'Friendly Links') ?></h5>
             </div>
-            <div class="ibox-content openContab" href="<?=Url::to(['friendly-link/index'])?>" title="<?=yii::t('app', 'Friendly Links')?>" style="cursor: pointer">
+            <div class="ibox-content openContab" href="<?=Url::to(['friendly-link/index'])?>" title="<?= Yii::t('app', 'Friendly Links')?>" style="cursor: pointer">
                 <h1 class="no-margins"><?= $statics['FRIEND_LINK'][0] ?></h1>
                 <div class="stat-percent font-bold text-info"><?= $statics['FRIEND_LINK'][1] ?>% <i class="fa fa-level-up"></i></div>
-                <small><?= yii::t('app', 'Total') ?></small>
+                <small><?= Yii::t('app', 'Total') ?></small>
             </div>
         </div>
     </div>
@@ -74,7 +75,7 @@ use yii\helpers\Url;
                 <div class="ibox-title">
                     <h5><?= Yii::t('app', 'Notify') ?></h5>
                     <div class="ibox-tools">
-                        <a target="_blank" href="http://api.feehi.com/cms"><?=yii::t('app', 'More')?></a>
+                        <a target="_blank" href="http://api.feehi.com/cms"><?= Yii::t('app', 'More')?></a>
                         <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                         <a class="close-link"><i class="fa fa-times"></i></a>
                     </div>
@@ -123,7 +124,7 @@ use yii\helpers\Url;
                             }
                         </style>
                         <li class="list-group-item">
-                            <span class="badge badge-primary">&nbsp;&nbsp;</span><strong>Feehi CMS</strong>: <?= yii::$app->getVersion() ?>
+                            <span class="badge badge-primary">&nbsp;&nbsp;</span><strong>Feehi CMS</strong>: <?= Yii::$app->getVersion() ?>
                         </li>
                         <li class="list-group-item ">
                             <span class="badge badge-info">&nbsp;&nbsp;</span> <strong>Web Server</strong>: <?= $info['OPERATING_ENVIRONMENT'] ?>
@@ -169,7 +170,7 @@ use yii\helpers\Url;
                             <?php if (PHP_OS == 'Linux') {
                                 echo $status['MEM']['NUM'];
                             } else {
-                                echo yii::t('app', 'Only supported linux system');
+                                echo Yii::t('app', 'Only supported linux system');
                             }
                             ?>
                         </small>
@@ -184,7 +185,7 @@ use yii\helpers\Url;
                             <?php if (PHP_OS == 'Linux') {
                                 echo $status['REAL_MEM']['NUM'];
                             } else {
-                                echo yii::t('app', 'Only supported linux system');
+                                echo Yii::t('app', 'Only supported linux system');
                             }
                             ?>
                         </small>
@@ -216,9 +217,9 @@ use yii\helpers\Url;
     <div class="col-sm-6">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5><?= yii::t('app', 'Latest Comments') ?></h5>
+                <h5><?= Yii::t('app', 'Latest Comments') ?></h5>
                 <div class="ibox-tools">
-                    <a class="openContab" title="<?=yii::t('app', 'Comments')?>" target="_blank" href="<?=Url::to(['comment/index'])?>"><?=yii::t('app', 'More')?></a>
+                    <a class="openContab" title="<?=Yii::t('app', 'Comments')?>" target="_blank" href="<?=Url::to(['comment/index'])?>"><?= Yii::t('app', 'More')?></a>
                     <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     <a class="close-link"><i class="fa fa-times"></i></a>
                 </div>
@@ -232,11 +233,11 @@ use yii\helpers\Url;
                             <div class="feed-element">
                                 <a class="pull-left"><img alt="image" class="img-circle" src="https://secure.gravatar.com/avatar/<?= md5($comment->email) ?>?s=50"></a>
                                 <div class="media-body ">
-                                    <small class="pull-right"><?= yii::$app->getFormatter()->asRelativeTime($comment->created_at) ?></small>
+                                    <small class="pull-right"><?= Yii::$app->getFormatter()->asRelativeTime($comment->created_at) ?></small>
                                     <strong><?= $comment->nickname ?></strong>
                                     <br>
-                                    <small class="text-muted"><?= yii::$app->getFormatter()->asDate($comment->created_at) ?> <?=yii::t('app', 'at')?> <a class="openContab" data-index="0" title="<?=yii::t('app',"Articles")?>" href="<?=Url::toRoute(['article/view-layer', 'id'=>$comment->article->id]) ?>"><?= $comment->article->title ?></a></small>
-                                    <div data-index="0" class="openContab well" href="<?=Url::toRoute(['comment/index']) ?>" title="<?=yii::t('app', 'Comments')?>" style="cursor: pointer">
+                                    <small class="text-muted"><?= Yii::$app->getFormatter()->asDate($comment->created_at) ?> <?= Yii::t('app', 'at')?> <a class="openContab" data-index="0" title="<?=yii::t('app',"Articles")?>" href="<?=Url::toRoute(['article/view-layer', 'id'=>$comment->article->id]) ?>"><?= $comment->article->title ?></a></small>
+                                    <div data-index="0" class="openContab well" href="<?=Url::toRoute(['comment/index']) ?>" title="<?= Yii::t('app', 'Comments')?>" style="cursor: pointer">
                                         <?= $comment->content ?>
                                     </div>
                                 </div>

@@ -8,7 +8,7 @@
 
 namespace backend\controllers;
 
-use yii;
+use Yii;
 use yii\helpers\FileHelper;
 
 
@@ -22,8 +22,8 @@ class ClearController extends \yii\web\Controller
      */
     public function actionBackend()
     {
-        FileHelper::removeDirectory(yii::getAlias('@runtime/cache'));
-        $paths = [yii::getAlias('@admin/assets'), yii::getAlias('@backend/web/assets')];
+        FileHelper::removeDirectory(Yii::getAlias('@runtime/cache'));
+        $paths = [Yii::getAlias('@admin/assets'), Yii::getAlias('@backend/web/assets')];
         foreach ($paths as $path) {
             $fp = opendir($path);
             while (false !== ($file = readdir($fp))) {
@@ -32,7 +32,7 @@ class ClearController extends \yii\web\Controller
                 }
             }
         }
-        Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+        Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
         return $this->render('clear');
     }
 
@@ -43,8 +43,8 @@ class ClearController extends \yii\web\Controller
      */
     public function actionFrontend()
     {
-        FileHelper::removeDirectory(yii::getAlias('@frontend/runtime/cache'));
-        $paths = [yii::getAlias('@frontend/web/assets')];
+        FileHelper::removeDirectory(Yii::getAlias('@frontend/runtime/cache'));
+        $paths = [Yii::getAlias('@frontend/web/assets')];
         foreach ($paths as $path) {
             $fp = opendir($path);
             while (false !== ($file = readdir($fp))) {
@@ -53,7 +53,7 @@ class ClearController extends \yii\web\Controller
                 }
             }
         }
-        Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+        Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
         return $this->render('clear');
     }
 

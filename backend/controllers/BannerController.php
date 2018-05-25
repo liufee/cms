@@ -9,7 +9,7 @@
 namespace backend\controllers;
 
 use backend\actions\ViewAction;
-use yii;
+use Yii;
 use backend\actions\IndexAction;
 use backend\actions\SortAction;
 use backend\models\form\BannerTypeForm;
@@ -30,7 +30,8 @@ class BannerController extends \yii\web\Controller
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    $dataProvider = new ActiveDataProvider([
+                    $dataProvider = Yii::createObject([
+                        'class' => ActiveDataProvider::className(),
                         'query' => BannerTypeForm::find()->where(['type' => Options::TYPE_BANNER]),
                     ]);
                     return [
@@ -54,10 +55,12 @@ class BannerController extends \yii\web\Controller
             'banners' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    $id = yii::$app->getRequest()->get('id', null);
-                    $form = new BannerForm();
+                    $id = Yii::$app->getRequest()->get('id', null);
+                    /** @var BannerForm $form */
+                    $form = yii::createObject( BannerForm::className() );
                     $banners = $form->getBanners($id);
-                    $dataProvider = new ArrayDataProvider([
+                    $dataProvider = Yii::createObject( [
+                        'class' => ArrayDataProvider::className(),
                         'allModels' => $banners,
                     ]);
                     return [

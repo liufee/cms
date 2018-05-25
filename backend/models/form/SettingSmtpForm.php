@@ -8,7 +8,7 @@
 
 namespace backend\models\form;
 
-use yii;
+use Yii;
 use common\models\Options;
 
 class SettingSmtpForm extends \common\models\Options
@@ -32,12 +32,12 @@ class SettingSmtpForm extends \common\models\Options
     public function attributeLabels()
     {
         return [
-            'smtp_host' => yii::t('app', 'SMTP Host'),
-            'smtp_port' => yii::t('app', 'SMTP Port'),
-            'smtp_username' => yii::t('app', 'SMTP Username'),
-            'smtp_nickname' => yii::t('app', 'Sender'),
-            'smtp_password' => yii::t('app', 'SMTP Password'),
-            'smtp_encryption' => yii::t('app', 'Encryption'),
+            'smtp_host' => Yii::t('app', 'SMTP Host'),
+            'smtp_port' => Yii::t('app', 'SMTP Port'),
+            'smtp_username' => Yii::t('app', 'SMTP Username'),
+            'smtp_nickname' => Yii::t('app', 'Sender'),
+            'smtp_password' => Yii::t('app', 'SMTP Password'),
+            'smtp_encryption' => Yii::t('app', 'Encryption'),
         ];
     }
 
@@ -87,7 +87,7 @@ class SettingSmtpForm extends \common\models\Options
                 $model->value = $this->$name;
                 $result = $model->save(false);
             } else {
-                $model = new Options();
+                $model = Yii::createObject( Options::className() );
                 $model->name = $name;
                 $model->value = $this->$name;
                 $result = $model->save(false);
@@ -106,7 +106,7 @@ class SettingSmtpForm extends \common\models\Options
      */
     public static function getComponentConfig()
     {
-        $config = new self();
+        $config = Yii::createObject( self::className() );
         $config->getSmtpConfig();
         return [
             'useFileTransport' => false,

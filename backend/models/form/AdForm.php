@@ -9,7 +9,7 @@
 namespace backend\models\form;
 
 use common\helpers\Util;
-use yii;
+use Yii;
 use common\libs\Constants;
 
 class AdForm extends \Common\models\Options
@@ -26,23 +26,33 @@ class AdForm extends \Common\models\Options
 
     public $updated_at;
 
+
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_AFTER_FIND, [$this, 'afterFindEvent']);
+        $this->on(self::EVENT_BEFORE_INSERT, [$this, 'beforeSaveEvent']);
+        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'beforeSaveEvent']);
+        $this->on(self::EVENT_AFTER_DELETE, [$this, 'afterDeleteEvent']);
+    }
+
     /**
      * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
-            'name' => yii::t('app', 'Sign'),
-            'input_type' => yii::t('app', 'Ad Type'),
-            'tips' => yii::t('app', 'Description'),
-            'ad' => yii::t('app', 'Ad'),
-            'link' => yii::t('app', 'Jump Link'),
-            'desc' => yii::t('app', 'Ad Explain'),
-            'autoload' => yii::t('app', 'Status'),
-            'sort' => yii::t('app', 'Sort'),
-            'target' => yii::t('app', 'Target'),
-            'created_at' => yii::t('app', 'Created At'),
-            'updated_at' => yii::t('app', 'Updated At'),
+            'name' => Yii::t('app', 'Sign'),
+            'input_type' => Yii::t('app', 'Ad Type'),
+            'tips' => Yii::t('app', 'Description'),
+            'ad' => Yii::t('app', 'Ad'),
+            'link' => Yii::t('app', 'Jump Link'),
+            'desc' => Yii::t('app', 'Ad Explain'),
+            'autoload' => Yii::t('app', 'Status'),
+            'sort' => Yii::t('app', 'Sort'),
+            'target' => Yii::t('app', 'Target'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
 
@@ -57,7 +67,7 @@ class AdForm extends \Common\models\Options
                 ['name'],
                 'match',
                 'pattern' => '/^[a-zA-Z][0-9_]*/',
-                'message' => yii::t('app', 'Must begin with alphabet and can only includes alphabet,_,and number')
+                'message' => Yii::t('app', 'Must begin with alphabet and can only includes alphabet,_,and number')
             ],
             [['name', 'tips', 'input_type'], 'required'],
             [['sort', 'autoload'], 'integer'],
@@ -66,55 +76,54 @@ class AdForm extends \Common\models\Options
         ];
     }
 
-    public function beforeSave($insert)
+    public function beforeSaveEvent($event)
     {
-        $this->type = self::TYPE_AD;
-        if( $this->input_type == Constants::AD_TEXT ){
-            $oldInput = $this->getOldAttribute('input_type');
+        $event->sender->type = self::TYPE_AD;
+        if( $event->sender->input_type == Constants::AD_TEXT ){
+            $oldInput = $event->sender->getOldAttribute('input_type');
             if( $oldInput != Constants::AD_TEXT ){//删除旧广告文件
-                $text = $this->ad;
-                Util::handleModelSingleFileUploadAbnormal($this, 'ad', '@uploads/setting/ad/', $this->getOldAttribute('ad'), ['deleteOldFile'=>true]);
-                $this->ad = $text;
+                $text = $event->sender->ad;
+                Util::handleModelSingleFileUploadAbnormal($event->sender, 'ad', '@uploads/setting/ad/', $event->sender->getOldAttribute('ad'), ['deleteOldFile'=>true]);
+                $event->sender->ad = $text;
             }
         }else {
-            Util::handleModelSingleFileUploadAbnormal($this, 'ad', '@uploads/setting/ad/', $this->getOldAttribute('ad'));
+            Util::handleModelSingleFileUploadAbnormal($event->sender, 'ad', '@uploads/setting/ad/', $event->sender->getOldAttribute('ad'));
         }
 
         $value = [
-            'ad' => $this->ad,
-            'link' => $this->link,
-            'target' => $this->target,
-            'desc' => $this->desc,
-            'created_at' => $insert ? time() : $this->created_at,
+            'ad' => $event->sender->ad,
+            'link' => $event->sender->link,
+            'target' => $event->sender->target,
+            'desc' => $event->sender->desc,
+            'created_at' => $event->sender->getIsNewRecord() ? time() : $event->sender->created_at,
             'updated_at' => time(),
         ];
-        $this->value = json_encode($value);
-        return parent::beforeSave($insert);
+        $event->sender->value = json_encode($value);
     }
 
-    public function afterFind()
+    public function afterFindEvent($event)
     {
-        $value = json_decode($this->value);
-        if( $this->input_type !== Constants::AD_TEXT){
+        $value = json_decode($event->sender->value);
+        if( $event->sender->input_type !== Constants::AD_TEXT){
             /** @var $cdn \feehi\cdn\TargetAbstract */
-            $cdn = yii::$app->get('cdn');
-            $this->ad = $cdn->getCdnUrl($value->ad);
+            $cdn = Yii::$app->get('cdn');
+            $event->sender->ad = $cdn->getCdnUrl($value->ad);
         }else{
-            $this->ad = $value->ad;
+            $event->sender->ad = $value->ad;
         }
-        $this->link = $value->link;
-        $this->desc = $value->desc;
-        $this->target = $value->target;
-        $this->updated_at = $value->updated_at;
-        $this->created_at = $value->created_at;
-        $this->setOldAttributes([
-            'id' => $this->id,
-            'name' => $this->name,
-            'value' => $this->value,
-            'input_type' => $this->input_type,
-            'autoload' => $this->autoload,
-            'tips' => $this->tips,
-            'sort' => $this->sort,
+        $event->sender->link = $value->link;
+        $event->sender->desc = $value->desc;
+        $event->sender->target = $value->target;
+        $event->sender->updated_at = $value->updated_at;
+        $event->sender->created_at = $value->created_at;
+        $event->sender->setOldAttributes([
+            'id' => $event->sender->id,
+            'name' => $event->sender->name,
+            'value' => $event->sender->value,
+            'input_type' => $event->sender->input_type,
+            'autoload' => $event->sender->autoload,
+            'tips' => $event->sender->tips,
+            'sort' => $event->sender->sort,
             'ad' => $value->ad,
             'link' => $value->link,
             'desc' => $value->desc,
@@ -124,10 +133,10 @@ class AdForm extends \Common\models\Options
         ]);
     }
 
-    public function afterDelete()
+    public function afterDeleteEvent($event)
     {
-        if( $this->input_type != Constants::AD_TEXT ){
-            $file = yii::getAlias('@frontend/web') . $this->ad;
+        if( $event->sender->input_type != Constants::AD_TEXT ){
+            $file = Yii::getAlias('@frontend/web') . $event->sender->ad;
             if( file_exists($file) && is_file($file) ) unlink($file);
         }
     }

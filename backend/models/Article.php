@@ -8,7 +8,7 @@
 
 namespace backend\models;
 
-use yii;
+use Yii;
 use common\helpers\Util;
 use common\libs\Constants;
 use common\models\meta\ArticleMetaTag;
@@ -25,15 +25,27 @@ class Article extends \common\models\Article
      */
     public $content = null;
 
+
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_AFTER_VALIDATE, [$this, 'afterValidateEvent']);
+        $this->on(self::EVENT_BEFORE_INSERT, [$this, 'beforeSaveEvent']);
+        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'beforeSaveEvent']);
+        $this->on(self::EVENT_AFTER_INSERT, [$this, 'afterSaveEvent']);
+        $this->on(self::EVENT_AFTER_UPDATE, [$this, 'afterSaveEvent']);
+        $this->on(self::EVENT_BEFORE_DELETE, [$this, 'beforeDeleteEvent']);
+        $this->on(self::EVENT_AFTER_FIND, [$this, 'afterFindEvent']);
+    }
+
     /**
      * @inheritdoc
      */
-    public function afterValidate()
+    public function afterValidateEvent($event)
     {
-        parent::afterValidate();
         if($this->visibility == Constants::ARTICLE_VISIBILITY_SECRET){//加密文章需要设置密码
-            if( empty( $this->password ) ){
-                $this->addError('password', yii::t('app', "Secret article must set a password"));
+            if( empty( $event->sender->password ) ){
+                $event->sender->addError('password', Yii::t('app', "Secret article must set a password"));
             }
         }
     }
@@ -41,49 +53,48 @@ class Article extends \common\models\Article
     /**
      * @inheritdoc
      */
-    public function beforeSave($insert)
+    public function beforeSaveEvent($event)
     {
-        Util::handleModelSingleFileUpload($this, 'thumb', $insert, '@thumb', ['thumbSizes'=>self::$thumbSizes]);
+        $insert = $event->sender->getIsNewRecord();
+        Util::handleModelSingleFileUpload($event->sender, 'thumb', $insert, '@thumb', ['thumbSizes'=>self::$thumbSizes]);
         $this->seo_keywords = str_replace('，', ',', $this->seo_keywords);
         if ($insert) {
-            $this->author_id = yii::$app->getUser()->getIdentity()->getId();
-            $this->author_name = yii::$app->getUser()->getIdentity()->username;
+            $this->author_id = Yii::$app->getUser()->getIdentity()->getId();
+            $this->author_name = Yii::$app->getUser()->getIdentity()->username;
         }
-        return parent::beforeSave($insert);
     }
 
     /**
      * @inheritdoc
      */
-    public function afterSave($insert, $changedAttributes)
+    public function afterSaveEvent($event)
     {
         $articleMetaTag = new ArticleMetaTag();
-        $articleMetaTag->setArticleTags($this->id, $this->tag);
-        if ($insert) {
-            $contentModel = new ArticleContent();
-            $contentModel->aid = $this->id;
+        $articleMetaTag->setArticleTags($event->sender->id, $event->sender->tag);
+        if ($event->sender->getIsNewRecord()) {
+            $contentModel = yii::createObject( ArticleContent::className() );
+            $contentModel->aid = $event->sender->id;
         } else {
-            if ($this->content === null) {
+            if ($event->sender->content === null) {
                 return;
             }
-            $contentModel = ArticleContent::findOne(['aid' => $this->id]);
+            $contentModel = ArticleContent::findOne(['aid' => $event->sender->id]);
             if ($contentModel == null) {
-                $contentModel = new ArticleContent();
-                $contentModel->aid = $this->id;
+                $contentModel = yii::createObject( ArticleContent::className() );
+                $contentModel->aid = $event->sender->id;
             }
         }
-        $contentModel->content = $this->content;
+        $contentModel->content = $event->sender->content;
         $contentModel->save();
-        parent::afterSave($insert, $changedAttributes);
     }
 
     /**
      * @inheritdoc
      */
-    public function beforeDelete()
+    public function beforeDeleteEvent($event)
     {
         Comment::deleteAll(['aid' => $this->id]);
-        if (($articleContentModel = ArticleContent::find()->where(['aid' => $this->id])->one()) != null) {
+        if (($articleContentModel = ArticleContent::find()->where(['aid' => $event->sender->id])->one()) != null) {
             $articleContentModel->delete();
         }
         return true;
@@ -92,17 +103,16 @@ class Article extends \common\models\Article
     /**
      * @inheritdoc
      */
-    public function afterFind()
+    public function afterFindEvent($event)
     {
-        parent::afterFind();
-        $this->tag = call_user_func(function(){
+        $event->sender->tag = call_user_func(function()use($event){
             $tags = '';
-            foreach ($this->articleTags as $tag) {
+            foreach ($event->sender->articleTags as $tag) {
                 $tags .= $tag->value . ',';
             }
             return rtrim($tags, ',');
         });
-        $this->content = ArticleContent::findOne(['aid' => $this->id])['content'];
+        $event->sender->content = ArticleContent::findOne(['aid' => $this->id])['content'];
     }
 
 }

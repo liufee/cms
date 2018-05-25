@@ -8,7 +8,7 @@
 
 namespace backend\controllers;
 
-use yii;
+use Yii;
 use backend\actions\ViewAction;
 use backend\models\search\FriendlyLinkSearch;
 use backend\models\FriendlyLink;
@@ -30,9 +30,9 @@ class FriendlyLinkController extends \yii\web\Controller
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    $searchModel = yii::createObject( FriendlyLinkSearch::className() );
+                    $searchModel = Yii::createObject( FriendlyLinkSearch::className() );
                     /** @var $searchModel FriendlyLinkSearch */
-                    $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
+                    $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams());
                     return [
                         'dataProvider' => $dataProvider,
                         'searchModel' => $searchModel,

@@ -8,7 +8,7 @@
 
 namespace common\models;
 
-use feehi\db\ActiveRecord;
+use yii\db\ActiveRecord;
 use Yii;
 
 /**
@@ -29,6 +29,13 @@ class FriendlyLink extends ActiveRecord
 
     const DISPLAY_YES = 1;
     const DISPLAY_NO = 0;
+
+
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_AFTER_FIND, [$this, 'afterFindEvent']);
+    }
 
     /**
      * @inheritdoc
@@ -71,10 +78,10 @@ class FriendlyLink extends ActiveRecord
         ];
     }
 
-    public function customAfterFind($event)
+    public function afterFindEvent($event)
     {
         /** @var $cdn \feehi\cdn\TargetAbstract $cdn */
-        $cdn = yii::$app->get('cdn');
+        $cdn = Yii::$app->get('cdn');
         $event->sender->image = $cdn->getCdnUrl($event->sender->image);
     }
 }

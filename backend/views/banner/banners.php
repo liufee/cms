@@ -23,8 +23,8 @@ use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
 $this->title = "Banners";
-$this->params['breadcrumbs'][] = ['label' => yii::t('app', 'Banner Types'), 'url' => Url::to(['index'])];
-$this->params['breadcrumbs'][] =  yii::t('app', 'Banner') . ' (' . $bannerType->tips . "-{$bannerType->name})";
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Banner Types'), 'url' => Url::to(['index'])];
+$this->params['breadcrumbs'][] =  Yii::t('app', 'Banner') . ' (' . $bannerType->tips . "-{$bannerType->name})";
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -34,25 +34,25 @@ $this->params['breadcrumbs'][] =  yii::t('app', 'Banner') . ' (' . $bannerType->
                 <?= Bar::widget([
                     'buttons' => [
                         'create' => function () {
-                            return Html::a('<i class="fa fa-plus"></i> ' . yii::t('app', 'Create'), Url::to(['banner-create', 'id' => yii::$app->getRequest()->get('id')]), [
-                                'title' => yii::t('app', 'Create'),
+                            return Html::a('<i class="fa fa-plus"></i> ' . Yii::t('app', 'Create'), Url::to(['banner-create', 'id' => Yii::$app->getRequest()->get('id')]), [
+                                'title' => Yii::t('app', 'Create'),
                                 'data-pjax' => '0',
                                 'class' => 'btn btn-white btn-sm',
                             ]);
                         },
                         'update' => function () {
-                            return Html::a('<i class="fa  fa-sort-numeric-desc"></i> ' . yii::t('app', 'Sort'), Url::to(['banner-sort',  'id' => yii::$app->getRequest()->get('id')]), [
-                                'title' => yii::t('app', 'Sort'),
+                            return Html::a('<i class="fa  fa-sort-numeric-desc"></i> ' . Yii::t('app', 'Sort'), Url::to(['banner-sort',  'id' => Yii::$app->getRequest()->get('id')]), [
+                                'title' => Yii::t('app', 'Sort'),
                                 'data-pjax' => '0',
                                 'param-sign'=>'sign',
                                 'class' => 'btn btn-white btn-sm sort',
                             ]);
                         },
                         'delete' => function () {
-                            return Html::a('<i class="fa fa-trash-o"></i> ' . yii::t('app', 'Delete'), Url::to(['banner-delete', 'id' => yii::$app->getRequest()->get('id')]), [
-                                'title' => yii::t('app', 'Delete'),
+                            return Html::a('<i class="fa fa-trash-o"></i> ' . Yii::t('app', 'Delete'), Url::to(['banner-delete', 'id' => Yii::$app->getRequest()->get('id')]), [
+                                'title' => Yii::t('app', 'Delete'),
                                 'data-pjax' => '0',
-                                'data-confirm' => yii::t('app', 'Really to delete?'),
+                                'data-confirm' => Yii::t('app', 'Really to delete?'),
                                 'param-sign'=>'sign',
                                 'class' => 'btn btn-white btn-sm multi-operate',
                             ]);
@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] =  yii::t('app', 'Banner') . ' (' . $bannerType->
                         ],
                         [
                             'attribute' => 'img',
-                            'label' => yii::t('app', 'Image'),
+                            'label' => Yii::t('app', 'Image'),
                             'format' => 'raw',
                             'value' => function($model){
                                 return "<img style='max-width: 200px;max-height: 100px' src='{$model->img}'>";
@@ -79,23 +79,23 @@ $this->params['breadcrumbs'][] =  yii::t('app', 'Banner') . ' (' . $bannerType->
                         ],
                         [
                             'attribute' => 'link',
-                            'label' => yii::t('app', 'Jump Link'),
+                            'label' => Yii::t('app', 'Jump Link'),
                         ],
                         [
                             'attribute' => 'desc',
-                            'label' => yii::t('app', 'Description'),
+                            'label' => Yii::t('app', 'Description'),
                         ],
                         [
                             'class' => SortColumn::className(),
-                            'label' => yii::t('app', 'Sort'),
+                            'label' => Yii::t('app', 'Sort'),
                             'primaryKey' => function($model){
                                 return $model->sign;
                             },
-                            'action' => Url::to(['banner-sort', 'id'=>yii::$app->getRequest()->get('id')]),
+                            'action' => Url::to(['banner-sort', 'id'=>Yii::$app->getRequest()->get('id')]),
                         ],
                         [
                             'class' => StatusColumn::className(),
-                            'label' => yii::t('app', 'Status'),
+                            'label' => Yii::t('app', 'Status'),
                             'url' => function($model){
                                 return Url::to(['banner-update', 'id' => $model['id'], 'sign'=>$model['sign']]);
                             }
@@ -105,8 +105,8 @@ $this->params['breadcrumbs'][] =  yii::t('app', 'Banner') . ' (' . $bannerType->
                             'width' => '190px',
                             'buttons' => [
                                 'view-layer' => function ($url, $model, $key, $index, $gridView) {
-                                    return Html::a('<i class="fa fa-folder"></i> ' . Yii::t('yii', 'View'), 'javascript:void(0)', [
-                                        'title' => Yii::t('yii', 'View'),
+                                    return Html::a('<i class="fa fa-folder"></i> ' . Yii::t('Yii', 'View'), 'javascript:void(0)', [
+                                        'title' => Yii::t('Yii', 'View'),
                                         'onclick' => "viewLayer('" . Url::toRoute(['banner-view-layer', 'id'=>$model->id, 'sign'=>$model->sign]) . "',$(this))",
                                         'data-pjax' => '0',
                                         'class' => 'btn btn-white btn-sm',

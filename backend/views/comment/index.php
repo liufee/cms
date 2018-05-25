@@ -22,7 +22,7 @@ use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
 $this->title = 'Comments';
-$this->params['breadcrumbs'][] = yii::t('app', 'Comments');
+$this->params['breadcrumbs'][] = Yii::t('app', 'Comments');
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = yii::t('app', 'Comments');
                         ],
                         [
                             'attribute' => 'articleTitle',
-                            'label' => yii::t('app', 'Article Title'),
+                            'label' => Yii::t('app', 'Article Title'),
                             'value' => function ($model) {
                                 return $model->article->title;
                             }

@@ -22,6 +22,13 @@ use yii\behaviors\TimestampBehavior;
  */
 class AdminLog extends \yii\db\ActiveRecord
 {
+
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_AFTER_FIND, [$this, 'afterFindEvent']);
+    }
+
     /**
      * @inheritdoc
      */
@@ -71,9 +78,9 @@ class AdminLog extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
-    public function afterFind()
+    public function afterFindEvent($event)
     {
-        $this->description = str_replace([
+        $event->sender->description = str_replace([
             '{{%ADMIN_USER%}}',
             '{{%BY%}}',
             '{{%CREATED%}}',
@@ -82,17 +89,17 @@ class AdminLog extends \yii\db\ActiveRecord
             '{{%ID%}}',
             '{{%RECORD%}}'
         ], [
-            yii::t('app', 'Admin user'),
-            yii::t('app', 'through'),
-            yii::t('app', 'created'),
-            yii::t('app', 'updated'),
-            yii::t('app', 'deleted'),
-            yii::t('app', 'id'),
-            yii::t('app', 'record')
-        ], $this->description);
-        $this->description = preg_replace_callback('/\d{10}/', function ($matches) {
+            Yii::t('app', 'Admin user'),
+            Yii::t('app', 'through'),
+            Yii::t('app', 'created'),
+            Yii::t('app', 'updated'),
+            Yii::t('app', 'deleted'),
+            Yii::t('app', 'id'),
+            Yii::t('app', 'record')
+        ], $event->sender->description);
+        $event->sender->description = preg_replace_callback('/\d{10}/', function ($matches) {
             return date('Y-m-d H:i:s', $matches[0]);
-        }, $this->description);
+        }, $event->sender->description);
     }
 
     /**

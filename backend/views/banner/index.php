@@ -18,7 +18,7 @@ use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 
 $this->title = "Banner Types";
-$this->params['breadcrumbs'][] = yii::t('app', 'Banner Types');
+$this->params['breadcrumbs'][] = Yii::t('app', 'Banner Types');
 ?>
 <div class="row">
     <div class="col-sm-12">

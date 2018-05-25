@@ -11,8 +11,8 @@ use yii\helpers\Url;
  * @var $model backend\models\Article
  */
 $this->params['breadcrumbs'] = [
-    ['label' => yii::t('app', 'Articles'), 'url' => Url::to(['index'])],
-    ['label' => yii::t('app', 'Create') . yii::t('app', 'Articles')],
+    ['label' => Yii::t('app', 'Articles'), 'url' => Url::to(['index'])],
+    ['label' => Yii::t('app', 'Create') . Yii::t('app', 'Articles')],
 ];
 ?>
 <?= $this->render('_form', [

@@ -13,9 +13,9 @@
 use yii\helpers\Url;
 
 $this->params['breadcrumbs'] = [
-    ['label' => yii::t('app', 'Banner Types'), 'url' => Url::to(['index'])],
-    ['label' => yii::t('app', 'Banner') . ' (' . $model->bannerType->tips . "-{$model->bannerType->name})", 'url' => Url::to(['banners', 'id'=>$model->bannerType->id])],
-    ['label' => yii::t('app', 'Update') . yii::t('app', 'Banner')],
+    ['label' => Yii::t('app', 'Banner Types'), 'url' => Url::to(['index'])],
+    ['label' => Yii::t('app', 'Banner') . ' (' . $model->bannerType->tips . "-{$model->bannerType->name})", 'url' => Url::to(['banners', 'id'=>$model->bannerType->id])],
+    ['label' => Yii::t('app', 'Update') . Yii::t('app', 'Banner')],
 ];
 
 ?>

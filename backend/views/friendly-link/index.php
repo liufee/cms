@@ -23,7 +23,7 @@ use backend\grid\ActionColumn;
 use common\libs\Constants;
 
 $this->title = "Friendly Links";
-$this->params['breadcrumbs'][] = yii::t('app', 'Friendly Links');
+$this->params['breadcrumbs'][] = Yii::t('app', 'Friendly Links');
 ?>
 <div class="row">
     <div class="col-sm-12">
