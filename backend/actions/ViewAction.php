@@ -9,7 +9,7 @@
 namespace backend\actions;
 
 
-use yii;
+use Yii;
 use yii\web\BadRequestHttpException;
 
 class ViewAction extends \yii\base\Action
@@ -34,7 +34,7 @@ class ViewAction extends \yii\base\Action
     {
         /* @var $model \yii\db\ActiveRecord */
         $model = call_user_func([$this->modelClass, 'findOne'], $id);
-        if (! $model) throw new BadRequestHttpException(yii::t('app', "Cannot find model by $id"));
+        if (! $model) throw new BadRequestHttpException(Yii::t('app', "Cannot find model by $id"));
         $model->setScenario( $this->scenario );
         return $this->controller->render($this->viewFile, [
             'model' => $model,

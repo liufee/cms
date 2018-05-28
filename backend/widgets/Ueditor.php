@@ -37,7 +37,6 @@
 
 namespace backend\widgets;
 
-use yii;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\helpers\Json;
@@ -49,7 +48,7 @@ use backend\assets\UeditorAsset;
  *
  * @package crazydb\ueditor
  */
-class Ueditor extends yii\widgets\InputWidget
+class Ueditor extends \yii\widgets\InputWidget
 {
     /**
      * 生成的ueditor对象的名称，默认为editor。

@@ -8,7 +8,7 @@
 
 namespace backend\grid;
 
-use yii;
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\widgets\LinkPager;
 use yii\grid\GridViewAsset;
@@ -56,10 +56,10 @@ class GridView extends \yii\grid\GridView
             }
         };
         $this->pagerOptions = [
-            'firstPageLabel' => yii::t('app', 'first'),
-            'lastPageLabel' => yii::t('app', 'last'),
-            'prevPageLabel' => yii::t('app', 'previous'),
-            'nextPageLabel' => yii::t('app', 'next'),
+            'firstPageLabel' => Yii::t('app', 'first'),
+            'lastPageLabel' => Yii::t('app', 'last'),
+            'prevPageLabel' => Yii::t('app', 'previous'),
+            'nextPageLabel' => Yii::t('app', 'next'),
             'options' => [
                 'class' => 'pagination',
             ]

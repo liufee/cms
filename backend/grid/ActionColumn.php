@@ -33,7 +33,7 @@ class ActionColumn extends \yii\grid\ActionColumn
     public function init()
     {
         parent::init();
-        $this->header = yii::t('app', $this->header);
+        $this->header = Yii::t('app', $this->header);
         if (! isset($this->headerOptions['width'])) {
             $this->headerOptions['width'] = $this->width;
         }

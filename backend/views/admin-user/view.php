@@ -29,9 +29,9 @@ use yii\widgets\DetailView;
             'attribute' => 'status',
             'value' => function ($model) {
                 if($model->status == User::STATUS_ACTIVE){
-                    return yii::t('app', 'Normal');
+                    return Yii::t('app', 'Normal');
                 }else if( $model->status == User::STATUS_DELETED ) {
-                    return yii::t('app', 'Disabled');
+                    return Yii::t('app', 'Disabled');
                 }
             }
         ],

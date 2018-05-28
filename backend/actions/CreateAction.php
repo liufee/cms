@@ -8,7 +8,7 @@
 namespace backend\actions;
 
 use Closure;
-use yii;
+use Yii;
 
 class CreateAction extends \yii\base\Action
 {
@@ -32,12 +32,12 @@ class CreateAction extends \yii\base\Action
      */
     public function run()
     {
-        /* @var $model yii\db\ActiveRecord */
+        /* @var $model \yii\db\ActiveRecord */
         $model = new $this->modelClass;
         $model->setScenario( $this->scenario );
-        if (yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(yii::$app->getRequest()->post()) && $model->save()) {
-                yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+        if (Yii::$app->getRequest()->getIsPost()) {
+            if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
                 return $this->controller->redirect($this->successRedirect);
             } else {
                 $errorReasons = $model->getErrors();
@@ -46,7 +46,7 @@ class CreateAction extends \yii\base\Action
                     $err .= $errorReason[0] . '<br>';
                 }
                 $err = rtrim($err, '<br>');
-                yii::$app->getSession()->setFlash('error', $err);
+                Yii::$app->getSession()->setFlash('error', $err);
             }
         }
         $model->loadDefaultValues();

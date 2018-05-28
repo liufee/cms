@@ -7,7 +7,7 @@
  */
 
 if (Yii::$app->getSession()->hasFlash('success')) {
-    $successTitle = addslashes( yii::t('app', 'Success') );
+    $successTitle = addslashes( Yii::t('app', 'Success') );
     $info = addslashes( Yii::$app->getSession()->getFlash('success') );
     $str = <<<EOF
        toastr.options = {
@@ -29,7 +29,7 @@ EOF;
     $this->registerJs($str);
 }
 if (Yii::$app->getSession()->hasFlash('error')) {
-    $errorTitle = addslashes( yii::t('app', 'Error') );
+    $errorTitle = addslashes( Yii::t('app', 'Error') );
     $info = addslashes( Yii::$app->getSession()->getFlash('error') );
     $str = <<<EOF
        toastr.options = {

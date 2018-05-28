@@ -5,9 +5,10 @@
  * Email: job@feehi.com
  * Created at: 2017-03-15 21:16
  */
+
 namespace frontend\models\form;
 
-use yii;
+use Yii;
 use common\models\User;
 use yii\base\Model;
 
@@ -36,7 +37,7 @@ class SignupForm extends Model
                 'username',
                 'unique',
                 'targetClass' => User::className(),
-                'message' => yii::t('frontend', 'This username has already been taken')
+                'message' => Yii::t('frontend', 'This username has already been taken')
             ],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
@@ -48,7 +49,7 @@ class SignupForm extends Model
                 'email',
                 'unique',
                 'targetClass' => User::className(),
-                'message' => yii::t('frontend', 'This email address has already been taken')
+                'message' => Yii::t('frontend', 'This email address has already been taken')
             ],
 
             ['password', 'required'],
@@ -62,15 +63,15 @@ class SignupForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => yii::t('app', 'Username'),
-            'email' => yii::t('app', 'Email'),
-            'old_password' => yii::t('app', 'Old Password'),
-            'password' => yii::t('app', 'Password'),
-            'repassword' => yii::t('app', 'Repeat Password'),
-            'avatar' => yii::t('app', 'Avatar'),
-            'created_at' => yii::t('app', 'Created At'),
-            'updated_at' => yii::t('app', 'Updated At'),
-            'rememberMe' => yii::t('frontend', 'Remember Me'),
+            'username' => Yii::t('app', 'Username'),
+            'email' => Yii::t('app', 'Email'),
+            'old_password' => Yii::t('app', 'Old Password'),
+            'password' => Yii::t('app', 'Password'),
+            'repassword' => Yii::t('app', 'Repeat Password'),
+            'avatar' => Yii::t('app', 'Avatar'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'rememberMe' => Yii::t('frontend', 'Remember Me'),
         ];
     }
 

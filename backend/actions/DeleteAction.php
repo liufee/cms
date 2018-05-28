@@ -8,7 +8,7 @@
 
 namespace backend\actions;
 
-use yii;
+use Yii;
 use yii\web\BadRequestHttpException;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\Response;
@@ -47,22 +47,22 @@ class DeleteAction extends \yii\base\Action
      */
     public function run()
     {
-        if (yii::$app->getRequest()->getIsPost()) {//只允许post删除
-            $id = yii::$app->getRequest()->get($this->paramSign, null);
-            $param = yii::$app->getRequest()->post($this->paramSign, null);
+        if (Yii::$app->getRequest()->getIsPost()) {//只允许post删除
+            $id = Yii::$app->getRequest()->get($this->paramSign, null);
+            $param = Yii::$app->getRequest()->post($this->paramSign, null);
             if($param !== null){
                 $id = $param;
             }
 
-            if( yii::$app->getRequest()->getIsAjax() ){
-                yii::$app->getResponse()->format = $this->ajaxResponseFormat;
+            if( Yii::$app->getRequest()->getIsAjax() ){
+                Yii::$app->getResponse()->format = $this->ajaxResponseFormat;
             }
             if (! $id) {
-                throw new BadRequestHttpException(yii::t('app', "{$this->paramSign} doesn't exist"));
+                throw new BadRequestHttpException(Yii::t('app', "{$this->paramSign} doesn't exist"));
             }
             $ids = explode(',', $id);
             $errors = [];
-            /* @var $model yii\db\ActiveRecord */
+            /* @var $model \yii\db\ActiveRecord */
             $model = null;
             foreach ($ids as $one) {
                 $model = call_user_func([$this->modelClass, 'findOne'], $one);
@@ -74,7 +74,7 @@ class DeleteAction extends \yii\base\Action
                 }
             }
             if (count($errors) == 0) {
-                if( !yii::$app->getRequest()->getIsAjax() ) return $this->controller->redirect(yii::$app->getRequest()->headers['referer']);
+                if( !Yii::$app->getRequest()->getIsAjax() ) return $this->controller->redirect(Yii::$app->getRequest()->headers['referer']);
                 return [];
             } else {
                 $err = '';
@@ -90,7 +90,7 @@ class DeleteAction extends \yii\base\Action
                 throw new UnprocessableEntityHttpException($err);
             }
         } else {
-            throw new MethodNotAllowedHttpException(yii::t('app', "Delete must be POST http method"));
+            throw new MethodNotAllowedHttpException(Yii::t('app', "Delete must be POST http method"));
         }
     }
 

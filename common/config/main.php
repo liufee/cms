@@ -97,7 +97,7 @@ $config = [
         ],
     ],
 ];
-$install = yii::getAlias('@common/config/conf/db.php');
+$install = Yii::getAlias('@common/config/conf/db.php');
 if( file_exists($install) ){
     return yii\helpers\ArrayHelper::merge($config, (require $install));
 }

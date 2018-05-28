@@ -10,7 +10,6 @@ namespace backend\models\search;
 
 use backend\behaviors\TimeSearchBehavior;
 use backend\components\search\SearchEvent;
-use common\models\Article as CommonArticle;
 use backend\models\Article;
 use common\models\Category;
 use Yii;
@@ -67,7 +66,8 @@ class ArticleSearch extends Article
      */
     public function search($params, $type = self::ARTICLE)
     {
-        $query = CommonArticle::find()->select([])->where(['type' => $type])->with('category');
+        $query = Article::find()->select([])->where(['type' => $type])->with('category');
+        /** @var $dataProvider ActiveDataProvider */
         $dataProvider = Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => $query,
@@ -78,7 +78,6 @@ class ArticleSearch extends Article
                 ]
             ]
         ]);
-        /** @var $dataProvider ActiveDataProvider */
         $this->load($params);
         if (! $this->validate()) {
             return $dataProvider;

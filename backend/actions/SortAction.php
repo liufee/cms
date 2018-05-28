@@ -8,7 +8,7 @@
 
 namespace backend\actions;
 
-use yii;
+use Yii;
 use yii\web\Response;
 use yii\web\UnprocessableEntityHttpException;
 
@@ -25,15 +25,15 @@ class SortAction extends \yii\base\Action
      */
     public function run()
     {
-        if (yii::$app->getRequest()->getIsPost()) {
-            $post = yii::$app->getRequest()->post();
-            if( isset( $post[yii::$app->getRequest()->csrfParam] ) ) {
-                unset($post[yii::$app->getRequest()->csrfParam]);
+        if (Yii::$app->getRequest()->getIsPost()) {
+            $post = Yii::$app->getRequest()->post();
+            if( isset( $post[Yii::$app->getRequest()->csrfParam] ) ) {
+                unset($post[Yii::$app->getRequest()->csrfParam]);
             }
             $err = '';
             foreach ($post as $field => $array) {
                 foreach ($array as $key => $value) {
-                    /* @var $model yii\db\ActiveRecord */
+                    /* @var $model \yii\db\ActiveRecord */
                     $model = call_user_func([$this->modelClass, 'findOne'], $key);
                     $model->setScenario($this->scenario);
                     if ($model->$field != $value) {
@@ -52,8 +52,8 @@ class SortAction extends \yii\base\Action
                 }
             }
             $err = rtrim($err, ';');
-            if (yii::$app->getRequest()->getIsAjax()) {
-                yii::$app->getResponse()->format = Response::FORMAT_JSON;
+            if (Yii::$app->getRequest()->getIsAjax()) {
+                Yii::$app->getResponse()->format = Response::FORMAT_JSON;
                 if( !empty($err) ){
                     throw new UnprocessableEntityHttpException($err);
                 }else{
@@ -61,7 +61,7 @@ class SortAction extends \yii\base\Action
                 }
             } else {
                 if( !empty($err) ){
-                    yii::$app->getSession()->setFlash('error', $err);
+                    Yii::$app->getSession()->setFlash('error', $err);
                 }
                 return $this->controller->goBack();
             }

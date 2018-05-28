@@ -33,9 +33,9 @@ class Util
     {
         $upload = UploadedFile::getInstance($model, $field);
         /* @var $cdn \feehi\cdn\TargetInterface */
-        $cdn = yii::$app->get('cdn');
+        $cdn = Yii::$app->get('cdn');
         if ($upload !== null) {
-            $uploadPath = yii::getAlias($uploadPath);
+            $uploadPath = Yii::getAlias($uploadPath);
             if( strpos(strrev($uploadPath), '/') !== 0 ) $uploadPath .= '/';
             if (! FileHelper::createDirectory($uploadPath)) {
                 $model->addError($field, "Create directory failed " . $uploadPath);
@@ -43,21 +43,21 @@ class Util
             }
             $fullName = isset($options['filename']) ? $uploadPath . $options['filename'] : $uploadPath . date('YmdHis') . '_' . uniqid() . '.' . $upload->getExtension();
             if (! $upload->saveAs($fullName)) {
-                $model->addError($field, yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', ucfirst($field))]) . ': ' . $fullName);
+                $model->addError($field, Yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => Yii::t('app', ucfirst($field))]) . ': ' . $fullName);
                 return false;
             }
-            $model->$field = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
+            $model->$field = str_replace(Yii::getAlias('@frontend/web'), '', $fullName);
             $cdn->upload($fullName, $model->$field);
             if(isset($options['thumbSizes'])) self::thumbnails($fullName, $options['thumbSizes']);
             if( !$insert ){
-                $file = yii::getAlias('@frontend/web') . $model->getOldAttribute($field);
+                $file = Yii::getAlias('@frontend/web') . $model->getOldAttribute($field);
                 if( file_exists($file) && is_file($file) ) unlink($file);
                 if( $cdn->exists( $model->getOldAttribute($field) ) ) $cdn->delete($model->getOldAttribute($field));
                 if(isset($options['thumbSizes'])) self::deleteThumbnails($file, $options['thumbSizes']);
             }
         } else {
             if( $model->$field === '0' ){//删除
-                $file = yii::getAlias('@frontend/web') . $model->getOldAttribute($field);
+                $file = Yii::getAlias('@frontend/web') . $model->getOldAttribute($field);
                 if( file_exists($file) && is_file($file) ) unlink($file);
                 if( $cdn->exists( $model->getOldAttribute($field) ) ) $cdn->delete($model->getOldAttribute($field));
                 if(isset($options['thumbSizes'])) self::deleteThumbnails($file, $options['thumbSizes']);
@@ -89,9 +89,9 @@ class Util
         if( !isset($options['deleteOldFile']) ) $options['deleteOldFile'] = false;//删除旧文件
         $upload = UploadedFile::getInstance($model, $field);
         /* @var $cdn \feehi\cdn\TargetInterface */
-        $cdn = yii::$app->get('cdn');
+        $cdn = Yii::$app->get('cdn');
         if ($upload !== null) {
-            $uploadPath = yii::getAlias($uploadPath);
+            $uploadPath = Yii::getAlias($uploadPath);
             if( strpos(strrev($uploadPath), '/') !== 0 ) $uploadPath .= '/';
             if (! FileHelper::createDirectory($uploadPath)) {
                 $model->addError($field, "Create directory failed " . $uploadPath);
@@ -99,21 +99,21 @@ class Util
             }
             $fullName = isset($options['filename']) ? $uploadPath . $options['filename'] : $uploadPath . date('YmdHis') . '_' . uniqid() . '.' . $upload->getExtension();
             if (! $upload->saveAs($fullName)) {
-                $model->addError($field, yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', ucfirst($field))]) . ': ' . $fullName);
+                $model->addError($field, Yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => yii::t('app', ucfirst($field))]) . ': ' . $fullName);
                 return false;
             }
-            $model->$field = str_replace(yii::getAlias('@frontend/web'), '', $fullName);
+            $model->$field = str_replace(Yii::getAlias('@frontend/web'), '', $fullName);
             $cdn->upload($fullName, $model->$field);
             if(isset($options['thumbSizes'])) self::thumbnails($fullName, $options['thumbSizes']);
             if( $options['successDeleteOld'] && $oldFullname ){
-                $file = yii::getAlias('@frontend/web') . $oldFullname;
+                $file = Yii::getAlias('@frontend/web') . $oldFullname;
                 if( file_exists($file) && is_file($file) ) unlink($file);
                 if( $cdn->exists( $oldFullname ) ) $cdn->delete($oldFullname);
                 if(isset($options['thumbSizes'])) self::deleteThumbnails($file, $options['thumbSizes']);
             }
         } else {
             if( $model->$field === '0' ){//删除
-                $file = yii::getAlias('@frontend/web') . $oldFullname;
+                $file = Yii::getAlias('@frontend/web') . $oldFullname;
                 if( file_exists($file) && is_file($file) ) unlink($file);
                 if( $cdn->exists( $oldFullname ) ) $cdn->delete($oldFullname);
                 if(isset($options['thumbSizes'])) self::deleteThumbnails($file, $options['thumbSizes']);
@@ -123,7 +123,7 @@ class Util
             }
         }
         if( $options['deleteOldFile'] ){
-            $file = yii::getAlias('@frontend/web') . $oldFullname;
+            $file = Yii::getAlias('@frontend/web') . $oldFullname;
             if( file_exists($file) && is_file($file) ) unlink($file);
             if( $cdn->exists( $oldFullname ) ) $cdn->delete($oldFullname);
             if(isset($options['thumbSizes'])) self::deleteThumbnails($file, $options['thumbSizes']);
@@ -142,8 +142,8 @@ class Util
             $thumbFullName = self::getThumbName($fullName, $info['w'], $info['h']);
             Image::thumbnail($fullName, $info['w'], $info['h'])->save($thumbFullName);
             /** @var $cdn \feehi\cdn\TargetInterface */
-            $cdn = yii::$app->get('cdn');
-            $cdn->upload($thumbFullName, str_replace(yii::getAlias('@frontend/web'), '', $thumbFullName));
+            $cdn = Yii::$app->get('cdn');
+            $cdn->upload($thumbFullName, str_replace(Yii::getAlias('@frontend/web'), '', $thumbFullName));
         }
     }
 
@@ -152,14 +152,15 @@ class Util
      *
      * @param $fullName string 原图图片路径
      * @param $thumbSizes array 二维数组 如 [["w"=>110,"height"=>"20"],["w"=>200,"h"=>"30"]]则生成两张缩量图，分别为宽110高20和宽200高30
+     * @param $deleteOrigin bool 是否删除原图
      */
     public static function deleteThumbnails($fullName, array $thumbSizes, $deleteOrigin=false)
     {
-        foreach ($thumbSizes as $info){
+       foreach ($thumbSizes as $info){
             $thumbFullName = self::getThumbName($fullName, $info['w'], $info['h']);
             if( file_exists($thumbFullName) && is_file($thumbFullName) ) unlink($thumbFullName);
-            $cdn = yii::$app->get('cdn');
-            $cdn->delete(str_replace(yii::getAlias("@frontend/web"), '', $thumbFullName));
+            $cdn = Yii::$app->get('cdn');
+            $cdn->delete(str_replace(Yii::getAlias("@frontend/web"), '', $thumbFullName));
         }
         if( $deleteOrigin ){
             file_exists($fullName) && unlink($fullName);

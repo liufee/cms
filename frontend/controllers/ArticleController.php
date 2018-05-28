@@ -8,7 +8,7 @@
 
 namespace frontend\controllers;
 
-use yii;
+use Yii;
 use common\libs\Constants;
 use frontend\models\form\ArticlePasswordForm;
 use yii\base\Event;
@@ -36,9 +36,9 @@ class ArticleController extends Controller
                 'class' => HttpCache::className(),
                 'only' => ['view'],
                 'lastModified' => function ($action, $params) {
-                    $id = yii::$app->getRequest()->get('id');
+                    $id = Yii::$app->getRequest()->get('id');
                     $model = Article::findOne(['id' => $id, 'type' => Article::ARTICLE, 'status' => Article::ARTICLE_PUBLISHED]);
-                    if( $model === null ) throw new NotFoundHttpException(yii::t("frontend", "Article id {id} is not exists", ['id' => $id]));
+                    if( $model === null ) throw new NotFoundHttpException(Yii::t("frontend", "Article id {id} is not exists", ['id' => $id]));
                     Article::updateAllCounters(['scan_count' => 1], ['id' => $id]);
                     if($model->visibility == Constants::ARTICLE_VISIBILITY_PUBLIC) return $model->updated_at;
                 },
@@ -56,15 +56,15 @@ class ArticleController extends Controller
     public function actionIndex($cat = '')
     {
         if ($cat == '') {
-            $cat = yii::$app->getRequest()->getPathInfo();
+            $cat = Yii::$app->getRequest()->getPathInfo();
         }
         $where = ['type' => Article::ARTICLE, 'status' => Article::ARTICLE_PUBLISHED];
         if ($cat != '' && $cat != 'index') {
-            if ($cat == yii::t('app', 'uncategoried')) {
+            if ($cat == Yii::t('app', 'uncategoried')) {
                 $where['cid'] = 0;
             } else {
                 if (! $category = Category::findOne(['alias' => $cat])) {
-                    throw new NotFoundHttpException(yii::t('frontend', 'None category named {name}', ['name' => $cat]));
+                    throw new NotFoundHttpException(Yii::t('frontend', 'None category named {name}', ['name' => $cat]));
                 }
                 $descendants = Category::getDescendants($category['id']);
                 if( empty($descendants) ) {
@@ -89,7 +89,7 @@ class ArticleController extends Controller
         ]);
         return $this->render('index', [
             'dataProvider' => $dataProvider,
-            'type' => ( !empty($cat) ? yii::t('frontend', 'Category {cat} articles', ['cat'=>$cat]) : yii::t('frontend', 'Latest Articles') ),
+            'type' => ( !empty($cat) ? Yii::t('frontend', 'Category {cat} articles', ['cat'=>$cat]) : Yii::t('frontend', 'Latest Articles') ),
         ]);
     }
 
@@ -103,7 +103,7 @@ class ArticleController extends Controller
     public function actionView($id)
     {
         $model = Article::findOne(['id' => $id, 'type' => Article::ARTICLE, 'status' => Article::ARTICLE_PUBLISHED]);
-        if( $model === null ) throw new NotFoundHttpException(yii::t("frontend", "Article id {id} is not exists", ['id' => $id]));
+        if( $model === null ) throw new NotFoundHttpException(Yii::t("frontend", "Article id {id} is not exists", ['id' => $id]));
         $prev = Article::find()
             ->where(['cid' => $model->cid])
             ->andWhere(['>', 'id', $id])
@@ -127,22 +127,22 @@ class ArticleController extends Controller
             ->all();
         switch ($model->visibility){
             case Constants::ARTICLE_VISIBILITY_COMMENT://评论可见
-                if( yii::$app->getUser()->getIsGuest() ){
-                    $result = Comment::find()->where(['aid'=>$model->id, 'ip'=>yii::$app->getRequest()->getUserIP()])->one();
+                if( Yii::$app->getUser()->getIsGuest() ){
+                    $result = Comment::find()->where(['aid'=>$model->id, 'ip'=>Yii::$app->getRequest()->getUserIP()])->one();
                 }else{
-                    $result = Comment::find()->where(['aid'=>$model->id, 'uid'=>yii::$app->getUser()->getId()])->one();
+                    $result = Comment::find()->where(['aid'=>$model->id, 'uid'=>Yii::$app->getUser()->getId()])->one();
                 }
                 if( $result === null ) {
-                    $model->articleContent->content = "<p style='color: red'>" . yii::t('frontend', "Only commented user can visit this article") . "</p>";
+                    $model->articleContent->content = "<p style='color: red'>" . Yii::t('frontend', "Only commented user can visit this article") . "</p>";
                 }
                 break;
             case Constants::ARTICLE_VISIBILITY_SECRET://加密文章
-                $authorized = yii::$app->getSession()->get("article_password_" . $model->id, null);
+                $authorized = Yii::$app->getSession()->get("article_password_" . $model->id, null);
                 if( $authorized === null ) $this->redirect(Url::toRoute(['password', 'id'=>$id]));
                 break;
             case Constants::ARTICLE_VISIBILITY_LOGIN://登陆可见
-                if( yii::$app->getUser()->getIsGuest() ) {
-                    $model->articleContent->content = "<p style='color: red'>" . yii::t('frontend', "Only login user can visit this article") . "</p>";
+                if( Yii::$app->getUser()->getIsGuest() ) {
+                    $model->articleContent->content = "<p style='color: red'>" . Yii::t('frontend', "Only login user can visit this article") . "</p>";
                 }
                 break;
         }
@@ -180,16 +180,16 @@ class ArticleController extends Controller
      */
     public function actionComment()
     {
-        if (yii::$app->getRequest()->getIsPost()) {
+        if (Yii::$app->getRequest()->getIsPost()) {
             $commentModel = new Comment();
-            if ($commentModel->load(yii::$app->getRequest()->post()) && $commentModel->save()) {
+            if ($commentModel->load(Yii::$app->getRequest()->post()) && $commentModel->save()) {
                 $avatar = 'https://secure.gravatar.com/avatar?s=50';
                 if ($commentModel->email != '') {
                     $avatar = "https://secure.gravatar.com/avatar/" . md5($commentModel->email) . "?s=50";
                 }
                 $tips = '';
-                if (yii::$app->feehi->website_comment_need_verify) {
-                    $tips = "<span class='c-approved'>" . yii::t('frontend', 'Comment waiting for approved.') . "</span><br />";
+                if (Yii::$app->feehi->website_comment_need_verify) {
+                    $tips = "<span class='c-approved'>" . Yii::t('frontend', 'Comment waiting for approved.') . "</span><br />";
                 }
                 $commentModel->afterFind();
                 return "
@@ -197,7 +197,7 @@ class ArticleController extends Controller
                     <div class='c-avatar'><img src='{$avatar}' class='avatar avatar-108' height='50' width='50'>
                         <div class='c-main' id='div-comment-{$commentModel->id}'><p>{$commentModel->content}</p>
                             {$tips}
-                            <div class='c-meta'><span class='c-author'><a href='{$commentModel->website_url}' rel='external nofollow' class='url'>{$commentModel->nickname}</a></span>  (" . yii::t('frontend', 'a minutes ago') . ")</div>
+                            <div class='c-meta'><span class='c-author'><a href='{$commentModel->website_url}' rel='external nofollow' class='url'>{$commentModel->nickname}</a></span>  (" . Yii::t('frontend', 'a minutes ago') . ")</div>
                         </div>
                     </div>";
             } else {
@@ -236,7 +236,7 @@ class ArticleController extends Controller
      */
     public function actionLike()
     {
-        $aid = yii::$app->getRequest()->post("aid");
+        $aid = Yii::$app->getRequest()->post("aid");
         $model = new ArticleMetaLike();
         $model->setLike($aid);
         return $model->getLikeCount($aid);
@@ -250,22 +250,22 @@ class ArticleController extends Controller
      */
     public function actionRss()
     {
-        $xml['channel']['title'] = yii::$app->feehi->website_title;
-        $xml['channel']['description'] = yii::$app->feehi->seo_description;
-        $xml['channel']['lin'] = yii::$app->getUrlManager()->getHostInfo();
-        $xml['channel']['generator'] = yii::$app->getUrlManager()->getHostInfo();
+        $xml['channel']['title'] = Yii::$app->feehi->website_title;
+        $xml['channel']['description'] = Yii::$app->feehi->seo_description;
+        $xml['channel']['lin'] = Yii::$app->getUrlManager()->getHostInfo();
+        $xml['channel']['generator'] = Yii::$app->getUrlManager()->getHostInfo();
         $models = Article::find()->limit(10)->where(['status'=>Article::ARTICLE_PUBLISHED, 'type'=>Article::ARTICLE])->orderBy('id desc')->all();
         foreach ($models as $model){
             $xml['channel']['item'][] = [
                 'title' => $model->title,
                 'link' => Url::to(['article/view', 'id'=>$model->id]),
                 'pubData' => date('Y-m-d H:i:s', $model->created_at),
-                'source' => yii::$app->feehi->website_title,
+                'source' => Yii::$app->feehi->website_title,
                 'author' => $model->author_name,
                 'description' => $model->summary,
             ];
         }
-        yii::configure(yii::$app->getResponse(), [
+        Yii::configure(Yii::$app->getResponse(), [
             'formatters' => [
                 Response::FORMAT_XML => [
                     'class' => XmlResponseFormatter::className(),
@@ -275,7 +275,7 @@ class ArticleController extends Controller
                 ]
             ]
         ]);
-        yii::$app->getResponse()->format = Response::FORMAT_XML;
+        Yii::$app->getResponse()->format = Response::FORMAT_XML;
         return $xml;
     }
 

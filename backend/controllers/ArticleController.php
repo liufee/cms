@@ -27,8 +27,8 @@ class ArticleController extends \yii\web\Controller
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    $searchModel = Yii::createObject( ArticleSearch::className() );
                     /** @var $searchModel ArticleSearch */
+                    $searchModel = Yii::createObject( ArticleSearch::className() );
                     $dataProvider = $searchModel->search( Yii::$app->getRequest()->getQueryParams() );
                     return [
                         'dataProvider' => $dataProvider,

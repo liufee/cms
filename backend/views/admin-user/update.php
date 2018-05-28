@@ -8,15 +8,15 @@
 use yii\helpers\Url;
 
 $this->params['breadcrumbs'] = [
-    ['label' => yii::t('app', 'Admin Users'), 'url' => Url::to(['index'])],
-    ['label' => yii::t('app', 'Update') . yii::t('app', 'Admin Users')],
+    ['label' => Yii::t('app', 'Admin Users'), 'url' => Url::to(['index'])],
+    ['label' => Yii::t('app', 'Update') . Yii::t('app', 'Admin Users')],
 ];
 /**
  * @var $model backend\models\User
  */
 ?>
 <?php
-if (yii::$app->controller->action->id == 'update') {
+if (Yii::$app->controller->action->id == 'update') {
     echo $this->render('_form', [
         'model' => $model,
     ]);

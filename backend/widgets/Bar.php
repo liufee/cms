@@ -8,7 +8,7 @@
 
 namespace backend\widgets;
 
-use yii;
+use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -59,8 +59,8 @@ class Bar extends Widget
     {
         if (! isset($this->buttons['refresh'])) {
             $this->buttons['refresh'] = function () {
-                return Html::a('<i class="fa fa-refresh"></i> ' . yii::t('app', 'Refresh'), Url::to(['refresh']), [
-                    'title' => yii::t('app', 'Refresh'),
+                return Html::a('<i class="fa fa-refresh"></i> ' . Yii::t('app', 'Refresh'), Url::to(['refresh']), [
+                    'title' => Yii::t('app', 'Refresh'),
                     'data-pjax' => '0',
                     'class' => 'btn btn-white btn-sm refresh',
                 ]);
@@ -69,8 +69,8 @@ class Bar extends Widget
 
         if (! isset($this->buttons['create'])) {
             $this->buttons['create'] = function () {
-                return Html::a('<i class="fa fa-plus"></i> ' . yii::t('app', 'Create'), Url::to(['create']), [
-                    'title' => yii::t('app', 'Create'),
+                return Html::a('<i class="fa fa-plus"></i> ' . Yii::t('app', 'Create'), Url::to(['create']), [
+                    'title' => Yii::t('app', 'Create'),
                     'data-pjax' => '0',
                     'class' => 'btn btn-white btn-sm',
                 ]);
@@ -79,10 +79,10 @@ class Bar extends Widget
 
         if (! isset($this->buttons['delete'])) {
             $this->buttons['delete'] = function () {
-                return Html::a('<i class="fa fa-trash-o"></i> ' . yii::t('app', 'Delete'), Url::to(['delete']), [
-                    'title' => yii::t('app', 'Delete'),
+                return Html::a('<i class="fa fa-trash-o"></i> ' . Yii::t('app', 'Delete'), Url::to(['delete']), [
+                    'title' => Yii::t('app', 'Delete'),
                     'data-pjax' => '0',
-                    'data-confirm' => yii::t('app', 'Really to delete?'),
+                    'data-confirm' => Yii::t('app', 'Really to delete?'),
                     'class' => 'btn btn-white btn-sm multi-operate',
                 ]);
             };

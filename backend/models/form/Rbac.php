@@ -9,11 +9,11 @@ namespace backend\models\form;
 
 use backend\components\CustomLog;
 use yii\base\Event;
-use yii;
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
-class Rbac extends yii\base\Model
+class Rbac extends \yii\base\Model
 {
     public $name;
 
@@ -53,7 +53,7 @@ class Rbac extends yii\base\Model
                 ['route'],
                 'match',
                 'pattern' => '/^[\/].*/',
-                'message' => yii::t('app', yii::t('app', 'Must begin with "/" like "/module/controller/action" format')),
+                'message' => Yii::t('app', Yii::t('app', 'Must begin with "/" like "/module/controller/action" format')),
                 'on' => 'permission'
             ],
 
@@ -73,25 +73,25 @@ class Rbac extends yii\base\Model
     public function attributeLabels()
     {
         return [
-            "route" => yii::t('app', 'Route'),
-            "method" => yii::t('app', 'HTTP Method'),
-            "description" => yii::t('app', 'Description'),
-            "group" => yii::t('app', 'Group'),
-            "category" => yii::t('app', 'Category'),
-            "sort" => yii::t('app', 'Sort'),
-            "name" => yii::t('app', 'Role'),
-            "permissions" => yii::t('app', 'Permissions'),
-            "roles" => yii::t('app', 'Role'),
+            "route" => Yii::t('app', 'Route'),
+            "method" => Yii::t('app', 'HTTP Method'),
+            "description" => Yii::t('app', 'Description'),
+            "group" => Yii::t('app', 'Group'),
+            "category" => Yii::t('app', 'Category'),
+            "sort" => Yii::t('app', 'Sort'),
+            "name" => Yii::t('app', 'Role'),
+            "permissions" => Yii::t('app', 'Permissions'),
+            "roles" => Yii::t('app', 'Role'),
         ];
     }
 
     public function createPermission()
     {
         $this->name = $this->route . ':' . $this->method;
-        $authManager = yii::$app->getAuthManager();
+        $authManager = Yii::$app->getAuthManager();
         if ($authManager->getPermission($this->name) !== null) {
-            $this->addError('route', yii::t('app', 'Permission exists'));
-            $this->addError('method', yii::t('app', 'Permission exists'));
+            $this->addError('route', Yii::t('app', 'Permission exists'));
+            $this->addError('method', Yii::t('app', 'Permission exists'));
             return false;
         }
         $permission = $authManager->createPermission($this->name);
@@ -115,12 +115,12 @@ class Rbac extends yii\base\Model
         $oldModel = clone $this;
         $oldModel->fillModel($name);
         $this->name = $this->route . ':' . $this->method;
-        $authManager = yii::$app->getAuthManager();
+        $authManager = Yii::$app->getAuthManager();
         $permission = $authManager->getPermission($name);
         if( $permission->name != $name ){//修改权限名称
             if( $authManager->getPermission($name) !== null ){
-                $this->addError('route', yii::t('app', 'Permission exists'));
-                $this->addError('method', yii::t('app', 'Permission exists'));
+                $this->addError('route', Yii::t('app', 'Permission exists'));
+                $this->addError('method', Yii::t('app', 'Permission exists'));
                 return false;
             }
         }
@@ -143,7 +143,7 @@ class Rbac extends yii\base\Model
 
     public function deletePermission()
     {
-        $authManager = yii::$app->getAuthManager();
+        $authManager = Yii::$app->getAuthManager();
         $permission = $authManager->getPermission($this->name);
         if( $authManager->remove($permission) ){
             Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_DELETE, new CustomLog([
@@ -156,9 +156,9 @@ class Rbac extends yii\base\Model
 
     public function createRole()
     {
-        $authManager = yii::$app->getAuthManager();
+        $authManager = Yii::$app->getAuthManager();
         if ($authManager->getRole($this->name) !== null) {
-            $this->addError('name', yii::t('app', 'Role exists'));
+            $this->addError('name', Yii::t('app', 'Role exists'));
             return false;
         }
         $role = $authManager->createRole($this->name);
@@ -189,11 +189,11 @@ class Rbac extends yii\base\Model
         $oldModel = clone $this;
         $oldModel->fillModel($name);
 
-        $authManager = yii::$app->getAuthManager();
+        $authManager = Yii::$app->getAuthManager();
         $role = $authManager->getRole($name);
         if( $role->name != $this->name ){//修改角色名称
             if( $authManager->getRole($this->name) !== null ){
-                $this->addError('name', yii::t('app', 'Role exists'));
+                $this->addError('name', Yii::t('app', 'Role exists'));
                 return false;
             }
         }
@@ -235,7 +235,7 @@ class Rbac extends yii\base\Model
 
     public function deleteRole()
     {
-        $authManager = yii::$app->getAuthManager();
+        $authManager = Yii::$app->getAuthManager();
         $role = $authManager->getRole($this->name);
         if ($authManager->remove($role)) {
             Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_DELETE, new CustomLog([
@@ -249,7 +249,7 @@ class Rbac extends yii\base\Model
 
     public function getPermissionsByGroup($type='index')
     {
-        $authManager = yii::$app->getAuthManager();
+        $authManager = Yii::$app->getAuthManager();
         $fillDatas = [];
         $originPermissions = $authManager->getPermissions();
 
@@ -288,7 +288,7 @@ class Rbac extends yii\base\Model
 
     public function getRoles()
     {
-        $authManager = yii::$app->getAuthManager();
+        $authManager = Yii::$app->getAuthManager();
         $originRoles = $authManager->getRoles();
 
         $fillDatas = [];
@@ -313,7 +313,7 @@ class Rbac extends yii\base\Model
 
     public function fillModel($name)
     {
-        $authManager = yii::$app->getAuthManager();
+        $authManager = Yii::$app->getAuthManager();
         if( $this->getScenario() == 'permission' ){
             $permission = $authManager->getPermission($name);
             if( $permission === null ) throw new NotFoundHttpException("Cannot find permission $name");

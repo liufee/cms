@@ -8,17 +8,25 @@
 
 namespace frontend\models;
 
-use yii;
+use Yii;
 use common\helpers\Util;;
 
 class User extends \common\models\User
 {
 
-    public $password;
+    public function init()
+    {
+        parent::init();
+        $this->on(self::EVENT_BEFORE_DELETE, [$this, 'beforeDeleteEvent']);
+    }
 
-    public $repassword;
-
-    public $old_password;
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%user}}';
+    }
 
     /**
      * @inheritdoc
@@ -43,6 +51,7 @@ class User extends \common\models\User
     public function scenarios()
     {
         return [
+            'default' => ['username', 'email', 'password', 'avatar', 'repassword', 'status'],
             'create' => ['username', 'email', 'password', 'avatar', 'repassword', 'status'],
             'update' => ['username', 'email', 'password', 'repassword', 'avatar', 'status'],
             'self-update' => ['username', 'email', 'password', 'repassword', 'old_password', 'avatar'],
@@ -55,23 +64,15 @@ class User extends \common\models\User
     public function attributeLabels()
     {
         return [
-            'username' => yii::t('app', 'Username'),
-            'email' => yii::t('app', 'Email'),
-            'old_password' => yii::t('app', 'Old Password'),
-            'password' => yii::t('app', 'Password'),
-            'repassword' => yii::t('app', 'Repeat Password'),
-            'avatar' => yii::t('app', 'Avatar'),
-            'status' => yii::t('app', 'Status'),
-            'created_at' => yii::t('app', 'Created At'),
-            'updated_at' => yii::t('app', 'Updated At'),
-        ];
-    }
-
-    public static function getStatuses()
-    {
-        return [
-            self::STATUS_ACTIVE => yii::t('app', 'Normal'),
-            self::STATUS_DELETED => yii::t('app', 'Disabled'),
+            'username' => Yii::t('app', 'Username'),
+            'email' => Yii::t('app', 'Email'),
+            'old_password' => Yii::t('app', 'Old Password'),
+            'password' => Yii::t('app', 'Password'),
+            'repassword' => Yii::t('app', 'Repeat Password'),
+            'avatar' => Yii::t('app', 'Avatar'),
+            'status' => Yii::t('app', 'Status'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
 
@@ -110,6 +111,13 @@ class User extends \common\models\User
         }
         Util::handleModelSingleFileUpload($this, 'avatar', $insert, '@frontend/web/uploads/avatar/');
         return true;
+    }
+
+    public function beforeDeleteEvent($event)
+    {
+        if( !empty( $event->sender->avatar ) ){
+            Util::deleteThumbnails(Yii::getAlias('@frontend/web') . $event->sender->avatar, [], true);
+        }
     }
 
 }

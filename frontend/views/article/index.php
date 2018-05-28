@@ -21,7 +21,7 @@ use frontend\assets\IndexAsset;
 use yii\data\ArrayDataProvider;
 
 IndexAsset::register($this);
-$this->title = yii::$app->feehi->website_title;
+$this->title = Yii::$app->feehi->website_title;
 ?>
 <div class="content-wrap">
     <div class="content">
@@ -36,7 +36,7 @@ $this->title = yii::$app->feehi->website_title;
                 'dataProvider' => new ArrayDataProvider([
                     'allModels' => Article::find()->limit(1)->where(['flag_headline'=>1])->limit(4)->with('category')->orderBy("sort asc")->all(),
                 ]),
-                'layout' => "<div class='tip'><h4>" . yii::t('frontend', 'Well-choosen') . "</h4></div>
+                'layout' => "<div class='tip'><h4>" . Yii::t('frontend', 'Well-choosen') . "</h4></div>
                                 <ul class=\"dd-list\">
                                     {items}
                                 </ul>

@@ -34,7 +34,7 @@ $this->title = "Roles";
                 <?= $form->field($model, 'sort')->textInput() ?>
                 <div class="hr-line-dashed"></div>
                 <div class="form-group">
-                    <span class="col-sm-2 control-label checkbox checkbox-success"><?= Html::checkbox("", false, ['id'=>'permission-all','class'=>'chooseAll'])?><label for='permission-all'><h4><?=yii::t('app', 'Permissions')?></h4></label></span>
+                    <span class="col-sm-2 control-label checkbox checkbox-success"><?= Html::checkbox("", false, ['id'=>'permission-all','class'=>'chooseAll'])?><label for='permission-all'><h4><?=Yii::t('app', 'Permissions')?></h4></label></span>
                     <div class="col-sm-10">
                         <?php
                         foreach ($model->getPermissionsByGroup('form') as $key => $value){

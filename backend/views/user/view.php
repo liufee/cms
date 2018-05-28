@@ -5,6 +5,7 @@
  * Email: job@feehi.com
  * Created at: 2018-02-24 13:38
  */
+
 use frontend\models\User;
 use yii\widgets\DetailView;
 
@@ -29,9 +30,9 @@ use yii\widgets\DetailView;
             'attribute' => 'status',
             'value' => function ($model) {
                 if($model->status == User::STATUS_ACTIVE){
-                    return yii::t('app', 'Normal');
+                    return Yii::t('app', 'Normal');
                 }else if( $model->status == User::STATUS_DELETED ) {
-                    return yii::t('app', 'Disabled');
+                    return Yii::t('app', 'Disabled');
                 }
             }
         ],

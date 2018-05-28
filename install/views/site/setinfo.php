@@ -11,7 +11,7 @@ use yii\helpers\Url;
 use install\assets\LayerAsset;
 
 LayerAsset::register($this);
-$this->title = yii::t('install', 'Create Data');
+$this->title = Yii::t('install', 'Create Data');
 ?>
     <section class="section">
         <?= $this->render('_steps') ?>
@@ -20,12 +20,12 @@ $this->title = yii::t('install', 'Create Data');
             <div class="server">
                 <table width="100%">
                     <tr>
-                        <td class="td1" width="100"><?= yii::t('install', 'Database') ?></td>
+                        <td class="td1" width="100"><?= Yii::t('install', 'Database') ?></td>
                         <td class="td1" width="200">&nbsp;</td>
                         <td class="td1">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'Type') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'Type') ?>：</td>
                         <td>
                             <select name="dbtype">
                                 <option selected value="mysql">MySQL</option>
@@ -35,51 +35,51 @@ $this->title = yii::t('install', 'Create Data');
                         </td>
                         <td>
                             <div>
-                                <span class="gray"><?= yii::t('install', 'Recommend MySQL') ?></span>
+                                <span class="gray"><?= Yii::t('install', 'Recommend MySQL') ?></span>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'DB Host') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'DB Host') ?>：</td>
                         <td><input type="text" name="dbhost" id="dbhost" value="localhost" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbhost">
-                                <span class="gray"><?= yii::t('install', 'Database host, localhost is the common') ?></span>
+                                <span class="gray"><?= Yii::t('install', 'Database host, localhost is the common') ?></span>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'DB Port') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'DB Port') ?>：</td>
                         <td><input type="text" name="dbport" id="dbport" value="3306" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbport">
-                                <span class="gray"><?= yii::t('install', 'Default mysql 3306, PostgreSQL 5432') ?></span>
+                                <span class="gray"><?= Yii::t('install', 'Default mysql 3306, PostgreSQL 5432') ?></span>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'DB Username') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'DB Username') ?>：</td>
                         <td><input type="text" name="dbuser" id="dbuser" value="root" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbuser"></div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'DB Password') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'DB Password') ?>：</td>
                         <td><input type="password" name="dbpw" id="dbpw" value="" class="input" autoComplete="off"></td>
                         <td>
                             <div id="js-install-tip-dbpw"></div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'DB Name') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'DB Name') ?>：</td>
                         <td><input type="text" name="dbname" id="dbname" value="feehi" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbname"></div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'Table Prefix') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'Table Prefix') ?>：</td>
                         <td><input type="text" name="dbprefix" id="dbprefix" value="feehi_" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbprefix"></div>
@@ -88,29 +88,29 @@ $this->title = yii::t('install', 'Create Data');
                 </table>
                 <table width="100%">
                     <tr>
-                        <td class="td1" width="100"><?= yii::t('install', 'Website') ?></td>
+                        <td class="td1" width="100"><?= Yii::t('install', 'Website') ?></td>
                         <td class="td1" width="200">&nbsp;</td>
                         <td class="td1">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'Title') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'Title') ?>：</td>
                         <td><input type="text" name="sitename" value="Feehi CMS" class="input"></td>
                         <td>
                             <div id="js-install-tip-sitename"></div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'Site Url') ?>：</td>
-                        <td><input type="text" name="siteurl" value="<?= yii::$app->getRequest()->getHostInfo() . yii::$app->getRequest()->getBaseUrl() ?>/"
+                        <td class="text-left"><?= Yii::t('install', 'Site Url') ?>：</td>
+                        <td><input type="text" name="siteurl" value="<?= Yii::$app->getRequest()->getHostInfo() . Yii::$app->getRequest()->getBaseUrl() ?>/"
                                    class="input" autoComplete="off"></td>
                         <td>
                             <div id="js-install-tip-siteurl">
-                                <span class="gray"><?= yii::t('install', 'Please end at "/"') ?></span>
+                                <span class="gray"><?= Yii::t('install', 'Please end at "/"') ?></span>
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'Keywords') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'Keywords') ?>：</td>
                         <td><input type="text" name="sitekeywords" value="FeehiCMS,php,内容管理框架,cms, feehi,framework"
                                    class="input" autoComplete="off"></td>
                         <td>
@@ -118,7 +118,7 @@ $this->title = yii::t('install', 'Create Data');
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'Description') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'Description') ?>：</td>
                         <td><input type="text" name="siteinfo" class="input" value="FeehiCMS是一款基于yii2的高性能快速开发的内容管理框架">
                         </td>
                         <td>
@@ -128,19 +128,19 @@ $this->title = yii::t('install', 'Create Data');
                 </table>
                 <table width="100%">
                     <tr>
-                        <td class="td1" width="100"><?= yii::t('install', 'Administrator') ?></td>
+                        <td class="td1" width="100"><?= Yii::t('install', 'Administrator') ?></td>
                         <td class="td1" width="200">&nbsp;</td>
                         <td class="td1">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'Username') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'Username') ?>：</td>
                         <td><input type="text" name="manager" value="admin" class="input"></td>
                         <td>
                             <div id="js-install-tip-manager"></div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'Password') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'Password') ?>：</td>
                         <td><input type="password" name="manager_pwd" id="js-manager-pwd" class="input"
                                    autoComplete="off"></td>
                         <td>
@@ -148,14 +148,14 @@ $this->title = yii::t('install', 'Create Data');
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'Re-password') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'Re-password') ?>：</td>
                         <td><input type="password" name="manager_ckpwd" class="input" autoComplete="off"></td>
                         <td>
                             <div id="js-install-tip-manager_ckpwd"></div>
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-left"><?= yii::t('install', 'Email') ?>：</td>
+                        <td class="text-left"><?= Yii::t('install', 'Email') ?>：</td>
                         <td><input type="text" name="manager_email" class="input" value=""></td>
                         <td>
                             <div id="js-install-tip-manager_email"></div>
@@ -166,8 +166,8 @@ $this->title = yii::t('install', 'Create Data');
             </div>
             <div class="bottom text-center">
                 <a href="<?= Url::to(['check-environment']) ?>"
-                   class="btn btn-primary"><?= yii::t('install', 'Prev') ?></a>
-                <button type="submit" class="btn btn-primary"><?= yii::t('install', 'Install') ?></button>
+                   class="btn btn-primary"><?= Yii::t('install', 'Prev') ?></a>
+                <button type="submit" class="btn btn-primary"><?= Yii::t('install', 'Install') ?></button>
             </div>
         </form>
     </section>
@@ -176,17 +176,17 @@ $this->title = yii::t('install', 'Create Data');
         $(function () {
             //聚焦时默认提示
             var focus_tips = {
-                dbhost: '<?=yii::t('install', 'Database host, localhost is the common')?>',
-                dbport: '<?=yii::t('install', 'Default mysql 3306, PostgreSQL 5432')?>',
-                dbuser: '<?=yii::t('install', 'Database Username')?>',
-                dbpw: '<?=yii::t('install', 'Database Password')?>',
-                dbname: '<?=yii::t('install', 'Database Name')?>',
-                dbprefix: '<?=yii::t('install', 'Only in one database install various cms should update')?>',
-                manager: '<?=yii::t('install', 'Super administrator, own the whole permission')?>',
+                dbhost: '<?=Yii::t('install', 'Database host, localhost is the common')?>',
+                dbport: '<?=Yii::t('install', 'Default mysql 3306, PostgreSQL 5432')?>',
+                dbuser: '<?=Yii::t('install', 'Database Username')?>',
+                dbpw: '<?=Yii::t('install', 'Database Password')?>',
+                dbname: '<?=Yii::t('install', 'Database Name')?>',
+                dbprefix: '<?=Yii::t('install', 'Only in one database install various cms should update')?>',
+                manager: '<?=Yii::t('install', 'Super administrator, own the whole permission')?>',
                 manager_pwd: '',
                 manager_ckpwd: '',
                 sitename: '',
-                siteurl: '<?=yii::t('install', 'Please end at "/"')?>',
+                siteurl: '<?=Yii::t('install', 'Please end at "/"')?>',
                 sitekeywords: '',
                 siteinfo: '',
                 manager_email: ''
@@ -247,25 +247,25 @@ $this->title = yii::t('install', 'Create Data');
 
                 },
                 messages: {
-                    dbhost: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'DB Host')])?>'},
-                    dbport: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'DB Port')])?>'},
-                    dbuser: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'DB Username')])?>'},
-                    dbpw: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'DB Password')])?>'},
-                    dbname: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'DB Name')])?>'},
-                    dbprefix: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'Table Prefix')])?>'},
-                    manager: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'Admin Username')])?>'},
-                    manager_pwd: {required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'Admin Password')])?>'},
+                    dbhost: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Host')])?>'},
+                    dbport: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Port')])?>'},
+                    dbuser: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Username')])?>'},
+                    dbpw: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Password')])?>'},
+                    dbname: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Name')])?>'},
+                    dbprefix: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Table Prefix')])?>'},
+                    manager: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Admin Username')])?>'},
+                    manager_pwd: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Admin Password')])?>'},
                     manager_ckpwd: {
-                        required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'Repeat Password')])?>',
-                        equalTo: '<?=yii::t('install', 'Repeat password is not equal password')?>.'
+                        required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Repeat Password')])?>',
+                        equalTo: '<?=Yii::t('install', 'Repeat password is not equal password')?>.'
                     },
                     manager_email: {
-                        required: '<?=yii::t('install', '{attribute} cannot be empty', ['attribute' => yii::t('install', 'Email')])?>',
-                        email: '<?=yii::t('yii', 'Please input the correct email')?>'
+                        required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Email')])?>',
+                        email: '<?=Yii::t('Yii', 'Please input the correct email')?>'
                     }
                 },
                 submitHandler: function (form) {
-                    layer.msg('<?=yii::t('install', 'Verifing, no refresh this window.')?>', {icon: 16, time: 0});
+                    layer.msg('<?=Yii::t('install', 'Verifing, no refresh this window.')?>', {icon: 16, time: 0});
                     $(form).ajaxSubmit({
                         type: 'post',               //数据发送方式
                         dataType: 'json',           //接受数据格式

@@ -55,6 +55,7 @@ class Article extends \common\models\Article
      */
     public function beforeSaveEvent($event)
     {
+        parent::beforeSaveEvent($event);
         $insert = $event->sender->getIsNewRecord();
         Util::handleModelSingleFileUpload($event->sender, 'thumb', $insert, '@thumb', ['thumbSizes'=>self::$thumbSizes]);
         $this->seo_keywords = str_replace('，', ',', $this->seo_keywords);
@@ -93,11 +94,13 @@ class Article extends \common\models\Article
      */
     public function beforeDeleteEvent($event)
     {
+        if( !empty( $event->sender->thumb ) ){
+            Util::deleteThumbnails(Yii::getAlias('@frontend/web') . $event->sender->thumb, self::$thumbSizes, true);
+        }
         Comment::deleteAll(['aid' => $this->id]);
         if (($articleContentModel = ArticleContent::find()->where(['aid' => $event->sender->id])->one()) != null) {
             $articleContentModel->delete();
         }
-        return true;
     }
 
     /**

@@ -28,8 +28,8 @@ AppAsset::register($this);
 <?php $this->beginBody() ?>
 <div class="wrap">
     <div class="header">
-        <h1 class="logo"><?= yii::$app->name ?> <?= yii::t('install', "Install guide") ?></h1>
-        <div class="version"><?= yii::$app->version ?></div>
+        <h1 class="logo"><?= Yii::$app->name ?> <?= Yii::t('install', "Install guide") ?></h1>
+        <div class="version"><?= Yii::$app->version ?></div>
     </div>
     <?= $content ?>
     <div class="footer">

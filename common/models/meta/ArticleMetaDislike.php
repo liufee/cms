@@ -8,7 +8,7 @@
 
 namespace common\models\meta;
 
-use yii;
+use Yii;
 
 class ArticleMetaDislike extends \common\models\ArticleMeta
 {
@@ -24,7 +24,7 @@ class ArticleMetaDislike extends \common\models\ArticleMeta
     {
         $this->aid = $aid;
         $this->key = $this->keyName;
-        $this->value = yii::$app->getRequest()->getUserIP();
+        $this->value = Yii::$app->getRequest()->getUserIP();
         $this->save(false);
     }
 

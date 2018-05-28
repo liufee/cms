@@ -5,9 +5,10 @@
  * Email: job@feehi.com
  * Created at: 2016-03-31 15:01
  */
+
 namespace backend\controllers;
 
-use yii;
+use Yii;
 use backend\models\form\PasswordResetRequestForm;
 use backend\models\form\ResetPasswordForm;
 use backend\models\User;
@@ -28,8 +29,9 @@ class AdminUserController extends \yii\web\Controller
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    $searchModel = new UserSearch();
-                    $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
+                    /** @var UserSearch $searchModel */
+                    $searchModel = Yii::createObject( UserSearch::className() );
+                    $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams());
                     return [
                         'dataProvider' => $dataProvider,
                         'searchModel' => $searchModel,
@@ -58,11 +60,12 @@ class AdminUserController extends \yii\web\Controller
      */
     public function actionCreate()
     {
-        $model = new User();
+        /** @var User $model */
+        $model = Yii::createObject( User::className() );
         $model->setScenario('create');
-        if (yii::$app->getRequest()->getIsPost()) {
+        if (Yii::$app->getRequest()->getIsPost()) {
             if ( $model->load(Yii::$app->getRequest()->post()) && $model->save() && $model->assignPermission() ) {
-                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
                 return $this->redirect(['index']);
             } else {
                 $errors = $model->getErrors();
@@ -90,7 +93,7 @@ class AdminUserController extends \yii\web\Controller
         $model = User::findOne($id);
         $model->setScenario('update');
         $model->roles = $model->permissions = call_user_func(function() use($id){
-            $permissions = yii::$app->getAuthManager()->getAssignments($id);
+            $permissions = Yii::$app->getAuthManager()->getAssignments($id);
             foreach ($permissions as $k => &$v){
                 $v = $k;
             }
@@ -98,7 +101,7 @@ class AdminUserController extends \yii\web\Controller
         });
         if (Yii::$app->getRequest()->getIsPost()) {
             if ($model->load(Yii::$app->request->post()) && $model->save() && $model->assignPermission() ) {
-                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
                 return $this->redirect(['update', 'id' => $model->getPrimaryKey()]);
             } else {
                 $errors = $model->getErrors();
@@ -108,7 +111,7 @@ class AdminUserController extends \yii\web\Controller
                 }
                 Yii::$app->getSession()->setFlash('error', $err);
             }
-            $model = User::findOne(['id' => yii::$app->getUser()->getIdentity()->getId()]);
+            $model = User::findOne(['id' => Yii::$app->getUser()->getIdentity()->getId()]);
         }
 
         return $this->render('update', [
@@ -123,11 +126,11 @@ class AdminUserController extends \yii\web\Controller
      */
     public function actionUpdateSelf()
     {
-        $model = User::findOne(['id' => yii::$app->getUser()->getIdentity()->getId()]);
+        $model = User::findOne(['id' => Yii::$app->getUser()->getIdentity()->getId()]);
         $model->setScenario('self-update');
-        if (yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(yii::$app->getRequest()->post()) && $model->selfUpdate()) {
-                Yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+        if (Yii::$app->getRequest()->getIsPost()) {
+            if ($model->load(Yii::$app->getRequest()->post()) && $model->selfUpdate()) {
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
             } else {
                 $errors = $model->getErrors();
                 $err = '';
@@ -136,7 +139,7 @@ class AdminUserController extends \yii\web\Controller
                 }
                 Yii::$app->getSession()->setFlash('error', $err);
             }
-            $model = User::findOne(['id' => yii::$app->getUser()->getIdentity()->getId()]);
+            $model = User::findOne(['id' => Yii::$app->getUser()->getIdentity()->getId()]);
         }
 
         return $this->render('update', [
@@ -152,11 +155,11 @@ class AdminUserController extends \yii\web\Controller
      */
     public function actionRequestPasswordReset()
     {
-        $model = new PasswordResetRequestForm();
+        $model = Yii::createObject( PasswordResetRequestForm::className() );
         if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()) {
             if ($model->sendEmail()) {
                 Yii::$app->getSession()
-                    ->setFlash('success', yii::t('app', 'Check your email for further instructions.'));
+                    ->setFlash('success', Yii::t('app', 'Check your email for further instructions.'));
 
                 return $this->goHome();
             } else {
@@ -186,7 +189,7 @@ class AdminUserController extends \yii\web\Controller
         }
 
         if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', yii::t('app', 'New password was saved.'));
+            Yii::$app->session->setFlash('success', Yii::t('app', 'New password was saved.'));
 
             return $this->goHome();
         }

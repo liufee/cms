@@ -52,7 +52,7 @@ return [
     '{attribute} cannot be blank.' => '{attribute}不能为空.',
     'Allowed not to be deleted, sub level exsited.' => '还有子项存在,不允许被删除',
     'Failed' => '失败',
-    'Cannot be themself sub.' => '不能是它自己的子类',
+    'Cannot be themselves sub' => '不能是它自己的子类',
     'Send' => '发送',
     'Upload {attribute} error' => '上传{attribute}出错',
     'Filename' => '文件名',

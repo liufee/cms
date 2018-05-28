@@ -28,7 +28,7 @@ $this->title = 'User';
             ]); ?>
             <?php
             $temp = ['maxlength' => 64];
-            if (yii::$app->controller->action->id == 'update') {
+            if (Yii::$app->controller->action->id == 'update') {
                 $temp['disabled'] = 'disabled';
             }
             ?>

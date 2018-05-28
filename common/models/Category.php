@@ -14,7 +14,6 @@ use yii\behaviors\TimestampBehavior;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
 
-;
 
 /**
  * This is the model class for table "{{%category}}".
@@ -180,13 +179,12 @@ class Category extends \yii\db\ActiveRecord
         $subs = $familyTree->getDescendants($event->sender->id);
         if (! empty($subs)) {
             $event->sender->addError('id', Yii::t('app', 'Allowed not to be deleted, sub level exsited.'));
-            return false;
+            $event->isValid = false;
         }
         if (Article::findOne(['cid' => $event->sender->id]) != null) {
             $event->sender->addError('id', Yii::t('app', 'Allowed not to be deleted, some article belongs to this category.'));
-            return false;
+            $event->isValid = false;
         }
-        return parent::beforeDelete();
     }
 
     /**
@@ -196,7 +194,7 @@ class Category extends \yii\db\ActiveRecord
     {
         if (! $event->sender->getIsNewRecord() ) {
             if( $event->sender->id == $event->sender->parent_id ) {
-                $event->sender->addError('parent_id', Yii::t('app', 'Cannot be themself sub.'));
+                $event->sender->addError('parent_id', Yii::t('app', 'Cannot be themselves sub'));
                 return false;
             }
             $familyTree = new FamilyTree(self::_getCategories());

@@ -8,7 +8,7 @@
 
 namespace backend\controllers;
 
-use yii;
+use Yii;
 use backend\models\search\RbacSearch;
 use backend\models\form\Rbac;
 use yii\web\MethodNotAllowedHttpException;
@@ -19,8 +19,9 @@ class RbacController extends \yii\web\Controller
 {
     public function actionPermissions()
     {
-        $searchModel = new RbacSearch(['scenario'=>'permission']);
-        $dataProvider = $searchModel->searchPermissions(yii::$app->getRequest()->getQueryParams());
+        /** @var RbacSearch $searchModel */
+        $searchModel = Yii::createObject(['class' => RbacSearch::className(),'scenario'=>'permission']);
+        $dataProvider = $searchModel->searchPermissions(Yii::$app->getRequest()->getQueryParams());
         return $this->render('permissions', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
@@ -29,11 +30,12 @@ class RbacController extends \yii\web\Controller
 
     public function actionPermissionsSort()
     {
-        if (yii::$app->getRequest()->getIsPost()) {
-            $data = yii::$app->getRequest()->post();
+        if (Yii::$app->getRequest()->getIsPost()) {
+            $data = Yii::$app->getRequest()->post();
             if (! empty($data['sort'])) {
                 foreach ($data['sort'] as $key => $value) {
-                    $model = new Rbac(['scenario'=>'permission']);
+                    /** @var Rbac $model */
+                    $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'permission']);
                     $model->fillModel($key);
                     if ($model->sort != $value) {
                         $model->sort = $value;
@@ -47,10 +49,11 @@ class RbacController extends \yii\web\Controller
 
     public function actionPermissionCreate()
     {
-        $model = new Rbac(['scenario'=>'permission']);
-        if( yii::$app->getRequest()->getIsPost() ) {
-            if ($model->load(yii::$app->getRequest()->post()) && $model->validate() && $model->createPermission()) {
-                yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+        /** @var Rbac $model */
+        $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'permission']);
+        if( Yii::$app->getRequest()->getIsPost() ) {
+            if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->createPermission()) {
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
                 return $this->redirect(['permissions']);
             } else {
                 $errors = $model->getErrors();
@@ -68,11 +71,12 @@ class RbacController extends \yii\web\Controller
 
     public function actionPermissionUpdate($name)
     {
-        $model = new Rbac(['scenario'=>'permission']);
+        /** @var Rbac $model */
+        $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'permission']);
         $model->fillModel($name);
-        if( yii::$app->getRequest()->getIsPost() ) {
-            if ($model->load(yii::$app->getRequest()->post()) && $model->validate() && $model->updatePermission($name)) {
-                yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+        if( Yii::$app->getRequest()->getIsPost() ) {
+            if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->updatePermission($name)) {
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
                 return $this->redirect(['permissions']);
             } else {
                 $errors = $model->getErrors();
@@ -90,7 +94,8 @@ class RbacController extends \yii\web\Controller
 
     public function actionPermissionViewLayer($name)
     {
-        $model = new Rbac(['scenario'=>'permission']);
+        /** @var Rbac $model */
+        $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'permission']);
         $model->fillModel($name);
         return $this->render('permission-view-layer', [
             'model' => $model,
@@ -99,10 +104,11 @@ class RbacController extends \yii\web\Controller
 
     public function actionPermissionDelete($name=null)
     {
-        $model = new Rbac(['scenario'=>'permission']);
-        if( yii::$app->getRequest()->getIsPost() ){
-            yii::$app->getResponse()->format = Response::FORMAT_JSON;
-            $param = yii::$app->getRequest()->post('id', null);
+        /** @var Rbac $model */
+        $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'permission']);
+        if( Yii::$app->getRequest()->getIsPost() ){
+            Yii::$app->getResponse()->format = Response::FORMAT_JSON;
+            $param = Yii::$app->getRequest()->post('id', null);
             if($param !== null){
                 $name = $param;
             }
@@ -115,19 +121,20 @@ class RbacController extends \yii\web\Controller
                 }
             }
             if (count($errorIds) == 0) {
-                return ['code' => 0, 'message' => yii::t('app', 'Success')];
+                return ['code' => 0, 'message' => Yii::t('app', 'Success')];
             } else {
-                return ['code' => 1, 'message' => 'id ' . implode(',', $errorIds) . yii::t('app', 'Error')];
+                return ['code' => 1, 'message' => 'id ' . implode(',', $errorIds) . Yii::t('app', 'Error')];
             }
         }else {
-            throw new MethodNotAllowedHttpException(yii::t('app', "Delete must be POST http method"));
+            throw new MethodNotAllowedHttpException( Yii::t('app', "Delete must be POST http method") );
         }
     }
 
     public function actionRoles()
     {
-        $searchModel = new RbacSearch(['scenario'=>'role']);
-        $dataProvider = $searchModel->searchRoles(yii::$app->getRequest()->getQueryParams());
+        /** @var RbacSearch $searchModel */
+        $searchModel = Yii::createObject(['class' => RbacSearch::className(), 'scenario'=>'role']);
+        $dataProvider = $searchModel->searchRoles( Yii::$app->getRequest()->getQueryParams() );
         return $this->render('roles', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
@@ -136,10 +143,11 @@ class RbacController extends \yii\web\Controller
 
     public function actionRoleCreate()
     {
-        $model = new Rbac(['scenario'=>'role']);
-        if( yii::$app->getRequest()->getIsPost() ) {
-            if ($model->load(yii::$app->getRequest()->post()) && $model->validate() && $model->createRole()) {
-                yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+        /** @var Rbac $model */
+        $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'role']);
+        if( Yii::$app->getRequest()->getIsPost() ) {
+            if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->createRole()) {
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
                 return $this->redirect(['roles']);
             } else {
                 $errors = $model->getErrors();
@@ -157,11 +165,12 @@ class RbacController extends \yii\web\Controller
 
     public function actionRoleUpdate($name)
     {
-        $model = new Rbac(['scenario'=>'role']);
+        /** @var Rbac $model */
+        $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'role']);
         $model->fillModel($name);
-        if( yii::$app->getRequest()->getIsPost() ) {
-            if ($model->load(yii::$app->getRequest()->post()) && $model->validate() && $model->updateRole($name)) {
-                yii::$app->getSession()->setFlash('success', yii::t('app', 'Success'));
+        if( Yii::$app->getRequest()->getIsPost() ) {
+            if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->updateRole($name)) {
+                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
                 return $this->redirect(['roles']);
             } else {
                 $errors = $model->getErrors();
@@ -179,7 +188,8 @@ class RbacController extends \yii\web\Controller
 
     public function actionRoleViewLayer($name)
     {
-        $model = new Rbac(['scenario'=>'role']);
+        /** @var Rbac $model */
+        $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'role']);
         $model->fillModel($name);
         return $this->render('role-view-layer', [
             'model' => $model,
@@ -188,11 +198,12 @@ class RbacController extends \yii\web\Controller
 
     public function actionRolesSort()
     {
-        if (yii::$app->getRequest()->getIsPost()) {
-            $data = yii::$app->getRequest()->post();
+        if (Yii::$app->getRequest()->getIsPost()) {
+            $data = Yii::$app->getRequest()->post();
             if (! empty($data['sort'])) {
                 foreach ($data['sort'] as $key => $value) {
-                    $model = new Rbac(['scenario'=>'role']);
+                    /** @var Rbac $model */
+                    $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'role']);
                     $model->fillModel($key);
                     if ($model->sort != $value) {
                        $model->sort = $value;
@@ -206,14 +217,15 @@ class RbacController extends \yii\web\Controller
 
     public function actionRoleDelete($name='', $id=null)
     {
-        if( yii::$app->getRequest()->getIsPost() ) {
-            $model = new Rbac(['scenario' => 'role']);
+        if( Yii::$app->getRequest()->getIsPost() ) {
+            /** @var Rbac $model */
+            $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'role']);
             if ($name == '') {
                 Yii::$app->getResponse()->format = Response::FORMAT_JSON;
-                $param = yii::$app->getRequest()->post('id', null);
+                $param = Yii::$app->getRequest()->post('id', null);
                 if($param !== null) $id = $param;
                 if (!$id) {
-                    return ['code' => 1, 'message' => yii::t('app', "Name doesn't exit")];
+                    return ['code' => 1, 'message' => Yii::t('app', "Name doesn't exit")];
                 }
                 $ids = explode(',', $id);
                 $errorIds = [];
@@ -231,17 +243,17 @@ class RbacController extends \yii\web\Controller
             } else {
                 $model->fillModel($name);
                 if ($model->deleteRole()) {
-                    if (yii::$app->getRequest()->getIsAjax()) {
+                    if (Yii::$app->getRequest()->getIsAjax()) {
                         return [];
                     } else {
-                        return $this->redirect(yii::$app->request->headers['referer']);
+                        return $this->redirect(Yii::$app->request->headers['referer']);
                     }
                 } else {
-                    throw new UnprocessableEntityHttpException(yii::t('app', 'Error'));
+                    throw new UnprocessableEntityHttpException(Yii::t('app', 'Error'));
                 }
             }
         }else{
-            throw new MethodNotAllowedHttpException(yii::t('app', "Delete must be POST http method"));
+            throw new MethodNotAllowedHttpException(Yii::t('app', "Delete must be POST http method"));
         }
     }
 

@@ -8,7 +8,7 @@
 
 namespace common\helpers;
 
-use yii;
+use Yii;
 use yii\helpers\FileHelper;
 
 class FileDependencyHelper extends \yii\base\BaseObject
@@ -58,6 +58,6 @@ class FileDependencyHelper extends \yii\base\BaseObject
      */
     protected function getDependencyFileName()
     {
-        return yii::getAlias($this->rootDir . $this->fileName);
+        return Yii::getAlias($this->rootDir . $this->fileName);
     }
 }

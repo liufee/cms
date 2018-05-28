@@ -8,7 +8,7 @@
 
 namespace backend\controllers;
 
-use yii;
+use Yii;
 use backend\actions\ViewAction;
 use backend\actions\UpdateAction;
 use backend\models\Comment;

@@ -30,8 +30,8 @@ class FriendlyLinkController extends \yii\web\Controller
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    $searchModel = Yii::createObject( FriendlyLinkSearch::className() );
                     /** @var $searchModel FriendlyLinkSearch */
+                    $searchModel = Yii::createObject( FriendlyLinkSearch::className() );
                     $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams());
                     return [
                         'dataProvider' => $dataProvider,

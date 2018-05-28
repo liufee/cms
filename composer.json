@@ -38,6 +38,11 @@
             "bower-asset-library": "vendor/bower"
         }
     },
+    "scripts": {
+        "get-uploads-files" : [
+            "@php yii feehi-cms/get-uploads-files"
+        ]
+    },
     "repositories": [
         {
             "type": "composer",

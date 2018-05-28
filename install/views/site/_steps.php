@@ -7,7 +7,7 @@
  */
 
 $current1 = $current2 = $current3 = '';
-switch (yii::$app->controller->action->id) {
+switch (Yii::$app->controller->action->id) {
     case "check-environment":
         $current1 = 'current';
         break;
@@ -21,8 +21,8 @@ switch (yii::$app->controller->action->id) {
 ?>
 <div class="step">
     <ul class="unstyled">
-        <li class="<?= $current1 ?>"><em>1</em><?= yii::t('install', 'Check Environment') ?></li>
-        <li class="<?= $current2 ?>"><em>2</em><?= yii::t('install', 'Create Data') ?></li>
-        <li class="<?= $current3 ?>"><em>3</em><?= yii::t('install', 'Success') ?></li>
+        <li class="<?= $current1 ?>"><em>1</em><?= Yii::t('install', 'Check Environment') ?></li>
+        <li class="<?= $current2 ?>"><em>2</em><?= Yii::t('install', 'Create Data') ?></li>
+        <li class="<?= $current3 ?>"><em>3</em><?= Yii::t('install', 'Success') ?></li>
     </ul>
 </div>

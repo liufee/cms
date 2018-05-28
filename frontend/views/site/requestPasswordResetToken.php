@@ -13,7 +13,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = yii::t('app', 'Request password reset') . '-' . yii::$app->feehi->website_title;
+$this->title = Yii::t('app', 'Request password reset') . '-' . Yii::$app->feehi->website_title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 width: 240px;
             }
         </style>
-        <p><?= yii::t('app', 'Please fill out your email. A link to reset password will be sent there.') ?></p>
+        <p><?= Yii::t('app', 'Please fill out your email. A link to reset password will be sent there.') ?></p>
 
         <div class="row">
             <div class="col-lg-5">
@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'email', ['template' => "<div style='position:relative'>{label}{input}\n{error}\n{hint}</div>"])->textInput(['autofocus' => true]) ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton(yii::t('app', 'Send'), ['class' => 'btn btn-primary']) ?>
+                    <?= Html::submitButton(Yii::t('app', 'Send'), ['class' => 'btn btn-primary']) ?>
                 </div>
 
                 <?php ActiveForm::end(); ?>

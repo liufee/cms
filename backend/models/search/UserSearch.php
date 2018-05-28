@@ -8,20 +8,14 @@
 
 namespace backend\models\search;
 
+use Yii;
 use backend\behaviors\TimeSearchBehavior;
 use backend\components\search\SearchEvent;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use yii\db\ActiveRecord;
-use yii\db\BaseActiveRecord;
 
 class UserSearch extends \backend\models\User
 {
-
-    public function init()
-    {
-        parent::init();
-    }
 
     public function behaviors()
     {
@@ -53,7 +47,9 @@ class UserSearch extends \backend\models\User
     public function search($params)
     {
         $query = self::find();
-        $dataProvider = new ActiveDataProvider([
+        /** @var ActiveDataProvider $dataProvider */
+        $dataProvider = Yii::createObject([
+            'class' => ActiveDataProvider::className(),
             'query' => $query,
             'sort' => [
                 'defaultOrder' => [
@@ -71,7 +67,7 @@ class UserSearch extends \backend\models\User
             ->andFilterWhere(['like', 'email', $this->email])
             ->andFilterWhere(['status' => $this->status]);
 
-        $this->trigger(SearchEvent::BEFORE_SEARCH, new SearchEvent(['query'=>$query]));
+        $this->trigger(SearchEvent::BEFORE_SEARCH, Yii::createObject([ 'class' => SearchEvent::className(), 'query'=>$query]));
         return $dataProvider;
     }
 

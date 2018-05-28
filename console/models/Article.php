@@ -8,7 +8,7 @@
 
 namespace console\models;
 
-use yii;
+use Yii;
 use backend\models\ArticleContent;
 use yii\helpers\FileHelper;
 
@@ -88,7 +88,7 @@ class Article extends \backend\models\Article
     public function scrawThumb()
     {
         if ($this->needScrawlPic($this->thumb)) {
-            $path = yii::getAlias("@thumb/robot/");
+            $path = Yii::getAlias("@thumb/robot/");
             if (! file_exists($path)) {
                 FileHelper::createDirectory($path);
             }
@@ -101,7 +101,7 @@ class Article extends \backend\models\Article
             $imgBin = file_get_contents($this->thumb);
             if (file_put_contents($path . $fileName, $imgBin)) {
                 $temp = explode("uploads/", $path . $fileName);
-                $this->thumb = yii::$app->params['site']['sign'] . "/uploads/" . $temp[1];
+                $this->thumb = Yii::$app->params['site']['sign'] . "/uploads/" . $temp[1];
             }
         }
     }
@@ -118,7 +118,7 @@ class Article extends \backend\models\Article
                 unset($matches[1][$key]);
                 continue;
             }
-            $path = yii::getAlias("@article/robot/") . date('Y/m/');
+            $path = Yii::getAlias("@article/robot/") . date('Y/m/');
             if (! file_exists($path)) {
                 FileHelper::createDirectory($path);
             }
@@ -133,7 +133,7 @@ class Article extends \backend\models\Article
                 unset($matches[1][$key]);
             } else {
                 $temp = explode("uploads/", $path . $fileName);
-                array_push($replace, yii::$app->params['site']['sign'] . "/uploads/" . $temp[1]);
+                array_push($replace, Yii::$app->params['site']['sign'] . "/uploads/" . $temp[1]);
             }
         }
         $this->content = str_replace($matches[1], $replace, $this->content);

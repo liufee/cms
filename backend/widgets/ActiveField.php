@@ -8,7 +8,7 @@
 
 namespace backend\widgets;
 
-use yii;
+use Yii;
 use yii\helpers\Html;
 
 class ActiveField extends \yii\widgets\ActiveField
@@ -105,7 +105,7 @@ class ActiveField extends \yii\widgets\ActiveField
     public function dropDownList($items, $options = [], $generateDefault = true)
     {
         if ($generateDefault === true && ! isset($options['prompt'])) {
-            $options['prompt'] = yii::t('app', 'Please select');
+            $options['prompt'] = Yii::t('app', 'Please select');
         }
         return parent::dropDownList($items, $options);
     }
@@ -213,7 +213,7 @@ class ActiveField extends \yii\widgets\ActiveField
         $attribute = $this->attribute;
         $src = key_exists('value', $options) ? $options['value'] : $this->model->$attribute;
         /** @var $cdn \feehi\cdn\TargetAbstract */
-         $cdn = yii::$app->cdn;
+         $cdn = Yii::$app->cdn;
          $baseUrl = $cdn->host;
         $nonePicUrl = isset($options['default']) ? $options['default'] : $baseUrl . '/static/images/none.jpg';
         if ($src != '') {
@@ -221,7 +221,7 @@ class ActiveField extends \yii\widgets\ActiveField
                 $temp = parse_url($src);
                 $src = (! isset($temp['host'])) ? $cdn->getCdnUrl($src) : $src;
             }
-            $delete = yii::t('app', 'Delete');
+            $delete = Yii::t('app', 'Delete');
             $this->parts['{actions}'] = "<div onclick=\"$(this).parents('.image').find('input[type=hidden]').val(0);$(this).prev().attr('src', '$nonePicUrl');$(this).remove()\" style='position: absolute;width: 50px;padding: 5px 3px 3px 5px;top:5px;left:6px;background: black;opacity: 0.6;color: white;cursor: pointer'><i class='fa fa-trash' aria-hidden='true'> {$delete}</i></div>";
         }else{
             $src = $nonePicUrl;

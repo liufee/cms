@@ -8,7 +8,7 @@
 namespace console\controllers;
 
 
-use yii;
+use Yii;
 use yii\console\Controller;
 use Feehi\Http;
 use console\controllers\scrawls\Jobbole;
@@ -188,8 +188,8 @@ class ScrawlController extends Controller
     private function log($str, $name = null)
     {
         if ($name != null) {
-            FileHelper::createDirectory(yii::getAlias("@runtime") . '/logs/scrawl/' . $name);
-            $this->fileName = yii::getAlias("@runtime") . '/logs/scrawl/' . $name . '/' . date('Y-m-d-h-i-s') . '.txt';
+            FileHelper::createDirectory(Yii::getAlias("@runtime") . '/logs/scrawl/' . $name);
+            $this->fileName = Yii::getAlias("@runtime") . '/logs/scrawl/' . $name . '/' . date('Y-m-d-h-i-s') . '.txt';
         }
         $log = "\r\n" . date('Y-m-d H:i:s') . "   " . $str . "\r\n";
         $this->stdout($log);

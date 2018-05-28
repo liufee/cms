@@ -191,7 +191,7 @@ class Menu extends \yii\db\ActiveRecord
     {
         if( !$event->sender->getIsNewRecord() ){
             if($event->sender->id == $event->sender->parent_id) {
-                $event->sender->addError('parent_id', Yii::t('app', 'Cannot be themself sub.'));
+                $event->sender->addError('parent_id', Yii::t('app', 'Cannot be themselves sub'));
                 return false;
             }
             $familyTree = new FamilyTree(Menu::_getMenus($event->sender->type));
@@ -214,9 +214,8 @@ class Menu extends \yii\db\ActiveRecord
         $subs = $familyTree->getDescendants($event->sender->id);
         if (! empty($subs)) {
             $event->sender->addError('id', Yii::t('app', 'Sub Menu exists, cannot be deleted'));
-            return false;
+            $event->isValid = false;
         }
-        return true;
     }
 
     public function getParent()

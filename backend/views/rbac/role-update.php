@@ -5,6 +5,7 @@
  * Email: job@feehi.com
  * Created at: 2017-09-13 09:51
  */
+
 use yii\helpers\Url;
 
 /**
@@ -13,8 +14,8 @@ use yii\helpers\Url;
  */
 
 $this->params['breadcrumbs'] = [
-    ['label' => yii::t('app', 'Roles'), 'url' => Url::to(['roles'])],
-    ['label' => yii::t('app', 'Create') . yii::t('app', 'Roles')],
+    ['label' => Yii::t('app', 'Roles'), 'url' => Url::to(['roles'])],
+    ['label' => Yii::t('app', 'Create') . Yii::t('app', 'Roles')],
 ];
 
 ?>

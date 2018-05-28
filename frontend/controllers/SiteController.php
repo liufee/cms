@@ -71,7 +71,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->getRequest()->post()) && $model->login()) {
             return $this->goBack();
         } else {
-            yii::$app->getUser()->setReturnUrl(yii::$app->getRequest()->getHeaders()->get('referer'));
+            Yii::$app->getUser()->setReturnUrl(Yii::$app->getRequest()->getHeaders()->get('referer'));
             return $this->render('login', [
                 'model' => $model,
             ]);
@@ -122,7 +122,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()) {
             if ($model->sendEmail()) {
                 Yii::$app->getSession()
-                    ->setFlash('success', yii::t('app', 'Check your email for further instructions.'));
+                    ->setFlash('success', Yii::t('app', 'Check your email for further instructions.'));
 
                 return $this->goHome();
             } else {
@@ -152,7 +152,7 @@ class SiteController extends Controller
         }
 
         if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->getSession()->setFlash('success', yii::t('app', 'New password was saved.'));
+            Yii::$app->getSession()->setFlash('success', Yii::t('app', 'New password was saved.'));
 
             return $this->goHome();
         }
@@ -170,8 +170,8 @@ class SiteController extends Controller
     public function actionOffline()
     {
         Yii::$app->getResponse()->statusCode = 503;
-        yii::$app->getResponse()->content = "sorry, the site is temporary unserviceable";
-        yii::$app->getResponse()->send();
+        Yii::$app->getResponse()->content = "sorry, the site is temporary unserviceable";
+        Yii::$app->getResponse()->send();
     }
 
 
@@ -211,7 +211,7 @@ class SiteController extends Controller
     {
         if (($exception = Yii::$app->getErrorHandler()->exception) === null) {
             // action has been invoked not from error handler, but by direct route, so we display '404 Not Found'
-            $exception = new HttpException(404, Yii::t('yii', 'Page not found.'));
+            $exception = new HttpException(404, Yii::t('Yii', 'Page not found.'));
         }
 
         if ($exception instanceof HttpException) {
@@ -222,7 +222,7 @@ class SiteController extends Controller
         //if ($exception instanceof Exception) {
         $name = $exception->getName();
         //} else {
-        //$name = $this->defaultName ?: Yii::t('yii', 'Error');
+        //$name = $this->defaultName ?: Yii::t('Yii', 'Error');
         //}
         if ($code) {
             $name .= " (#$code)";
@@ -231,7 +231,7 @@ class SiteController extends Controller
         //if ($exception instanceof UserException) {
         $message = $exception->getMessage();
         //} else {
-        //$message = $this->defaultMessage ?: Yii::t('yii', 'An internal server error occurred.');
+        //$message = $this->defaultMessage ?: Yii::t('Yii', 'An internal server error occurred.');
         //}
         $statusCode = $exception->statusCode ? $exception->statusCode : 500;
         if (Yii::$app->getRequest()->getIsAjax()) {

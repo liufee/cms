@@ -8,16 +8,16 @@
 ?>
 <script>
     var common = {
-        chooseFile: "<?=yii::t('app', 'Choose File')?>",
-        deleteText: "<?=yii::t('app', 'Delete')?>",
+        chooseFile: "<?=Yii::t('app', 'Choose File')?>",
+        deleteText: "<?=Yii::t('app', 'Delete')?>",
     }
     var tips = {
-        confirmTitle: "<?=yii::t('app', 'Confirm')?>",
-        ok: "<?=yii::t('app', 'ok')?>",
-        cancel: "<?=yii::t('app', 'cancel')?>",
-        noItemSelected: "<?=yii::t('app', 'None item selected!')?>",
-        onlyPictureCanBeSelected: "<?=yii::t('app', 'Only picture file be permitted.')?>",
-        success: "<?=yii::t('app', 'Success')?>",
-        error: "<?=yii::t('app', 'Error')?>"
+        confirmTitle: "<?=Yii::t('app', 'Confirm')?>",
+        ok: "<?=Yii::t('app', 'ok')?>",
+        cancel: "<?=Yii::t('app', 'cancel')?>",
+        noItemSelected: "<?=Yii::t('app', 'None item selected!')?>",
+        onlyPictureCanBeSelected: "<?=Yii::t('app', 'Only picture file be permitted.')?>",
+        success: "<?=Yii::t('app', 'Success')?>",
+        error: "<?=Yii::t('app', 'Error')?>"
     };
 </script>

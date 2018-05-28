@@ -13,7 +13,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = yii::t('frontend', 'Sign up') . '-' . yii::$app->feehi->website_title;
+$this->title = Yii::t('frontend', 'Sign up') . '-' . Yii::$app->feehi->website_title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content-wrap">
@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 width: 100px
             }
         </style>
-        <p><?= yii::t('frontend', 'Please fill out the following fields to signup') ?>:</p>
+        <p><?= Yii::t('frontend', 'Please fill out the following fields to signup') ?>:</p>
 
         <div class="row">
             <div class="col-lg-5">
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'password', ['template' => "<div style='position:relative'>{label}{input}\n{error}\n{hint}</div>"])->passwordInput() ?>
 
                 <div class="form-group" style="margin-left: 180px">
-                    <?= Html::submitButton(yii::t('frontend', 'Signup'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    <?= Html::submitButton(Yii::t('frontend', 'Signup'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 </div>
 
                 <?php ActiveForm::end(); ?>

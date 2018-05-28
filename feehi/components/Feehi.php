@@ -10,7 +10,7 @@ namespace feehi\components;
 
 use common\models\Category;
 use feehi\cdn\DummyTarget;
-use yii;
+use Yii;
 use common\helpers\FileDependencyHelper;
 use backend\components\CustomLog;
 use yii\base\Component;
@@ -39,14 +39,14 @@ class Feehi extends Component
     {
         parent::init();
 
-        $cache = yii::$app->getCache();
+        $cache = Yii::$app->getCache();
         $key = 'options';
         if (($data = $cache->get($key)) === false) {
             $data = Options::find()->where(['type' => Options::TYPE_SYSTEM])->orwhere([
                 'type' => Options::TYPE_CUSTOM,
                 'autoload' => Options::CUSTOM_AUTOLOAD_YES,
             ])->asArray()->indexBy("name")->all();
-            $cacheDependencyObject = yii::createObject([
+            $cacheDependencyObject = Yii::createObject([
                 'class' => FileDependencyHelper::className(),
                 'rootDir' => '@backend/runtime/cache/file_dependency/',
                 'fileName' => 'options.txt',
@@ -64,68 +64,68 @@ class Feehi extends Component
 
     private static function configInit()
     {
-        if (! empty(yii::$app->feehi->website_url)) {
-            yii::$app->params['site']['url'] = yii::$app->feehi->website_url;
+        if (! empty(Yii::$app->feehi->website_url)) {
+            Yii::$app->params['site']['url'] = Yii::$app->feehi->website_url;
         }
-        if (substr(yii::$app->params['site']['url'], -1, 1) != '/') {
-            yii::$app->params['site']['url'] .= '/';
+        if (substr(Yii::$app->params['site']['url'], -1, 1) != '/') {
+            Yii::$app->params['site']['url'] .= '/';
         }
-        if (stripos(yii::$app->params['site']['url'], 'http://') !== 0 && stripos(yii::$app->params['site']['url'], 'https://') !== 0 && stripos(yii::$app->params['site']['url'], '//')) {
-            yii::$app->params['site']['url'] = ( yii::$app->getRequest()->getIsSecureConnection() ? "https://" : "http://" ) . yii::$app->params['site']['url'];
+        if (stripos(Yii::$app->params['site']['url'], 'http://') !== 0 && stripos(Yii::$app->params['site']['url'], 'https://') !== 0 && stripos(yii::$app->params['site']['url'], '//')) {
+            Yii::$app->params['site']['url'] = ( Yii::$app->getRequest()->getIsSecureConnection() ? "https://" : "http://" ) . yii::$app->params['site']['url'];
         }
 
-        if (isset(yii::$app->session['language'])) {
-            yii::$app->language = yii::$app->session['language'];
+        if (isset(Yii::$app->session['language'])) {
+            Yii::$app->language = Yii::$app->session['language'];
         }
-        if (yii::$app->getRequest()->getIsAjax()) {
-            yii::$app->getResponse()->format = Response::FORMAT_JSON;
+        if (Yii::$app->getRequest()->getIsAjax()) {
+            Yii::$app->getResponse()->format = Response::FORMAT_JSON;
         } else {
-            yii::$app->getResponse()->format = Response::FORMAT_HTML;
+            Yii::$app->getResponse()->format = Response::FORMAT_HTML;
         }
 
-        if (! empty(yii::$app->feehi->smtp_host) && ! empty(yii::$app->feehi->smtp_username)) {
-            Yii::configure(yii::$app->mailer, [
+        if (! empty(Yii::$app->feehi->smtp_host) && ! empty(Yii::$app->feehi->smtp_username)) {
+            Yii::configure(Yii::$app->mailer, [
                 'useFileTransport' => false,
                 'transport' => [
                     'class' => 'Swift_SmtpTransport',
-                    'host' => yii::$app->feehi->smtp_host,  //每种邮箱的host配置不一样
-                    'username' => yii::$app->feehi->smtp_username,
-                    'password' => yii::$app->feehi->smtp_password,
-                    'port' => yii::$app->feehi->smtp_port,
-                    'encryption' => yii::$app->feehi->smtp_encryption,
+                    'host' => Yii::$app->feehi->smtp_host,  //每种邮箱的host配置不一样
+                    'username' => Yii::$app->feehi->smtp_username,
+                    'password' => Yii::$app->feehi->smtp_password,
+                    'port' => Yii::$app->feehi->smtp_port,
+                    'encryption' => Yii::$app->feehi->smtp_encryption,
 
                 ],
                 'messageConfig' => [
                     'charset' => 'UTF-8',
-                    'from' => [yii::$app->feehi->smtp_username => yii::$app->feehi->smtp_nickname]
+                    'from' => [Yii::$app->feehi->smtp_username => Yii::$app->feehi->smtp_nickname]
                 ],
             ]);
         }
 
-        $cdn = yii::$app->get('cdn');
+        $cdn = Yii::$app->get('cdn');
         if( $cdn instanceof DummyTarget){
-            Yii::configure(yii::$app->cdn, [
-                'host' => yii::$app->params['site']['url']
+            Yii::configure(Yii::$app->cdn, [
+                'host' => Yii::$app->params['site']['url']
             ]);
         }
     }
 
     public static function frontendInit()
     {
-        if (! yii::$app->feehi->website_status) {
-            yii::$app->catchAll = ['site/offline'];
+        if (! Yii::$app->feehi->website_status) {
+            Yii::$app->catchAll = ['site/offline'];
         }
-        yii::$app->language = yii::$app->feehi->website_language;
-        yii::$app->timeZone = yii::$app->feehi->website_timezone;
-        if (! isset(yii::$app->params['site']['url']) || empty(yii::$app->params['site']['url'])) {
-            yii::$app->params['site']['url'] = yii::$app->request->getHostInfo();
+        Yii::$app->language = Yii::$app->feehi->website_language;
+        Yii::$app->timeZone = Yii::$app->feehi->website_timezone;
+        if (! isset(Yii::$app->params['site']['url']) || empty(Yii::$app->params['site']['url'])) {
+            Yii::$app->params['site']['url'] = Yii::$app->request->getHostInfo();
         }
-        if(isset(yii::$app->session['view'])) yii::$app->viewPath = yii::getAlias('@frontend/view') . yii::$app->session['view'];
+        if(isset(Yii::$app->session['view'])) Yii::$app->viewPath = Yii::getAlias('@frontend/view') . Yii::$app->session['view'];
 
-        yii::configure(yii::$app->getUrlManager(), [
-            'rules' => array_merge(yii::$app->getUrlManager()->rules, Category::getUrlRules())
+        Yii::configure(Yii::$app->getUrlManager(), [
+            'rules' => array_merge(Yii::$app->getUrlManager()->rules, Category::getUrlRules())
         ]);
-        yii::$app->getUrlManager()->init();
+        Yii::$app->getUrlManager()->init();
 
         self::configInit();
     }

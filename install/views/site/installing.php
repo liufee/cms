@@ -9,16 +9,16 @@
 <section class="section">
     <div class="step">
         <ul class="unstyled">
-            <li class="on"><em>1</em><?= yii::t('install', 'Check Environment') ?></li>
-            <li class="on"><em>2</em><?= yii::t('install', 'Create Data') ?></li>
-            <li class="current"><em>3</em><?= yii::t('install', 'Finish Install') ?></li>
+            <li class="on"><em>1</em><?= Yii::t('install', 'Check Environment') ?></li>
+            <li class="on"><em>2</em><?= Yii::t('install', 'Create Data') ?></li>
+            <li class="current"><em>3</em><?= Yii::t('install', 'Finish Install') ?></li>
         </ul>
     </div>
     <div class="install" id="log">
         <ul id="loginner" class="unstyled"></ul>
     </div>
     <div class="bottom text-center">
-        <a href="javascript:;"><i class="fa fa-refresh fa-spin"></i>&nbsp;<?= yii::t('install', 'Installing') ?>...</a>
+        <a href="javascript:;"><i class="fa fa-refresh fa-spin"></i>&nbsp;<?= Yii::t('install', 'Installing') ?>...</a>
     </div>
 </section>
 <script type="text/javascript">

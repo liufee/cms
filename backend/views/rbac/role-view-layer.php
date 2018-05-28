@@ -5,6 +5,7 @@
  * Email: job@feehi.com
  * Created at: 2018-02-24 23:42
  */
+
 use yii\widgets\DetailView;
 
 /** @var $model backend\models\form\Rbac */
@@ -19,7 +20,7 @@ use yii\widgets\DetailView;
             'attribute' => 'permissions',
             'format' => 'raw',
             'value' => function($model){
-                $authManager = yii::$app->getAuthManager();
+                $authManager = Yii::$app->getAuthManager();
                 $permissions = $authManager->getPermissionsByRole($model->name);
                 $str = '';
                 foreach ($permissions as $permission){

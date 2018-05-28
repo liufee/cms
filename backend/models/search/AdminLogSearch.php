@@ -89,7 +89,7 @@ class AdminLogSearch extends \backend\models\AdminLog
             ->andFilterWhere(['like', 'route', $this->route])
             ->andFilterWhere(['like', 'description', $this->description])
             ->andFilterWhere(['like', 'username', $this->adminUsername]);
-        $this->trigger(SearchEvent::BEFORE_SEARCH, new SearchEvent(['query'=>$query]));
+        $this->trigger(SearchEvent::BEFORE_SEARCH, Yii::createObject(['class' => SearchEvent::className(), 'query'=>$query]));
         return $dataProvider;
     }
 

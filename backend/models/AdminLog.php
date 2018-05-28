@@ -97,7 +97,7 @@ class AdminLog extends \yii\db\ActiveRecord
             Yii::t('app', 'id'),
             Yii::t('app', 'record')
         ], $event->sender->description);
-        $event->sender->description = preg_replace_callback('/\d{10}/', function ($matches) {
+        $event->sender->description = preg_replace_callback('/14\d{8}/', function ($matches) {
             return date('Y-m-d H:i:s', $matches[0]);
         }, $event->sender->description);
     }
