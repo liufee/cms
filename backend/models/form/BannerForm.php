@@ -32,7 +32,6 @@ class BannerForm extends \Common\models\Options
 
     public function init()
     {
-        parent::init();
         $this->on(self::EVENT_BEFORE_INSERT, [$this, 'beforeSaveEvent']);
         $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'beforeSaveEvent']);
         $this->on(self::EVENT_AFTER_FIND, [$this, 'afterFindEvent']);

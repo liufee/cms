@@ -339,7 +339,7 @@ return [
     'Banner Types' => 'Banner类型',
     'Jump Link' => '跳转链接',
     'Entry' => '进入',
-    'This type exits banner' => '该类下还有banner',
+    'Delete failed, banner existed' => '删除失败，先删除banner',
     /*banner*/
 
     /*ad*/

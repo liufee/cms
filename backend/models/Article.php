@@ -55,7 +55,6 @@ class Article extends \common\models\Article
      */
     public function beforeSaveEvent($event)
     {
-        parent::beforeSaveEvent($event);
         $insert = $event->sender->getIsNewRecord();
         Util::handleModelSingleFileUpload($event->sender, 'thumb', $insert, '@thumb', ['thumbSizes'=>self::$thumbSizes]);
         $this->seo_keywords = str_replace('，', ',', $this->seo_keywords);

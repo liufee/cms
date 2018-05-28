@@ -279,7 +279,7 @@ class Article extends \yii\db\ActiveRecord
         if ($event->sender->thumb) {
             /** @var TargetAbstract $cdn */
             $cdn = Yii::$app->get('cdn');
-            $event->sender->thumb = $cdn->getCdnUrl($this->thumb);
+            $event->sender->thumb = $cdn->getCdnUrl($event->sender->thumb);
         }
     }
 
