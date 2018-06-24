@@ -187,7 +187,7 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 ------------
 * [山东城市服务技师学院](http://www.sdcc.edu.cn/)   
 * [优悦娱乐网](http://www.qqyouyue.com/)  
-* [Usens Dev博客](http://dev.usensinc.com/)  
+* [吉安市食品药品监督管理局](http://www.jamsda.gov.cn/)  
 * [完美娱乐](http://www.qqwanmei.com/)  
 * [北京大学附属中学](http://group-ht.pkuschool.edu.cn/)  
 * [微信公众号蚂蚁鲜生](http://www.chijidun.com/) 

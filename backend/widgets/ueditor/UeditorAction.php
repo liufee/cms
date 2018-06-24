@@ -112,6 +112,7 @@ class UeditorAction extends yii\base\Action
             'imageManagerListPath' => '/upload/image/',
             'fileManagerListPath' => '/upload/file/',
             "imageUrlPrefix" => Yii::$app->params['site']['url'],
+            'scrawUrlPrefix' => Yii::$app->params['site']['url'],
         ];
         $this->config = $this->config + $default + $CONFIG;
         $this->uploadPath = Yii::getAlias('@frontend/web/uploads');

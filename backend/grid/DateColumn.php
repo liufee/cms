@@ -19,7 +19,7 @@ class DateColumn extends DataColumn
 {
     public $headerOptions = ['width' => '120px'];
 
-    public $format = ['datetime', 'php:Y-m-d H:m'];
+    public $format = ['datetime', 'php:Y-m-d H:i'];
 
     public $filter = "default";
 
