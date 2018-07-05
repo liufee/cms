@@ -96,7 +96,7 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 前置条件: 如未特别说明，本文档已默认您把php命令加入了环境变量，如果您未把php加入环境变量，请把以下命令中的php替换成/path/to/php
 1. 使用归档文件(简单，适合没有yii2经验者)
     >使用此方式安装，后台超管用户名和密码会在安装过程中让您填入
-    1. 下载FeehiCMS源码 [点击此处下载最新版](http://resource-1251086492.file.myqcloud.com/Feehi_CMS.zip)
+    1. 下载FeehiCMS源码 [点击此处下载最新版](http://resource-1251086492.cossh.myqcloud.com/Feehi_CMS.zip)
     2. 解压到目录 
     3. 配置web服务器(参见下面)
     4. 浏览器打开 http://localhost/install.php 按照提示完成安装(若使用php内置web服务a器则地址为 http://localhost:8080/install.php )
