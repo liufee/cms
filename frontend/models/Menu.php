@@ -12,15 +12,10 @@ use common\models\Menu as CommonMenu;
 
 class Menu extends CommonMenu
 {
-    public function init()
-    {
-        parent::init();
-        $this->on(self::EVENT_BEFORE_INSERT, [$this, 'beforeSaveEvent']);
-        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'beforeSaveEvent']);
-    }
 
-    public function beforeSaveEvent($event)
+    public function beforeSave($insert)
     {
-        $event->sender->type = self::FRONTEND_TYPE;
+        $this->type = self::FRONTEND_TYPE;
+        return parent::beforeSave($insert);
     }
 }

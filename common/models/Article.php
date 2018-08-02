@@ -67,14 +67,6 @@ class Article extends \yii\db\ActiveRecord
         ["w"=>125, "h"=>86],//热门推荐
     ];
 
-    public function init()
-    {
-        parent::init();
-        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'beforeSaveEvent']);
-        $this->on(self::EVENT_BEFORE_INSERT, [$this, 'beforeSaveEvent']);
-        $this->on(self::EVENT_AFTER_FIND, [$this, 'afterFindEvent']);
-    }
-
     public function behaviors()
     {
         return [
@@ -274,22 +266,24 @@ class Article extends \yii\db\ActiveRecord
         return $this->getArticleLikes()->count('id');
     }
 
-    public function afterFindEvent($event)
+    public function afterFind()
     {
-        if ($event->sender->thumb) {
+        if ($this->thumb) {
             /** @var TargetAbstract $cdn */
             $cdn = Yii::$app->get('cdn');
-            $event->sender->thumb = $cdn->getCdnUrl($event->sender->thumb);
+            $this->thumb = $cdn->getCdnUrl($this->thumb);
         }
+        parent::afterFind();
     }
 
-    public function beforeSaveEvent($event)
+    public function beforeSave($insert)
     {
-        if ($event->sender->thumb) {
+        if ($this->thumb) {
             /** @var TargetAbstract $cdn */
             $cdn = Yii::$app->get('cdn');
-            $event->sender->thumb = str_replace($cdn->host, '', $event->sender->thumb);
+            $this->thumb = str_replace($cdn->host, '', $this->thumb);
         }
+        return parent::beforeSave($insert);
     }
 
     public function getThumbUrlBySize($width='', $height='')

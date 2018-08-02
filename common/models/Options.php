@@ -37,15 +37,9 @@ class Options extends \yii\db\ActiveRecord
     const TYPE_BANNER = 2;
     const TYPE_AD = 3;
 
-    const CUNSTOM_AUTOLOAD_NO = 0;
+    const CUSTOM_AUTOLOAD_NO = 0;
     const CUSTOM_AUTOLOAD_YES = 1;
 
-    public function init()
-    {
-        parent::init();
-        $this->on(self::EVENT_BEFORE_INSERT, [$this, 'beforeSaveEvent']);
-        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'beforeSaveEvent']);
-    }
 
     /**
      * @inheritdoc
@@ -114,47 +108,48 @@ class Options extends \yii\db\ActiveRecord
         parent::afterSave($insert, $changedAttributes);
     }
 
-    public function beforeSaveEvent($event)
+    public function beforeSave($insert)
     {
-        if(!$event->sender->getIsNewRecord()){
-            if( $event->sender->input_type == Constants::INPUT_IMG ) {
+        if( !$insert ){
+            if( $this->input_type == Constants::INPUT_IMG ) {
                 $temp = explode('\\', self::className());
                 $modelName = end( $temp );
-                $key = "{$modelName}[{$event->sender->id}][value]";
+                $key = "{$modelName}[{$this->id}][value]";
                 $upload = UploadedFile::getInstanceByName($key);
-                $old = Options::findOne($event->sender->id);
+                $old = Options::findOne($this->id);
                 /* @var $cdn \feehi\cdn\TargetInterface */
                 $cdn = Yii::$app->get('cdn');
                 if($upload !== null){
                     $uploadPath = Yii::getAlias('@uploads/setting/custom-setting/');
                     if (! FileHelper::createDirectory($uploadPath)) {
-                        $event->sender->addError($key, "Create directory failed " . $uploadPath);
+                        $this->addError($key, "Create directory failed " . $uploadPath);
                         return false;
                     }
                     $fullName = $uploadPath . date('YmdHis') . '_' . uniqid() . '.' . $upload->getExtension();
                     if (! $upload->saveAs($fullName)) {
-                        $event->sender->addError($key, Yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => Yii::t('app', 'Picture')]) . ': ' . $fullName);
+                        $this->addError($key, Yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => Yii::t('app', 'Picture')]) . ': ' . $fullName);
                         return false;
                     }
-                    $event->sender->value = str_replace(Yii::getAlias('@frontend/web'), '', $fullName);
-                    $cdn->upload($fullName, $event->sender->value);
+                    $this->value = str_replace(Yii::getAlias('@frontend/web'), '', $fullName);
+                    $cdn->upload($fullName, $this->value);
                     if( $old !== null ){
                         $file = Yii::getAlias('@frontend/web') . $old->value;
                         if( file_exists($file) && is_file($file) ) unlink($file);
                         if( $cdn->exists($old->value) ) $cdn->delete($old->value);
                     }
                 }else{
-                    if( $event->sender->value !== '' ){
+                    if( $this->value !== '' ){
                         $file = Yii::getAlias('@frontend/web') . $old->value;
                         if( file_exists($file) && is_file($file) ) unlink($file);
                         if( $cdn->exists($old->value) ) $cdn->delete($old->value);
-                        $event->sender->value = '';
+                        $this->value = '';
                     }else {
-                        $event->sender->value = $old->value;
+                        $this->value = $old->value;
                     }
                 }
             }
         }
+        return parent::beforeSave($insert);
     }
 
     public static function getBannersByType($name)

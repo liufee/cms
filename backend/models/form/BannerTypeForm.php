@@ -13,14 +13,6 @@ use Yii;
 class BannerTypeForm extends \common\models\Options
 {
 
-    public function init()
-    {
-        $this->on(self::EVENT_AFTER_FIND, [$this, 'afterFindEvent']);
-        $this->on(self::EVENT_BEFORE_INSERT, [$this, 'beforeSaveEvent']);
-        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'beforeSaveEvent']);
-        $this->on(self::EVENT_BEFORE_DELETE, [$this, 'beforeDeleteEvent']);
-    }
-
     /**
      * @inheritdoc
      */
@@ -46,10 +38,10 @@ class BannerTypeForm extends \common\models\Options
         return $attributeLabels;
     }
 
-    public function afterFindEvent($event)
+    public function afterFind()
     {
-        if( empty( $event->sender->value ) ) $event->sender->value = "[]";
-        $banners = json_decode($event->sender->value, true);
+        if( empty( $this->value ) ) $this->value = "[]";
+        $banners = json_decode($this->value, true);
         /** @var $cdn \feehi\cdn\TargetAbstract */
         $cdn = Yii::$app->get('cdn');
         $models = [];
@@ -65,12 +57,14 @@ class BannerTypeForm extends \common\models\Options
             ];
             $models[$banner['sign']] = new BannerForm($temp);
         }
-        $event->sender->value = $models;
+        $this->value = $models;
+        parent::afterFind();
     }
 
-    public function beforeSaveEvent($event)
+    public function beforeSave($insert)
     {
-        $banners = $event->sender->value;
+        /** @var array $banners */
+        $banners = $this->value;
         /** @var $cdn \feehi\cdn\TargetAbstract */
         $cdn = Yii::$app->get('cdn');
         $array = [];
@@ -86,16 +80,18 @@ class BannerTypeForm extends \common\models\Options
             ];
             $array[] = $temp;
         }
-        $event->sender->value = json_encode( $array );
-        $event->sender->type = self::TYPE_BANNER;
+        $this->value = json_encode( $array );
+        $this->type = self::TYPE_BANNER;
+        return parent::beforeSave($insert);
     }
 
-    public function beforeDeleteEvent($event)
+    public function beforeDelete()
     {
-        if( !empty($event->sender->value) ) {
-            $event->sender->addError("id", Yii::t('app', 'Delete failed, banner existed'));
-            $event->isValid = false;
+        if( !empty($this->value) ) {
+            $this->addError("id", Yii::t('app', 'Delete failed, banner existed'));
+            return false;
         }
+        return parent::beforeDelete();
     }
 
 }

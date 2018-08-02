@@ -23,6 +23,7 @@ return [
             'returnUrlParam' => '_backend_returnUrl',
         ],
         'session' => [
+            'name' => 'BACKEND_FEEHICMS',
             'timeout' => 1440,//session过期时间，单位为秒
         ],
         'log' => [//此项具体详细配置，请访问http://wiki.feehi.com/index.php?title=Yii2_log

@@ -17,14 +17,6 @@ use common\helpers\FamilyTree;
 class Menu extends \common\models\Menu
 {
 
-    public function init()
-    {
-        parent::init();
-        $this->on(self::EVENT_BEFORE_INSERT, [$this, 'beforeSaveEvent']);
-        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'beforeSaveEvent']);
-        $this->on(self::EVENT_AFTER_DELETE, [$this, 'afterDeleteEvent']);
-    }
-
     /**
      * 生成后台首页菜单html
      *
@@ -165,14 +157,16 @@ EOF;
         return $familyTree->getDescendants($id);
     }
 
-    public function afterSaveEvent($event)
+    public function afterSave($insert, $changedAttributes)
     {
-        $event->sender->removeBackendMenuCache();
+        $this->removeBackendMenuCache();
+        parent::afterSave($insert, $changedAttributes);
     }
 
-    public function afterDeleteEvent($event)
+    public function afterDelete()
     {
-        $event->sender->removeBackendMenuCache();
+        $this->removeBackendMenuCache();
+        parent::afterDelete();
     }
 
     public function removeBackendMenuCache()

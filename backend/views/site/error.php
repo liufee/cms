@@ -5,6 +5,11 @@
  * Email: job@feehi.com
  * Created at: 2016-04-14 15:44
  */
+
+/**
+ * @var $code integer
+ * @var $message string
+ */
 ?>
 <div class="middle-box text-center animated fadeInDown">
     <h1><?= $code ?></h1>

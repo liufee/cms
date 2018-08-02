@@ -16,14 +16,6 @@ use yii\data\ActiveDataProvider;
 
 class UserSearch extends \frontend\models\User
 {
-    public $create_start_at;
-
-    public $create_end_at;
-
-    public $update_start_at;
-
-    public $update_end_at;
-
 
     public function behaviors()
     {

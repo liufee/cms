@@ -36,14 +36,6 @@ class User extends \common\models\User
     public $permissions;
 
 
-    public function init()
-    {
-        parent::init();
-        $this->on(self::EVENT_BEFORE_INSERT, [$this, 'beforeSaveEvent']);
-        $this->on(self::EVENT_BEFORE_UPDATE, [$this, 'beforeSaveEvent']);
-    }
-
-
     /**
      * 返回数据表名
      *
@@ -104,17 +96,18 @@ class User extends \common\models\User
         ];
     }
 
-    public function beforeSaveEvent($event)
+    public function beforeSave($insert)
     {
-        Util::handleModelSingleFileUpload($this, 'avatar', $event->sender->getIsNewRecord(), '@admin/uploads/avatar/');
-        if ($event->sender->getIsNewRecord()) {
-            $event->sender->generateAuthKey();
-            $event->sender->setPassword($event->sender->password);
+        Util::handleModelSingleFileUpload($this, 'avatar', $insert, '@admin/uploads/avatar/');
+        if ($insert) {
+            $this->generateAuthKey();
+            $this->setPassword($this->password);
         } else {
-            if (isset($event->sender->password) && $event->sender->password != '') {
-                $event->sender->setPassword($event->sender->password);
+            if (isset($this->password) && $this->password != '') {
+                $this->setPassword($this->password);
             }
         }
+        return parent::beforeSave($insert);
     }
 
     public function assignPermission()
@@ -222,7 +215,7 @@ class User extends \common\models\User
         if ($this->id == 1) {
             throw new ForbiddenHttpException(Yii::t('app', "Not allowed to delete {attribute}", ['attribute' => Yii::t('app', 'default super administrator admin')]));
         }
-        return true;
+        return parent::beforeDelete();
     }
 
     public function getRolesName()

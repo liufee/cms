@@ -23,12 +23,6 @@ use yii\behaviors\TimestampBehavior;
 class AdminLog extends \yii\db\ActiveRecord
 {
 
-    public function init()
-    {
-        parent::init();
-        $this->on(self::EVENT_AFTER_FIND, [$this, 'afterFindEvent']);
-    }
-
     /**
      * @inheritdoc
      */
@@ -78,9 +72,9 @@ class AdminLog extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
-    public function afterFindEvent($event)
+    public function afterFind()
     {
-        $event->sender->description = str_replace([
+        $this->description = str_replace([
             '{{%ADMIN_USER%}}',
             '{{%BY%}}',
             '{{%CREATED%}}',
@@ -96,10 +90,11 @@ class AdminLog extends \yii\db\ActiveRecord
             Yii::t('app', 'deleted'),
             Yii::t('app', 'id'),
             Yii::t('app', 'record')
-        ], $event->sender->description);
-        $event->sender->description = preg_replace_callback('/14\d{8}/', function ($matches) {
+        ], $this->description);
+        $this->description = preg_replace_callback('/14\d{8}/', function ($matches) {
             return date('Y-m-d H:i:s', $matches[0]);
-        }, $event->sender->description);
+        }, $this->description);
+        parent::afterFind();
     }
 
     /**

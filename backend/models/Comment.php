@@ -27,6 +27,7 @@ class Comment extends \common\models\Comment
         $model = Article::findOne($this->aid);
         $model->comment_count -= 1;
         $model->save(false);
+        parent::afterDelete();
     }
 
 }

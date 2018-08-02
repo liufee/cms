@@ -37,7 +37,7 @@ class SiteCest
         $I->seeCookie('_csrf_backend');
         $this->cookies = [
             '_' => $I->grabCookie("_csrf_backend"),
-            'PHPSESSID' => $I->grabCookie("PHPSESSID")
+            'BACKEND_FEEHICMS' => $I->grabCookie("BACKEND_FEEHICMS")
         ];
     }
 

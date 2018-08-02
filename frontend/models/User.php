@@ -8,17 +8,12 @@
 
 namespace frontend\models;
 
+use Exception;
 use Yii;
-use common\helpers\Util;;
+use common\helpers\Util;
 
 class User extends \common\models\User
 {
-
-    public function init()
-    {
-        parent::init();
-        $this->on(self::EVENT_BEFORE_DELETE, [$this, 'beforeDeleteEvent']);
-    }
 
     /**
      * @inheritdoc
@@ -34,7 +29,7 @@ class User extends \common\models\User
     public function rules()
     {
         return [
-            [['username', 'password', 'repassword', 'password_hash'], 'string'],
+            [['username', 'password', 'repassword'], 'string'],
             [['avatar'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif, webp'],
             [['username', 'email'], 'unique'],
             ['email', 'email'],
@@ -42,19 +37,6 @@ class User extends \common\models\User
             [['status'], 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             [['username', 'email', 'password', 'repassword'], 'required', 'on' => ['create']],
             [['username', 'email'], 'required', 'on' => ['update']],
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function scenarios()
-    {
-        return [
-            'default' => ['username', 'email', 'password', 'avatar', 'repassword', 'status'],
-            'create' => ['username', 'email', 'password', 'avatar', 'repassword', 'status'],
-            'update' => ['username', 'email', 'password', 'repassword', 'avatar', 'status'],
-            'self-update' => ['username', 'email', 'password', 'repassword', 'old_password', 'avatar'],
         ];
     }
 
@@ -76,48 +58,44 @@ class User extends \common\models\User
         ];
     }
 
+
+
     /**
      * @inheritdoc
      */
     public function beforeSave($insert)
     {
         if ($insert) {
-            $this->created_at = time();
             $this->generateAuthKey();
             $this->setPassword($this->password);
-            $this->updated_at = 0;
-        } else {
-            $this->updated_at = time();
-            if (isset($this->password) && $this->password != '') {
-                if ($this->getScenario() == 'self-update') {
-                    if ($this->old_password == '') {
-                        $this->addError('old_password', 'Old password cannot be blank.');
-                        return false;
-                    }
-                    if (! $this->validatePassword($this->old_password)) {
-                        $this->addError('old_password', 'Old password is incorrect.');
-                        return false;
-                    }
-                } else {
-                    if ($this->getScenario() == 'update') {
-                        if ($this->repassword == '') {
-                            $this->addError('repassword', 'repassword cannot be blank.');
-                            return false;
-                        }
-                    }
-                }
-                $this->setPassword($this->password);
+        }else{
+            if( !empty($this->password) && empty($this->repassword) ){
+                $this->addError("repassword", Yii::t('yii', '{attribute} must be equal to "{compareValueOrAttribute}".', [
+                    'attribute' => yii::t('app', 'Repeat Password'),
+                    'compareValueOrAttribute' => yii::t('app', 'Password')
+                    ])
+                );
+                return false;
             }
+            $this->setPassword( $this->password );
         }
         Util::handleModelSingleFileUpload($this, 'avatar', $insert, '@frontend/web/uploads/avatar/');
-        return true;
+        return parent::beforeSave($insert);
     }
 
-    public function beforeDeleteEvent($event)
+    /**
+     * @inheritdoc
+     */
+    public function beforeDelete()
     {
-        if( !empty( $event->sender->avatar ) ){
-            Util::deleteThumbnails(Yii::getAlias('@frontend/web') . $event->sender->avatar, [], true);
+        if( empty($this->avatar) ) return true;
+        try {
+            Util::deleteThumbnails(Yii::getAlias('@frontend/web') . $this->avatar, [], true);
+        }catch (Exception $exception){
+            $this->addError("avatar", $exception->getMessage());
+            return false;
         }
+        return true;
     }
 
 }

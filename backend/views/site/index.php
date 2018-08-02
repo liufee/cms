@@ -18,6 +18,8 @@ use backend\assets\IndexAsset;
 
 IndexAsset::register($this);
 $this->title = Yii::t('app', 'Backend Manage System');
+/** @var \backend\models\User $identity */
+$identity = Yii::$app->getUser()->getIdentity();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -43,12 +45,12 @@ $this->title = Yii::t('app', 'Backend Manage System');
                 <li class="nav-header">
                     <div class="dropdown profile-element">
                         <span>
-                            <img alt="image" class="img-circle" width="64px" height="64px" src="<?php if (Yii::$app->getUser()->getIdentity()->avatar) {echo Yii::$app->params['site']['url'] . Yii::$app->getUser()->getIdentity()->avatar;} else {echo Yii::$app->getRequest()->getBaseUrl() . '/static/img/profile_small.jpg';} ?>"/>
+                            <img alt="image" class="img-circle" width="64px" height="64px" src="<?php if ($identity->avatar) {echo Yii::$app->params['site']['url'] . $identity->avatar;} else {echo Yii::$app->getRequest()->getBaseUrl() . '/static/img/profile_small.jpg';} ?>"/>
                         </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear">
-                                <span class="block m-t-xs"><strong class="font-bold"><?= Yii::$app->getUser()->getIdentity()->getRolesNameString()?></strong></span>
-                                <span class="text-muted text-xs block"><?= Yii::$app->getUser()->getIdentity()->username ?><b class="caret"></b></span>
+                                <span class="block m-t-xs"><strong class="font-bold"><?= $identity->getRolesNameString()?></strong></span>
+                                <span class="text-muted text-xs block"><?= $identity->username ?><b class="caret"></b></span>
                             </span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">

@@ -34,11 +34,6 @@ class Comment extends \yii\db\ActiveRecord
     const STATUS_PASSED = 1;
     const STATUS_UNPASS = 2;
 
-    public function init()
-    {
-        parent::init();
-        $this->on(self::EVENT_AFTER_FIND, [$this, 'afterFindEvent']);
-    }
 
     /**
      * @inheritdoc
@@ -138,9 +133,9 @@ class Comment extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function afterFindEvent($event)
+    public function afterFind()
     {
-        $event->sender->content = str_replace([
+        $this->content = str_replace([
             ':mrgreen:',
             ':razz:',
             ':sad:',
@@ -186,11 +181,12 @@ class Comment extends \yii\db\ActiveRecord
             "<img src='{%URL%}evil{%EXT%}'>",
             "<img src='{%URL%}eek{%EXT%}'>",
             "<img src='{%URL%}exclaim{%EXT%}'>"
-        ], $event->sender->content);
-        $event->sender->content = str_replace([
+        ], $this->content);
+        $this->content = str_replace([
             '{%URL%}',
             '{%EXT%}'
-        ], [Yii::$app->params['site']['url'] . '/static/images/smilies/icon_', '.gif'], $event->sender->content);
+        ], [Yii::$app->params['site']['url'] . '/static/images/smilies/icon_', '.gif'], $this->content);
+        parent::afterFind();
 
     }
 

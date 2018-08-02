@@ -135,7 +135,7 @@ use yii\helpers\Url;
                         </li>
                         <li class="list-group-item">
                             <span class="badge badge-success">&nbsp;&nbsp;</span>
-                            <strong><?= Yii::t('app', 'File Upload Limit') ?></strong>: <?= $info['UPLOAD_MAX_FILESIZE'] ?>
+                            <strong><?= Yii::t('app', 'File Upload Limit') ?></strong>: <?= $info['UPLOAD_MAX_FILE_SIZE'] ?>
                         </li>
                         <li class="list-group-item">
                             <span class="badge badge-success">&nbsp;&nbsp;</span>
@@ -253,12 +253,13 @@ use yii\helpers\Url;
 <?php JsBlock::begin() ?>
 <script>
 $(document).ready(function () {
+    var notify = $("#notify");
     $.ajax({
         dataType:"jsonp",
         url:"//api.feehi.com/cms/notify",
         success:function (dataAll) {
             data = dataAll.rows;
-            $("#notify").empty();
+            notify.empty();
             for(var index in data){
                 var label = '';
                 if( data[index].label ){
@@ -276,8 +277,8 @@ $(document).ready(function () {
             }
         },
         error:function (data) {
-            $("#notify").empty();
-            $("#notify").append("<li class='list-group-item'>Connect error</li>");
+            notify.empty();
+            notify.append("<li class='list-group-item'>Connect error</li>");
         }
     });
 })

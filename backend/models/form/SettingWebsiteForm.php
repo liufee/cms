@@ -8,7 +8,7 @@
 
 namespace backend\models\form;
 
-use yii;
+use Yii;
 use common\models\Options;
 
 class SettingWebsiteForm extends \common\models\Options

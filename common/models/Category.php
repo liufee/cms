@@ -30,13 +30,6 @@ use yii\helpers\FileHelper;
 class Category extends \yii\db\ActiveRecord
 {
 
-    public function init()
-    {
-        parent::init();
-        $this->on(self::EVENT_BEFORE_DELETE, [$this, 'beforeDeleteEvent']);
-        $this->on(self::EVENT_AFTER_VALIDATE, [$this, 'afterValidateEvent']);
-    }
-
     /**
      * @inheritdoc
      */
@@ -172,39 +165,41 @@ class Category extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function beforeDeleteEvent($event)
+    public function beforeDelete()
     {
         $categories = self::find()->orderBy("sort asc,parent_id asc")->asArray()->all();
         $familyTree = new FamilyTree( $categories );
-        $subs = $familyTree->getDescendants($event->sender->id);
+        $subs = $familyTree->getDescendants($this->id);
         if (! empty($subs)) {
-            $event->sender->addError('id', Yii::t('app', 'Allowed not to be deleted, sub level exsited.'));
-            $event->isValid = false;
+            $this->addError('id', Yii::t('app', 'Allowed not to be deleted, sub level exsited.'));
+            return false;
         }
-        if (Article::findOne(['cid' => $event->sender->id]) != null) {
-            $event->sender->addError('id', Yii::t('app', 'Allowed not to be deleted, some article belongs to this category.'));
-            $event->isValid = false;
+        if (Article::findOne(['cid' => $this->id]) != null) {
+            $this->addError('id', Yii::t('app', 'Allowed not to be deleted, some article belongs to this category.'));
+            return false;
         }
+        return parent::beforeDelete();
     }
 
     /**
      * @inheritdoc
      */
-    public function afterValidateEvent($event)
+    public function afterValidate()
     {
-        if (! $event->sender->getIsNewRecord() ) {
-            if( $event->sender->id == $event->sender->parent_id ) {
-                $event->sender->addError('parent_id', Yii::t('app', 'Cannot be themselves sub'));
+        if (! $this->getIsNewRecord() ) {
+            if( $this->id == $this->parent_id ) {
+                $this->addError('parent_id', Yii::t('app', 'Cannot be themselves sub'));
                 return false;
             }
             $familyTree = new FamilyTree(self::_getCategories());
-            $descendants = $familyTree->getDescendants($event->sender->id);
+            $descendants = $familyTree->getDescendants($this->id);
             $descendants = ArrayHelper::getColumn($descendants, 'id');
-            if( in_array($event->sender->parent_id, $descendants) ){
-                $event->sender->addError('parent_id', Yii::t('app', 'Cannot be themselves descendants sub'));
+            if( in_array($this->parent_id, $descendants) ){
+                $this->addError('parent_id', Yii::t('app', 'Cannot be themselves descendants sub'));
                 return false;
             }
         }
+        parent::afterValidate();
     }
 
     public function afterSave($insert, $changedAttributes)
