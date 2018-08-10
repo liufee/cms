@@ -8,9 +8,8 @@
 
 namespace backend\assets;
 
-use yii;
 
-class UeditorAsset extends yii\web\AssetBundle
+class UeditorAsset extends \yii\web\AssetBundle
 {
 
     public $basePath = "@web";

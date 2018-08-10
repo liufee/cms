@@ -8,7 +8,6 @@
 
 namespace backend\assets;
 
-use yii;
 
 class IndexAsset extends \yii\web\AssetBundle
 {

@@ -97,10 +97,10 @@ return [
                     ],
                     'js' => [
                         'a' => 'js/feehi.js',
-                        'c' => 'js/plugins/layer/laydate/laydate.js',
-                        'd' => 'js/plugins/layer/layer.min.js',
-                        'e' => 'js/plugins/prettyfile/bootstrap-prettyfile.js',
-                        'f' => 'js/plugins/toastr/toastr.min.js',
+                        'b' => 'js/plugins/layer/laydate/laydate.js',
+                        'c' => 'js/plugins/layer/layer.min.js',
+                        'd' => 'js/plugins/prettyfile/bootstrap-prettyfile.js',
+                        'e' => 'js/plugins/toastr/toastr.min.js',
                     ],
                 ],
                 backend\assets\IndexAsset::className() => [

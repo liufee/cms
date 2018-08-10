@@ -8,7 +8,6 @@
 
 namespace backend\assets;
 
-use yii;
 
 class AppAsset extends \yii\web\AssetBundle
 {
