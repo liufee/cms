@@ -10,6 +10,7 @@ namespace backend\widgets;
 
 use Yii;
 use yii\helpers\Html;
+use yii\web\View;
 
 class ActiveField extends \yii\widgets\ActiveField
 {
@@ -236,6 +237,7 @@ class ActiveField extends \yii\widgets\ActiveField
      *
      * @param array $options
      * @return $this
+     * @throws \Exception
      */
     public function ueditor($options = [])
     {
@@ -257,6 +259,54 @@ class ActiveField extends \yii\widgets\ActiveField
         //self::normalizeMaxLength($model, $attribute, $options);
         $this->parts['{input}'] = Ueditor::widget(['content' => $value, 'name' => $name, 'id' => $this->attribute]);
 
+        return $this;
+    }
+
+    /**
+     * 时间/日期输入框
+     *
+     * @param array $options
+     *
+     * - type: string，输入框类型，默认date。可选值：
+                    year	年选择器	只提供年列表选择
+                    month	年月选择器	只提供年、月选择
+                    date	日期选择器	可选择：年、月、日。type默认值，一般可不填
+                    time	时间选择器	只提供时、分、秒选择
+                    datetime	日期时间选择器	可选择：年、月、日、时、分、秒
+     * - range: bool/string， 开启左右面板范围选择，默认false。如果设置 true，将默认采用 “ - ” 分割。 你也可以直接设置 分割字符。五种选择器类型均支持左右面板的范围选择。
+     * - theme: string，主题，默认值：default。可选值有：default（默认简约）、molv（墨绿背景）、#颜色值（自定义颜色背景）、grid（格子主题）
+     * ...更多的设置请直接参考laydate官方文档: https://www.layui.com/doc/modules/laydate.html
+     * @return $this
+     */
+    public function date($options=[])
+    {
+        !isset($options['type']) && $options['type'] = 'date';
+        !isset($options['range']) && $options['range'] = false;
+        !isset($options['theme']) && $options['theme'] = 'molv';
+        !isset($options['max']) && $options['max'] = '0';
+        !isset($options['calendar']) && $options['calendar'] = 'true';
+        /** @var string $laydateJs 这里只加入了常用的配置，更多配置请参考laydate官方文档: https://www.layui.com/doc/modules/laydate.html 自行添加 */
+        $laydateJs = <<<str
+            lay('.date-time').each(function(){
+                laydate.render({
+                    elem: this,
+                    type: '{$options['type']}',
+                    range: '{$options['range']}',
+                    theme: '{$options['theme']}',
+                    max: {$options['max']},
+                    //显示公历
+                    calendar: {$options['calendar']}
+                });
+            });
+str;
+        unset($options['type'], $options['range'], $options['theme'], $options['max'], $options['calendar']);
+        Yii::$app->getView()->registerJs($laydateJs, View::POS_END);
+        if (!isset($options['class'])) {
+            $options['class'] = 'form-control date-time';
+        }else{
+            $options['class'] .= ' form-control date-time';
+        }
+        $this->parts['{input}'] = Html::activeTextInput($this->model, $this->attribute, $options);
         return $this;
     }
 
