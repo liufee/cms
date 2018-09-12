@@ -24,12 +24,21 @@ yii.confirm = function(message, ok, cancel) {
                     location.reload();
                 },
                 "error": function (jqXHR, textStatus, errorThrown) {
-                    layer.alert(jqXHR.responseJSON.message, {
-                        title:tips.error,
-                        btn: [tips.ok],
-                        icon: 2,
-                        skin: 'layer-ext-moon'
-                    })
+                    if( jqXHR.hasOwnProperty("responseJSON") ){
+                        layer.alert(jqXHR.responseJSON.message, {
+                            title:tips.error,
+                            btn: [tips.ok],
+                            icon: 2,
+                            skin: 'layer-ext-moon'
+                        })
+                    }else{
+                        layer.alert(jqXHR.responseText, {
+                            title:tips.error,
+                            btn: [tips.ok],
+                            icon: 2,
+                            skin: 'layer-ext-moon'
+                        })
+                    }
                 },
                 "complete": function () {
                     layer.closeAll('loading');
@@ -99,12 +108,21 @@ $(document).ready(function(){
                     location.reload();
                 },
                 "error": function (jqXHR, textStatus, errorThrown) {
-                    layer.alert(jqXHR.responseJSON.message, {
-                        title:tips.error,
-                        btn: [tips.ok],
-                        icon: 2,
-                        skin: 'layer-ext-moon'
-                    })
+                    if( jqXHR.hasOwnProperty("responseJSON") ) {
+                        layer.alert(jqXHR.responseJSON.message, {
+                            title: tips.error,
+                            btn: [tips.ok],
+                            icon: 2,
+                            skin: 'layer-ext-moon'
+                        })
+                    }else{
+                        layer.alert(jqXHR.responseText, {
+                            title:tips.error,
+                            btn: [tips.ok],
+                            icon: 2,
+                            skin: 'layer-ext-moon'
+                        })
+                    }
                 },
                 "complete": function () {
                     layer.closeAll('loading');
@@ -196,12 +214,21 @@ function indexSort(){
         method: sortHeader.attr('method'),
         data: data,
         error: function (jqXHR, textStatus, errorThrown) {
-            layer.alert(jqXHR.responseJSON.message, {
-                title:tips.error,
-                btn: [tips.ok],
-                icon: 2,
-                skin: 'layer-ext-moon'
-            })
+            if( jqXHR.hasOwnProperty("responseJSON") ) {
+                layer.alert(jqXHR.responseJSON.message, {
+                    title: tips.error,
+                    btn: [tips.ok],
+                    icon: 2,
+                    skin: 'layer-ext-moon'
+                })
+            }else{
+                layer.alert(jqXHR.responseText, {
+                    title:tips.error,
+                    btn: [tips.ok],
+                    icon: 2,
+                    skin: 'layer-ext-moon'
+                })
+            }
         },
         complete: function () {
             layer.closeAll('loading');

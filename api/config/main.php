@@ -56,6 +56,9 @@ return [
                 [
                     'class' => yii\rest\UrlRule::className(),
                     'controller' => ['user', 'article'],
+                    /*'extraPatterns' => [
+                        'GET search' => 'search',
+                    ],*/
                 ],
             ],
         ],
@@ -68,6 +71,7 @@ return [
         ],
         'response' => [
             'format' => yii\web\Response::FORMAT_JSON,
+            'as format' => api\behaviors\ResponseFormatBehavior::className()
         ],
     ],
     'modules' => [

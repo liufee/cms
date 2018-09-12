@@ -40,10 +40,12 @@ class DeleteAction extends \yii\base\Action
     /**
      * delete删除
      *
-     * @return array|Response
+     * @return array
      * @throws BadRequestHttpException
      * @throws MethodNotAllowedHttpException
      * @throws UnprocessableEntityHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function run()
     {
