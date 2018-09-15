@@ -280,22 +280,52 @@ class ActiveField extends \yii\widgets\ActiveField
      */
     public function date($options=[])
     {
+        !isset($options['elem']) && $options['elem'] = 'this';
         !isset($options['type']) && $options['type'] = 'date';
-        !isset($options['range']) && $options['range'] = false;
+        !isset($options['range']) && $options['range'] = 'false';
+        !isset($options['format']) && $options['format'] = 'yyyy-MM-dd';
+        !isset($options['value']) && $options['value'] = 'new Date()';//如果传入普通字符串需要自己加上外层的分毫，如: '"2018-09-13"'
+        !isset($options['isInitValue']) && $options['isInitValue'] = 'false';
+        !isset($options['min']) && $options['min'] = '1900-1-1';
+        !isset($options['max']) && $options['max'] = '2099-12-31';
+        !isset($options['trigger']) && $options['trigger'] = 'focus';
+        !isset($options['show']) && $options['show'] = 'false';
+        !isset($options['position']) && $options['position'] = 'absolute';
+        !isset($options['zIndex']) && $options['zIndex'] = '66666666';
+        !isset($options['showBottom']) && $options['showBottom'] = 'true';
+        !isset($options['btns']) && $options['btns'] = "['clear', 'now', 'confirm']";
+        !isset($options['lang']) && $options['lang'] = ( strpos( Yii::$app->language, 'en' ) === 0 ? 'en' : 'cn' );
         !isset($options['theme']) && $options['theme'] = 'molv';
-        !isset($options['max']) && $options['max'] = '0';
         !isset($options['calendar']) && $options['calendar'] = 'true';
+        !isset($options['mark']) && $options['mark'] = '{}';//json对象
+        !isset($options['ready']) && $options['ready'] = 'function(date){}';//匿名函数
+        !isset($options['change']) && $options['change'] = 'function(value, date, endDate){}';//匿名函数
+        !isset($options['done']) && $options['done'] = 'function(value, date, endDate){}';//匿名函数
         /** @var string $laydateJs 这里只加入了常用的配置，更多配置请参考laydate官方文档: https://www.layui.com/doc/modules/laydate.html 自行添加 */
         $laydateJs = <<<str
             lay('.date-time').each(function(){
                 laydate.render({
-                    elem: this,
-                    type: '{$options['type']}',
-                    range: '{$options['range']}',
-                    theme: '{$options['theme']}',
-                    max: {$options['max']},
-                    //显示公历
-                    calendar: {$options['calendar']}
+                    elem: {$options['elem']},
+                    type: "{$options['type']}",
+                    range: {$options['range']},
+                    format: "{$options['format']}",
+                    value: {$options['value']},
+                    isInitValue: {$options['isInitValue']},
+                    min: "{$options['min']}",
+                    max: "{$options['max']}",
+                    trigger: "{$options['trigger']}",
+                    show: {$options['show']},
+                    position: "{$options['position']}",
+                    zIndex: {$options['zIndex']},
+                    showBottom: {$options['showBottom']},
+                    btns: {$options['btns']},
+                    lang: "{$options['lang']}",
+                    theme: "{$options['theme']}",
+                    calendar: {$options['calendar']},
+                    mark: {$options['mark']},
+                    ready: {$options['ready']},
+                    change: {$options['change']},
+                    done: {$options['done']}
                 });
             });
 str;
