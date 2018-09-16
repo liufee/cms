@@ -28,7 +28,7 @@ class SettingController extends \yii\web\Controller
     public function actions()
     {
         return [
-            "delete" => [
+            "custom-delete" => [
                 "class" => DeleteAction::className(),
                 "modelClass" => Options::className(),
             ]
