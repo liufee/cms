@@ -25,6 +25,7 @@ return [
                 [
                     'class' => yii\log\FileTarget::className(),
                     'levels' => ['error', 'warning'],
+                    'logFile' => '@runtime/logs/'.date('Y/m/d') . '.log',
                 ],
                 [
                     'class' => yii\log\EmailTarget::className(),

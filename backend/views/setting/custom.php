@@ -75,44 +75,55 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Custom Setting');
 <script>
     $(document).ready(function () {
         $('#add').click(function () {
-            layer.open({
-                type: 1,
-                title: '<?=Yii::t('app', 'Add')?>',
-                maxmin: true,
-                shadeClose: true, //点击遮罩关闭层
-                area: ['70%', '80%'],
-                content: $("#addForm").html(),
-            });
-            $("form#w1").bind('submit', function () {
-                var $form = $(this);
-                $.ajax({
-                    url: $form.attr('action'),
-                    type: "post",
-                    beforeSend: function () {
-                        layer.load(2,{
-                            shade: [0.1,'#fff'] //0.1透明度的白色背景
+            $.ajax({
+                url: "<?=Url::toRoute("setting/custom-create")?>",
+                success: function (data) {
+                    layer.open({
+                        type: 1,
+                        title: "<?=Yii::t('app', 'Create')?>",
+                        maxmin: true,
+                        shadeClose: true, //点击遮罩关闭层
+                        area: ['70%', '80%'],
+                        content: data,
+                    });
+                    $("form[name=custom]").bind('submit', function () {
+                        var $form = $(this);
+                        $.ajax({
+                            url: $form.attr('action'),
+                            type: "post",
+                            data: $form.serialize(),
+                            beforeSend: function () {
+                                layer.load(2,{
+                                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+                                });
+                            },
+                            success: function (data) {
+                                location.href = "<?=Url::toRoute(['custom'])?>";
+                            },
+                            error: function (jqXHR, textStatus, errorThrown) {
+                                layer.alert(jqXHR.responseJSON.message, {
+                                    title:tips.error,
+                                    btn: [tips.ok],
+                                    icon: 2,
+                                    skin: 'layer-ext-moon'
+                                })
+                            },
+                            complete: function () {
+                                layer.closeAll("loading");
+                            }
                         });
-                    },
-                    data: $form.serialize(),
-                    success: function (data) {
-                        location.reload();
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        layer.alert(jqXHR.responseJSON.message, {
-                            title:tips.error,
-                            btn: [tips.ok],
-                            icon: 2,
-                            skin: 'layer-ext-moon'
-                        })
-                    },
-                    complete: function () {
-                        layer.closeAll("loading");
-                    }
-                });
-                return false;
+                        return false;
+                    });
+                    $("select#options-input_type").bind('change', onCheckCanTypeInValue).trigger('change');
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("ajax错误," + textStatus + ' : ' + errorThrown);
+                },
+                complete: function (XMLHttpRequest, textStatus) {
+                }
             });
-            $("select#options-input_type").bind('change', onCheckCanTypeInValue);
-        });
+            return false;
+        })
         $("a.btn_edit").click(function () {
             var name = $(this).parents("div.form-group").children("label").html();
             $.ajax({
@@ -126,7 +137,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Custom Setting');
                         area: ['70%', '80%'],
                         content: data,
                     });
-                    $("form[name=edit]").bind('submit', function () {
+                    $("form[name=custom]").bind('submit', function () {
                         var $form = $(this);
                         $.ajax({
                             url: $form.attr('action'),
@@ -138,7 +149,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Custom Setting');
                                 });
                             },
                             success: function (data) {
-                                location.reload();
+                                location.href = "<?=Url::toRoute(['custom'])?>";
                             },
                             error: function (jqXHR, textStatus, errorThrown) {
                                 layer.alert(jqXHR.responseJSON.message, {
@@ -169,7 +180,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Custom Setting');
     function onCheckCanTypeInValue() {
         var type = $(this).val();
         var restrictTypeTips = '<?=Yii::t('app', 'Type restrict, please type in after create')?>';
-        var input = $(this).parents('form').attr('name') == 'edit' ? $("#editForm input#options-value") : $("#w1 input#options-value");
+        var input = $("form[name=custom] input#options-value");
         if(type != <?=Constants::INPUT_INPUT?> && type != <?=Constants::INPUT_TEXTAREA?>){
             if( input.val() == restrictTypeTips ){
                 input.val(input.attr('oldValue'));
@@ -188,18 +199,3 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Custom Setting');
     }
 </script>
 <?php JsBlock::end() ?>
-<div class="hide" id="addForm">
-    <div class="ibox-content">
-        <?php
-        ActiveForm::begin(['action' => Url::to(['setting/custom-create'])]);
-        echo $form->field($model, 'name')->textInput();
-        echo $form->field($model, 'input_type')->dropDownList(Constants::getInputTypeItems());
-        echo $form->field($model, 'tips')->textInput();
-        echo $form->field($model, 'autoload')->dropDownList(Constants::getYesNoItems());
-        echo $form->field($model, 'sort')->textInput();
-        echo $form->field($model, 'value')->textInput();
-        echo $form->defaultButtons();
-        ActiveForm::end();
-        ?>
-    </div>
-</div>

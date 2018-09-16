@@ -73,7 +73,7 @@ class Comment extends \yii\db\ActiveRecord
             'aid' => Yii::t('app', 'Article Id'),
             'uid' => Yii::t('app', 'User Id'),
             'nickname' => Yii::t('app', 'Nickname'),
-            'content' => Yii::t('app', 'Content'),
+            'content' => Yii::t('app', 'Comment Message'),
             'reply_to' => Yii::t('app', 'Replay User Id'),
             'ip' => Yii::t('app', 'IP Address'),
             'status' => Yii::t('app', 'Status'),

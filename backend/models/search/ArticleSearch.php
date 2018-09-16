@@ -26,7 +26,7 @@ class ArticleSearch extends Article
     public function rules()
     {
         return [
-            [['title', 'author_name', 'cid'], 'string'],
+            [['title', 'author_name', 'cid', 'seo_keywords', 'content', 'sub_title', 'summary', 'seo_title'], 'string'],
             [['created_at', 'updated_at'], 'string'],
             [
                 [
@@ -39,7 +39,11 @@ class ArticleSearch extends Article
                     'flag_roll',
                     'flag_bold',
                     'flag_picture',
-                    'thumb'
+                    'thumb',
+                    'sort',
+                    'visibility',
+                    'can_comment',
+                    'password',
                 ],
                 'integer',
             ],
@@ -66,7 +70,7 @@ class ArticleSearch extends Article
      */
     public function search($params, $type = self::ARTICLE)
     {
-        $query = Article::find()->select([])->where(['type' => $type])->with('category');
+        $query = Article::find()->select([])->where(['type' => $type])->with('category')->joinWith("articleContent");
         /** @var $dataProvider ActiveDataProvider */
         $dataProvider = Yii::createObject([
             'class' => ActiveDataProvider::className(),
@@ -92,12 +96,27 @@ class ArticleSearch extends Article
             ->andFilterWhere(['flag_roll' => $this->flag_roll])
             ->andFilterWhere(['flag_bold' => $this->flag_bold])
             ->andFilterWhere(['flag_picture' => $this->flag_picture])
-            ->andFilterWhere(['like', 'author_name', $this->author_name]);
+            ->andFilterWhere(['like', 'author_name', $this->author_name])
+            ->andFilterWhere(['sort' => $this->sort])
+            ->andFilterWhere(['visibility' => $this->visibility])
+            ->andFilterWhere(['can_comment' => $this->can_comment])
+            ->andFilterWhere(['like', 'seo_keywords', $this->seo_keywords])
+            ->andFilterWhere(['like', 'content', $this->content])
+            ->andFilterWhere(['like', 'sub_title', $this->sub_title])
+            ->andFilterWhere(['like', 'summary', $this->summary])
+            ->andFilterWhere(['like', 'seo_title', $this->seo_title]);
         if ($this->thumb == 1) {
             $query->andWhere(['<>', 'thumb', '']);
         } else {
             if ($this->thumb === '0') {
                 $query->andWhere(['thumb' => '']);
+            }
+        }
+        if ($this->password == 1) {
+            $query->andWhere(['<>', 'password', '']);
+        } else {
+            if ($this->password === '0') {
+                $query->andWhere(['password' => '']);
             }
         }
         if ($this->cid === '0') {

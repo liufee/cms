@@ -138,6 +138,7 @@ return [
     'Article Title' => '文章标题',
     'Website' => '网址',
     'Replay User Id' => '原评论用户Id',
+    'Comment Message' => '评论内容',
     /*Comment*/
 
     /*Category*/

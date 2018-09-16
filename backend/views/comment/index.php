@@ -44,6 +44,9 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Comments');
                             'attribute' => 'id',
                         ],
                         [
+                            'attribute' => 'aid',
+                        ],
+                        [
                             'attribute' => 'articleTitle',
                             'label' => Yii::t('app', 'Article Title'),
                             'value' => function ($model) {

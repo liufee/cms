@@ -67,6 +67,7 @@ class Options extends \yii\db\ActiveRecord
             [['value'], 'string'],
             [['value'], 'default', 'value' => ''],
             [['name', 'tips'], 'string', 'max' => 255],
+            [['sort'], 'default', 'value' => 0],
         ];
     }
 

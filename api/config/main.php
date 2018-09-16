@@ -21,6 +21,7 @@ return [
                 [
                     'class' => yii\log\FileTarget::className(),//当触发levels配置的错误级别时，保存到日志文件
                     'levels' => ['error', 'warning'],
+                    'logFile' => '@runtime/logs/'.date('Y/m/d') . '.log',
                 ],
                 [
                     'class' => yii\log\EmailTarget::className(),//当触发levels配置的错误级别时，发送到此些邮箱（请改成自己的邮箱）

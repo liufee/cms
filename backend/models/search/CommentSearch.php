@@ -33,7 +33,7 @@ class CommentSearch extends \common\models\Comment
     {
         return [
             [['articleTitle', 'created_at', 'updated_at', 'nickname', 'content'], 'string'],
-            [['status'], 'integer'],
+            [['aid', 'status'], 'integer'],
         ];
     }
 
