@@ -281,10 +281,10 @@ class ActiveField extends \yii\widgets\ActiveField
     public function date($options=[])
     {
         !isset($options['elem']) && $options['elem'] = 'this';
-        !isset($options['type']) && $options['type'] = 'date';
+        !isset($options['type']) && $options['type'] = 'datetime';
         !isset($options['range']) && $options['range'] = 'false';
-        !isset($options['format']) && $options['format'] = 'yyyy-MM-dd';
-        !isset($options['value']) && $options['value'] = 'new Date()';//如果传入普通字符串需要自己加上外层的分毫，如: '"2018-09-13"'
+        !isset($options['format']) && $options['format'] = 'yyyy-MM-dd HH:mm:ss';
+        !isset($options['value']) && $options['value'] = $this->model->{$this->attribute} ? '"' . $this->model->{$this->attribute} . '"' : 'new Date()';//如果传入普通字符串需要自己加上外层的分号，如: '"2018-09-13"' 
         !isset($options['isInitValue']) && $options['isInitValue'] = 'false';
         !isset($options['min']) && $options['min'] = '1900-1-1';
         !isset($options['max']) && $options['max'] = '2099-12-31';
