@@ -10,7 +10,8 @@ echo "<?php\n";
 ?>
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use backend\widgets\ActiveForm;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model <?= ltrim($generator->searchModelClass, '\\') ?> */
@@ -34,9 +35,13 @@ foreach ($generator->getColumnNames() as $attribute) {
     }
 }
 ?>
-    <div class="form-group">
-        <?= "<?= " ?>Html::submitButton(<?= $generator->generateString('Search') ?>, ['class' => 'btn btn-primary']) ?>
-        <?= "<?= " ?>Html::resetButton(<?= $generator->generateString('Reset') ?>, ['class' => 'btn btn-default']) ?>
+    <div class="col-sm-3">
+        <div class="col-sm-6">
+            <?= "<?= " ?>Html::submitButton(<?= $generator->generateString('Search') ?>, ['class' => 'btn btn-primary btn-block']) ?>
+        </div>
+        <div class="col-sm-6">
+            <?= "<?= " ?>Html::a(<?= $generator->generateString('Reset') ?>, Url::to(['index']), ['class' => 'btn btn-default btn-block']) ?>
+        </div>
     </div>
 
     <?= "<?php " ?>ActiveForm::end(); ?>

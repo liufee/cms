@@ -83,6 +83,7 @@ return [
     'Admin User Id' => '管理员用户Id',
     'IP Address' => 'IP地址',
     'User Id' => '用户Id',
+    'None' => '无',
     /*Public*/
 
     /*Login*/

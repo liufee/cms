@@ -23,7 +23,7 @@ use <?= $generator->indexWidgetType === 'grid' ? "backend\\grid\\GridView" : "yi
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>;
-$this->params['breadcrumbs'][] = <?= $generator->generateString(Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))) ?>;
+$this->params['breadcrumbs'][] = yii::t('app', '<?=Inflector::camel2words(StringHelper::basename($generator->modelClass))?>');
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = <?= $generator->generateString(Inflector::plura
             <?="<?= \$this->render('/widgets/_ibox-title') ?>\n"?>
             <div class="ibox-content">
                 <?="<?= Bar::widget() ?>\n"?>
+                <?php if( !empty($generator->searchModelClass) ){ echo "<?=\$this->render('_search', ['model' => \$searchModel]); ?>";}?>
     <?= $generator->enablePjax ? '<?php Pjax::begin(); ?>' : '' ?>
     <?php if ($generator->indexWidgetType === 'grid'): ?>
         <?= "<?= " ?>GridView::widget([

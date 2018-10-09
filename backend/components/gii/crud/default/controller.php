@@ -39,6 +39,7 @@ use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
+use backend\actions\ViewAction;
 <?php if (empty($generator->searchModelClass)){ ?>
 use yii\data\ActiveDataProvider;
 <?php } ?>
@@ -88,6 +89,10 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
             ],
             'sort' => [
                 'class' => SortAction::className(),
+                'modelClass' => <?= $modelClass ?>::className(),
+            ],
+            'view-layer' => [
+                'class' => ViewAction::className(),
                 'modelClass' => <?= $modelClass ?>::className(),
             ],
         ];

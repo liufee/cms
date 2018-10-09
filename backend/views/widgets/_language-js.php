@@ -10,6 +10,7 @@
     var common = {
         chooseFile: "<?=Yii::t('app', 'Choose File')?>",
         deleteText: "<?=Yii::t('app', 'Delete')?>",
+        none: "<?=Yii::t('app', 'None')?>",
     }
     var tips = {
         confirmTitle: "<?=Yii::t('app', 'Confirm')?>",

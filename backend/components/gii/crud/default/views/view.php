@@ -25,17 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= "<?= " ?>Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= "<?= " ?>Html::a(<?= $generator->generateString('Update') ?>, ['update', <?= $urlParams ?>], ['class' => 'btn btn-primary']) ?>
-        <?= "<?= " ?>Html::a(<?= $generator->generateString('Delete') ?>, ['delete', <?= $urlParams ?>], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => <?= $generator->generateString('Are you sure you want to delete this item?') ?>,
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
-
     <?= "<?= " ?>DetailView::widget([
         'model' => $model,
         'attributes' => [

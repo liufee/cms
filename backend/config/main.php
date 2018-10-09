@@ -94,6 +94,7 @@ return [
                         'f' => 'js/plugins/layer/laydate/theme/default/laydate.css',
                         'g' => 'css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
                         'h' => 'css/plugins/toastr/toastr.min.css',
+                        'i' => 'css/plugins/chosen/chosen.css',
 
                     ],
                     'js' => [
@@ -102,6 +103,7 @@ return [
                         'c' => 'js/plugins/layer/layer.min.js',
                         'd' => 'js/plugins/prettyfile/bootstrap-prettyfile.js',
                         'e' => 'js/plugins/toastr/toastr.min.js',
+                        'f' => 'js/plugins/chosen/chosen.jquery.js',
                     ],
                 ],
                 backend\assets\IndexAsset::className() => [

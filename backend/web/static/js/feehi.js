@@ -64,6 +64,7 @@ function viewLayer(url, obj)
 $(document).ready(function(){
     //$('.info').animate({opacity: 1.0}, 3000).fadeOut('slow');
     $("input[type=file]").prettyFile({text:common.chooseFile});
+    $(".chosen-select").chosen({no_results_text: common.none,search_contains: true});
     $(".multi-operate").click(function () {
         var that = $(this);
         var url = $(this).attr('href');

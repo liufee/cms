@@ -22,6 +22,7 @@ class AppAsset extends \yii\web\AssetBundle
         //'js/plugins/layer/laydate/skins/default/laydate.css'
         'static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
         'static/css/plugins/toastr/toastr.min.css',
+        'static/css/plugins/chosen/chosen.css',
 
     ];
 
@@ -31,6 +32,7 @@ class AppAsset extends \yii\web\AssetBundle
         'static/js/plugins/layer/layer.min.js',
         'static/js/plugins/prettyfile/bootstrap-prettyfile.js',
         'static/js/plugins/toastr/toastr.min.js',
+        'static/js/plugins/chosen/chosen.jquery.js',
     ];
 
     public $depends = [
