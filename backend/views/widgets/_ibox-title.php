@@ -9,11 +9,6 @@
 use yii\widgets\Breadcrumbs;
 
 ?>
-<style>
-    ul.breadcrumb li a{
-        color: #337ab7;
-    }
-</style>
 <div class="ibox-title">
     <span style="float: left;">
         <?= Breadcrumbs::widget([

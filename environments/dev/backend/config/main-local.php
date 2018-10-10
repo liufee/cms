@@ -23,7 +23,7 @@ if (!YII_ENV_TEST) {
         //'allowedIPs' => ['127.0.0.1'],
         'generators' => [
             'crud' => [
-                'class' => yii\gii\generators\crud\Generator::className(),
+                'class' => \backend\components\gii\crud\Generator::className(),
                 'templates' => [
                     'default' => '@backend/components/gii/crud/default',
                     'yii' => '@vendor/yiisoft/yii2-gii/generators/crud/default',

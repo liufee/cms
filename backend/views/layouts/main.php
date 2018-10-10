@@ -27,11 +27,6 @@ AppAsset::register($this);
     <?= $this->render("/widgets/_language-js") ?>
 </head>
 <body class="gray-bg">
-<style>
-    .m-t-md {
-        margin-top: 0px
-    }
-</style>
 <?php $this->beginBody() ?>
 <div class="wrapper wrapper-content">
     <?= $this->render('/widgets/_flash') ?>

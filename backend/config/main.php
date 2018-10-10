@@ -95,6 +95,7 @@ return [
                         'g' => 'css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
                         'h' => 'css/plugins/toastr/toastr.min.css',
                         'i' => 'css/plugins/chosen/chosen.css',
+                        'j' => 'css/feehi.css',
 
                     ],
                     'js' => [

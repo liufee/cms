@@ -23,6 +23,7 @@ class AppAsset extends \yii\web\AssetBundle
         'static/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
         'static/css/plugins/toastr/toastr.min.css',
         'static/css/plugins/chosen/chosen.css',
+        'static/css/feehi.css',
 
     ];
 

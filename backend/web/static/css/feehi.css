@@ -1,0 +1,52 @@
+.m-t-md {
+    margin-top: 0px
+}
+ul.breadcrumb li a{
+    color: #337ab7;
+}
+/** jquery chosen start **/
+.chosen-container .chosen-drop {
+    border: 1px solid #1ab394;
+}
+
+/* @end */
+/* @group Single Chosen */
+.chosen-container-single .chosen-single {
+    border: 1px solid #e5e6e7;
+}
+
+.chosen-container-active.chosen-with-drop .chosen-single{
+    border: 1px solid #1ab394;
+}
+
+.chosen-container-single .chosen-single span{
+    line-height: 28px;
+}
+
+.chosen-container-active .chosen-choices {
+    border: 1px solid #e5e6e7;
+}
+
+.chosen-container-multi{
+    border: 1px solid #e5e6e7;
+}
+
+.chosen-container-active .chosen-choices {
+    border: 1px solid #1ab394;
+}
+
+.chosen-container-multi .chosen-choices {
+    border: 1px solid #1ab394;
+}
+/** jquery chosen end **/
+
+/** search start **/
+.search form div .help-block{
+    position: absolute;
+    top:4px;
+    right: 4%;
+}
+.search form>div.col-sm-3{
+    margin-bottom: 5px;
+}
+/** search end **/

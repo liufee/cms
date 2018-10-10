@@ -18,7 +18,7 @@ use yii\helpers\Url;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-search">
+<div class="<?= Inflector::camel2id(StringHelper::basename($generator->modelClass)) ?>-search ibox-heading row search" style="margin-top: 5px;padding-top:5px">
 
     <?= "<?php " ?>$form = ActiveForm::begin([
         'action' => ['index'],

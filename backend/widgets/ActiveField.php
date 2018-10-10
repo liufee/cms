@@ -112,6 +112,26 @@ class ActiveField extends \yii\widgets\ActiveField
     }
 
     /**
+     * 美化过的select选框
+     *
+     * @param array $items 需要设置的option元素,数组key作为值，数组value显示为option选项内容
+     * @param bool $multiple 是否多选，默认单选
+     * @param array $options htmp属性设置
+     * @param bool $generateDefault 是否生成请选择选项，默认是
+     * @return \yii\widgets\ActiveField
+     */
+    public function chosenSelect($items, $multiple = false, $options = [], $generateDefault = true)
+    {
+        if( isset( $options['class'] ) ){
+            $options['class'] .= " chosen-select";
+        }else{
+            $options['class'] = "chosen-select";
+        }
+        $multiple && $options['multiple'] = "1";
+        return $this->dropDownList($items, $options, $generateDefault);
+    }
+
+    /**
      * @inheritdoc
      */
     public function readOnly($value = null, $options = [])
