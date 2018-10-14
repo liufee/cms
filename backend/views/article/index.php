@@ -199,6 +199,43 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Articles');
         layer.closeAll('loading');
         $('table tr td a.thumbImg').bind('mouseover mouseout', showImg);
         $("input.sort").bind('blur', indexSort);
+        lay('.date-time').each(function(){
+            var config = {
+                elem: this,
+                type: this.getAttribute('dateType'),
+                range: this.getAttribute('range') === 'true' ? true : ( this.getAttribute('range') === 'false' ? false : this.getAttribute('range') ),
+                format: this.getAttribute('format'),
+                value: this.getAttribute('value') === 'new Date()' ? new Date() : this.getAttribute('value'),
+                isInitValue: this.getAttribute('isInitValue') != 'false',
+                min: this.getAttribute('min'),
+                max: this.getAttribute('max'),
+                trigger: this.getAttribute('trigger'),
+                show: this.getAttribute('show') != 'false',
+                position: this.getAttribute('position'),
+                zIndex: parseInt(this.getAttribute('zIndex')),
+                showBottom: this.getAttribute('showBottom') != 'false',
+                btns: this.getAttribute('btns').replace(/\[/ig, '').replace(/\]/ig, '').replace(/'/ig,'').replace(/\s/ig, '').split(','),
+                lang: this.getAttribute('lang'),
+                theme: this.getAttribute('theme'),
+                calendar: this.getAttribute('calendar') != 'false',
+                mark: JSON.parse(this.getAttribute('mark'))
+            };
+
+            if( !this.getAttribute('search') ){//搜素
+                config.done = function(value, date, endDate){
+                    setTimeout(function(){
+                        $(this).val(value);
+                        var e = $.Event("keydown");
+                        e.keyCode = 13;
+                        $('.date-time').trigger(e);
+                    },100)
+                }
+                delete config['value'];
+            }
+
+            laydate.render(config);
+        });
+
     });
 </script>
 <?php JsBlock::end()?>

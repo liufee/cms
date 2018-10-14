@@ -212,10 +212,10 @@ $(document).ready(function(){
 
     //美化日期laydate插件
     lay('.date-time').each(function(){
-        laydate.render({
+        var config = {
             elem: this,
             type: this.getAttribute('dateType'),
-            range: this.getAttribute('range') != 'false',
+            range: this.getAttribute('range') === 'true' ? true : ( this.getAttribute('range') === 'false' ? false : this.getAttribute('range') ),
             format: this.getAttribute('format'),
             value: this.getAttribute('value') === 'new Date()' ? new Date() : this.getAttribute('value'),
             isInitValue: this.getAttribute('isInitValue') != 'false',
@@ -231,7 +231,21 @@ $(document).ready(function(){
             theme: this.getAttribute('theme'),
             calendar: this.getAttribute('calendar') != 'false',
             mark: JSON.parse(this.getAttribute('mark'))
-        });
+        };
+
+        if( !this.getAttribute('search') ){//搜素
+            config.done = function(value, date, endDate){
+                setTimeout(function(){
+                $(this).val(value);
+                var e = $.Event("keydown");
+                e.keyCode = 13;
+                $('.date-time').trigger(e);
+                },100)
+            }
+            delete config['value'];
+        }
+
+        laydate.render(config);
     });
 
     //美化select选框jquery chosen

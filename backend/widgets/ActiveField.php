@@ -272,7 +272,7 @@ class ActiveField extends \yii\widgets\ActiveField
         /** @var $cdn \feehi\cdn\TargetAbstract */
          $cdn = Yii::$app->cdn;
          $baseUrl = $cdn->host;
-        $nonePicUrl = isset($options['default']) ? $options['default'] : $baseUrl . '/static/images/none.jpg';
+        $nonePicUrl = isset($options['default']) ? $options['default'] : $baseUrl . 'static/images/none.jpg';
         if ($src != '') {
             if( strpos($src, $baseUrl) !== 0 ){
                 $temp = parse_url($src);
@@ -364,6 +364,7 @@ class ActiveField extends \yii\widgets\ActiveField
         !isset($options['change']) && $options['change'] = 'function(value, date, endDate){}';//匿名函数
         !isset($options['done']) && $options['done'] = 'function(value, date, endDate){}';//匿名函数
         $options['dateType'] = $options['type'];
+        $options['search'] = 'true';
         unset($options['type']);
 
         if (!isset($options['class'])) {
