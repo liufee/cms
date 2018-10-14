@@ -128,6 +128,7 @@ return [
     'Are you sure you want to cancel release?' => '您确定要取消发布此文章吗?',
     'uncategoried' => '未分类',
     'Please select' => '请选择',
+    'Please select some' => '请选择一个或多个',
     'Allowed not to be deleted, some article belongs to this category.' => '不允许被删除，还有文章属于此分类',
     'Secret article must set a password' => '加密文章必须设置密码',
     'Article Id' => '文章Id',
@@ -286,6 +287,7 @@ return [
     'None item selected!' => '啊哦,神马都都没有选中!',
     'Only picture file be permitted.' => '只能选择图片类型',
     'Choose File' => '选择文件',
+    'Choose Image' => '选择图片',
     /*js*/
 
     /*error*/

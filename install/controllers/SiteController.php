@@ -391,16 +391,21 @@ EOF;
                 continue;
             }
             preg_match('/CREATE TABLE `([^ ]*)`/', $item, $matches);
-            if ($matches) {
-                $table_name = $matches[1];
-                $msg = Yii::t('install', 'Create table ') . "{$table_name}";
-                if (false !== $db->createCommand($item)->execute()) {
-                    $this->sp_show_msg($msg . ' ' . Yii::t('install', 'finished'));
+            try {
+                if ($matches) {
+                    $table_name = $matches[1];
+                    $msg = Yii::t('install', 'Create table ') . "{$table_name}";
+                    if (false !== $db->createCommand($item)->execute()) {
+                        $this->sp_show_msg($msg . ' ' . Yii::t('install', 'finished'));
+                    } else {
+                        $this->sp_show_msg($msg . ' ' . Yii::t('install', 'error '), 'error');
+                    }
                 } else {
-                    $this->sp_show_msg($msg . ' ' . Yii::t('install', 'error '), 'error');
+                    $db->createCommand($item)->execute();
                 }
-            } else {
-                $db->createCommand($item)->execute();
+            }catch (Exception $exception){
+                echo "数据库执行sql报错(通常是由于重复安装造成，新建一个数据库或者清空数据库所有的表再次安装即可):" . $exception->getMessage();
+                exit;
             }
 
         }

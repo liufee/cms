@@ -261,7 +261,7 @@ $this->title = Yii::t('install', 'Create Data');
                     },
                     manager_email: {
                         required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Email')])?>',
-                        email: '<?=Yii::t('Yii', 'Please input the correct email')?>'
+                        email: '<?=Yii::t('install', 'Please input the correct email')?>'
                     }
                 },
                 submitHandler: function (form) {

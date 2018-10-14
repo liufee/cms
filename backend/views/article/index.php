@@ -41,49 +41,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Articles');
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?= Bar::widget() ?>
-                <?php $form = ActiveForm::begin(['method'=>'get']); ?>
-                <div class="ibox-heading" style="margin-top: 5px;padding-top:5px">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <?=$form->field($searchModel, 'title', ['labelOptions'=>['class'=>'col-sm-4 control-label'], 'size'=>8, 'options'=>['class'=>'']])->textInput()?>
-                        </div>
-                        <div class="col-sm-3">
-                            <?=$form->field($searchModel, 'content', ['labelOptions'=>['class'=>'col-sm-4 control-label'], 'size'=>8, 'options'=>['class'=>'']])->textInput()?>
-                        </div>
-                        <div class="col-sm-3">
-                            <?=$form->field($searchModel, 'sub_title', ['labelOptions'=>['class'=>'col-sm-4 control-label'], 'size'=>8, 'options'=>['class'=>'']])->textInput()?>
-                        </div>
-                        <div class="col-sm-3">
-                            <?=$form->field($searchModel, 'seo_keywords', ['labelOptions'=>['class'=>'col-sm-6 control-label'], 'size'=>6, 'options'=>['class'=>'']])->textInput()?>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <?=$form->field($searchModel, 'visibility', ['labelOptions'=>['class'=>'col-sm-4 control-label'], 'size'=>8, 'options'=>['class'=>'']])->dropDownList(Constants::getArticleVisibility())?>
-                        </div>
-                        <div class="col-sm-3">
-                            <?=$form->field($searchModel, 'can_comment', ['labelOptions'=>['class'=>'col-sm-4 control-label'], 'size'=>8, 'options'=>['class'=>'']])->dropDownList(Constants::getArticleVisibility())?>
-                        </div>
-                        <div class="col-sm-3">
-                            <?=$form->field($searchModel, 'password', ['labelOptions'=>['class'=>'col-sm-4 control-label'], 'size'=>8, 'options'=>['class'=>'']])->dropDownList(Constants::getYesNoItems())?>
-                        </div>
-                        <div class="col-sm-3">
-                            <?=$form->field($searchModel, 'summary', ['labelOptions'=>['class'=>'col-sm-6 control-label'], 'size'=>6, 'options'=>['class'=>'']])->textInput()?>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <?=$form->field($searchModel, 'seo_title', ['labelOptions'=>['class'=>'col-sm-6 control-label'], 'size'=>6, 'options'=>['class'=>'']])->textInput()?>
-                        </div>
-                        <div class="col-sm-3"></div>
-                        <div class="col-sm-3"></div>
-                        <div class="col-sm-3">
-                            <button style="margin-right: 15px" type="submit" class="btn btn-w-m btn-primary pull-right btn-block"> 搜索</button>
-                        </div>
-                    </div>
-
-                </div>
-                <?php $form = ActiveForm::end() ?>
+                <?=$this->render('_search', ['model' => $searchModel]); ?>
                 <?php Pjax::begin(['id' => 'pjax']); ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,

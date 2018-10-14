@@ -52,12 +52,7 @@ $this->title = "Articles";
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-sm-12 col-sm-offset-1">
-                                        <div class="form-group col-sm-12 field-article-parent_id">
-                                            <div class="col-sm-12 m-l-n">
-                                                <?= $form->field($model, 'cid')->label('')->dropDownList(Category::getCategoriesName(), ['multiple'=>''])?>
-                                            </div>
-                                            <div class="help-block m-b-none"></div>
-                                        </div>
+                                        <?= $form->field($model, 'cid', ['size'=>10])->label(false)->chosenSelect(Category::getCategoriesName())?>
                                     </div>
                                 </div>
                             </div>

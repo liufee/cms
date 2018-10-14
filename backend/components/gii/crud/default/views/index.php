@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = yii::t('app', '<?=Inflector::camel2words(String
             <?="<?= \$this->render('/widgets/_ibox-title') ?>\n"?>
             <div class="ibox-content">
                 <?="<?= Bar::widget() ?>\n"?>
-                <?php if( !empty($generator->searchModelClass) ){ echo "<?=\$this->render('_search', ['model' => \$searchModel]); ?>";}?>
+                <?php if( !empty($generator->searchModelClass) ){ echo "<?=\$this->render('_search', ['model' => \$searchModel]); ?>\n";}?>
     <?= $generator->enablePjax ? '<?php Pjax::begin(); ?>' : '' ?>
     <?php if ($generator->indexWidgetType === 'grid'): ?>
         <?= "<?= " ?>GridView::widget([

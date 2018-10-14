@@ -8,9 +8,7 @@
 ?>
 <script>
     var common = {
-        chooseFile: "<?=Yii::t('app', 'Choose File')?>",
-        deleteText: "<?=Yii::t('app', 'Delete')?>",
-        none: "<?=Yii::t('app', 'None')?>",
+        deleteText: "<?=Yii::t('app', 'Delete')?>"
     }
     var tips = {
         confirmTitle: "<?=Yii::t('app', 'Confirm')?>",

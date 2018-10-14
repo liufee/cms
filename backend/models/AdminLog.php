@@ -91,8 +91,11 @@ class AdminLog extends \yii\db\ActiveRecord
             Yii::t('app', 'id'),
             Yii::t('app', 'record')
         ], $this->description);
-        $this->description = preg_replace_callback('/14\d{8}/', function ($matches) {
-            return date('Y-m-d H:i:s', $matches[0]);
+        $this->description = preg_replace_callback('/\(created_at\) : (\d{1,10})=>(\d{1,10})/', function ($matches) {
+            return str_replace([$matches[1], $matches[2]], [Yii::$app->getFormatter()->asDate((int)$matches[1]), Yii::$app->getFormatter()->asDate((int)$matches[2])], $matches[0]);
+        }, $this->description);
+        $this->description = preg_replace_callback('/\(updated_at\) : (\d{1,10})=>(\d{1,10})/', function ($matches) {
+            return str_replace([$matches[1], $matches[2]], [Yii::$app->getFormatter()->asDate((int)$matches[1]), Yii::$app->getFormatter()->asDate((int)$matches[2])], $matches[0]);
         }, $this->description);
         parent::afterFind();
     }

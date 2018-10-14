@@ -63,8 +63,7 @@ function viewLayer(url, obj)
 
 $(document).ready(function(){
     //$('.info').animate({opacity: 1.0}, 3000).fadeOut('slow');
-    $("input[type=file]").prettyFile({text:common.chooseFile});
-    $(".chosen-select").chosen({no_results_text: common.none,search_contains: true});
+    //多选后处理
     $(".multi-operate").click(function () {
         var that = $(this);
         var url = $(this).attr('href');
@@ -167,7 +166,8 @@ $(document).ready(function(){
         return false;
     });
 
-    $('input[type=file]').bind('change', function () {
+    //prettyFile文件选矿change后如果是图片显示图片
+    $('input[type=file].pretty-file').bind('change', function () {
         if (typeof FileReader === 'undefined') {
             return;
         }
@@ -189,15 +189,74 @@ $(document).ready(function(){
         }
     });
 
+    //在顶部导航栏打开tab
     $(".openContab").click(function(){
         parent.openConTab($(this));
         return false;
     });
 
+    //提交表单后除form为none-loading的class显示loading效果
     $("form:not(.none-loading)").bind("beforeSubmit", function () {
         $(this).find("button[type=submit]").attr("disabled", true);
         layer.load(2,{
             shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+    })
+
+    //prettyFile美化文件选框
+    $("input[type=file].pretty-file").each(function () {
+        $(this).prettyFile({
+            text:this.getAttribute('text')
+        });
+    })
+
+    //美化日期laydate插件
+    lay('.date-time').each(function(){
+        laydate.render({
+            elem: this,
+            type: this.getAttribute('dateType'),
+            range: this.getAttribute('range') != 'false',
+            format: this.getAttribute('format'),
+            value: this.getAttribute('value') === 'new Date()' ? new Date() : this.getAttribute('value'),
+            isInitValue: this.getAttribute('isInitValue') != 'false',
+            min: this.getAttribute('min'),
+            max: this.getAttribute('max'),
+            trigger: this.getAttribute('trigger'),
+            show: this.getAttribute('show') != 'false',
+            position: this.getAttribute('position'),
+            zIndex: parseInt(this.getAttribute('zIndex')),
+            showBottom: this.getAttribute('showBottom') != 'false',
+            btns: this.getAttribute('btns').replace(/\[/ig, '').replace(/\]/ig, '').replace(/'/ig,'').replace(/\s/ig, '').split(','),
+            lang: this.getAttribute('lang'),
+            theme: this.getAttribute('theme'),
+            calendar: this.getAttribute('calendar') != 'false',
+            mark: JSON.parse(this.getAttribute('mark'))
+        });
+    });
+
+    //美化select选框jquery chosen
+    $(".chosen-select").each(function(){
+        $(this).chosen({
+            allow_single_deselect: this.getAttribute('allow_single_deselect') !== 'false',
+            disable_search: this.getAttribute('disable_search') !== 'false',
+            disable_search_threshold: this.getAttribute('disable_search_threshold'),
+            enable_split_word_search: this.getAttribute('enable_split_word_search') !== 'false',
+            inherit_select_classes: this.getAttribute('inherit_select_classes') !== 'false',
+            max_selected_options: this.getAttribute('max_selected_options'),
+            no_results_text: this.getAttribute('no_results_text'),
+            placeholder_text_multiple: this.getAttribute('placeholder_text_multiple'),
+            placeholder_text_single: this.getAttribute('placeholder_text_single'),
+            search_contains: this.getAttribute('search_contains') !== 'false',
+            group_search: this.getAttribute('group_search') !== 'false',
+            single_backstroke_delete: this.getAttribute('single_backstroke_delete') !== 'false',
+            width: this.getAttribute('width'),
+            display_disabled_options: this.getAttribute('display_disabled_options') !== 'false',
+            display_selected_options: this.getAttribute('display_selected_options') !== 'false',
+            include_group_label_in_selected: this.getAttribute('include_group_label_in_selected') !== 'false',
+            max_shown_results: this.getAttribute('max_shown_results'),
+            case_sensitive_search: this.getAttribute('case_sensitive_search') !== 'false',
+            hide_results_on_select: this.getAttribute('hide_results_on_select') !== 'false',
+            rtl: this.getAttribute('rtl') !== 'false'
         });
     })
 })

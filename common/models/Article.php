@@ -129,6 +129,7 @@ class Article extends \yii\db\ActiveRecord
             [['type'], 'default', 'value'=>self::ARTICLE, 'on'=>'article'],
             [['type'], 'default', 'value'=>self::SINGLE_PAGE, 'on'=>'page'],
             [['password'], 'string', 'max'=>20],
+            ['cid', 'default', 'value'=>0]
         ];
     }
 
