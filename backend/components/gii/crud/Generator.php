@@ -8,6 +8,8 @@
 
 namespace backend\components\gii\crud;
 
+use ReflectionClass;
+
 class Generator extends \yii\gii\generators\crud\Generator
 {
     /**
@@ -31,7 +33,9 @@ class Generator extends \yii\gii\generators\crud\Generator
 
     public function formView()
     {
-        return "@yii/../yii2-gii/generators/crud/" . '/form.php';
+        $class = new ReflectionClass(\yii\gii\generators\crud\Generator::className());
+
+        return dirname($class->getFileName()) . '/form.php';
     }
 
 }
