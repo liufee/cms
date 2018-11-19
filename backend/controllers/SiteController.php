@@ -128,46 +128,43 @@ class SiteController extends \yii\web\Controller
             'USER' => User::find()->count('id'),
             'FRIEND_LINK' => FriendlyLink::find()->count('id'),
         ];
+        $percent = '0.00';
         $statics = [
             'ARTICLE' => [
                 $temp['ARTICLE'],
-                $temp['ARTICLE'] == 0 ? 0 :
-                number_format(ArticleModel::find()->where([
+                $temp['ARTICLE'] ? number_format(ArticleModel::find()->where([
                         'between',
                         'created_at',
                         strtotime(date('Y-m-01')),
                         strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")
-                    ])->count('id') / $temp['ARTICLE'] * 100, 2)
+                    ])->count('id') / $temp['ARTICLE'] * 100, 2) : $percent
             ],
             'COMMENT' => [
                 $temp['COMMENT'],
-                $temp['COMMENT'] == 0 ? 0 :
-                number_format(Comment::find()->where([
+                $temp['COMMENT'] ? number_format(Comment::find()->where([
                         'between',
                         'created_at',
                         strtotime(date('Y-m-d 00:00:00')),
                         time()
-                    ])->count('id') / $temp['COMMENT'] * 100, 2)
+                    ])->count('id') / $temp['COMMENT'] * 100, 2) : $percent
             ],
             'USER' => [
                 $temp['USER'],
-                $temp['USER'] == 0 ? 0 :
-                number_format(User::find()->where([
+                $temp['USER'] ? number_format(User::find()->where([
                         'between',
                         'created_at',
                         strtotime(date('Y-m-01')),
                         strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")
-                    ])->count('id') / $temp['USER'] * 100, 2)
+                    ])->count('id') / 1 * 100, 2) : $percent
             ],
             'FRIEND_LINK' => [
                 $temp['FRIEND_LINK'],
-                $temp['FRIEND_LINK'] == 0 ? 0 :
-                number_format(FriendlyLink::find()->where([
+                $temp['FRIEND_LINK'] ? number_format(FriendlyLink::find()->where([
                         'between',
                         'created_at',
                         strtotime(date('Y-m-01')),
                         strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")
-                    ])->count('id') / $temp['FRIEND_LINK'] * 100, 2)
+                    ])->count('id') / $temp['FRIEND_LINK'] * 100, 2) : $percent
             ],
         ];
         $comments = BackendComment::getRecentComments(6);
