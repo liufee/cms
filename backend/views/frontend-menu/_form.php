@@ -49,7 +49,7 @@ if ($parent_id != '') {
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'is_absolute_url')->radioList(Constants::getYesNoItems()) ?>
                 <div class="hr-line-dashed"></div>
-                <?= $form->field($model, 'url', ['template'=>'{label}<div class="col-sm-{size}"><input name="urlType" checked value="new" type="radio">' . yii::t('app', 'Input new') . ' &nbsp;&nbsp;<input value="select" name="urlType" type="radio">' . yii::t('app', 'Select from article category') . '<div class="form-group field-menu-url required">{input}</div>{error}</div>{hint}'])->textInput()?>
+                <?= $form->field($model, 'url', ['template'=>'{label}<div class="col-sm-{size}"><input name="urlType" checked value="new" type="radio">' . yii::t('app', 'Input new') . ' &nbsp;&nbsp;<input value="select" name="urlType" type="radio">' . yii::t('app', 'Chose from article category') . '<div class="form-group field-menu-url required">{input}</div>{error}</div>{hint}'])->textInput()?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'sort')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>
@@ -81,7 +81,7 @@ if ($parent_id != '') {
         var urlType = $("input[name=urlType]");
         var categoryUrl =
         <?php
-            $menuCategories = Category::getMenuCategories();
+            $menuCategories = Category::getMenuCategories(true);
             if($model->id){
                 foreach ($menuCategories as $k => $menuCategory){
                     if($k == $model->url){

@@ -122,13 +122,13 @@ class Category extends \yii\db\ActiveRecord
     /**
      * @return array
      */
-    public static function getMenuCategories()
+    public static function getMenuCategories($menuCategoryChosen=false)
     {
         $categories = self::getCategories();
         $familyTree = new FamilyTree($categories);
         $data = [];
-        foreach ($categories as $k => $v){
-            $parents = $familyTree->getAncectors($v['id']);
+        foreach ($categories as $k => $category){
+            $parents = $familyTree->getAncectors($category['id']);
             $url = '';
             if(!empty($parents)){
                 $parents = array_reverse($parents);
@@ -136,18 +136,22 @@ class Category extends \yii\db\ActiveRecord
                     $url .= '/' . $parent['alias'];
                 }
             }
-            $url .= '/'.$v['alias'];
-            if( isset($categories[$k+1]['level']) && $categories[$k+1]['level'] == $v['level'] ){
-                $name = ' ├' . $v['name'];
+            if( isset($categories[$k+1]['level']) && $categories[$k+1]['level'] == $category['level'] ){
+                $name = ' ├' . $category['name'];
             }else{
-                $name = ' └' . $v['name'];
+                $name = ' └' . $category['name'];
             }
-            if( end($categories) == $v ){
+            if( end($categories) == $category ){
                 $sign = ' └';
             }else{
                 $sign = ' │';
             }
-            $data[$url] = str_repeat($sign, $v['level']-1) . $name;
+            if( $menuCategoryChosen ){
+                $url = '{"0":"article/index","cat":"' . $category['alias'] . '"}';
+            }else{
+                $url = '/'.$category['alias'];
+            }
+            $data[$url] = str_repeat($sign, $category['level']-1) . $name;
         }
         return $data;
     }

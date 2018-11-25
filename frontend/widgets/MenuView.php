@@ -36,26 +36,18 @@ class MenuView extends \yii\base\Widget
             $menus = Menu::find()
                 ->where(['type' => Menu::FRONTEND_TYPE, 'is_display' => Menu::DISPLAY_YES])
                 ->orderBy("sort asc,parent_id asc")
-                ->asArray()
                 ->all();
         }
         $content = '';
         foreach ($menus as $key => $menu) {
-            if ($menu['parent_id'] == 0) {
-                if (empty($menu['url'])) {
-                    $url = 'javascript:void(0)';
-                } else {
-                    if ($menu['is_absolute_url']) {
-                        $url = $menu['url'];
-                    } else {
-                        $url = Url::to([$menu['url']]);
-                    }
-                }
-                $current_menu_class = '';
+            /** @var $menu Menu */
+            if ($menu->parent_id == 0) {
+                $url = $menu->getMenuUrl();
+                $currentMenuClass = '';
                 if ($url == yii::$app->getRequest()->getUrl()) {
-                    $current_menu_class = ' current-menu-item ';
+                    $currentMenuClass = ' current-menu-item ';
                 }
-                $submenu = $this->getSubMenu($menus, $menu['id']);
+                $submenu = $this->getSubMenu($menus, $menu->id);
                 $content .= str_replace([
                     '{menu_id}',
                     '{current_menu_class}',
@@ -64,11 +56,11 @@ class MenuView extends \yii\base\Widget
                     '{title}',
                     '{sub_menu}'
                 ], [
-                    $menu['id'],
-                    $current_menu_class,
+                    $menu->id,
+                    $currentMenuClass,
                     $url,
-                    $menu['target'],
-                    $menu['name'],
+                    $menu->target,
+                    $menu->name,
                     $submenu
                 ], $this->liTemplate);
             }
@@ -80,27 +72,21 @@ class MenuView extends \yii\base\Widget
      * @param $menus
      * @param $cur_id
      * @return mixed|string
+     * @throws yii\base\InvalidConfigException
      */
     private function getSubMenu($menus, $cur_id)
     {
         $content = '';
         foreach ($menus as $key => $menu) {
+            /** @var $menu Menu */
             if ($menu['parent_id'] == $cur_id) {
-                if (empty($menu['url'])) {
-                    $url = 'javascript:void(0)';
-                } else {
-                    if ($menu['is_absolute_url']) {
-                        $url = $menu['url'];
-                    } else {
-                        $url = Url::to([$menu['url']]);
-                    }
-                }
-                $current_menu_class = '';
+                $url = $menu->getMenuUrl();
+                $currentMenuClass = '';
                 if ($menu['url'] == Yii::$app->controller->id . '/' . Yii::$app->controller->action->id) {
-                    $current_menu_class = ' current-menu-item ';
+                    $currentMenuClass = ' current-menu-item ';
                 } else {
                     if (yii::$app->request->getPathInfo() == $menu['url']) {
-                        $current_menu_class = ' current-menu-item ';
+                        $currentMenuClass = ' current-menu-item ';
                     }
                 }
                 $content .= str_replace([
@@ -109,7 +95,7 @@ class MenuView extends \yii\base\Widget
                     '{url}',
                     '{target}',
                     '{title}'
-                ], [$menu['id'], $current_menu_class, $url, $menu['target'], $menu['name']], $this->subLitemplate);
+                ], [$menu['id'], $currentMenuClass, $url, $menu->target, $menu->name], $this->subLitemplate);
             }
         }
         if ($content != '') {

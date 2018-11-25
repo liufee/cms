@@ -25,7 +25,7 @@ class Menu extends \common\models\Menu
     public static function getBackendMenu()
     {
         $model = new self();
-        $menus = $model->find()->where(['is_display' => self::DISPLAY_YES, 'type' => self::BACKEND_TYPE])->orderBy("sort asc")->asArray()->all();
+        $menus = $model->find()->where(['is_display' => self::DISPLAY_YES, 'type' => self::BACKEND_TYPE])->orderBy("sort asc")->all();
         $permissions = Yii::$app->getAuthManager()->getPermissionsByUser(Yii::$app->getUser()->getId());
         $permissions = array_keys($permissions);
 
@@ -33,7 +33,11 @@ class Menu extends \common\models\Menu
             $newMenu = [];
             foreach ($menus as $menu) {
                 $url = $menu['url'];
-                if( strpos($url, '/') !== 0 ) $url = '/' . $url;
+                $temp = @json_decode($menu['url'], true);
+                if( $temp !== null ){
+                    $url = $temp[0];
+                    if( strpos($url, '/') !== 0 ) $url = '/' . $url;
+                }
                 $url = $url . ':GET';
                 if (in_array($url, $permissions)) {
                     $menu = self::getAncectorsByMenuId($menu['id']) + [$menu];
@@ -55,7 +59,26 @@ class Menu extends \common\models\Menu
             }
             $subMenu = self::_getBackendSubMenu($menus, $menu['id'], '2');
             $menu['icon'] = $menu['icon'] ? $menu['icon'] : 'fa-desktop';
-            $menu['url'] = self::generateUrl($menu);
+            $menu['url'] = call_user_func(function()use($menu){
+                $url = "";
+                if( !$menu['is_absolute_url'] ) {
+                    if( strlen($menu['url']) > 0 ){
+                        $firstCharacter = $menu['url'][0];
+                        if( in_array($firstCharacter, ['[', '{']) ){
+                            $temp = @json_decode($menu['url'], true);
+                            if( $temp === null ){
+                                Yii::error("app", "Menu id ({$menu['id']}) url is incorrect json format");
+                            }
+                            $url = Url::to($temp);
+                        }else{
+                            $url = Url::to([$menu['url']]);
+                        }
+                    }
+                }else{
+                    $url = $menu['url'];
+                }
+                return $url;
+            });
             $arrow = '';
             $class = 'class="J_menuItem"';
             if ($subMenu != '') {
@@ -93,7 +116,7 @@ EOF;
                 continue;
             }
             $subsubmenu = self::_getBackendSubMenu($menus, $menu['id'], $times);
-            $url = $menu['url'] = self::generateUrl($menu);
+            $url = $menu->getMenuUrl();
             if ($subsubmenu == '') {
                 $arrow = '';
             } else {
@@ -116,19 +139,6 @@ EOF;
             return "";
         }
 
-    }
-
-    private static function generateUrl($menu)
-    {
-        if ($menu['url'] === '') {
-            return '';
-        } else {
-            if ($menu['is_absolute_url'] == 1) {
-                return $menu['url'];
-            } else {
-                return Url::to([$menu['url']]);
-            }
-        }
     }
 
     /**

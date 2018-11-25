@@ -31,9 +31,9 @@ $this->title = "Permissions";
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'sort')->textInput() ?>
                 <div class="hr-line-dashed"></div>
-                <?= $form->field($model, 'group', ['template'=>'{label}<div class="col-sm-{size}"><input name="groupType" checked value="new" type="radio">' . Yii::t('app', 'Input new') . ' &nbsp;&nbsp;<input value="select" name="groupType" type="radio">' . Yii::t('app', 'Select from exists') . '<div class="form-group field-rbac-group required">{input}</div>{error}</div>{hint}'])->textInput()?>
+                <?= $form->field($model, 'group', ['template'=>'{label}<div class="col-sm-{size}"><input name="groupType" checked value="new" type="radio">' . Yii::t('app', 'Input new') . ' &nbsp;&nbsp;<input value="select" name="groupType" type="radio">' . Yii::t('app', 'Chose from exists') . '<div class="form-group field-rbac-group required">{input}</div>{error}</div>{hint}'])->textInput()?>
                 <div class="hr-line-dashed"></div>
-                <?= $form->field($model, 'category', ['template'=>'{label}<div class="col-sm-{size}"><input name="categoryType" checked value="new" type="radio">' . Yii::t('app', 'Input new') . ' &nbsp;&nbsp;<input value="select" name="categoryType" type="radio">' . Yii::t('app', 'Select from exists') . '<div class="form-group field-rbac-category required">{input}</div>{error}</div>{hint}'])->textInput()?>
+                <?= $form->field($model, 'category', ['template'=>'{label}<div class="col-sm-{size}"><input name="categoryType" checked value="new" type="radio">' . Yii::t('app', 'Input new') . ' &nbsp;&nbsp;<input value="select" name="categoryType" type="radio">' . Yii::t('app', 'Chose from exists') . '<div class="form-group field-rbac-category required">{input}</div>{error}</div>{hint}'])->textInput()?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->defaultButtons() ?>
                 <?php ActiveForm::end(); ?>

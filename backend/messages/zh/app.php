@@ -158,8 +158,9 @@ return [
     'HTTP Method' => '请求方式',
     'Input new' => '输入',
     'Sub Menu exists, cannot be deleted' => '该菜单还有子菜单，不能被删除',
-    'Select from article category' => '从文章分类选择',
+    'Chose from article category' => '从文章分类选择',
     'Parent Menu Name' => '父分类菜单名称',
+    'Url is not a correct json format' => '地址的json格式错误',
     /*menu*/
 
     /*setting*/
@@ -277,7 +278,7 @@ return [
     'Permissions' => '权限',
     'Group' => '组',
     'Assign Permission' => '分配权限',
-    'Select from exists' => '从已有选择',
+    'Chose from exists' => '从已有选择',
     /*rbac*/
 
     /*js*/

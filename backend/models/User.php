@@ -119,7 +119,7 @@ class User extends \common\models\User
         $assignments = $authManager->getAssignments($this->id);
         $roles = $permissions = [];
         foreach ($assignments as $key => $assignment){
-            if( strpos($assignment->roleName, ':GET') || strpos($assignment->roleName, ':POST') ){
+            if( strpos($assignment->roleName, ':GET') || strpos($assignment->roleName, ':POST') || strpos($assignment->roleName, ':DELETE') ){
                 $permissions[$key] = $assignment;
             }else{
                 $roles[$key] = $assignment;

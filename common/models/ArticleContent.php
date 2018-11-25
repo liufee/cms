@@ -56,26 +56,26 @@ class ArticleContent extends \yii\db\ActiveRecord
     public function beforeSave($insert)
     {
         /** @var $cdn \feehi\cdn\TargetInterface */
-        $cdn = yii::$app->get('cdn');
+        $cdn = Yii::$app->get('cdn');
         if( $cdn instanceof DummyTarget){//未使用cdn
-            $baseUrl = yii::$app->params['site']['url'];
+            $baseUrl = Yii::$app->params['site']['url'];
         }else{
             $baseUrl = $cdn->host;
         }
-        $this->content = str_replace($baseUrl, yii::$app->params['site']['sign'], $this->content);
+        $this->content = str_replace($baseUrl, Yii::$app->params['site']['sign'], $this->content);
         return true;
     }
 
     public function afterFind()
     {
         /** @var $cdn \feehi\cdn\TargetInterface */
-        $cdn = yii::$app->get('cdn');
+        $cdn = Yii::$app->get('cdn');
         if( $cdn instanceof DummyTarget){//未使用cdn
-            $baseUrl = yii::$app->params['site']['url'];
+            $baseUrl = Yii::$app->params['site']['url'];
         }else{
             $baseUrl = $cdn->host;
         }
-        $this->content = str_replace(yii::$app->params['site']['sign'], $baseUrl, $this->content);
+        $this->content = str_replace(Yii::$app->params['site']['sign'], $baseUrl, $this->content);
     }
 
 }
