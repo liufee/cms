@@ -154,7 +154,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Articles');
                             'class' => ActionColumn::className(),
                             'buttons' => [
                                 'comment' => function ($url, $model, $key) {
-                                    return Html::a('<i class="fa  fa-commenting-o" aria-hidden="true"></i> ' . Yii::t('app', 'Comments'), Url::to([
+                                    return Html::a('<i class="fa  fa-commenting-o" aria-hidden="true"></i> ', Url::to([
                                         'comment/index',
                                         'CommentSearch[aid]' => $model->id
                                     ]), [

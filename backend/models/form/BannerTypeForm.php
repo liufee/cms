@@ -64,7 +64,7 @@ class BannerTypeForm extends \common\models\Options
     public function beforeSave($insert)
     {
         /** @var array $banners */
-        $banners = $this->value;
+        $banners = !is_array( $this->value ) ? [] : $this->value;
         /** @var $cdn \feehi\cdn\TargetAbstract */
         $cdn = Yii::$app->get('cdn');
         $array = [];

@@ -89,7 +89,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Permissions');
                             'width' => '190px',
                             'buttons' => [
                                 'view-layer' => function($url, $model, $key){
-                                    return Html::a('<i class="fa fa-folder"></i> ' . Yii::t('yii', 'View'), 'javascript:void(0)', [
+                                    return Html::a('<i class="fa fa-folder"></i> ', 'javascript:void(0)', [
                                         'title' => Yii::t('yii', 'View'),
                                         'onclick' => "viewLayer('" . Url::to(['permission-view-layer', 'name' => $model->name]) . "',$(this))",
                                         'data-pjax' => '0',
@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Permissions');
                                     ]);
                                 },
                                 'update' => function ($url, $model, $key) {
-                                    return Html::a('<i class="fa  fa-edit" aria-hidden="true"></i> ' . Yii::t('app', 'Update'), Url::to([
+                                    return Html::a('<i class="fa  fa-edit" aria-hidden="true"></i> ', Url::to([
                                         'permission-update',
                                         'name' => $model->name
                                     ]), [
@@ -107,7 +107,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Permissions');
                                     ]);
                                 },
                                 'delete' => function ($url, $model) {
-                                    return Html::a('<i class="fa fa-trash-o"></i> ' . Yii::t('app', 'Delete'), Url::to(['permission-delete', 'name'=>$model->name]), [
+                                    return Html::a('<i class="fa fa-trash-o"></i> ', Url::to(['permission-delete', 'name'=>$model->name]), [
                                         'title' => Yii::t('app', 'Delete'),
                                         'data-pjax' => '0',
                                         'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),

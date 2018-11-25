@@ -86,7 +86,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Frontend Menus');
                             'class' => ActionColumn::className(),
                             'buttons' => [
                                 'create' => function ($url, $model, $key) {
-                                    return Html::a('<i class="fa  fa-plus" aria-hidden="true"></i> ' . Yii::t('app', 'Create'), Url::to([
+                                    return Html::a('<i class="fa  fa-plus" aria-hidden="true"></i> ', Url::to([
                                         'create',
                                         'parent_id' => $model['id']
                                     ]), [

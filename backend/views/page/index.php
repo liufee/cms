@@ -48,7 +48,6 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Pages');
                         [
                             'attribute' => 'title',
                             'format' => 'html',
-                            'width' => '170',
                             'value' => function ($model, $key, $index, $column) {
                                 return Html::a($model->title, 'javascript:void(0)', [
                                     'title' => $model->thumb,
@@ -95,7 +94,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Pages');
                             'class' => ActionColumn::className(),
                             'buttons' => [
                                 'comment' => function ($url, $model, $key) {
-                                    return Html::a('<i class="fa  fa-commenting-o" aria-hidden="true"></i> ' . Yii::t('app', 'Comments'), Url::to([
+                                    return Html::a('<i class="fa  fa-commenting-o" aria-hidden="true"></i> ', Url::to([
                                         'comment/index',
                                         'CommentSearch[aid]' => $model->id
                                     ]), [
