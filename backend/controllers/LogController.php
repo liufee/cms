@@ -18,6 +18,13 @@ use backend\actions\DeleteAction;
 class LogController extends \yii\web\Controller
 {
 
+    /**
+     * @auth
+     * - item group=其他 category=日志 description-get=列表 method=get
+     * - item group=其他 category=日志 description-get=查看 method=get  
+     * - item group=其他 category=日志 description-post=删除 method=post  
+     * @return array
+     */
     public function actions()
     {
         return [

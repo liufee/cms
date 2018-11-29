@@ -21,6 +21,16 @@ use backend\actions\SortAction;
 class UserController extends \yii\web\Controller
 {
 
+    /**
+     * @auth
+     * - item group=用户 category=前台用户 description-get=列表 method=get
+     * - item group=用户 category=前台用户 description-get=查看 method=get  
+     * - item group=用户 category=前台用户 description=创建 method=get,post  
+     * - item group=用户 category=前台用户 description=修改 method=get,post  
+     * - item group=用户 category=前台用户 description-post=删除 method=post  
+     * - item group=用户 category=前台用户 description-post=排序 method=post  
+     * @return array
+     */
     public function actions()
     {
         return [

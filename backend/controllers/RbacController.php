@@ -17,6 +17,12 @@ use yii\web\UnprocessableEntityHttpException;
 
 class RbacController extends \yii\web\Controller
 {
+    /**
+     * @auth - item group=权限 category=规则 description-get=列表 method=get
+     *
+     * @return string
+     * @throws \yii\base\InvalidConfigException
+     */
     public function actionPermissions()
     {
         /** @var RbacSearch $searchModel */
@@ -28,6 +34,12 @@ class RbacController extends \yii\web\Controller
         ]);
     }
 
+    /**
+     * @auth - item group=权限 category=规则 description-post=排序 method=post
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionPermissionsSort()
     {
         if (Yii::$app->getRequest()->getIsPost()) {
@@ -47,6 +59,11 @@ class RbacController extends \yii\web\Controller
         return [];
     }
 
+    /**
+     * @auth - item group=权限 category=规则 description=创建 method=get,post
+     * @return string|Response
+     * @throws \yii\base\InvalidConfigException
+     */
     public function actionPermissionCreate()
     {
         /** @var Rbac $model */
@@ -69,6 +86,13 @@ class RbacController extends \yii\web\Controller
         ]);
     }
 
+    /**
+     * @auth - item group=权限 category=规则 description=修改 method=get,post
+     * @param $name
+     * @return string|Response
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionPermissionUpdate($name)
     {
         /** @var Rbac $model */
@@ -92,6 +116,13 @@ class RbacController extends \yii\web\Controller
         ]);
     }
 
+    /**
+     * @auth - item group=权限 category=规则 description-get=查看 method=get
+     * @param $name
+     * @return string
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionPermissionViewLayer($name)
     {
         /** @var Rbac $model */
@@ -102,6 +133,14 @@ class RbacController extends \yii\web\Controller
         ]);
     }
 
+    /**
+     * @auth - item group=权限 category=规则 description-post=删除 method=post
+     * @param null $name
+     * @return array
+     * @throws MethodNotAllowedHttpException
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionPermissionDelete($name=null)
     {
         /** @var Rbac $model */
@@ -130,6 +169,11 @@ class RbacController extends \yii\web\Controller
         }
     }
 
+    /**
+     * @auth - item group=权限 category=角色 description-get=列表 method=get
+     * @return string
+     * @throws \yii\base\InvalidConfigException
+     */
     public function actionRoles()
     {
         /** @var RbacSearch $searchModel */
@@ -141,6 +185,11 @@ class RbacController extends \yii\web\Controller
         ]);
     }
 
+    /**
+     * @auth - item group=权限 category=角色 description=创建 method=get,post
+     * @return string|Response
+     * @throws \yii\base\InvalidConfigException
+     */
     public function actionRoleCreate()
     {
         /** @var Rbac $model */
@@ -163,6 +212,13 @@ class RbacController extends \yii\web\Controller
         ]);
     }
 
+    /**
+     * @auth - item group=权限 category=角色 description=修改 method=get,post
+     * @param $name
+     * @return string|Response
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionRoleUpdate($name)
     {
         /** @var Rbac $model */
@@ -186,6 +242,13 @@ class RbacController extends \yii\web\Controller
         ]);
     }
 
+    /**
+     * @auth - item group=权限 category=角色 description-get=查看 method=get
+     * @param $name
+     * @return string
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionRoleViewLayer($name)
     {
         /** @var Rbac $model */
@@ -196,6 +259,12 @@ class RbacController extends \yii\web\Controller
         ]);
     }
 
+    /**
+     * @auth - item group=权限 category=角色 description=排序 method=post
+     * @return array
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionRolesSort()
     {
         if (Yii::$app->getRequest()->getIsPost()) {
@@ -215,6 +284,16 @@ class RbacController extends \yii\web\Controller
         return [];
     }
 
+    /**
+     * @auth - item group=权限 category=角色 description-post=删除 method=post
+     * @param string $name
+     * @param null $id
+     * @return array|Response
+     * @throws MethodNotAllowedHttpException
+     * @throws UnprocessableEntityHttpException
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\NotFoundHttpException
+     */
     public function actionRoleDelete($name='', $id=null)
     {
         if( Yii::$app->getRequest()->getIsPost() ) {

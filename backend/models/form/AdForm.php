@@ -12,7 +12,7 @@ use common\helpers\Util;
 use Yii;
 use common\libs\Constants;
 
-class AdForm extends \Common\models\Options
+class AdForm extends \common\models\Options
 {
     public $ad;
 

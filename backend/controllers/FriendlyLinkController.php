@@ -24,6 +24,16 @@ use backend\actions\SortAction;
 class FriendlyLinkController extends \yii\web\Controller
 {
 
+    /**
+     * @auth
+     * - item group=其他 category=友情链接 description-get=列表 method=get
+     * - item group=内容 category=友情链接 description-get=查看 method=get  
+     * - item group=内容 category=友情链接 description=创建 method=get,post  
+     * - item group=内容 category=友情链接 description=修改 method=get,post  
+     * - item group=内容 category=友情链接 description-post=删除 method=post  
+     * - item group=内容 category=友情链接 description-post=排序 method=post  
+     * @return array
+     */
     public function actions()
     {
         return [
@@ -39,6 +49,10 @@ class FriendlyLinkController extends \yii\web\Controller
                     ];
                 }
             ],
+            'view-layer' => [
+                'class' => ViewAction::className(),
+                'modelClass' => FriendlyLink::className(),
+            ],
             'create' => [
                 'class' => CreateAction::className(),
                 'modelClass' => FriendlyLink::className(),
@@ -53,10 +67,6 @@ class FriendlyLinkController extends \yii\web\Controller
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => FriendlyLink::className(),
-            ],
-            'view-layer' => [
-                'class' => ViewAction::className(),
                 'modelClass' => FriendlyLink::className(),
             ],
         ];

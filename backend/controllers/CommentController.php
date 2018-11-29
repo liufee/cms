@@ -18,7 +18,14 @@ use backend\actions\DeleteAction;
 
 class CommentController extends \yii\web\Controller
 {
-
+    /**
+     * @auth
+     * - item group=内容 category=评论 description-get=列表 method=get
+     * - item group=内容 category=评论 description-get=查看 method=get  
+     * - item group=内容 category=评论 description=修改 method=get,post  
+     * - item group=内容 category=评论 description-post=删除 method=post  
+     * @return array
+     */
     public function actions()
     {
         return [

@@ -22,7 +22,14 @@ use backend\actions\ViewAction;
 
 class AdminUserController extends \yii\web\Controller
 {
-
+    /**
+     * @auth
+     * - item group=后台管理 category=管理员 description-get=列表 method=get
+     * - item group=后台管理 category=管理员 description-get=查看 method=get  
+     * - item group=后台管理 category=管理员 description-post=删除 method=post  
+     * - item group=后台管理 category=管理员 description-post=排序 method=post  
+     * @return array
+     */
     public function actions()
     {
         return [
@@ -56,7 +63,9 @@ class AdminUserController extends \yii\web\Controller
     /**
      * 创建管理员账号
      *
+     * @auth - item group=后台管理 category=管理员 description=创建 method=get,post
      * @return string|\yii\web\Response
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionCreate()
     {
@@ -85,8 +94,10 @@ class AdminUserController extends \yii\web\Controller
     /**
      * 修改管理员账号
      *
+     * @auth - item group=后台管理 category=管理员 description=修改 method=get,post
      * @param $id
      * @return string|\yii\web\Response
+     * @throws \Throwable
      */
     public function actionUpdate($id)
     {
@@ -120,9 +131,11 @@ class AdminUserController extends \yii\web\Controller
     }
 
     /**
-     * 登陆的管理员修改自身
+     * 管理员修改自己
      *
+     * @auth - item rbac=false
      * @return string
+     * @throws \Throwable
      */
     public function actionUpdateSelf()
     {
@@ -149,9 +162,11 @@ class AdminUserController extends \yii\web\Controller
 
 
     /**
-     * 管理员输入邮箱重置密码
+     * 找回密码
      *
+     * @auth - item rbac=false
      * @return string|\yii\web\Response
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionRequestPasswordReset()
     {
@@ -176,6 +191,7 @@ class AdminUserController extends \yii\web\Controller
     /**
      * 管理员重置密码
      *
+     * @auth - item rbac=no
      * @param $token
      * @return string|\yii\web\Response
      * @throws \yii\web\BadRequestHttpException

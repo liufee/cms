@@ -21,6 +21,16 @@ use backend\actions\SortAction;
 class ArticleController extends \yii\web\Controller
 {
 
+    /**
+     * @auth
+     * - item group=内容 category=文章 description-get=列表 method=get
+     * - item group=内容 category=文章 description-get=查看 method=get  
+     * - item group=内容 category=文章 description=创建 method=get,post  
+     * - item group=内容 category=文章 description=修改 method=get,post  
+     * - item group=内容 category=文章 description-post=删除 method=post  
+     * - item group=内容 category=文章 description-post=排序 method=post  
+     * @return array
+     */
     public function actions()
     {
         return [
@@ -36,6 +46,10 @@ class ArticleController extends \yii\web\Controller
                     ];
                 }
             ],
+            'view-layer' => [
+                'class' => ViewAction::className(),
+                'modelClass' => Article::className(),
+            ],
             'create' => [
                 'class' => CreateAction::className(),
                 'modelClass' => Article::className(),
@@ -45,10 +59,6 @@ class ArticleController extends \yii\web\Controller
                 'class' => UpdateAction::className(),
                 'modelClass' => Article::className(),
                 'scenario' => 'article',
-            ],
-            'view-layer' => [
-                'class' => ViewAction::className(),
-                'modelClass' => Article::className(),
             ],
             'delete' => [
                 'class' => DeleteAction::className(),

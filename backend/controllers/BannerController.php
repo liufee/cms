@@ -23,7 +23,20 @@ use yii\data\ArrayDataProvider;
 
 class BannerController extends \yii\web\Controller
 {
-
+    /**
+     * @auth
+     * - item group=运营管理 category=banner类型 description-get=列表 method=get
+     * - item group=运营管理 category=banner类型 description=创建 method=get,post  
+     * - item group=运营管理 category=banner类型 description=修改 method=get,post  
+     * - item group=运营管理 category=banner类型 description-post=删除 method=post  
+     * - item group=运营管理 category=banner description-get=列表 method=get  
+     * - item group=运营管理 category=banner description=创建 method=get,post  
+     * - item group=运营管理 category=banner description-get=查看 method=get
+     * - item group=运营管理 category=banner description=修改 method=get,post  
+     * - item group=运营管理 category=banner description=排序 method=post  
+     * - item group=运营管理 category=banner description=删除 method=post  
+     * @return array
+     */
     public function actions()
     {
         return [
