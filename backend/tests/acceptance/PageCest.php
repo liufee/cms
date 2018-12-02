@@ -64,9 +64,9 @@ class PageCest
     public function checkView(AcceptanceTester $I)
     {
         $this->setCookie($I);
-        $I->amOnPage(Url::toRoute(['/page/index', 'id'=>24]));
-        $I->see('查看');
-        $I->see("关于我们");
+        $I->amOnPage(Url::toRoute(['/page/view-layer', 'id'=>24]));
+        $I->see('标题');
+        $I->see("副标题");
     }
 
 }

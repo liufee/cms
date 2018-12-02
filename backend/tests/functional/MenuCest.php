@@ -30,20 +30,20 @@ class MenuCest
 
     public function checkIndex(FunctionalTester $I)
     {
-        $I->amOnPage(Url::toRoute('/page/index'));
-        $I->see('联系方式');
-        $I->see("关于我们");
+        $I->amOnPage(Url::toRoute('/menu/index'));
+        $I->see('名称');
+        $I->see("图标");
         $I->click("a[title=编辑]");
-        $I->see("编辑单页");
-        $I->fillField("Article[summary]", '123');
+        $I->see("编辑后台菜单");
+        $I->fillField("Menu[name]", '测试菜单1212');
         $I->submitForm("button[type=submit]", []);
-        $I->seeInField("Article[summary]", "123");
+        $I->seeInField("Menu[name]", "测试菜单1212");
     }
 
     public function checkView(FunctionalTester $I)
     {
-        $I->amOnPage(Url::toRoute(['/page/index', 'id'=>24]));
-        $I->see('查看');
-        $I->see("关于我们");
+        $I->amOnPage(Url::toRoute(['/menu/view-layer', 'id'=>24]));
+        $I->see('父分类菜单名称');
+        $I->see("名称");
     }
 }

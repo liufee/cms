@@ -20,10 +20,10 @@ class CommentController extends \yii\web\Controller
 {
     /**
      * @auth
-     * - item group=内容 category=评论 description-get=列表 method=get
-     * - item group=内容 category=评论 description-get=查看 method=get  
-     * - item group=内容 category=评论 description=修改 method=get,post  
-     * - item group=内容 category=评论 description-post=删除 method=post  
+     * - item group=内容 category=评论 description-get=列表 sort=320 method=get
+     * - item group=内容 category=评论 description-get=查看 sort=321 method=get  
+     * - item group=内容 category=评论 description=修改 sort-get=322 sort-post=323 method=get,post 
+     * - item group=内容 category=评论 description-post=删除 sort=324 method=post  
      * @return array
      */
     public function actions()

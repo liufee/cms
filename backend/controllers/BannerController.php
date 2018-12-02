@@ -25,16 +25,16 @@ class BannerController extends \yii\web\Controller
 {
     /**
      * @auth
-     * - item group=运营管理 category=banner类型 description-get=列表 method=get
-     * - item group=运营管理 category=banner类型 description=创建 method=get,post  
-     * - item group=运营管理 category=banner类型 description=修改 method=get,post  
-     * - item group=运营管理 category=banner类型 description-post=删除 method=post  
-     * - item group=运营管理 category=banner description-get=列表 method=get  
-     * - item group=运营管理 category=banner description=创建 method=get,post  
-     * - item group=运营管理 category=banner description-get=查看 method=get
-     * - item group=运营管理 category=banner description=修改 method=get,post  
-     * - item group=运营管理 category=banner description=排序 method=post  
-     * - item group=运营管理 category=banner description=删除 method=post  
+     * - item group=运营管理 category=banner类型 description-get=列表 sort=600 method=get
+     * - item group=运营管理 category=banner类型 description=创建 sort-get=601 sort-post=602 method=get,post  
+     * - item group=运营管理 category=banner类型 description=修改 sort-get=603 sort-post=604 method=get,post  
+     * - item group=运营管理 category=banner类型 description-post=删除 sort=605 method=post  
+     * - item group=运营管理 category=banner description-get=列表 sort=610 method=get  
+     * - item group=运营管理 category=banner description=创建 sort-get=611 sort-post=612 method=get,post  
+     * - item group=运营管理 category=banner description-get=查看 sort=613 method=get
+     * - item group=运营管理 category=banner description=修改 sort-get=614 sort-post=615 method=get,post  
+     * - item group=运营管理 category=banner description=排序 sort=616 method=post  
+     * - item group=运营管理 category=banner description=删除 sort=617 method=post  
      * @return array
      */
     public function actions()

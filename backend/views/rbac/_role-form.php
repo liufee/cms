@@ -33,6 +33,19 @@ $this->title = "Roles";
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'sort')->textInput() ?>
                 <div class="hr-line-dashed"></div>
+                <?php
+                $roles = [];
+                foreach (array_keys(yii::$app->getAuthManager()->getRoles()) as $key){
+                    if( $key == $model->name ) continue;
+                    $roles[$key] = $key;
+                }
+                ?>
+                <?= $form->field($model, 'roles', [
+                    'labelOptions' => [
+                        'label' => yii::t('app', 'Roles'),
+                    ]
+                ])->checkboxList($roles) ?>
+                <div class="hr-line-dashed"></div>
                 <div class="form-group">
                     <span class="col-sm-2 control-label checkbox checkbox-success"><?= Html::checkbox("", false, ['id'=>'permission-all','class'=>'chooseAll'])?><label for='permission-all'><h4><?=Yii::t('app', 'Permissions')?></h4></label></span>
                     <div class="col-sm-10">

@@ -18,7 +18,7 @@ use yii\web\UnprocessableEntityHttpException;
 class RbacController extends \yii\web\Controller
 {
     /**
-     * @auth - item group=权限 category=规则 description-get=列表 method=get
+     * @auth - item group=权限 category=规则 description-get=列表 sort=500 method=get
      *
      * @return string
      * @throws \yii\base\InvalidConfigException
@@ -35,12 +35,12 @@ class RbacController extends \yii\web\Controller
     }
 
     /**
-     * @auth - item group=权限 category=规则 description-post=排序 method=post
+     * @auth - item group=权限 category=规则 description-post=排序 sort=501 method=post
      * @return array
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\NotFoundHttpException
      */
-    public function actionPermissionsSort()
+    public function actionPermissionSort()
     {
         if (Yii::$app->getRequest()->getIsPost()) {
             $data = Yii::$app->getRequest()->post();
@@ -60,7 +60,7 @@ class RbacController extends \yii\web\Controller
     }
 
     /**
-     * @auth - item group=权限 category=规则 description=创建 method=get,post
+     * @auth - item group=权限 category=规则 description=创建 sort-get=502 sort-post=503 method=get,post
      * @return string|Response
      * @throws \yii\base\InvalidConfigException
      */
@@ -87,7 +87,7 @@ class RbacController extends \yii\web\Controller
     }
 
     /**
-     * @auth - item group=权限 category=规则 description=修改 method=get,post
+     * @auth - item group=权限 category=规则 description=修改 sort-get=504 sort-post=505 method=get,post
      * @param $name
      * @return string|Response
      * @throws \yii\base\InvalidConfigException
@@ -117,7 +117,7 @@ class RbacController extends \yii\web\Controller
     }
 
     /**
-     * @auth - item group=权限 category=规则 description-get=查看 method=get
+     * @auth - item group=权限 category=规则 description-get=查看 sort=506 method=get
      * @param $name
      * @return string
      * @throws \yii\base\InvalidConfigException
@@ -134,7 +134,7 @@ class RbacController extends \yii\web\Controller
     }
 
     /**
-     * @auth - item group=权限 category=规则 description-post=删除 method=post
+     * @auth - item group=权限 category=规则 description-post=删除 sort=507 method=post
      * @param null $name
      * @return array
      * @throws MethodNotAllowedHttpException
@@ -170,7 +170,7 @@ class RbacController extends \yii\web\Controller
     }
 
     /**
-     * @auth - item group=权限 category=角色 description-get=列表 method=get
+     * @auth - item group=权限 category=角色 description-get=列表 sort=510 method=get
      * @return string
      * @throws \yii\base\InvalidConfigException
      */
@@ -186,7 +186,7 @@ class RbacController extends \yii\web\Controller
     }
 
     /**
-     * @auth - item group=权限 category=角色 description=创建 method=get,post
+     * @auth - item group=权限 category=角色 description=创建 sort-get=511 sort-post=512 method=get,post
      * @return string|Response
      * @throws \yii\base\InvalidConfigException
      */
@@ -213,7 +213,7 @@ class RbacController extends \yii\web\Controller
     }
 
     /**
-     * @auth - item group=权限 category=角色 description=修改 method=get,post
+     * @auth - item group=权限 category=角色 description=修改 sort-get=513 sort-post=514 method=get,post
      * @param $name
      * @return string|Response
      * @throws \yii\base\InvalidConfigException
@@ -243,7 +243,7 @@ class RbacController extends \yii\web\Controller
     }
 
     /**
-     * @auth - item group=权限 category=角色 description-get=查看 method=get
+     * @auth - item group=权限 category=角色 description-get=查看 sort=515 method=get
      * @param $name
      * @return string
      * @throws \yii\base\InvalidConfigException
@@ -260,7 +260,7 @@ class RbacController extends \yii\web\Controller
     }
 
     /**
-     * @auth - item group=权限 category=角色 description=排序 method=post
+     * @auth - item group=权限 category=角色 description=排序 sort=516 method=post
      * @return array
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\NotFoundHttpException
@@ -285,7 +285,7 @@ class RbacController extends \yii\web\Controller
     }
 
     /**
-     * @auth - item group=权限 category=角色 description-post=删除 method=post
+     * @auth - item group=权限 category=角色 description-post=删除 sort=517 method=post
      * @param string $name
      * @param null $id
      * @return array|Response

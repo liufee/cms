@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Permissions');
                             'primaryKey' => function($model){
                                 return $model['name'];
                             },
-                            'action' => Url::to(['permissions-sort'])
+                            'action' => Url::to(['permission-sort'])
                         ],
                         [
                             'class' => ActionColumn::className(),

@@ -26,12 +26,12 @@ class FrontendMenuController extends \yii\web\Controller
 
     /**
      * @auth
-     * - item group=菜单 category=前台 description-get=列表 method=get
-     * - item group=菜单 category=前台 description-get=查看 method=get  
-     * - item group=菜单 category=前台 description=创建 method=get,post  
-     * - item group=菜单 category=前台 description=修改 method=get,post  
-     * - item group=菜单 category=前台 description-post=删除 method=post  
-     * - item group=菜单 category=前台 description-post=排序 method=post  
+     * - item group=菜单 category=前台 description-get=列表 sort=200 method=get
+     * - item group=菜单 category=前台 description-get=查看 sort=201 method=get  
+     * - item group=菜单 category=前台 description=创建 sort-get=202 sort-post=203 method=get,post  
+     * - item group=菜单 category=前台 description=修改 sort-get=204 sort-post=205 method=get,post  
+     * - item group=菜单 category=前台 description-post=删除 sort=206 method=post  
+     * - item group=菜单 category=前台 description-post=排序 sort=207 method=post  
      * @return array
      */
     public function actions()

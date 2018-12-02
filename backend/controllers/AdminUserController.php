@@ -24,10 +24,10 @@ class AdminUserController extends \yii\web\Controller
 {
     /**
      * @auth
-     * - item group=后台管理 category=管理员 description-get=列表 method=get
-     * - item group=后台管理 category=管理员 description-get=查看 method=get  
-     * - item group=后台管理 category=管理员 description-post=删除 method=post  
-     * - item group=后台管理 category=管理员 description-post=排序 method=post  
+     * - item group=权限 category=管理员 description-get=列表 sort=520 method=get
+     * - item group=权限 category=管理员 description-get=查看 sort=521 method=get  
+     * - item group=权限 category=管理员 description-post=删除 sort=522 method=post  
+     * - item group=权限 category=管理员 description-post=排序 sort=523 method=post  
      * @return array
      */
     public function actions()
@@ -63,7 +63,7 @@ class AdminUserController extends \yii\web\Controller
     /**
      * 创建管理员账号
      *
-     * @auth - item group=后台管理 category=管理员 description=创建 method=get,post
+     * @auth - item group=权限 category=管理员 description=创建 sort-get=524 sort-post=525 method=get,post
      * @return string|\yii\web\Response
      * @throws \yii\base\InvalidConfigException
      */
@@ -94,7 +94,7 @@ class AdminUserController extends \yii\web\Controller
     /**
      * 修改管理员账号
      *
-     * @auth - item group=后台管理 category=管理员 description=修改 method=get,post
+     * @auth - item group=权限 category=管理员 description=修改 sort-get=526 sort-post=527 method=get,post
      * @param $id
      * @return string|\yii\web\Response
      * @throws \Throwable
@@ -191,7 +191,7 @@ class AdminUserController extends \yii\web\Controller
     /**
      * 管理员重置密码
      *
-     * @auth - item rbac=no
+     * @auth - item rbac=false
      * @param $token
      * @return string|\yii\web\Response
      * @throws \yii\web\BadRequestHttpException

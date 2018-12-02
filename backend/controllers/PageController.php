@@ -23,12 +23,12 @@ class PageController extends \yii\web\Controller
 
     /**
      * @auth
-     * - item group=内容 category=单页 description-get=列表 method=get
-     * - item group=内容 category=单页 description-get=查看 method=get  
-     * - item group=内容 category=单页 description=创建 method=get,post  
-     * - item group=内容 category=单页 description=修改 method=get,post  
-     * - item group=内容 category=单页 description-post=删除 method=post  
-     * - item group=内容 category=单页 description-post=排序 method=post  
+     * - item group=内容 category=单页 description-get=列表 sort=330 method=get
+     * - item group=内容 category=单页 description-get=查看 sort=331 method=get  
+     * - item group=内容 category=单页 description=创建 sort-get=332 sort-post=333 method=get,post  
+     * - item group=内容 category=单页 description=修改 sort-get=334 sort-post=335 method=get,post  
+     * - item group=内容 category=单页 description-post=删除 sort=336 method=post  
+     * - item group=内容 category=单页 description-post=排序   sort=337 method=post
      * @return array
      */
     public function actions()

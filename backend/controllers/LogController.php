@@ -20,9 +20,9 @@ class LogController extends \yii\web\Controller
 
     /**
      * @auth
-     * - item group=其他 category=日志 description-get=列表 method=get
-     * - item group=其他 category=日志 description-get=查看 method=get  
-     * - item group=其他 category=日志 description-post=删除 method=post  
+     * - item group=其他 category=日志 description-get=列表 sort=711 method=get
+     * - item group=其他 category=日志 description-get=查看 sort=712 method=get  
+     * - item group=其他 category=日志 description-post=删除 sort=723 method=post  
      * @return array
      */
     public function actions()

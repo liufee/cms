@@ -22,12 +22,12 @@ class AdController extends \yii\web\Controller
 {
     /**
      * @auth
-     * - item group=运营管理 category=广告 description-get=列表 method=get
-     * - item group=运营管理 category=广告 description-get=查看 method=get  
-     * - item group=运营管理 category=广告 description=创建 method=get,post  
-     * - item group=运营管理 category=广告 description=修改 method=get,post  
-     * - item group=运营管理 category=广告 description-post=删除 method=post  
-     * - item group=运营管理 category=广告 description-post=排序 method=post  
+     * - item group=运营管理 category=广告 description-get=列表 sort=620 method=get
+     * - item group=运营管理 category=广告 description-get=查看 sort=621 method=get  
+     * - item group=运营管理 category=广告 description=创建 sort-get=622 sort-post=623 method=get,post  
+     * - item group=运营管理 category=广告 description=修改 sort-get=624 sort-post=625 method=get,post  
+     * - item group=运营管理 category=广告 description-post=删除 sort=626 method=post  
+     * - item group=运营管理 category=广告 description-post=排序 sort=627 method=post  
      *
      * @return array
      */

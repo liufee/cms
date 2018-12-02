@@ -42,7 +42,7 @@ class ArticleCest
 
     public function checkView(FunctionalTester $I)
     {
-        $I->amOnPage(Url::toRoute(['/article/index', 'id'=>22]));
+        $I->amOnPage(Url::toRoute(['/article/view-layer', 'id'=>22]));
         $I->see('查看');
     }
 }

@@ -26,12 +26,12 @@ class MenuController extends \yii\web\Controller
 
     /**
      * @auth
-     * - item group=菜单 category=后台 description-get=列表 method=get
-     * - item group=菜单 category=后台 description-get=查看 method=get  
-     * - item group=菜单 category=后台 description=创建 method=get,post  
-     * - item group=菜单 category=后台 description=修改 method=get,post  
-     * - item group=菜单 category=后台 description-post=删除 method=post  
-     * - item group=菜单 category=后台 description-post=排序 method=post  
+     * - item group=菜单 category=后台 description-get=列表 sort=210 method=get
+     * - item group=菜单 category=后台 description-get=查看 sort=211 method=get  
+     * - item group=菜单 category=后台 description=创建 sort-get=212 sort-post=213 method=get,post  
+     * - item group=菜单 category=后台 description=修改 sort-get=214 sort-post=215 method=get,post  
+     * - item group=菜单 category=后台 description-post=删除 sort=216 method=post  
+     * - item group=菜单 category=后台 description-post=排序 sort=217 method=post  
      * @return array
      */
     public function actions()
