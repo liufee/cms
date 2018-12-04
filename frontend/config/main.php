@@ -29,6 +29,12 @@ return [
                     'logFile' => '@runtime/logs/'.date('Y/m/d') . '.log',
                 ],
                 [
+                    /**
+                     注：此配置可能造成：
+                         1.当打开的页面包含错误时，响应缓慢。若您配置的发件箱不存在或连不上一直等待超时。
+                         2.如果common/config/main.php mail useFileTransport为true时，并不会真发邮件，只把邮件写到runtime目录，很容易造成几十个G吃硬盘。
+                         如您不需要发送邮件提醒建议删除此配置
+                     */
                     'class' => yii\log\EmailTarget::className(),
                     'levels' => ['error', 'warning'],
                     'except' => [
@@ -49,7 +55,7 @@ return [
             'keyPrefix' => 'frontend',       // 唯一键前缀
         ],
         'urlManager' => [
-            'enablePrettyUrl' => false,
+            'enablePrettyUrl' => false,//true 美化路由(注:需要配合web服务器配置伪静态，详见http://doc.feehi.com/install.html), false 不美化路由
             'showScriptName' => false,//隐藏index.php
             'enableStrictParsing' => false,
             'suffix' => '.html',//后缀，如果设置了此项，那么浏览器地址栏就必须带上.html后缀，否则会报404错误

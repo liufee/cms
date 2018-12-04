@@ -31,7 +31,9 @@ $config = [
         'mailer' => [//邮箱发件人配置，会被main-local.php以及后台管理页面中的smtp配置覆盖
             'class' => yii\swiftmailer\Mailer::className(),
             'viewPath' => '@common/mail',
-            'useFileTransport' => true,//false发送邮件，true只是生成邮件在runtime文件夹下，不发邮件
+            /*特别注意：如果useFileTransport为true，并不会真发邮件，只会把邮件写入runtime目录，很有可能造成您的磁盘使用飙升。
+                        如果为false，当您配置的smtp地址不存在或错误，页面会一直等到连接邮件服务器超时才会输出页面。*/
+            'useFileTransport' => true,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.feehi.com',  //每种邮箱的host配置不一样

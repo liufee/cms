@@ -36,8 +36,8 @@ class Menu extends \common\models\Menu
                 $temp = @json_decode($menu['url'], true);
                 if( $temp !== null ){
                     $url = $temp[0];
-                    if( strpos($url, '/') !== 0 ) $url = '/' . $url;
                 }
+                if( strpos($url, '/') !== 0 ) $url = '/' . $url;
                 $url = $url . ':GET';
                 if (in_array($url, $permissions)) {
                     $menu = self::getAncectorsByMenuId($menu['id']) + [$menu];

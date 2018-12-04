@@ -35,6 +35,12 @@ return [
                     'logFile' => '@runtime/logs/'.date('Y/m/d') . '.log',
                 ],
                 [
+                    /**
+                    注：此配置可能造成：
+                        1.当打开的页面包含错误时，响应缓慢。若您配置的发件箱不存在或连不上一直等待超时。
+                        2.如果common/config/main.php mail useFileTransport为true时，并不会真发邮件，只把邮件写到runtime目录，很容易造成几十个G吃硬盘。
+                        如您不需要发送邮件提醒建议删除此配置
+                     */
                     'class' => yii\log\EmailTarget::className(),//当触发levels配置的错误级别时，发送到message to配置的邮箱中（请改成自己的邮箱）
                     'levels' => ['error', 'warning'],
                     /*'categories' => [//默认匹配所有分类。启用此项后，仅匹配数组中的分类信息会触发邮件提醒（白名单）
