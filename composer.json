@@ -39,7 +39,7 @@
     },
     "scripts": {
         "get-uploads-files" : [
-            "@php yii feehi-cms/get-uploads-files"
+            "@php yii feehi/get-uploads-files"
         ]
     },
     "repositories": [

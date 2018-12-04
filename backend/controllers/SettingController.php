@@ -26,7 +26,7 @@ class SettingController extends \yii\web\Controller
 {
 
     /**
-     * @auth - item group=设置 category=自定义设置 description-post=删除  sort=136 method=post
+     * @auth - item group=设置 category=自定义设置 description-post=删除  sort=132 method=post
      * @return array
      */
     public function actions()
@@ -98,7 +98,7 @@ class SettingController extends \yii\web\Controller
     /**
      * 增加自定义设置项
      *
-     * @auth - item group=设置 category=自定义设置 description=创建 sort-get=132 sort-post=133 method=get,post
+     * @auth - item group=设置 category=自定义设置 description=自定义设置创建 sort-get=133 sort-post=134 method=get,post
      * @return array|string
      * @throws UnprocessableEntityHttpException
      * @throws \yii\base\InvalidConfigException
@@ -136,7 +136,7 @@ class SettingController extends \yii\web\Controller
     /**
      * 修改自定义设置项
      *
-     * @auth - item group=设置 category=自定义设置 description=修改 sort-get=134 sort-post=135 method=get,post
+     * @auth - item group=设置 category=自定义设置 description=自定义设置修改 sort-get=135 sort-post=136 method=get,post
      * @param string $id
      * @return string
      * @throws UnprocessableEntityHttpException

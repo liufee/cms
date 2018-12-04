@@ -15,7 +15,7 @@ use yii\console\Controller;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
 
-class FeehiCmsController extends Controller
+class FeehiController extends Controller
 {
 
     public function actionDownloadUploadFiles()
