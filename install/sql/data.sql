@@ -557,7 +557,7 @@ INSERT INTO `%__prefix__%menu` VALUES ('19', '0', '0', '缓存', '', 'fa fa-file
 INSERT INTO `%__prefix__%menu` VALUES ('20', '0', '19', '清除前台', 'clear/frontend', '', '0', '_blank', '0', '1', '1505570974', '1505570974');
 INSERT INTO `%__prefix__%menu` VALUES ('21', '0', '19', '清除后台', 'clear/backend', '', '0', '_blank', '0', '1', '1505570994', '1505570994');
 INSERT INTO `%__prefix__%menu` VALUES ('22', '0', '0', '日志', 'log/index', 'fa fa-history', '8', '_blank', '0', '1', '1505571212', '1512380045');
-INSERT INTO `%__prefix__%menu` VALUES ('23', '1', '0', '首页', '/', '', '0', '_self', '0', '1', '1505636890', '1505637024');
+INSERT INTO `%__prefix__%menu` VALUES ('23', '1', '0', '首页', 'article/index', '', '0', '_self', '0', '1', '1505636890', '1505637024');
 INSERT INTO `%__prefix__%menu` VALUES ('24', '1', '0', 'php', '/php', '', '0', '_self', '0', '1', '1505636915', '1505636937');
 INSERT INTO `%__prefix__%menu` VALUES ('25', '1', '0', 'java', '/java', '', '0', '_self', '0', '1', '1505636975', '1505636975');
 INSERT INTO `%__prefix__%menu` VALUES ('26', '1', '0', 'javascript', '/javascript', '', '0', '_self', '0', '1', '1505637000', '1505637000');

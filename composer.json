@@ -38,8 +38,8 @@
         }
     },
     "scripts": {
-        "get-uploads-files" : [
-            "@php yii feehi/get-uploads-files"
+        "download-upload-files" : [
+            "@php yii feehi/download-upload-files"
         ]
     },
     "repositories": [
