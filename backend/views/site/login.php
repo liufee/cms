@@ -33,12 +33,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $this->head() ?>
         <?= $this->render("/widgets/_language-js") ?>
         <style>
-            div.form-group div.help-block {
-                position: absolute;
-                left: 305px;
-                width: 170px;
-                top: 4px;
-                text-align: left;
+            @media (min-width: 768px){
+                div.form-group div.help-block {
+                    position: absolute;
+                    left: 305px;
+                    width: 170px;
+                    top: 4px;
+                    text-align: left;
+                }
             }
 
             .form-horizontal .form-group {

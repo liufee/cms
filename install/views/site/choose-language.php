@@ -15,10 +15,6 @@ $this->title = "选择语言 Please choose language";
         text-align: center;
         background-color:;
     }
-
-    .option {
-        color: red
-    }
 </style>
 <div class="section">
     <div class="main">

@@ -61,8 +61,23 @@ function viewLayer(url, obj)
     });
 }
 
+function adaptPhone()
+{ 
+    var windowWidth = $(window).width(); 
+    if(windowWidth < 640){ 
+        $("table tr td,table tr th").fadeOut(); 
+        $("table tr td:nth-child(-n+4),table tr th:nth-child(-n+4)").fadeIn(); 
+        $("table tr td:last-child,table tr th:last-child").fadeIn(); 
+    }else{ 
+        $("table tr td,table tr th").fadeIn(); 
+    } 
+}
+
+
 $(document).ready(function(){
     //$('.info').animate({opacity: 1.0}, 3000).fadeOut('slow');
+    adaptPhone(); 
+    $(window).resize(adaptPhone());
     //多选后处理
     $(".multi-operate").click(function () {
         var that = $(this);
