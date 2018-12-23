@@ -62,18 +62,38 @@ function viewLayer(url, obj)
 }
 
 function adaptPhone()
-{ 
-    var windowWidth = $(window).width(); 
-    if(windowWidth < 640){ 
-        $("table tr td,table tr th").fadeOut(); 
-        $("table tr td:nth-child(-n+4),table tr th:nth-child(-n+4)").fadeIn(); 
-        $("table tr td:last-child,table tr th:last-child").fadeIn(); 
-    }else{ 
-        $("table tr td,table tr th").fadeIn(); 
-    } 
+{
+    var windowWidth = $(window).width();
+    var tables = document.getElementsByTagName("table");
+    if( tables.length <=0  ) return;
+    var table = tables[0];
+    var rows = table.rows;
+    var columns = rows[0].cells.length;
+    var displayColumns = 4;
+    var lastColumnIndex = columns - 1;
+    var i,j = 0;
+    var display = "";
+    if( columns > displayColumns ) {
+        if(windowWidth < 640 || isMobile){
+            display = "none";
+        }
+        for (i = 0; i < rows.length; i++) {
+            for (j = displayColumns ; j < lastColumnIndex; j++) {
+                rows[i].cells[j].style.display = display;
+            }
+
+        }
+    }
 }
 
-
+var isMobile = false;
+var Agents = ["Android", "iPhone", "SymbianOS", "Windows Phone", "iPad", "iPod"];
+for (var v = 0; v < Agents.length; v++) {
+    if (navigator.userAgent.indexOf(Agents[v]) > 0) {
+        isMobile = true;
+        break;
+    }
+}
 $(document).ready(function(){
     //$('.info').animate({opacity: 1.0}, 3000).fadeOut('slow');
     adaptPhone(); 
