@@ -98,8 +98,9 @@ AppAsset::register($this);
 
 <div id="search-main">
     <div id="searchbar">
-        <form id="searchform" action="<?= Url::to('/search') ?>" method="get">
-            <input id="s" type="text" name="q" value="<?= Html::encode(Yii::$app->request->get('q')) ?>" required="" placeholder="<?= Yii::t('frontend', 'Please input keywords') ?>" name="s" value="">
+        <form id="searchform" action="<?= Url::toRoute('search/index') ?>" method="get">
+            <?= Yii::$app->getUrlManager()->enablePrettyUrl ? "" : "<input type='hidden' name='" . Yii::$app->getUrlManager()->routeParam . "' value='search/index'>" ?>
+            <input id="s" type="text" name="q" value="<?= Html::encode(Yii::$app->getRequest()->get('q')) ?>" required="" placeholder="<?= Yii::t('frontend', 'Please input keywords') ?>" name="s" value="">
             <button id="searchsubmit" type="submit"><?= Yii::t('frontend', 'Search') ?></button>
         </form>
     </div>

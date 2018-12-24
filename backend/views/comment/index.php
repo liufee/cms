@@ -35,7 +35,6 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Comments');
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
-                    'layout' => "{items}\n{pager}",
                     'columns' => [
                         [
                             'class' => CheckboxColumn::className(),

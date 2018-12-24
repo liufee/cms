@@ -52,7 +52,6 @@ yii.confirm = function(message, ok, cancel) {
 function viewLayer(url, obj)
 {
     var area = ['80%', ($(window).height() - 100) + 'px'];
-    console.log(area)
     if( isMobile || $(window).width() < 640) {
      area = ['100%', '100%']
     }
@@ -84,6 +83,8 @@ function adaptPhone()
         }
         for (i = 0; i < rows.length; i++) {
             for (j = displayColumns ; j < lastColumnIndex; j++) {
+                if( !rows.hasOwnProperty(i) ) continue;
+                if( !rows[i].cells.hasOwnProperty(j) ) continue;
                 rows[i].cells[j].style.display = display;
             }
 
@@ -101,7 +102,7 @@ for (var v = 0; v < Agents.length; v++) {
 }
 $(document).ready(function(){
     //$('.info').animate({opacity: 1.0}, 3000).fadeOut('slow');
-    adaptPhone(); 
+    adaptPhone();
     $(window).resize(adaptPhone());
     //多选后处理
     $(".multi-operate").click(function () {

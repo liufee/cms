@@ -32,7 +32,6 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Ad');
                 <?= Bar::widget()?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
-                    'layout' => "{items}\n{pager}",
                     'columns' => [
                         [
                             'class' => CheckboxColumn::className(),

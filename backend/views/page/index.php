@@ -34,7 +34,6 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Pages');
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
                     'filterModel' => $searchModel,
-                    'layout' => "{items}\n{pager}",
                     'columns' => [
                         [
                             'class' => CheckboxColumn::className(),
