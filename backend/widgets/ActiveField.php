@@ -285,9 +285,9 @@ class ActiveField extends \yii\widgets\ActiveField
             $this->parts['{actions}'] = '';
         }
         if (!isset($options['class'])) {
-            $options['class'] = 'pretty-file';
+            $options['class'] = 'pretty-file img-responsive';
         }else{
-            $options['class'] .= ' pretty-file';
+            $options['class'] .= ' pretty-file img-responsive';
         }
         !isset($options['text']) && $options['text'] = Yii::t("app", 'Choose Image');
         $this->parts['{img}'] = Html::img($src, array_merge($options, ["nonePicUrl"=>$nonePicUrl]));

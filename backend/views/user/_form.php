@@ -34,7 +34,7 @@ $this->title = 'User';
             ?>
             <?= $form->field($model, 'username')->textInput($temp) ?>
             <div class="hr-line-dashed"></div>
-            <?= $form->field($model, 'avatar')->imgInput(['width' => 200]) ?>
+            <?= $form->field($model, 'avatar')->imgInput() ?>
             <div class="hr-line-dashed"></div>
             <?= $form->field($model, 'email')->textInput(['maxlength' => 64]) ?>
             <div class="hr-line-dashed"></div>

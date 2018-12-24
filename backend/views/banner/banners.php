@@ -74,7 +74,7 @@ $this->params['breadcrumbs'][] =  Yii::t('app', 'Banner') . ' (' . $bannerType->
                             'label' => Yii::t('app', 'Image'),
                             'format' => 'raw',
                             'value' => function($model){
-                                return "<img style='max-width: 200px;max-height: 100px' src='{$model->img}'>";
+                                return "<img class='img-responsive' src='{$model->img}'>";
                             }
                         ],
                         [

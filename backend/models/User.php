@@ -74,7 +74,7 @@ class User extends \common\models\User
             'default' => ['username', 'email'],
             'create' => ['username', 'email', 'password', 'avatar', 'status', 'roles', 'permissions'],
             'update' => ['username', 'email', 'password', 'avatar', 'status', 'roles', 'permissions'],
-            'self-update' => ['username', 'email', 'password', 'avatar', 'old_password', 'repassword'],
+            'self-update' => ['email', 'password', 'avatar', 'old_password', 'repassword'],
         ];
     }
 

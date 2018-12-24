@@ -51,13 +51,18 @@ yii.confirm = function(message, ok, cancel) {
 }
 function viewLayer(url, obj)
 {
+    var area = ['80%', ($(window).height() - 100) + 'px'];
+    console.log(area)
+    if( isMobile || $(window).width() < 640) {
+     area = ['100%', '100%']
+    }
     layer.open({
-        type: 2,
-        title: obj.attr('title'),
-        maxmin: true,
-        shadeClose: true, //点击遮罩关闭层
-        area : ['800px' , '520px'],
-        content: url
+     type: 2,
+     title: obj.attr('title'),
+     maxmin: true,
+     shadeClose: true, //点击遮罩关闭层
+     area: area,
+     content: url
     });
 }
 

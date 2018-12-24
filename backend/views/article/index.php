@@ -57,12 +57,12 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Articles');
                             'filter' => Category::getCategoriesName(),
                         ],
                         [
-                            'attribute' => 'sort',
-                            'class' => SortColumn::className(),
-                        ],
-                        [
                             'attribute' => 'title',
                             'width' => '170',
+                        ],
+                        [
+                            'attribute' => 'sort',
+                            'class' => SortColumn::className(),
                         ],
                         [
                             'attribute' => 'author_name',

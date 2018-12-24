@@ -230,9 +230,9 @@ class Category extends \yii\db\ActiveRecord
             $data[$url] = 'article/index';
         }
         $json = json_encode($data);
-        $path = Yii::getAlias('@frontend/runtime/cache');
+        $path = Yii::getAlias('@frontend/runtime/cache/');
         if( !file_exists($path) ) FileHelper::createDirectory($path);
-        file_put_contents($path . '/category.txt', $json);
+        file_put_contents($path . 'category.txt', $json);
     }
 
     public static function getUrlRules()
