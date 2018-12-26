@@ -31,14 +31,14 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Custom Setting');
                 foreach ($settings as $index => $setting) {
                     $deleteUrl = Url::to(['custom-delete', 'id' => $setting->id]);
                     $editUrl = Url::to(['custom-update', 'id' => $setting->id]);
-                    $template = "{label}\n<div class=\"col-sm-8\">{input}\n{error}</div>\n{hint}<div class='col-sm-2'><span class='tips'><i class='fa fa-info-circle'></i> {$setting->tips}  <a class='btn-delete' href='{$deleteUrl}' data-confirm='" . Yii::t('app', 'Are you sure you want to delete this item?') . "' title='' data-method='' data-pjax='1'><i style='float: right' class='fa fa-trash-o'></i></a><a href='{$editUrl}' class='btn_edit' title='编辑' data-pjax=''><i style='float: right;margin-right: 10px;' class='fa fa-pencil'></i></a> </span></div>";
+                    $template = "{label}\n<div class=\"col-sm-8\">{input}\n{error}</div>\n{hint}<div class='col-sm-2'><span class='tips'><i class='fa fa-info-circle'></i> {$setting->tips}  <a class='btn-delete' href='{$deleteUrl}' data-confirm='" . Yii::t('app', 'Are you sure you want to delete this item?') . "' title='' data-method='' data-pjax='1'><i style='float: right' class='fa fa-trash-o'></i></a><a href='{$editUrl}' class='btn_edit' title='编辑' data-pjax=''><i style='float: right;margin-right: 10px;' class='fa fa-edit'></i></a> </span></div>";
                     if ($setting->input_type == Constants::INPUT_UEDITOR) {
                         echo $form->field($setting, "[$index]value", ['template' => $template])
                             ->label($setting->name)
                             ->widget(Ueditor::className(), ['name' => 'value' . $index]);
 
                     } else if($setting->input_type == Constants::INPUT_IMG){
-                        echo $form->field($setting,"[$index]value", ['template'=>"{label}\n<div class=\"col-sm-8 image\">{input}<div style='position: relative'>{img}{actions}</div>\n{error}</div>\n{hint}<div class='col-sm-2'><span class='tips'><i class='fa fa-info-circle'></i> {$setting->tips}  <a class='btn-delete' href='{$deleteUrl}' title='' data-confirm='' data-method='' data-pjax='1'><i style='float: right' class='fa fa-trash-o'></i></a><a href='{$editUrl}' class='btn_edit' title='编辑' data-pjax=''><i style='float: right;margin-right: 10px;' class='fa fa-pencil'></i></a> </span></div>"])
+                        echo $form->field($setting,"[$index]value", ['template'=>"{label}\n<div class=\"col-sm-8 image\">{input}<div style='position: relative'>{img}{actions}</div>\n{error}</div>\n{hint}<div class='col-sm-2'><span class='tips'><i class='fa fa-info-circle'></i> {$setting->tips}  <a class='btn-delete' href='{$deleteUrl}' title='' data-confirm='' data-method='' data-pjax='1'><i style='float: right' class='fa fa-trash-o'></i></a><a href='{$editUrl}' class='btn_edit' title='编辑' data-pjax=''><i style='float: right;margin-right: 10px;' class='fa fa-edit'></i></a> </span></div>"])
                             ->label($setting->name)
                             ->imgInput( ['value' => $setting->value, 'style'=>"max-width:300px;max-height:200px"] );
                     } else {

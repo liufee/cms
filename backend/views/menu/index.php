@@ -93,7 +93,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Backend Menus');
                                     ]), [
                                         'title' => Yii::t('app', 'Create'),
                                         'data-pjax' => '0',
-                                        'class' => 'btn J_menuItem',
+                                        'class' => 'btn-sm J_menuItem',
                                     ]);
                                 }
                             ],

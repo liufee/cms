@@ -16,6 +16,7 @@ use yii\helpers\Url;
 $this->registerCss("
      .environment .list-group-item > .badge {float: left}
      .environment  li.list-group-item strong {margin-left: 15px}
+     ul#notify .list-group-item{line-height:15px}
 ")
 ?>
 <div class="row">
