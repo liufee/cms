@@ -74,7 +74,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Category');
                                     ]), [
                                         'title' => Yii::t('app', 'Create'),
                                         'data-pjax' => '0',
-                                        'class' => 'btn btn-white btn-sm J_menuItem',
+                                        'class' => 'btn J_menuItem',
                                     ]);
                                 }
                             ],

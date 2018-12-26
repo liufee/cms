@@ -109,14 +109,14 @@ $this->params['breadcrumbs'][] =  Yii::t('app', 'Banner') . ' (' . $bannerType->
                                         'title' => Yii::t('yii', 'View'),
                                         'onclick' => "viewLayer('" . Url::toRoute(['banner-view-layer', 'id'=>$model->id, 'sign'=>$model->sign]) . "',$(this))",
                                         'data-pjax' => '0',
-                                        'class' => 'btn btn-white btn-sm',
+                                        'class' => 'btn',
                                     ]);
                                 },
                                 'update' => function ($url, $model, $key, $index, $gridView) {
                                     return Html::a('<i class="fa fa-pencil"></i> ', Url::toRoute(['banner-update', 'id'=>$model->id, 'sign'=>$model->sign]), [
                                         'title' => Yii::t('app', 'Update'),
                                         'data-pjax' => '0',
-                                        'class' => 'btn btn-white btn-sm',
+                                        'class' => 'btn',
                                     ]);
                                 },
                                 'delete' => function ($url, $model, $key, $index, $gridView) {
@@ -125,7 +125,7 @@ $this->params['breadcrumbs'][] =  Yii::t('app', 'Banner') . ' (' . $bannerType->
                                         'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                                         'data-method' => 'post',
                                         'data-pjax' => '0',
-                                        'class' => 'btn btn-white btn-sm',
+                                        'class' => 'btn',
                                     ]);
                                 }
                             ],

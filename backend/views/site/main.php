@@ -11,8 +11,12 @@ use yii\helpers\Url;
 
 /**
  * @var $statics array
+ * @var $this yii\web\View
  */
-
+$this->registerCss("
+     .environment .list-group-item > .badge {float: left}
+     .environment  li.list-group-item strong {margin-left: 15px}
+")
 ?>
 <div class="row">
     <div class="col-sm-3">
@@ -81,7 +85,6 @@ use yii\helpers\Url;
                     </div>
                 </div>
                 <div class="ibox-content no-padding">
-                    <style>ul#notify li{height:36px}</style>
                     <ul class="list-group" id="notify">
                         <li class="list-group-item">
                             <div class="sk-spinner sk-spinner-fading-circle">
@@ -104,7 +107,7 @@ use yii\helpers\Url;
             </div>
         </div>
         <div>
-            <div class="ibox float-e-margins">
+            <div class="ibox float-e-margins environment">
                 <div class="ibox-title">
                     <h5><?= Yii::t('app', 'Environment') ?></h5>
                     <div class="ibox-tools">
@@ -114,15 +117,6 @@ use yii\helpers\Url;
                 </div>
                 <div class="ibox-content no-padding">
                     <ul class="list-group">
-                        <style>
-                            .list-group-item > .badge {
-                                float: left
-                            }
-
-                            li.list-group-item strong {
-                                margin-left: 15px;
-                            }
-                        </style>
                         <li class="list-group-item">
                             <span class="badge badge-primary">&nbsp;&nbsp;</span><strong>Feehi CMS</strong>: <?= Yii::$app->getVersion() ?>
                         </li>
@@ -260,21 +254,19 @@ $(document).ready(function () {
         success:function (dataAll) {
             data = dataAll.rows;
             notify.empty();
+            var lis = "";
             for(var index in data){
                 var label = '';
                 if( data[index].label ){
                     label = data[index].label;
                 }
-                $("#notify").append("\
-                    <li class=\"list-group-item\"> \
-                        <p>\
-                            <a target='_blank' class='pull-left' href=\" " + data[index].href +" \"> " + data[index].title + " </a>\
-                            " + label +  "\
-                            <small class=\"block text-muted pull-right\">" + data[index].createdAt + "</small> \
-                        </p> \
-                    </li>"
-                );
+                lis += "<li class='list-group-item'> \
+                                <a target='_blank' class='' href=\" " + data[index].href +" \"> " + data[index].title + " </a>\
+                                " + label +  "\
+                                <small class='pull-right block'>" + data[index].createdAt + "</small> \
+                        </li>"
             }
+            notify.append(lis);
         },
         error:function (data) {
             notify.empty();

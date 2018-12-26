@@ -93,17 +93,17 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Permissions');
                                         'title' => Yii::t('yii', 'View'),
                                         'onclick' => "viewLayer('" . Url::to(['permission-view-layer', 'name' => $model->name]) . "',$(this))",
                                         'data-pjax' => '0',
-                                        'class' => 'btn btn-white btn-sm',
+                                        'class' => 'btn',
                                     ]);
                                 },
                                 'update' => function ($url, $model, $key) {
-                                    return Html::a('<i class="fa  fa-edit" aria-hidden="true"></i> ', Url::to([
+                                    return Html::a('<i class="fa fa-edit" aria-hidden="true"></i> ', Url::to([
                                         'permission-update',
                                         'name' => $model->name
                                     ]), [
                                         'title' => Yii::t('app', 'Update'),
                                         'data-pjax' => '0',
-                                        'class' => 'btn btn-white btn-sm J_menuItem',
+                                        'class' => 'btn J_menuItem',
                                     ]);
                                 },
                                 'delete' => function ($url, $model) {
@@ -111,7 +111,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Permissions');
                                         'title' => Yii::t('app', 'Delete'),
                                         'data-pjax' => '0',
                                         'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                                        'class' => 'btn btn-white btn-sm',
+                                        'class' => 'btn',
                                     ]);
                                 },
                             ],

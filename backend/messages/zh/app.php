@@ -92,7 +92,7 @@ return [
     'Please contact admin for reset password' => '请联系管理员重置密码',
     'Captcha' => '验证码',
     'Verification code error.' => '验证码错误。',
-    'Login' => '登陆',
+    'Login' => '登录',
     'Verification Code' => '验证码',
     /*Login*/
 

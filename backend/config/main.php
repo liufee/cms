@@ -157,6 +157,7 @@ return [
             'assets/*',
             'debug/*',
             'gii/*',
+            'page/a'
         ],
         'superAdminUserIds' => [1],//超级管理员用户id，拥有所有权限，不受权限管理的控制
     ],

@@ -99,7 +99,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Pages');
                                     ]), [
                                         'title' => Yii::t('app', 'Comments'),
                                         'data-pjax' => '0',
-                                        'class' => 'btn btn-white btn-sm openContab',
+                                        'class' => 'btn openContab',
                                     ]);
                                 }
                             ],
