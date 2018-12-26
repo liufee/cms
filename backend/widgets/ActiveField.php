@@ -129,26 +129,52 @@ class ActiveField extends \yii\widgets\ActiveField
             $options['class'] = "chosen-select";
         }
         $multiple && $options['multiple'] = "1";
-        !isset($options['allow_single_deselect']) && $options['allow_single_deselect'] = 'true';
-        !isset($options['disable_search']) && $options['disable_search'] = 'false';
+        !isset($options['allow_single_deselect']) && $options['allow_single_deselect'] = true;
+        $options['allow_single_deselect'] === true && $options['allow_single_deselect'] = 'true';
+        $options['allow_single_deselect'] === false && $options['allow_single_deselect'] = 'false';
+        !isset($options['disable_search']) && $options['disable_search'] = false;
+        $options['disable_search'] === true && $options['disable_search'] = 'true';
+        $options['disable_search'] === false && $options['disable_search'] = 'false';
         !isset($options['disable_search_threshold']) && $options['disable_search_threshold'] = 0;
-        !isset($options['enable_split_word_search']) && $options['enable_split_word_search'] = 'true';
-        !isset($options['inherit_select_classes']) && $options['inherit_select_classes'] = 'false';
+        !isset($options['enable_split_word_search']) && $options['enable_split_word_search'] = true;
+        $options['enable_split_word_search'] === true && $options['enable_split_word_search'] = 'true';
+        $options['enable_split_word_search'] === false && $options['enable_split_word_search'] = 'false';
+        !isset($options['inherit_select_classes']) && $options['inherit_select_classes'] = false;
+        $options['inherit_select_classes'] === true && $options['inherit_select_classes'] = 'true';
+        $options['inherit_select_classes'] === false && $options['inherit_select_classes'] = 'false';
         !isset($options['max_selected_options']) && $options['max_selected_options'] = 'Infinity';
         !isset($options['no_results_text']) && $options['no_results_text'] = Yii::t('app', 'None');
         !isset($options['placeholder_text_multiple']) && $options['placeholder_text_multiple'] = Yii::t('app', 'Please select some');;
         !isset($options['placeholder_text_single']) && $options['placeholder_text_single'] = Yii::t('app', 'Please select');
-        !isset($options['search_contains']) && $options['search_contains'] = 'true';
-        !isset($options['group_search']) && $options['group_search'] = 'true';
-        !isset($options['single_backstroke_delete']) && $options['single_backstroke_delete'] = 'true';
+        !isset($options['search_contains']) && $options['search_contains'] = true;
+        $options['search_contains'] === true && $options['search_contains'] = 'true';
+        $options['search_contains'] === false && $options['search_contains'] = 'false';
+        !isset($options['group_search']) && $options['group_search'] = true;
+        $options['group_search'] === true && $options['group_search'] = 'true';
+        $options['group_search'] === false && $options['group_search'] = 'false';
+        !isset($options['single_backstroke_delete']) && $options['single_backstroke_delete'] = true;
+        $options['single_backstroke_delete'] === true && $options['single_backstroke_delete'] = 'true';
+        $options['single_backstroke_delete'] === false && $options['single_backstroke_delete'] = 'false';
         !isset($options['width']) && $options['width'] = '100%';
-        !isset($options['display_disabled_options']) && $options['display_disabled_options'] = 'true';
-        !isset($options['display_selected_options']) && $options['display_selected_options'] = 'true';
-        !isset($options['include_group_label_in_selected']) && $options['include_group_label_in_selected'] = 'false';
+        !isset($options['display_disabled_options']) && $options['display_disabled_options'] = true;
+        $options['display_disabled_options'] === true && $options['display_disabled_options'] = 'true';
+        $options['display_disabled_options'] === false && $options['display_disabled_options'] = 'false';
+        !isset($options['display_selected_options']) && $options['display_selected_options'] = true;
+        $options['display_selected_options'] === true && $options['display_selected_options'] = 'true';
+        $options['display_selected_options'] === false && $options['display_selected_options'] = 'false';
+        !isset($options['include_group_label_in_selected']) && $options['include_group_label_in_selected'] = false;
+        $options['include_group_label_in_selected'] === true && $options['include_group_label_in_selected'] = 'true';
+        $options['include_group_label_in_selected'] === false && $options['include_group_label_in_selected'] = 'false';
         !isset($options['max_shown_results']) && $options['max_shown_results'] = 'Infinity';
-        !isset($options['case_sensitive_search']) && $options['case_sensitive_search'] = 'false';
-        !isset($options['hide_results_on_select']) && $options['hide_results_on_select'] = 'true';
-        !isset($options['rtl']) && $options['trl'] = 'false';
+        !isset($options['case_sensitive_search']) && $options['case_sensitive_search'] = false;
+        $options['case_sensitive_search'] === true && $options['case_sensitive_search'] = 'true';
+        $options['case_sensitive_search'] === false && $options['case_sensitive_search'] = 'false';
+        !isset($options['hide_results_on_select']) && $options['hide_results_on_select'] = true;
+        $options['hide_results_on_select'] === true && $options['hide_results_on_select'] = 'true';
+        $options['hide_results_on_select'] === false && $options['hide_results_on_select'] = 'false';
+        !isset($options['rtl']) && $options['trl'] = false;
+        $options['trl'] === true && $options['trl'] = 'true';
+        $options['trl'] === false && $options['trl'] = 'false';
         return $this->dropDownList($items, $options, $generateDefault);
     }
 
@@ -335,7 +361,7 @@ class ActiveField extends \yii\widgets\ActiveField
                     date	日期选择器	可选择：年、月、日。type默认值，一般可不填
                     time	时间选择器	只提供时、分、秒选择
                     datetime	日期时间选择器	可选择：年、月、日、时、分、秒
-     * - range: bool/string， 开启左右面板范围选择，默认false。如果设置 true，将默认采用 “ - ” 分割。 你也可以直接设置 分割字符。五种选择器类型均支持左右面板的范围选择。
+     * - range: bool/string， 开启左右面板范围选择，默认false。如果设置 true，将默认采用 “ ~ ” 分割。 你也可以直接设置 分割字符。五种选择器类型均支持左右面板的范围选择。
      * - theme: string，主题，默认值：default。可选值有：default（默认简约）、molv（墨绿背景）、#颜色值（自定义颜色背景）、grid（格子主题）
      * ...更多的设置请直接参考laydate官方文档: https://www.layui.com/doc/modules/laydate.html
      * @return $this
@@ -344,21 +370,31 @@ class ActiveField extends \yii\widgets\ActiveField
     {
         !isset($options['elem']) && $options['elem'] = 'this';
         !isset($options['type']) && $options['type'] = 'datetime';
-        !isset($options['range']) && $options['range'] = 'false';
+        !isset($options['range']) && $options['range'] = false;
+        $options['range'] === true && $options['range'] = '~';
+        $options['range'] === false && $options['range'] = 'false';
         !isset($options['format']) && $options['format'] = 'yyyy-MM-dd HH:mm:ss';
-        !isset($options['value']) && $options['value'] = $this->model->{$this->attribute} ? $this->model->{$this->attribute} : 'new Date()';
-        !isset($options['isInitValue']) && $options['isInitValue'] = 'false';
+        !isset($options['value']) && $options['value'] = $this->model->{$this->attribute} ? $this->model->{$this->attribute} : ( strpos(get_class($this->model), 'Search' ) !== false ? '' : 'new Date()' );
+        !isset($options['isInitValue']) && $options['isInitValue'] = false;
+        $options['isInitValue'] === true && $options['isInitValue'] = 'true';
+        $options['isInitValue'] === false && $options['isInitValue'] = 'false';
         !isset($options['min']) && $options['min'] = '1900-1-1';
         !isset($options['max']) && $options['max'] = '2099-12-31';
         !isset($options['trigger']) && $options['trigger'] = 'focus';
-        !isset($options['show']) && $options['show'] = 'false';
+        !isset($options['show']) && $options['show'] = false;
+        $options['show'] === true && $options['show'] = 'true';
+        $options['show'] === false && $options['show'] = 'false';
         !isset($options['position']) && $options['position'] = 'absolute';
         !isset($options['zIndex']) && $options['zIndex'] = '66666666';
-        !isset($options['showBottom']) && $options['showBottom'] = 'true';
+        !isset($options['showBottom']) && $options['showBottom'] = true;
+        $options['showBottom'] === true && $options['showBottom'] = 'true';
+        $options['showBottom'] === false && $options['showBottom'] = 'false';
         !isset($options['btns']) && $options['btns'] = "['clear', 'now', 'confirm']";
         !isset($options['lang']) && $options['lang'] = ( strpos( Yii::$app->language, 'en' ) === 0 ? 'en' : 'cn' );
         !isset($options['theme']) && $options['theme'] = 'molv';
-        !isset($options['calendar']) && $options['calendar'] = 'true';
+        !isset($options['calendar']) && $options['calendar'] = true;
+        $options['calendar'] === true && $options['calendar'] = "true";
+        $options['calendar'] === false && $options['calendar'] = "false";
         !isset($options['mark']) && $options['mark'] = '{}';//json对象
         !isset($options['ready']) && $options['ready'] = 'function(date){}';//匿名函数
         !isset($options['change']) && $options['change'] = 'function(value, date, endDate){}';//匿名函数
