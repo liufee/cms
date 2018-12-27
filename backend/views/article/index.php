@@ -222,7 +222,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Articles');
                         $(this).val(value);
                         var e = $.Event("keydown");
                         e.keyCode = 13;
-                        $('.date-time').trigger(e);
+                        $(".date-time[search!='true']").trigger(e);
                     },100)
                 }
                 delete config['value'];

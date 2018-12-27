@@ -277,14 +277,14 @@ $(document).ready(function(){
         if( !this.getAttribute('search') ){//搜素
             config.done = function(value, date, endDate){
                 setTimeout(function(){
-                $(this).val(value);
-                var e = $.Event("keydown");
-                e.keyCode = 13;
-                $('.date-time').trigger(e);
+                    $(this).val(value);
+                    var e = $.Event("keydown");
+                    e.keyCode = 13;
+                    $(".date-time[search!='true']").trigger(e);
                 },100)
             }
-            delete config['value'];
         }
+        delete config['value'];
 
         laydate.render(config);
     });
