@@ -12,6 +12,8 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 
 更新记录
 -------
+2.0.6 后台管理适配手机;增加后台代码注释操作运行命令自动生成权限;优化代码;
+
 2.0.5 优化gii生成后台curd;增加列表页搜索框区域;增加form表单laydate、chosenSelect;修复其他bug
 
 2.0.4 修复bug;增强seo
@@ -213,6 +215,16 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 ![后台文章编辑](docs/backend_custom_setting.png)
 
 ![后台文章编辑](docs/backend_log.png)
+
+![后台手机登录](docs/backend_mobile_login.jpg)
+
+![后台手机文章](docs/backend_mobile_article.jpg)
+
+![后台手机文章编辑](docs/backend_mobile_article_edit.jpg)
+
+![后台手机评论详情](docs/backend_mobile_comment_view.jpg)
+
+![前台手机首页](docs/frontend_mobile.jpg)
 
 
 特别鸣谢
