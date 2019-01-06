@@ -61,7 +61,7 @@ jQuery(function() {
             uploader = WebUploader.create({
                 pick: {
                     id: '#filePicker',
-                    label: '点击选择图片',
+                    label: tips.webuploader.clickSelectImage,
                     multiple: config.pick.multiple
                 },
                 dnd: '#uploader .queueList',
@@ -273,15 +273,15 @@ jQuery(function() {
                     case 'uploading':
                         $( '#filePicker2' ).addClass( 'element-invisible' );
                         $progress.show();
-                        $upload.text( '暂停上传' );
+                        $upload.text( tips.webuploader.pauseUploading );
                         break;
                     case 'paused':
                         $progress.show();
-                        $upload.text( '继续上传' );
+                        $upload.text( tips.webuploader.continueUploading );
                         break;
                     case 'confirm':
                         $progress.hide();
-                        $upload.text( '开始上传' ).addClass( 'disabled' );
+                        $upload.text( tips.webuploader.startUploading ).addClass( 'disabled' );
                         stats = uploader.getStats();
                         if ( stats.successNum && !stats.uploadFailNum ) {
                             setState( 'finish' );
@@ -430,7 +430,7 @@ jQuery(function() {
                             '<div class="queueList">' +
                                 '<div id="dndArea" class="placeholder">' +
                                     '<div id="filePicker"></div>' +
-                                        '<p id="">或将照片拖到这里</p>' +
+                                        '<p id="">' + tips.webuploader.dragHere + '</p>' +
                                ' </div>' +
                             '</div>' +
                             '<div class="statusBar">' +
@@ -443,9 +443,9 @@ jQuery(function() {
                                     '<div class="accept"></div>' +
                                 '</div>' +
                                 '<div class="btns">' +
-                                    '<div class="uploadBtn btn btn-primary state-pedding" style="margin-top: 4px;">确定使用</div>' +
+                                    '<div class="uploadBtn btn btn-primary state-pedding" style="margin-top: 4px;">' + tips.webuploader.confirmUse + '</div>' +
                                     '<div class="modal-button-upload" style="float: right; margin-left: 5px;">' +
-                                        '<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>' +
+                                        '<button type="button" class="btn btn-default" data-dismiss="modal">' + tips.cancel + '</button>' +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -461,7 +461,7 @@ jQuery(function() {
                             '<div class="modal-content">' +
                                 '<div class="modal-header">' +
                                     '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>' +
-                                    '<h4 class="modal-title">上传图片</h4>' +
+                                    '<h4 class="modal-title">' + tips.webuploader.uploadImage + '</h4>' +
                                 '</div>' +
                                 '<div class="modal-body">' +
                                 '</div>' +

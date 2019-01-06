@@ -20,7 +20,6 @@ class Webuploader extends \yii\widgets\InputWidget
     public $chooseButtonClass = ['class' => 'btn-white'];
     public $defaultImage;
     public $defaultUploadUrl = "assets/webuploader";
-    public $mode = "multi";//模式，默认多图上传，single单图上传
 
     private $_view;
     private $_hashVar;
@@ -45,14 +44,8 @@ class Webuploader extends \yii\widgets\InputWidget
             $model = $this->model;
             $attribute = $this->attribute;
 
-            // 单图
-            if ( isset($this->_config['single']) && $this->_config['single']) {
-                $html = $this->renderInput($model, $attribute);
-                $html .= $this->renderImage($model, $attribute);
-            } else {// 多图
-                $html = $this->renderMultiInput($model, $attribute);
-                $html .= $this->renderMultiImage($model, $attribute);
-            }
+            $html = $this->renderMultiInput($model, $attribute);
+            $html .= $this->renderMultiImage($model, $attribute);
             
             return $html;
         }
@@ -88,42 +81,15 @@ JS;
         WebuploaderAsset::register($this->_view);
     }
 
-    public function renderInput ($model, $attribute)
-    {
-        Html::addCssClass($this->chooseButtonClass, "btn {$this->_hashVar}");
-        $eles = [];
-        $eles[] = Html::tag('span', Html::button('选择图片', $this->chooseButtonClass), ['class' => 'input-group-btn']);
-        $eles[] = Html::activeTextInput($model, $attribute, ['class' => 'form-control']);
-
-
-        return Html::tag('div', implode("\n", $eles), ['class' => 'input-group']);
-    }
-
     public function renderMultiInput ($model, $attribute)
     {
         $inputName = Html::getInputName($model, $attribute);
         $eles = [];
         $eles[] = Html::hiddenInput($inputName, null);
-        $eles[] = Html::tag('span', Html::button('选择图片', ['class'=>'btn btn-white']), ['class' => 'input-group-btn']);
-        $eles[] = Html::textInput($attribute, null, ['class' => 'form-control']);
+        $eles[] = Html::tag('span', Html::button(Yii::t('app', 'Choose Image Multi'), ['class'=>'btn btn-white']), ['class' => 'input-group-btn']);
+        $eles[] = Html::textInput($attribute, null, ['class' => 'form-control', 'style'=>'margin-left:-1px']);
 
         return Html::tag('div', implode("\n", $eles), ['class' => 'input-group ' . $this->_hashVar]);
-    }
-
-    /**
-     * render html body-image
-     */
-    public function renderImage ($model, $attribute)
-    {
-        $src = $this->defaultImage;
-        $eles = [];
-        if (($value = $model->$attribute)) {
-            $src = $this->_validateUrl($value) ? $value : Yii::$app->params['site']['url'] . rtrim($value, "/");
-        }
-        $eles[] = Html::img($src, ['class' => 'img-responsive img-thumbnail cus-img']);
-        $eles[] = Html::tag('em', 'x', ['class' => 'close delImage', 'title' => '删除这张图片']);
-
-        return Html::tag('div', implode("\n", $eles), ['class' => 'input-group', 'style' => 'margin-top:.5em;']);
     }
 
     /**
@@ -141,7 +107,7 @@ JS;
             !is_array($srcTmp) && $srcTmp = [$srcTmp];
             $inputName = Html::getInputName($model, $attribute);
             foreach ($srcTmp as $k => $v) {
-                $dv = $this->_validateUrl($v) ? $v : Yii::$app->params['site']['url'] . $v;
+                $dv = $this->_validateUrl($v) ? $v : Yii::$app->params['site']['url'] . ltrim($v, "/");
                 $src = $v ? $dv : $this->defaultImage;
                 $eles = [];
                 $eles[] = Html::img($src, ['class' => 'img-responsive img-thumbnail cus-img']);

@@ -132,6 +132,8 @@ return [
     'Allowed not to be deleted, some article belongs to this category.' => '不允许被删除，还有文章属于此分类',
     'Secret article must set a password' => '加密文章必须设置密码',
     'Article Id' => '文章Id',
+    'Article Images' => '文章配图',
+    'Choose Image Multi' => '选择多图',
     /*Article*/
 
     /*Comment*/
@@ -352,4 +354,14 @@ return [
     'Ad' => '广告',
     'Ad Explain' => '广告描述',
     /*ad*/
+
+    /*webuploader*/
+    'or dragged picture here' => '或将照片拖到这里',
+    'Confirm use' => '确定使用',
+    'Pause uploading' => '暂停上传',
+    'Continue uploading' => '继续上传',
+    'Start uploading' => '开始上传',
+    'Upload Image' => '上传图片',
+    'Click select image' => '点击选择图片',
+    /*webuploader*/
 ];

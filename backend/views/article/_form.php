@@ -16,6 +16,7 @@ use common\models\Category;
 use common\libs\Constants;
 use common\widgets\JsBlock;
 use backend\widgets\Ueditor;
+use backend\widgets\webuploader\Webuploader;
 
 $this->title = "Articles";
 ?>
@@ -40,6 +41,7 @@ $this->title = "Articles";
                         <?= $form->field($model, 'sub_title')->textInput(); ?>
                         <?= $form->field($model, 'summary')->textArea(); ?>
                         <?= $form->field($model, 'thumb')->imgInput(['style' => 'max-width:200px;max-height:200px']); ?>
+                        <?= $form->field($model, 'images')->widget(Webuploader::className()); ?>
                         <?= $form->field($model, 'content')->widget(Ueditor::className()) ?>
                     </div>
                     <!--left stop -->

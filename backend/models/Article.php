@@ -8,6 +8,7 @@
 
 namespace backend\models;
 
+use common\models\meta\ArticleMetaImages;
 use Yii;
 use common\helpers\Util;
 use common\libs\Constants;
@@ -61,6 +62,8 @@ class Article extends \common\models\Article
     {
         $articleMetaTag = new ArticleMetaTag();
         $articleMetaTag->setArticleTags($this->id, $this->tag);
+        $articleMetaTag = new ArticleMetaImages();
+        $articleMetaTag->setImages($this->id, $this->images);
         if ( $insert ) {
             $contentModel = yii::createObject( ArticleContent::className() );
             $contentModel->aid = $this->id;
