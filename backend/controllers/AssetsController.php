@@ -9,6 +9,10 @@
 namespace backend\controllers;
 
 use backend\widgets\ueditor\UeditorAction;
+use Yii;
+use yii\helpers\FileHelper;
+use yii\web\Response;
+use yii\web\UploadedFile;
 
 class AssetsController extends \yii\web\Controller
 {
@@ -20,6 +24,44 @@ class AssetsController extends \yii\web\Controller
                 'class' => UeditorAction::className(),
             ],
         ];
+    }
+
+    public function actionWebuploader()
+    {
+        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
+        $upload = UploadedFile::getInstanceByName("file");
+        if ($upload !== null) {
+            $uploadPath = Yii::getAlias("@uploads/webuploader");
+            if( strpos(strrev($uploadPath), '/') !== 0 ) $uploadPath .= '/';
+            if (! FileHelper::createDirectory($uploadPath)) {
+                return [
+                    'code' => 0,
+                    'msg' => Yii::t('app', "Create directory failed " . $uploadPath)
+                ];
+            }
+            $fullName = isset($options['filename']) ? $uploadPath . uniqid() : $uploadPath . date('YmdHis') . '_' . uniqid() . '.' . $upload->getExtension();
+            if (! $upload->saveAs($fullName)) {
+                return[
+                    'code' => 1,
+                    'msg' => Yii::t('app', 'Upload {attribute} error: ' . $upload->error, ['attribute' => Yii::t('app', "File")])
+                ] ;
+            }
+            $attachment = str_replace(Yii::getAlias('@frontend/web'), '', $fullName);
+            /* @var $cdn \feehi\cdn\TargetInterface */
+            $cdn = Yii::$app->get('cdn');
+            $cdn->upload($fullName, $attachment);
+            return [
+                "code"=>0,
+                "url"=>Yii::$app->params['site']['url'] . $attachment,
+                "attachment"=>$attachment
+            ];
+        }
+        return [
+            "code"=>1,
+            "msg" => "文件不能为空"
+        ];
+
+
     }
 
 }
