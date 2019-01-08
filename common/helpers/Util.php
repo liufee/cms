@@ -177,7 +177,7 @@ class Util
      */
     public static function getThumbName($fullName, $width, $heith)
     {
-        $dotPosition = strrpos($fullName, '.');
+        $dotPosition = strrpos($fullName, '.',mb_strlen(Yii::getAlias('@frontend')));
         $thumbExt = "@" . $width . 'x' . $heith;
         if( $dotPosition === false ){
             $thumbFullName = $fullName . $thumbExt;
