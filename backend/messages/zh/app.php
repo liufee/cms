@@ -134,6 +134,7 @@ return [
     'Article Id' => '文章Id',
     'Article Images' => '文章配图',
     'Choose Image Multi' => '选择多图',
+    "Page Sign" => "单页地址",
     /*Article*/
 
     /*Comment*/

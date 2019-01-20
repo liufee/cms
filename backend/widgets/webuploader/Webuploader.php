@@ -65,9 +65,7 @@ class Webuploader extends \yii\widgets\InputWidget
                 'multiple' => [],
             ],
         ];
-        if ( !isset($this->clientOptions['csrf']) || $this->clientOptions['csrf'] !== false) {
-            $this->_config['formData'][Yii::$app->getRequest()->csrfParam] = Yii::$app->getRequest()->getCsrfToken();
-        }
+        $this->_config['formData'][Yii::$app->getRequest()->csrfParam] = Yii::$app->getRequest()->getCsrfToken();
         $config = Json::htmlEncode($this->_config);
         $js = <<<JS
             var {$this->_hashVar} = {$config};

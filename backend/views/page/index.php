@@ -46,13 +46,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Pages');
                         ],
                         [
                             'attribute' => 'title',
-                            'format' => 'html',
-                            'value' => function ($model, $key, $index, $column) {
-                                return Html::a($model->title, 'javascript:void(0)', [
-                                    'title' => $model->thumb,
-                                    'class' => 'title'
-                                ]);
-                            }
+                        ],
+                        [
+                            'attribute' => 'sub_title',
+                            'label' => Yii::t("app", "Page Sign")
                         ],
                         [
                             'attribute' => 'author_name',
@@ -61,7 +58,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Pages');
                             'label' => Yii::t('app', 'Url'),
                             'format' => 'raw',
                             'value' => function($model){
-                                return "<a target='_blank' href='" . Yii::$app->params['site']['url'] . 'page/' . $model->sub_title . "'>" . Yii::$app->params['site']['url'] . 'page/' . $model->sub_title . '</a>';
+                                return "<a target='_blank' href='" . Yii::$app->params['site']['url'] . 'index.php?r=page/' . $model->sub_title . "'>" . Yii::$app->params['site']['url'] . 'index.php?r=page/' . $model->sub_title . '</a>';
                             },
                         ],
                         [

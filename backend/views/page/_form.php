@@ -35,7 +35,7 @@ $this->title = "Pages";
                     <!--left start-->
                     <div class="col-md-7 droppable sortable ui-droppable ui-sortable" style="">
                         <?= $form->field($model, 'title')->textInput(); ?>
-                        <?= $form->field($model, 'sub_title')->textInput(); ?>
+                        <?= $form->field($model, 'sub_title')->label(Yii::t("app", "Page Sign"))->textInput(); ?>
                         <?= $form->field($model, 'summary')->textArea(); ?>
                         <?= $form->field($model, 'content')->widget(Ueditor::className()) ?>
                     </div>
