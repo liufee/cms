@@ -10,7 +10,6 @@ namespace backend\widgets;
 
 use Yii;
 use yii\helpers\Html;
-use yii\web\View;
 
 class ActiveField extends \yii\widgets\ActiveField
 {

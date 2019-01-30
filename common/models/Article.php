@@ -45,6 +45,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $flag_roll
  * @property integer $flag_bold
  * @property integer $flag_picture
+ * @property string  $template
  * @property integer $created_at
  * @property integer $updated_at
  *
@@ -112,7 +113,8 @@ class Article extends \yii\db\ActiveRecord
                     'seo_keywords',
                     'seo_description',
                     'author_name',
-                    'tag'
+                    'tag',
+                    'template'
                 ],
                 'string',
                 'max' => 255
@@ -177,6 +179,7 @@ class Article extends \yii\db\ActiveRecord
                 'flag_picture',
                 'password',
                 'images',
+                'template'
             ],
             'page' => [
                 'type',
@@ -193,6 +196,7 @@ class Article extends \yii\db\ActiveRecord
                 'tag',
                 'sort',
                 'images',
+                'template'
             ],
         ];
     }
@@ -230,6 +234,7 @@ class Article extends \yii\db\ActiveRecord
             'flag_roll' => Yii::t('app', 'Is Roll'),
             'flag_bold' => Yii::t('app', 'Is Bold'),
             'flag_picture' => Yii::t('app', 'Is Picture'),
+            'template' => Yii::t('app', 'Article Template'),
             'password' => Yii::t('app', 'Password'),
             'scan_count' => Yii::t('app', 'Scan Count'),
             'comment_count' => Yii::t('app', 'Comment Count'),

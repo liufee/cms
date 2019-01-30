@@ -149,6 +149,8 @@ return [
     /*Category*/
     'Parent Category Id' => '父分类Id',
     'Parent Category Name' => '父分类名称',
+    'Category Template' => '分类模板',
+    'Article Template' => '文章模板',
     /*Category*/
 
     /*friend link*/

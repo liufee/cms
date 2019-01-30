@@ -150,6 +150,7 @@ $this->title = "Articles";
                             <?= $form->field($model, 'password', ['options'=>['class'=>"form-group $hide"]])->textInput(); ?>
                             <?= $form->field($model, 'tag')->textInput(); ?>
                             <?= $form->field($model, 'sort')->textInput(); ?>
+                            <?= $form->field($model, 'template')->chosenSelect(Category::getTemplates()); ?>
 
                             <?= $form->defaultButtons(['size' => 12]) ?>
                         </div>

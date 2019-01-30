@@ -43,6 +43,7 @@ use yii\widgets\DetailView;
             }
         ],
         'sort',
+        'template',
         'author_id',
         'author_name',
         'scan_count',

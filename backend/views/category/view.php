@@ -25,6 +25,8 @@ use yii\widgets\DetailView;
         'name',
         'alias',
         'sort',
+        'template',
+        'article_template',
         'remark',
         'created_at:datetime',
         'updated_at:datetime',

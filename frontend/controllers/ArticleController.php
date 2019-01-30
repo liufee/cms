@@ -50,7 +50,8 @@ class ArticleController extends Controller
      *
      * @param string $cat 分类名称
      * @return string
-     * @throws \yii\web\NotFoundHttpException
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex($cat = '')
     {
@@ -86,7 +87,9 @@ class ArticleController extends Controller
                 ]
             ]
         ]);
-        return $this->render('index', [
+        $template = "index";
+        isset($category) && $category->template != "" && $template = $category->template;
+        return $this->render($template, [
             'dataProvider' => $dataProvider,
             'type' => ( !empty($cat) ? Yii::t('frontend', 'Category {cat} articles', ['cat'=>$cat]) : Yii::t('frontend', 'Latest Articles') ),
         ]);
@@ -145,7 +148,10 @@ class ArticleController extends Controller
                 }
                 break;
         }
-        return $this->render('view', [
+        $template = "view";
+        $model->category->template != "" && $template = $model->category->template;
+        $model->template != "" && $template = $model->template;
+        return $this->render($template, [
             'model' => $model,
             'prev' => $prev,
             'next' => $next,

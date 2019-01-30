@@ -23,6 +23,8 @@ use yii\helpers\FileHelper;
  * @property string $name
  * @property string $alias
  * @property integer $sort
+ * @property string $template
+ * @property string $article_template
  * @property string $remark
  * @property string $created_at
  * @property string $updated_at
@@ -54,7 +56,7 @@ class Category extends \yii\db\ActiveRecord
             [['sort', 'parent_id', 'created_at', 'updated_at'], 'integer'],
             [['sort'], 'compare', 'compareValue' => 0, 'operator' => '>='],
             [['parent_id'], 'default', 'value' => 0],
-            [['name', 'alias', 'remark'], 'string', 'max' => 255],
+            [['name', 'alias', 'remark', 'template', 'article_template'], 'string', 'max' => 255],
             [['alias'],  'match', 'pattern' => '/^[a-zA-Z0-9_]+$/', 'message' => Yii::t('app', 'Only includes alphabet,_,and number')],
             [['name', 'alias'], 'required'],
         ];
@@ -71,9 +73,11 @@ class Category extends \yii\db\ActiveRecord
             'name' => Yii::t('app', 'Name'),
             'alias' => Yii::t('app', 'Alias'),
             'sort' => Yii::t('app', 'Sort'),
+            'template' => Yii::t('app', 'Category Template'),
+            'article_template' => Yii::t('app', 'Article Template'),
+            'remark' => Yii::t('app', 'Remark'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
-            'remark' => Yii::t('app', 'Remark'),
         ];
     }
 
@@ -247,6 +251,36 @@ class Category extends \yii\db\ActiveRecord
     public function getParent()
     {
         return $this->hasOne(self::className(), ['id' => 'parent_id']);
+    }
+
+    public static function getTemplates()
+    {
+        $dir = Yii::$app->params['article.template.directory'];
+        $array = self::getFiles($dir);
+        $templates = [];
+        $dir[strlen($dir) - 1] !== "/" && $dir .= "/";
+        foreach ($array as $v){
+            $templates[str_replace($dir, "", $v)] = $v;
+        }
+        return $templates;
+    }
+
+    private static function getFiles($dir){
+        $files = array();
+        if(@$handle = opendir($dir)) {
+            while(($file = readdir($handle)) !== false) {
+                if($file != ".." && $file != ".") {
+                    if(is_dir($dir . DIRECTORY_SEPARATOR . $file)) {
+                        $files = array_merge($files, self::getFiles($dir .DIRECTORY_SEPARATOR . $file));
+                    } else {
+                        $files[] = $dir . DIRECTORY_SEPARATOR . $file;
+                    }
+
+                }
+            }
+            closedir($handle);
+            return $files;
+        }
     }
 
 }
