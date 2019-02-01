@@ -111,7 +111,7 @@ class BackendAuth extends \yii\base\BaseObject
     {
         if( strpos( $docComments, "@auth - item" ) !== false ){
             $temp = explode("@auth", $docComments)[1];
-        }else if( strpos( $docComments, "auth" ) ){
+        }else if( strpos( $docComments, "@auth" ) !== false ){
             $temp = explode("@auth", $docComments)[1];
         }else{
             return false;
