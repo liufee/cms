@@ -9,6 +9,7 @@ namespace console\controllers\helpers;
 
 use Yii;
 use ReflectionClass;
+use yii\helpers\FileHelper;
 
 class BackendAuth extends \yii\base\BaseObject
 {
@@ -185,15 +186,9 @@ class BackendAuth extends \yii\base\BaseObject
     {
         $controllerPath = $this->getControllerPath();
 
-        $files = array();
-        if(@$handle = opendir($controllerPath)) {
-            while(($file = readdir($handle)) !== false) {
-                if ( strpos($file, '.') === 0 ) {
-                    continue;
-                }
-                $files[] = $file;
-            }
-            closedir($handle);
+        $files = [];
+        foreach (FileHelper::findFiles($controllerPath) as $file) {
+            $files[] = str_replace([$controllerPath . DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], ['', '\\'], $file);
         }
 
         foreach($files as $file ) {
