@@ -9,6 +9,7 @@ namespace console\controllers\helpers;
 
 use Yii;
 use ReflectionClass;
+use yii\helpers\FileHelper;
 
 class BackendAuth extends \yii\base\BaseObject
 {
@@ -90,9 +91,10 @@ class BackendAuth extends \yii\base\BaseObject
         return $this->error;
     }
 
-    public function parseControllerPartialUrl($controllerClassName)
+    public function parseControllerPartialUrl($subDirControllerName)
     {
-        $controllerName = str_replace('Controller', '', $controllerClassName);
+        $subDirControllerName = explode('/', $subDirControllerName);
+        $controllerName = str_replace('Controller', '', array_pop($subDirControllerName));
         $controllerTemp = lcfirst($controllerName);
         $controllerString = "";
         for ($i = 0; $i < strlen($controllerTemp); $i++) {
@@ -104,14 +106,17 @@ class BackendAuth extends \yii\base\BaseObject
                 $controllerString .= $controllerTemp[$i];
             }
         }
-        return $controllerString;
+
+        $subDirControllerName[] = $controllerString;
+
+        return implode('/', $subDirControllerName);
     }
 
     public function getActionAuthItemsByDocComment($docComments)
     {
         if( strpos( $docComments, "@auth - item" ) !== false ){
             $temp = explode("@auth", $docComments)[1];
-        }else if( strpos( $docComments, "auth" ) ){
+        }else if( strpos( $docComments, "@auth" ) !== false ){
             $temp = explode("@auth", $docComments)[1];
         }else{
             return false;
@@ -185,25 +190,19 @@ class BackendAuth extends \yii\base\BaseObject
     {
         $controllerPath = $this->getControllerPath();
 
-        $files = array();
-        if(@$handle = opendir($controllerPath)) {
-            while(($file = readdir($handle)) !== false) {
-                if ( strpos($file, '.') === 0 ) {
-                    continue;
-                }
-                $files[] = $file;
-            }
-            closedir($handle);
+        $files = [];
+        foreach (FileHelper::findFiles($controllerPath) as $file) {
+            $files[] = str_replace($controllerPath . DIRECTORY_SEPARATOR, '', $file);
         }
 
         foreach($files as $file ) {
-            $className = str_replace('.php', '', $file);
-            if (in_array($className, $this->getNoNeedRbacControllers())) {
-                Yii::info($className . "不受权限控制,跳过");
+            $subDirControllerName = str_replace('.php', '', $file);
+            if (in_array($subDirControllerName, $this->getNoNeedRbacControllers())) {
+                Yii::info($subDirControllerName . "不受权限控制,跳过");
                 continue;
             }
-            $class = new ReflectionClass("\\backend\\controllers\\" . $className);
-            $controllerPartialUrl = $this->parseControllerPartialUrl($className);
+            $class = new ReflectionClass("\\backend\\controllers\\" . str_replace('/', '\\', $subDirControllerName));
+            $controllerPartialUrl = $this->parseControllerPartialUrl($subDirControllerName);
             $methods = $class->getMethods();
             foreach ($methods as $method) {
                 $actions = [];
@@ -222,9 +221,13 @@ class BackendAuth extends \yii\base\BaseObject
                     $actionNum = 1;
                 }
 
+                if (!is_array($authItems) || count($authItems) !== $actionNum) {
+                    continue;
+                }
+
                 if ( count($authItems) !== $actionNum ) {
                     $this->_unPropertyDocCommentsRoutes[] = $controllerPartialUrl;
-                    $error = "$className::actions或actionX 注释不匹配 注视数量" . count($authItems) . " 方法数量" . count($actions);
+                    $error = "$subDirControllerName::actions或actionX 注释不匹配 注视数量" . count($authItems) . " 方法数量" . count($actions);
                     $this->setError($error);
                     Yii::error($error);
                     Yii::$app->controller->stderr($error . PHP_EOL);
