@@ -116,6 +116,9 @@ EOF;
                 continue;
             }
             $subsubmenu = self::_getBackendSubMenu($menus, $menu['id'], $times);
+            if (!is_object($menu)) {
+                $menu = new self($menu);
+            }
             $url = $menu->getMenuUrl();
             if ($subsubmenu == '') {
                 $arrow = '';
