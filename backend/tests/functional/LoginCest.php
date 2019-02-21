@@ -58,7 +58,7 @@ class LoginCest
     {
         $I->submitForm('button[name=login-button]', array_merge($this->formParams('admin', 'password_0'), ['LoginForm[captcha]'=>'testme']));
         $I->see('菜单');
-        $I->dontSeeLink('登陆');
+        $I->dontSeeLink('登录');
         $I->dontSeeLink('注册');
     }
 }

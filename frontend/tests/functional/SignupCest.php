@@ -51,6 +51,6 @@ class SignupCest
             'email' => 'tester.email@example.com',
         ]);
 
-        $I->see('退出登陆');
+        $I->see('退出登录');
     }
 }

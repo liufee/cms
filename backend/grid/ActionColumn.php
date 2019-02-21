@@ -38,7 +38,7 @@ class ActionColumn extends \yii\grid\ActionColumn
             $this->headerOptions['width'] = $this->width;
         }
 
-        $this->contentOptions = ['class' => 'da-icon-column', 'style' => 'width:' . $this->width . ';'];
+        $this->contentOptions = array_merge(['class' => 'da-icon-column', 'style' => 'width:' . $this->width . ';'], $this->contentOptions);
     }
 
     /**

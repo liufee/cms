@@ -28,7 +28,7 @@ class FriendlyLinkCest
     public function _before(AcceptanceTester $I)
     {
         $I->amOnPage(Url::toRoute('/site/login'));
-        $I->see('登陆');
+        $I->see('登录');
         $I->submitForm("button[name=login-button]", [
             'LoginForm[username]' => "admin",
             'LoginForm[password]' => 'password_0',

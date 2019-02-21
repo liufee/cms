@@ -142,7 +142,7 @@ class ArticleController extends Controller
                 $authorized = Yii::$app->getSession()->get("article_password_" . $model->id, null);
                 if( $authorized === null ) $this->redirect(Url::toRoute(['password', 'id'=>$id]));
                 break;
-            case Constants::ARTICLE_VISIBILITY_LOGIN://登陆可见
+            case Constants::ARTICLE_VISIBILITY_LOGIN://登录可见
                 if( Yii::$app->getUser()->getIsGuest() ) {
                     $model->articleContent->content = "<p style='color: red'>" . Yii::t('frontend', "Only login user can visit this article") . "</p>";
                 }

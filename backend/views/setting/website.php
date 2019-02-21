@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Website Setting');
                     $timezones[$v] = $v;
                 }
                 ?>
-                <?= $form->field($model, 'website_timezone')->dropDownList($timezones) ?>
+                <?= $form->field($model, 'website_timezone')->chosenSelect($timezones) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'website_icp') ?>
                 <div class="hr-line-dashed"></div>

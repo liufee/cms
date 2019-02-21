@@ -48,22 +48,26 @@ class GridView extends \yii\grid\GridView
     {
         parent::init();
 
-        $this->rowOptions = function ($model, $key, $index, $grid) {
-            if ($index % 2 === 0) {
-                return ['class' => 'odd'];
-            } else {
-                return ['class' => 'even'];
-            }
-        };
-        $this->pagerOptions = [
-            'firstPageLabel' => Yii::t('app', 'first'),
-            'lastPageLabel' => Yii::t('app', 'last'),
-            'prevPageLabel' => Yii::t('app', 'previous'),
-            'nextPageLabel' => Yii::t('app', 'next'),
-            'options' => [
-                'class' => 'pagination',
-            ]
-        ];
+        if( !$this->rowOptions && $this->rowOptions !== false ) {
+            $this->rowOptions = function ($model, $key, $index, $grid) {
+                if ($index % 2 === 0) {
+                    return ['class' => 'odd'];
+                } else {
+                    return ['class' => 'even'];
+                }
+            };
+        }
+        if( !$this->pagerOptions && $this->pagerOptions !== false ) {
+            $this->pagerOptions = [
+                'firstPageLabel' => Yii::t('app', 'first'),
+                'lastPageLabel' => Yii::t('app', 'last'),
+                'prevPageLabel' => Yii::t('app', 'previous'),
+                'nextPageLabel' => Yii::t('app', 'next'),
+                'options' => [
+                    'class' => 'pagination',
+                ]
+            ];
+        }
     }
 
     /**

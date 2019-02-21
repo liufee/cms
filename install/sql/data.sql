@@ -81,7 +81,7 @@ CREATE TABLE `%__prefix__%article` (
   `scan_count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '浏览次数',
   `comment_count` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '浏览次数',
   `can_comment` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '是否可评论.0否,1是',
-  `visibility` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '文章可见性.1.公开,2.评论可见,3.加密文章,4.登陆可见',
+  `visibility` smallint(6) unsigned NOT NULL DEFAULT '1' COMMENT '文章可见性.1.公开,2.评论可见,3.加密文章,4.登录可见',
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '文章明文密码',
   `flag_headline` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '头条.0否,1.是',
   `flag_recommend` smallint(6) unsigned NOT NULL DEFAULT '0' COMMENT '推荐.0否,1.是',

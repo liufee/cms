@@ -48,7 +48,7 @@ class SortColumn extends DataColumn
 
         if($this->action === null) $this->action = Url::to(['sort']);
 
-        $this->headerOptions = array_merge($this->headerOptions, ['action'=>$this->action, 'method'=>$this->method, 'sort-header'=>1]);
+        $this->headerOptions = array_merge(['action'=>$this->action, 'method'=>$this->method, 'sort-header'=>1], $this->headerOptions);
 
         $this->content = function ($model, $key, $index, $gridView) {
             /* @var $model \backend\models\Article */

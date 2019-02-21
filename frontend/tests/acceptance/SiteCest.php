@@ -20,7 +20,7 @@ class SiteCest
     public function checkLogin(AcceptanceTester $I)
     {
         $I->amOnPage(Url::toRoute('/site/login'));
-        $I->see('记住登陆');
+        $I->see('记住登录');
 
         $I->seeLink('重置');
 
@@ -28,7 +28,7 @@ class SiteCest
         $I->fillField("#loginform-password", "111111");
         $I->submitForm("button[name=login-button]", []);
         $I->see("Welcome");
-        $I->see("退出登陆");
+        $I->see("退出登录");
     }
 
     public function checkRequestPasswordReset(AcceptanceTester $I)

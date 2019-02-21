@@ -177,7 +177,7 @@ class SiteController extends \yii\web\Controller
     }
 
     /**
-     * 管理员登陆
+     * 管理员登录
      *
      * @return string|\yii\web\Response
      */
@@ -198,7 +198,7 @@ class SiteController extends \yii\web\Controller
     }
 
     /**
-     * 管理员退出登陆
+     * 管理员退出登录
      *
      * @return \yii\web\Response
      */

@@ -9,7 +9,7 @@
 return [
     /*public*/
     'Hi, Log in' => 'Hi, 请登录',
-    'Log out' => '退出登陆',
+    'Log out' => '退出登录',
     'Sign up' => '注册',
     'About us' => '关于我们',
     'Contact us' => '联系我们',
@@ -20,7 +20,7 @@ return [
     'Copyright, all rights reserved' => '版权所有，保留一切权利',
     'If you forgot your password you can' => '忘记密码您可以',
     'reset it' => '重置',
-    'Remember Me' => '记住登陆',
+    'Remember Me' => '记住登录',
     'Well-choosen' => '精选导读',
     'Latest Articles' => '最新发布',
     'Related Recommends' => '相关推荐',
@@ -70,7 +70,7 @@ return [
     "Please input the password of article id {id} : {article}" => "请输入文章ID {id} : {article} 的密码",
     "Password error" => '密码错误',
     'Go' => '确认',
-    'Only login user can visit this article' => '本文章仅对登陆用户可见',
+    'Only login user can visit this article' => '本文章仅对登录用户可见',
     'Search keyword {keyword} results' => '搜索 {keyword} 的结果',
     'Tag {tag} related articles' => 'Tag {tag} 的相关文章',
     'Category {cat} articles' => '分类 {cat} 文章',

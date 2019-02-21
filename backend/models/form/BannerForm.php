@@ -14,7 +14,7 @@ use common\libs\Constants;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
-class BannerForm extends \Common\models\Options
+class BannerForm extends \common\models\Options
 {
     public $sign;
 

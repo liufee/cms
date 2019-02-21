@@ -187,7 +187,7 @@ class m130524_201442_init extends Migration
             'scan_count' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("浏览次数"),
             'comment_count' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("浏览次数"),
             'can_comment' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("是否可评论.0否,1是"),
-            'visibility' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("文章可见性.1.公开,2.评论可见,3.加密文章,4.登陆可见"),
+            'visibility' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("文章可见性.1.公开,2.评论可见,3.加密文章,4.登录可见"),
             'password' => $this->string()->defaultValue('')->notNull()->comment("文章明文密码"),
             'flag_headline' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("头条.0否,1.是"),
             'flag_recommend' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("推荐.0否,1.是"),
