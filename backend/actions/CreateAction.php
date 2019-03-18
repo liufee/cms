@@ -22,8 +22,8 @@ class CreateAction extends \yii\base\Action
     /** @var string 模板路径，默认为action id  */
     public $viewFile = null;
 
-    /** @var  string|array 编辑成功后跳转地址,此参数直接传给yii::$app->controller->redirect() */
-    public $successRedirect = ['index'];
+    /** @var  string|array 编辑成功后跳转地址,此参数直接传给yii::$app->controller->redirect(),默认跳转到进入到创建页前的地址 */
+    public $successRedirect;
 
     /**
      * create创建页
@@ -38,7 +38,10 @@ class CreateAction extends \yii\base\Action
         if (Yii::$app->getRequest()->getIsPost()) {
             if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
                 Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
-                return $this->controller->redirect($this->successRedirect);
+                if( $this->successRedirect ) return $this->controller->redirect($this->successRedirect);
+                $url = Yii::$app->getSession()->get("_create_referer");
+                if( $url ) return $this->controller->redirect($url);
+                return $this->controller->redirect(["index"]);
             } else {
                 $errorReasons = $model->getErrors();
                 $err = '';
@@ -59,6 +62,7 @@ class CreateAction extends \yii\base\Action
             $data = call_user_func_array($this->data, [$model, $this]);
         }
         $this->viewFile === null && $this->viewFile = $this->id;
+        Yii::$app->getSession()->set("_create_referer", Yii::$app->getRequest()->getReferrer());
         return $this->controller->render($this->viewFile, $data);
     }
 

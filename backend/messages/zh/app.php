@@ -366,5 +366,7 @@ return [
     'Start uploading' => '开始上传',
     'Upload Image' => '上传图片',
     'Click select image' => '点击选择图片',
+    'File cannot be empty' => '文件不能为空',
+    'Only picture allowed' => '仅允许上传图片'
     /*webuploader*/
 ];

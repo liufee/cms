@@ -76,7 +76,7 @@ class DeleteAction extends \yii\base\Action
                 }
             }
             if (count($errors) == 0) {
-                if( !Yii::$app->getRequest()->getIsAjax() ) return $this->controller->redirect(Yii::$app->getRequest()->headers['referer']);
+                if( !Yii::$app->getRequest()->getIsAjax() ) return $this->controller->redirect(Yii::$app->getRequest()->getReferrer());
                 return [];
             } else {
                 $err = '';

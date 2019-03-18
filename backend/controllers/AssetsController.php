@@ -31,6 +31,12 @@ class AssetsController extends \yii\web\Controller
         Yii::$app->getResponse()->format = Response::FORMAT_JSON;
         $upload = UploadedFile::getInstanceByName("file");
         if ($upload !== null) {
+            if( !in_array(strtolower($upload->getExtension()), ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp']) ){
+                return [
+                    "code"=>1,
+                    "msg" => Yii::t("app", 'Only picture allowed'),
+                ];
+            }
             $uploadPath = Yii::getAlias("@uploads/webuploader");
             if( strpos(strrev($uploadPath), '/') !== 0 ) $uploadPath .= '/';
             if (! FileHelper::createDirectory($uploadPath)) {
@@ -51,14 +57,14 @@ class AssetsController extends \yii\web\Controller
             $cdn = Yii::$app->get('cdn');
             $cdn->upload($fullName, $attachment);
             return [
-                "code"=>0,
-                "url"=>Yii::$app->params['site']['url'] . $attachment,
-                "attachment"=>$attachment
+                "code" => 0,
+                "url" => $cdn->getCdnUrl($attachment),
+                "attachment" => $attachment
             ];
         }
         return [
             "code"=>1,
-            "msg" => "文件不能为空"
+            "msg" => Yii::t("app", 'File cannot be empty'),
         ];
 
 
