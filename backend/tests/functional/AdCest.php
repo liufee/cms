@@ -42,6 +42,7 @@ class AdCest
         $I->see("	编辑广告");
         $I->fillField("AdForm[desc]", '123广告描述');
         $I->submitForm("button[type=submit]", []);
+        $I->click("a[title=编辑]");
         $I->seeInField("AdForm[desc]", "123广告描述");
     }
 }

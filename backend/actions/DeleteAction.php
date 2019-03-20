@@ -40,7 +40,7 @@ class DeleteAction extends \yii\base\Action
     /**
      * delete删除
      *
-     * @return array
+     * @return mixed
      * @throws BadRequestHttpException
      * @throws MethodNotAllowedHttpException
      * @throws UnprocessableEntityHttpException

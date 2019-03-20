@@ -37,6 +37,7 @@ class CategoryCest
         $I->see("编辑分类");
         $I->fillField("Category[name]", '123');
         $I->submitForm("button[type=submit]", []);
+        $I->click("a[title=编辑]");
         $I->seeInField("Category[name]", "123");
     }
 }

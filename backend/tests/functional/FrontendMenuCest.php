@@ -36,6 +36,7 @@ class FrontendMenuCest
         $I->see("编辑前台菜单");
         $I->fillField("Menu[name]", '测试123');
         $I->submitForm("button[type=submit]", []);
+        $I->click("a[title=编辑]");
         $I->seeInField("Menu[name]", "测试123");
     }
 }

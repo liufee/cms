@@ -37,6 +37,7 @@ class ArticleCest
         $I->see("编辑文章");
         $I->fillField("Article[summary]", '123');
         $I->submitForm("button[type=submit]", []);
+        $I->click("a[title=编辑]");
         $I->seeInField("Article[summary]", "123");
     }
 

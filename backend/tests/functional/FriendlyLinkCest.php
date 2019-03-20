@@ -37,6 +37,7 @@ class FriendlyLinkCest
         $I->see("编辑友情链接");
         $I->fillField("FriendlyLink[name]", '123');
         $I->submitForm("button[type=submit]", []);
+        $I->click("a[title=编辑]");
         $I->seeInField("FriendlyLink[name]", "123");
     }
 }

@@ -42,7 +42,8 @@ class BannerCest
         $I->see("编辑Banner类型");
         $I->fillField("BannerTypeForm[tips]", 'banner类型描述');
         $I->submitForm("button[type=submit]", []);
-        $I->seeInField("BannerTypeForm[tips]", "banner类型描述");
+        $I->see('Banner类型');
+        $I->see("描述");
     }
 
     public function checkBanners(FunctionalTester $I)
@@ -52,7 +53,7 @@ class BannerCest
         $I->click("a[title=编辑]");
         $I->fillField("BannerForm[desc]", 'banner图片描述');
         $I->submitForm("button[type=submit]", []);
-        //$I->click("a[title=编辑]");
+        $I->click("a[title=编辑]");
         $I->seeInField("BannerForm[desc]", "banner图片描述");
     }
 }

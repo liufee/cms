@@ -82,7 +82,7 @@ class UpdateAction extends \yii\base\Action
         }elseif ($this->data instanceof \Closure){
             $data = call_user_func_array($this->data, [$model, $this]);
         }
-        Yii::$app->getSession()->set("_update_referer", Yii::$app->getRequest()->getReferrer());
+        Yii::$app->getRequest()->getIsGet() && Yii::$app->getSession()->set("_update_referer", Yii::$app->getRequest()->getReferrer());
         return $this->controller->render($this->viewFile, $data);
     }
 

@@ -62,7 +62,7 @@ class CreateAction extends \yii\base\Action
             $data = call_user_func_array($this->data, [$model, $this]);
         }
         $this->viewFile === null && $this->viewFile = $this->id;
-        Yii::$app->getSession()->set("_create_referer", Yii::$app->getRequest()->getReferrer());
+        Yii::$app->getRequest()->getIsGet() && Yii::$app->getSession()->set("_create_referer", Yii::$app->getRequest()->getReferrer());
         return $this->controller->render($this->viewFile, $data);
     }
 
