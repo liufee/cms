@@ -8,6 +8,7 @@
 
 namespace common\helpers;
 
+use yii\base\Exception;
 use yii\imagine\Image;
 use Yii;
 use yii\db\ActiveRecord;
@@ -193,8 +194,12 @@ class Util
     {
         if( $type == "article" ){
             $files = Yii::$app->params['article.template.directory'];
-        }else{
+        }else if ($type == "page"){
             $files = Yii::$app->params['page.template.directory'];
+        }else if($type == "category"){
+            $files = Yii::$app->params['category.template.directory'];
+        }else{
+            throw new Exception("Unknown " . $type);
         }
         $templates = [];
         foreach ($files as $key => $file){
