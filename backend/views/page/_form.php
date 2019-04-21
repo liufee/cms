@@ -14,6 +14,7 @@
 use backend\widgets\ActiveForm;
 use common\libs\Constants;
 use backend\widgets\Ueditor;
+use common\helpers\Util;
 
 $this->title = "Pages";
 ?>
@@ -91,6 +92,7 @@ $this->title = "Pages";
                             </div>
                             <?= $form->field($model, 'tag')->textInput(); ?>
                             <?= $form->field($model, 'sort')->textInput(); ?>
+                            <?= $form->field($model, 'template')->chosenSelect(Util::getViewTemplate("page")); ?>
 
                             <?= $form->defaultButtons(['size' => 12]) ?>
                         </div>

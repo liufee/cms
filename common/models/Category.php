@@ -253,34 +253,4 @@ class Category extends \yii\db\ActiveRecord
         return $this->hasOne(self::className(), ['id' => 'parent_id']);
     }
 
-    public static function getTemplates()
-    {
-        $dir = Yii::$app->params['article.template.directory'];
-        $array = self::getFiles($dir);
-        $templates = [];
-        $dir[strlen($dir) - 1] !== "/" && $dir .= "/";
-        foreach ($array as $v){
-            $templates[str_replace($dir, "", $v)] = $v;
-        }
-        return $templates;
-    }
-
-    private static function getFiles($dir){
-        $files = array();
-        if(@$handle = opendir($dir)) {
-            while(($file = readdir($handle)) !== false) {
-                if($file != ".." && $file != ".") {
-                    if(is_dir($dir . DIRECTORY_SEPARATOR . $file)) {
-                        $files = array_merge($files, self::getFiles($dir .DIRECTORY_SEPARATOR . $file));
-                    } else {
-                        $files[] = $dir . DIRECTORY_SEPARATOR . $file;
-                    }
-
-                }
-            }
-            closedir($handle);
-            return $files;
-        }
-    }
-
 }

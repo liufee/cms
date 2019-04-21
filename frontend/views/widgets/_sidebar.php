@@ -59,7 +59,7 @@ use frontend\models\FriendlyLink;
     <div class="widget d_banner">
         <div class="d_banner_inner">
             <?php $ad = Options::getAdByName('sidebar_right_1')?>
-            <a href="<?=$ad->link?>" target="<?=$ad->target?>" title="<?=$ad->desc?>">
+            <a href="<?=$ad->link?>" target="<?=$ad->target?>" title="<?=$ad->desc?>"  rel="external nofollow">
                 <img src="<?=$ad->ad?>" alt="<?=$ad->desc?>"><span></span>
             </a>
         </div>

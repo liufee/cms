@@ -92,6 +92,7 @@ class ArticleController extends Controller
         return $this->render($template, [
             'dataProvider' => $dataProvider,
             'type' => ( !empty($cat) ? Yii::t('frontend', 'Category {cat} articles', ['cat'=>$cat]) : Yii::t('frontend', 'Latest Articles') ),
+            'category' => isset($category) ? $category->name : "",
         ]);
     }
 
@@ -149,7 +150,7 @@ class ArticleController extends Controller
                 break;
         }
         $template = "view";
-        $model->category->template != "" && $template = $model->category->template;
+        isset($model->category) && $model->category->template != "" && $template = $model->category->template;
         $model->template != "" && $template = $model->template;
         return $this->render($template, [
             'model' => $model,
@@ -252,6 +253,7 @@ class ArticleController extends Controller
      * rss订阅
      *
      * @return mixed
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionRss()
     {

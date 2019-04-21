@@ -32,7 +32,10 @@ class PageController extends Controller
         if (empty($model)) {
             throw new NotFoundHttpException('None page named ' . $name);
         }
-        return $this->render('view', [
+        $template = "view";
+        isset($model->category) && $model->category->template != "" && $template = $model->category->template;
+        $model->template != "" && $template = $model->template;
+        return $this->render($template, [
             'model' => $model,
         ]);
     }

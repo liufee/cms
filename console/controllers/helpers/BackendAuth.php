@@ -196,6 +196,7 @@ class BackendAuth extends \yii\base\BaseObject
         }
 
         foreach($files as $file ) {
+            if( !strpos($file, "Controller") ) continue;
             $subDirControllerName = str_replace('.php', '', $file);
             if (in_array($subDirControllerName, $this->getNoNeedRbacControllers())) {
                 Yii::info($subDirControllerName . "不受权限控制,跳过");

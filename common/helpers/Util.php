@@ -188,4 +188,22 @@ class Util
         }
         return $thumbFullName;
     }
+
+    public static function getViewTemplate($type="article")
+    {
+        if( $type == "article" ){
+            $files = Yii::$app->params['article.template.directory'];
+        }else{
+            $files = Yii::$app->params['page.template.directory'];
+        }
+        $templates = [];
+        foreach ($files as $key => $file){
+            if( !is_int($key) ) {
+                $templates[str_replace(Yii::getAlias("@frontend/views"), "", $key)] = $file;
+            }else{
+                $templates[str_replace(Yii::getAlias("@frontend/views"), "", $file)] = $file;
+            }
+        }
+        return $templates;
+    }
 }

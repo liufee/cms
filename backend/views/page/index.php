@@ -24,6 +24,18 @@ use backend\grid\ActionColumn;
 
 $this->title = 'Pages';
 $this->params['breadcrumbs'][] = Yii::t('app', 'Pages');
+$config = yii\helpers\ArrayHelper::merge(
+    require Yii::getAlias("@frontend/config/main.php"),
+    require Yii::getAlias("@frontend/config/main-local.php")
+);
+$prettyUrl = false;
+if( isset( $config['components']['urlManager']['enablePrettyUrl'] ) ){
+    $prettyUrl = $config['components']['urlManager']['enablePrettyUrl'];
+}
+$suffix = "";
+if( isset( $config['components']['urlManager']['suffix'] ) ){
+    $suffix = $config['components']['urlManager']['suffix'];
+}
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -49,17 +61,16 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Pages');
                         ],
                         [
                             'attribute' => 'sub_title',
-                            'label' => Yii::t("app", "Page Sign")
+                            'label' => Yii::t("app", "Page Sign"),
+                            'format' => 'raw',
+                            'value' => function($model)use($prettyUrl, $suffix){
+                                /** @var \common\models\Article $model */
+                                $url = $prettyUrl ? Yii::$app->params['site']['url'] . 'page/' . $model->sub_title . $suffix : Yii::$app->params['site']['url'] . 'index.php?r=page/' . $model->sub_title . $suffix;
+                                return Html::a($model->sub_title, $url, ["target" => "_blank"]);
+                            },
                         ],
                         [
                             'attribute' => 'author_name',
-                        ],
-                        [
-                            'label' => Yii::t('app', 'Url'),
-                            'format' => 'raw',
-                            'value' => function($model){
-                                return "<a target='_blank' href='" . Yii::$app->params['site']['url'] . 'index.php?r=page/' . $model->sub_title . "'>" . Yii::$app->params['site']['url'] . 'index.php?r=page/' . $model->sub_title . '</a>';
-                            },
                         ],
                         [
                             'attribute' => 'status',

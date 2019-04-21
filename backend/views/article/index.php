@@ -29,6 +29,18 @@ use backend\grid\StatusColumn;
 $this->title = 'Articles';
 $this->params['breadcrumbs'][] = Yii::t('app', 'Articles');
 
+$config = yii\helpers\ArrayHelper::merge(
+    require Yii::getAlias("@frontend/config/main.php"),
+    require Yii::getAlias("@frontend/config/main-local.php")
+);
+$prettyUrl = false;
+if( isset( $config['components']['urlManager']['enablePrettyUrl'] ) ){
+    $prettyUrl = $config['components']['urlManager']['enablePrettyUrl'];
+}
+$suffix = "";
+if( isset( $config['components']['urlManager']['suffix'] ) ){
+    $suffix = $config['components']['urlManager']['suffix'];
+}
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -59,6 +71,12 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Articles');
                         [
                             'attribute' => 'title',
                             'width' => '170',
+                            'format' => 'raw',
+                            'value' => function($model, $key, $index, $column) use($prettyUrl, $suffix) {
+                                /** @var \common\models\Article  $model */
+                                $url = $prettyUrl ? Yii::$app->params['site']['url'] . 'view/' . $model->id . $suffix : Yii::$app->params['site']['url'] . 'index.php?r=view/' . $model->id . $suffix;
+                                return Html::a($model->title, $url, ['target' => '_blank', 'data-pjax' => 0]);
+                            }
                         ],
                         [
                             'attribute' => 'sort',
@@ -174,7 +192,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Articles');
         t = setTimeout(function () {
         }, 200);
         var url = $(this).attr('img');
-        if (url.length == 0) {
+        if (url.length === 0) {
             layer.tips('<?=Yii::t('app', 'No picture')?>', $(this));
         } else {
             layer.tips('<img style="max-width: 100px;max-height: 60px" src=' + url + '>', $(this));

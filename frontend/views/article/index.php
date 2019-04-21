@@ -10,6 +10,7 @@
  * @var $this yii\web\View
  * @var $dataProvider yii\data\ActiveDataProvider
  * @var $type string
+ * @var $category string
  */
 
 use common\models\Options;
@@ -21,7 +22,7 @@ use frontend\assets\IndexAsset;
 use yii\data\ArrayDataProvider;
 
 IndexAsset::register($this);
-$this->title = Yii::$app->feehi->website_title;
+$this->title = ( !empty($category) ? $category . " - " : "" ) . Yii::$app->feehi->website_title;
 ?>
 <div class="content-wrap">
     <div class="content">

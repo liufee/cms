@@ -94,7 +94,8 @@ class ArticleListView extends \yii\widgets\ListView
             $this->itemView = function ($model, $key, $index) {
                 /** @var $model \frontend\models\Article */
                 $categoryName = $model->category ? $model->category->name : yii::t('app', 'uncategoried');
-                $categoryUrl = Url::to(['article/index', 'cat' => $categoryName]);
+                $categoryAlias = $model->category ? $model->category->alias : yii::t('app', 'uncategoried');
+                $categoryUrl = Url::to(['article/index', 'cat' => $categoryAlias]);
                 $imgUrl = $model->getThumbUrlBySize($this->thumbWidth, $this->thumbHeight);
                 $articleUrl = Url::to(['article/view', 'id' => $model->id]);
                 $summary = StringHelper::truncate($model->summary, $this->summaryLength);
