@@ -12,7 +12,7 @@
 use common\helpers\FileDependencyHelper;
 use yii\caching\FileDependency;
 use yii\helpers\Html;
-use backend\models\Menu;
+use backend\widgets\Menu;
 use yii\helpers\Url;
 use backend\assets\IndexAsset;
 
@@ -81,7 +81,7 @@ $identity = Yii::$app->getUser()->getIdentity();
                 ])
                 )
                 {?>
-                    <?= Menu::getBackendMenu(); ?>
+                    <?= Menu::widget() ?>
                     <?php $this->endCache();
                 } ?>
             </ul>
