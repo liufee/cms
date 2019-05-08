@@ -149,9 +149,12 @@ class RbacController extends \yii\web\Controller
             Yii::$app->getResponse()->format = Response::FORMAT_JSON;
             $param = Yii::$app->getRequest()->post('id', null);
             if($param !== null){
-                $name = $param;
+                $ids = json_decode($name, true);
+            }else{
+                $ids = [];
+                $param = Yii::$app->getRequest()->get("name", null);
+                $param !== null && $ids = [$param];
             }
-            $ids = explode(',', $name);
             $errorIds = [];
             foreach ($ids as $id) {
                 $model->fillModel($id);
@@ -306,7 +309,7 @@ class RbacController extends \yii\web\Controller
                 if (!$id) {
                     return ['code' => 1, 'message' => Yii::t('app', "Name doesn't exit")];
                 }
-                $ids = explode(',', $id);
+                $ids = json_decode($id, true);
                 $errorIds = [];
                 foreach ($ids as $one) {
                     $model->fillModel($one);

@@ -10,6 +10,7 @@ namespace backend\grid;
 
 use Yii;
 use Closure;
+use yii\db\ActiveRecord;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -77,10 +78,19 @@ class ActionColumn extends \yii\grid\ActionColumn
         }
         if (! isset($this->buttons['delete'])) {
             $this->buttons['delete'] = function ($url, $model, $key, $index, $gridView) {
+                $data = [];
+                if($model instanceof ActiveRecord) {
+                    $primaryKeys = $model->getPrimaryKey(true);
+                    $data = [];
+                    foreach ($primaryKeys as $key => $abandon) {
+                        $data[$key] = $model->$key;
+                    }
+                }
                 return Html::a('<i class="glyphicon glyphicon-trash" aria-hidden="true"></i> ', $url, [
                     'title' => Yii::t('app', 'Delete'),
                     'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                     'data-method' => 'post',
+                    'data-params' => json_encode($data),
                     'data-pjax' => '0',
                     'class' => 'btn-sm',
                 ]);

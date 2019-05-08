@@ -9,43 +9,55 @@
 namespace backend\actions;
 
 use Yii;
+use Closure;
 use yii\web\BadRequestHttpException;
 use yii\web\UnprocessableEntityHttpException;
 
 class UpdateAction extends \yii\base\Action
 {
+    /**
+     * @var Closure|mixed 模型，如果为模型则直接使用，如果为必包则执行得到模型，为空则实例化modelClass
+     */
+    public $model = null;
 
+    /**
+     * @var string model类名
+     */
     public $modelClass;
 
+    /**
+     * @var string 场景
+     */
     public $scenario = 'default';
 
-    public $paramSign = "id";
-
-    /** @var string 模板路径，默认为action id  */
-    public $viewFile = null;
-
-    /** @var array|\Closure 分配到模板中去的变量 */
+    /**
+     * @var array|\Closure 分配到模板中去的变量
+     */
     public $data;
 
-    /** @var  string|array 编辑成功后跳转地址,此参数直接传给yii::$app->controller->redirect(),默认跳转到进入编辑页前的地址 */
+    /**
+     * @var  string|array 编辑成功后跳转地址,此参数直接传给yii::$app->controller->redirect(),默认跳转到进入编辑页前的地址
+     */
     public $successRedirect;
+
+    /**
+     * @var string 模板路径，默认为action id
+     */
+    public $viewFile = null;
 
 
     /**
      * update修改
      *
-     * @return array|string|\yii\web\Response
-     * @throws \yii\web\BadRequestHttpException
-     * @throws \yii\web\UnprocessableEntityHttpException
+     * @return array|string
+     * @throws BadRequestHttpException
+     * @throws UnprocessableEntityHttpException
+     * @throws \yii\base\InvalidConfigException
      */
     public function run()
     {
-        $id = Yii::$app->getRequest()->get($this->paramSign, null);
-        if (! $id) throw new BadRequestHttpException(Yii::t('app', "{$this->paramSign} doesn't exist"));
-        /* @var $model \yii\db\ActiveRecord */
-        $model = call_user_func([$this->modelClass, 'findOne'], $id);
-        if (! $model) throw new BadRequestHttpException(Yii::t('app', "Cannot find model by $id"));
-        $model->setScenario( $this->scenario );
+        $model = $this->getModel();
+        if (! $model) throw new BadRequestHttpException(Yii::t('app', "Cannot find model"));
 
         if (Yii::$app->getRequest()->getIsPost()) {
             if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
@@ -69,7 +81,7 @@ class UpdateAction extends \yii\base\Action
                 }else {
                     Yii::$app->getSession()->setFlash('error', $err);
                 }
-                $model = call_user_func([$this->modelClass, 'findOne'], $id);
+                $model = $this->getModel();
             }
         }
 
@@ -79,11 +91,38 @@ class UpdateAction extends \yii\base\Action
         ];
         if( is_array($this->data) ){
             $data = array_merge($data, $this->data);
-        }elseif ($this->data instanceof \Closure){
+        }elseif ($this->data instanceof Closure){
             $data = call_user_func_array($this->data, [$model, $this]);
         }
         Yii::$app->getRequest()->getIsGet() && Yii::$app->getSession()->set("_update_referer", Yii::$app->getRequest()->getReferrer());
         return $this->controller->render($this->viewFile, $data);
+    }
+
+    /**
+     * @return \Closure|mixed|\yii\db\ActiveRecord
+     * @throws \yii\base\InvalidConfigException
+     */
+    private function getModel()
+    {
+        if($this->model === null) {
+            /* @var $model \yii\db\ActiveRecord */
+            $model = Yii::createObject([
+                'class' => $this->modelClass,
+            ]);
+            $primaryKeys = $model->getPrimaryKey(true);
+            $condition = [];
+            foreach ($primaryKeys as $key => $abandon) {
+                $condition[$key] = Yii::$app->getRequest()->get($key, null);
+            }
+            $model = call_user_func([$this->modelClass, 'findOne'], $condition);
+            $model->setScenario( $this->scenario );
+        }else{
+            $model = $this->model;
+            if( $this->model instanceof \Closure){
+                $model = call_user_func($this->model);
+            }
+        }
+        return $model;
     }
 
 }

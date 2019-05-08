@@ -123,8 +123,7 @@ $(document).ready(function(){
             })
             return false;
         }
-        ids = ids.join(',');
-        layer.confirm($(this).attr("data-confirm") + "<br>" + paramSign + ": " + ids, {
+        layer.confirm($(this).attr("data-confirm") + "<br>" + paramSign + ": " + ids.join(","), {
             title:tips.confirmTitle,
             btn: [tips.ok, tips.cancel] //按钮
         }, function() {//ok
@@ -134,7 +133,7 @@ $(document).ready(function(){
                 return false;
             }
             var data = {};
-            data[paramSign] = ids;
+            data[paramSign] = JSON.stringify(ids);
             $.ajax({
                 "url":url,
                 "dataType" : "json",

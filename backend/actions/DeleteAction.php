@@ -9,6 +9,9 @@
 namespace backend\actions;
 
 use Yii;
+use Closure;
+use yii\base\InvalidArgumentException;
+use yii\db\ActiveRecord;
 use yii\web\BadRequestHttpException;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\Response;
@@ -16,6 +19,10 @@ use yii\web\UnprocessableEntityHttpException;
 
 class DeleteAction extends \yii\base\Action
 {
+    /**
+     * @var Closure 模型，要么为空使用默认的方式获取模型，要么传入必包，根据必包的参数获取模型后返回
+     */
+    public $model = null;
 
     /**
      * @var string model类名
@@ -40,39 +47,48 @@ class DeleteAction extends \yii\base\Action
     /**
      * delete删除
      *
-     * @return mixed
      * @throws BadRequestHttpException
      * @throws MethodNotAllowedHttpException
      * @throws UnprocessableEntityHttpException
      * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\StaleObjectException
      */
     public function run()
     {
+        if( Yii::$app->getRequest()->getIsAjax() ){
+            Yii::$app->getResponse()->format = $this->ajaxResponseFormat;
+        }
         if (Yii::$app->getRequest()->getIsPost()) {//只允许post删除
-            $id = Yii::$app->getRequest()->get($this->paramSign, null);
-            $param = Yii::$app->getRequest()->post($this->paramSign, null);
-            if($param !== null){
-                $id = $param;
+            $data = Yii::$app->getRequest()->post($this->paramSign, null);
+            if ($data === null) {//不在post参数，则为单个删除
+                $data = Yii::$app->getRequest()->get($this->paramSign, null);
+                if( $data === null ){//不是指定的标识符，默认通过主键
+                    /* @var $model \yii\db\ActiveRecord */
+                    $model = Yii::createObject([
+                        'class' => $this->modelClass,
+                    ]);
+                    $primaryKeys = $model->getPrimaryKey(true);
+                    $data = [];
+                    foreach ($primaryKeys as $key => $abandon) {
+                        $data[$key] = Yii::$app->getRequest()->get($key);
+                    }
+                }
             }
 
-            if( Yii::$app->getRequest()->getIsAjax() ){
-                Yii::$app->getResponse()->format = $this->ajaxResponseFormat;
-            }
-            if (! $id) {
+            if (!$data) {
                 throw new BadRequestHttpException(Yii::t('app', "{$this->paramSign} doesn't exist"));
             }
-            $ids = explode(',', $id);
+
+            !is_array($data) && $data = json_decode($data, true);
+            !isset($data[0]) && $data = [$data];
             $errors = [];
             /* @var $model \yii\db\ActiveRecord */
             $model = null;
-            foreach ($ids as $one) {
-                $model = call_user_func([$this->modelClass, 'findOne'], $one);
-                if ($model) {
-                    $model->setScenario($this->scenario);
-                    if (! $result = $model->delete()) {
-                        $errors[$one] = $model;
-                    }
+            foreach ($data as $one) {
+                $model = $this->getModel($one);
+                if (!$result = $model->delete()) {
+                    $errors[$one] = $model;
                 }
             }
             if (count($errors) == 0) {
@@ -94,6 +110,36 @@ class DeleteAction extends \yii\base\Action
         } else {
             throw new MethodNotAllowedHttpException(Yii::t('app', "Delete must be POST http method"));
         }
+    }
+
+    public function getModel($one)
+    {
+       if( $this->model ){
+           if( !$this->model instanceof Closure){
+               throw new InvalidArgumentException("Delete action only permit pass closure for model");
+           }
+           $model = call_user_func($this->model, $one);
+       }else {
+           if( is_string($one) && strpos($one, "{") === 0 && strpos(strrev($one), "}") === 0 ){
+               $one = json_decode($one, true);
+           }
+           if ( is_array($one) ) {//联合主键
+               /* @var $model \yii\db\ActiveRecord */
+               $model = Yii::createObject([
+                   'class' => $this->modelClass,
+               ]);
+               $primaryKeys = $model->getPrimaryKey(true);
+               $condition = [];
+               foreach ($primaryKeys as $key => $abandon) {
+                   $condition[$key] = $one[$key];
+               }
+               $model = call_user_func([$this->modelClass, 'findOne'], $condition);
+           } else {
+               $model = call_user_func([$this->modelClass, 'findOne'], $one);
+           }
+           $model instanceof ActiveRecord && $model->setScenario($this->scenario);
+       }
+       return $model;
     }
 
 }
