@@ -49,18 +49,11 @@ class SortColumn extends DataColumn
             $this->options['class'] .= ' sort';
         }
 
+        $this->action === null && $this->action = Url::to(['sort']);
+
+        $this->headerOptions = array_merge(['action'=>$this->action, 'method'=>$this->method, 'sort-header'=>1], $this->headerOptions);
+
         $this->content = function ($model, $key, $index, $gridView) {
-
-            if($this->action === null) {
-                if( $this->action instanceof Closure){
-                    $this->action = call_user_func($this->action, $model);
-                }else if(!is_string($this->action)){
-                    $this->action = Url::to(['sort']);
-                }
-            }
-
-            $this->headerOptions = array_merge(['action'=>$this->action, 'method'=>$this->method, 'sort-header'=>1], $this->headerOptions);
-
             /* @var $model \backend\models\Article */
             $pk = [];
             if( !empty( $this->primaryKey ) ){

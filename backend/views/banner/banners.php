@@ -91,9 +91,7 @@ $this->params['breadcrumbs'][] =  Yii::t('app', 'Banner') . ' (' . $bannerType->
                             'primaryKey' => function($model){
                                 return ["sign" => $model->sign];
                             },
-                            'action' => function($model){
-                                return Url::to(['banner-sort', 'id'=>Yii::$app->getRequest()->get('id'), 'sign'=>$model->sign]);
-                            },
+                            'action' => Url::to(['banner-sort', 'id'=>Yii::$app->getRequest()->get('id')]),
                         ],
                         [
                             'class' => StatusColumn::className(),

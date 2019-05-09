@@ -96,6 +96,13 @@ class BannerForm extends \common\models\Options
             ArrayHelper::multisort($temp, 'sort');
             $event->sender->value = $temp;
             $sign = Yii::$app->getRequest()->get('sign', null);
+            if( $sign === null ){
+                if( Yii::$app->getRequest()->getIsPost() && Yii::$app->controller->action->id === "banner-sort" ){
+                    $condition = array_keys(Yii::$app->getRequest()->post()["sort"])[0];
+                    $temp = json_decode($condition, true);
+                    $sign = $temp['sign'];
+                }
+            }
             if($sign !== null) {
                 /** @var $cdn \feehi\cdn\TargetAbstract */
                 $cdn = Yii::$app->get('cdn');
@@ -141,6 +148,13 @@ class BannerForm extends \common\models\Options
     public function beforeSaveEvent($event)
     {
         $sign = Yii::$app->getRequest()->get('sign', null);
+        if( $sign === null ){
+            if( Yii::$app->getRequest()->getIsPost() && Yii::$app->controller->action->id === "banner-sort" ){
+                $condition = array_keys(Yii::$app->getRequest()->post()["sort"])[0];
+                $temp = json_decode($condition, true);
+                $sign = $temp['sign'];
+            }
+        }
         if( $sign === null && $event->sender->sign ) $sign = $event->sender->sign;//删除
         $options = [];
         $oldFullName = "";
