@@ -8,11 +8,14 @@
 
 namespace backend\actions;
 
-use \Closure;
+use Closure;
 
 class IndexAction extends \yii\base\Action
 {
 
+    /**
+     * @var array|\Closure 分配到模板中去的变量
+     */
     public $data;
 
     /** @var $viewFile string 模板路径，默认为action id  */

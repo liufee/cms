@@ -41,6 +41,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Permissions');
                             return Html::a('<i class="fa fa-trash-o"></i> ' . Yii::t('app', 'Delete'), Url::to(['permission-delete']), [
                                 'title' => Yii::t('app', 'Delete'),
                                 'data-pjax' => '0',
+                                'param-sign' => 'name',//批量操作时，设置post数据的key名，默认为id
                                 'data-confirm' => Yii::t('app', 'Really to delete?'),
                                 'class' => 'btn btn-white btn-sm multi-operate',
                             ]);
@@ -56,7 +57,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Permissions');
                             'class' => CheckboxColumn::className(),
                             'checkboxOptions' => function ($model, $key, $index, $column) {
                                 return ['value' => $model->name];
-                            }
+                            },
                         ],
                         [
                             'attribute' => 'group',
@@ -80,7 +81,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Permissions');
                         [
                             'class' => SortColumn::className(),
                             'primaryKey' => function($model){
-                                return $model['name'];
+                                return ["name" => $model['name']];
                             },
                             'action' => Url::to(['permission-sort'])
                         ],

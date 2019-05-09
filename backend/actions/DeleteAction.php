@@ -45,6 +45,11 @@ class DeleteAction extends \yii\base\Action
     public $scenario = 'default';
 
     /**
+     * @var string|Closure 如果传字符串则执行model的此方法,如果为必包则执行自定义逻辑排序
+     */
+    public $executeMethod = "delete";
+
+    /**
      * delete删除
      *
      * @throws BadRequestHttpException
@@ -71,7 +76,10 @@ class DeleteAction extends \yii\base\Action
                     $primaryKeys = $model->getPrimaryKey(true);
                     $data = [];
                     foreach ($primaryKeys as $key => $abandon) {
-                        $data[$key] = Yii::$app->getRequest()->get($key);
+                        $data[$key] = Yii::$app->getRequest()->get($key, null);
+                        if( $data[$key] === null){
+                            unset($data[$key]);
+                        }
                     }
                 }
             }
@@ -79,15 +87,28 @@ class DeleteAction extends \yii\base\Action
             if (!$data) {
                 throw new BadRequestHttpException(Yii::t('app', "{$this->paramSign} doesn't exist"));
             }
+            if( is_string($data) ){
+                if( (strpos($data, "{") === 0 && strpos(strrev($data), "}") === 0) || (strpos($data, "[") === 0 && strpos(strrev($data), "]") === 0) ){
+                    $data = json_decode($data, true);
+                }else{
+                    $data = [$data];
+                }
+            }
 
-            !is_array($data) && $data = json_decode($data, true);
             !isset($data[0]) && $data = [$data];
+
             $errors = [];
             /* @var $model \yii\db\ActiveRecord */
             $model = null;
             foreach ($data as $one) {
                 $model = $this->getModel($one);
-                if (!$result = $model->delete()) {
+                if( $this->executeMethod instanceof Closure){
+                    $result = call_user_func($this->executeMethod, $model);
+                }else{
+                    if( !is_string($this->executeMethod) ) throw new InvalidArgumentException("SortAction executeMethod must be string or closure");
+                    $result = $model->{$this->executeMethod}(false);
+                }
+                if (!$result) {
                     $errors[$one] = $model;
                 }
             }
@@ -131,7 +152,7 @@ class DeleteAction extends \yii\base\Action
                $primaryKeys = $model->getPrimaryKey(true);
                $condition = [];
                foreach ($primaryKeys as $key => $abandon) {
-                   $condition[$key] = $one[$key];
+                   isset($one[$key]) && $condition[$key] = $one[$key];
                }
                $model = call_user_func([$this->modelClass, 'findOne'], $condition);
            } else {

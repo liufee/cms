@@ -10,6 +10,7 @@ namespace backend\actions;
 
 use Yii;
 use Closure;
+use yii\base\InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 use yii\web\UnprocessableEntityHttpException;
 
@@ -41,6 +42,11 @@ class UpdateAction extends \yii\base\Action
     public $successRedirect;
 
     /**
+     * @var string|Closure 如果传字符串则执行model的此方法,如果为必包则执行自定义逻辑排序
+     */
+    public $executeMethod = "save";
+
+    /**
      * @var string 模板路径，默认为action id
      */
     public $viewFile = null;
@@ -59,8 +65,17 @@ class UpdateAction extends \yii\base\Action
         $model = $this->getModel();
         if (! $model) throw new BadRequestHttpException(Yii::t('app', "Cannot find model"));
 
+        $result = false;
         if (Yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
+            if( $model->load( Yii::$app->getRequest()->post() ) ) {
+                if ($this->executeMethod instanceof Closure) {
+                    $result = call_user_func($this->executeMethod, $model);
+                } else {
+                    if (!is_string($this->executeMethod)) throw new InvalidArgumentException("SortAction executeMethod must be string or closure");
+                    $result = $model->{$this->executeMethod}();
+                }
+            }
+            if( $result ){
                 if( Yii::$app->getRequest()->getIsAjax() ){
                     return [];
                 }else {
@@ -70,18 +85,17 @@ class UpdateAction extends \yii\base\Action
                     if( $url ) return $this->controller->redirect($url);
                     return $this->controller->refresh();
                 }
-            } else {
+            }else {
                 $errors = $model->getErrors();
                 $err = '';
                 foreach ($errors as $v) {
                     $err .= $v[0] . '<br>';
                 }
-                if( Yii::$app->getRequest()->getIsAjax() ){
+                if (Yii::$app->getRequest()->getIsAjax()) {
                     throw new UnprocessableEntityHttpException($err);
-                }else {
+                } else {
                     Yii::$app->getSession()->setFlash('error', $err);
                 }
-                $model = $this->getModel();
             }
         }
 
@@ -113,12 +127,15 @@ class UpdateAction extends \yii\base\Action
             $condition = [];
             foreach ($primaryKeys as $key => $abandon) {
                 $condition[$key] = Yii::$app->getRequest()->get($key, null);
+                if( $condition[$key] === null ){
+                    unset($condition[$key]);
+                }
             }
             $model = call_user_func([$this->modelClass, 'findOne'], $condition);
             $model->setScenario( $this->scenario );
         }else{
             $model = $this->model;
-            if( $this->model instanceof \Closure){
+            if( $this->model instanceof Closure){
                 $model = call_user_func($this->model);
             }
         }

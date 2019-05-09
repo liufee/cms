@@ -8,8 +8,11 @@
 
 namespace backend\controllers;
 
-use backend\actions\DeleteAction;
+use backend\actions\CreateAction;
+use backend\actions\IndexAction;
 use Yii;
+use backend\actions\UpdateAction;
+use backend\actions\DeleteAction;
 use backend\models\form\SettingWebsiteForm;
 use backend\models\form\SettingSmtpForm;
 use common\models\Options;
@@ -26,48 +29,75 @@ class SettingController extends \yii\web\Controller
 {
 
     /**
+     * @auth - item group=设置 category=网站设置 description=网站设置 sort-get=100 sort-post=101 method=get,post
      * @auth - item group=设置 category=自定义设置 description-post=删除  sort=132 method=post
+     * @auth - item group=设置 category=自定义设置 description=自定义设置创建 sort-get=133 sort-post=134 method=get,post
+     * @auth - item group=设置 category=自定义设置 description=自定义设置修改 sort-get=135 sort-post=136 method=get,post
+     * @auth - item group=设置 category=smtp设置 description=修改 sort-get=110 sort-post=111 method=get,post
      * @return array
      */
     public function actions()
     {
         return [
+            'website' => [
+                "class" => UpdateAction::className(),
+                'model' => function(){
+                    $model = Yii::createObject( SettingWebsiteForm::className() );
+                    $model->getWebsiteSetting();
+                    return $model;
+                },
+                'executeMethod' => function($model){
+                    /** @var SettingWebsiteForm $model  */
+                    if( $model->validate() && $model->setWebsiteConfig() ){
+                        return true;
+                    }
+                    return false;
+                },
+                'successRedirect' => ["setting/website"]
+            ],
             "custom-delete" => [
                 "class" => DeleteAction::className(),
                 "modelClass" => Options::className(),
+            ],
+            'custom-create' => [
+                "class" => CreateAction::className(),
+                "model" => function(){
+                    $this->layout = false;
+                    /** @var Options $model */
+                    $model = Yii::createObject( Options::className() );
+                    $model->type = Options::TYPE_CUSTOM;
+                    return $model;
+                }
+            ],
+            'custom-update' => [
+                "class" => UpdateAction::className(),
+                "model" => function(){
+                    $this->layout = false;
+                    $id = Yii::$app->getRequest()->get("id", "");
+                    $model = Options::findOne(['id' => $id]);
+                    return $model;
+                }
+            ],
+            "smtp" => [
+                "class" => UpdateAction::className(),
+                "model" => function(){
+                    /** @var SettingSmtpForm $model */
+                    $model = Yii::createObject( SettingSmtpForm::className() );
+                    $model->getSmtpConfig();
+                    return $model;
+                },
+                "executeMethod" => function($model){
+                    /** @var SettingSmtpForm $model */
+                    if( $model->validate() && $model->setSmtpConfig() ){
+                        return true;
+                    }
+                    return false;
+                },
+                'successRedirect' => ['setting/smtp']
             ]
         ];
     }
 
-    /**
-     * 网站设置
-     *
-     * @auth - item group=设置 category=网站设置 description=网站设置 sort-get=100 sort-post=101 method=get,post
-     * @return string
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function actionWebsite()
-    {
-        $model = Yii::createObject( SettingWebsiteForm::className() );
-        if (Yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->setWebsiteConfig()) {
-                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
-            } else {
-                $errors = $model->getErrors();
-                $err = '';
-                foreach ($errors as $v) {
-                    $err .= $v[0] . '<br>';
-                }
-                Yii::$app->getSession()->setFlash('error', $err);
-            }
-        }
-
-        $model->getWebsiteSetting();
-        return $this->render('website', [
-            'model' => $model
-        ]);
-
-    }
 
     /**
      * 自定义设置
@@ -93,108 +123,6 @@ class SettingController extends \yii\web\Controller
             'settings' => $settings,
             'model' => $options,
         ]);
-    }
-
-    /**
-     * 增加自定义设置项
-     *
-     * @auth - item group=设置 category=自定义设置 description=自定义设置创建 sort-get=133 sort-post=134 method=get,post
-     * @return array|string
-     * @throws UnprocessableEntityHttpException
-     * @throws \yii\base\InvalidConfigException
-     */
-
-    public function actionCustomCreate()
-    {
-        if( Yii::$app->getRequest()->getIsAjax() ){
-            Yii::$app->getResponse()->format = Response::FORMAT_JSON;
-        }
-        /** @var Options $model */
-        $model = Yii::createObject( Options::className() );
-        $model->type = Options::TYPE_CUSTOM;
-        if( Yii::$app->getRequest()->getIsPost() ) {
-            if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
-                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
-                return [];
-            } else {
-                $errors = $model->getErrors();
-                $err = '';
-                foreach ($errors as $v) {
-                    $err .= $v[0] . '<br>';
-                }
-                throw new UnprocessableEntityHttpException($err);
-            }
-        }else{
-            $this->layout = false;
-            $model->loadDefaultValues();
-            return $this->render("custom-create", [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * 修改自定义设置项
-     *
-     * @auth - item group=设置 category=自定义设置 description=自定义设置修改 sort-get=135 sort-post=136 method=get,post
-     * @param string $id
-     * @return string
-     * @throws UnprocessableEntityHttpException
-     */
-    public function actionCustomUpdate($id = '')
-    {
-        if( Yii::$app->getRequest()->getIsAjax() ){
-            Yii::$app->getResponse()->format = Response::FORMAT_JSON;
-        }
-        $model = Options::findOne(['id' => $id]);
-        if (Yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(Yii::$app->getRequest()->post()) && $model->save()) {
-                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
-                return [];
-            } else {
-                $errors = $model->getErrors();
-                $err = '';
-                foreach ($errors as $v) {
-                    $err .= $v[0] . '<br>';
-                }
-                throw new UnprocessableEntityHttpException($err);
-            }
-        } else {
-            $this->layout = false;
-            return $this->render("custom-update", [
-                'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * 邮件smtp设置
-     *
-     * @auth - item group=设置 category=smtp设置 description=修改 sort-get=110 sort-post=111 method=get,post
-     * @return string
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function actionSmtp()
-    {
-        $model = Yii::createObject( SettingSmtpForm::className() );
-        if (Yii::$app->getRequest()->getIsPost()) {
-            if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->setSmtpConfig()) {
-                Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
-            } else {
-                $errors = $model->getErrors();
-                $err = '';
-                foreach ($errors as $v) {
-                    $err .= $v[0] . '<br>';
-                }
-                Yii::$app->getSession()->setFlash('error', $err);
-            }
-        }
-
-        $model->getSmtpConfig();
-        return $this->render('smtp', [
-            'model' => $model
-        ]);
-
     }
 
     /**

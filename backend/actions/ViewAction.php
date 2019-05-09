@@ -10,13 +10,14 @@ namespace backend\actions;
 
 
 use Yii;
+use Closure;
 use yii\web\BadRequestHttpException;
 
 class ViewAction extends \yii\base\Action
 {
 
     /**
-     * @var \Closure|mixed 模型，如果为模型则直接使用，如果为必包则执行得到模型，为空则实例化modelClass
+     * @var Closure|mixed 模型，如果为模型则直接使用，如果为必包则执行得到模型，为空则实例化modelClass
      */
     public $model = null;
 
@@ -30,7 +31,7 @@ class ViewAction extends \yii\base\Action
      */
     public $scenario = 'default';
 
-    /** @var array|\Closure 分配到模板中去的变量 */
+    /** @var array|Closure 分配到模板中去的变量 */
     public $data;
 
     /**
@@ -54,7 +55,7 @@ class ViewAction extends \yii\base\Action
         ];
         if( is_array($this->data) ){
             $data = array_merge($data, $this->data);
-        }else if ($this->data instanceof \Closure){
+        }else if ($this->data instanceof Closure){
             $data = call_user_func_array($this->data, [$model, $this]);
         }
         return $this->controller->render($this->viewFile, $data);
@@ -71,12 +72,15 @@ class ViewAction extends \yii\base\Action
             $condition = [];
             foreach ($primaryKeys as $key => $abandon) {
                 $condition[$key] = Yii::$app->getRequest()->get($key, null);
+                if( $condition[$key] === null ){
+                    unset($condition[$key]);
+                }
             }
             $model = call_user_func([$this->modelClass, 'findOne'], $condition);
             $model->setScenario( $this->scenario );
         }else{
             $model = $this->model;
-            if( $this->model instanceof \Closure){
+            if( $this->model instanceof Closure){
                 $model = call_user_func($this->model);
             }
         }

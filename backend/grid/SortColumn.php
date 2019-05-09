@@ -8,6 +8,9 @@
 
 namespace backend\grid;
 
+use Closure;
+use yii\base\InvalidArgumentException;
+use yii\db\ActiveRecord;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -29,9 +32,9 @@ class SortColumn extends DataColumn
     public $method = 'post';
 
     /**
-     * @var string 主键
+     * @var array 主键
      */
-    public $primaryKey = "";
+    public $primaryKey = [];
 
     /**
      * @inheritdoc
@@ -46,20 +49,42 @@ class SortColumn extends DataColumn
             $this->options['class'] .= ' sort';
         }
 
-        if($this->action === null) $this->action = Url::to(['sort']);
-
-        $this->headerOptions = array_merge(['action'=>$this->action, 'method'=>$this->method, 'sort-header'=>1], $this->headerOptions);
-
         $this->content = function ($model, $key, $index, $gridView) {
-            /* @var $model \backend\models\Article */
-            if( $this->primaryKey !== '' ){
-                if( $this->primaryKey instanceof \Closure){
-                    $key = call_user_func($this->primaryKey, $model);
-                }else{
-                    $key = $this->primaryKey;
+
+            if($this->action === null) {
+                if( $this->action instanceof Closure){
+                    $this->action = call_user_func($this->action, $model);
+                }else if(!is_string($this->action)){
+                    $this->action = Url::to(['sort']);
                 }
             }
-            return Html::input('number', "{$this->attribute}[{$key}]", $model[$this->attribute], $this->options);
+
+            $this->headerOptions = array_merge(['action'=>$this->action, 'method'=>$this->method, 'sort-header'=>1], $this->headerOptions);
+
+            /* @var $model \backend\models\Article */
+            $pk = [];
+            if( !empty( $this->primaryKey ) ){
+                if( $this->primaryKey instanceof Closure){
+                    $pk = call_user_func($this->primaryKey, $model);
+                }else{
+                    $pk = $this->primaryKey;
+                }
+                if( !is_array($pk) ){
+                    throw new InvalidArgumentException("SortColumn primary key must be closure return array or config with array ( like ['id'=>1] )");
+                }
+            }else{;
+                if( is_object($model) && $model instanceof ActiveRecord ){
+                    $primaryKeys = $model->getPrimaryKey(true);
+                    foreach ($primaryKeys as $key => $abandon) {
+                        $pk[$key] = $model[$key];
+                    }
+                }
+            }
+            if( empty($pk) ){
+                throw new InvalidArgumentException("SortColumn must set table primary key or pass a primaryKey");
+            }
+            is_array($pk) && $pk = json_encode($pk);
+            return Html::input('number', "{$this->attribute}[{$pk}]", $model[$this->attribute], $this->options);
         };
     }
 

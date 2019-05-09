@@ -41,6 +41,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Roles');
                             return Html::a('<i class="fa fa-trash-o"></i> ' . Yii::t('app', 'Delete'), Url::to(['role-delete']), [
                                 'title' => Yii::t('app', 'Delete'),
                                 'data-pjax' => '0',
+                                'param-sign' => 'name',
                                 'data-confirm' => Yii::t('app', 'Really to delete?'),
                                 'class' => 'btn btn-white btn-sm multi-operate',
                             ]);
@@ -67,9 +68,9 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Roles');
                         [
                             'class' => SortColumn::className(),
                             'primaryKey' => function($model){
-                                return $model['name'];
+                                return ["name" => $model['name']];
                             },
-                            'action' => Url::to(['roles-sort']),
+                            'action' => Url::to(['role-sort']),
                         ],
                         [
                             'class' => ActionColumn::className(),
