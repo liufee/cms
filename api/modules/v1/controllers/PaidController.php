@@ -1,11 +1,6 @@
 <?php
-/**
- * Author: lf
- * Blog: https://blog.feehi.com
- * Email: job@feehi.com
- * Created at: 2017-08-30 18:10
- */
-namespace api\controllers;
+
+namespace api\modules\v1\controllers;
 
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBasicAuth;
@@ -13,16 +8,8 @@ use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\helpers\ArrayHelper;
 
-/**
- * Class UserController
- * @package api\controllers
- *
- * 调用/register注册用户后，再次调用/login登录获取accessToken,再次访问/users?access-token=xxxxxxx访问
- */
-class UserController extends \yii\rest\ActiveController
+class PaidController extends \yii\rest\Controller
 {
-    public $modelClass = "api\models\User";
-
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(), [
@@ -44,9 +31,30 @@ class UserController extends \yii\rest\ActiveController
             'verbs' => [
                 'class' => \yii\filters\VerbFilter::className(),
                 'actions' => [
-                    'info'  => ['GET'],
+                    'info' => ['GET'],
                 ],
             ],
         ]);
     }
+
+    /**
+     * 访问路由 /v1/paids 或/v1/paid/index (p.s如果入口在frontend/web/api/index.php则还需在前加上api)
+     *
+     * @return array
+     */
+    public function actionIndex()
+    {
+        return ["我是v1 paid/index 需要access-token才能访问的接口"];
+    }
+
+    /**
+     * 访问路由 /v1/paid/info (p.s如果入口在frontend/web/api/index.php则还需在前加上api)
+     *
+     * @return array
+     */
+    public function actionInfo()
+    {
+        return ["我是v1 paid/info 我不需要access-token也能访问"];
+    }
+
 }

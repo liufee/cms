@@ -7,7 +7,15 @@
  */
 namespace api\controllers;
 
+use Yii;
+use api\models\form\SignupForm;
+use common\models\User;
+use api\models\form\LoginForm;
+use yii\web\HttpException;
+use yii\web\IdentityInterface;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use yii\web\ServerErrorHttpException;
 
 class SiteController extends \yii\rest\ActiveController
 {
@@ -41,19 +49,57 @@ class SiteController extends \yii\rest\ActiveController
         ];
     }
 
+    /**
+     * 登录
+     *
+     * POST /login
+     * {"username":"xxx", "password":"xxxxxx"}
+     *
+     * @return array
+     */
     public function actionLogin()
     {
-        return [
-            "username" => 'test',
-            "sex" => "male",
-        ];
+        $loginForm = new LoginForm();
+        $loginForm->setAttributes( Yii::$app->getRequest()->post() );
+        if ($user = $loginForm->login()) {
+            if ($user instanceof IdentityInterface) {
+                return [
+                    'accessToken' => $user->access_token,
+                    'expiredAt' => Yii::$app->params['user.apiTokenExpire'] + time()
+                ];
+            } else {
+                return $user->errors;
+            }
+        } else {
+            return $loginForm->errors;
+        }
+
     }
 
+    /**
+     * 注册
+     *
+     * POST /register
+     * {"username":"xxx", "password":"xxxxxxx", "email":"x@x.com"}
+     *
+     * @return array
+     */
     public function actionRegister()
     {
-        return [
-            "success" => true
-        ];
+        $signupForm = new SignupForm();
+        $signupForm->setAttributes( Yii::$app->getRequest()->post() );
+        if( ($user = $signupForm->signup()) instanceof User){
+            return [
+                "success" => true,
+                "username" => $user->username,
+                "email" => $user->email
+            ];
+        }else{
+            return [
+                "success" => false,
+                "error" => $signupForm->getErrors()
+            ];
+        }
     }
 
 }

@@ -12,6 +12,11 @@ use Exception;
 use Yii;
 use common\helpers\Util;
 
+/**
+ * User model
+ *
+ * @property string $access_token
+ */
 class User extends \common\models\User
 {
 

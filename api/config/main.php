@@ -13,7 +13,8 @@ return [
     'components' => [
         'user' => [
             'class' => yii\web\User::className(),
-            'identityClass' => common\models\User::className()
+            'identityClass' => api\models\User::className(),
+            'enableSession' => false,
         ],
         'log' => [//此项具体详细配置，请访问http://wiki.feehi.com/index.php?title=Yii2_log
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -53,14 +54,22 @@ return [
             'rules' => [
                 '' => 'site/index',
                 'login' => 'site/login',
+                'v1/login' => 'v1/site/login',
                 'register' => 'site/register',
+                'v1/register' => 'v1/site/register',
                 [
                     'class' => yii\rest\UrlRule::className(),
-                    'controller' => ['user', 'article'],
+                    'controller' => ['user', 'article', 'paid'],//通过/users,/user/1,/paid/info访问
                     /*'extraPatterns' => [
                         'GET search' => 'search',
                     ],*/
                 ],
+                [
+                    'class' => yii\rest\UrlRule::className(),//v1版本路由，通过/v1/users,/v1/user/1,/v1/paid/info...访问
+                    'controller' => ['v1/site', 'v1/user', 'v1/article', 'v1/paid'],
+                ],
+               // '<version:v\d+>/<controller:\w+>/<action:\w+>'=>'<version>/<controller>/<action>',
+                '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
             ],
         ],
         'request' => [
@@ -69,13 +78,19 @@ return [
                 'text/json' => 'yii\web\JsonParser',
             ],
             'enableCsrfValidation' => false,
+            'enableCookieValidation' => false,
         ],
         'response' => [
-            'format' => yii\web\Response::FORMAT_JSON,
-            'as format' => api\behaviors\ResponseFormatBehavior::className()
+            'as format' => [
+                'class' => api\behaviors\ResponseFormatBehavior::className(),
+                'defaultResponseFormat' => yii\web\Response::FORMAT_JSON
+            ]
         ],
     ],
     'modules' => [
+        'v1' => [
+            'class' => api\modules\v1\Module::className(),
+        ],
     ],
     'params' => $params,
 ];
