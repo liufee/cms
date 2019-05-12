@@ -164,7 +164,11 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
      index  index.php index.html index.htm;
      try_files $uri $uri/ /index.php?$args;
      
-     location ~ /api/(?!index.php).*$ {
+     location ~ /admin/(?!index.php|static|assets).*$ {
+        rewrite /admin/(.*) /admin/index.php?r=$1 last;
+     }
+     
+     location ~ /api/(?!index.php|static|assets).*$ {
         rewrite /api/(.*) /api/index.php?r=$1 last;
      }
  

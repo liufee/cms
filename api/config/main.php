@@ -68,8 +68,8 @@ return [
                     'class' => yii\rest\UrlRule::className(),//v1版本路由，通过/v1/users,/v1/user/1,/v1/paid/info...访问
                     'controller' => ['v1/site', 'v1/user', 'v1/article', 'v1/paid'],
                 ],
-               // '<version:v\d+>/<controller:\w+>/<action:\w+>'=>'<version>/<controller>/<action>',
                 '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+                '<version:v\d+>/<controller:\w+>/<action:\w+>'=>'<version>/<controller>/<action>',
             ],
         ],
         'request' => [

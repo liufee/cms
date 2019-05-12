@@ -65,6 +65,11 @@ return [
         'request' => [
             'csrfParam' =>'_csrf_backend',
         ],
+        'urlManager' => [
+            'enablePrettyUrl' => false,//true 美化路由(注:需要配合web服务器配置伪静态，详见http://doc.feehi.com/install.html), false 不美化路由
+            'showScriptName' => true,//隐藏index.php
+            'enableStrictParsing' => false,
+        ],
         'i18n' => [
             'translations' => [//多语言包设置
                 'app*' => [
@@ -157,7 +162,6 @@ return [
             'assets/*',
             'debug/*',
             'gii/*',
-            'page/a'
         ],
         'superAdminUserIds' => [1],//超级管理员用户id，拥有所有权限，不受权限管理的控制
     ],
