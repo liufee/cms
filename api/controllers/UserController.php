@@ -12,6 +12,7 @@ use yii\filters\auth\HttpBasicAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\helpers\ArrayHelper;
+use yii\filters\VerbFilter;
 
 /**
  * Class UserController
@@ -42,7 +43,7 @@ class UserController extends \yii\rest\ActiveController
                 ]
             ],
             'verbs' => [
-                'class' => \yii\filters\VerbFilter::className(),
+                'class' => VerbFilter::className(),
                 'actions' => [
                     'info'  => ['GET'],
                 ],

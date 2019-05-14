@@ -86,8 +86,9 @@ class ArticleSearch extends Article
         if (! $this->validate()) {
             return $dataProvider;
         }
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['id' => $this->id])
+        $query->alias("article")
+            ->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['article.id' => $this->id])
             ->andFilterWhere(['status' => $this->status])
             ->andFilterWhere(['flag_headline' => $this->flag_headline])
             ->andFilterWhere(['flag_recommend' => $this->flag_recommend])

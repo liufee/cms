@@ -7,6 +7,7 @@ use yii\filters\auth\HttpBasicAuth;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\helpers\ArrayHelper;
+use yii\filters\VerbFilter;
 
 class PaidController extends \yii\rest\Controller
 {
@@ -29,7 +30,7 @@ class PaidController extends \yii\rest\Controller
                 ]
             ],
             'verbs' => [
-                'class' => \yii\filters\VerbFilter::className(),
+                'class' => VerbFilter::className(),
                 'actions' => [
                     'info' => ['GET'],
                 ],
