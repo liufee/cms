@@ -15,8 +15,8 @@ use backend\actions\IndexAction;
 use backend\actions\SortAction;
 use backend\actions\UpdateAction;
 use backend\actions\ViewAction;
-use backend\models\search\RbacSearch;
-use backend\models\form\Rbac;
+use backend\models\search\RbacFormSearch;
+use backend\models\form\RbacForm;
 
 class RbacController extends \yii\web\Controller
 {
@@ -41,8 +41,8 @@ class RbacController extends \yii\web\Controller
             'permissions' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    /** @var RbacSearch $searchModel */
-                    $searchModel = Yii::createObject(['class' => RbacSearch::className(),'scenario'=>'permission']);
+                    /** @var RbacFormSearch $searchModel */
+                    $searchModel = Yii::createObject(['class' => RbacFormSearch::className(),'scenario'=>'permission']);
                     $dataProvider = $searchModel->searchPermissions(Yii::$app->getRequest()->getQueryParams());
                     return [
                         'dataProvider' => $dataProvider,
@@ -53,23 +53,23 @@ class RbacController extends \yii\web\Controller
             'permission-sort' => [
                 'class' => SortAction::className(),
                 'model' => function($where){
-                    $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'permission']);
+                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'permission']);
                     $model->fillModel($where["name"]);
                     return $model;
                 },
                 'executeMethod' => function($model){
-                    /** @var Rbac $model */
+                    /** @var RbacForm $model */
                     return $model->updatePermission($model->name);
                 }
             ],
             'permission-create' => [
                 "class" => CreateAction::className(),
                 'model' => function(){
-                    $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'permission']);
+                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'permission']);
                     return $model;
                 },
                 'executeMethod' => function($model){
-                    /** @var Rbac $model */
+                    /** @var RbacForm $model */
                     if( Yii::$app->getRequest()->post() && $model->validate() && $model->createPermission() ){
                         return true;
                     }else{
@@ -81,14 +81,14 @@ class RbacController extends \yii\web\Controller
             'permission-update' => [
                 "class" => UpdateAction::className(),
                 "model" => function(){
-                    /** @var Rbac $model */
-                    $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'permission']);
+                    /** @var RbacForm $model */
+                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'permission']);
                     $name = Yii::$app->getRequest()->get("name", "");
                     $model->fillModel($name);
                     return $model;
                 },
                 "executeMethod" => function($model){
-                    /** @var Rbac $model */
+                    /** @var RbacForm $model */
                     if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->updatePermission($model->name)) {
                         return true;
                     } else {
@@ -100,8 +100,8 @@ class RbacController extends \yii\web\Controller
                 'class' => ViewAction::className(),
                 'model' => function(){
                     $name = Yii::$app->getRequest()->get("name", "");
-                    /** @var Rbac $model */
-                    $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'permission']);
+                    /** @var RbacForm $model */
+                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'permission']);
                     $model->fillModel($name);
                     return $model;
                 },
@@ -111,13 +111,13 @@ class RbacController extends \yii\web\Controller
                 "class" => DeleteAction::className(),
                 'paramSign' => 'name',
                 "model" => function($name){
-                    /** @var Rbac $model */
-                    $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'permission']);
+                    /** @var RbacForm $model */
+                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'permission']);
                     $model->fillModel($name);
                     return $model;
                 },
                 "executeMethod" => function($model){
-                    /** @var Rbac $model */
+                    /** @var RbacForm $model */
                     if ( $model->deletePermission() ) {
                         return true;
                     } else {
@@ -128,8 +128,8 @@ class RbacController extends \yii\web\Controller
             'roles' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    /** @var RbacSearch $searchModel */
-                    $searchModel = Yii::createObject(['class' => RbacSearch::className(), 'scenario'=>'role']);
+                    /** @var RbacFormSearch $searchModel */
+                    $searchModel = Yii::createObject(['class' => RbacFormSearch::className(), 'scenario'=>'role']);
                     $dataProvider = $searchModel->searchRoles( Yii::$app->getRequest()->getQueryParams() );
                     return [
                         'dataProvider' => $dataProvider,
@@ -141,8 +141,8 @@ class RbacController extends \yii\web\Controller
                 'class' => ViewAction::className(),
                 'model' => function(){
                     $name = Yii::$app->getRequest()->get("name", "");
-                    /** @var Rbac $model */
-                    $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'role']);
+                    /** @var RbacForm $model */
+                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'role']);
                     $model->fillModel($name);
                     return $model;
                 }
@@ -150,11 +150,11 @@ class RbacController extends \yii\web\Controller
             'role-create' => [
                 "class" => CreateAction::className(),
                 'model' => function(){
-                    $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'role']);
+                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'role']);
                     return $model;
                 },
                 'executeMethod' => function($model){
-                    /** @var Rbac $model */
+                    /** @var RbacForm $model */
                     if( Yii::$app->getRequest()->post() && $model->validate() && $model->createRole() ){
                         return true;
                     }else{
@@ -166,30 +166,31 @@ class RbacController extends \yii\web\Controller
             'role-update' => [
                 "class" => UpdateAction::className(),
                 "model" => function(){
-                    /** @var Rbac $model */
-                    $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'role']);
+                    /** @var RbacForm $model */
+                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'role']);
                     $name = Yii::$app->getRequest()->get("name", "");
                     $model->fillModel($name);
                     return $model;
                 },
                 "executeMethod" => function($model){
-                    /** @var Rbac $model */
-                    if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->updateRole($model->name)) {
+                    $name = Yii::$app->getRequest()->get("name", "");
+                    /** @var RbacForm $model */
+                    if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->updateRole($name)) {
                         return true;
                     } else {
                         return false;
                     }
-                }
+                },
             ],
             'role-sort' => [
                 'class' => SortAction::className(),
                 'model' => function($where){
-                    $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'role']);
+                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'role']);
                     $model->fillModel($where["name"]);
                     return $model;
                 },
                 'executeMethod' => function($model){
-                    /** @var Rbac $model */
+                    /** @var RbacForm $model */
                     return $model->updateRole($model->name);
                 }
             ],
@@ -197,13 +198,13 @@ class RbacController extends \yii\web\Controller
                 "class" => DeleteAction::className(),
                 'paramSign' => 'name',
                 "model" => function($name){
-                    /** @var Rbac $model */
-                    $model = Yii::createObject(['class' => Rbac::className(), 'scenario'=>'role']);
+                    /** @var RbacForm $model */
+                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'role']);
                     $model->fillModel($name);
                     return $model;
                 },
                 "executeMethod" => function($model){
-                    /** @var Rbac $model */
+                    /** @var RbacForm $model */
                     if ( $model->deleteRole() ) {
                         return true;
                     } else {

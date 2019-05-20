@@ -10,7 +10,7 @@ use yii\helpers\Url;
 
 /**
  * @var $this yii\web\View
- * @var $model backend\models\form\Rbac
+ * @var $model backend\models\form\RbacForm
  */
 
 $this->params['breadcrumbs'] = [

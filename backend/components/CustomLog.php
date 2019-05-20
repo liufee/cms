@@ -8,7 +8,7 @@
  */
 namespace backend\components;
 
-use backend\models\form\Rbac;
+use backend\models\form\RbacForm;
 use yii;
 use yii\base\ErrorException;
 
@@ -94,7 +94,7 @@ class CustomLog extends \yii\base\Event
         $class= $this->sender->className();
         $template = '{{%ADMIN_USER%}} [ ' . yii::$app->getUser()->getIdentity()->username . ' ] {{%BY%}} ' . $class;
         switch ($this->sender->className()){
-            case Rbac::className():
+            case RbacForm::className():
                 $detail = '<br>';
                 if( $this->sender->getScenario() == 'permission' ) {
                     $which = "权限 {$this->sender->name} ";

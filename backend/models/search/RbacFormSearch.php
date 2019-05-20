@@ -10,9 +10,8 @@ namespace backend\models\search;
 
 use Yii;
 use yii\data\ArrayDataProvider;
-use backend\models\form\Rbac;
 
-class RbacSearch extends Rbac
+class RbacFormSearch extends \backend\models\form\RbacForm
 {
     public function searchPermissions($params)
     {
