@@ -107,7 +107,6 @@ class SiteController extends \yii\web\Controller
         ];
         $obj = new ServerInfo();
         $serverInfo = $obj->getinfo();
-        error_reporting(E_ALL);
         $status = [
             'DISK_SPACE' => [
                 'NUM' => ceil( $serverInfo['diskTotal'] - $serverInfo['freeSpace'] ) . 'G' . ' / ' . ceil($serverInfo['diskTotal']) . 'G',

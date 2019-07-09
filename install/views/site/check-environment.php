@@ -39,7 +39,7 @@ $this->title = Yii::t('install', 'Environment');
                 </td>
             </tr>
             <tr>
-                <td>session</td>
+                <td>SESSION</td>
                 <td><?= Yii::t('install', 'Required') ?></td>
                 <td>
                     <?= $session ?>
@@ -97,6 +97,31 @@ $this->title = Yii::t('install', 'Environment');
                     <?= $gd ?>
                 </td>
                 <td><?= Yii::t('install', 'Required') ?></td>
+            </tr>
+            <tr>
+                <td>
+                    JSON
+                    <a href="https://www.baidu.com/s?wd=开启PHP json扩展" target="_blank">
+                        <i class="fa fa-question-circle question"></i>
+                    </a>
+                </td>
+                <td><?= Yii::t('install', 'Required') ?></td>
+                <td>
+                    <?= $json ?>
+                </td>
+                <td><?= Yii::t('install', 'Required') ?></td>
+            </tr>
+            <td>
+                MB_STRING
+                <a href="https://www.baidu.com/s?wd=开启PHP mb_string扩展" target="_blank">
+                    <i class="fa fa-question-circle question"></i>
+                </a>
+            </td>
+            <td><?= Yii::t('install', 'Required') ?></td>
+            <td>
+                <?= $mbstring ?>
+            </td>
+            <td><?= Yii::t('install', 'Required') ?></td>
             </tr>
             <!-- 大小限制检测 -->
             <tr>

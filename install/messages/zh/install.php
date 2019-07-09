@@ -83,8 +83,8 @@ return [
     'go Backend' => '进入后台',
     'Has been installed, if you want to reinstall please remove ' => '已经安装过了，如果想要重新安装请删除 ',
     ' and try it again' => '并重新运行',
-    'Check Environment' => '检测环境',
-    'Create Data' => '创建数据',
     'Finish Install' => '完成安装',
     'Installing' => '正在安装',
+    'Installed success;but update write config file error.please update common/config/main-local.php components db section.' => "安装成功，修改配置文件common/config/main-local.php失败,请手动修改components db数据库配置",
+    "Touch install lock file " . \install\controllers\SiteController::$installLockFile . " failed,please touch file handled" => "创建安装锁文件" . \install\controllers\SiteController::$installLockFile . "失败,请手动创建",
 ];

@@ -101,7 +101,7 @@ $this->title = Yii::t('install', 'Create Data');
                     </tr>
                     <tr>
                         <td class="text-left"><?= Yii::t('install', 'Site Url') ?>：</td>
-                        <td><input type="text" name="siteurl" value="<?= Yii::$app->getRequest()->getHostInfo() . Yii::$app->getRequest()->getBaseUrl() ?>/"
+                        <td><input type="text" name="siteurl" value="<?= str_replace(["http://", "https://"], "//", Yii::$app->getRequest()->getHostInfo() . Yii::$app->getRequest()->getBaseUrl()) ?>/"
                                    class="input" autoComplete="off"></td>
                         <td>
                             <div id="js-install-tip-siteurl">

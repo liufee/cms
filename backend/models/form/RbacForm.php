@@ -7,13 +7,13 @@
  */
 namespace backend\models\form;
 
+use Yii;
 use backend\components\CustomLog;
 use yii\base\Event;
-use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
-class Rbac extends \yii\base\Model
+class RbacForm extends \yii\base\Model
 {
     public $name;
 
@@ -213,7 +213,7 @@ class Rbac extends \yii\base\Model
         ]);
 
         $oldPermissions = array_keys( $authManager->getPermissionsByRole($name) );
-        $oldRoles = array_keys($authManager->getChildRoles($this->name));
+        $oldRoles = array_keys($authManager->getChildRoles($name));
 
         if( $authManager->update($name, $role) ){
             if( $this->permissions === null ) $this->permissions = [];
@@ -246,6 +246,7 @@ class Rbac extends \yii\base\Model
             $needRemoves = array_diff($oldRoles, $this->roles);
             foreach ($needRemoves as $needRemove){
                 $needRemove = $authManager->getRole($needRemove);
+                if( !$needRemove ) continue;
                 $authManager->removeChild($role, $needRemove);
             }
 
@@ -353,7 +354,7 @@ class Rbac extends \yii\base\Model
             $this->category = isset( $data['category'] ) ? $data['category'] : '';
             $this->sort = $data['sort'];
         }else{
-            $role = $authManager->getRole($name);
+            $role = $authManager->getRole($name);//var_dump($name, $role);exit;
             $data = json_decode($role->data, true);
             $temp = $authManager->getPermissionsByRole($role->name);
             $permissions = [];

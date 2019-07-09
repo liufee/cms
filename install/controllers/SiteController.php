@@ -26,7 +26,7 @@ class SiteController extends \yii\web\Controller
 
     public $enableCsrfValidation = false;
 
-    public static $installLockFile = '@common/config/conf/install.lock';
+    public static $installLockFile = '@install/install.lock';
 
     public function init()
     {
@@ -139,6 +139,20 @@ class SiteController extends \yii\web\Controller
             $err++;
         }
 
+        if (extension_loaded('json')) {
+            $data['json'] = '<i class="fa fa-check correct"></i> ' . Yii::t('install', 'Yes');
+        } else {
+            $data['json'] = '<i class="fa fa-remove error"></i> ' . Yii::t('install', 'No');
+            $err++;
+        }
+
+        if (extension_loaded('mbstring')) {
+            $data['mbstring'] = '<i class="fa fa-check correct"></i> ' . Yii::t('install', 'Yes');
+        } else {
+            $data['mbstring'] = '<i class="fa fa-remove error"></i> ' . Yii::t('install', 'No');
+            $err++;
+        }
+
         if (ini_get('file_uploads')) {
             $data['upload_size'] = '<i class="fa fa-check correct"></i> ' . ini_get('upload_max_filesize');
         } else {
@@ -157,9 +171,7 @@ class SiteController extends \yii\web\Controller
             '@frontend/web/assets',
             '@backend/runtime',
             '@frontend/web/admin/assets',
-            '@common/config/conf',
         );
-        @FileHelper::createDirectory(Yii::getAlias("@common/config/conf"));
         $new_folders = array();
         foreach ($folders as &$dir) {
             $dir = Yii::getAlias($dir);
@@ -193,7 +205,7 @@ class SiteController extends \yii\web\Controller
             echo "<script>alert('" . Yii::t('install', 'Please check your environment to suite the cms') . Yii::t('install', ' If environment have been suit to the cms please check php session can set correctly') . "');location.href='{$url}';</script>";
             exit;
         }
-        if (Yii::$app->request->isPost) {
+        if (Yii::$app->getRequest()->getIsPost()) {
             $this->on(self::EVENT_AFTER_ACTION, function () {
                 $request = Yii::$app->getRequest();
                 Yii::$app->response->format = Response::FORMAT_JSON;
@@ -203,17 +215,17 @@ class SiteController extends \yii\web\Controller
                 $dbpassword = $request->post('dbpw', '');
                 $dbport = $request->post('dbport', '3306');
                 $dbname = $request->post('dbname', '');
-                $table_prefix = $request->post("dbprefix", '');
+                $tablePrefix = $request->post("dbprefix", '');
                 $dsn = $this->_getDsn($dbtype, $dbhost, $dbport, $dbname);
                 $db = new Connection([
                     'dsn' => $dsn,
                     'username' => $dbuser,
                     'password' => $dbpassword,
                     'charset' => 'utf8',
-                    'tablePrefix' => $table_prefix,
+                    'tablePrefix' => $tablePrefix,
                 ]);
                 Yii::$app->set('db', $db);
-                $this->importDb(Yii::$app->db, $table_prefix);
+                $this->importDb(Yii::$app->db, $tablePrefix);
 
                 //更新配置信息
                 $data = [
@@ -238,43 +250,27 @@ class SiteController extends \yii\web\Controller
                 $model = Options::findOne(['name' => 'seo_description']);
                 $model->value = $request->post('siteinfo', '');
                 $model->save(false);
-                $configFile = Yii::getAlias("@common/config/conf/db.php");
-                $str = <<<EOF
-<?php
-return [
-    'components' => [
-        'db' => [
-            'class' => yii\db\Connection::className(),
-            'dsn' => '{$dsn}',
-            'username' => '{$dbuser}',
-            'password' => '{$dbpassword}',
-            'charset' => 'utf8',
-            'tablePrefix' => '{$table_prefix}',
-        ],
-        'mailer' => [
-            'class' => yii\swiftmailer\Mailer::className(),
-            'viewPath' => '@common/mail',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
-            'useFileTransport' => true,
-        ],
-    ],
-    'bootstrap' => ['debug'],
-    'modules' => [
-        'debug' => [
-            'class' => yii\debug\Module::className(),
-            'allowedIPs' => ['127.0.0.1', '::1']
-        ]
-    ]
-];
-EOF;
-
-                file_put_contents($configFile, $str);
-                file_put_contents(Yii::getAlias("@common/config/main-local.php"), "<?php return [];?>");
                 $_SESSION["_install_setinfo"] = 1;
-                sleep(1);
-                echo "<script>location.href='" . Url::to(['success']) . "';</script>";
+                $configFile = yii::getAlias("@common/config/main-local.php");
+                $array = require $configFile;
+                $array['components']['db'] = [
+                    'class' => yii\db\Connection::className(),
+                    'dsn' => $dsn,
+                    'username' => $dbuser,
+                    'password' => $dbpassword,
+                    'charset' => 'utf8',
+                    'tablePrefix' => $tablePrefix,
+                ];
+                $str = "<?php \n return " . var_export($array,true) . ";";
+                $str = str_replace('\\\\', '\\', $str);
+                if( !file_put_contents($configFile, $str) ){
+                    sleep(1);
+                    $message = Yii::t("install", "Installed success;but update write config file error.please update common/config/main-local.php components db section.");
+                    echo "<script>alert('{$message}');location.href='" . Url::to(['success']) . "';</script>";
+                }else {
+                    sleep(1);
+                    echo "<script>location.href='" . Url::to(['success']) . "';</script>";
+                }
                 exit;
             });
             $html = $this->render('installing');
@@ -352,7 +348,10 @@ EOF;
     public function actionSuccess()
     {
         if (isset($_SESSION["_install_setinfo"]) && $_SESSION["_install_setinfo"] == 1) {
-            touch(Yii::getAlias(self::$installLockFile));
+            if( !touch(Yii::getAlias(self::$installLockFile)) ){
+                $message = Yii::t("install", "Touch install lock file " . self::$installLockFile . " failed,please touch file handled" );
+                echo "<script>alert('{$message}')</script>";
+            }
             session_destroy();
             return $this->render("success");
         } else {
@@ -440,5 +439,10 @@ EOF;
 
         }
 
+    }
+
+    public function actionD(){
+        $array = require yii::getAlias("@common/config/main-local.php");
+        echo var_export($array,true);
     }
 }
