@@ -54,11 +54,11 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
     /**
     * @auth
     * - item group=未分类 category=<?= $category?> description-get=列表 sort=000 method=get
-    * - item group=未分类 category=<?= $category?> description-get=查看 sort=001 method=get  
-    * - item group=未分类 category=<?= $category?> description=创建 sort-get=002 sort-post=003 method=get,post  
-    * - item group=未分类 category=<?= $category?> description=修改 sort=004 sort-post=005 method=get,post  
-    * - item group=未分类 category=<?= $category?> description-post=删除 sort=006 method=post  
-    * - item group=未分类 category=<?= $category?> description-post=排序 sort=007 method=post  
+    * - item group=未分类 category=<?= $category?> description=创建 sort-get=001 sort-post=002 method=get,post  
+    * - item group=未分类 category=<?= $category?> description=修改 sort=003 sort-post=004 method=get,post  
+    * - item group=未分类 category=<?= $category?> description-post=删除 sort=005 method=post  
+    * - item group=未分类 category=<?= $category?> description-post=排序 sort=006 method=post  
+    * - item group=未分类 category=<?= $category?> description-get=查看 sort=007 method=get  
     * @return array
     */
     public function actions()

@@ -29,11 +29,13 @@ class SettingController extends \yii\web\Controller
 {
 
     /**
-     * @auth - item group=设置 category=网站设置 description=网站设置 sort-get=100 sort-post=101 method=get,post
-     * @auth - item group=设置 category=自定义设置 description-post=删除  sort=132 method=post
-     * @auth - item group=设置 category=自定义设置 description=自定义设置创建 sort-get=133 sort-post=134 method=get,post
-     * @auth - item group=设置 category=自定义设置 description=自定义设置修改 sort-get=135 sort-post=136 method=get,post
-     * @auth - item group=设置 category=smtp设置 description=修改 sort-get=110 sort-post=111 method=get,post
+     * @auth
+     * - item group=设置 category=网站设置 description=网站设置 sort-get=100 sort-post=101 method=get,post
+     * - item group=设置 category=自定义设置 description-post=删除  sort=132 method=post
+     * - item group=设置 category=自定义设置 description=自定义设置创建 sort-get=133 sort-post=134 method=get,post
+     * - item group=设置 category=自定义设置 description=自定义设置修改 sort-get=135 sort-post=136 method=get,post
+     * - item group=设置 category=smtp设置 description=修改 sort-get=110 sort-post=111 method=get,post
+     *
      * @return array
      */
     public function actions()

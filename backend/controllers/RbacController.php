@@ -22,18 +22,19 @@ class RbacController extends \yii\web\Controller
 {
 
     /**
-     * @auth - item group=权限 category=规则 description-get=列表 sort=500 method=get
-     * @auth - item group=权限 category=规则 description-post=排序 sort=501 method=post
-     * @auth - item group=权限 category=规则 description=创建 sort-get=502 sort-post=503 method=get,post
-     * @auth - item group=权限 category=规则 description=修改 sort-get=504 sort-post=505 method=get,post
-     * @auth - item group=权限 category=规则 description-get=查看 sort=506 method=get
-     * @auth - item group=权限 category=规则 description-post=删除 sort=507 method=post
-     * @auth - item group=权限 category=角色 description-get=列表 sort=510 method=get
-     * @auth - item group=权限 category=角色 description-get=查看 sort=515 method=get
-     * @auth - item group=权限 category=角色 description=创建 sort-get=511 sort-post=512 method=get,post
-     * @auth - item group=权限 category=角色 description=修改 sort-get=513 sort-post=514 method=get,post
-     * @auth - item group=权限 category=角色 description-post=排序 sort=516 method=post
-     * @auth - item group=权限 category=角色 description-post=删除 sort=517 method=post
+     * @auth
+     * - item group=权限 category=规则 description-get=列表 sort=500 method=get
+     * - item group=权限 category=规则 description-post=排序 sort=501 method=post
+     * - item group=权限 category=规则 description=创建 sort-get=502 sort-post=503 method=get,post
+     * - item group=权限 category=规则 description=修改 sort-get=504 sort-post=505 method=get,post
+     * - item group=权限 category=规则 description-get=查看 sort=506 method=get
+     * - item group=权限 category=规则 description-post=删除 sort=507 method=post
+     * - item group=权限 category=角色 description-get=列表 sort=510 method=get
+     * - item group=权限 category=角色 description-get=查看 sort=515 method=get
+     * - item group=权限 category=角色 description=创建 sort-get=511 sort-post=512 method=get,post
+     * - item group=权限 category=角色 description=修改 sort-get=513 sort-post=514 method=get,post
+     * - item group=权限 category=角色 description-post=排序 sort=516 method=post
+     * - item group=权限 category=角色 description-post=删除 sort=517 method=post
      */
     public function actions()
     {
