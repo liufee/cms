@@ -26,18 +26,28 @@ class FeehiController extends Controller
         $uploadsZipUrl = "http://resource-1251086492.cossh.myqcloud.com/cms/uploads.zip";
         $zipPhpUrl = "http://resource-1251086492.cossh.myqcloud.com/cms/pclzip.lib.php";
         $runtime = Yii::getAlias("@frontend/runtime/");
-        $this->stdout("正在下载uploads.zip请稍后..." . PHP_EOL);
+        $this->stdout("downloading uploads.zip hold on please..." . PHP_EOL);
         $uploadsZip = $runtime . "uploads.zip";
-        file_put_contents($uploadsZip, file_get_contents($uploadsZipUrl));
-        $this->stdout("下载uploads.zip完成" . PHP_EOL);
+        list($bin, $err) = FileHelper::download($uploadsZipUrl);
+        if($err !== ""){
+            $this->stdout("download uploads.zip failed " . $err . " please download yourself " . $uploadsZipUrl . PHP_EOL, Console::BG_RED);
+            return 1;
+        }
+        $saveSuccess = file_put_contents($uploadsZip, $bin);
+        if(!$saveSuccess) {
+            $this->stdout("download uploads.zip success, save to hard disk failed please download yourself " . $uploadsZipUrl . PHP_EOL, Console::BG_RED);
+            return 1;
+        }
+        $this->stdout("download uploads.zip finished" . PHP_EOL);
+        $this->stdout("unzip uploads.zip hold on please..." . PHP_EOL);
         if( extension_loaded("zip") ){
             FileHelper::unzip($uploadsZip, Yii::getAlias("@frontend/web/uploads/"));
         }else {
-            $this->stdout("准备解zip包环境..." . PHP_EOL);
+            $this->stdout("prepare un zip environment..." . PHP_EOL);
             $zipphp = file_get_contents($zipPhpUrl);
             file_put_contents($runtime . 'zip.php', $zipphp);
             if (md5_file($runtime . 'zip.php') != "2334984a0c7c8bd0a05e3cea80b60aae") {
-                $this->stdout("你的网络环境不安全，请通过手动方式下载uploads.zip" . PHP_EOL);
+                $this->stdout("signature check failed, please download uploads.zip yourself " . $uploadsZipUrl . PHP_EOL, Console::BG_RED);
                 @unlink($runtime . 'zip.php');
                 return 1;
             }
@@ -45,12 +55,12 @@ class FeehiController extends Controller
 
             $archive = new \PclZip($uploadsZip);
             if ($archive->extract(PCLZIP_OPT_PATH, Yii::getAlias("@frontend/web/uploads"), PCLZIP_OPT_REMOVE_PATH, 'install/release') == 0) {
-                $this->stdout("获取配图失败，请手动下载uplaods.zip并解压到frontend/web/uploads目录" . PHP_EOL);
+                $this->stdout("get files failed，please download uploads.zip and place to frontend/web/uploads" . PHP_EOL);
             }
             @unlink($runtime . 'zip.php');
         }
         @unlink($uploadsZip);
-        $this->stdout("获取配图成功" . PHP_EOL);
+        $this->stdout("unzip to " . Yii::getAlias("@frontend/web/uploads/") . "success" . PHP_EOL, Console::FG_GREEN);
     }
 
     public function actionPermission()
@@ -62,7 +72,6 @@ class FeehiController extends Controller
 
         $authItems = $obj->getAuthItems();
         $dbAuthItems = $obj->getDbAuthItems();
-
         $needModifies = [];
         $needAdds = [];
         foreach ($authItems as $authItem){
@@ -90,9 +99,9 @@ class FeehiController extends Controller
 
         if( !empty($needAdds) ) {
             if (
-                !$this->confirm("确定要增加下面这些规则吗?" . PHP_EOL . implode(PHP_EOL, ArrayHelper::getColumn($needAdds, 'name')) . PHP_EOL, false)
+                !$this->confirm("确定要增加下面这些规则吗?(surely add rules below?)" . PHP_EOL . implode(PHP_EOL, ArrayHelper::getColumn($needAdds, 'name')) . PHP_EOL, false)
             ) {
-                $this->stdout("已取消增加" . PHP_EOL, Console::FG_GREEN);
+                $this->stdout("已取消增加(been canceled add)" . PHP_EOL, Console::FG_GREEN);
             } else {
                 foreach ($needAdds as $k => $v) {
                     /** @var RbacForm $model */
@@ -115,9 +124,9 @@ class FeehiController extends Controller
         if( !empty($needModifies) ) {
 
             if (
-                !$this->confirm("确定要修改下面这些规则吗?" . PHP_EOL . implode(PHP_EOL, ArrayHelper::getColumn($needModifies, 'name')) . PHP_EOL, false)
+                !$this->confirm("确定要修改下面这些规则吗?(surely update rules below?)" . PHP_EOL . implode(PHP_EOL, ArrayHelper::getColumn($needModifies, 'name')) . PHP_EOL, false)
             ) {
-                $this->stdout("已取消修改" . PHP_EOL, Console::FG_GREEN);
+                $this->stdout("已取消修改(been canceled update)" . PHP_EOL, Console::FG_GREEN);
             } else {
                 foreach ($needModifies as $k => $v) {
                     /** @var RbacForm $model */
@@ -136,9 +145,9 @@ class FeehiController extends Controller
 
         if( !empty($needRemoves) ) {
             if (
-                !$this->confirm("确定要删除下面这些规则吗?" . PHP_EOL . implode(PHP_EOL, $needRemoves) . PHP_EOL, false)
+                !$this->confirm("确定要删除下面这些规则吗?(surely delete rules below?)" . PHP_EOL . implode(PHP_EOL, $needRemoves) . PHP_EOL, false)
             ) {
-                $this->stdout("已取消删除" . PHP_EOL, Console::FG_GREEN);
+                $this->stdout("已取消删除(been canceled delete)" . PHP_EOL, Console::FG_GREEN);
             } else {
                 foreach ($needRemoves as $k => $v) {
                     /** @var RbacForm $model */
@@ -149,9 +158,9 @@ class FeehiController extends Controller
             }
         }
 
-        $this->stdout("不受rbac权限控制的控制器" . PHP_EOL);
+        $this->stdout("以下不受rbac权限控制的控制器(below controllers are not affected by rbac control)" . PHP_EOL);
         $this->stdout(implode(PHP_EOL, $obj->getNoNeedRbacControllers()) . PHP_EOL . PHP_EOL, Console::FG_BLUE);
-        $this->stdout("不受权限控制的方法" . PHP_EOL);
+        $this->stdout("不受权限控制的路由(below routers are not affected by rbac control)" . PHP_EOL);
         $this->stdout(implode(PHP_EOL, $obj->getNoNeedRbacRoutes()) . PHP_EOL, Console::FG_BLUE);
 
     }

@@ -33,7 +33,7 @@ class BannerController extends \yii\web\Controller
      * - item group=运营管理 category=banner description=创建 sort-get=611 sort-post=612 method=get,post  
      * - item group=运营管理 category=banner description-get=查看 sort=613 method=get
      * - item group=运营管理 category=banner description=修改 sort-get=614 sort-post=615 method=get,post  
-     * - item group=运营管理 category=banner description=排序 sort=616 method=post  
+     * - item group=运营管理 category=banner description-post=排序 sort=616 method=post  
      * - item group=运营管理 category=banner description=删除 sort=617 method=post  
      * @return array
      */

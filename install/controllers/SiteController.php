@@ -11,7 +11,6 @@ namespace install\controllers;
 use Yii;
 use Exception;
 use yii\db\Connection;
-use yii\helpers\FileHelper;
 use yii\helpers\Url;
 use backend\models\User;
 use common\models\Options;

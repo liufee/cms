@@ -152,12 +152,11 @@ class BackendAuth extends \yii\base\BaseObject
                 $httpMethods = [];
                 if( strpos($authItem['method'], ',') !== false ) {
                     $httpMethods = explode(',', $authItem['method']);
-                    foreach ($httpMethods as &$httpMethod){
+                    foreach ($httpMethods as $key => $httpMethod){
                         $httpMethod = trim($httpMethod);
-                        $httpMethod = $this->filterAlphabetToLower($httpMethod);
+                        $httpMethods[$key] = $this->filterAlphabetToLower($httpMethod);
                     }
                 }else{
-                    $httpMethod = "";
                     $authItem['method'] = trim($authItem['method']);
                     $httpMethod = $this->filterAlphabetToLower($authItem['method']);
                     $httpMethods[] = $httpMethod;
@@ -228,7 +227,7 @@ class BackendAuth extends \yii\base\BaseObject
 
                 if ( count($authItems) !== $actionNum ) {
                     $this->_unPropertyDocCommentsRoutes[] = $controllerPartialUrl;
-                    $error = "$subDirControllerName::actions或actionX 注释不匹配 注视数量" . count($authItems) . " 方法数量" . count($actions);
+                    $error = "$subDirControllerName::actions或actionX 注释和action数量不匹配 注释(doc comment)数量" . count($authItems) . " 方法(action method)数量" . count($actions) . "(actions or actionX doc comment not equal action method quantity)";
                     $this->setError($error);
                     Yii::error($error);
                     Yii::$app->controller->stderr($error . PHP_EOL);

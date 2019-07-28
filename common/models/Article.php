@@ -49,7 +49,8 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $created_at
  * @property integer $updated_at
  *
- * @property ArticleContent[] $articleContents
+ * @property ArticleContent $articleContent
+ * @property Category $category
  */
 class Article extends \yii\db\ActiveRecord
 {

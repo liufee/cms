@@ -35,4 +35,16 @@ class FileHelper extends \yii\helpers\FileHelper
         }
         zip_close($resource);
     }
+
+    public static function download($url)
+    {
+        $ch = curl_init();
+        curl_setopt($ch,CURLOPT_URL, $url);
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch,CURLOPT_SSLVERSION,3);
+        $data = curl_exec($ch);
+        $error = curl_error($ch);
+        curl_close($ch);
+        return [$data, $error];
+    }
 }

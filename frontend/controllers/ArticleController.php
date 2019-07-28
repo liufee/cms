@@ -105,6 +105,7 @@ class ArticleController extends Controller
      */
     public function actionView($id)
     {
+        /** @var Article $model */
         $model = Article::findOne(['id' => $id, 'type' => Article::ARTICLE, 'status' => Article::ARTICLE_PUBLISHED]);
         if( $model === null ) throw new NotFoundHttpException(Yii::t("frontend", "Article id {id} is not exists", ['id' => $id]));
         $prev = Article::find()
@@ -150,7 +151,7 @@ class ArticleController extends Controller
                 break;
         }
         $template = "view";
-        isset($model->category) && $model->category->template != "" && $template = $model->category->template;
+        isset($model->category) && $model->category->article_template != "" && $template = $model->category->article_template;
         $model->template != "" && $template = $model->template;
         return $this->render($template, [
             'model' => $model,
