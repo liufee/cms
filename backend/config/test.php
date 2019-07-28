@@ -8,5 +8,9 @@ return [
         'urlManager' => [
             'showScriptName' => true,
         ],
+        'user' => [
+            'enableAutoLogin' => true,
+            'autoRenewCookie' => false,
+        ],
     ],
 ];

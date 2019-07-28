@@ -7,8 +7,6 @@ use yii\helpers\Url;
 
 class RbacCest
 {
-    public $cookies = [];
-
     public function _fixtures()
     {
         return [
@@ -21,30 +19,11 @@ class RbacCest
 
     public function _before(AcceptanceTester $I)
     {
-        $I->amOnPage(Url::toRoute('/site/login'));
-        $I->see('登录');
-        $I->submitForm("button[name=login-button]", [
-            'LoginForm[username]' => "admin",
-            'LoginForm[password]' => 'password_0',
-            'LoginForm[captcha]' => 'testme',
-        ]);
-        $I->seeCookie('_csrf_backend');
-        $this->cookies = [
-            '_' => $I->grabCookie("_csrf_backend"),
-            'PHPSESSID' => $I->grabCookie("PHPSESSID")
-        ];
-    }
-
-    private function setCookie(AcceptanceTester $I)
-    {
-        foreach ($this->cookies as $k => $v){
-            $I->setHeader($k, $v);
-        }
+        login($I);
     }
 
     public function checkPermissions(AcceptanceTester $I)
     {
-        $this->setCookie($I);
         $I->amOnPage(Url::toRoute('/rbac/permissions'));
         $I->see('路由');
         $I->see("描述");
@@ -52,7 +31,6 @@ class RbacCest
 
     public function checkRoles(AcceptanceTester $I)
     {
-        $this->setCookie($I);
         $I->amOnPage(Url::toRoute('/rbac/roles'));
         $I->see('角色');
         $I->see("描述");

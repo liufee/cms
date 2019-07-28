@@ -13,8 +13,6 @@ use yii\helpers\Url;
 
 class SiteCest
 {
-    public $cookies = [];
-
     public function _fixtures()
     {
         return [
@@ -25,25 +23,13 @@ class SiteCest
         ];
     }
 
-    public function checkLogin(AcceptanceTester $I)
+    public function _before(AcceptanceTester $I)
     {
-        $I->amOnPage(Url::toRoute('/site/login'));
-        $I->see('登录');
-        $I->submitForm("button[name=login-button]", [
-            'LoginForm[username]' => "admin",
-            'LoginForm[password]' => 'password_0',
-            'LoginForm[captcha]' => 'testme',
-        ]);
-        $I->seeCookie('_csrf_backend');
-        $this->cookies = [
-            '_' => $I->grabCookie("_csrf_backend"),
-            'BACKEND_FEEHICMS' => $I->grabCookie("BACKEND_FEEHICMS")
-        ];
+        login($I);
     }
 
     public function checkMain(AcceptanceTester $I)
     {
-        $this->setCookie($I);
         $I->amOnPage(Url::toRoute('/site/main'));
         $I->see("环境");
         $I->see("Web Server");
@@ -52,24 +38,18 @@ class SiteCest
 
     public function checkLanguage(AcceptanceTester $I)
     {
-        $this->setCookie($I);
-        $I->setHeader("Referer", '/admin' . Url::toRoute('/site/main'));
         $I->amOnPage(Url::toRoute(['/site/language', 'lang'=>'en-US']));
+        //$I->setCookie("_csrf_backend", $I->grabCookie("_csrf_backend"));
+        //$I->setCookie("BACKEND_FEEHICMS", $I->grabCookie("BACKEND_FEEHICMS"));
+        $I->amOnPage(Url::to("site/main"));
         $I->see("Web Server");
         $I->see("Database Info");
+        $I->amOnPage(Url::toRoute(['/site/language', 'lang'=>'zh-CN']));
     }
 
     public function checkError(AcceptanceTester $I)
     {
-        $this->setCookie($I);
         $I->amOnPage(Url::toRoute('/site/error'));
         $I->see("404");
-    }
-
-    private function setCookie(AcceptanceTester $I)
-    {
-        foreach ($this->cookies as $k => $v){
-            $I->setCookie($k, $v);
-        }
     }
 }

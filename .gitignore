@@ -35,4 +35,4 @@ backend/tests/acceptance.suite.yml
 frontend/tests/acceptance.suite.yml
 api/tests/acceptance.suite.yml
 apps/*
-common/config/conf
+install/install.lock

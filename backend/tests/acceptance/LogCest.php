@@ -13,8 +13,6 @@ use yii\helpers\Url;
 
 class LogCest
 {
-    public $cookies = [];
-
     public function _fixtures()
     {
         return [
@@ -27,30 +25,11 @@ class LogCest
 
     public function _before(AcceptanceTester $I)
     {
-        $I->amOnPage(Url::toRoute('/site/login'));
-        $I->see('登录');
-        $I->submitForm("button[name=login-button]", [
-            'LoginForm[username]' => "admin",
-            'LoginForm[password]' => 'password_0',
-            'LoginForm[captcha]' => 'testme',
-        ]);
-        $I->seeCookie('_csrf_backend');
-        $this->cookies = [
-            '_' => $I->grabCookie("_csrf_backend"),
-            'PHPSESSID' => $I->grabCookie("PHPSESSID")
-        ];
-    }
-
-    private function setCookie(AcceptanceTester $I)
-    {
-        foreach ($this->cookies as $k => $v){
-            $I->setHeader($k, $v);
-        }
+        login($I);
     }
 
     public function checkIndex(AcceptanceTester $I)
     {
-        $this->setCookie($I);
         $I->amOnPage(Url::toRoute('/log/index'));
         $I->see('日志');
         $I->see("管理员");
@@ -58,7 +37,6 @@ class LogCest
 
     public function checkView(AcceptanceTester $I)
     {
-        $this->setCookie($I);
         $I->amOnPage(Url::toRoute(['/log/view-layer', 'id'=>1]));
         $I->see('管理员');
         $I->see("通过");

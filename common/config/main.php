@@ -1,5 +1,5 @@
 <?php
-$config = [
+return [
     'name' => 'Feehi CMS',
     'version' => '2.0.7.1',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
@@ -99,8 +99,3 @@ $config = [
         ],
     ],
 ];
-$install = Yii::getAlias('@common/config/conf/db.php');
-if( file_exists($install) ){
-    return yii\helpers\ArrayHelper::merge($config, (require $install));
-}
-return $config;

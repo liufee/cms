@@ -13,8 +13,6 @@ use yii\helpers\Url;
 
 class SettingCest
 {
-    public $cookies = [];
-
     public function _fixtures()
     {
         return [
@@ -27,30 +25,11 @@ class SettingCest
 
     public function _before(AcceptanceTester $I)
     {
-        $I->amOnPage(Url::toRoute('/site/login'));
-        $I->see('登录');
-        $I->submitForm("button[name=login-button]", [
-            'LoginForm[username]' => "admin",
-            'LoginForm[password]' => 'password_0',
-            'LoginForm[captcha]' => 'testme',
-        ]);
-        $I->seeCookie('_csrf_backend');
-        $this->cookies = [
-            '_' => $I->grabCookie("_csrf_backend"),
-            'PHPSESSID' => $I->grabCookie("PHPSESSID")
-        ];
-    }
-
-    private function setCookie(AcceptanceTester $I)
-    {
-        foreach ($this->cookies as $k => $v){
-            $I->setHeader($k, $v);
-        }
+        login($I);
     }
 
     public function checkWebsite(AcceptanceTester $I)
     {
-        $this->setCookie($I);
         $I->amOnPage(Url::toRoute('/setting/website'));
         $I->see('网站设置');
         $I->submitForm("button[type=submit]", [
@@ -61,7 +40,6 @@ class SettingCest
 
     public function checkCustom(AcceptanceTester $I)
     {
-        $this->setCookie($I);
         $I->amOnPage(Url::toRoute('/setting/custom'));
         $I->see('自定义设置');
         $I->submitForm("button[type=submit]", [
