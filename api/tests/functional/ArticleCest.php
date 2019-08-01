@@ -8,14 +8,14 @@ class ArticleCest
 {
     public function checkIndex(FunctionalTester $I)
     {
-        $I->amOnPage('/articles');
+        $I->sendGET('/articles');
         $I->haveHttpHeader("X-Pagination-Current-Page", 1);
     }
 
     public function checkView(FunctionalTester $I)
     {
-        $I->amOnPage('/articles/1');
-        $I->see("title");
-        $I->see("description");
+        $I->sendGET('/articles/1');
+        $I->canSeeResponseContains("title");
+        $I->canSeeResponseContains("description");
     }
 }

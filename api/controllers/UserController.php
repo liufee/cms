@@ -50,4 +50,8 @@ class UserController extends \yii\rest\ActiveController
             ],
         ]);
     }
+
+    public function actionInfo(){
+        return ["我是user无需token可以访问的info"];
+    }
 }

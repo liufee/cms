@@ -57,6 +57,7 @@ return [
                 'v1/login' => 'v1/site/login',
                 'register' => 'site/register',
                 'v1/register' => 'v1/site/register',
+                'v1' => 'v1/site/index',
                 [
                     'class' => yii\rest\UrlRule::className(),
                     'controller' => ['user', 'article', 'paid'],//通过/users,/user/1,/paid/info访问

@@ -1,7 +1,8 @@
 class_name: AcceptanceTester
 modules:
-    enabled:
-        - PhpBrowser:
-            url: http://localhost/api
-        - Yii2:
-            part: init
+  enabled:
+  - REST:
+      depends: PhpBrowser
+      url: http://localhost/api
+  - Yii2:
+      part: init
