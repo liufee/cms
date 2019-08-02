@@ -3,7 +3,6 @@ modules:
   enabled:
   - REST:
       depends: PhpBrowser
-      url: http://cms.test.docker/apitest
+      url: http://localhost/apitest
   - Yii2:
-      entryScript: api/index-test.php
       part: init
