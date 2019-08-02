@@ -74,7 +74,7 @@ if( isset( $config['components']['urlManager']['suffix'] ) ){
                             'format' => 'raw',
                             'value' => function($model, $key, $index, $column) use($prettyUrl, $suffix) {
                                 /** @var \common\models\Article  $model */
-                                $url = $prettyUrl ? Yii::$app->params['site']['url'] . 'view/' . $model->id . $suffix : Yii::$app->params['site']['url'] . 'index.php?r=view/' . $model->id . $suffix;
+                                $url = $prettyUrl ? Yii::$app->params['site']['url'] . 'view/' . $model->id . $suffix : Yii::$app->params['site']['url'] . 'index.php?r=article/view&id=' . $model->id . $suffix;
                                 return Html::a($model->title, $url, ['target' => '_blank', 'data-pjax' => 0]);
                             }
                         ],
