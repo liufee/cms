@@ -1,8 +1,0 @@
-class_name: FunctionalTester
-modules:
-  enabled:
-  - REST:
-      depends: PhpBrowser
-      url: http://cms.test.docker/apitest
-  - Yii2:
-      part: init
