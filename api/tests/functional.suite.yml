@@ -5,5 +5,4 @@ modules:
       depends: PhpBrowser
       url: http://cms.test.docker/apitest
   - Yii2:
-      entryScript: api/index-test.php
       part: init

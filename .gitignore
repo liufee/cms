@@ -34,5 +34,6 @@ composer.lock
 backend/tests/acceptance.suite.yml
 frontend/tests/acceptance.suite.yml
 api/tests/acceptance.suite.yml
+api/tests/functional.suite.yml
 apps/*
 install/install.lock

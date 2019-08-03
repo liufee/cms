@@ -2,4 +2,4 @@ class_name: FunctionalTester
 modules:
     enabled:
         - Yii2:
-           entryScript: admin/index-test.php
+           entryScript: admin/index.php
