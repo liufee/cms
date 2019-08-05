@@ -231,7 +231,7 @@ $this->registerCss("
                                     <small class="pull-right"><?= Yii::$app->getFormatter()->asRelativeTime($comment->created_at) ?></small>
                                     <strong><?= $comment->nickname ?></strong>
                                     <br>
-                                    <small class="text-muted"><?= yii::$app->getFormatter()->asDate($comment->created_at) ?> <?=yii::t('app', 'at')?> <a class="openContab" data-index="0" title="<?=yii::t('app',"Articles")?>" href="<?= isset($comment->article->id) ? Url::toRoute(['article/view-layer', 'id'=>$comment->article->id]) : '#' ?>"><?= isset($comment->article->title) ? $comment->article->title : '' ?></a></small>
+                                    <small class="text-muted"><?= Yii::$app->getFormatter()->asDate($comment->created_at) ?> <?=Yii::t('app', 'at')?> <a class="openContab" data-index="0" title="<?=yii::t('app',"Articles")?>" href="<?= isset($comment->article->id) ? Url::toRoute(['article/view-layer', 'id'=>$comment->article->id]) : '#' ?>"><?= isset($comment->article->title) ? $comment->article->title : '' ?></a></small>
                                     <div data-index="0" class="openContab well" href="<?=Url::toRoute(['comment/index']) ?>" title="<?= Yii::t('app', 'Comments')?>" style="cursor: pointer">
                                         <?= $comment->content ?>
                                     </div>
