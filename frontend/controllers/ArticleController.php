@@ -109,15 +109,15 @@ class ArticleController extends Controller
         $model = Article::findOne(['id' => $id, 'type' => Article::ARTICLE, 'status' => Article::ARTICLE_PUBLISHED]);
         if( $model === null ) throw new NotFoundHttpException(Yii::t("frontend", "Article id {id} is not exists", ['id' => $id]));
         $prev = Article::find()
-            ->where(['cid' => $model->cid])
+            ->where(['cid' => $model->cid, 'type' => Article::ARTICLE, 'status' => Article::ARTICLE_PUBLISHED])
             ->andWhere(['>', 'id', $id])
-            ->orderBy("sort asc,created_at desc,id desc")
+            ->orderBy("sort asc,id asc")
             ->limit(1)
             ->one();
         $next = Article::find()
-            ->where(['cid' => $model->cid])
+            ->where(['cid' => $model->cid, 'type' => Article::ARTICLE, 'status' => Article::ARTICLE_PUBLISHED])
             ->andWhere(['<', 'id', $id])
-            ->orderBy("sort desc,created_at desc,id asc")
+            ->orderBy("sort asc,id desc")
             ->limit(1)
             ->one();//->createCommand()->getRawSql();
         $commentModel = new Comment();
