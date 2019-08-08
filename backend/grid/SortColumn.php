@@ -65,7 +65,7 @@ class SortColumn extends DataColumn
                 if( !is_array($pk) ){
                     throw new InvalidArgumentException("SortColumn primary key must be closure return array or config with array ( like ['id'=>1] )");
                 }
-            }else{;
+            }else{
                 if( is_object($model) && $model instanceof ActiveRecord ){
                     $primaryKeys = $model->getPrimaryKey(true);
                     foreach ($primaryKeys as $key => $abandon) {
