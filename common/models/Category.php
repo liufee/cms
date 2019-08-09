@@ -57,7 +57,7 @@ class Category extends \yii\db\ActiveRecord
             [['sort'], 'compare', 'compareValue' => 0, 'operator' => '>='],
             [['parent_id'], 'default', 'value' => 0],
             [['name', 'alias', 'remark', 'template', 'article_template'], 'string', 'max' => 255],
-            [['alias'],  'match', 'pattern' => '/^[a-zA-Z0-9_]+$/', 'message' => Yii::t('app', 'Only includes alphabet,_,and number')],
+            [['alias'],  'match', 'pattern' => '/^[a-zA-Z0-9_]+$/', 'message' => Yii::t('app', 'Must begin with alphabet and can only includes alphabet,_,and number')],
             [['name', 'alias'], 'required'],
         ];
     }
