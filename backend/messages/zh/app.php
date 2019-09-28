@@ -199,6 +199,10 @@ return [
     'SMTP Setting' => 'SMTP设置',
     'Test' => '测试',
     'Type restrict, please type in after create' => '类型受限，请创建完成后再录入值',
+    '{attribute} must begin with https:// or http:// or //' => '{attribute}必须以https://或者http://或者//开头',
+    'Only filled in can show picture (Recommend start with // adapt to http or https)' => '正确配置前台地址图片才能正常显示(建议以//开头适配https或者http)',
+    'Frontend display laguage' => '前台显示语言',
+    'Frontend timezone' => '前台时区',
     /*setting*/
 
     /*Log*/

@@ -8,7 +8,7 @@
 
 namespace backend\models\form;
 
-use Yii;
+use yii;
 use common\models\Options;
 
 class SettingWebsiteForm extends \common\models\Options
@@ -44,18 +44,18 @@ class SettingWebsiteForm extends \common\models\Options
     public function attributeLabels()
     {
         return [
-            'website_title' => Yii::t('app', 'Website Title'),
-            'website_email' => Yii::t('app', 'Website Email'),
-            'website_language' => Yii::t('app', 'Website Language'),
-            'website_icp' => Yii::t('app', 'Icp Sn'),
-            'website_statics_script' => Yii::t('app', 'Statics Script'),
-            'website_status' => Yii::t('app', 'Website Status'),
-            'website_timezone' => Yii::t('app', 'Website Timezone'),
-            'website_comment' => Yii::t('app', 'Open Comment'),
-            'website_comment_need_verify' => Yii::t('app', 'Open Comment Verify'),
-            'website_url' => Yii::t('app', 'Website Url'),
-            'seo_keywords' => Yii::t('app', 'Seo Keywords'),
-            'seo_description' => Yii::t('app', 'Seo Description'),
+            'website_title' => yii::t('app', 'Website Title'),
+            'website_email' => yii::t('app', 'Website Email'),
+            'website_language' => yii::t('app', 'Website Language'),
+            'website_icp' => yii::t('app', 'Icp Sn'),
+            'website_statics_script' => yii::t('app', 'Statics Script'),
+            'website_status' => yii::t('app', 'Website Status'),
+            'website_timezone' => yii::t('app', 'Website Timezone'),
+            'website_comment' => yii::t('app', 'Open Comment'),
+            'website_comment_need_verify' => yii::t('app', 'Open Comment Verify'),
+            'website_url' => yii::t('app', 'Website Url'),
+            'seo_keywords' => yii::t('app', 'Seo Keywords'),
+            'seo_description' => yii::t('app', 'Seo Description'),
         ];
     }
 
@@ -68,19 +68,29 @@ class SettingWebsiteForm extends \common\models\Options
             [
                 [
                     'website_title',
-                    'website_email',
                     'website_language',
                     'website_icp',
                     'website_statics_script',
                     'website_timezone',
-                    'website_url',
                     'seo_keywords',
                     'seo_description'
                 ],
                 'string'
             ],
+            [ 'website_url', 'required'],
+            [ 'website_url', 'validatorWebsiteUrl'],
+            [ 'website_email', 'email'],
             [['website_status', 'website_comment', 'website_comment_need_verify'], 'integer'],
         ];
+    }
+
+    public function validatorWebsiteUrl($attribute, $params)
+    {
+        if( strpos($this->$attribute, "https://") === 0 || strpos($this->$attribute, "http://") === 0 || strpos($this->$attribute, "//") === 0   ){
+            return;
+        }
+        $this->addError($attribute, yii::t("app", '{attribute} must begin with https:// or http:// or //', ['attribute'=>yii::t('app', 'Website Url')]));
+        return;
     }
 
     /**
@@ -115,15 +125,15 @@ class SettingWebsiteForm extends \common\models\Options
                 $value = $this->$name;
                 $value === null && $value = '';
                 $model->value = $value;
-                $result = $model->save();
+                $result = $model->save(false);
             } else {
                 $model = new Options();
                 $model->name = $name;
                 $model->value = '';
-                $result = $model->save();
+                $result = $model->save(false);
             }
             if ($result == false) {
-                return $result;
+                return false;
             }
         }
         return true;
