@@ -353,7 +353,7 @@ class ActiveField extends \yii\widgets\ActiveField
      * 时间/日期输入框
      *
      * @param array $options
-     *
+     * - val: string 值，替代html的value属性，设置此val会在页面加载完成后由js把value改为val，此处与laydate不同之处，需要注意
      * - type: string，输入框类型，默认date。可选值：
                     year	年选择器	只提供年列表选择
                     month	年月选择器	只提供年、月选择
@@ -373,7 +373,7 @@ class ActiveField extends \yii\widgets\ActiveField
         $options['range'] === true && $options['range'] = '~';
         $options['range'] === false && $options['range'] = 'false';
         !isset($options['format']) && $options['format'] = 'yyyy-MM-dd HH:mm:ss';
-        !isset($options['value']) && $options['value'] = $this->model->{$this->attribute} ? $this->model->{$this->attribute} : ( strpos(get_class($this->model), 'Search' ) !== false ? '' : 'new Date()' );
+        !isset($options['val']) && $options['val'] = $this->model->{$this->attribute} ? $this->model->{$this->attribute} : ( strpos(get_class($this->model), 'Search' ) !== false ? '' : 'new Date()' );
         !isset($options['isInitValue']) && $options['isInitValue'] = false;
         $options['isInitValue'] === true && $options['isInitValue'] = 'true';
         $options['isInitValue'] === false && $options['isInitValue'] = 'false';

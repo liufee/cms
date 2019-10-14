@@ -112,7 +112,6 @@ class FileController extends \yii\console\Controller
             $temp . 'frontend' . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'uploads',
             $temp . 'frontend' . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'assets',
             $temp . 'frontend' . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'uploads',
-            $temp . 'common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR .'conf',
             $temp . 'api' . DIRECTORY_SEPARATOR . 'runtime',
         ];
         FileHelper::copyDirectory($origin, $publishDir);
@@ -123,8 +122,7 @@ class FileController extends \yii\console\Controller
         }
         FileHelper::removeDirectory($publishDir . DIRECTORY_SEPARATOR . '.git');
         FileHelper::removeDirectory($publishDir . DIRECTORY_SEPARATOR . '.idea');
-        FileHelper::createDirectory($publishDir . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR .'conf', 0777);
-        if( file_exists($publishDir . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR .'conf' . DIRECTORY_SEPARATOR . 'install.lock') ) unlink($publishDir . DIRECTORY_SEPARATOR . 'common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR .'conf' . DIRECTORY_SEPARATOR . 'install.lock');
+        if( file_exists($publishDir . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'install.lock') ) unlink($publishDir . DIRECTORY_SEPARATOR . 'install' . DIRECTORY_SEPARATOR . 'install.lock');
         file_put_contents($temp . 'common' . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR . 'main-local.php', "<?php return [];?>" );
         //passthru("composer archive --dir=$publishDir --format=zip");
         $this->stdout('Copy Success' . "\n", Console::FG_GREEN);

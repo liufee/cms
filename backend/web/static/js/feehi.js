@@ -257,7 +257,7 @@ $(document).ready(function(){
             type: this.getAttribute('dateType'),
             range: this.getAttribute('range') === 'true' ? true : ( this.getAttribute('range') === 'false' ? false : this.getAttribute('range') ),
             format: this.getAttribute('format'),
-            value: this.getAttribute('value') === 'new Date()' ? new Date() : this.getAttribute('value'),
+            value: this.getAttribute('val') === 'new Date()' ? new Date() : this.getAttribute('val'),
             isInitValue: this.getAttribute('isInitValue') != 'false',
             min: this.getAttribute('min'),
             max: this.getAttribute('max'),
@@ -283,7 +283,7 @@ $(document).ready(function(){
                 },100)
             }
         }
-        delete config['value'];
+        delete config['val'];
 
         laydate.render(config);
     });
