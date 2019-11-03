@@ -11,6 +11,7 @@ namespace frontend\models;
 use Exception;
 use Yii;
 use common\helpers\Util;
+use yii\helpers\Html;
 
 /**
  * User model
@@ -101,6 +102,11 @@ class User extends \common\models\User
             return false;
         }
         return true;
+    }
+
+    public function afterFind(){
+        parent::afterFind();
+        $this->username = Html::encode($this->username);
     }
 
 }
