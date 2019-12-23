@@ -21,6 +21,7 @@ use yii\base\UserException;
 use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\web\HttpException;
 use yii\captcha\CaptchaAction;
 
@@ -217,7 +218,7 @@ class SiteController extends \yii\web\Controller
         $language = Yii::$app->getRequest()->get('lang');
         if (isset($language)) {
             $session = Yii::$app->getSession();
-            $session->set("language", $language);
+            $session->set("language", Html::encode($language));
         }
         $this->goBack(Yii::$app->getRequest()->headers['referer']);
     }

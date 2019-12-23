@@ -14,6 +14,7 @@ use frontend\models\form\PasswordResetRequestForm;
 use frontend\models\form\ResetPasswordForm;
 use frontend\models\form\SignupForm;
 use yii\base\InvalidParamException;
+use yii\helpers\Html;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -197,7 +198,7 @@ class SiteController extends Controller
     {
         $language = Yii::$app->getRequest()->get('lang');
         if (isset($language)) {
-            Yii::$app->session['language'] = $language;
+            Yii::$app->session['language'] = Html::encode($language);
         }
         $this->redirect( Yii::$app->getRequest()->getHeaders()->get('referer') );
     }
