@@ -105,7 +105,7 @@ class DeleteAction extends \yii\base\Action
                 if( $this->executeMethod instanceof Closure){
                     $result = call_user_func($this->executeMethod, $model);
                 }else{
-                    if( !is_string($this->executeMethod) ) throw new InvalidArgumentException("SortAction executeMethod must be string or closure");
+                    if( !is_string($this->executeMethod) ) throw new InvalidArgumentException("DeleteAction executeMethod must be string or closure");
                     $result = $model->{$this->executeMethod}(false);
                 }
                 if (!$result) {
