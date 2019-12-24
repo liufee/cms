@@ -15,6 +15,7 @@ use feehi\cdn\TargetAbstract;
 use Yii;
 use common\libs\Constants;
 use yii\behaviors\TimestampBehavior;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "{{%article}}".
@@ -109,7 +110,6 @@ class Article extends \yii\db\ActiveRecord
                     'title',
                     'sub_title',
                     'summary',
-                    'thumb',
                     'seo_title',
                     'seo_keywords',
                     'seo_description',
@@ -293,6 +293,14 @@ class Article extends \yii\db\ActiveRecord
         $articleMetaImagesModel = new ArticleMetaImages();
         $this->images = $articleMetaImagesModel->getImagesByArticle($this->id);
         parent::afterFind();
+    }
+
+    public function beforeValidate()
+    {
+        if ($this->thumb !== "0") {//为0表示需要删除图片，Util::handleModelSingleFileUpload()会有判断删除图片
+            $this->thumb = UploadedFile::getInstance($this, "thumb");
+        }
+        return parent::beforeValidate();
     }
 
     public function beforeSave($insert)

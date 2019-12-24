@@ -13,6 +13,7 @@ use backend\components\CustomLog;
 use common\helpers\Util;
 use yii\base\Event;
 use yii\web\ForbiddenHttpException;
+use yii\web\UploadedFile;
 
 /**
  * User model
@@ -23,6 +24,7 @@ use yii\web\ForbiddenHttpException;
  * @property string $password_reset_token
  * @property string $email
  * @property string $auth_key
+ * @property string $avatar
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
@@ -94,6 +96,14 @@ class User extends \common\models\User
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At')
         ];
+    }
+
+    public function beforeValidate()
+    {
+        if($this->avatar !== "0") {//为0表示需要删除图片，Util::handleModelSingleFileUpload()会有判断删除图片
+            $this->avatar = UploadedFile::getInstance($this, "avatar");
+        }
+        return parent::beforeValidate();
     }
 
     public function beforeSave($insert)
