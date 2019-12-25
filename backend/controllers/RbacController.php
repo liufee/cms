@@ -140,6 +140,7 @@ class RbacController extends \yii\web\Controller
             ],
             'role-view-layer' => [
                 'class' => ViewAction::className(),
+                'viewFile' => 'role-view-layer',
                 'model' => function(){
                     $name = Yii::$app->getRequest()->get("name", "");
                     /** @var RbacForm $model */
