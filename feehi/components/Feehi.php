@@ -46,14 +46,14 @@ class Feehi extends Component
                 'type' => Options::TYPE_CUSTOM,
                 'autoload' => Options::CUSTOM_AUTOLOAD_YES,
             ])->asArray()->indexBy("name")->all();
+            /** @var FileDependencyHelper $cacheDependencyObject */
             $cacheDependencyObject = Yii::createObject([
                 'class' => FileDependencyHelper::className(),
-                'rootDir' => '@backend/runtime/cache/file_dependency/',
-                'fileName' => 'options.txt',
+                'fileName' => Options::CACHE_DEPENDENCY_TYPE_SYSTEM_FILE_NAME,
             ]);
-            $fileName = $cacheDependencyObject->createFile();
+            $fileName = $cacheDependencyObject->createFileIfNotExists();
             $dependency = new FileDependency(['fileName' => $fileName]);
-            $cache->set($key, $data, 0, $dependency);
+            $cache->set($key, $data, 30*60, $dependency);
         }
 
         foreach ($data as $v) {

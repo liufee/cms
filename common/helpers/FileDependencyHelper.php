@@ -9,6 +9,7 @@
 namespace common\helpers;
 
 use Yii;
+use yii\base\Exception;
 use yii\helpers\FileHelper;
 
 class FileDependencyHelper extends \yii\base\BaseObject
@@ -26,17 +27,20 @@ class FileDependencyHelper extends \yii\base\BaseObject
 
 
     /**
-     * 创建缓存依赖文件
-     *
      * @return bool|string
+     * @throws \yii\base\Exception
      */
-    public function createFile()
+    public function createFileIfNotExists()
     {
         $cacheDependencyFileName = $this->getDependencyFileName();
-        if ( ! file_exists(dirname($cacheDependencyFileName)) ) {
+        if ( !file_exists(dirname($cacheDependencyFileName)) ) {
             FileHelper::createDirectory(dirname($cacheDependencyFileName));
         }
-        file_put_contents($cacheDependencyFileName, uniqid());
+        if (!file_exists($cacheDependencyFileName)){
+            if (! file_put_contents($cacheDependencyFileName, uniqid()) ){
+                throw new Exception("create cache dependency file error: " . $cacheDependencyFileName);
+            }
+        }
         return $cacheDependencyFileName;
     }
 

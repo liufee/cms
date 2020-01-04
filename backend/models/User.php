@@ -248,5 +248,15 @@ class User extends \common\models\User
         return rtrim($str, $glue);
     }
 
+    public function getAvatarUrl(){
+        $avatarUrl = "";
+        if ($this->avatar) {
+            $avatarUrl = Yii::$app->params['site']['url'] . $this->avatar;
+        } else {
+            $avatarUrl = Yii::$app->getRequest()->getBaseUrl() . '/static/img/profile_small.jpg';
+        }
+        return $avatarUrl;
+    }
+
 }
 

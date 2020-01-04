@@ -8,6 +8,7 @@
 
 namespace backend\controllers;
 
+use backend\models\Menu;
 use Yii;
 use Exception;
 use common\models\Comment;
@@ -26,7 +27,7 @@ use yii\web\HttpException;
 use yii\captcha\CaptchaAction;
 
 /**
- * Site controller
+ * site controller(backend default)
  */
 class SiteController extends \yii\web\Controller
 {
@@ -36,18 +37,18 @@ class SiteController extends \yii\web\Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'except' =>['login', 'captcha', 'language'],
+                'except' =>['login', 'captcha', 'language'],//no need login actions
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['@'],//"@" represent authenticated user; "?" means guest user (not authenticated yet).
                     ],
                 ],
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['post'],//logout action only permit POST request
                 ],
             ],
         ];
@@ -57,14 +58,14 @@ class SiteController extends \yii\web\Controller
     {
         $captcha = [
             'class' => CaptchaAction::className(),
-            'backColor' => 0x66b3ff,//背景颜色
-            'maxLength' => 4,//最大显示个数
-            'minLength' => 4,//最少显示个数
-            'padding' => 6,//验证码字体大小，数值越小字体越大
-            'height' => 34,//高度
-            'width' => 100,//宽度
-            'foreColor' => 0xffffff,//字体颜色
-            'offset' => 13,//设置字符偏移量
+            'backColor' => 0x66b3ff,//captcha background color
+            'maxLength' => 4,//captcha max count of characters
+            'minLength' => 4,//captcha min count of characters
+            'padding' => 6,
+            'height' => 34,
+            'width' => 100,
+            'foreColor' => 0xffffff,//captcha character color
+            'offset' => 13,//offset between characters
         ];
         if( YII_ENV_TEST ) $captcha = array_merge($captcha, ['fixedVerifyCode'=>'testme']);
         return [
@@ -73,17 +74,20 @@ class SiteController extends \yii\web\Controller
     }
 
     /**
-     * 后台首页
+     * backend index page(backend default action)
      *
      * @return string
      */
     public function actionIndex()
     {
-        return $this->renderPartial('index');
+       $menus = (new Menu())->getAuthencatedMenus(Yii::$app->getUser()->getId());
+        return $this->renderPartial('index', [
+            "menus" => $menus,
+        ]);
     }
 
     /**
-     * 主页
+     * backend main info page(default right iframe page)
      *
      * @return string
      */
@@ -177,7 +181,7 @@ class SiteController extends \yii\web\Controller
     }
 
     /**
-     * 管理员登录
+     * admin login
      *
      * @return string|\yii\web\Response
      */
@@ -198,7 +202,7 @@ class SiteController extends \yii\web\Controller
     }
 
     /**
-     * 管理员退出登录
+     * admin logout
      *
      * @return \yii\web\Response
      */
@@ -210,8 +214,8 @@ class SiteController extends \yii\web\Controller
     }
 
     /**
-     * 切换语言
      *
+     * language change
      */
     public function actionLanguage()
     {
@@ -224,7 +228,7 @@ class SiteController extends \yii\web\Controller
     }
 
     /**
-     * http异常捕捉后处理
+     * backend unify exception handler
      *
      * @return string
      */

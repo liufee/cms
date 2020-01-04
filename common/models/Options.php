@@ -40,6 +40,8 @@ class Options extends \yii\db\ActiveRecord
     const CUSTOM_AUTOLOAD_NO = 0;
     const CUSTOM_AUTOLOAD_YES = 1;
 
+    const CACHE_DEPENDENCY_TYPE_SYSTEM_FILE_NAME = "options_type_system.txt";
+
 
     /**
      * @inheritdoc
@@ -103,7 +105,7 @@ class Options extends \yii\db\ActiveRecord
     {
         $object = Yii::createObject([
             'class' => FileDependencyHelper::className(),
-            'fileName' => 'options.txt',
+            'fileName' => self::CACHE_DEPENDENCY_TYPE_SYSTEM_FILE_NAME,
         ]);
         $object->updateFile();
         parent::afterSave($insert, $changedAttributes);
