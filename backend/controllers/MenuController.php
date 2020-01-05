@@ -43,7 +43,6 @@ class MenuController extends \yii\web\Controller
                     /** @var MenuSearch $searchModel */
                     $searchModel = Yii::createObject([
                         'class' => MenuSearch::className(),
-                        'scenario' => 'backend'
                     ]);
                     $dataProvider = $searchModel->search( Yii::$app->getRequest()->getQueryParams() );
                     $data = [
@@ -56,17 +55,14 @@ class MenuController extends \yii\web\Controller
             'view-layer' => [
                 'class' => ViewAction::className(),
                 'modelClass' => Menu::className(),
-                'scenario' => 'backend',
             ],
             'create' => [
                 'class' => CreateAction::className(),
                 'modelClass' => Menu::className(),
-                'scenario' => 'backend',
             ],
             'update' => [
                 'class' => UpdateAction::className(),
                 'modelClass' => Menu::className(),
-                'scenario' => 'backend',
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
@@ -75,7 +71,6 @@ class MenuController extends \yii\web\Controller
             'sort' => [
                 'class' => SortAction::className(),
                 'modelClass' => Menu::className(),
-                'scenario' => 'backend',
             ],
         ];
     }

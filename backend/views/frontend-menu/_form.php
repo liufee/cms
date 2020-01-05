@@ -35,7 +35,7 @@ if ($parent_id != '') {
                 $disabledOptions = [];
                 if(!$model->getIsNewRecord()){
                     $disabledOptions[$model->id] = ['disabled' => true];
-                    $familyTree = new FamilyTree(Menu::getMenus(Menu::FRONTEND_TYPE));
+                    $familyTree = new FamilyTree(Menu::getMenusWithNameHasPrefixLevelCharacters(Menu::TYPE_FRONTEND));
                     $descendants = $familyTree->getDescendants($model->id);
                     $descendants = ArrayHelper::getColumn($descendants, 'id');
                     foreach ($descendants as $descendant){
@@ -43,13 +43,13 @@ if ($parent_id != '') {
                     }
                 }
                 ?>
-                <?= $form->field($model, 'parent_id')->label(Yii::t('app', 'Parent Menu Name'))->dropDownList(Menu::getMenusName(Menu::FRONTEND_TYPE), ['options' => $disabledOptions]) ?>
+                <?= $form->field($model, 'parent_id')->label(Yii::t('app', 'Parent Menu Name'))->dropDownList(Menu::getMenusName(Menu::TYPE_FRONTEND), ['options' => $disabledOptions]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'is_absolute_url')->radioList(Constants::getYesNoItems()) ?>
                 <div class="hr-line-dashed"></div>
-                <?= $form->field($model, 'url', ['template'=>'{label}<div class="col-sm-{size}"><input name="urlType" checked value="new" type="radio">' . yii::t('app', 'Input new') . ' &nbsp;&nbsp;<input value="select" name="urlType" type="radio">' . yii::t('app', 'Chose from article category') . '<div class="form-group field-menu-url required">{input}</div>{error}</div>{hint}'])->textInput()?>
+                <?= $form->field($model, 'url', ['template'=>'{label}<div class="col-sm-{size}"><input name="urlType" checked value="new" type="radio">' . yii::t('app', 'Input new') . ' &nbsp;&nbsp;<input value="select" name="urlType" type="radio">' . yii::t('app', 'Chose from article category') . '<div class="form-group field-menu-url required">{input}</div>{error}</div>{hint}'])->textInput(['value'=>$model->convertJSONStringToRelativeUrl()])?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'sort')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>
@@ -81,7 +81,7 @@ if ($parent_id != '') {
         var urlType = $("input[name=urlType]");
         var categoryUrl =
         <?php
-            $menuCategories = Category::getMenuCategories(true);
+            $menuCategories = Category::getCategoriesRelativeUrl();
             if($model->id){
                 foreach ($menuCategories as $k => $menuCategory){
                     if($k == $model->url){
@@ -113,7 +113,7 @@ if ($parent_id != '') {
             } else {
                 var input = '<?= str_replace("\n", '', $form->field($model, 'url', ['template' => '{input}'])
                     ->label(false)
-                    ->textInput())?>';
+                    ->textInput(['value'=>$model->convertJSONStringToRelativeUrl()]))?>';
             }
             $(this).parent().children("div.field-menu-url").remove();
             $(this).parent().append(input);

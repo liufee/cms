@@ -32,6 +32,9 @@ use yii\helpers\FileHelper;
 class Category extends \yii\db\ActiveRecord
 {
 
+    /** @var int $level menu level */
+    private $level = null;
+
     /**
      * @inheritdoc
      */
@@ -86,8 +89,17 @@ class Category extends \yii\db\ActiveRecord
      */
     protected static function _getCategories()
     {
-        return self::find()->orderBy("sort asc,parent_id asc")->asArray()->all();
+        return self::find()->orderBy("sort asc,parent_id asc")->all();
     }
+
+    public function getLevel(){
+        return $this->level;
+    }
+
+    public function setLevel($level){
+        $this->level = $level;
+    }
+
 
     /**
      * @return array
@@ -108,12 +120,13 @@ class Category extends \yii\db\ActiveRecord
         $categories = self::getCategories();
         $data = [];
         foreach ($categories as $k => $category){
+            /** @var Category $category */
             if( isset($categories[$k+1]['level']) && $categories[$k+1]['level'] == $category['level'] ){
                 $name = ' ├' . $category['name'];
             }else{
                 $name = ' └' . $category['name'];
             }
-            if( end($categories) == $category ){
+            if( end($categories)->id == $category->id ){
                 $sign = ' └';
             }else{
                 $sign = ' │';
@@ -124,14 +137,18 @@ class Category extends \yii\db\ActiveRecord
     }
 
     /**
+     * get article categories urls
+     *
+     * @param bool $chosen
      * @return array
      */
-    public static function getMenuCategories($menuCategoryChosen=false)
+    public static function getCategoriesRelativeUrl()
     {
         $categories = self::getCategories();
         $familyTree = new FamilyTree($categories);
         $data = [];
         foreach ($categories as $k => $category){
+            /** @var Category $category */
             $parents = $familyTree->getAncectors($category['id']);
             $url = '';
             if(!empty($parents)){
@@ -145,16 +162,12 @@ class Category extends \yii\db\ActiveRecord
             }else{
                 $name = ' └' . $category['name'];
             }
-            if( end($categories) == $category ){
+            if( end($categories)->id == $category->id ){
                 $sign = ' └';
             }else{
                 $sign = ' │';
             }
-            if( $menuCategoryChosen ){
-                $url = '{"0":"article/index","cat":"' . $category['alias'] . '"}';
-            }else{
-                $url = '/'.$category['alias'];
-            }
+            $url = "article/index?cat=" . $category["name"];
             $data[$url] = str_repeat($sign, $category['level']-1) . $name;
         }
         return $data;

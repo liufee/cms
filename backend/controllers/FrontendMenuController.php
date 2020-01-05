@@ -40,7 +40,7 @@ class FrontendMenuController extends \yii\web\Controller
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function(){
-                    $data = Menu::getMenus(Menu::FRONTEND_TYPE);
+                    $data = Menu::getMenusWithNameHasPrefixLevelCharacters(Menu::TYPE_FRONTEND);
                     $dataProvider = Yii::createObject([
                         'class' => ArrayDataProvider::className(),
                         'allModels' => $data,
@@ -56,17 +56,14 @@ class FrontendMenuController extends \yii\web\Controller
             'view-layer' => [
                 'class' => ViewAction::className(),
                 'modelClass' => Menu::className(),
-                'scenario' => 'frontend',
             ],
             'create' => [
                 'class' => CreateAction::className(),
                 'modelClass' => Menu::className(),
-                'scenario' => 'frontend',
             ],
             'update' => [
                 'class' => UpdateAction::className(),
                 'modelClass' => Menu::className(),
-                'scenario' => 'frontend',
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
@@ -75,7 +72,6 @@ class FrontendMenuController extends \yii\web\Controller
             'sort' => [
                 'class' => SortAction::className(),
                 'modelClass' => Menu::className(),
-                'scenario' => 'frontend',
             ],
         ];
     }

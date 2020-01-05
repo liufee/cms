@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Backend Menus');
                             'label' => Yii::t('app', 'Name'),
                             'format' => 'html',
                             'value' => function ($model, $key, $index, $column) {
-                                return str_repeat("--", $model['level'] - 1) . $model['name'];
+                                return $model['name'];
                             }
                         ],
                         [
@@ -54,12 +54,16 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Backend Menus');
                             'label' => Yii::t('app', 'Icon'),
                             'format' => 'html',
                             'value' => function ($model) {
-                                return "<i class=\"fa {$model['icon']}\"></i>";
+                                return "<i class='fa {$model['icon']}'></i>";
                             }
                         ],
                         [
                             'attribute' => 'url',
                             'label' => Yii::t('app', 'Url'),
+                            'value' => function($model){
+                                /** @var Menu $mddel */
+                                return $model->convertJSONStringToRelativeUrl();
+                            }
                         ],
                         [
                             'class' => SortColumn::className(),

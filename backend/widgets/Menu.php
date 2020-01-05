@@ -44,10 +44,10 @@ class Menu extends \yii\base\Widget
         foreach ($menus as $menu){
             /** @var $menu \backend\models\Menu */
             if( intval($menu->parent_id) !== 0 ) continue;//parent_id equal 0 means first level menu
-            $url = $menu->getMenuUrl();//get sub menus(recursive sub menus)
+            $url = $menu->getMenuUrl();
             $arrow = '';
             $class = "J_menuItem";
-            $submenu = $this->getSubMenu($menu['id']);
+            $submenu = $this->getSubMenu($menu['id']);//get sub menus(recursive sub menus)
             if ($submenu) {//first level menu has sub menus
                 $arrow = ' arrow';//only has sub menus menu has a arrow icon
                 $class = '';
@@ -60,9 +60,10 @@ class Menu extends \yii\base\Widget
     /**
      * get sub menu html
      *
-     * @param int $menuId menu id
-     * @param int $level menu level
+     * @param $menuId
+     * @param int $level
      * @return mixed|string
+     * @throws \yii\base\Exception
      */
     private function getSubMenu($menuId, $level=2)
     {

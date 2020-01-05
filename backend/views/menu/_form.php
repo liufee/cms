@@ -34,7 +34,7 @@ if ($parent_id != '') {
                     $disabledOptions = [];
                     if(!$model->getIsNewRecord()){
                         $disabledOptions[$model->id] = ['disabled' => true];
-                        $familyTree = new FamilyTree(Menu::getMenus(Menu::BACKEND_TYPE));
+                        $familyTree = new FamilyTree(Menu::getMenusWithNameHasPrefixLevelCharacters(Menu::TYPE_BACKEND));
                         $descendants = $familyTree->getDescendants($model->id);
                         $descendants = ArrayHelper::getColumn($descendants, 'id');
                         foreach ($descendants as $descendant){
@@ -42,13 +42,13 @@ if ($parent_id != '') {
                         }
                     }
                 ?>
-                <?= $form->field($model, 'parent_id')->label(Yii::t('app', 'Parent Menu Name'))->dropDownList(Menu::getMenusName(Menu::BACKEND_TYPE), ['options' => $disabledOptions]) ?>
+                <?= $form->field($model, 'parent_id')->label(Yii::t('app', 'Parent Menu Name'))->dropDownList(Menu::getMenusName(Menu::TYPE_BACKEND), ['options' => $disabledOptions]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'is_absolute_url')->radioList(Constants::getYesNoItems()) ?>
                 <div class="hr-line-dashed"></div>
-                <?= $form->field($model, 'url')->textInput(['maxlength' => 512]) ?>
+                <?= $form->field($model, 'url')->textInput(['maxlength' => 512, 'value'=>$model->convertJSONStringToRelativeUrl()]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'icon')->label(Yii::t('app', 'Icon').' <a href="http://fontawesome.io/icons/" target="_blank">url</a>')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>

@@ -61,6 +61,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Frontend Menus');
                         [
                             'attribute' => 'url',
                             'label' => Yii::t('app', 'Url'),
+                            'value' => function($model){
+                                /** @var Menu $mddel */
+                                return $model->convertJSONStringToRelativeUrl();
+                            }
                         ],
                         [
                             'class' => SortColumn::className(),

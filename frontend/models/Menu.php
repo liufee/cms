@@ -15,7 +15,7 @@ class Menu extends CommonMenu
 
     public function beforeSave($insert)
     {
-        $this->type = self::FRONTEND_TYPE;
+        $this->type = self::TYPE_FRONTEND;
         return parent::beforeSave($insert);
     }
 }

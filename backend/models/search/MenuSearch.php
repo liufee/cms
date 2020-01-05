@@ -33,7 +33,7 @@ class MenuSearch extends Menu
      */
     public function search($params)
     {
-        $query = Menu::getMenus(Menu::BACKEND_TYPE);
+        $query = Menu::getMenusWithNameHasPrefixLevelCharacters(Menu::TYPE_BACKEND);
         $this->load($params);
         $temp = explode('\\', self::className());
         $temp = end($temp);
