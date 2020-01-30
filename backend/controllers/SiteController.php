@@ -8,9 +8,9 @@
 
 namespace backend\controllers;
 
-use backend\models\Menu;
 use Yii;
 use Exception;
+use common\services\MenuService;
 use common\models\Comment;
 use backend\models\form\LoginForm;
 use common\libs\ServerInfo;
@@ -77,10 +77,12 @@ class SiteController extends \yii\web\Controller
      * backend index page(backend default action)
      *
      * @return string
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex()
     {
-       $menus = (new Menu())->getAuthencatedMenus(Yii::$app->getUser()->getId());
+        $service = new MenuService();
+       $menus = $service->getAuthorizedBackendMenusByUserId(Yii::$app->getUser()->getId());
         return $this->renderPartial('index', [
             "menus" => $menus,
         ]);

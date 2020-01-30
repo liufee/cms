@@ -9,6 +9,8 @@
 namespace backend\controllers;
 
 use backend\actions\ViewAction;
+use common\services\BannerService;
+use common\services\BannerServiceInterface;
 use Yii;
 use backend\actions\IndexAction;
 use backend\actions\SortAction;
@@ -20,6 +22,7 @@ use backend\models\form\BannerForm;
 use common\models\Options;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\helpers\Url;
 
 class BannerController extends \yii\web\Controller
 {
@@ -36,74 +39,113 @@ class BannerController extends \yii\web\Controller
      * - item group=运营管理 category=banner description-post=排序 sort=616 method=post  
      * - item group=运营管理 category=banner description=删除 sort=617 method=post  
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function actions()
     {
+        /** @var BannerService $service */
+        $service = Yii::$app->get("bannerService");
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    $dataProvider = Yii::createObject([
-                        'class' => ActiveDataProvider::className(),
-                        'query' => BannerTypeForm::find()->where(['type' => Options::TYPE_BANNER]),
-                    ]);
+                'data' => function() use($service){
+                    $result = $service->getBannerTypeList();
                     return [
-                        'dataProvider' => $dataProvider,
+                        'dataProvider' => $result['dataProvider'],
                     ];
                 }
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'modelClass' => BannerTypeForm::className(),
+                'create' => function($postData) use($service){
+                    return $service->createBannerType($postData);
+                },
+                'data' => function() use($service){
+                    return [
+                        'model' => $service->getNewBannerTypeModel(),
+                    ];
+                }
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'modelClass' => BannerTypeForm::className(),
+                'update' => function($id, $postData) use($service){
+                    return $service->updateBannerType($id, $postData);
+                },
+                'data' => function($id) use($service){
+                    return [
+                        'model' => $service->getBannerTypeDetail($id),
+                    ];
+                },
+                'successRedirect' => ["banner/index"]
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => BannerTypeForm::className(),
+                'delete' => function($id) use($service){
+                    return $service->deleteBannerType($id);
+                },
             ],
 
             'banners' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    $id = Yii::$app->getRequest()->get('id', null);
-                    /** @var BannerForm $form */
-                    $form = yii::createObject( BannerForm::className() );
-                    $banners = $form->getBanners($id);
-                    $dataProvider = Yii::createObject( [
-                        'class' => ArrayDataProvider::className(),
-                        'allModels' => $banners,
-                    ]);
+                'data' => function($id) use($service){
+                    $result = $service->getBannerList($id);
                     return [
-                        'dataProvider' => $dataProvider,
-                        'bannerType' => BannerTypeForm::findOne($id),
+                        'dataProvider' => $result['dataProvider'],
+                        'bannerType' => $service->getBannerTypeDetail($id),
                     ];
                 }
             ],
             'banner-create' => [
-                'class' => UpdateAction::className(),
-                'modelClass' => BannerForm::className(),
+                'class' => CreateAction::className(),
+                'create' => function($postData) use($service){
+                    $id = Yii::$app->getRequest()->get("id", null);
+                    return $service->createBanner($id, $postData);
+                },
+                'data' => function() use($service){
+                    $id = Yii::$app->getRequest()->get("id", null);
+                    return [
+                        'model' => $service->getNewBannerModel(),
+                        'bannerType' => $service->getBannerTypeDetail($id),
+                    ];
+                }
             ],
             'banner-view-layer' => [
                 'class' => ViewAction::className(),
-                'modelClass' => BannerForm::className(),
+                'data' => function($id) use($service){
+                    $sign = Yii::$app->getRequest()->get("sign", null);
+                    return [
+                        'model' => $service->getBannerDetail($id, $sign),
+                    ];
+                },
                 'viewFile' => 'view',
             ],
             'banner-update' => [
                 'class' => UpdateAction::className(),
-                'modelClass' => BannerForm::className(),
+                'update' => function($id, $postData) use($service){
+                     $sign = Yii::$app->getRequest()->get("sign", null);
+                     return $service->updateBanner($id, $sign, $postData);
+                },
+                'data' => function($id) use($service) {
+                    $sign = Yii::$app->getRequest()->get("sign", null);
+                    return [
+                        'model' => $service->getBannerDetail($id, $sign),
+                        'bannerType' => $service->getBannerTypeDetail($id),
+                    ];
+                },
+                'successRedirect' => ['banner/banners', 'id'=>Yii::$app->getRequest()->get('id'), 'sign'=>Yii::$app->getRequest()->get('sign')]
             ],
             'banner-sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => BannerForm::className(),
+                'sort' => function($id, $value) use($service){
+                    return $service->sortBanner($id['id'], $id['sign'], $value);
+                },
             ],
             'banner-delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => BannerForm::className(),
-                'paramSign' => 'sign',
-                'scenario' => 'delete',
+                'delete' => function($id) use($service){
+                    $sign = Yii::$app->getRequest()->get("sign", null);
+                    return $service->deleteBanner($id, $sign);
+                },
             ],
         ];
     }

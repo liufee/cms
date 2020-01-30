@@ -11,7 +11,7 @@ use yii;
 use yii\base\Event;
 use yii\db\BaseActiveRecord;
 use yii\base\InvalidParamException;
-use backend\models\User;
+use backend\models\AdminUser;
 
 /**
  * Password reset form
@@ -28,7 +28,7 @@ class ResetPasswordForm extends \yii\base\Model
         if (empty($token) || ! is_string($token)) {
             throw new InvalidParamException('Password reset token cannot be blank.');
         }
-        $this->_user = User::findByPasswordResetToken($token);
+        $this->_user = AdminUser::findByPasswordResetToken($token);
         if (! $this->_user) {
             throw new InvalidParamException('Wrong password reset token.');
         }

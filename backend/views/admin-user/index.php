@@ -9,7 +9,7 @@
 /**
  * @var $this yii\web\View
  * @var $dataProvider yii\data\ActiveDataProvider
- * @var $searchModel backend\models\search\UserSearch
+ * @var $searchModel backend\models\search\AdminUserSearch
  */
 
 use backend\grid\DateColumn;
@@ -19,7 +19,7 @@ use yii\helpers\Html;
 use backend\widgets\Bar;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
-use backend\models\User;
+use common\models\AdminUser;
 
 $assignment = function ($url, $model) {
     return Html::a('<i class="fa fa-tablet"></i> ' . Yii::t('app', 'Assign Roles'), Url::to([
@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Admin Users');
                             'attribute' => 'role',
                             'label' => Yii::t('app', 'Role'),
                             'value' => function ($model) {
-                                /** @var $model backend\models\User */
+                                /** @var $model backend\models\AdminUser */
                                 return $model->getRolesNameString();
                             },
                         ],
@@ -67,13 +67,13 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Admin Users');
                             'attribute' => 'status',
                             'label' => Yii::t('app', 'Status'),
                             'value' => function ($model) {
-                                if($model->status == User::STATUS_ACTIVE){
+                                if($model->status == AdminUser::STATUS_ACTIVE){
                                     return Yii::t('app', 'Normal');
-                                }else if( $model->status == User::STATUS_DELETED ){
+                                }else if( $model->status == AdminUser::STATUS_DELETED ){
                                     return Yii::t('app', 'Disabled');
                                 }
                             },
-                            'filter' => User::getStatuses(),
+                            'filter' => AdminUser::getStatuses(),
                         ],
                         [
                             'class' => DateColumn::className(),

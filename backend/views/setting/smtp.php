@@ -62,7 +62,11 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'SMTP Setting');
                 method: 'post',
                 data: $("form").serialize(),
                 success: function (data) {
-                    layer.msg("<?=Yii::t('app', 'Success')?>");
+                    if( typeof data == "object" && data.hasOwnProperty("code") && data.code==0) {
+                        layer.msg("<?=Yii::t('app', 'Success')?>");
+                    }else{
+                        layer.msg(data)
+                    }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     layer.msg(jqXHR.responseJSON.message);

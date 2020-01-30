@@ -12,7 +12,6 @@
  */
 
 use backend\widgets\ActiveForm;
-use common\helpers\FamilyTree;
 use common\libs\Constants;
 use backend\models\Menu;
 use yii\helpers\ArrayHelper;
@@ -31,18 +30,19 @@ if ($parent_id != '') {
             <div class="ibox-content">
                 <?php $form = ActiveForm::begin(); ?>
                 <?php
+                $service = new \common\services\MenuService();
                     $disabledOptions = [];
                     if(!$model->getIsNewRecord()){
                         $disabledOptions[$model->id] = ['disabled' => true];
-                        $familyTree = new FamilyTree(Menu::getMenusWithNameHasPrefixLevelCharacters(Menu::TYPE_BACKEND));
-                        $descendants = $familyTree->getDescendants($model->id);
+                        $descendants = $service->getDescendantMenusById($model->id, Menu::TYPE_BACKEND);
+                        $descendant = $service->setMenuNameWithPrefixLevelCharacters($descendants);
                         $descendants = ArrayHelper::getColumn($descendants, 'id');
                         foreach ($descendants as $descendant){
                             $disabledOptions[$descendant] = ['disabled' => true];
                         }
                     }
                 ?>
-                <?= $form->field($model, 'parent_id')->label(Yii::t('app', 'Parent Menu Name'))->dropDownList(Menu::getMenusName(Menu::TYPE_BACKEND), ['options' => $disabledOptions]) ?>
+                <?= $form->field($model, 'parent_id')->label(Yii::t('app', 'Parent Menu Name'))->dropDownList($service->getMenusNameWithPrefixLevelCharacters(Menu::TYPE_BACKEND), ['options' => $disabledOptions]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>

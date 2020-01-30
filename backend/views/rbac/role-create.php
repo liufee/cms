@@ -10,7 +10,9 @@ use yii\helpers\Url;
 
 /**
  * @var $this yii\web\View
- * @var $model backend\models\form\RbacForm
+ * @var $model backend\models\form\RBACForm
+ * @var $permissions []
+ * @var $roles []
  */
 
 $this->params['breadcrumbs'] = [
@@ -21,4 +23,6 @@ $this->params['breadcrumbs'] = [
 ?>
 <?= $this->render('_role-form', [
     'model' => $model,
+    'permissions' => $permissions,
+    'roles' => $roles,
 ]) ?>

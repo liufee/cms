@@ -12,5 +12,5 @@ use yii\test\ActiveFixture;
 
 class UserFixture extends ActiveFixture
 {
-    public $modelClass = 'backend\models\User';
+    public $modelClass = 'backend\models\AdminUser';
 }

@@ -8,9 +8,9 @@
 
 namespace backend\controllers;
 
+use common\models\Article;
 use Yii;
-use backend\models\Article;
-use backend\models\search\ArticleSearch;
+use common\services\ArticleServiceInterface;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
@@ -30,44 +30,64 @@ class ArticleController extends \yii\web\Controller
      * - item group=内容 category=文章 description-post=删除 sort=306 method=post  
      * - item group=内容 category=文章 description-post=排序 sort=307 method=post  
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function actions()
     {
+        /** @var ArticleServiceInterface $service */
+        $service = Yii::$app->get("articleService");
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    /** @var $searchModel ArticleSearch */
-                    $searchModel = Yii::createObject( ArticleSearch::className() );
-                    $dataProvider = $searchModel->search( Yii::$app->getRequest()->getQueryParams() );
+                'data' => function($query) use($service){
+                    $result = $service->getList($query, ['type'=>Article::ARTICLE]);
                     return [
-                        'dataProvider' => $dataProvider,
-                        'searchModel' => $searchModel,
+                        'dataProvider' => $result['dataProvider'],
+                        'searchModel' => $result['searchModel'],
                     ];
                 }
             ],
             'view-layer' => [
                 'class' => ViewAction::className(),
-                'modelClass' => Article::className(),
+                'data' => function($id) use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                },
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'modelClass' => Article::className(),
-                'scenario' => 'article',
+                'create' => function($postData) use($service){
+                    return $service->create($postData);
+                },
+                'data' => function() use($service){
+                    return [
+                        'model' => $service->getNewModel(),
+                    ];
+                },
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'modelClass' => Article::className(),
-                'scenario' => 'article',
+                'update' => function($id, $postData) use($service){
+                    return $service->update($id, $postData);
+                },
+                'data' => function($id) use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                }
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => Article::className(),
+                'delete' => function($id) use($service){
+                    return $service->delete($id);
+                },
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => Article::className(),
-                'scenario' => 'article',
+                'sort' => function($id, $sort) use($service){
+                    return $service->sort($id, $sort);
+                }
             ],
         ];
     }

@@ -8,6 +8,7 @@
 
 namespace backend\models\form;
 
+use common\models\Options;
 use Yii;
 use common\helpers\Util;
 use common\libs\Constants;
@@ -202,5 +203,34 @@ class BannerForm extends \common\models\Options
     public function getBannerType()
     {
         return $this->hasOne(self::className(), ['id' => 'id']);
+    }
+
+    public function setAttributes($values, $safeOnly = true)
+    {
+        if( is_string($values) ){
+            $banner = json_decode($values, true);
+            $this->sign = $banner['sign'];
+            $this->img = $banner['img'];
+            $this->target = $banner['target'];
+            $this->desc = $banner['desc'];
+            $this->link = $banner['link'];
+            $this->sort = $banner['sort'];
+            $this->status = $banner['status'];
+        }else{
+            parent::setAttributes($values, $safeOnly);
+        }
+    }
+
+    public function getValue()
+    {
+        return [
+            'sign' => $this->sign ? $this->sign : uniqid(),
+            'img' => $this->img,
+            'target' => $this->target,
+            'desc' => $this->desc,
+            'link' => $this->link,
+            'sort' => $this->sort,
+            'status' => $this->status,
+        ];
     }
 }

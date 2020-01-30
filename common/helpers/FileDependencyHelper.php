@@ -16,12 +16,12 @@ class FileDependencyHelper extends \yii\base\BaseObject
 {
 
     /**
-     * @var string 文件依赖缓存根目录
+     * @var string cache depend file director
      */
     public $rootDir = '@runtime/cache/file_dependency/';
 
     /**
-     * @var string 文件名
+     * @var string cache depend file name
      */
     public $fileName;
 
@@ -45,22 +45,24 @@ class FileDependencyHelper extends \yii\base\BaseObject
     }
 
     /**
-     * 更新缓存依赖文件
+     * update file that invalidate cache
      */
     public function updateFile()
     {
         $cacheDependencyFileName = $this->getDependencyFileName();
         if (file_exists($cacheDependencyFileName)) {
-            file_put_contents($cacheDependencyFileName, uniqid());
+            if ( !file_put_contents($cacheDependencyFileName, uniqid()) ){
+                throw new Exception("update cache dependency file error: " . $cacheDependencyFileName);
+            }
         }
     }
 
     /**
-     * 获取包含路径的文件名
+     * get full dependency file path (dir + file name)
      *
      * @return bool|string
      */
-    protected function getDependencyFileName()
+    private function getDependencyFileName()
     {
         return Yii::getAlias($this->rootDir . $this->fileName);
     }

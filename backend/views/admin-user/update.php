@@ -12,7 +12,7 @@ $this->params['breadcrumbs'] = [
     ['label' => Yii::t('app', 'Update') . Yii::t('app', 'Admin Users')],
 ];
 /**
- * @var $model backend\models\User
+ * @var $model backend\models\AdminUser
  */
 ?>
 <?php

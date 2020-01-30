@@ -9,10 +9,9 @@
 namespace backend\controllers;
 
 use Yii;
+use common\services\CommentServiceInterface;
 use backend\actions\ViewAction;
 use backend\actions\UpdateAction;
-use backend\models\Comment;
-use backend\models\search\CommentSearch;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 
@@ -25,33 +24,47 @@ class CommentController extends \yii\web\Controller
      * - item group=内容 category=评论 description=修改 sort-get=322 sort-post=323 method=get,post 
      * - item group=内容 category=评论 description-post=删除 sort=324 method=post  
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function actions()
     {
+        /** @var CommentServiceInterface $service */
+        $service = Yii::$app->get("commentService");
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    /** @var CommentSearch $searchModel */
-                    $searchModel = Yii::createObject( CommentSearch::className() );
-                    $dataProvider = $searchModel->search( Yii::$app->getRequest()->getQueryParams() );
+                'data' => function(array $query)use($service){
+                    $result = $service->getList($query);
                     return [
-                        'dataProvider' => $dataProvider,
-                        'searchModel' => $searchModel,
+                        'dataProvider' => $result['dataProvider'],
+                        'searchModel' => $result['searchModel'],
                     ];
                 }
             ],
             'view-layer' => [
                 'class' => ViewAction::className(),
-                'modelClass' => Comment::className(),
+                'data' => function($id)use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                },
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'modelClass' => Comment::className(),
+                'data' => function($id)use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                },
+                'update' => function($id, array $postData)use($service){
+                    return $service->update($id, $postData);
+                },
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => Comment::className(),
+                'delete' => function($id)use($service){
+                    return $service->delete($id);
+                },
             ],
         ];
     }

@@ -8,11 +8,13 @@
 
 namespace backend\controllers;
 
+use backend\actions\CreateAction;
+use backend\actions\UpdateAction;
+use common\models\AdminUser;
 use Yii;
+use common\services\AdminUserServiceInterface;
 use backend\models\form\PasswordResetRequestForm;
 use backend\models\form\ResetPasswordForm;
-use backend\models\User;
-use backend\models\search\UserSearch;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
@@ -27,36 +29,68 @@ class AdminUserController extends \yii\web\Controller
      * - item group=权限 category=管理员 description-get=列表 sort=520 method=get
      * - item group=权限 category=管理员 description-get=查看 sort=521 method=get  
      * - item group=权限 category=管理员 description-post=删除 sort=522 method=post  
-     * - item group=权限 category=管理员 description-post=排序 sort=523 method=post  
+     * - item group=权限 category=管理员 description-post=排序 sort=523 method=post 
+     *  
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function actions()
     {
+        /** @var AdminUserServiceInterface $service */
+        $service = Yii::$app->get("adminUserService");
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    /** @var UserSearch $searchModel */
-                    $searchModel = Yii::createObject( UserSearch::className() );
-                    $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams());
+                'data' => function($query)use($service){
+                    $result = $service->getList($query);
                     return [
-                        'dataProvider' => $dataProvider,
-                        'searchModel' => $searchModel,
+                        'dataProvider' => $result['dataProvider'],
+                        'searchModel' => $result['searchModel'],
                     ];
                 }
             ],
             'view-layer' => [
                 'class' => ViewAction::className(),
-                'modelClass' => User::className(),
+                'data' => function($id)use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                },
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => User::className(),
+                'delete' => function($id) use($service){
+                    return $service->delete($id);
+                },
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => User::className(),
+                'sort' => function($id, $sort) use($service){
+                    return $service->sort($id, $sort);
+                },
             ],
+        /*    'create' => [
+                'class' => CreateAction::className(),
+                'create' => function($postData) use($service){
+                    return $service->create($postData);
+                },
+                'data' => function()use($service){
+                    return [
+                        'model' => $service->getNewModel(),
+                    ];
+                }
+            ],
+            'update' => [
+                'class' => UpdateAction::className(),
+                'update' => function($id, $postData) use($service){
+                    return $service->update($id, $postData);
+                },
+                'data' => function($id) use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                }
+            ]*/
         ];
     }
 
@@ -69,8 +103,8 @@ class AdminUserController extends \yii\web\Controller
      */
     public function actionCreate()
     {
-        /** @var User $model */
-        $model = Yii::createObject( User::className() );
+        /** @var AdminUser $model */
+        $model = Yii::createObject( AdminUser::className() );
         $model->setScenario('create');
         if (Yii::$app->getRequest()->getIsPost()) {
             if ( $model->load(Yii::$app->getRequest()->post()) && $model->save() && $model->assignPermission() ) {
@@ -101,7 +135,7 @@ class AdminUserController extends \yii\web\Controller
      */
     public function actionUpdate($id)
     {
-        $model = User::findOne($id);
+        $model = AdminUser::findOne($id);
         $model->setScenario('update');
         $model->roles = $model->permissions = call_user_func(function() use($id){
             $permissions = Yii::$app->getAuthManager()->getAssignments($id);
@@ -122,7 +156,7 @@ class AdminUserController extends \yii\web\Controller
                 }
                 Yii::$app->getSession()->setFlash('error', $err);
             }
-            $model = User::findOne(['id' => Yii::$app->getUser()->getIdentity()->getId()]);
+            $model = AdminUser::findOne(['id' => Yii::$app->getUser()->getIdentity()->getId()]);
         }
 
         return $this->render('update', [
@@ -139,7 +173,7 @@ class AdminUserController extends \yii\web\Controller
      */
     public function actionUpdateSelf()
     {
-        $model = User::findOne(['id' => Yii::$app->getUser()->getIdentity()->getId()]);
+        $model = AdminUser::findOne(['id' => Yii::$app->getUser()->getIdentity()->getId()]);
         $model->setScenario('self-update');
         if (Yii::$app->getRequest()->getIsPost()) {
             if ($model->load(Yii::$app->getRequest()->post()) && $model->selfUpdate()) {
@@ -152,7 +186,7 @@ class AdminUserController extends \yii\web\Controller
                 }
                 Yii::$app->getSession()->setFlash('error', $err);
             }
-            $model = User::findOne(['id' => Yii::$app->getUser()->getIdentity()->getId()]);
+            $model = AdminUser::findOne(['id' => Yii::$app->getUser()->getIdentity()->getId()]);
         }
 
         return $this->render('update', [

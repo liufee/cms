@@ -9,7 +9,9 @@ use yii\helpers\Url;
 
 /**
  * @var $this yii\web\View
- * @var $model backend\models\form\RbacForm
+ * @var $model backend\models\form\RBACForm
+ * @var $groups []
+ * @var $categories []
  */
 
 $this->params['breadcrumbs'] = [
@@ -20,4 +22,6 @@ $this->params['breadcrumbs'] = [
 ?>
 <?= $this->render('_permission-form', [
     'model' => $model,
+    'groups' => $groups,
+    'categories' => $categories,
 ]) ?>

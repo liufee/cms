@@ -16,7 +16,7 @@ return [
     'modules' => [],
     'components' => [
         'user' => [
-            'identityClass' => backend\models\User::className(),
+            'identityClass' => common\models\AdminUser::className(),
             'enableAutoLogin' => false,
             'identityCookie' => ['name' => '_backend_identity'],
             'idParam' => '__backend__id',

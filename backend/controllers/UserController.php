@@ -8,10 +8,9 @@
 
 namespace backend\controllers;
 
-use backend\actions\ViewAction;
 use Yii;
-use frontend\models\User;
-use frontend\models\search\UserSearch;
+use common\services\UserServiceInterface;
+use backend\actions\ViewAction;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
@@ -30,43 +29,64 @@ class UserController extends \yii\web\Controller
      * - item group=用户 category=前台用户 description-post=删除 sort=406 method=post  
      * - item group=用户 category=前台用户 description-post=排序 sort=407 method=post  
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function actions()
     {
+        /** @var UserServiceInterface $service */
+        $service = Yii::$app->get("userService");
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    /** @var UserSearch $searchModel */
-                    $searchModel = Yii::createObject(UserSearch::className());
-                    $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams());
+                'data' => function($query)use($service){
+                    $result = $service->getList($query);
                     return [
-                        'dataProvider' => $dataProvider,
-                        'searchModel' => $searchModel,
+                        'dataProvider' => $result['dataProvider'],
+                        'searchModel' => $result['searchModel'],
                     ];
                 }
             ],
             'view-layer' => [
                 'class' => ViewAction::className(),
-                'modelClass' => User::className(),
+                'data' => function($id) use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                },
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'modelClass' => User::className(),
-                'scenario' => 'create',
+                'create' => function($postData) use($service){
+                    return $service->create($postData);
+                },
+                'data' => function() use($service){
+                    return [
+                        'model' => $service->getNewModel(),
+                    ];
+                },
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'modelClass' => User::className(),
-                'scenario' => 'update',
+                'update' => function($id, $postData) use($service){
+                    return $service->update($id, $postData);
+                },
+                'data' => function($id) use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                },
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => User::className(),
+                'delete' => function($id) use($service){
+                    return $service->delete($id);
+                },
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => User::className(),
+                'sort' => function($id, $sort) use($service){
+                    return $service->sort($id, $sort);
+                },
             ],
         ];
     }

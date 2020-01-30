@@ -8,6 +8,8 @@
 
 namespace common\models;
 
+use common\helpers\Util;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use Yii;
 
@@ -35,6 +37,13 @@ class FriendlyLink extends ActiveRecord
     {
         parent::init();
         $this->on(self::EVENT_AFTER_FIND, [$this, 'afterFindEvent']);
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
     }
 
     /**
@@ -76,6 +85,23 @@ class FriendlyLink extends ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert)
+    {
+        Util::handleModelSingleFileUpload($this, 'image', $insert, '@friendlylink/');
+        return parent::beforeSave($insert);
+    }
+
+    public function beforeDelete()
+    {
+        if( !empty( $this->image ) ){
+            Util::deleteThumbnails(Yii::getAlias('@frontend/web/') . str_replace(Yii::$app->params['site']['url'], '', $this->image), [], true);
+        }
+        return parent::beforeDelete();
     }
 
     public function afterFindEvent($event)

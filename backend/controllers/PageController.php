@@ -30,44 +30,63 @@ class PageController extends \yii\web\Controller
      * - item group=内容 category=单页 description-post=删除 sort=336 method=post  
      * - item group=内容 category=单页 description-post=排序 sort=337 method=post
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function actions()
     {
+        $service = Yii::$app->get("articleService");
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    /** @var ArticleSearch $searchModel */
-                    $searchModel = Yii::createObject( ArticleSearch::className() );
-                    $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams(), Article::SINGLE_PAGE);
+                'data' => function($query) use($service){
+                    $result = $service->getList($query, ['type'=> \common\models\Article::SINGLE_PAGE]);
                     return [
-                        'dataProvider' => $dataProvider,
-                        'searchModel' => $searchModel,
+                        'dataProvider' => $result['dataProvider'],
+                        'searchModel' => $result['searchModel'],
                     ];
                 }
             ],
             'view-layer' => [
                 'class' => ViewAction::className(),
-                'modelClass' => Article::className(),
+                'data' => function($id) use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                },
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'modelClass' => Article::className(),
-                'scenario' => 'page',
+                'create' => function($postData) use($service){
+                    return $service->create($postData);
+                },
+                'data' => function() use($service){
+                    return [
+                        'model' => $service->getNewModel(['type'=>Article::SINGLE_PAGE]),
+                    ];
+                },
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'modelClass' => Article::className(),
-                'scenario' => 'page',
+                'update' => function($id, $postData) use($service){
+                    return $service->update($id, $postData);
+                },
+                'data' => function($id) use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                }
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => Article::className(),
+                'delete' => function($id) use($service){
+                    return $service->delete($id);
+                },
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => Article::className(),
-                'scenario' => 'page',
+                'sort' => function($id, $sort) use($service){
+                    return $service->sort($id, $sort);
+                }
             ],
         ];
     }

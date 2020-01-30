@@ -9,6 +9,7 @@
 namespace backend\controllers;
 
 use backend\actions\ViewAction;
+use common\services\MenuServiceInterface;
 use Yii;
 use yii\data\ArrayDataProvider;
 use frontend\models\Menu;
@@ -17,6 +18,7 @@ use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
+use yii\db\ActiveRecord;
 
 /**
  * FrontendMenu controller
@@ -32,46 +34,70 @@ class FrontendMenuController extends \yii\web\Controller
      * - item group=菜单 category=前台 description=修改 sort-get=204 sort-post=205 method=get,post  
      * - item group=菜单 category=前台 description-post=删除 sort=206 method=post  
      * - item group=菜单 category=前台 description-post=排序 sort=207 method=post  
+     *
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function actions()
     {
+        /** @var MenuServiceInterface $service */
+        $service = Yii::$app->get("menuService");
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    $data = Menu::getMenusWithNameHasPrefixLevelCharacters(Menu::TYPE_FRONTEND);
-                    $dataProvider = Yii::createObject([
-                        'class' => ArrayDataProvider::className(),
-                        'allModels' => $data,
-                        'pagination' => [
-                            'pageSize' => -1
-                        ]
-                    ]);
-                    return [
-                        'dataProvider' => $dataProvider,
+                'data' => function(array $query) use($service){
+                    $result = $service->getList($query, ['type'=> \backend\models\Menu::TYPE_FRONTEND]);
+                    $data = [
+                        'dataProvider' => $result['dataProvider'],
+                        'searchModel' => $result['searchModel'],
                     ];
-                }
+                    return $data;
+                },
             ],
             'view-layer' => [
                 'class' => ViewAction::className(),
-                'modelClass' => Menu::className(),
+                'data' => function($id)use($service){
+                    return [
+                        'model'=>$service->getDetail($id)
+                    ];
+                },
             ],
             'create' => [
+                'data' => function() use($service){
+                    /** @var ActiveRecord $model */
+                    $model = $service->getNewModel();
+                    $model->loadDefaultValues();
+                    return [
+                        'model'=>$model,
+                    ];
+                },
                 'class' => CreateAction::className(),
-                'modelClass' => Menu::className(),
+                'create' => function($postData)use($service){
+                    return $service->create($postData, ['type'=> \backend\models\Menu::TYPE_FRONTEND]);
+                }
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'modelClass' => Menu::className(),
+                'update' => function($id, $postData)use($service) {
+                    return $service->update($id, $postData);
+                },
+                'data' => function($id)use($service){
+                    return [
+                        'model'=>$service->getDetail($id)
+                    ];
+                },
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => Menu::className(),
+                'delete' => function($id)use($service){
+                    return $service->delete($id);
+                },
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => Menu::className(),
+                'sort' => function($id, $sort)use($service){
+                    $service->sort($id, $sort);
+                },
             ],
         ];
     }

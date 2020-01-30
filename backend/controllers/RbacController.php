@@ -9,14 +9,13 @@
 namespace backend\controllers;
 
 use Yii;
+use common\services\RBACService;
 use backend\actions\CreateAction;
 use backend\actions\DeleteAction;
 use backend\actions\IndexAction;
 use backend\actions\SortAction;
 use backend\actions\UpdateAction;
 use backend\actions\ViewAction;
-use backend\models\search\RbacFormSearch;
-use backend\models\form\RbacForm;
 
 class RbacController extends \yii\web\Controller
 {
@@ -38,181 +37,135 @@ class RbacController extends \yii\web\Controller
      */
     public function actions()
     {
+        /** @var RBACService $service */
+        $service = Yii::$app->get("RBACService");
         return [
             'permissions' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    /** @var RbacFormSearch $searchModel */
-                    $searchModel = Yii::createObject(['class' => RbacFormSearch::className(),'scenario'=>'permission']);
-                    $dataProvider = $searchModel->searchPermissions(Yii::$app->getRequest()->getQueryParams());
+                'data' => function($query) use($service){
+                    $result = $service->getPermissionList($query);
                     return [
-                        'dataProvider' => $dataProvider,
-                        'searchModel' => $searchModel,
+                        'dataProvider' => $result['dataProvider'],
+                        'searchModel' => $result['searchModel'],
                     ];
                 }
             ],
             'permission-sort' => [
                 'class' => SortAction::className(),
-                'model' => function($where){
-                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'permission']);
-                    $model->fillModel($where["name"]);
-                    return $model;
+                'sort' => function($name, $sort) use($service){
+                    return $service->sortPermission($name, $sort);
                 },
-                'executeMethod' => function($model){
-                    /** @var RbacForm $model */
-                    return $model->updatePermission($model->name);
-                }
             ],
             'permission-create' => [
                 "class" => CreateAction::className(),
-                'model' => function(){
-                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'permission']);
-                    return $model;
+                'create' => function($postData) use($service){
+                    return $service->createPermission($postData);
                 },
-                'executeMethod' => function($model){
-                    /** @var RbacForm $model */
-                    if( Yii::$app->getRequest()->post() && $model->validate() && $model->createPermission() ){
-                        return true;
-                    }else{
-                        return false;
-                    }
+                'data' => function() use($service){
+                    return [
+                        'model' => $service->getNewModel(['type'=>RBACService::TYPE_PERMISSION]),
+                        'groups' => $service->getPermissionGroups(),
+                        'categories' => $service->getPermissionCategories(),
+                    ];
                 },
-                'successRedirect' => ['rbac/permissions']
+                'successRedirect' => ['rbac/permissions'],
             ],
             'permission-update' => [
                 "class" => UpdateAction::className(),
-                "model" => function(){
-                    /** @var RbacForm $model */
-                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'permission']);
-                    $name = Yii::$app->getRequest()->get("name", "");
-                    $model->fillModel($name);
-                    return $model;
+                "update" => function($name, $postData) use($service){
+                    return $service->updatePermission($name, $postData);
                 },
-                "executeMethod" => function($model){
-                    /** @var RbacForm $model */
-                    if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->updatePermission($model->name)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                "data" => function() use($service){
+                    $name = Yii::$app->getRequest()->get("name");
+                    return [
+                        'model' => $service->getPermissionDetail($name),
+                        'groups' => $service->getPermissionGroups(),
+                        'categories' => $service->getPermissionCategories(),
+                    ];
                 }
             ],
             'permission-view-layer' => [
                 'class' => ViewAction::className(),
-                'model' => function(){
-                    $name = Yii::$app->getRequest()->get("name", "");
-                    /** @var RbacForm $model */
-                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'permission']);
-                    $model->fillModel($name);
-                    return $model;
+                'idSign' => 'name',
+                'data' => function($name) use($service){
+                    return [
+                        "model" => $service->getPermissionDetail($name),
+                    ];
                 },
                 'viewFile' => 'permission-view-layer',
             ],
             'permission-delete' => [
                 "class" => DeleteAction::className(),
-                'paramSign' => 'name',
-                "model" => function($name){
-                    /** @var RbacForm $model */
-                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'permission']);
-                    $model->fillModel($name);
-                    return $model;
+                'idSign' => 'name',
+                "delete" => function($name) use($service) {
+                    return $service->deletePermission($name);
                 },
-                "executeMethod" => function($model){
-                    /** @var RbacForm $model */
-                    if ( $model->deletePermission() ) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
             ],
             'roles' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    /** @var RbacFormSearch $searchModel */
-                    $searchModel = Yii::createObject(['class' => RbacFormSearch::className(), 'scenario'=>'role']);
-                    $dataProvider = $searchModel->searchRoles( Yii::$app->getRequest()->getQueryParams() );
+                'data' => function($query) use($service){
+                    $result = $service->getRoleList($query);
                     return [
-                        'dataProvider' => $dataProvider,
-                        'searchModel' => $searchModel,
+                        'dataProvider' => $result['dataProvider'],
+                        'searchModel' => $result['searchModel'],
                     ];
-                }
+                },
+                'viewFile' => 'roles',
             ],
             'role-view-layer' => [
                 'class' => ViewAction::className(),
+                'idSign' => 'name',
                 'viewFile' => 'role-view-layer',
-                'model' => function(){
-                    $name = Yii::$app->getRequest()->get("name", "");
-                    /** @var RbacForm $model */
-                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'role']);
-                    $model->fillModel($name);
-                    return $model;
+                'data' => function($name) use($service){
+                    return [
+                        'model' => $service->getRoleDetail($name),
+                    ];
                 }
             ],
             'role-create' => [
                 "class" => CreateAction::className(),
-                'model' => function(){
-                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'role']);
-                    return $model;
+                'create' => function($postData) use($service){
+                    return $service->createRole($postData);
                 },
-                'executeMethod' => function($model){
-                    /** @var RbacForm $model */
-                    if( Yii::$app->getRequest()->post() && $model->validate() && $model->createRole() ){
-                        return true;
-                    }else{
-                        return false;
-                    }
+                'data' => function() use($service){
+                    return [
+                        'model' => $service->getNewRoleModel(),
+                        'permissions' => $service->getPermissionsGroups(),
+                        'roles' => $service->getRoles(),
+                    ];
                 },
                 'successRedirect' => ['rbac/roles']
             ],
             'role-update' => [
                 "class" => UpdateAction::className(),
-                "model" => function(){
-                    /** @var RbacForm $model */
-                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'role']);
-                    $name = Yii::$app->getRequest()->get("name", "");
-                    $model->fillModel($name);
-                    return $model;
+                'idSign' => 'name',
+                "update" => function($name, $postData) use($service){
+                    return $service->updateRole($name, $postData);
                 },
-                "executeMethod" => function($model){
-                    $name = Yii::$app->getRequest()->get("name", "");
-                    /** @var RbacForm $model */
-                    if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->updateRole($name)) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                'data' => function($name) use($service){
+                    $roles = $service->getRoles();
+
+                    //unset($roles[$name]);
+                    return [
+                        'model' => $service->getRoleDetail($name),
+                        'permissions' => $service->getPermissionsGroups(),
+                        'roles' => $roles,
+                    ];
                 },
+                'successRedirect' => ['rbac/roles'],
             ],
             'role-sort' => [
                 'class' => SortAction::className(),
-                'model' => function($where){
-                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'role']);
-                    $model->fillModel($where["name"]);
-                    return $model;
+                'sort' => function($name, $sort) use($service) {
+                    return $service->sortRole($name, $sort);
                 },
-                'executeMethod' => function($model){
-                    /** @var RbacForm $model */
-                    return $model->updateRole($model->name);
-                }
             ],
             'role-delete' => [
                 "class" => DeleteAction::className(),
                 'paramSign' => 'name',
-                "model" => function($name){
-                    /** @var RbacForm $model */
-                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario'=>'role']);
-                    $model->fillModel($name);
-                    return $model;
+                "delete" => function($name) use($service) {
+                    return $service->delete($name);
                 },
-                "executeMethod" => function($model){
-                    /** @var RbacForm $model */
-                    if ( $model->deleteRole() ) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
             ],
         ];
     }

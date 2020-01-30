@@ -18,7 +18,7 @@ use backend\assets\IndexAsset;
 
 IndexAsset::register($this);
 $this->title = Yii::t('app', 'Backend Manage System');
-/** @var \backend\models\User $identity */
+/** @var \backend\models\AdminUser $identity */
 $identity = Yii::$app->getUser()->getIdentity();
 ?>
 <?php $this->beginPage() ?>
@@ -73,7 +73,7 @@ $identity = Yii::$app->getUser()->getIdentity();
                 /** @var FileDependencyHelper $cacheDependencyObject */
                 $cacheDependencyObject = Yii::createObject([
                     'class' => FileDependencyHelper::className(),
-                    'fileName' => \backend\models\Menu::BACKEND_MENU_CACHE_DEPENDENCY_FILE,
+                    'fileName' => \backend\models\Menu::MENU_CACHE_DEPENDENCY_FILE,
                 ]);
                 $dependency = [
                     'class' => FileDependency::className(),

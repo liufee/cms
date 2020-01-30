@@ -8,6 +8,7 @@
 
 namespace backend\controllers;
 
+use common\services\LogServiceInterface;
 use Yii;
 use backend\models\search\AdminLogSearch;
 use backend\models\AdminLog;
@@ -24,29 +25,36 @@ class LogController extends \yii\web\Controller
      * - item group=其他 category=日志 description-get=查看 sort=712 method=get  
      * - item group=其他 category=日志 description-post=删除 sort=723 method=post  
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function actions()
     {
+        /** @var LogServiceInterface $service */
+        $service = Yii::$app->get("logService");
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    /** @var AdminLogSearch $searchModel */
-                    $searchModel = Yii::createObject( AdminLogSearch::className() );
-                    $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams());
+                'data' => function(array $query)use($service){
+                    $result = $service->getList($query);
                     return [
-                        'dataProvider' => $dataProvider,
-                        'searchModel' => $searchModel,
+                        'dataProvider' => $result['dataProvider'],
+                        'searchModel' => $result['searchModel'],
                     ];
                 }
             ],
             'view-layer' => [
                 'class' => ViewAction::className(),
-                'modelClass' => AdminLog::className(),
+                'data' => function($id)use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                },
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => AdminLog::className(),
+                'delete' => function($id)use($service){
+                    return $service->delete($id);
+                }
             ],
         ];
     }

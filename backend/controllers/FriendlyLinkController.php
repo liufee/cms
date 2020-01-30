@@ -9,9 +9,8 @@
 namespace backend\controllers;
 
 use Yii;
+use common\services\FriendlyLinkServiceInterface;
 use backend\actions\ViewAction;
-use backend\models\search\FriendlyLinkSearch;
-use backend\models\FriendlyLink;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
@@ -33,43 +32,65 @@ class FriendlyLinkController extends \yii\web\Controller
      * - item group=其他 category=友情链接 description-post=删除 sort=706 method=post  
      * - item group=其他 category=友情链接 description-post=排序 sort=707 method=post  
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function actions()
     {
+        /** @var FriendlyLinkServiceInterface $service */
+        $service =  Yii::$app->get("friendlyService");
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    /** @var $searchModel FriendlyLinkSearch */
-                    $searchModel = Yii::createObject( FriendlyLinkSearch::className() );
-                    $dataProvider = $searchModel->search(Yii::$app->getRequest()->getQueryParams());
+                'data' => function(array $query)use($service){
+                    $result = $service->getList($query);
                     return [
-                        'dataProvider' => $dataProvider,
-                        'searchModel' => $searchModel,
+                        'dataProvider' => $result['dataProvider'],
+                        'searchModel' => $result['searchModel'],
                     ];
                 }
             ],
             'view-layer' => [
                 'class' => ViewAction::className(),
-                'modelClass' => FriendlyLink::className(),
+                'data' => function($id)use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                },
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'modelClass' => FriendlyLink::className(),
+                'data' => function()use($service){
+                    return[
+                        'model' => $service->getNewModel(),
+                    ];
+                },
+                'create' => function(array $postData) use($service){
+                    return $service->create($postData);
+                },
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'modelClass' => FriendlyLink::className(),
+                'data' => function($id)use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                },
+                'update' => function($id, array $postData) use($service){
+                    return $service->update($id, $postData);
+                }
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => FriendlyLink::className(),
+                'delete' => function($id)use($service){
+                    return $service->delete($id);
+                },
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => FriendlyLink::className(),
+                'sort' => function($id, $sort)use($service){
+                    $service->sort($id, $sort);
+                },
             ],
         ];
     }
-
 }

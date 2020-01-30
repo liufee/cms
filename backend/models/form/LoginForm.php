@@ -9,7 +9,7 @@ namespace backend\models\form;
 
 use yii;
 use yii\base\Model;
-use backend\models\User;
+use backend\models\AdminUser;
 
 /**
  * Login form
@@ -82,12 +82,12 @@ class LoginForm extends Model
     /**
      * Finds user by [[username]]
      *
-     * @return User|null
+     * @return AdminUser|null
      */
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = AdminUser::findByUsername($this->username);
         }
 
         return $this->_user;

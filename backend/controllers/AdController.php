@@ -15,6 +15,7 @@ use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
+use common\services\AdServiceInterface;
 use Yii;
 use yii\data\ActiveDataProvider;
 
@@ -30,41 +31,63 @@ class AdController extends \yii\web\Controller
      * - item group=运营管理 category=广告 description-post=排序 sort=627 method=post  
      *
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function actions()
     {
+        /** @var AdServiceInterface $service */
+        $service = Yii::$app->get("adService");
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    $dataProvider = Yii::createObject([
-                        'class' => ActiveDataProvider::className(),
-                        'query' => AdForm::find()->where(['type'=>AdForm::TYPE_AD])->orderBy('sort,id'),
-                    ]);
+                'data' => function()use($service){
+                    $result = $service->getList(Yii::$app->getRequest()->getQueryParams());
                     return [
-                        'dataProvider' => $dataProvider,
+                        'dataProvider' => $result['dataProvider'],
                     ];
                 }
             ],
             'view-layer' => [
                 'class' => ViewAction::className(),
-                'modelClass' => AdForm::className(),
+                'data' => function($id)use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                },
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'modelClass' => AdForm::className(),
+                'create' => function($postData) use($service){
+                    return $service->create($postData);
+                },
+                'data' => function()use($service){
+                    return [
+                        'model' => $service->getNewModel(),
+                    ];
+                }
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'modelClass' => AdForm::className(),
+                'update' => function($id, $postData) use($service){
+                    return $service->update($id, $postData);
+                },
+                'data' => function($id) use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                }
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => AdForm::className(),
+                'delete' => function($id)use($service){
+                    return $service->delete($id);
+                },
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => AdForm::className(),
+                'sort' => function($id, $sort)use($service){
+                    return $service->sort($id, $sort);
+                },
             ],
         ];
     }

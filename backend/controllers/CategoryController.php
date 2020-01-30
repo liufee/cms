@@ -9,6 +9,7 @@
 namespace backend\controllers;
 
 use backend\actions\ViewAction;
+use common\services\CategoryServiceInterface;
 use Yii;
 use yii\data\ArrayDataProvider;
 use common\models\Category;
@@ -29,45 +30,62 @@ class CategoryController extends \yii\web\Controller
      * - item group=内容 category=分类 description-post=删除 sort=316 method=post  
      * - item group=内容 category=分类 description-post=排序 sort=317 method=post  
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function actions()
     {
+        /** @var CategoryServiceInterface $service */
+        $service = Yii::$app->get("categoryService");
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    $data = Category::getCategories();
-                    $dataProvider = Yii::createObject([
-                        'class' => ArrayDataProvider::className(),
-                        'allModels' => $data,
-                        'pagination' => [
-                            'pageSize' => -1
-                        ]
-                    ]);
+                'data' => function() use($service){
                     return [
-                        'dataProvider' => $dataProvider,
+                        "dataProvider" => $service->getCategoryList(),
                     ];
                 }
             ],
             'view-layer' => [
                 'class' => ViewAction::className(),
-                'modelClass' => Category::className(),
+                'data' => function($id) use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                },
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'modelClass' => Category::className(),
+                'create' => function($postData) use($service){
+                    return $service->create($postData);
+                },
+                'data' => function() use($service) {
+                    return [
+                        'model' => $service->getNewModel(),
+                    ];
+                },
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'modelClass' => Category::className(),
+                'update' => function($id, $postData) use($service){
+                    return $service->update($id, $postData);
+                },
+                'data' => function($id) use($service){
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
+                }
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => Category::className(),
+                'delete' => function($id) use($service){
+                    return $service->delete($id);
+                }
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => Category::className(),
+                'sort' => function($id, $sort) use($service){
+                    return $service->sort($id, $sort);
+                },
             ],
         ];
     }

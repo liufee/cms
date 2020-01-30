@@ -7,7 +7,7 @@
  */
 namespace backend\tests\functional;
 
-use backend\models\User;
+use backend\models\AdminUser;
 use backend\tests\FunctionalTester;
 use backend\fixtures\UserFixture;
 use yii\helpers\Url;
@@ -30,7 +30,7 @@ class AdCest
 
     public function _before(FunctionalTester $I)
     {
-        $I->amLoggedInAs(User::findIdentity(1));
+        $I->amLoggedInAs(AdminUser::findIdentity(1));
     }
 
     public function checkIndex(FunctionalTester $I)

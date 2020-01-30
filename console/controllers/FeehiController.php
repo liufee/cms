@@ -10,7 +10,7 @@ namespace console\controllers;
 
 use console\helpers\FileHelper;
 use Yii;
-use backend\models\form\RbacForm;
+use backend\models\form\RBACForm;
 use console\controllers\helpers\BackendAuth;
 use yii\console\Controller;
 use yii\helpers\ArrayHelper;
@@ -104,8 +104,8 @@ class FeehiController extends Controller
                 $this->stdout("已取消增加(been canceled add)" . PHP_EOL, Console::FG_GREEN);
             } else {
                 foreach ($needAdds as $k => $v) {
-                    /** @var RbacForm $model */
-                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario' => 'permission']);
+                    /** @var RBACForm $model */
+                    $model = Yii::createObject(['class' => RBACForm::className(), 'scenario' => 'permission']);
                     $model->route = $v['route'];
                     $model->method = $v['method'];
                     $model->description = $v['description'];
@@ -129,8 +129,8 @@ class FeehiController extends Controller
                 $this->stdout("已取消修改(been canceled update)" . PHP_EOL, Console::FG_GREEN);
             } else {
                 foreach ($needModifies as $k => $v) {
-                    /** @var RbacForm $model */
-                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario' => 'permission']);
+                    /** @var RBACForm $model */
+                    $model = Yii::createObject(['class' => RBACForm::className(), 'scenario' => 'permission']);
                     $model->fillModel($v['name']);
                     $model->route = $v['route'];
                     $model->method = $v['method'];
@@ -150,8 +150,8 @@ class FeehiController extends Controller
                 $this->stdout("已取消删除(been canceled delete)" . PHP_EOL, Console::FG_GREEN);
             } else {
                 foreach ($needRemoves as $k => $v) {
-                    /** @var RbacForm $model */
-                    $model = Yii::createObject(['class' => RbacForm::className(), 'scenario' => 'permission']);
+                    /** @var RBACForm $model */
+                    $model = Yii::createObject(['class' => RBACForm::className(), 'scenario' => 'permission']);
                     $model->fillModel($v);
                     $model->deletePermission();
                 }

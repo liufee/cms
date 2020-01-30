@@ -8,6 +8,7 @@
 
 namespace backend\actions;
 
+use Yii;
 use Closure;
 
 class IndexAction extends \yii\base\Action
@@ -26,7 +27,7 @@ class IndexAction extends \yii\base\Action
     {
         $data = $this->data;
         if( $data instanceof Closure){
-            $data = call_user_func( $this->data );
+            $data = call_user_func_array( $this->data, [Yii::$app->getRequest()->getQueryParams()]);
         }
         $this->viewFile === null && $this->viewFile = $this->id;
         return $this->controller->render($this->viewFile, $data);

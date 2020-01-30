@@ -9,17 +9,18 @@
 namespace backend\controllers;
 
 use backend\actions\ViewAction;
+use common\services\MenuServiceInterface;
 use Yii;
 use backend\models\Menu;
-use backend\models\search\MenuSearch;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
+use yii\db\ActiveRecord;
 
 /**
- * Menu controller
+ * Backend Menu controller controls backend menu
  */
 class MenuController extends \yii\web\Controller
 {
@@ -33,44 +34,69 @@ class MenuController extends \yii\web\Controller
      * - item group=菜单 category=后台 description-post=删除 sort=216 method=post  
      * - item group=菜单 category=后台 description-post=排序 sort=217 method=post  
      * @return array
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     public function actions()
     {
+        /** @var MenuServiceInterface $service */
+        $service = Yii::$app->get("menuService");
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    /** @var MenuSearch $searchModel */
-                    $searchModel = Yii::createObject([
-                        'class' => MenuSearch::className(),
-                    ]);
-                    $dataProvider = $searchModel->search( Yii::$app->getRequest()->getQueryParams() );
+                'data' => function(array $query)use($service){
+                    $result = $service->getList($query, ['type'=>Menu::TYPE_BACKEND]);
                     $data = [
-                        'dataProvider' => $dataProvider,
-                        'searchModel' => $searchModel,
+                        'dataProvider' => $result['dataProvider'],
+                        'searchModel' => $result['searchModel'],
                     ];
                     return $data;
                 }
             ],
             'view-layer' => [
                 'class' => ViewAction::className(),
-                'modelClass' => Menu::className(),
+                'data' => function($id)use($service){
+                    return [
+                        'model'=>$service->getDetail($id)
+                    ];
+                },
             ],
             'create' => [
+                'data' => function() use($service){
+                    /** @var ActiveRecord $model */
+                    $model = $service->getNewModel();
+                    $model->loadDefaultValues();
+                    return [
+                        'model'=>$model,
+                    ];
+                },
                 'class' => CreateAction::className(),
-                'modelClass' => Menu::className(),
+                'create' => function($postData)use($service){
+                    return $service->create($postData, ['type'=>Menu::TYPE_BACKEND]);
+                }
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'modelClass' => Menu::className(),
+                'update' => function($id, $postData)use($service) {
+                    return $service->update($id, $postData);
+                },
+                'data' => function($id)use($service){
+                    return [
+                        'model'=>$service->getDetail($id)
+                    ];
+                },
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => Menu::className(),
+                'delete' => function($id)use($service){
+                    return $service->delete($id);
+                },
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => Menu::className(),
+                'sort' => function($id, $sort)use($service){
+                    $service->sort($id, $sort);
+                },
             ],
         ];
     }

@@ -8,6 +8,7 @@
 
 namespace common\models;
 
+use common\helpers\FileDependencyHelper;
 use Yii;
 use common\helpers\FamilyTree;
 use yii\base\Exception;
@@ -45,6 +46,9 @@ class Menu extends \yii\db\ActiveRecord
     /** @var int if menu hidden */
     const DISPLAY_YES = 1;
     const DISPLAY_NO = 0;
+
+    /** @var string menu dependency file name */
+    CONST MENU_CACHE_DEPENDENCY_FILE = "menu.txt";
 
     public function init()
     {
@@ -116,7 +120,7 @@ class Menu extends \yii\db\ActiveRecord
     {
         if (!$this->is_absolute_url) {
             $result = $this->convertRelativeUrlToJSONString();
-            if (!$result) {echo 111;exit;
+            if (!$result) {
                 return false;
             }
         }
@@ -218,59 +222,26 @@ class Menu extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param $type
+     * get menus
+     *
+     * @param null $menuType
+     * @param null $isDisplay
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function _getMenus($type)
+    public static function getMenus($menuType=null, $isDisplay=null)
     {
-        static $menus = null;
-        if ($menus === null) $menus = self::find()->where(['type' => $type])->orderBy("sort asc,parent_id asc")->all();
+        $query = Menu::find()->orderBy("sort asc");
+        if( $menuType !== null ){
+            $query->andWhere(['type' => $menuType]);
+        }
+        if( $isDisplay !== null ){
+            $query->andWhere(['is_display' => $isDisplay]);
+        }
+        $menus = $query->all();
         foreach ($menus as &$menu) {
             $menu['name'] = Yii::t('menu', $menu['name']);
         }
         return $menus;
-    }
-
-    /**
-     * get menus with menu name has prefix level characters
-     *
-     * @param int $type
-     * @return array
-     */
-    public static function getMenusWithNameHasPrefixLevelCharacters($type = self::TYPE_BACKEND)
-    {
-        $menus = self::_getMenus($type);
-        $familyTree = new FamilyTree($menus);
-        $array = $familyTree->getDescendants(0);
-        foreach ($array as $k => $menu) {
-            /** @var Menu $menu */
-            if (isset($menus[$k + 1]['level']) && $menus[$k + 1]['level'] == $menu['level']) {
-                $name = ' ├' . $menu['name'];
-            } else {
-                $name = ' └' . $menu['name'];
-            }
-            if (end($menus)->id == $menu->id) {
-                $sign = ' └';
-            } else {
-                $sign = ' │';
-            }
-            $menu->name = str_repeat($sign, $menu['level'] - 1) . $name;
-        }
-        return ArrayHelper::index($array, 'id');
-    }
-
-    /**
-     * get menu names
-     *
-     * @param int $type
-     * @return array
-     */
-    public static function getMenusName($type = self::TYPE_BACKEND)
-    {
-        $menus = self::_getMenus($type);
-        $familyTree = new FamilyTree($menus);
-        $array = $familyTree->getDescendants(0);
-        return array_column($array, "name");
     }
 
     /**
@@ -286,7 +257,8 @@ class Menu extends \yii\db\ActiveRecord
                 $event->sender->addError('parent_id', Yii::t('app', 'Cannot be themselves sub'));
                 return false;
             }
-            $familyTree = new FamilyTree(Menu::_getMenus($event->sender->type));
+            $menus = Menu::getMenus($event->sender->type);
+            $familyTree = new FamilyTree($menus);
             $descendants = $familyTree->getDescendants($event->sender->id);
             $descendants = ArrayHelper::getColumn($descendants, 'id');
             if (in_array($event->sender->parent_id, $descendants)) {//cannot set menu to its own descendants sub menu
@@ -303,7 +275,7 @@ class Menu extends \yii\db\ActiveRecord
      */
     public function beforeDeleteEvent($event)
     {
-        $menus = Menu::_getMenus($event->sender->type);
+        $menus = Menu::getMenus($event->sender->type);
         $familyTree = new FamilyTree($menus);
         $subs = $familyTree->getDescendants($event->sender->id);
         if (!empty($subs)) {
@@ -315,6 +287,28 @@ class Menu extends \yii\db\ActiveRecord
     public function getParent()
     {
         return $this->hasOne(self::className(), ['id' => 'parent_id']);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        $this->removeBackendMenuCache();
+        parent::afterSave($insert, $changedAttributes);
+    }
+
+    public function afterDelete()
+    {
+        $this->removeBackendMenuCache();
+        parent::afterDelete();
+    }
+
+    private function removeBackendMenuCache()
+    {
+        /** @var FileDependencyHelper $object */
+        $object = Yii::createObject([
+            'class' => FileDependencyHelper::className(),
+            'fileName' => self::MENU_CACHE_DEPENDENCY_FILE,
+        ]);
+        $object->updateFile();
     }
 
 }

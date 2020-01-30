@@ -50,6 +50,42 @@ return [
         'feehi' => [
             'class' => feehi\components\Feehi::className(),
         ],
+        'menuService' => [
+            'class' => \common\services\MenuService::className(),
+        ],
+        'friendlyService' => [
+            'class' => \common\services\FriendlyLinkService::className(),
+        ],
+        'commentService' => [
+            'class' => \common\services\CommentService::className(),
+        ],
+        'logService' => [
+            'class' => \common\services\LogService::className(),
+        ],
+        'settingService' => [
+            'class' => \common\services\SettingService::className(),
+        ],
+        'adService' => [
+            'class' => \common\services\AdService::className(),
+        ],
+        'adminUserService' => [
+            'class' => \common\services\AdminUserService::className(),
+        ],
+        'userService' => [
+            'class' => \common\services\UserService::className(),
+        ],
+        'RBACService' => [
+            'class' =>\common\services\RBACService::className(),
+        ],
+        'categoryService' => [
+            'class' => \common\services\CategoryService::className(),
+        ],
+        'articleService' => [
+            'class' => \common\services\ArticleService::className(),
+        ],
+        'bannerService' => [
+            'class' => \common\services\BannerService::className(),
+        ],
         'authManager' => [
             'class' => yii\rbac\DbManager::className(),
         ],

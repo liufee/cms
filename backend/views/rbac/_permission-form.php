@@ -8,7 +8,9 @@
 
 /**
  * @var $this yii\web\View
- * @var $model backend\models\form\RbacForm
+ * @var $model backend\models\form\RBACForm
+ * @var $groups []
+ * @var $categories []
  */
 
 use backend\widgets\ActiveForm;
@@ -48,7 +50,7 @@ $this->title = "Permissions";
        $("input[name=groupType]").change(function () {
            var val = $(this).val();
            if( val == 'select' ){
-               var input = '<?= str_replace("\n", '', $form->field($model, 'group', ['template'=>'{input}'])->label(false)->dropDownList($model->getGroups()) ) ?>';
+               var input = '<?= str_replace("\n", '', $form->field($model, 'group', ['template'=>'{input}'])->label(false)->dropDownList($groups) ) ?>';
            }else{
                 var input = '<?= str_replace("\n", '',$form->field($model, 'group', ['template'=>'{input}'])->label(false)->textInput() )?>';
            }
@@ -59,7 +61,7 @@ $this->title = "Permissions";
         $("input[name=categoryType]").change(function () {
             var val = $(this).val();
             if( val == 'select' ){
-                var input = '<?= str_replace("\n", '', $form->field($model, 'category', ['template'=>'{input}'])->label(false)->dropDownList($model->getCategories()) ) ?>';
+                var input = '<?= str_replace("\n", '', $form->field($model, 'category', ['template'=>'{input}'])->label(false)->dropDownList($categories) ) ?>';
             }else{
                 var input = '<?= str_replace("\n", '',$form->field($model, 'category', ['template'=>'{input}'])->label(false)->textInput() )?>';
             }

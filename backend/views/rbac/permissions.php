@@ -9,7 +9,7 @@
 /**
  * @var $this yii\web\View
  * @var $dataProvider yii\data\ArrayDataProvider
- * @var $searchModel backend\models\search\RbacFormSearch
+ * @var $searchModel backend\models\search\RBACFormSearch
  */
 
 use backend\grid\GridView;

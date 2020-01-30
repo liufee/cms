@@ -12,7 +12,7 @@ use Yii;
 use yii\base\Model;
 use yii\base\Event;
 use yii\db\BaseActiveRecord;
-use backend\models\User;
+use backend\models\AdminUser;
 
 /**
  * Password reset request form
@@ -33,8 +33,8 @@ class PasswordResetRequestForm extends Model
             [
                 'email',
                 'exist',
-                'targetClass' => User::className(),
-                'filter' => ['status' => User::STATUS_ACTIVE],
+                'targetClass' => AdminUser::className(),
+                'filter' => ['status' => AdminUser::STATUS_ACTIVE],
                 'message' => yii::t('app', 'There is no user with such email.')
             ],
         ];
@@ -57,9 +57,9 @@ class PasswordResetRequestForm extends Model
      */
     public function sendEmail()
     {
-        /* @var $user User */
-        $user = User::findOne([
-            'status' => User::STATUS_ACTIVE,
+        /* @var $user AdminUser */
+        $user = AdminUser::findOne([
+            'status' => AdminUser::STATUS_ACTIVE,
             'email' => $this->email,
         ]);
 
@@ -67,7 +67,7 @@ class PasswordResetRequestForm extends Model
             return false;
         }
 
-        if (! User::isPasswordResetTokenValid($user->password_reset_token)) {
+        if (! AdminUser::isPasswordResetTokenValid($user->password_reset_token)) {
             $user->generatePasswordResetToken();
         }
 

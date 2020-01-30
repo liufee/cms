@@ -37,6 +37,24 @@ class SettingWebsiteForm extends \common\models\Options
 
     public $seo_description;
 
+    /**
+     * 填充网站配置
+     *
+     */
+    public function init()
+    {
+        parent::init();
+        $names = $this->getNames();
+        $models = Options::find()->where(["in", "name", $names])->indexBy("name")->all();
+        foreach ($names as $name) {
+            if (isset($models[$name])) {
+                $this->$name = $models[$name]->value;
+            } else {
+                $this->name = '';
+            }
+        }
+    }
+
 
     /**
      * @inheritdoc
@@ -91,23 +109,6 @@ class SettingWebsiteForm extends \common\models\Options
         }
         $this->addError($attribute, yii::t("app", '{attribute} must begin with https:// or http:// or //', ['attribute'=>yii::t('app', 'Website Url')]));
         return;
-    }
-
-    /**
-     * 填充网站配置
-     *
-     */
-    public function getWebsiteSetting()
-    {
-        $names = $this->getNames();
-        foreach ($names as $name) {
-            $model = self::findOne(['name' => $name]);
-            if ($model != null) {
-                $this->$name = $model->value;
-            } else {
-                $this->name = '';
-            }
-        }
     }
 
 
