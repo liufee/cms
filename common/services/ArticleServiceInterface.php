@@ -11,4 +11,5 @@ namespace common\services;
 
 interface ArticleServiceInterface extends ServiceInterface
 {
+    const ServiceName = 'articleService';
 }

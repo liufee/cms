@@ -11,5 +11,5 @@ namespace common\services;
 
 interface AdServiceInterface extends ServiceInterface
 {
-
+    const ServiceName = "adService";
 }

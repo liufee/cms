@@ -7,13 +7,24 @@
  */
 namespace backend\actions;
 
-use Closure;
 use Yii;
+use Closure;
+use stdClass;
+use backend\actions\helpers\Helper;
 use yii\base\Exception;
 use yii\web\UnprocessableEntityHttpException;
 
 class CreateAction extends \yii\base\Action
 {
+    /**
+     * @var string|array primary key(s) name
+     */
+    public $primaryKeyIdentity = null;
+
+    /**
+     * @var string primary keys(s) from (GET or POST)
+     */
+    public $primaryKeyFromMethod = "GET";
 
     /**
      * @var array|\Closure 分配到模板中去的变量
@@ -40,36 +51,58 @@ class CreateAction extends \yii\base\Action
      */
     public function run()
     {
-        if (Yii::$app->getRequest()->getIsPost()) {
+        $primaryKeys = Helper::getPrimaryKeys($this->primaryKeyIdentity, $this->primaryKeyFromMethod);
+
+        if (Yii::$app->getRequest()->getIsPost()) {//POST request execute create
             if (!$this->create instanceof Closure) {
-                throw new Exception("CreateAction::create must be closure");
+                throw new Exception(__CLASS__ . "::create must be closure");
             }
+
             $postData = Yii::$app->getRequest()->post();
-            $result = call_user_func_array($this->create, [$postData]);
-            if( $result=="" || $result===true) {//save success
-                if (Yii::$app->getRequest()->getIsAjax()) {
-                    return [];
+
+            $createData = [];
+
+            if( !empty($primaryKeys) ){
+                array_push($updateData, $primaryKeys);
+            }
+
+            array_push($createData, $postData, $this);
+
+            $createResult = call_user_func_array($this->create, $createData);//do create
+
+            if (Yii::$app->getRequest()->getIsAjax()) { //ajax
+                if ($createResult == true) {
+                    return ['code' => 0, 'msg' => 'success', 'data' => new stdClass()];
                 } else {
+                    throw new UnprocessableEntityHttpException(Helper::getErrorString($createResult));
+                }
+            } else {
+                if ($createResult === true) {//create success
                     Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
                     if ($this->successRedirect) return $this->controller->redirect($this->successRedirect);
                     $url = Yii::$app->getSession()->get("_create_referer");
                     if ($url) return $this->controller->redirect($url);
                     return $this->controller->redirect(["index"]);
+                } else {
+                    Yii::$app->getSession()->setFlash('error', Helper::getErrorString($createResult));
                 }
-            }else{//save error occurs
-                if( Yii::$app->getRequest()->getIsAjax() ){
-                    throw new UnprocessableEntityHttpException($result);
-                }
-                Yii::$app->getSession()->setFlash('error', $result);
             }
         }
-        if( is_array($this->data) ){
+
+        if (is_array($this->data)) {
             $data = $this->data;
-        }elseif ($this->data instanceof Closure){
-            $data = call_user_func($this->data);
-        }else{
+        } elseif ($this->data instanceof Closure) {
+            $getDataParams = [];
+            if( !empty($primaryKeys) ){
+                array_push($getDataParams, $primaryKeys);
+            }
+            !isset($createResult) && $createResult = null;
+            array_push($getDataParams, $createResult, $this);
+            $data = call_user_func_array($this->data, $getDataParams);
+        } else {
             throw new Exception("CreateAction::data only allows array or closure (with return array)");
         }
+
         $this->viewFile === null && $this->viewFile = $this->id;
         Yii::$app->getRequest()->getIsGet() && Yii::$app->getSession()->set("_create_referer", Yii::$app->getRequest()->getReferrer());
         return $this->controller->render($this->viewFile, $data);

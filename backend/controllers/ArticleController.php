@@ -8,8 +8,8 @@
 
 namespace backend\controllers;
 
-use common\models\Article;
 use Yii;
+use common\models\Article;
 use common\services\ArticleServiceInterface;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
@@ -35,7 +35,7 @@ class ArticleController extends \yii\web\Controller
     public function actions()
     {
         /** @var ArticleServiceInterface $service */
-        $service = Yii::$app->get("articleService");
+        $service = Yii::$app->get(ArticleServiceInterface::ServiceName);
         return [
             'index' => [
                 'class' => IndexAction::className(),
@@ -60,9 +60,9 @@ class ArticleController extends \yii\web\Controller
                 'create' => function($postData) use($service){
                     return $service->create($postData);
                 },
-                'data' => function() use($service){
+                'data' => function($createResultModel,  CreateAction $createAction) use($service){
                     return [
-                        'model' => $service->getNewModel(),
+                        'model' => $createResultModel === null ? $service->getNewModel() : $createResultModel,
                     ];
                 },
             ],
@@ -71,9 +71,9 @@ class ArticleController extends \yii\web\Controller
                 'update' => function($id, $postData) use($service){
                     return $service->update($id, $postData);
                 },
-                'data' => function($id) use($service){
+                'data' => function($id, $updateResultModel) use($service){
                     return [
-                        'model' => $service->getDetail($id),
+                        'model' => $updateResultModel === null ? $service->getDetail($id) : $updateResultModel,
                     ];
                 }
             ],

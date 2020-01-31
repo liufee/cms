@@ -39,7 +39,7 @@ abstract class Service extends \yii\base\BaseObject implements ServiceInterface
         if( $model->load($postData) && $model->save() ){
             return true;
         }
-        return $model->getErrors();
+        return $model;
     }
 
     public function update($id, array $postData, array $options=[])
@@ -52,7 +52,7 @@ abstract class Service extends \yii\base\BaseObject implements ServiceInterface
         if( $model->load($postData) && $model->save() ){
             return true;
         }
-        return $model->getErrors();
+        return $model;
     }
 
     public function delete($id, array $options=[])
@@ -62,7 +62,11 @@ abstract class Service extends \yii\base\BaseObject implements ServiceInterface
         if( empty($model) ){
             throw new NotFoundHttpException("Id " . $id . " not exists");
         }
-        return $model->delete();
+        $result = $model->delete();
+        if( $result ){
+            return true;
+        }
+        return $model;
     }
 
     public function sort($id, $sort, array $options=[])

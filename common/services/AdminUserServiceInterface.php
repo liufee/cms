@@ -11,5 +11,5 @@ namespace common\services;
 
 interface AdminUserServiceInterface extends ServiceInterface
 {
-
+    const ServiceName = 'adminUserService';
 }

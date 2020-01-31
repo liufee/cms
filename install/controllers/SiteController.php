@@ -12,7 +12,7 @@ use Yii;
 use Exception;
 use yii\db\Connection;
 use yii\helpers\Url;
-use backend\models\AdminUser;
+use common\models\AdminUser;
 use common\models\Options;
 use yii\web\Response;
 use yii\web\ErrorAction;

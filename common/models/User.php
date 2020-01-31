@@ -8,6 +8,7 @@
 
 namespace common\models;
 
+use Yii;
 use Exception;
 use common\helpers\Util;
 use yii\base\NotSupportedException;

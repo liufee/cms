@@ -8,18 +8,22 @@
 
 namespace backend\actions;
 
-
-use Yii;
 use Closure;
+use backend\actions\helpers\Helper;
 use yii\base\Exception;
 
 class ViewAction extends \yii\base\Action
 {
 
     /**
-     * @var string
+     * @var string|array primary key(s) name
      */
-   public $idSign = "id";
+    public $primaryKeyIdentity = 'id';
+
+    /**
+     * @var string primary keys(s) from (GET or POST)
+     */
+    public $primaryKeyFromMethod = "GET";
 
     /** @var array|Closure 分配到模板中去的变量 */
     public $data;
@@ -38,14 +42,16 @@ class ViewAction extends \yii\base\Action
      */
     public function run()
     {
+        $primaryKeys = Helper::getPrimaryKeys($this->primaryKeyIdentity, $this->primaryKeyFromMethod);
+
         if( is_array($this->data) ){
             $data = $this->data;
         }else if ($this->data instanceof Closure){
-            $id = Yii::$app->getRequest()->get($this->idSign, null);
-            $data = call_user_func_array($this->data, [$id]);
+            $data = call_user_func_array($this->data, $primaryKeys);
         }else{
-            throw new Exception("ViewAction::data only allows array or closure (with return array)");
+            throw new Exception(__CLASS__ . "::data only allows array or closure (with return array)");
         }
+
         return $this->controller->render($this->viewFile, $data);
     }
 }

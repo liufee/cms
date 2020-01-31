@@ -8,10 +8,8 @@
 
 namespace backend\controllers;
 
-use backend\actions\CreateAction;
-use backend\actions\UpdateAction;
-use common\models\AdminUser;
 use Yii;
+use common\models\AdminUser;
 use common\services\AdminUserServiceInterface;
 use backend\models\form\PasswordResetRequestForm;
 use backend\models\form\ResetPasswordForm;
@@ -37,7 +35,7 @@ class AdminUserController extends \yii\web\Controller
     public function actions()
     {
         /** @var AdminUserServiceInterface $service */
-        $service = Yii::$app->get("adminUserService");
+        $service = Yii::$app->get(AdminUserServiceInterface::ServiceName);
         return [
             'index' => [
                 'class' => IndexAction::className(),

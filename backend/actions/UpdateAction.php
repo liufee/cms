@@ -8,8 +8,11 @@
 
 namespace backend\actions;
 
+
 use Yii;
+use stdClass;
 use Closure;
+use backend\actions\helpers\Helper;
 use yii\base\Exception;
 use yii\web\UnprocessableEntityHttpException;
 
@@ -17,9 +20,14 @@ class UpdateAction extends \yii\base\Action
 {
 
     /**
-     * @var string 主键key名
+     * @var string|array primary key(s) name
      */
-    public $idSign = 'id';
+    public $primaryKeyIdentity = 'id';
+
+    /**
+     * @var string primary keys(s) from (GET or POST)
+     */
+    public $primaryKeyFromMethod = "GET";
 
     /**
      * @var array|\Closure 分配到模板中去的变量
@@ -51,41 +59,63 @@ class UpdateAction extends \yii\base\Action
      */
     public function run()
     {
-        $id = Yii::$app->getRequest()->get($this->idSign, null);
+        $primaryKeys = Helper::getPrimaryKeys($this->primaryKeyIdentity, $this->primaryKeyFromMethod);
 
         if (Yii::$app->getRequest()->getIsPost()) {
             if (!$this->update instanceof Closure) {
-                throw new Exception("CreateAction::save must be closure");
+                throw new Exception(__CLASS__ . "::update must be closure");
             }
             $postData = Yii::$app->getRequest()->post();
-            $result = call_user_func_array($this->update, [$id, $postData]);
-            if ($result == "" || $result) {//save success
-                if (Yii::$app->getRequest()->getIsAjax()) {
-                    return [];
-                } else {
+
+            $updateData = [];
+
+            if( !empty($primaryKeys) ){
+                array_push($updateData, $primaryKeys);
+            }
+
+            array_push($updateData, $postData, $this);
+
+            $updateResult = call_user_func_array($this->update, $updateData);
+
+            if(  Yii::$app->getRequest()->getIsAjax() ){ //ajax
+                if( $updateResult === true ){
+                    return ['code'=>0, 'msg'=>'success', 'data'=>new stdClass()];
+                }else{
+                    throw new UnprocessableEntityHttpException(Helper::getErrorString($updateResult));
+                }
+            }else{
+                if( $updateResult === true ){//create success
                     Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
                     if ($this->successRedirect) return $this->controller->redirect($this->successRedirect);
                     $url = Yii::$app->getSession()->get("_update_referer");
                     if ($url) return $this->controller->redirect($url);
                     return $this->controller->redirect(["index"]);
+                }else{
+                    Yii::$app->getSession()->setFlash('error', Helper::getErrorString($updateResult));
                 }
-            } else {//save error occurs
-                if (Yii::$app->getRequest()->getIsAjax()) {
-                    throw new UnprocessableEntityHttpException(implode("<br>", $result));
-                }
-                Yii::$app->getSession()->setFlash('error', implode("<br>", $result));
             }
+
         }
 
         if (is_array($this->data)) {
             $data = $this->data;
         } elseif ($this->data instanceof Closure) {
-            $data = call_user_func_array($this->data, [$id]);
+            $getDataParams = [];
+            if( !empty($primaryKeys) ){
+                array_push($getDataParams, $primaryKeys);
+            }
+            !isset($updateResult) && $updateResult = null;
+            array_push($getDataParams, $updateResult, $this);
+            $data = call_user_func_array($this->data, $getDataParams);
         } else {
-            throw new Exception("UpdateAction::data only allows array or closure (with return array)");
+            throw new Exception(__CLASS__ . "::data only allows array or closure (with return array)");
         }
+
         $this->viewFile === null && $this->viewFile = $this->id;
+
         Yii::$app->getRequest()->getIsGet() && Yii::$app->getSession()->set("_update_referer", Yii::$app->getRequest()->getReferrer());
         return $this->controller->render($this->viewFile, $data);
     }
+
+
 }

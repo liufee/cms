@@ -8,16 +8,14 @@
 
 namespace backend\controllers;
 
+use Yii;
 use backend\actions\ViewAction;
-use backend\models\form\AdForm;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
 use common\services\AdServiceInterface;
-use Yii;
-use yii\data\ActiveDataProvider;
 
 class AdController extends \yii\web\Controller
 {
@@ -36,7 +34,7 @@ class AdController extends \yii\web\Controller
     public function actions()
     {
         /** @var AdServiceInterface $service */
-        $service = Yii::$app->get("adService");
+        $service = Yii::$app->get(AdServiceInterface::ServiceName);
         return [
             'index' => [
                 'class' => IndexAction::className(),
@@ -60,20 +58,22 @@ class AdController extends \yii\web\Controller
                 'create' => function($postData) use($service){
                     return $service->create($postData);
                 },
-                'data' => function()use($service){
+                'data' => function($createResultModel,  CreateAction $createAction)use($service){
+                    $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;//if POST create failed, will use the old model with errors
                     return [
-                        'model' => $service->getNewModel(),
+                        'model' => $model,
                     ];
                 }
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'update' => function($id, $postData) use($service){
+                'update' => function($id, $postData, UpdateAction $updateAction) use($service){
                     return $service->update($id, $postData);
                 },
-                'data' => function($id) use($service){
+                'data' => function($id, $updateResultModel) use($service){
+                    $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
                     return [
-                        'model' => $service->getDetail($id),
+                        'model' => $model,
                     ];
                 }
             ],

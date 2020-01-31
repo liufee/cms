@@ -65,10 +65,10 @@ return [
         'settingService' => [
             'class' => \common\services\SettingService::className(),
         ],
-        'adService' => [
+        \common\services\AdServiceInterface::ServiceName => [
             'class' => \common\services\AdService::className(),
         ],
-        'adminUserService' => [
+        \common\services\AdminUserServiceInterface::ServiceName => [
             'class' => \common\services\AdminUserService::className(),
         ],
         'userService' => [
@@ -80,7 +80,7 @@ return [
         'categoryService' => [
             'class' => \common\services\CategoryService::className(),
         ],
-        'articleService' => [
+        \common\services\ArticleServiceInterface::ServiceName => [
             'class' => \common\services\ArticleService::className(),
         ],
         'bannerService' => [
