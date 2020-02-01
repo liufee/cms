@@ -45,7 +45,7 @@ class RBACRoleForm extends \yii\base\Model
         empty($permissions) && $permissions = [];
         $item = current($permissions);
         if( is_object($item) ){
-            $this->permissions = call_user_func(function()use($permissions){
+            $newPermissions= call_user_func(function()use($permissions){
                 $newPermissions = [];
                 foreach($permissions as $permission){
                     $newPermissions[] = $permission->name;
@@ -57,8 +57,10 @@ class RBACRoleForm extends \yii\base\Model
             if (isset($permissions['0'])) {
                 unset($permissions[0]);
             }
-            $permissions = array_flip($permissions);
-            $this->permissions = $permissions;
+            $newPermissions = array_flip($permissions);
+        }
+        foreach ($newPermissions as $permission){
+            $this->permissions[$permission] = $permission;
         }
     }
 

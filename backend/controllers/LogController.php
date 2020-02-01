@@ -8,10 +8,8 @@
 
 namespace backend\controllers;
 
-use common\services\LogServiceInterface;
 use Yii;
-use backend\models\search\AdminLogSearch;
-use backend\models\AdminLog;
+use common\services\LogServiceInterface;
 use backend\actions\IndexAction;
 use backend\actions\ViewAction;
 use backend\actions\DeleteAction;
@@ -30,7 +28,7 @@ class LogController extends \yii\web\Controller
     public function actions()
     {
         /** @var LogServiceInterface $service */
-        $service = Yii::$app->get("logService");
+        $service = Yii::$app->get(LogServiceInterface::ServiceName);
         return [
             'index' => [
                 'class' => IndexAction::className(),

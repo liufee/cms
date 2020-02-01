@@ -22,13 +22,19 @@ class ArticleService extends Service implements ArticleServiceInterface
 
     public function getModel($id, array $options = [])
     {
-        return Article::findOne($id);
+        $model = Article::findOne($id);
+        if( isset( $options['scenario']) ){
+            $model->setScenario( $options['scenario'] );
+        }
+        return $model;
     }
 
     public function getNewModel(array $options = [])
     {
         $type = Article::ARTICLE;
-        isset( $options['scenario']) && $type = $options['scenario'];
-        return new Article(['scenario' => $type]);
+        isset($options['scenario']) && $type = $options['scenario'];
+        $model = new Article(['scenario' => $type]);
+        $model->loadDefaultValues();
+        return $model;
     }
 }

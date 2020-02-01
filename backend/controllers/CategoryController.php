@@ -8,11 +8,9 @@
 
 namespace backend\controllers;
 
+use Yii;
 use backend\actions\ViewAction;
 use common\services\CategoryServiceInterface;
-use Yii;
-use yii\data\ArrayDataProvider;
-use common\models\Category;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
@@ -35,7 +33,7 @@ class CategoryController extends \yii\web\Controller
     public function actions()
     {
         /** @var CategoryServiceInterface $service */
-        $service = Yii::$app->get("categoryService");
+        $service = Yii::$app->get(CategoryServiceInterface::ServiceName);
         return [
             'index' => [
                 'class' => IndexAction::className(),
@@ -58,9 +56,10 @@ class CategoryController extends \yii\web\Controller
                 'create' => function($postData) use($service){
                     return $service->create($postData);
                 },
-                'data' => function() use($service) {
+                'data' => function($createResultModel) use($service) {
+                    $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;
                     return [
-                        'model' => $service->getNewModel(),
+                        'model' => $model,
                     ];
                 },
             ],
@@ -69,9 +68,10 @@ class CategoryController extends \yii\web\Controller
                 'update' => function($id, $postData) use($service){
                     return $service->update($id, $postData);
                 },
-                'data' => function($id) use($service){
+                'data' => function($id, $updateResultModel) use($service){
+                    $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
                     return [
-                        'model' => $service->getDetail($id),
+                        'model' => $model,
                     ];
                 }
             ],

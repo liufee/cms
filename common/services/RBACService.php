@@ -8,18 +8,12 @@
 
 namespace common\services;
 
-
-use backend\components\CustomLog;
-use backend\models\form\RBACForm;
+use Yii;
 use backend\models\form\RBACPermissionForm;
 use backend\models\form\RBACRoleForm;
 use backend\models\search\RBACFormSearch;
-use Yii;
-use yii\base\Event;
 use yii\base\Exception;
-use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
-use yii\rbac\Permission;
 
 class RBACService extends Service implements RBACServiceInterface
 {
@@ -37,57 +31,22 @@ class RBACService extends Service implements RBACServiceInterface
 
     public function getSearchModel(array $query, array $options = [])
     {
+        throw new Exception("Not need");
     }
 
     public function getModel($id, array $options = [])
     {
+        throw new Exception("Not need");
     }
 
     public function getNewModel(array $options = [])
     {
-        $type = $options['type'];
-        switch ($type){
-            case self::TYPE_PERMISSION:
-                return new RBACPermissionForm();
-        }
-    }
-
-    public function getPermissionsGroups()
-    {
-        $authManager = $this->authManager;
-
-        $originPermissions = $authManager->getPermissions();
-
-        $permissions = [];
-        foreach ($originPermissions as $originPermission){
-            $data = json_decode($originPermission->data, true);
-            $temp = explode(":", $originPermission->name);
-            $permissions[] = [
-                'name' => $originPermission->name,
-                'route' => $temp[0],
-                'method' => $temp[1],
-                'description' => $originPermission->description,
-                'group' => $data['group'],
-                'category' => $data['category'],
-                'sort' => $data['sort'],
-            ];
-        }
-        ArrayHelper::multisort($permissions, 'sort');
-        $data = [];
-        foreach ($permissions as $permission){
-            $data[$permission['group']][$permission['category']][] = $permission;
-        }
-        return $data;
+        throw new Exception("Not need");
     }
 
     public function getNewPermissionModel()
     {
         return new RBACPermissionForm();
-    }
-
-    public function getNewRoleModel()
-    {
-        return new RBACRoleForm();
     }
 
     public function getPermissionList($query)
@@ -100,7 +59,7 @@ class RBACService extends Service implements RBACServiceInterface
         ];
     }
 
-    public function createPermission(array $postData)
+    public function createPermission(array $postData = [])
     {
         $formModel = $this->getNewPermissionModel();
         if ( !$formModel->load($postData) ){
@@ -133,7 +92,7 @@ class RBACService extends Service implements RBACServiceInterface
         return $formModel;
     }
 
-    public function updatePermission($name, array $postData)
+    public function updatePermission($name, array $postData = [])
     {
         $formModel = $this->getNewPermissionModel();
         if ( !$formModel->load($postData) ){
@@ -168,7 +127,14 @@ class RBACService extends Service implements RBACServiceInterface
         return $this->authManager->update($name, $permission);
     }
 
-    public function getRoleList($query)
+
+
+    public function getNewRoleModel()
+    {
+        return new RBACRoleForm();
+    }
+
+    public function getRoleList(array $query = [])
     {
         $searchModel = new RBACFormSearch(['scenario' => 'roles']);
         $dataProvider = $searchModel->searchRoles($query);
@@ -178,7 +144,7 @@ class RBACService extends Service implements RBACServiceInterface
         ];
     }
 
-    public function createRole($postData)
+    public function createRole(array $postData = [])
     {
         $formModel = $this->getNewRoleModel();
         if ( !$formModel->load($postData) ){
@@ -236,7 +202,7 @@ class RBACService extends Service implements RBACServiceInterface
         return $formModel;
     }
 
-    public function updateRole($name, $postData)
+    public function updateRole($name, array $postData = [])
     {
         $formModel = $this->getNewRoleModel();
         if ( !$formModel->load($postData) ){
@@ -304,6 +270,56 @@ class RBACService extends Service implements RBACServiceInterface
         return $this->authManager->update($name, $role);
     }
 
+    public function deleteRole($name)
+    {
+        $role = $this->authManager->getRole($name);
+        $permissions = $this->authManager->getPermissionsByRole($name);
+        foreach ($permissions as $permission){
+            $result = $this->authManager->remove($permission);
+            if( !$result ){
+                Yii::error("delete role remove permission " . $permission->name . " error");
+            }
+        }
+        return $this->authManager->remove($role);
+    }
+
+    public function getRoles()
+    {
+        $roles = [];
+        foreach (array_keys($this->authManager->getRoles()) as $key){
+            $roles[$key] = $key;
+        }
+        return $roles;
+    }
+
+    public function getPermissionsGroups()
+    {
+        $authManager = $this->authManager;
+
+        $originPermissions = $authManager->getPermissions();
+
+        $permissions = [];
+        foreach ($originPermissions as $originPermission){
+            $data = json_decode($originPermission->data, true);
+            $temp = explode(":", $originPermission->name);
+            $permissions[] = [
+                'name' => $originPermission->name,
+                'route' => $temp[0],
+                'method' => $temp[1],
+                'description' => $originPermission->description,
+                'group' => $data['group'],
+                'category' => $data['category'],
+                'sort' => $data['sort'],
+            ];
+        }
+        ArrayHelper::multisort($permissions, 'sort');
+        $data = [];
+        foreach ($permissions as $permission){
+            $data[$permission['group']][$permission['category']][] = $permission;
+        }
+        return $data;
+    }
+
     public function getPermissionGroups()
     {
         $permissions = $this->getPermissionsGroups();
@@ -318,14 +334,5 @@ class RBACService extends Service implements RBACServiceInterface
             $categories = array_merge($categories, array_keys($permission));
         }
         return $categories;
-    }
-
-    public function getRoles()
-    {
-        $roles = [];
-        foreach (array_keys($this->authManager->getRoles()) as $key){
-            $roles[$key] = $key;
-        }
-        return $roles;
     }
 }

@@ -8,20 +8,14 @@
 
 namespace backend\controllers;
 
-use backend\actions\CreateAction;
-use backend\actions\IndexAction;
-use common\services\SettingServiceInterface;
 use Yii;
+use stdClass;
+use backend\actions\CreateAction;
+use common\services\SettingServiceInterface;
 use backend\actions\UpdateAction;
 use backend\actions\DeleteAction;
-use backend\models\form\SettingWebsiteForm;
-use backend\models\form\SettingSMTPForm;
 use common\models\Options;
-use yii\base\Model;
-use yii\web\Response;
-use yii\swiftmailer\Mailer;
 use yii\web\BadRequestHttpException;
-use yii\web\UnprocessableEntityHttpException;
 
 /**
  * Setting controller
@@ -44,30 +38,34 @@ class SettingController extends \yii\web\Controller
     public function actions()
     {
         /** @var SettingServiceInterface $service */
-        $service = Yii::$app->get("settingService");
+        $service = Yii::$app->get(SettingServiceInterface::ServiceName);
         return [
             'website' => [
                 "class" => UpdateAction::className(),
-                "data" => function()use($service){
-                    return [
-                        "model" => $service->getModel("website"),
-                    ];
-                },
-                'update' => function($id, $postData)use($service){
+                'primaryKeyIdentity' => null,
+                'update' => function($postData)use($service){
                     return $service->updateWebsiteSetting($postData);
+                },
+                "data" => function($updateResultModel)use($service){
+                    $model = $updateResultModel === null ? $service->getModel("website") : $updateResultModel;
+                    return [
+                        "model" => $model,
+                    ];
                 },
                 'successRedirect' => ["setting/website"]
             ],
             'custom' => [
                 'class' => UpdateAction::className(),
-                "data" => function()use($service){
-                    return [
-                        'settings' => $service->getModel("custom"),
-                        'model' => $service->getNewModel(),
-                    ];
-                },
+                'primaryKeyIdentity' => null,
                 "update" => function($id, $postData)use($service){
                     return $service->updateCustomSetting($postData);
+                },
+                "data" => function($updateResultModel) use($service){
+                    $model = $updateResultModel === null ? $service->getModel("custom") : $updateResultModel;
+                    return [
+                        'settings' => $model,
+                        'model' => $service->getNewModel(),
+                    ];
                 },
                 'successRedirect' => ["setting/custom"]
             ],
@@ -79,36 +77,40 @@ class SettingController extends \yii\web\Controller
             ],
             'custom-create' => [
                 "class" => CreateAction::className(),
-                "data" => function()use($service){
+                'create' => function($postData) use($service) {
+                    return $service->create($postData, ['type' => Options::TYPE_CUSTOM]);
+                },
+                "data" => function($createResultModel)use($service){
+                    $model = $createResultModel === null ? $service->getNewModel(['type'=>Options::TYPE_CUSTOM]) : $createResultModel;
                     return [
-                        'model' => $service->getNewModel(['type'=>Options::TYPE_CUSTOM]),
+                        'model' => $model,
                     ];
                 },
-                'create' => function($postData) use($service){
-                    return $service->create($postData, ['type'=>Options::TYPE_CUSTOM]);
-                }
             ],
             'custom-update' => [
                 "class" => UpdateAction::className(),
-                "data" => function($id)use($service){
-                    $this->layout = false;
-                    return [
-                        'model' => $service->getModel($id),
-                    ];
-                },
                 'update' => function($id, $postData)use($service){
                     return $service->update($id, $postData);
-                }
+                },
+                "data" => function($id, $updateResultModel)use($service){
+                    $this->layout = false;
+                    $model = $updateResultModel === null ? $service->getModel($id) : $updateResultModel;
+                    return [
+                        'model' => $model,
+                    ];
+                },
             ],
             "smtp" => [
                 "class" => UpdateAction::className(),
-                "data" => function($id)use($service){
-                    return [
-                        "model" => $service->getModel("smtp")
-                    ];
-                },
+                'primaryKeyIdentity' => null,
                 "update" => function($id, $postData)use($service){
                    return $service->updateSMTPSetting($postData);
+                },
+                "data" => function($updateResultModel) use($service){
+                    $model = $updateResultModel === null ? $service->getModel("smtp") : $updateResultModel;
+                    return [
+                        "model" => $model,
+                    ];
                 },
                 'successRedirect' => ['setting/smtp']
             ],
@@ -128,6 +130,6 @@ class SettingController extends \yii\web\Controller
         if( $result !== true && !empty($result) ){
             throw new BadRequestHttpException( $result );
         }
-        return ["code"=>0];
+        return ["code"=>0, 'msg' => 'success', 'data' => new stdClass()];
     }
 }

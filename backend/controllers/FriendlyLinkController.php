@@ -37,7 +37,7 @@ class FriendlyLinkController extends \yii\web\Controller
     public function actions()
     {
         /** @var FriendlyLinkServiceInterface $service */
-        $service =  Yii::$app->get("friendlyService");
+        $service =  Yii::$app->get(FriendlyLinkServiceInterface::ServiceName);
         return [
             'index' => [
                 'class' => IndexAction::className(),
@@ -59,25 +59,27 @@ class FriendlyLinkController extends \yii\web\Controller
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'data' => function()use($service){
-                    return[
-                        'model' => $service->getNewModel(),
-                    ];
-                },
                 'create' => function(array $postData) use($service){
                     return $service->create($postData);
+                },
+                'data' => function($createResultModel)use($service){
+                    $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;
+                    return[
+                        'model' => $model,
+                    ];
                 },
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'data' => function($id)use($service){
-                    return [
-                        'model' => $service->getDetail($id),
-                    ];
-                },
                 'update' => function($id, array $postData) use($service){
                     return $service->update($id, $postData);
-                }
+                },
+                'data' => function($id, $updateResultModel)use($service){
+                    $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
+                    return [
+                        'model' => $model,
+                    ];
+                },
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
@@ -88,7 +90,7 @@ class FriendlyLinkController extends \yii\web\Controller
             'sort' => [
                 'class' => SortAction::className(),
                 'sort' => function($id, $sort)use($service){
-                    $service->sort($id, $sort);
+                    return $service->sort($id, $sort);
                 },
             ],
         ];

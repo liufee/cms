@@ -58,7 +58,7 @@ class ArticleController extends \yii\web\Controller
             'create' => [
                 'class' => CreateAction::className(),
                 'create' => function($postData) use($service){
-                    return $service->create($postData);
+                    return $service->create($postData, ['scenario'=>'article']);
                 },
                 'data' => function($createResultModel,  CreateAction $createAction) use($service){
                     return [
@@ -69,7 +69,7 @@ class ArticleController extends \yii\web\Controller
             'update' => [
                 'class' => UpdateAction::className(),
                 'update' => function($id, $postData) use($service){
-                    return $service->update($id, $postData);
+                    return $service->update($id, $postData, ['scenario'=>'article']);
                 },
                 'data' => function($id, $updateResultModel) use($service){
                     return [
@@ -86,7 +86,7 @@ class ArticleController extends \yii\web\Controller
             'sort' => [
                 'class' => SortAction::className(),
                 'sort' => function($id, $sort) use($service){
-                    return $service->sort($id, $sort);
+                    return $service->sort($id, $sort, ['scenario'=>'article']);
                 }
             ],
         ];

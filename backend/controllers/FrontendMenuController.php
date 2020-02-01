@@ -8,17 +8,15 @@
 
 namespace backend\controllers;
 
+use Yii;
 use backend\actions\ViewAction;
 use common\services\MenuServiceInterface;
-use Yii;
-use yii\data\ArrayDataProvider;
 use frontend\models\Menu;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
-use yii\db\ActiveRecord;
 
 /**
  * FrontendMenu controller
@@ -41,15 +39,15 @@ class FrontendMenuController extends \yii\web\Controller
     public function actions()
     {
         /** @var MenuServiceInterface $service */
-        $service = Yii::$app->get("menuService");
+        $service = Yii::$app->get(MenuServiceInterface::MenuService);
         return [
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function(array $query) use($service){
-                    $result = $service->getList($query, ['type'=> \backend\models\Menu::TYPE_FRONTEND]);
+                    $result = $service->getList($query, ['type'=> Menu::TYPE_FRONTEND]);
                     $data = [
                         'dataProvider' => $result['dataProvider'],
-                        'searchModel' => $result['searchModel'],
+                        //'searchModel' => $result['searchModel'],
                     ];
                     return $data;
                 },
@@ -63,27 +61,26 @@ class FrontendMenuController extends \yii\web\Controller
                 },
             ],
             'create' => [
-                'data' => function() use($service){
-                    /** @var ActiveRecord $model */
-                    $model = $service->getNewModel();
-                    $model->loadDefaultValues();
-                    return [
-                        'model'=>$model,
-                    ];
-                },
                 'class' => CreateAction::className(),
                 'create' => function($postData)use($service){
                     return $service->create($postData, ['type'=> \backend\models\Menu::TYPE_FRONTEND]);
-                }
+                },
+                'data' => function($createResultModel) use($service){
+                    $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;
+                    return [
+                        'model' => $model,
+                    ];
+                },
             ],
             'update' => [
                 'class' => UpdateAction::className(),
                 'update' => function($id, $postData)use($service) {
                     return $service->update($id, $postData);
                 },
-                'data' => function($id)use($service){
+                'data' => function($id, $updateResultModel)use($service){
+                    $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
                     return [
-                        'model'=>$service->getDetail($id)
+                        'model' => $model,
                     ];
                 },
             ],
@@ -96,7 +93,7 @@ class FrontendMenuController extends \yii\web\Controller
             'sort' => [
                 'class' => SortAction::className(),
                 'sort' => function($id, $sort)use($service){
-                    $service->sort($id, $sort);
+                    return $service->sort($id, $sort);
                 },
             ],
         ];

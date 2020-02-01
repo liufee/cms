@@ -12,7 +12,7 @@ namespace common\services;
 use backend\models\search\UserSearch;
 use common\models\User;
 
-class UserService extends Service implements ServiceInterface
+class UserService extends Service implements UserServiceInterface
 {
 
     public function getSearchModel(array $query, array $options = [])

@@ -8,6 +8,7 @@
 
 namespace common\models;
 
+use Yii;
 use backend\models\ArticleContent;
 use backend\models\Comment;
 use common\helpers\Util;
@@ -15,7 +16,6 @@ use common\models\meta\ArticleMetaImages;
 use common\models\meta\ArticleMetaLike;
 use common\models\meta\ArticleMetaTag;
 use feehi\cdn\TargetAbstract;
-use Yii;
 use common\libs\Constants;
 use yii\behaviors\TimestampBehavior;
 use yii\web\UploadedFile;
@@ -63,6 +63,16 @@ class Article extends \yii\db\ActiveRecord
 
     const ARTICLE_PUBLISHED = 1;
     const ARTICLE_DRAFT = 0;
+
+    /**
+     * @var null|string
+     */
+    public $content = null;
+
+    /**
+     * @var string
+     */
+    public $tag = '';
 
     /**
      * 需要截取的文章缩略图尺寸
@@ -302,6 +312,11 @@ class Article extends \yii\db\ActiveRecord
         if ($insert) {
             $this->author_id = Yii::$app->getUser()->getIdentity()->getId();
             $this->author_name = Yii::$app->getUser()->getIdentity()->username;
+        }
+
+        $this->type = self::ARTICLE;
+        if( $this->getScenario() === 'page' ){
+            $this->type = self::SINGLE_PAGE;
         }
 
         if ($this->thumb) {

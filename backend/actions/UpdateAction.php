@@ -70,7 +70,9 @@ class UpdateAction extends \yii\base\Action
             $updateData = [];
 
             if( !empty($primaryKeys) ){
-                array_push($updateData, $primaryKeys);
+                foreach ($primaryKeys as $primaryKey) {
+                    array_push($updateData, $primaryKey);
+                }
             }
 
             array_push($updateData, $postData, $this);
@@ -102,7 +104,9 @@ class UpdateAction extends \yii\base\Action
         } elseif ($this->data instanceof Closure) {
             $getDataParams = [];
             if( !empty($primaryKeys) ){
-                array_push($getDataParams, $primaryKeys);
+                foreach ($primaryKeys as $primaryKey) {
+                    array_push($getDataParams, $primaryKey);
+                }
             }
             !isset($updateResult) && $updateResult = null;
             array_push($getDataParams, $updateResult, $this);

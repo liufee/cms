@@ -48,20 +48,21 @@ class SortAction extends \yii\base\Action
             if (!is_array($condition)) throw new InvalidArgumentException("SortColumn generate html must post data like xxx[{pk:'unique'}]=number");
             $result = call_user_func_array($this->sort, [$condition, $value]);
 
-                if (Yii::$app->getRequest()->getIsAjax()) {
-                    if( $result === true ){
-                        return ['code'=>0, 'msg'=>'success', 'data'=>new stdClass()];
-                    }else{
-                        throw new UnprocessableEntityHttpException(Helper::getErrorString($result));
-                    }
-                }else {
-                    if ($result === true) {
-                        Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
-                    } else {
-                        Yii::$app->getSession()->setFlash('error', Helper::getErrorString($result));
-                    }
-                    return $this->controller->goBack();
+            if (Yii::$app->getRequest()->getIsAjax()) {
+                if( $result === true ){
+                    return ['code'=>0, 'msg'=>'success', 'data'=>new stdClass()];
+                }else{
+                    throw new UnprocessableEntityHttpException(Helper::getErrorString($result));
                 }
+            }else {
+                if ($result === true) {
+                    Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
+                } else {
+                    Yii::$app->getSession()->setFlash('error', Helper::getErrorString($result));
+                }
+                return $this->controller->goBack();
+            }
+
         }else{
             throw new MethodNotAllowedHttpException(Yii::t('app', "Sort must be POST http method"));
         }

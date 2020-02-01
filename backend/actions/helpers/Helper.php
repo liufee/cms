@@ -48,13 +48,13 @@ class Helper
             $items = $result->getErrors();
             foreach ($items as $item) {
                 foreach ($item as $e) {
-                    $error .= "<br>";
+                    $error .= $e . "<br>";
                 }
             }
             $error = rtrim($error, "<br>");
         } else if (is_string($result)) {
             $error = $result;
-        } else {var_dump($result);exit;
+        } else {
             throw new Exception( "create/update/delete/sort closure must return true, yii\base\Model or string");
         }
         return $error;

@@ -8,8 +8,21 @@
 
 namespace common\services;
 
-
 interface BannerServiceInterface extends ServiceInterface
 {
+    const ServiceName = "bannerService";
 
+    public function getNewBannerTypeModel();
+    public function getBannerTypeList(array $query = []);
+    public function createBannerType(array $postData = []);
+    public function updateBannerType($id, array $postData = []);
+    public function deleteBannerType($id);
+
+    public function getNewBannerModel();
+    public function getBannerList($id);
+    public function getBannerDetail($id, $sign);
+    public function updateBanner($id, $sign, array $postData = []);
+    public function createBanner($id, array $postData = []);
+    public function sortBanner($id, $sign, $sort);
+    public function deleteBanner($id, $sign);
 }

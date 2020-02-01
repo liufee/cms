@@ -50,19 +50,19 @@ return [
         'feehi' => [
             'class' => feehi\components\Feehi::className(),
         ],
-        'menuService' => [
+        \common\services\MenuServiceInterface::MenuService => [
             'class' => \common\services\MenuService::className(),
         ],
-        'friendlyService' => [
+        \common\services\FriendlyLinkServiceInterface::ServiceName => [
             'class' => \common\services\FriendlyLinkService::className(),
         ],
-        'commentService' => [
+        \common\services\CommentServiceInterface::ServiceName => [
             'class' => \common\services\CommentService::className(),
         ],
-        'logService' => [
+        \common\services\LogServiceInterface::ServiceName => [
             'class' => \common\services\LogService::className(),
         ],
-        'settingService' => [
+        \common\services\SettingServiceInterface::ServiceName => [
             'class' => \common\services\SettingService::className(),
         ],
         \common\services\AdServiceInterface::ServiceName => [
@@ -71,19 +71,19 @@ return [
         \common\services\AdminUserServiceInterface::ServiceName => [
             'class' => \common\services\AdminUserService::className(),
         ],
-        'userService' => [
+        \common\services\UserServiceInterface::ServiceName => [
             'class' => \common\services\UserService::className(),
         ],
-        'RBACService' => [
+        \common\services\RBACServiceInterface::ServiceName => [
             'class' =>\common\services\RBACService::className(),
         ],
-        'categoryService' => [
+        \common\services\CategoryServiceInterface::ServiceName => [
             'class' => \common\services\CategoryService::className(),
         ],
         \common\services\ArticleServiceInterface::ServiceName => [
             'class' => \common\services\ArticleService::className(),
         ],
-        'bannerService' => [
+        \common\services\BannerServiceInterface::ServiceName => [
             'class' => \common\services\BannerService::className(),
         ],
         'authManager' => [

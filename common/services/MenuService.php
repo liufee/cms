@@ -8,12 +8,13 @@
 
 namespace common\services;
 
-use backend\models\search\MenuSearch;
 use Yii;
+use backend\models\search\MenuSearch;
 use common\helpers\FamilyTree;
 use common\helpers\FileDependencyHelper;
 use common\models\Menu;
 use yii\caching\FileDependency;
+use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 
 class MenuService extends Service  implements MenuServiceInterface
@@ -31,7 +32,21 @@ class MenuService extends Service  implements MenuServiceInterface
 
     public function getNewModel(array $options = [])
     {
-        return new Menu();
+        $menu = new Menu();
+        $menu->loadDefaultValues();
+        return $menu;
+    }
+
+    public function getList(array $query = [], array $options = [])
+    {
+        return [
+            'dataProvider' => new ArrayDataProvider([
+                'allModels' => $this->setMenuNameWithPrefixLevelCharacters( $this->getDescendantMenusById(0, $options['type']) ),
+                'pagination' => [
+                    'pageSize' => -1,
+                ],
+            ])
+        ];
     }
 
     /**

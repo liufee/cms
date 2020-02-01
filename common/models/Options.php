@@ -155,22 +155,6 @@ class Options extends \yii\db\ActiveRecord
         return parent::beforeSave($insert);
     }
 
-    public static function getBannersByType($name)
-    {
-        $model = Options::findOne(['type'=>self::TYPE_BANNER, 'name'=>$name, 'autoload'=>Constants::Status_Enable]);
-        if( $model == null ) throw new NotFoundHttpException("None banner type named $name");
-        if( $model->value == '' ) $model->value = '[]';
-        $banners = json_decode($model->value, true);
-        ArrayHelper::multisort($banners, 'sort');
-        /** @var $cdn \feehi\cdn\TargetInterface */
-        $cdn = Yii::$app->get('cdn');
-        foreach ($banners as $k => &$banner){
-            if( $banner['status'] == Constants::Status_Desable ) unset($banners[$k]);
-            $banner['img'] = $cdn->getCdnUrl($banner['img']);
-        }
-        return $banners;
-    }
-
     public static function getAdByName($name)
     {
         $ad = AdForm::findOne(['type'=>self::TYPE_AD, 'name'=>$name]);

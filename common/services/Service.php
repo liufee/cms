@@ -71,7 +71,7 @@ abstract class Service extends \yii\base\BaseObject implements ServiceInterface
 
     public function sort($id, $sort, array $options=[])
     {
-        $model = $this->getModel($id);
+        $model = $this->getModel($id, $options);
         if( empty($model) ){
             return "Id " . $id . " not exists";
         }
@@ -80,7 +80,7 @@ abstract class Service extends \yii\base\BaseObject implements ServiceInterface
         if ($result){
             return true;
         }
-        return $model->getErrors();
+        return $model;
     }
 
 }

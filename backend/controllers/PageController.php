@@ -9,8 +9,8 @@
 namespace backend\controllers;
 
 use Yii;
+use common\services\ArticleServiceInterface;
 use backend\models\Article;
-use backend\models\search\ArticleSearch;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
@@ -34,12 +34,13 @@ class PageController extends \yii\web\Controller
      */
     public function actions()
     {
-        $service = Yii::$app->get("articleService");
+        /** @var ArticleServiceInterface $service */
+        $service = Yii::$app->get(ArticleServiceInterface::ServiceName);
         return [
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function($query) use($service){
-                    $result = $service->getList($query, ['type'=> \common\models\Article::SINGLE_PAGE]);
+                    $result = $service->getList($query, ['type'=> Article::SINGLE_PAGE]);
                     return [
                         'dataProvider' => $result['dataProvider'],
                         'searchModel' => $result['searchModel'],
@@ -50,29 +51,31 @@ class PageController extends \yii\web\Controller
                 'class' => ViewAction::className(),
                 'data' => function($id) use($service){
                     return [
-                        'model' => $service->getDetail($id),
+                        'model' => $service->getDetail($id, ['scenario'=>'page']),
                     ];
                 },
             ],
             'create' => [
                 'class' => CreateAction::className(),
                 'create' => function($postData) use($service){
-                    return $service->create($postData);
+                    return $service->create($postData, ['scenario'=>'page']);
                 },
-                'data' => function() use($service){
+                'data' => function($createResultModel) use($service){
+                    $model = $createResultModel === null ? $service->getNewModel(['type'=>Article::SINGLE_PAGE, 'scenario'=>'page']) : $createResultModel;
                     return [
-                        'model' => $service->getNewModel(['type'=>Article::SINGLE_PAGE]),
+                        'model' => $model,
                     ];
                 },
             ],
             'update' => [
                 'class' => UpdateAction::className(),
                 'update' => function($id, $postData) use($service){
-                    return $service->update($id, $postData);
+                    return $service->update($id, $postData, ['scenario'=>'page']);
                 },
-                'data' => function($id) use($service){
+                'data' => function($id, $updateResultModel) use($service){
+                    $model = $updateResultModel === null ? $service->getDetail($id, ['scenario'=>'page']) : $updateResultModel;
                     return [
-                        'model' => $service->getDetail($id),
+                        'model' => $model,
                     ];
                 }
             ],
@@ -85,7 +88,7 @@ class PageController extends \yii\web\Controller
             'sort' => [
                 'class' => SortAction::className(),
                 'sort' => function($id, $sort) use($service){
-                    return $service->sort($id, $sort);
+                    return $service->sort($id, $sort, ['scenario'=>'page']);
                 }
             ],
         ];

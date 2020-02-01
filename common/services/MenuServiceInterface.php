@@ -10,4 +10,5 @@ namespace common\services;
 
 
 interface MenuServiceInterface extends ServiceInterface {
+    const MenuService = 'menuService';
 }

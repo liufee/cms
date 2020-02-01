@@ -34,7 +34,7 @@ class UserController extends \yii\web\Controller
     public function actions()
     {
         /** @var UserServiceInterface $service */
-        $service = Yii::$app->get("userService");
+        $service = Yii::$app->get(UserServiceInterface::ServiceName);
         return [
             'index' => [
                 'class' => IndexAction::className(),
@@ -59,9 +59,10 @@ class UserController extends \yii\web\Controller
                 'create' => function($postData) use($service){
                     return $service->create($postData);
                 },
-                'data' => function() use($service){
+                'data' => function($createResultModel) use($service){
+                    $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;
                     return [
-                        'model' => $service->getNewModel(),
+                        'model' => $model,
                     ];
                 },
             ],
@@ -70,9 +71,10 @@ class UserController extends \yii\web\Controller
                 'update' => function($id, $postData) use($service){
                     return $service->update($id, $postData);
                 },
-                'data' => function($id) use($service){
+                'data' => function($id, $updateResultModel) use($service){
+                    $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
                     return [
-                        'model' => $service->getDetail($id),
+                        'model' => $model,
                     ];
                 },
             ],

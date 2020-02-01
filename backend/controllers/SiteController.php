@@ -78,6 +78,7 @@ class SiteController extends \yii\web\Controller
      *
      * @return string
      * @throws \yii\base\InvalidConfigException
+     * @throws \Throwable
      */
     public function actionIndex()
     {
@@ -85,6 +86,7 @@ class SiteController extends \yii\web\Controller
        $menus = $service->getAuthorizedBackendMenusByUserId(Yii::$app->getUser()->getId());
         return $this->renderPartial('index', [
             "menus" => $menus,
+            'identity' => Yii::$app->getUser()->getIdentity(),
         ]);
     }
 

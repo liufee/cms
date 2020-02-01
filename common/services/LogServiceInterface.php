@@ -12,5 +12,5 @@ namespace common\services;
 
 interface LogServiceInterface extends ServiceInterface
 {
-
+    const ServiceName = "logService";
 }

@@ -26,6 +26,14 @@ use yii\widgets\DetailView;
             }
         ],
         [
+            'attribute' => 'roles',
+            'label' => Yii::t("app", 'Roles'),
+            'value' => function($model){
+                /** @var \common\models\AdminUser $model */
+                return $model->getRolesNameString();
+            }
+        ],
+        [
             'attribute' => 'status',
             'value' => function ($model) {
                 if($model->status == User::STATUS_ACTIVE){

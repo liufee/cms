@@ -29,7 +29,7 @@ class CommentController extends \yii\web\Controller
     public function actions()
     {
         /** @var CommentServiceInterface $service */
-        $service = Yii::$app->get("commentService");
+        $service = Yii::$app->get(CommentServiceInterface::ServiceName);
         return [
             'index' => [
                 'class' => IndexAction::className(),
@@ -51,13 +51,14 @@ class CommentController extends \yii\web\Controller
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'data' => function($id)use($service){
-                    return [
-                        'model' => $service->getDetail($id),
-                    ];
-                },
                 'update' => function($id, array $postData)use($service){
                     return $service->update($id, $postData);
+                },
+                'data' => function($id, $updateResultModel)use($service){
+                    $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
+                    return [
+                        'model' => $model,
+                    ];
                 },
             ],
             'delete' => [

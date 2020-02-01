@@ -12,6 +12,7 @@ use Yii;
 use stdClass;
 use Closure;
 use backend\actions\helpers\Helper;
+use yii\base\Exception;
 use yii\web\BadRequestHttpException;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\UnprocessableEntityHttpException;
@@ -39,6 +40,9 @@ class DeleteAction extends \yii\base\Action
     public function run()
     {
         if (Yii::$app->getRequest()->getIsPost()) {//只允许post删除
+            if( !is_string($this->primaryKeyIdentity) ){
+                throw new Exception(__CLASS__ . "::primaryKeyIdentity only permit string");
+            }
             $data = Yii::$app->getRequest()->post($this->primaryKeyIdentity, null);
             if ($data === null) {//不在post参数，则为单个删除
                 $data = Yii::$app->getRequest()->get($this->primaryKeyIdentity, null);

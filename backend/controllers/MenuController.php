@@ -8,16 +8,16 @@
 
 namespace backend\controllers;
 
+use Yii;
 use backend\actions\ViewAction;
 use common\services\MenuServiceInterface;
-use Yii;
 use backend\models\Menu;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
-use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * Backend Menu controller controls backend menu
@@ -40,7 +40,7 @@ class MenuController extends \yii\web\Controller
     public function actions()
     {
         /** @var MenuServiceInterface $service */
-        $service = Yii::$app->get("menuService");
+        $service = Yii::$app->get(MenuServiceInterface::MenuService);
         return [
             'index' => [
                 'class' => IndexAction::className(),
@@ -48,7 +48,7 @@ class MenuController extends \yii\web\Controller
                     $result = $service->getList($query, ['type'=>Menu::TYPE_BACKEND]);
                     $data = [
                         'dataProvider' => $result['dataProvider'],
-                        'searchModel' => $result['searchModel'],
+                        //'searchModel' => $result['searchModel'],
                     ];
                     return $data;
                 }
@@ -62,27 +62,39 @@ class MenuController extends \yii\web\Controller
                 },
             ],
             'create' => [
-                'data' => function() use($service){
-                    /** @var ActiveRecord $model */
-                    $model = $service->getNewModel();
-                    $model->loadDefaultValues();
+                'class' => CreateAction::className(),
+                'create' => function($postData)use($service) {
+                    return $service->create($postData, ['type' => Menu::TYPE_BACKEND]);
+                },
+                'data' => function($createResultModel) use($service){
+                    $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;
                     return [
                         'model'=>$model,
+                        'menusNameWithPrefixLevelCharacters' => $service->getMenusNameWithPrefixLevelCharacters(Menu::TYPE_BACKEND),
+                        'parentMenuDisabledOptions' => [],
                     ];
                 },
-                'class' => CreateAction::className(),
-                'create' => function($postData)use($service){
-                    return $service->create($postData, ['type'=>Menu::TYPE_BACKEND]);
-                }
             ],
             'update' => [
                 'class' => UpdateAction::className(),
                 'update' => function($id, $postData)use($service) {
                     return $service->update($id, $postData);
                 },
-                'data' => function($id)use($service){
+                'data' => function($id, $updateResultModel)use($service){
+                    $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
+
+                    $parentMenuDisabledOptions = [];
+                    $parentMenuDisabledOptions[$id] = ['disabled' => true];//cannot be themselves' sub menu
+
+                    $descendants = $service->getDescendantMenusById($id, Menu::TYPE_BACKEND);
+                    $descendants = ArrayHelper::getColumn($descendants, 'id');
+                    foreach ($descendants as $descendant){//cannot be themselves's sub menu's menu
+                        $parentMenuDisabledOptions[$descendant] = ['disabled' => true];
+                    }
                     return [
-                        'model'=>$service->getDetail($id)
+                        'model' => $model,
+                        'menusNameWithPrefixLevelCharacters' => $service->getMenusNameWithPrefixLevelCharacters(Menu::TYPE_BACKEND),
+                        'parentMenuDisabledOptions' => $parentMenuDisabledOptions,
                     ];
                 },
             ],
@@ -95,7 +107,7 @@ class MenuController extends \yii\web\Controller
             'sort' => [
                 'class' => SortAction::className(),
                 'sort' => function($id, $sort)use($service){
-                    $service->sort($id, $sort);
+                    return $service->sort($id, $sort);
                 },
             ],
         ];

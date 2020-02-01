@@ -11,5 +11,7 @@ namespace common\services;
 
 interface CategoryServiceInterface extends ServiceInterface
 {
+    const ServiceName = "categoryService";
+
     public function getCategoryList();
 }

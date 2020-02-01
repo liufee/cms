@@ -9,6 +9,8 @@
 /**
  * @var $this yii\web\View
  * @var $model backend\models\Menu
+ * @var $parentMenuDisabledOptions []
+ * @var $menusNameWithPrefixLevelCharacters []
  */
 
 use backend\widgets\ActiveForm;
@@ -29,20 +31,7 @@ if ($parent_id != '') {
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?php $form = ActiveForm::begin(); ?>
-                <?php
-                $service = new \common\services\MenuService();
-                    $disabledOptions = [];
-                    if(!$model->getIsNewRecord()){
-                        $disabledOptions[$model->id] = ['disabled' => true];
-                        $descendants = $service->getDescendantMenusById($model->id, Menu::TYPE_BACKEND);
-                        $descendant = $service->setMenuNameWithPrefixLevelCharacters($descendants);
-                        $descendants = ArrayHelper::getColumn($descendants, 'id');
-                        foreach ($descendants as $descendant){
-                            $disabledOptions[$descendant] = ['disabled' => true];
-                        }
-                    }
-                ?>
-                <?= $form->field($model, 'parent_id')->label(Yii::t('app', 'Parent Menu Name'))->dropDownList($service->getMenusNameWithPrefixLevelCharacters(Menu::TYPE_BACKEND), ['options' => $disabledOptions]) ?>
+                <?= $form->field($model, 'parent_id')->label(Yii::t('app', 'Parent Menu Name'))->dropDownList($menusNameWithPrefixLevelCharacters, ['options' => $parentMenuDisabledOptions]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>

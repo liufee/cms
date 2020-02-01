@@ -8,6 +8,7 @@
 
 /* @var $this \yii\web\View */
 /* @var $content string */
+/* @var $identity \common\models\AdminUser */
 
 use common\helpers\FileDependencyHelper;
 use yii\caching\FileDependency;
@@ -18,8 +19,6 @@ use backend\assets\IndexAsset;
 
 IndexAsset::register($this);
 $this->title = Yii::t('app', 'Backend Manage System');
-/** @var \backend\models\AdminUser $identity */
-$identity = Yii::$app->getUser()->getIdentity();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

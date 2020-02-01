@@ -14,7 +14,7 @@ use backend\models\AdminLog;
 use Yii;
 use yii\data\ActiveDataProvider;
 
-class AdminLogSearch extends \backend\models\AdminLog
+class AdminLogSearch extends \common\models\AdminLog
 {
 
     public $adminUsername;

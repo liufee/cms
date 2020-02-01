@@ -125,6 +125,7 @@ $this->params['breadcrumbs'][] =  Yii::t('app', 'Banner') . ' (' . $bannerType->
                                         'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                                         'data-method' => 'post',
                                         'data-pjax' => '0',
+                                        'data-params' => json_encode(['sign'=>$model->sign]),
                                         'class' => 'btn-sm',
                                     ]);
                                 }

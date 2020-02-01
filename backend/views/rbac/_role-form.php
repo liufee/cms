@@ -32,7 +32,6 @@ $this->title = "Roles";
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'sort')->textInput() ?>
                 <div class="hr-line-dashed"></div>
-                <?php //var_dump($roles);exit; ?>
                 <?= $form->field($model, 'roles', [
                     'labelOptions' => [
                         'label' => yii::t('app', 'Roles'),

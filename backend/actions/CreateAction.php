@@ -63,7 +63,9 @@ class CreateAction extends \yii\base\Action
             $createData = [];
 
             if( !empty($primaryKeys) ){
-                array_push($updateData, $primaryKeys);
+                foreach ($primaryKeys as $primaryKey) {
+                    array_push($createData, $primaryKey);
+                }
             }
 
             array_push($createData, $postData, $this);
@@ -94,7 +96,9 @@ class CreateAction extends \yii\base\Action
         } elseif ($this->data instanceof Closure) {
             $getDataParams = [];
             if( !empty($primaryKeys) ){
-                array_push($getDataParams, $primaryKeys);
+                foreach ($primaryKeys as $primaryKey) {
+                    array_push($getDataParams, $primaryKey);
+                }
             }
             !isset($createResult) && $createResult = null;
             array_push($getDataParams, $createResult, $this);

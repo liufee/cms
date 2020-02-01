@@ -12,6 +12,7 @@ namespace common\services;
 use backend\models\form\BannerForm;
 use backend\models\form\BannerTypeForm;
 use common\models\Options;
+use yii\base\Exception;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\web\NotFoundHttpException;
@@ -21,14 +22,17 @@ class BannerService extends Service implements BannerServiceInterface
 
     public function getSearchModel(array $query, array $options = [])
     {
+        throw new Exception("Not need");
     }
 
     public function getModel($id, array $options = [])
     {
+        throw new Exception("Not need");
     }
 
     public function getNewModel(array $options = [])
     {
+        throw new Exception("Not need");
     }
 
     public function getBannerTypeModel($id)
@@ -41,7 +45,7 @@ class BannerService extends Service implements BannerServiceInterface
         return new BannerTypeForm();
     }
 
-    public function getBannerTypeList()
+    public function getBannerTypeList(array $query = [])
     {
         return [
             'dataProvider' => new ActiveDataProvider([
@@ -50,7 +54,7 @@ class BannerService extends Service implements BannerServiceInterface
         ];
     }
 
-    public function createBannerType($postData)
+    public function createBannerType(array $postData = [])
     {
         $formModel = $this->getNewBannerTypeModel();
         if ($formModel->load($postData) && $formModel->save()) {
@@ -68,7 +72,7 @@ class BannerService extends Service implements BannerServiceInterface
         return $model;
     }
 
-    public function updateBannerType($id, $postData)
+    public function updateBannerType($id, array $postData = [])
     {
         $model = $this->getBannerTypeDetail($id);
         if ($model->load($postData) && $model->save()) {
@@ -81,6 +85,13 @@ class BannerService extends Service implements BannerServiceInterface
     {
         $model = $this->getBannerTypeModel($id);
         return $model->delete();
+    }
+
+
+
+    public function getNewBannerModel()
+    {
+        return new BannerForm();
     }
 
     public function getBannerList($id)
@@ -104,7 +115,7 @@ class BannerService extends Service implements BannerServiceInterface
         throw new NotFoundHttpException("Not found banner id " . $id . " sign " . $sign);
     }
 
-    public function updateBanner($id, $sign, $postData)
+    public function updateBanner($id, $sign, array $postData = [])
     {
         /** @var BannerForm $banner */
         $banner = $this->getBannerDetail($id, $sign);
@@ -131,7 +142,7 @@ class BannerService extends Service implements BannerServiceInterface
         }
     }
 
-    public function createBanner($id, $postData)
+    public function createBanner($id, array $postData = [])
     {
         /** @var BannerForm $banner */
         $banner = $this->getNewBannerModel();
@@ -207,10 +218,5 @@ class BannerService extends Service implements BannerServiceInterface
             $banners[] = $form;
         }
         return $banners;
-    }
-
-    public function getNewBannerModel()
-    {
-        return new BannerForm();
     }
 }

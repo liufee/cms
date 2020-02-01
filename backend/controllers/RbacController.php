@@ -8,6 +8,7 @@
 
 namespace backend\controllers;
 
+use common\services\RBACServiceInterface;
 use Yii;
 use common\services\RBACService;
 use backend\actions\CreateAction;
@@ -37,8 +38,8 @@ class RbacController extends \yii\web\Controller
      */
     public function actions()
     {
-        /** @var RBACService $service */
-        $service = Yii::$app->get("RBACService");
+        /** @var RBACServiceInterface $service */
+        $service = Yii::$app->get(RBACService::ServiceName);
         return [
             'permissions' => [
                 'class' => IndexAction::className(),
@@ -61,9 +62,10 @@ class RbacController extends \yii\web\Controller
                 'create' => function($postData) use($service){
                     return $service->createPermission($postData);
                 },
-                'data' => function() use($service){
+                'data' => function($createResultModel) use($service){
+                    $model = $createResultModel === null ? $service->getNewPermissionModel(['type'=>RBACService::TYPE_PERMISSION]) : $createResultModel;
                     return [
-                        'model' => $service->getNewModel(['type'=>RBACService::TYPE_PERMISSION]),
+                        'model' => $model,
                         'groups' => $service->getPermissionGroups(),
                         'categories' => $service->getPermissionCategories(),
                     ];
@@ -71,22 +73,23 @@ class RbacController extends \yii\web\Controller
                 'successRedirect' => ['rbac/permissions'],
             ],
             'permission-update' => [
+                'primaryKeyIdentity' => 'name',
                 "class" => UpdateAction::className(),
                 "update" => function($name, $postData) use($service){
                     return $service->updatePermission($name, $postData);
                 },
-                "data" => function() use($service){
-                    $name = Yii::$app->getRequest()->get("name");
+                "data" => function($name, $updateResultModel) use($service){
+                    $model = $updateResultModel === null ? $service->getPermissionDetail($name) : $updateResultModel;
                     return [
-                        'model' => $service->getPermissionDetail($name),
+                        'model' => $model,
                         'groups' => $service->getPermissionGroups(),
                         'categories' => $service->getPermissionCategories(),
                     ];
                 }
             ],
             'permission-view-layer' => [
+                'primaryKeyIdentity' => 'name',
                 'class' => ViewAction::className(),
-                'idSign' => 'name',
                 'data' => function($name) use($service){
                     return [
                         "model" => $service->getPermissionDetail($name),
@@ -95,8 +98,8 @@ class RbacController extends \yii\web\Controller
                 'viewFile' => 'permission-view-layer',
             ],
             'permission-delete' => [
+                'primaryKeyIdentity' => 'name',
                 "class" => DeleteAction::className(),
-                'idSign' => 'name',
                 "delete" => function($name) use($service) {
                     return $service->deletePermission($name);
                 },
@@ -114,7 +117,7 @@ class RbacController extends \yii\web\Controller
             ],
             'role-view-layer' => [
                 'class' => ViewAction::className(),
-                'idSign' => 'name',
+                'primaryKeyIdentity' => 'name',
                 'viewFile' => 'role-view-layer',
                 'data' => function($name) use($service){
                     return [
@@ -127,9 +130,10 @@ class RbacController extends \yii\web\Controller
                 'create' => function($postData) use($service){
                     return $service->createRole($postData);
                 },
-                'data' => function() use($service){
+                'data' => function($createResultModel) use($service){
+                    $model = $createResultModel === null ? $service->getNewRoleModel() : $createResultModel;
                     return [
-                        'model' => $service->getNewRoleModel(),
+                        'model' => $model,
                         'permissions' => $service->getPermissionsGroups(),
                         'roles' => $service->getRoles(),
                     ];
@@ -138,16 +142,16 @@ class RbacController extends \yii\web\Controller
             ],
             'role-update' => [
                 "class" => UpdateAction::className(),
-                'idSign' => 'name',
+                'primaryKeyIdentity' => 'name',
                 "update" => function($name, $postData) use($service){
                     return $service->updateRole($name, $postData);
                 },
-                'data' => function($name) use($service){
+                'data' => function($name, $updateResultModel) use($service){
+                    $model = $updateResultModel === null ? $service->getRoleDetail($name) : $updateResultModel;
                     $roles = $service->getRoles();
-
-                    //unset($roles[$name]);
+                    unset($roles[$name]);
                     return [
-                        'model' => $service->getRoleDetail($name),
+                        'model' => $model,
                         'permissions' => $service->getPermissionsGroups(),
                         'roles' => $roles,
                     ];
@@ -162,9 +166,9 @@ class RbacController extends \yii\web\Controller
             ],
             'role-delete' => [
                 "class" => DeleteAction::className(),
-                'paramSign' => 'name',
+                'primaryKeyIdentity' => 'name',
                 "delete" => function($name) use($service) {
-                    return $service->delete($name);
+                    return $service->deleteRole($name);
                 },
             ],
         ];
