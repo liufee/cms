@@ -17,7 +17,6 @@ namespace common\services;
 * This is the template for generating CRUD service class of the specified model.
 */
 
-use Yii;
 <?php if (!empty($generator->searchModelClass)): ?>
 use <?=$generator->searchModelClass . ";\n"?>
 <?php endif; ?>

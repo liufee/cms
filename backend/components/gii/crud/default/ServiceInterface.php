@@ -14,7 +14,7 @@ echo "<?php\n";
 ?>
 namespace common\services;
 
-interface <?=$modelClass?>Interface extends ServiceInterface
+interface <?=$modelClass?>ServiceInterface extends ServiceInterface
 {
     const ServiceName = "<?=$modelClass?>Service";
 }
