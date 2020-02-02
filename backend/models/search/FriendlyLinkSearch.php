@@ -15,7 +15,7 @@ use backend\components\search\SearchEvent;
 use backend\models\FriendlyLink;
 use yii\data\ActiveDataProvider;
 
-class FriendlyLinkSearch extends \backend\models\FriendlyLink
+class FriendlyLinkSearch extends \backend\models\FriendlyLink implements SearchInterface
 {
     public function behaviors()
     {
@@ -37,11 +37,12 @@ class FriendlyLinkSearch extends \backend\models\FriendlyLink
     }
 
     /**
-     * @param $params
+     * @param array $params
+     * @param array $options
      * @return object|ActiveDataProvider
      * @throws \yii\base\InvalidConfigException
      */
-    public function search($params)
+    public function search(array $params = [], array $options = [])
     {
         $query = FriendlyLink::find();
         $dataProvider = Yii::createObject([

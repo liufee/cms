@@ -45,6 +45,7 @@ class IndexAction extends \yii\base\Action
                 }
             }
             array_push($getDataParams, Yii::$app->getRequest()->getQueryParams());
+            array_push($getDataParams, $this);
             $data = call_user_func_array( $this->data, $getDataParams );
         }
         $this->viewFile === null && $this->viewFile = $this->id;

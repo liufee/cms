@@ -14,7 +14,7 @@ use backend\models\Article;
 use Yii;
 use yii\data\ActiveDataProvider;
 
-class CommentSearch extends \common\models\Comment
+class CommentSearch extends \common\models\Comment implements SearchInterface
 {
 
     public $articleTitle;
@@ -38,11 +38,12 @@ class CommentSearch extends \common\models\Comment
     }
 
     /**
-     * @param $params
+     * @param array $params
+     * @param array $options
      * @return ActiveDataProvider
      * @throws \yii\base\InvalidConfigException
      */
-    public function search($params)
+    public function search(array $params = [], array $options = [])
     {
         $query = self::find()->with('article');
         /** @var ActiveDataProvider $dataProvider */

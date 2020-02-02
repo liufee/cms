@@ -17,7 +17,7 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 
-class ArticleSearch extends Article
+class ArticleSearch extends Article implements SearchInterface
 {
 
     /**
@@ -63,14 +63,14 @@ class ArticleSearch extends Article
     }
 
     /**
-     * @param $params
-     * @param int $type
+     * @param array $params
+     * @param array $options
      * @return ActiveDataProvider
      * @throws \yii\base\InvalidConfigException
      */
-    public function search($params, $type = self::ARTICLE)
+    public function search(array $params = [], array $options = [])
     {
-        $query = Article::find()->select([])->where(['type' => $type])->with('category')->joinWith("articleContent");
+        $query = Article::find()->select([])->where(['type' => $options['type']])->with('category')->joinWith("articleContent");
         /** @var $dataProvider ActiveDataProvider */
         $dataProvider = Yii::createObject([
             'class' => ActiveDataProvider::className(),

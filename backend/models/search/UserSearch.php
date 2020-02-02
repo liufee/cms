@@ -14,7 +14,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class UserSearch extends \frontend\models\User
+class UserSearch extends \frontend\models\User implements SearchInterface
 {
 
     public function behaviors()
@@ -41,10 +41,12 @@ class UserSearch extends \frontend\models\User
     }
 
     /**
-     * @param $params
+     * @param array $params
+     * @param array $options
      * @return \yii\data\ActiveDataProvider
+     * @throws \yii\base\InvalidConfigException
      */
-    public function search($params)
+    public function search(array $params = [], array $options = [])
     {
         $query = self::find();
         /** @var ActiveDataProvider $dataProvider */

@@ -62,7 +62,7 @@ class DeleteAction extends \yii\base\Action
 
             $errors = [];
             foreach ($data as $id){
-                $deleteResult = call_user_func_array($this->delete, [$id]);
+                $deleteResult = call_user_func_array($this->delete, [$id, $this]);
                 if($deleteResult !== true && $deleteResult !== "" && $deleteResult !== null){
                     $errors[]= Helper::getErrorString($deleteResult);
                 }

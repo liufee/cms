@@ -46,7 +46,7 @@ class SortAction extends \yii\base\Action
             $value = $temp[$condition];
             $condition = json_decode($condition, true);
             if (!is_array($condition)) throw new InvalidArgumentException("SortColumn generate html must post data like xxx[{pk:'unique'}]=number");
-            $result = call_user_func_array($this->sort, [$condition, $value]);
+            $result = call_user_func_array($this->sort, [$condition, $value, $this]);
 
             if (Yii::$app->getRequest()->getIsAjax()) {
                 if( $result === true ){

@@ -11,8 +11,23 @@ namespace backend\models\search;
 use Yii;
 use yii\data\ArrayDataProvider;
 
-class RBACFormSearch extends \backend\models\form\RBACForm
+class RBACFormSearch extends \backend\models\form\RBACForm implements SearchInterface
 {
+    /**
+     * @param array $params
+     * @param array $options
+     * @return object
+     */
+    public function search(array $params = [], array $options = [])
+    {
+        if( isset( $options['type'] ) && $options['type'] === 'permissions' ) {
+            $dataProvider = $this->searchPermissions($params);
+        }else{
+            $dataProvider = $this->searchRoles($params);
+        }
+        return $dataProvider;
+    }
+
     public function searchPermissions($params)
     {
         $array = $this->getPermissionsByGroup();

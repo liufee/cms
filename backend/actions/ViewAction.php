@@ -42,12 +42,13 @@ class ViewAction extends \yii\base\Action
      */
     public function run()
     {
-        $primaryKeys = Helper::getPrimaryKeys($this->primaryKeyIdentity, $this->primaryKeyFromMethod);
-
         if( is_array($this->data) ){
             $data = $this->data;
         }else if ($this->data instanceof Closure){
-            $data = call_user_func_array($this->data, $primaryKeys);
+            $primaryKeys = Helper::getPrimaryKeys($this->primaryKeyIdentity, $this->primaryKeyFromMethod);
+            $getDataParams = $primaryKeys;
+            array_push($getDataParams, $this);
+            $data = call_user_func_array($this->data, $getDataParams);
         }else{
             throw new Exception(__CLASS__ . "::data only allows array or closure (with return array)");
         }

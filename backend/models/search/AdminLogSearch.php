@@ -14,7 +14,7 @@ use backend\models\AdminLog;
 use Yii;
 use yii\data\ActiveDataProvider;
 
-class AdminLogSearch extends \common\models\AdminLog
+class AdminLogSearch extends \common\models\AdminLog implements SearchInterface
 {
 
     public $adminUsername;
@@ -44,11 +44,12 @@ class AdminLogSearch extends \common\models\AdminLog
     }
 
     /**
-     * @param $params
+     * @param array $params
+     * @param array $options
      * @return ActiveDataProvider
      * @throws \yii\base\InvalidConfigException
      */
-    public function search($params)
+    public function search(array $params = [], array $options = [])
     {
         $query = self::find()->orderBy("id desc");
         $query->joinWith(['user']);

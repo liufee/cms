@@ -8,7 +8,10 @@
 
 namespace backend\components\gii\crud;
 
+use Yii;
 use ReflectionClass;
+use yii\gii\CodeFile;
+use yii\helpers\StringHelper;
 
 class Generator extends \yii\gii\generators\crud\Generator
 {
@@ -36,6 +39,39 @@ class Generator extends \yii\gii\generators\crud\Generator
         $class = new ReflectionClass(\yii\gii\generators\crud\Generator::className());
 
         return dirname($class->getFileName()) . '/form.php';
+    }
+
+    public function generate()
+    {
+        $controllerFile = Yii::getAlias('@' . str_replace('\\', '/', ltrim($this->controllerClass, '\\')) . '.php');
+
+        $files = [
+            new CodeFile($controllerFile, $this->render('controller.php')),
+        ];
+
+        if (!empty($this->searchModelClass)) {
+            $searchModel = Yii::getAlias('@' . str_replace('\\', '/', ltrim($this->searchModelClass, '\\') . '.php'));
+            $files[] = new CodeFile($searchModel, $this->render('search.php'));
+        }
+
+        $modelClass = StringHelper::basename($this->modelClass);
+
+        $files[] = new CodeFile($modelClass . 'ServiceInterface.php', $this->render("serviceInterface.php"));
+
+        $files[] = new CodeFile($modelClass . 'Service.php', $this->render("service.php"));
+
+        $viewPath = $this->getViewPath();
+        $templatePath = $this->getTemplatePath() . '/views';
+        foreach (scandir($templatePath) as $file) {
+            if (empty($this->searchModelClass) && $file === '_search.php') {
+                continue;
+            }
+            if (is_file($templatePath . '/' . $file) && pathinfo($file, PATHINFO_EXTENSION) === 'php') {
+                $files[] = new CodeFile("$viewPath/$file", $this->render("views/$file"));
+            }
+        }
+
+        return $files;
     }
 
 }

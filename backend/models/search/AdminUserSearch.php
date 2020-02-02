@@ -14,7 +14,7 @@ use backend\components\search\SearchEvent;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class AdminUserSearch extends \common\models\AdminUser
+class AdminUserSearch extends \common\models\AdminUser implements SearchInterface
 {
 
     public function behaviors()
@@ -41,10 +41,12 @@ class AdminUserSearch extends \common\models\AdminUser
     }
 
     /**
-     * @param $params
+     * @param array $params
+     * @param array $options
      * @return \yii\data\ActiveDataProvider
+     * @throws \yii\base\InvalidConfigException
      */
-    public function search($params)
+    public function search(array $params = [], array $options = [])
     {
         $query = self::find();
         /** @var ActiveDataProvider $dataProvider */

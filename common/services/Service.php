@@ -4,6 +4,9 @@
 namespace common\services;
 
 
+use backend\models\search\SearchInterface;
+use yii\base\Exception;
+use yii\data\ActiveDataProvider;
 use yii\db\ActiveRecord;
 use yii\web\NotFoundHttpException;
 
@@ -16,11 +19,24 @@ abstract class Service extends \yii\base\BaseObject implements ServiceInterface
     public function getList(array $query = [], array $options=[])
     {
         $searchModel = $this->getSearchModel($query, $options);
-        $dataProvider = $searchModel->search($query, $options);
-        return [
-            'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
-        ];
+        if( $searchModel === null ){
+            /** @var ActiveRecord $model */
+            $model = $this->getNewModel();
+            $result = [
+                'dataProvider' => new ActiveDataProvider([
+                    'query' => $model->find(),
+                ]),
+            ];
+        }else if( $searchModel instanceof SearchInterface ) {
+            $dataProvider = $searchModel->search($query, $options);
+            $result = [
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
+            ];
+        }else{
+            throw new Exception("getSearchModel must return null or backend\models\search\SearchInterface ");
+        }
+        return $result;
     }
 
     public function getDetail($id, array $options = [])

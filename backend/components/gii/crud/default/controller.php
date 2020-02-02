@@ -31,10 +31,8 @@ echo "<?php\n";
 namespace <?= StringHelper::dirname(ltrim($generator->controllerClass, '\\')) ?>;
 
 use Yii;
-<?php if (!empty($generator->searchModelClass)): ?>
-use <?=$generator->searchModelClass . ";\n"?>
-<?php endif; ?>
-use <?= $generator->modelClass . ";\n" ?>
+use common\services\<?= $modelClass ?>ServiceInterface;
+use common\services\<?= $modelClass ?>Service;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
@@ -63,50 +61,60 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
     */
     public function actions()
     {
+        /** @var <?=$modelClass?>ServiceInterface $service */
+        $service = Yii::$app->get(<?=$modelClass?>ServiceInterface::ServiceName);
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function(){
-                    <?php if (!empty($generator->searchModelClass)): ?>
-
-                        $searchModel = new <?=StringHelper::basename($generator->searchModelClass)?>();
-                        $dataProvider = $searchModel->search(yii::$app->getRequest()->getQueryParams());
-                        return [
-                            'dataProvider' => $dataProvider,
-                            'searchModel' => $searchModel,
-                        ];
-                    <?php else: ?>
-
-                        $dataProvider = new ActiveDataProvider([
-                            'query' => <?= $modelClass ?>::find(),
-                        ]);
-
-                        return [
-                            'dataProvider' => $dataProvider,
-                        ];
-                    <?php endif; ?>
-
+                'data' => function($query, $indexAction) use($service){
+                    $result = $service->getList($query);
+                    return [
+                        'dataProvider' => $result['dataProvider'],
+                        <?php if( !empty($generator->searchModelClass) ) { ?>'searchModel' => $result['searchModel'],<?php } ?>
+                    ];
                 }
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'modelClass' => <?= $modelClass ?>::className(),
+                'create' => function($postData, $createAction) use($service){
+                    return $service->create($postData);
+                },
+                'data' => function($id, $postData, $createResultModel, $createAction) use($service){
+                    $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;
+                    return [
+                        'model' => $model,
+                    ]
+                }
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'modelClass' => <?= $modelClass ?>::className(),
+                'update' => function($id, $postData, $updateAction) use($service){
+                    return $service->update($id, $postData);
+                },
+                'data' => function($id, $updateResultModel, $updateAction) use($service){
+                    $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
+                    return [
+                        'model' => $model,
+                    ];
+                }
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'modelClass' => <?= $modelClass ?>::className(),
+                'delete' => function($id, $deleteAaction) use($service){
+                    return $service->delete($id);
+                },
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'modelClass' => <?= $modelClass ?>::className(),
+                'sort' => function($id, $sort, $sortAction) use($service){
+                    return $service->sort($id, $sort);
+                },
             ],
             'view-layer' => [
                 'class' => ViewAction::className(),
-                'modelClass' => <?= $modelClass ?>::className(),
+                'data' => function($id, $viewAction) use($service){
+                    return $service->getDetail($id);
+                },
             ],
         ];
     }

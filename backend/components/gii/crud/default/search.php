@@ -32,7 +32,7 @@ use <?= ltrim($generator->modelClass, '\\') . (isset($modelAlias) ? " as $modelA
 /**
  * <?= $searchModelClass ?> represents the model behind the search form about `<?= $generator->modelClass ?>`.
  */
-class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $modelClass ?>
+class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $modelClass ?> implements \backend\models\search\SearchInterface
 
 {
     /**
@@ -61,7 +61,7 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search(array $params = [], array $options = [])
     {
         $query = <?= isset($modelAlias) ? $modelAlias : $modelClass ?>::find();
 

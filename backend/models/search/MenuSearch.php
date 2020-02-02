@@ -17,7 +17,7 @@ use backend\components\search\SearchEvent;
 use yii\data\ArrayDataProvider;
 
 
-class MenuSearch extends \yii\base\Model
+class MenuSearch extends \yii\base\Model implements SearchInterface
 {
 
     public $name;
@@ -69,7 +69,7 @@ class MenuSearch extends \yii\base\Model
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function search($params, array $options = [])
+    public function search(array $params = [], array $options = [])
     {
         if (!isset($options["type"]) || !in_array($options['type'], [Menu::TYPE_BACKEND, Menu::TYPE_FRONTEND])){
             throw new Exception("Menu search must set options['type']");
