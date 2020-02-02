@@ -70,7 +70,22 @@ class Generator extends \yii\gii\generators\crud\Generator
                 $files[] = new CodeFile("$viewPath/$file", $this->render("views/$file"));
             }
         }
-
+        $type = Yii::$app->getRequest()->post("generate");
+        if( $type !== null ){
+            $str = file_get_contents(Yii::getAlias("@common/config/") . 'services.php' );
+            $lines = explode("\n", $str);
+            foreach ($lines as $key => $line){
+                $line = trim($line);
+                if( empty($line) ){
+                    unset($lines[$key]);
+                }
+            }
+            $temp[] = "    \\common\services\\" . $modelClass . "ServiceInterface::ServiceName=>[";
+            $temp[] = "        'class' => \\common\services\\" . $modelClass . "Service::className(),";
+            $temp[] = "    ],";
+            array_splice($lines, count($lines) - 1, 0, $temp);
+            file_put_contents(Yii::getAlias("@common/config/") . 'services.php', implode("\n", $lines));
+        }
         return $files;
     }
 

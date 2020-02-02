@@ -83,7 +83,7 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
                     $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;
                     return [
                         'model' => $model,
-                    ]
+                    ];
                 }
             ],
             'update' => [
@@ -100,7 +100,7 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'delete' => function($id, $deleteAaction) use($service){
+                'delete' => function($id, $deleteAction) use($service){
                     return $service->delete($id);
                 },
             ],
@@ -113,7 +113,9 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
             'view-layer' => [
                 'class' => ViewAction::className(),
                 'data' => function($id, $viewAction) use($service){
-                    return $service->getDetail($id);
+                    return [
+                        'model' => $service->getDetail($id),
+                    ];
                 },
             ],
         ];
