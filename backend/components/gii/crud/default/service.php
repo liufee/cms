@@ -26,11 +26,8 @@ use <?= $generator->modelClass . ";\n" ?>
 class <?=$modelClass?>Service extends Service implements <?=$modelClass?>Interface{
     public function getSearchModel(array $query, array $options=[])
     {
-        <?php if (!empty($generator->searchModelClass)){ ?>
-            return new  <?=$searchModelClass?>();
-        <?php }else { ?>
-            return null;
-        <?php } ?>
+        <?php if (!empty($generator->searchModelClass)){ ?> return new  <?=$searchModelClass?>();<?php }else { ?>return null;<?php } ?>
+
     }
 
     public function getModel($id, array $options = [])

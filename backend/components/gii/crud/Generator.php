@@ -56,9 +56,9 @@ class Generator extends \yii\gii\generators\crud\Generator
 
         $modelClass = StringHelper::basename($this->modelClass);
 
-        $files[] = new CodeFile($modelClass . 'ServiceInterface.php', $this->render("serviceInterface.php"));
+        $files[] = new CodeFile(Yii::getAlias("@common/services/") . $modelClass . 'ServiceInterface.php', $this->render("serviceInterface.php"));
 
-        $files[] = new CodeFile($modelClass . 'Service.php', $this->render("service.php"));
+        $files[] = new CodeFile(Yii::getAlias("@common/services/") . $modelClass . 'Service.php', $this->render("service.php"));
 
         $viewPath = $this->getViewPath();
         $templatePath = $this->getTemplatePath() . '/views';
