@@ -16,5 +16,5 @@ namespace common\services;
 
 interface <?=$modelClass?>ServiceInterface extends ServiceInterface
 {
-    const ServiceName = "<?=$modelClass?>Service";
+    const ServiceName = '<?=lcfirst($modelClass)?>Service';
 }

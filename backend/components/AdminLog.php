@@ -9,7 +9,7 @@
 namespace backend\components;
 
 use Yii;
-use backend\models\AdminLog as AdminLogModel;
+use common\models\AdminLog as AdminLogModel;
 
 class AdminLog extends \yii\base\Event
 {

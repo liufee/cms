@@ -43,7 +43,38 @@ use backend\actions\ViewAction;
 use yii\data\ActiveDataProvider;
 <?php } ?>
 <?php $category = Yii::t("app", Inflector::pluralize(Inflector::camel2words(StringHelper::basename($generator->modelClass)))); ?>
+<?php
+    $idSign = "";
+    $closureIdParam = "";
+    if( !empty($pks) ) {
+        $idSign = "                'primaryKeyIdentity' => ";
+        if (count($pks) === 1) {
+            if ($pks[0] !== "id") {
+                $idSign .= "'" . $pks[0] . "',\n";
+                $closureIdParam = '$' . $pks[0];
+            }else{
+                $idSign = "";
+                $closureIdParam = '$id';
+            }
+        } else {
+            $idSign .= "[";
+            $i = 0;
+            foreach ($pks as $key) {
+                $idSign .= "'" . $key . "',";
+                if($i > 0){
+                    $closureIdParam .= ' $' . $key . ",";
+                }else{
+                    $closureIdParam .= '$' . $key . ",";
+                }
 
+                $i++;
+            }
+            $idSign = rtrim($idSign, ",");
+            $idSign .= "],\n";
+            $closureIdParam = rtrim($closureIdParam, ",");
+        }
+    }
+?>
 /**
  * <?= $controllerClass ?> implements the CRUD actions for <?= $modelClass ?> model.
  */
@@ -79,7 +110,7 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
                 'create' => function($postData, $createAction) use($service){
                     return $service->create($postData);
                 },
-                'data' => function($id, $postData, $createResultModel, $createAction) use($service){
+                'data' => function($createResultModel, $createAction) use($service){
                     $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;
                     return [
                         'model' => $model,
@@ -88,11 +119,12 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'update' => function($id, $postData, $updateAction) use($service){
-                    return $service->update($id, $postData);
+<?php if(!empty($idSign)){echo $idSign;} ?>
+                'update' => function(<?php if(!empty($closureIdParam)){echo $closureIdParam;echo ", ";}?>$postData, $updateAction) use($service){
+                    return $service->update(<?=$closureIdParam?>, $postData);
                 },
-                'data' => function($id, $updateResultModel, $updateAction) use($service){
-                    $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
+                'data' => function(<?php if(!empty($closureIdParam)){echo $closureIdParam;echo ", ";}?>$updateResultModel, $updateAction) use($service){
+                    $model = $updateResultModel === null ? $service->getDetail(<?=$closureIdParam?>) : $updateResultModel;
                     return [
                         'model' => $model,
                     ];
@@ -100,8 +132,9 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'delete' => function($id, $deleteAction) use($service){
-                    return $service->delete($id);
+<?php if(!empty($idSign)){echo $idSign;} ?>
+                'delete' => function(<?php if(!empty($closureIdParam)){echo $closureIdParam;echo ", ";}?>$deleteAction) use($service){
+                    return $service->delete(<?=$closureIdParam?>);
                 },
             ],
             'sort' => [
@@ -112,9 +145,10 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
             ],
             'view-layer' => [
                 'class' => ViewAction::className(),
-                'data' => function($id, $viewAction) use($service){
+<?php if(!empty($idSign)){echo $idSign;} ?>
+                'data' => function(<?php if(!empty($closureIdParam)){echo $closureIdParam;echo ", ";}?>$viewAction) use($service){
                     return [
-                        'model' => $service->getDetail($id),
+                        'model' => $service->getDetail(<?=$closureIdParam?>),
                     ];
                 },
             ],
