@@ -33,6 +33,10 @@ class MenuService extends Service  implements MenuServiceInterface
     public function getNewModel(array $options = [])
     {
         $menu = new Menu();
+        $menu->type = Menu::TYPE_BACKEND;
+        if($options['type'] === Menu::TYPE_FRONTEND){
+            $menu->type = Menu::TYPE_FRONTEND;
+        }
         $menu->loadDefaultValues();
         return $menu;
     }

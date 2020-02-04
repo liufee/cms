@@ -10,7 +10,7 @@ namespace backend\models\search;
 
 use backend\behaviors\TimeSearchBehavior;
 use backend\components\search\SearchEvent;
-use backend\models\Article;
+use common\models\Article;
 use Yii;
 use yii\data\ActiveDataProvider;
 

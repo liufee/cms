@@ -10,7 +10,7 @@ use yii\widgets\DetailView;
 
 /**
  * @var $this yii\web\View
- * @var $model backend\models\AdminLog
+ * @var $model common\models\AdminLog
  */
 
 $this->title = "Log Detail";

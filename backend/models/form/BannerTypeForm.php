@@ -9,6 +9,7 @@
 namespace backend\models\form;
 
 use Yii;
+use common\models\Options;
 
 class BannerTypeForm extends \common\models\Options
 {
@@ -28,6 +29,15 @@ class BannerTypeForm extends \common\models\Options
             ],
             [['name', 'tips'], 'required'],
         ];
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->type = Options::TYPE_BANNER;
+        if( $this->value === null ){
+            $this->value = "[]";
+        }
+        return parent::beforeSave($insert);
     }
 
     public function attributeLabels()

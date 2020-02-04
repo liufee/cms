@@ -84,7 +84,10 @@ class BannerService extends Service implements BannerServiceInterface
     public function deleteBannerType($id)
     {
         $model = $this->getBannerTypeModel($id);
-        return $model->delete();
+        if( $model->delete() ){
+            return true;
+        }
+        return $model;
     }
 
 

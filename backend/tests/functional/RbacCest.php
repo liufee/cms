@@ -2,7 +2,7 @@
 
 namespace backend\tests\functional;
 
-use backend\models\AdminUser;
+use common\models\AdminUser;
 use backend\tests\FunctionalTester;
 use backend\fixtures\UserFixture;
 use yii\helpers\Url;

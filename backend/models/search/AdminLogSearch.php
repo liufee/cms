@@ -8,10 +8,10 @@
 
 namespace backend\models\search;
 
+use Yii;
 use backend\behaviors\TimeSearchBehavior;
 use backend\components\search\SearchEvent;
-use backend\models\AdminLog;
-use Yii;
+use common\models\AdminLog;
 use yii\data\ActiveDataProvider;
 
 class AdminLogSearch extends \common\models\AdminLog implements SearchInterface

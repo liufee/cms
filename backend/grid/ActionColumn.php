@@ -61,6 +61,7 @@ class ActionColumn extends \yii\grid\ActionColumn
                 //$url = str_replace('viewLayer', 'view', $url);
                 return Html::a('<i class="fa fa-folder"></i> ', 'javascript:void(0)', [
                     'title' => Yii::t('yii', 'View'),
+                    'url' => $url,
                     'onclick' => "viewLayer('" . $url . "',$(this))",
                     'data-pjax' => '0',
                     'class' => 'btn-sm',

@@ -72,7 +72,7 @@ $this->title = Yii::t('app', 'Backend Manage System');
                 /** @var FileDependencyHelper $cacheDependencyObject */
                 $cacheDependencyObject = Yii::createObject([
                     'class' => FileDependencyHelper::className(),
-                    'fileName' => \backend\models\Menu::MENU_CACHE_DEPENDENCY_FILE,
+                    'fileName' => \common\models\Menu::MENU_CACHE_DEPENDENCY_FILE,
                 ]);
                 $dependency = [
                     'class' => FileDependency::className(),

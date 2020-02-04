@@ -16,7 +16,7 @@ use backend\grid\DateColumn;
 use backend\grid\GridView;
 use backend\grid\SortColumn;
 use backend\grid\StatusColumn;
-use backend\models\Menu;
+use common\models\Menu;
 use backend\widgets\Bar;
 use common\libs\Constants;
 use yii\helpers\Html;

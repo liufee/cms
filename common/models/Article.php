@@ -9,8 +9,6 @@
 namespace common\models;
 
 use Yii;
-use backend\models\ArticleContent;
-use backend\models\Comment;
 use common\helpers\Util;
 use common\models\meta\ArticleMetaImages;
 use common\models\meta\ArticleMetaLike;

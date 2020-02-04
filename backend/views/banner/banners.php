@@ -110,6 +110,7 @@ $this->params['breadcrumbs'][] =  Yii::t('app', 'Banner') . ' (' . $bannerType->
                                         'onclick' => "viewLayer('" . Url::toRoute(['banner-view-layer', 'id'=>$bannerType->id, 'sign'=>$model->sign]) . "',$(this))",
                                         'data-pjax' => '0',
                                         'class' => 'btn-sm',
+                                        'url' => Url::toRoute(['banner-view-layer', 'id'=>$bannerType->id, 'sign'=>$model->sign]),
                                     ]);
                                 },
                                 'update' => function ($url, $model, $key, $index, $gridView) use($bannerType){
@@ -127,6 +128,7 @@ $this->params['breadcrumbs'][] =  Yii::t('app', 'Banner') . ' (' . $bannerType->
                                         'data-pjax' => '0',
                                         'data-params' => json_encode(['sign'=>$model->sign]),
                                         'class' => 'btn-sm',
+                                        'url' => Url::toRoute(['banner-delete', 'id'=>$bannerType->id, 'sign'=>$model->sign]),
                                     ]);
                                 }
                             ],

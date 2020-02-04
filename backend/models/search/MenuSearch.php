@@ -12,7 +12,7 @@ use Yii;
 use backend\behaviors\TimeSearchBehavior;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
-use backend\models\Menu;
+use common\models\Menu;
 use backend\components\search\SearchEvent;
 use yii\data\ArrayDataProvider;
 

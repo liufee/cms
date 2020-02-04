@@ -8,7 +8,7 @@
 
 /**
  * @var $this yii\web\View
- * @var $dataProvider backend\models\Comment
+ * @var $dataProvider common\models\Comment
  * @var $searchModel backend\models\search\CommentSearch
  */
 
@@ -17,7 +17,7 @@ use backend\grid\GridView;
 use common\libs\Constants;
 use yii\helpers\Html;
 use backend\widgets\Bar;
-use backend\models\Comment;
+use common\models\Comment;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
 

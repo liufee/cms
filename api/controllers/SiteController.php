@@ -11,15 +11,12 @@ use Yii;
 use api\models\form\SignupForm;
 use common\models\User;
 use api\models\form\LoginForm;
-use yii\web\HttpException;
 use yii\web\IdentityInterface;
-use yii\web\NotFoundHttpException;
 use yii\web\Response;
-use yii\web\ServerErrorHttpException;
 
 class SiteController extends \yii\rest\ActiveController
 {
-    public $modelClass = "api\models\Article";
+    public $modelClass = "common\models\Article";
 
     public function behaviors()
     {

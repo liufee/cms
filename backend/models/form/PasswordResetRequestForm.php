@@ -12,7 +12,7 @@ use Yii;
 use yii\base\Model;
 use yii\base\Event;
 use yii\db\BaseActiveRecord;
-use backend\models\AdminUser;
+use common\models\AdminUser;
 
 /**
  * Password reset request form

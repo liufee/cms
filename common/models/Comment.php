@@ -190,4 +190,11 @@ class Comment extends \yii\db\ActiveRecord
 
     }
 
+    public function afterDelete()
+    {
+        $model = Article::findOne($this->aid);
+        $model->comment_count -= 1;
+        $model->save(false);
+        parent::afterDelete();
+    }
 }

@@ -13,13 +13,6 @@ class SettingSmtpFormCest
     {
     }
 
-    public function tryGetSmtpConfig(UnitTester $I)
-    {
-        $model = new SettingSMTPForm();
-        $model->getSmtpConfig();
-        expect("result should have attribute smtp_port", $model)->hasAttribute('smtp_port');
-    }
-
     public function tryGetComponentConfig(UnitTester $I)
     {
         expect("get email component config", SettingSMTPForm::getComponentConfig())->hasKey('useFileTransport');

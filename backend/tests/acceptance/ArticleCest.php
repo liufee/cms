@@ -44,7 +44,7 @@ class ArticleCest
     public function checkView(AcceptanceTester $I)
     {
         $I->amOnPage(Url::toRoute(['/article/view-layer', 'id'=>22]));
-        $I->see('查看');
+        $I->see('创建时间');
     }
 
 }

@@ -8,9 +8,9 @@
 
 namespace backend\models\search;
 
+use Yii;
 use backend\behaviors\TimeSearchBehavior;
 use backend\components\search\SearchEvent;
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 

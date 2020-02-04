@@ -2,7 +2,7 @@
 
 namespace backend\tests\functional;
 
-use backend\models\AdminUser;
+use common\models\AdminUser;
 use backend\tests\FunctionalTester;
 use backend\fixtures\UserFixture;
 use yii\helpers\Url;
@@ -34,5 +34,12 @@ class LogCest
         $I->see('日志');
         $I->see("管理员");
     }
-    
+
+    public function checkView(FunctionalTester $I)
+    {
+        $I->amOnPage(Url::toRoute('/log/index'));
+        $urls = $I->grabMultiple("table a[title=查看]", "url");
+        $I->amOnPage($urls[0]);
+        $I->see('创建时间');
+    }
 }

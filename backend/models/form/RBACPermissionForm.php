@@ -10,7 +10,6 @@ namespace backend\models\form;
 
 
 use Yii;
-use yii\base\Exception;
 use yii\rbac\Permission;
 
 class RBACPermissionForm extends yii\base\Model

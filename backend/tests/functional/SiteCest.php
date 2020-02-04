@@ -2,7 +2,7 @@
 
 namespace backend\tests\functional;
 
-use backend\models\AdminUser;
+use common\models\AdminUser;
 use backend\tests\FunctionalTester;
 use backend\fixtures\UserFixture;
 use yii\helpers\Url;
@@ -26,7 +26,26 @@ class SiteCest
     public function _before(FunctionalTester $I)
     {
         $I->amLoggedInAs(AdminUser::findIdentity(1));
-        $I->amOnRoute('setting/website');
+
+    }
+
+    public function checkCaptcha(FunctionalTester $I)
+    {
+        $I->amOnPage(Url::toRoute('/site/captcha'));
+        $I->seeResponseCodeIsSuccessful();
+    }
+
+    public function checkLogout(FunctionalTester $I)
+    {
+        $I->amOnPage(Url::toRoute('/site/logout'));
+        $I->seeResponseCodeIs(405);
+    }
+
+    public function checkLanguage(FunctionalTester $I)
+    {
+        $I->amOnPage(Url::toRoute('/site/index'));
+        $I->amOnPage(Url::toRoute(['/site/language', 'lang'=>'en-US']));
+        $I->see("System");
     }
 
     public function checkError(FunctionalTester $I)

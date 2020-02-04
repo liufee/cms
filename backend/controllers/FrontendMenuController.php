@@ -17,6 +17,7 @@ use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
+use yii\helpers\ArrayHelper;
 
 /**
  * FrontendMenu controller
@@ -63,12 +64,14 @@ class FrontendMenuController extends \yii\web\Controller
             'create' => [
                 'class' => CreateAction::className(),
                 'create' => function($postData)use($service){
-                    return $service->create($postData, ['type'=> \backend\models\Menu::TYPE_FRONTEND]);
+                    return $service->create($postData, ['type'=> Menu::TYPE_FRONTEND]);
                 },
                 'data' => function($createResultModel) use($service){
-                    $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;
+                    $model = $createResultModel === null ? $service->getNewModel(['type'=> Menu::TYPE_FRONTEND]) : $createResultModel;
                     return [
                         'model' => $model,
+                        'menusNameWithPrefixLevelCharacters' => $service->getMenusNameWithPrefixLevelCharacters(\common\models\Menu::TYPE_BACKEND),
+                        'parentMenuDisabledOptions' => [],
                     ];
                 },
             ],
@@ -79,8 +82,20 @@ class FrontendMenuController extends \yii\web\Controller
                 },
                 'data' => function($id, $updateResultModel)use($service){
                     $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
+
+                    $parentMenuDisabledOptions = [];
+                    $parentMenuDisabledOptions[$id] = ['disabled' => true];//cannot be themselves' sub menu
+
+                    $descendants = $service->getDescendantMenusById($id, \common\models\Menu::TYPE_BACKEND);
+                    $descendants = ArrayHelper::getColumn($descendants, 'id');
+                    foreach ($descendants as $descendant){//cannot be themselves's sub menu's menu
+                        $parentMenuDisabledOptions[$descendant] = ['disabled' => true];
+                    }
+
                     return [
                         'model' => $model,
+                        'menusNameWithPrefixLevelCharacters' => $service->getMenusNameWithPrefixLevelCharacters(\common\models\Menu::TYPE_BACKEND),
+                        'parentMenuDisabledOptions' => $parentMenuDisabledOptions,
                     ];
                 },
             ],

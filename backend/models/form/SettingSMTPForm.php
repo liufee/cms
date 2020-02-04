@@ -106,6 +106,7 @@ class SettingSMTPForm extends \common\models\Options
      * 获取smtp邮箱配置
      *
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public static function getComponentConfig()
     {

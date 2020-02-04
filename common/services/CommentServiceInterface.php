@@ -12,4 +12,6 @@ namespace common\services;
 interface CommentServiceInterface extends ServiceInterface
 {
     const ServiceName = "commentService";
+
+    public function getRecentComments($limit = 10);
 }

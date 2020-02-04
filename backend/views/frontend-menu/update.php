@@ -13,9 +13,13 @@ $this->params['breadcrumbs'] = [
     ['label' => Yii::t('app', 'Update') . Yii::t('app', 'Frontend Menus')],
 ];
 /**
- * @var $model frontend\models\Menu
+ * @var $model common\models\Menu
+ * @var $parentMenuDisabledOptions []
+ * @var $menusNameWithPrefixLevelCharacters []
  */
 ?>
 <?= $this->render('_form', [
     'model' => $model,
+    'menusNameWithPrefixLevelCharacters' => $menusNameWithPrefixLevelCharacters,
+    'parentMenuDisabledOptions' => $parentMenuDisabledOptions,
 ]) ?>

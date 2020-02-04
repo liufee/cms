@@ -9,13 +9,13 @@
 namespace backend\models\search;
 
 use Yii;
+use common\models\FriendlyLink;
 use common\libs\Constants;
 use backend\behaviors\TimeSearchBehavior;
 use backend\components\search\SearchEvent;
-use backend\models\FriendlyLink;
 use yii\data\ActiveDataProvider;
 
-class FriendlyLinkSearch extends \backend\models\FriendlyLink implements SearchInterface
+class FriendlyLinkSearch extends \common\models\FriendlyLink implements SearchInterface
 {
     public function behaviors()
     {

@@ -11,7 +11,7 @@ use yii;
 use yii\base\Event;
 use yii\db\BaseActiveRecord;
 use yii\base\InvalidParamException;
-use backend\models\AdminUser;
+use common\models\AdminUser;
 
 /**
  * Password reset form

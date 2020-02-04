@@ -5,7 +5,10 @@ return [
     'components' => [
         'user' => [
             'class' => yii\web\User::className(),
-            'identityClass' => backend\models\AdminUser::className(),
+            'identityClass' => common\models\AdminUser::className(),
         ],
+        'request' => [
+            'enableCsrfValidation' => false,
+        ]
     ],
 ];

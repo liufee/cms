@@ -8,14 +8,14 @@
 
 namespace backend\controllers;
 
+use common\services\CommentServiceInterface;
 use Yii;
 use Exception;
 use common\services\MenuService;
 use common\models\Comment;
 use backend\models\form\LoginForm;
 use common\libs\ServerInfo;
-use backend\models\Article as ArticleModel;
-use backend\models\Comment as BackendComment;
+use common\models\Article;
 use common\models\FriendlyLink;
 use frontend\models\User;
 use yii\base\UserException;
@@ -131,7 +131,7 @@ class SiteController extends \yii\web\Controller
             ],
         ];
         $temp = [
-            'ARTICLE' => ArticleModel::find()->where(['type' => ArticleModel::ARTICLE])->count('id'),
+            'ARTICLE' => Article::find()->where(['type' => Article::ARTICLE])->count('id'),
             'COMMENT' => Comment::find()->count('id'),
             'USER' => User::find()->count('id'),
             'FRIEND_LINK' => FriendlyLink::find()->count('id'),
@@ -140,7 +140,7 @@ class SiteController extends \yii\web\Controller
         $statics = [
             'ARTICLE' => [
                 $temp['ARTICLE'],
-                $temp['ARTICLE'] ? number_format(ArticleModel::find()->where([
+                $temp['ARTICLE'] ? number_format(Article::find()->where([
                         'between',
                         'created_at',
                         strtotime(date('Y-m-01')),
@@ -175,7 +175,9 @@ class SiteController extends \yii\web\Controller
                     ])->count('id') / $temp['FRIEND_LINK'] * 100, 2) : $percent
             ],
         ];
-        $comments = BackendComment::getRecentComments(6);
+        /** @var CommentServiceInterface $commentService */
+        $commentService = Yii::$app->get(CommentServiceInterface::ServiceName);
+        $comments = $commentService->getRecentComments(6);
         return $this->render('main', [
             'info' => $info,
             'status' => $status,

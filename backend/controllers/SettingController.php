@@ -57,7 +57,7 @@ class SettingController extends \yii\web\Controller
             'custom' => [
                 'class' => UpdateAction::className(),
                 'primaryKeyIdentity' => null,
-                "update" => function($id, $postData)use($service){
+                "update" => function($postData)use($service){
                     return $service->updateCustomSetting($postData);
                 },
                 "data" => function($updateResultModel) use($service){
@@ -103,7 +103,7 @@ class SettingController extends \yii\web\Controller
             "smtp" => [
                 "class" => UpdateAction::className(),
                 'primaryKeyIdentity' => null,
-                "update" => function($id, $postData)use($service){
+                "update" => function($postData)use($service){
                    return $service->updateSMTPSetting($postData);
                 },
                 "data" => function($updateResultModel) use($service){

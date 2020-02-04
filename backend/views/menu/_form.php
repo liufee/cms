@@ -8,15 +8,13 @@
 
 /**
  * @var $this yii\web\View
- * @var $model backend\models\Menu
+ * @var $model common\models\Menu
  * @var $parentMenuDisabledOptions []
  * @var $menusNameWithPrefixLevelCharacters []
  */
 
 use backend\widgets\ActiveForm;
 use common\libs\Constants;
-use backend\models\Menu;
-use yii\helpers\ArrayHelper;
 
 $this->title = "Backend Menus";
 

@@ -30,4 +30,13 @@ class CommentService extends Service implements CommentServiceInterface
     {
         return new Comment();
     }
+
+    /**
+     * @param int $limit
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function getRecentComments($limit = 10)
+    {
+        return $this->getNewModel()->find()->orderBy('created_at desc')->with('article')->limit($limit)->all();
+    }
 }

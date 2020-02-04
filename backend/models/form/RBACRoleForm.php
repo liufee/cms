@@ -9,7 +9,6 @@
 namespace backend\models\form;
 
 
-use yii\rbac\Permission;
 use yii\rbac\Role;
 
 class RBACRoleForm extends \yii\base\Model

@@ -10,7 +10,7 @@ namespace backend\controllers;
 
 use Yii;
 use common\services\ArticleServiceInterface;
-use backend\models\Article;
+use common\models\Article;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;

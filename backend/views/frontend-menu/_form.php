@@ -8,16 +8,15 @@
 
 /**
  * @var $this yii\web\View
- * @var $model frontend\models\Menu
+ * @var $model common\models\Menu
+ * @var $parentMenuDisabledOptions []
+ * @var $menusNameWithPrefixLevelCharacters []
  */
 
 use backend\widgets\ActiveForm;
-use common\helpers\FamilyTree;
 use common\libs\Constants;
 use common\models\Category;
 use common\widgets\JsBlock;
-use frontend\models\Menu;
-use yii\helpers\ArrayHelper;
 
 $this->title = "Frontend Menus";
 $parent_id = Yii::$app->getRequest()->get('parent_id', '');
@@ -31,19 +30,7 @@ if ($parent_id != '') {
             <?= $this->render('/widgets/_ibox-title') ?>
             <div class="ibox-content">
                 <?php $form = ActiveForm::begin(); ?>
-                <?php
-                $disabledOptions = [];
-                if(!$model->getIsNewRecord()){
-                    $disabledOptions[$model->id] = ['disabled' => true];
-                    $familyTree = new FamilyTree(Menu::getMenusWithNameHasPrefixLevelCharacters(Menu::TYPE_FRONTEND));
-                    $descendants = $familyTree->getDescendants($model->id);
-                    $descendants = ArrayHelper::getColumn($descendants, 'id');
-                    foreach ($descendants as $descendant){
-                        $disabledOptions[$descendant] = ['disabled' => true];
-                    }
-                }
-                ?>
-                <?= $form->field($model, 'parent_id')->label(Yii::t('app', 'Parent Menu Name'))->dropDownList(Menu::getMenusName(Menu::TYPE_FRONTEND), ['options' => $disabledOptions]) ?>
+                <?= $form->field($model, 'parent_id')->label(Yii::t('app', 'Parent Menu Name'))->dropDownList($menusNameWithPrefixLevelCharacters, ['options' => $parentMenuDisabledOptions]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>

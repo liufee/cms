@@ -2,7 +2,7 @@
 
 namespace backend\tests\functional;
 
-use backend\models\AdminUser;
+use common\models\AdminUser;
 use backend\tests\FunctionalTester;
 use backend\fixtures\UserFixture;
 use yii\helpers\Url;
@@ -37,6 +37,18 @@ class SettingCest
             'SettingWebsiteForm[website_title]' => "testfeehicms",
         ]);
         $I->seeInField("SettingWebsiteForm[website_title]", "testfeehicms");
+    }
+
+    public function checkSMTP(FunctionalTester $I)
+    {
+        $I->amOnPage(Url::toRoute('/setting/smtp'));
+        $I->see('SMTP设置');
+
+        $I->submitForm("button[type=submit]", [
+            'SettingSMTPForm[smtp_username]' => "test@feehi.com",
+            'SettingSMTPForm[smtp_host]' => 'smtp.126.com',
+        ]);
+        $I->seeInField("SettingSMTPForm[smtp_username]", "test@feehi.com");
     }
 
     public function checkCustom(FunctionalTester $I)

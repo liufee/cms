@@ -11,7 +11,7 @@ namespace backend\controllers;
 use Yii;
 use backend\actions\ViewAction;
 use common\services\MenuServiceInterface;
-use backend\models\Menu;
+use common\models\Menu;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
@@ -67,7 +67,7 @@ class MenuController extends \yii\web\Controller
                     return $service->create($postData, ['type' => Menu::TYPE_BACKEND]);
                 },
                 'data' => function($createResultModel) use($service){
-                    $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;
+                    $model = $createResultModel === null ? $service->getNewModel(['type'=> Menu::TYPE_BACKEND]) : $createResultModel;
                     return [
                         'model'=>$model,
                         'menusNameWithPrefixLevelCharacters' => $service->getMenusNameWithPrefixLevelCharacters(Menu::TYPE_BACKEND),
@@ -91,6 +91,7 @@ class MenuController extends \yii\web\Controller
                     foreach ($descendants as $descendant){//cannot be themselves's sub menu's menu
                         $parentMenuDisabledOptions[$descendant] = ['disabled' => true];
                     }
+
                     return [
                         'model' => $model,
                         'menusNameWithPrefixLevelCharacters' => $service->getMenusNameWithPrefixLevelCharacters(Menu::TYPE_BACKEND),
