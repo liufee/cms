@@ -9,6 +9,7 @@
 namespace backend\models\form;
 
 
+use Yii;
 use yii\rbac\Role;
 
 class RBACRoleForm extends \yii\base\Model
@@ -29,6 +30,17 @@ class RBACRoleForm extends \yii\base\Model
         return [
             [['name', 'description'], 'required'],
             [['roles', 'permissions'], 'default', 'value' => []],
+        ];
+    }
+
+    public function attributeLabels()
+    {
+        return [
+            "description" => Yii::t('app', 'Description'),
+            "sort" => Yii::t('app', 'Sort'),
+            "name" => Yii::t('app', 'Role'),
+            "permissions" => Yii::t('app', 'Permissions'),
+            "roles" => Yii::t('app', 'Role'),
         ];
     }
 

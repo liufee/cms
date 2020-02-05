@@ -111,7 +111,6 @@ class SettingSMTPForm extends \common\models\Options
     public static function getComponentConfig()
     {
         $config = Yii::createObject( self::className() );
-        $config->getSmtpConfig();
         return [
             'useFileTransport' => false,
             'transport' => [

@@ -95,6 +95,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Permissions');
                                         'onclick' => "viewLayer('" . Url::to(['permission-view-layer', 'name' => $model->name]) . "',$(this))",
                                         'data-pjax' => '0',
                                         'class' => 'btn',
+                                        'url' => Url::to(['permission-view-layer', 'name' => $model->name]),
                                     ]);
                                 },
                                 'update' => function ($url, $model, $key) {

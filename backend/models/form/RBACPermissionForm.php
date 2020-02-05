@@ -70,4 +70,17 @@ class RBACPermissionForm extends yii\base\Model
             parent::setAttributes($values, $safeOnly);
         }
     }
+
+    public function attributeLabels()
+    {
+        return [
+            "route" => Yii::t('app', 'Route'),
+            "method" => Yii::t('app', 'HTTP Method'),
+            "description" => Yii::t('app', 'Description'),
+            "group" => Yii::t('app', 'Group'),
+            "category" => Yii::t('app', 'Category'),
+            "sort" => Yii::t('app', 'Sort'),
+            "name" => Yii::t('app', 'Role'),
+        ];
+    }
 }

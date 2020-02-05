@@ -41,9 +41,8 @@ class SiteCest
         $I->amOnPage(Url::toRoute(['/site/language', 'lang'=>'en-US']));
         //$I->setCookie("_csrf_backend", $I->grabCookie("_csrf_backend"));
         //$I->setCookie("BACKEND_FEEHICMS", $I->grabCookie("BACKEND_FEEHICMS"));
-        $I->amOnPage(Url::toRoute(["site/main"]));
-        $I->see("Web Server");
-        $I->see("Database Info");
+        $I->see("Refresh");
+        $I->see("Home");
         $I->amOnPage(Url::toRoute(['/site/language', 'lang'=>'zh-CN']));
     }
 

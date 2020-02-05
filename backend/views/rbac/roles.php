@@ -82,6 +82,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Roles');
                                         'onclick' => "viewLayer('" . Url::to(['role-view-layer', 'name' => $model->name]) . "',$(this))",
                                         'data-pjax' => '0',
                                         'class' => 'btn',
+                                        'url' =>  Url::to(['role-view-layer', 'name' => $model->name]),
                                     ]);
                                 },
                                 'update' => function ($url, $model, $key) {

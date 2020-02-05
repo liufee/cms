@@ -2,9 +2,11 @@
 
 namespace backend\tests\functional;
 
+use common\libs\Constants;
 use common\models\AdminUser;
 use backend\tests\FunctionalTester;
 use backend\fixtures\UserFixture;
+use common\models\Options;
 use yii\helpers\Url;
 
 /**
@@ -60,4 +62,42 @@ class SettingCest
         ]);
         $I->seeInField("Options[20][value]", "12345");
     }
+
+    public function checkCustomCreate(FunctionalTester $I)
+    {
+        $I->sendAjaxPostRequest(Url::toRoute("/setting/custom-create"), [
+            "Options[name]" => "test",
+            "Options[input_type]" => Constants::INPUT_INPUT,
+            "Options[autoload]" => Options::CUSTOM_AUTOLOAD_YES,
+            "Options[value]" => "",
+            "Options[sort]" => ""
+        ]);
+        $I->see("success");
+    }
+
+    public function checkCustomUpdate(FunctionalTester $I)
+    {
+        $I->amOnPage(Url::toRoute('/setting/custom'));
+        $urls = $I->grabMultiple("a[title=编辑]", "href");
+        $I->sendAjaxPostRequest($urls[0], [
+            "Options[name]" => "test_update",
+            "Options[input_type]" => Constants::INPUT_IMG,
+            "Options[autoload]" => Options::CUSTOM_AUTOLOAD_NO,
+            "Options[value]" => "",
+            "Options[sort]" => ""
+        ]);
+        $I->see("success");
+    }
+
+    public function checkCustomDelete(FunctionalTester $I)
+    {
+        $I->amOnPage(Url::toRoute('/setting/custom'));
+        $urls = $I->grabMultiple("a[class=btn-delete]", "href");
+        $data = \GuzzleHttp\Psr7\parse_query($urls[0]);
+        $I->sendAjaxPostRequest($urls[0], [
+            "id" => $data['id'],
+        ]);
+        $I->see("success");
+    }
+
 }

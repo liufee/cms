@@ -62,7 +62,7 @@ class ArticleController extends \yii\web\Controller
                 },
                 'data' => function($createResultModel,  CreateAction $createAction) use($service){
                     return [
-                        'model' => $createResultModel === null ? $service->getNewModel() : $createResultModel,
+                        'model' => $createResultModel === null ? $service->getNewModel(['scenario'=>'article']) : $createResultModel,
                     ];
                 },
             ],

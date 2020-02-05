@@ -37,7 +37,10 @@ class LogCest
 
     public function checkView(AcceptanceTester $I)
     {
-        $I->amOnPage(Url::toRoute(['/log/view-layer', 'id'=>1]));
+        $I->amOnPage(Url::toRoute('/log/index'));
+        $urls = $I->grabMultiple("table a[title=查看]", "url");
+        $I->amOnPage($urls[0]);
+        $I->see('创建时间');
         $I->see('管理员');
         $I->see("通过");
     }
