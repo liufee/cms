@@ -33,7 +33,7 @@ class Comment extends \common\models\Comment
                 $this->ip = Yii::$app->getRequest()->getUserIP();
                 $this->uid = Yii::$app->getUser()->getIsGuest() ? 0 : Yii::$app->getUser()->getId();
             } else {
-                $this->addError('content', Yii::t('app', 'Website closed comment'));
+                $this->addError('content', Yii::t('frontend', 'Website closed comment'));
                 return false;
             }
         }
