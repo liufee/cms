@@ -38,6 +38,7 @@ $this->registerMetaTag(['name' => 'tags', 'content' => call_user_func(function()
 )], 'tags');
 $this->registerMetaTag(['property' => 'article:author', 'content' => $model->author_name]);
 $categoryName = $model->category ? $model->category->name : Yii::t('app', 'uncategoried');
+$categoryAlias = $model->category ? $model->category->alias : Yii::t('app', 'uncategoried');
 
 ViewAsset::register($this);
 ?>
@@ -46,7 +47,7 @@ ViewAsset::register($this);
         <div class="breadcrumbs">
             <a title="<?=Yii::t('frontend', 'Return Home')?>" href="<?= Yii::$app->getHomeUrl() ?>"><i class="fa fa-home"></i></a>
             <small>&gt;</small>
-            <a href="<?= Url::to(['article/index', 'cat' => $categoryName]) ?>"><?= $categoryName ?></a>
+            <a href="<?= Url::to(['article/index', 'cat' => $categoryAlias]) ?>"><?= $categoryName ?></a>
             <small>&gt;</small>
             <span class="muted"><?= $model->title ?></span>
         </div>
@@ -56,7 +57,7 @@ ViewAsset::register($this);
                 <span id="mute-category" class="muted"><i class="fa fa-list-alt"></i>
                     <a href="<?= Url::to([
                         'article/index',
-                        'cat' => $categoryName
+                        'cat' => $categoryAlias
                     ]) ?>"> <?= $categoryName ?>
                     </a>
                 </span>

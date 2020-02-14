@@ -19,7 +19,7 @@ return [
             'class' => feehi\cdn\DummyTarget::className(),//不使用cdn
         ],
         'cache' => [//缓存组件 具体配置请参考 http://doc.feehi.com/configs.html
-            'class' => yii\caching\DummyCache::className(),//不使用缓存
+            'class' => yii\caching\FileCache::className(),//不使用缓存
         ],
         'formatter' => [//格式显示配置
             'dateFormat' => 'php:Y-m-d H:i',
