@@ -9,7 +9,7 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\LoginForm;
+use frontend\models\LoginForm;
 use frontend\models\form\PasswordResetRequestForm;
 use frontend\models\form\ResetPasswordForm;
 use frontend\models\form\SignupForm;
@@ -171,8 +171,7 @@ class SiteController extends Controller
     public function actionOffline()
     {
         Yii::$app->getResponse()->statusCode = 503;
-        Yii::$app->getResponse()->content = "sorry, the site is temporary unserviceable";
-        Yii::$app->getResponse()->send();
+        return "sorry, the site is temporary unserviceable";
     }
 
 
@@ -183,11 +182,11 @@ class SiteController extends Controller
      */
     public function actionView()
     {
-        $view = Yii::$app->getRequest()->get('type');
-        if (isset($view)) {
+        $view = Yii::$app->getRequest()->get('type', null);
+        if (isset($view) && !empty($view)) {
             Yii::$app->session['view'] = $view;
         }
-        $this->goBack( Yii::$app->getRequest()->getHeaders()->get('referer') );
+        $this->goBack( Yii::$app->getRequest()->getReferrer() );
     }
 
     /**
@@ -198,9 +197,10 @@ class SiteController extends Controller
     {
         $language = Yii::$app->getRequest()->get('lang');
         if (isset($language)) {
-            Yii::$app->session['language'] = Html::encode($language);
+            $session = Yii::$app->getSession();
+            $session['language'] = Html::encode($language);
         }
-        $this->redirect( Yii::$app->getRequest()->getHeaders()->get('referer') );
+        $this->redirect( Yii::$app->getRequest()->getReferrer() );
     }
 
     /**

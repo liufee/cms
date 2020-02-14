@@ -8,8 +8,8 @@
 
 namespace common\models;
 
-use feehi\cdn\DummyTarget;
 use Yii;
+use feehi\cdn\DummyTarget;
 
 /**
  * This is the model class for table "{{%content}}".
@@ -76,6 +76,19 @@ class ArticleContent extends \yii\db\ActiveRecord
             $baseUrl = $cdn->host;
         }
         $this->content = str_replace(Yii::$app->params['site']['sign'], $baseUrl, $this->content);
-    }
 
+        if (! isset(Yii::$app->params['cdnUrl']) || Yii::$app->params['cdnUrl'] == '') {
+            return;
+        }
+        if (strpos($this->content, 'src="/uploads"')) {
+            $pattern = "/<[img|IMG].*?src=[\'|\"](.*?(?:[\.gif|\.jpg]))[\'|\"].*?[\/]?>/";
+            preg_match_all($pattern, $this->content, $matches);
+            $matches[1] = array_unique($matches[1]);
+            foreach ($matches[1] as $v) {
+                $this->content = str_replace($v, Yii::$app->params['cdnUrl'] . $v, $this->content);
+            }
+        } else {
+            $this->content = str_replace(Yii::$app->params['site']['url'], Yii::$app->params['cdnUrl'], $this->content);
+        }
+    }
 }

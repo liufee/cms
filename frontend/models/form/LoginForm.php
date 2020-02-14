@@ -6,15 +6,15 @@
  * Created at: 2017-03-15 21:16
  */
 
-namespace common\models;
+namespace frontend\models;
 
 use Yii;
-use yii\base\Model;
+use common\models\User;
 
 /**
  * Login form
  */
-class LoginForm extends Model
+class LoginForm extends yii\base\Model
 {
     public $username;
 

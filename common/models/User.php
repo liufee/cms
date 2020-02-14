@@ -123,11 +123,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return true;
     }
 
-    public function afterFind(){
-        parent::afterFind();
-        $this->username = Html::encode($this->username);
-    }
-
     public static function getStatuses()
     {
         return [

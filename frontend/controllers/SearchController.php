@@ -8,9 +8,9 @@
 
 namespace frontend\controllers;
 
-use common\models\meta\ArticleMetaTag;
 use Yii;
-use frontend\models\Article;
+use common\models\meta\ArticleMetaTag;
+use common\models\Article;
 use yii\helpers\Html;
 use yii\web\Controller;
 use yii\data\ActiveDataProvider;
