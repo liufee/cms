@@ -42,7 +42,7 @@ AppAsset::register($this);
 </head>
 <?php $this->beginBody() ?>
 <body class="home blog">
-<?= $this->render('/widgets/_flash') ?>
+<?= $this->render('_flash') ?>
 <header id="masthead" class="site-header">
     <nav id="top-header">
         <div class="top-nav">

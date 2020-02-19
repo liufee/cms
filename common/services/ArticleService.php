@@ -10,6 +10,7 @@ namespace common\services;
 
 
 use backend\models\search\ArticleSearch;
+use common\libs\Constants;
 use common\models\Article;
 
 class ArticleService extends Service implements ArticleServiceInterface
@@ -36,5 +37,10 @@ class ArticleService extends Service implements ArticleServiceInterface
         $model = new Article(['scenario' => $type]);
         $model->loadDefaultValues();
         return $model;
+    }
+
+    public function getFlagHeadLinesArticles($limit, $sort = SORT_DESC)
+    {
+        return Article::find()->limit($limit)->where(['flag_headline'=>Constants::YesNo_Yes])->limit($limit)->with('category')->orderBy(["sort"=>$sort])->all();
     }
 }

@@ -11,16 +11,20 @@
  * @var $dataProvider yii\data\ActiveDataProvider
  * @var $type string
  * @var $category string
+ * @var $indexBanners []
  */
 
-use common\models\Options;
-use frontend\models\Article;
+/**
+ * @var $rightAd1 \backend\models\form\AdForm
+ * @var $rightAd2 \backend\models\form\AdForm
+ * @var $headLinesArticles []\common\modesl\Article
+ */
+
 use frontend\widgets\ArticleListView;
 use frontend\widgets\ScrollPicView;
 use common\widgets\JsBlock;
 use frontend\assets\IndexAsset;
 use yii\data\ArrayDataProvider;
-
 IndexAsset::register($this);
 $this->title = ( !empty($category) ? $category . " - " : "" ) . Yii::$app->feehi->website_title;
 ?>
@@ -28,14 +32,14 @@ $this->title = ( !empty($category) ? $category . " - " : "" ) . Yii::$app->feehi
     <div class="content">
         <div class="slick_bor">
             <?= ScrollPicView::widget([
-                'banners' => Options::getBannersByType('index'),
+                'banners' => $indexBanners,
             ]) ?>
             <div class="ws_shadow"></div>
         </div>
         <div class="daodu clr">
             <?= ArticleListView::widget([
                 'dataProvider' => new ArrayDataProvider([
-                    'allModels' => Article::find()->limit(1)->where(['flag_headline'=>1])->limit(4)->with('category')->orderBy("sort asc")->all(),
+                    'allModels' => $headLinesArticles,
                 ]),
                 'layout' => "<div class='tip'><h4>" . Yii::t('frontend', 'Well-choosen') . "</h4></div>
                                 <ul class=\"dd-list\">
@@ -65,7 +69,10 @@ $this->title = ( !empty($category) ? $category . " - " : "" ) . Yii::$app->feehi
         ]) ?>
     </div>
 </div>
-<?= $this->render('/widgets/_sidebar') ?>
+<?= $this->render('_sidebar', [
+        'rightAd1' => $rightAd1,
+        'rightAd2' => $rightAd2,
+]) ?>
 <?php JsBlock::begin() ?>
 <script>
     $(function () {

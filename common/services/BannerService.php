@@ -11,10 +11,13 @@ namespace common\services;
 
 use backend\models\form\BannerForm;
 use backend\models\form\BannerTypeForm;
+use common\libs\Constants;
 use common\models\Options;
+use Yii;
 use yii\base\Exception;
 use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
 class BannerService extends Service implements BannerServiceInterface
@@ -219,6 +222,22 @@ class BannerService extends Service implements BannerServiceInterface
             $form = clone $formModel;
             $form->setAttributes($item);
             $banners[] = $form;
+        }
+        return $banners;
+    }
+
+    public function getBannersByAdType($type)
+    {
+        $model = Options::findOne(['type' => Options::TYPE_BANNER, 'name'=>$type]);
+        if( $model == null ) throw new NotFoundHttpException("None banner type named " . $type);
+        if( $model->value == '' ) $model->value = '[]';
+        $banners = json_decode($model->value, true);
+        ArrayHelper::multisort($banners, 'sort');
+        /** @var $cdn \feehi\cdn\TargetInterface */
+        $cdn = Yii::$app->get('cdn');
+        foreach ($banners as $k => &$banner){
+            if( $banner['status'] == Constants::Status_Disable ) unset($banners[$k]);
+            $banner['img'] = $cdn->getCdnUrl($banner['img']);
         }
         return $banners;
     }

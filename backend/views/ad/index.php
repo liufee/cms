@@ -16,7 +16,6 @@ use backend\grid\GridView;
 use backend\grid\SortColumn;
 use backend\grid\StatusColumn;
 use common\libs\Constants;
-use frontend\models\User;
 use backend\widgets\Bar;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;
@@ -68,7 +67,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Ad');
                         [
                             'attribute' => 'autoload',
                             'class' => StatusColumn::className(),
-                            'filter' => User::getStatuses(),
+                            'filter' => Constants::getYesNoItems(),
                         ],
                         [
                             'attribute' => 'sort',

@@ -42,4 +42,11 @@ class AdService extends Service implements AdServiceInterface
         ];
     }
 
+    public function getAdByName($name)
+    {
+        $model = AdForm::findOne(["type"=>Options::TYPE_AD, "name"=>$name]);
+        if( $model === null ) throw new Exception("Not exists advertisement name " . $name);
+        return $model;
+    }
+
 }

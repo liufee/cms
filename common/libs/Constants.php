@@ -121,13 +121,13 @@ class Constants
     }
 
     const Status_Enable = 1;
-    const Status_Desable = 0;
+    const Status_Disable = 0;
 
     public static function getStatusItems($key = null)
     {
         $items = [
             self::Status_Enable => Yii::t('app', 'Enable'),
-            self::Status_Desable => Yii::t('app', 'Disable'),
+            self::Status_Disable => Yii::t('app', 'Disable'),
         ];
         return self::getItems($items, $key);
     }

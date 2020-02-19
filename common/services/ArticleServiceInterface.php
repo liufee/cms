@@ -12,4 +12,6 @@ namespace common\services;
 interface ArticleServiceInterface extends ServiceInterface
 {
     const ServiceName = 'articleService';
+
+    public function getFlagHeadLinesArticles($limit, $sort = SORT_DESC);
 }

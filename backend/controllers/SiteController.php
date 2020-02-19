@@ -8,8 +8,8 @@
 
 namespace backend\controllers;
 
-use common\services\CommentServiceInterface;
 use Yii;
+use common\services\CommentServiceInterface;
 use Exception;
 use common\services\MenuService;
 use common\models\Comment;
@@ -17,7 +17,7 @@ use backend\models\form\LoginForm;
 use common\libs\ServerInfo;
 use common\models\Article;
 use common\models\FriendlyLink;
-use frontend\models\User;
+use common\models\User;
 use yii\base\UserException;
 use yii\db\Query;
 use yii\filters\AccessControl;

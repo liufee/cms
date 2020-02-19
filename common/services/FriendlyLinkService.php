@@ -29,4 +29,9 @@ class FriendlyLinkService extends Service implements FriendlyLinkServiceInterfac
         $model->loadDefaultValues();
         return $model;
     }
+
+    public function getFriendlyLinks()
+    {
+        return FriendlyLink::find()->where(['status' => FriendlyLink::DISPLAY_YES])->orderBy(['sort'=>SORT_ASC, 'id' => SORT_DESC])->all();
+    }
 }

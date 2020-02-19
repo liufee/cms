@@ -6,12 +6,16 @@
  * Created at: 2016-06-21 14:26
  */
 
-use common\models\meta\ArticleMetaTag;
-use common\models\Options;
-use frontend\models\Article;
+/**
+ * @var $rightAd1 \backend\models\form\AdForm
+ * @var $rightAd2 \backend\models\form\AdForm
+ */
+
+use common\models\Article;
+use frontend\widgets\FriendlyLinkView;
+use frontend\widgets\HottestArticleTagView;
+use frontend\widgets\LatestCommentView;
 use yii\helpers\Url;
-use frontend\models\Comment;
-use frontend\models\FriendlyLink;
 
 ?>
 <aside class="sidebar">
@@ -58,9 +62,8 @@ use frontend\models\FriendlyLink;
 
     <div class="widget d_banner">
         <div class="d_banner_inner">
-            <?php $ad = Options::getAdByName('sidebar_right_1')?>
-            <a href="<?=$ad->link?>" target="<?=$ad->target?>" title="<?=$ad->desc?>"  rel="external nofollow">
-                <img src="<?=$ad->ad?>" alt="<?=$ad->desc?>"><span></span>
+            <a href="<?=$rightAd1->link?>" target="<?=$rightAd1->target?>" title="<?=$rightAd1->desc?>"  rel="external nofollow">
+                <img src="<?=$rightAd1->ad?>" alt="<?=$rightAd1->desc?>"><span></span>
             </a>
         </div>
     </div>
@@ -93,7 +96,9 @@ use frontend\models\FriendlyLink;
 
     <div class="widget d_banner">
         <div class="d_banner_inner">
-            <img class="alignnone size-full wp-image-516" src="<?php $ad = Options::getAdByName('sidebar_right_2');echo $ad->ad?>" alt="ddy" width="308">
+            <a href="<?=$rightAd2->link?>" target="<?=$rightAd2->target?>" title="<?=$rightAd2->desc?>"  rel="external nofollow">
+                <img class="alignnone size-full wp-image-516" src="<?= $rightAd2->ad?>" alt="ddy" width="308">
+            </a>
         </div>
     </div>
     <div class="widget d_tag">
@@ -103,12 +108,7 @@ use frontend\models\FriendlyLink;
             </h2>
         </div>
         <div class="d_tags">
-            <?php
-            $tagsModel = new ArticleMetaTag();
-            foreach ($tagsModel->getHotestTags() as $k => $v) {
-                echo "<a title='' href='" . Url::to(['search/tag', 'tag' => $k]) . "' data-original-title='{$v}" . Yii::t('frontend', ' Topics') . "'>{$k} ({$v})</a>";
-            }
-            ?>
+            <?=HottestArticleTagView::widget()?>
         </div>
     </div>
 
@@ -118,24 +118,7 @@ use frontend\models\FriendlyLink;
                 <sapn class="title_span"><?= Yii::t('frontend', 'Latest Comments') ?></sapn>
             </h2>
         </div>
-        <ul>
-            <?php
-            $comments = Comment::find()->orderBy("id desc")->limit(5)->all();
-            foreach ($comments as $v) {
-                ?>
-                <li>
-                    <a href="<?= Url::to(['article/view', 'id' => $v['aid'], '#' => 'comment-' . $v['id']]) ?>"
-                       title="">
-                        <img data-original="<?=Yii::$app->getRequest()->getBaseUrl()?>/static/images/comment-user-avatar.png" class="avatar avatar-72" height="50"
-                             width="50" src="" style="display: block;">
-                        <div class="muted">
-                            <i><?= $v['nickname'] ?></i>&nbsp;&nbsp;<?= Yii::$app->formatter->asRelativeTime($v['created_at']) ?>
-                            (<?= Yii::$app->formatter->asTime($v['created_at']) ?>)<?= Yii::t('frontend', ' said') ?>
-                            ：<br><?= $v['content'] ?></div>
-                    </a>
-                </li>
-            <?php } ?>
-        </ul>
+       <?=LatestCommentView::widget()?>
     </div>
     <div class="widget widget_text">
         <div class="title">
@@ -145,12 +128,7 @@ use frontend\models\FriendlyLink;
         </div>
         <div class="textwidget">
             <div class="d_tags_1">
-                <?php
-                $links = FriendlyLink::find()->where(['status' => FriendlyLink::DISPLAY_YES])->orderBy("sort asc, id asc")->asArray()->all();
-                foreach ($links as $link) {
-                    echo "<a target='_blank' href='{$link['url']}'>{$link['name']}</a>";
-                }
-                ?>
+                <?=FriendlyLinkView::widget()?>
             </div>
         </div>
     </div>

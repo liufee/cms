@@ -10,7 +10,7 @@ namespace frontend\widgets;
 
 
 use yii;
-use frontend\models\Menu;
+use common\models\Menu;
 
 class MenuView extends \yii\base\Widget
 {

@@ -25,4 +25,6 @@ interface BannerServiceInterface extends ServiceInterface
     public function createBanner($id, array $postData = []);
     public function sortBanner($id, $sign, $sort);
     public function deleteBanner($id, $sign);
+
+    public function getBannersByAdType($type);
 }

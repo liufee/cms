@@ -154,12 +154,4 @@ class Options extends \yii\db\ActiveRecord
         }
         return parent::beforeSave($insert);
     }
-
-    public static function getAdByName($name)
-    {
-        $ad = AdForm::findOne(['type'=>self::TYPE_AD, 'name'=>$name]);
-        $ad === null && $ad = Yii::createObject( AdForm::className() );
-        return $ad;
-    }
-
 }

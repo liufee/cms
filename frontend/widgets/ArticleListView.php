@@ -92,7 +92,7 @@ class ArticleListView extends \yii\widgets\ListView
         ];
         if( empty($this->itemView) ) {
             $this->itemView = function ($model, $key, $index) {
-                /** @var $model \frontend\models\Article */
+                /** @var $model \common\models\Article */
                 $categoryName = $model->category ? $model->category->name : yii::t('app', 'uncategoried');
                 $categoryAlias = $model->category ? $model->category->alias : yii::t('app', 'uncategoried');
                 $categoryUrl = Url::to(['article/index', 'cat' => $categoryAlias]);

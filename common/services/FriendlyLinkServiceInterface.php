@@ -11,4 +11,6 @@ namespace common\services;
 
 interface FriendlyLinkServiceInterface extends ServiceInterface {
     const ServiceName = "friendlyLinkService";
+
+    public function getFriendlyLinks();
 }

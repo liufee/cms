@@ -8,12 +8,17 @@
 
 /**
  * @var $this yii\web\View
- * @var $model frontend\models\Article
- * @var $commentModel frontend\models\Comment
- * @var $prev frontend\models\Article
- * @var $next frontend\models\Article
+ * @var $model common\models\Article
+ * @var $commentModel common\models\Comment
+ * @var $prev common\models\Article
+ * @var $next common\models\Article
  * @var $recommends array
  * @var $commentList array
+ */
+
+/**
+ * @var $rightAd1 \backend\models\form\AdForm
+ * @var $rightAd2 \backend\models\form\AdForm
  */
 
 use frontend\widgets\ArticleListView;
@@ -263,7 +268,10 @@ ViewAsset::register($this);
         </div>
     </div>
 </div>
-<?= $this->render('/widgets/_sidebar') ?>
+<?= $this->render('_sidebar', [
+    'rightAd1' => $rightAd1,
+    'rightAd2' => $rightAd2,
+]) ?>
 <?php JsBlock::begin(); ?>
 <script type="text/javascript">
     SyntaxHighlighter.all();

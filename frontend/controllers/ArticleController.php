@@ -8,6 +8,9 @@
 
 namespace frontend\controllers;
 
+use common\services\AdServiceInterface;
+use common\services\ArticleServiceInterface;
+use common\services\BannerServiceInterface;
 use Yii;
 use common\libs\Constants;
 use frontend\models\form\ArticlePasswordForm;
@@ -55,6 +58,12 @@ class ArticleController extends Controller
      */
     public function actionIndex($cat = '')
     {
+        /** @var BannerServiceInterface $bannerService */
+        $bannerService = Yii::$app->get(BannerServiceInterface::ServiceName);
+        /** @var AdServiceInterface $adService */
+        $adService = Yii::$app->get(AdServiceInterface::ServiceName);
+        /** @var ArticleServiceInterface $articleService */
+        $articleService = Yii::$app->get(ArticleServiceInterface::ServiceName);
         if ($cat == '') {
             $cat = Yii::$app->getRequest()->getPathInfo();
         }
@@ -89,10 +98,16 @@ class ArticleController extends Controller
         ]);
         $template = "index";
         isset($category) && $category->template != "" && $template = $category->template;
+        $indexBanners = $bannerService->getBannersByAdType("index");
+        $headLineArticles = $articleService->getFlagHeadLinesArticles(4);
         return $this->render($template, [
             'dataProvider' => $dataProvider,
             'type' => ( !empty($cat) ? Yii::t('frontend', 'Category {cat} articles', ['cat'=>$cat]) : Yii::t('frontend', 'Latest Articles') ),
             'category' => isset($category) ? $category->name : "",
+            'headLinesArticles' => $headLineArticles,
+            'indexBanners' => $indexBanners,
+            'rightAd1' => $adService->getAdByName("sidebar_right_1"),
+            'rightAd2' => $adService->getAdByName("sidebar_right_1"),
         ]);
     }
 
@@ -153,6 +168,8 @@ class ArticleController extends Controller
         $template = "view";
         isset($model->category) && $model->category->article_template != "" && $template = $model->category->article_template;
         $model->template != "" && $template = $model->template;
+        /** @var AdServiceInterface $adService */
+        $adService = Yii::$app->get(AdServiceInterface::ServiceName);
         return $this->render($template, [
             'model' => $model,
             'prev' => $prev,
@@ -160,6 +177,8 @@ class ArticleController extends Controller
             'recommends' => $recommends,
             'commentModel' => $commentModel,
             'commentList' => $commentList,
+            'rightAd1' => $adService->getAdByName("sidebar_right_1"),
+            'rightAd2' => $adService->getAdByName("sidebar_right_1"),
         ]);
     }
 
