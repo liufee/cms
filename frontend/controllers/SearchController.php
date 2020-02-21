@@ -9,6 +9,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use frontend\controllers\helpers\Helper;
 use common\models\meta\ArticleMetaTag;
 use common\models\Article;
 use yii\helpers\Html;
@@ -22,6 +23,7 @@ class SearchController extends Controller
      * 搜索
      *
      * @return string
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex()
     {
@@ -38,10 +40,11 @@ class SearchController extends Controller
                 ]
             ]
         ]);
-        return $this->render('/article/index', [
+        $data = array_merge([
             'dataProvider' => $dataProvider,
             'type' => Yii::t('frontend', 'Search keyword {keyword} results', ['keyword'=>Html::encode($keyword)]),
-        ]);
+        ], Helper::getCommonInfos());
+        return $this->render('/article/index', $data);
     }
 
     public function actionTag($tag='')
@@ -59,9 +62,11 @@ class SearchController extends Controller
                 ]
             ]
         ]);
-        return $this->render('/article/index', [
+        $data = array_merge([
             'dataProvider' => $dataProvider,
             'type' => Yii::t('frontend', 'Tag {tag} related articles', ['tag'=>$tag]),
-        ]);
+
+        ], Helper::getCommonInfos());
+        return $this->render('/article/index', $data);
     }
 }

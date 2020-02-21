@@ -22,13 +22,29 @@ class UserService extends Service implements UserServiceInterface
 
     public function getModel($id, array $options = [])
     {
-        return User::findOne($id);
+        $model = User::findOne($id);
+        isset($options['scenario']) && $model->setScenario($options['scenario']);
+        return $model;
     }
 
     public function getNewModel(array $options = [])
     {
         $model = new User();
         $model->loadDefaultValues();
+        isset($options['scenario']) && $model->setScenario($options['scenario']);
+        return $model;
+    }
+
+    public function create(array $postData, array $options = [])
+    {
+        $model = $this->getNewModel($options);
+        if( $model->load($postData) ){
+            $model->generateAuthKey();
+            $model->setPassword($model->password);
+            if( $model->save() ) {
+                return true;
+            }
+        }
         return $model;
     }
 }

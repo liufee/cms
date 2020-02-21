@@ -8,7 +8,7 @@
 
 /**
  * @var $this yii\web\View
- * @var $dataProvider frontend\models\Menu
+ * @var $dataProvider common\models\Menu
  */
 
 use backend\grid\DateColumn;
@@ -16,7 +16,7 @@ use backend\grid\GridView;
 use backend\grid\SortColumn;
 use backend\grid\StatusColumn;
 use backend\widgets\Bar;
-use frontend\models\Menu;
+use common\models\Menu;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use backend\grid\CheckboxColumn;

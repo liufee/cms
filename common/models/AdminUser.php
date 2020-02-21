@@ -374,7 +374,7 @@ class AdminUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfa
      */
     public function getAuthKey()
     {
-        return $this->getAuthKey();
+        return $this->auth_key;
     }
 
     /**

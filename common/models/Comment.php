@@ -27,6 +27,7 @@ use yii\helpers\Html;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property Article $article
  */
 class Comment extends \yii\db\ActiveRecord
 {
@@ -218,7 +219,7 @@ class Comment extends \yii\db\ActiveRecord
                 $this->ip = Yii::$app->getRequest()->getUserIP();
                 $this->uid = Yii::$app->getUser()->getIsGuest() ? 0 : Yii::$app->getUser()->getId();
             } else {
-                $this->addError('content', Yii::t('app', 'Website closed comment'));
+                $this->addError('content', Yii::t('frontend', 'Website closed comment'));
                 return false;
             }
         }

@@ -8,25 +8,17 @@
 
 /**
  * @var $this yii\web\View
- * @var $model frontend\models\Article
+ * @var $model common\models\Article
  */
 
-use frontend\models\Article;
+use common\models\Article;
 use yii\helpers\Url;
 
 $this->title = $model->title . '-' . Yii::$app->feehi->website_title;
-
-$this->registerMetaTag(['name' => 'keywords', 'content' => $model->seo_keywords], 'keywords');
-$this->registerMetaTag(['name' => 'description', 'content' => $model->seo_description], 'description');
-$this->registerMetaTag(['name' => 'tags', 'content'=> call_user_func(function()use($model) {
-    $tags = '';
-    foreach ($model->articleTags as $tag) {
-        $tags .= $tag->value . ',';
-    }
-    return rtrim($tags, ',');
-}
-)], 'tags');
 ?>
+
+<?=$this->render("../article/_register_meta_tags", ['model' => $model])?>
+
 <div class="pagewrapper clearfix">
     <aside class="pagesidebar">
         <ul class="pagesider-menu">

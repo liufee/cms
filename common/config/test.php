@@ -7,8 +7,5 @@ return [
             'class' => yii\web\User::className(),
             'identityClass' => common\models\AdminUser::className(),
         ],
-        'request' => [
-            'enableCsrfValidation' => false,
-        ]
     ],
 ];

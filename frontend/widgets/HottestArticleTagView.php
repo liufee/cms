@@ -19,7 +19,7 @@ class HottestArticleTagView extends \yii\base\Widget
 
     public $layout = "{%ITEMS%}";
 
-    public $itemTemplate = "<a title='' href='{%HREF%}' data-original-title='{%TAG_NUM%}{%TOPICS%}' {%TAG_NAME%} ({%TAG_NUM%})</a>";
+    public $itemTemplate = "<a title='' href='{%HREF%}' data-original-title='{%TAG_NUM%}{%TOPICS%}'> {%TAG_NAME%} ({%TAG_NUM%})</a>";
 
     public function run()
     {
@@ -30,9 +30,10 @@ class HottestArticleTagView extends \yii\base\Widget
             $item = str_replace("{%HREF%}", Url::to(['search/tag', 'tag' => $tagName]), $this->itemTemplate);
             $item = str_replace("{%TAG_NUM%}", $num, $item);
             $item = str_replace("{%TOPICS%}", Yii::t('frontend', ' Topics'), $item);
+            $item = str_replace("{%TAG_NAME%}", $tagName, $item);
             $items .= $item;
         }
-        return str_replace($this->layout, "{%ITEMS%}", $items);
+        return str_replace("{%ITEMS%}", $items, $this->layout);
     }
 
     private function getData()

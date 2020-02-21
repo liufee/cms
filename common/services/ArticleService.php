@@ -43,4 +43,14 @@ class ArticleService extends Service implements ArticleServiceInterface
     {
         return Article::find()->limit($limit)->where(['flag_headline'=>Constants::YesNo_Yes])->limit($limit)->with('category')->orderBy(["sort"=>$sort])->all();
     }
+
+    public function getArticleSubTitle($subTitle)
+    {
+        return Article::findOne(['type' => Article::SINGLE_PAGE, 'sub_title' => $subTitle]);
+    }
+
+    public function getArticleById($aid)
+    {
+        return Article::find()->where(['id'=>$aid, "status"=>Constants::YesNo_Yes, 'type'=>Article::ARTICLE])->one();
+    }
 }

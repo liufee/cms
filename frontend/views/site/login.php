@@ -8,7 +8,7 @@
 
 /* @var $this yii\web\View */
 /* @var $form \yii\bootstrap\ActiveForm*/
-/* @var $model \common\models\LoginForm */
+/* @var $model \frontend\models\form\LoginForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;

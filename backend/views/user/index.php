@@ -14,7 +14,7 @@
 
 use backend\grid\DateColumn;
 use backend\grid\GridView;
-use frontend\models\User;
+use common\models\User;
 use backend\widgets\Bar;
 use backend\grid\CheckboxColumn;
 use backend\grid\ActionColumn;

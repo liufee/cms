@@ -10,5 +10,8 @@ return [
             'showScriptName' => true,
             'rules' => []
         ],
+        'request' => [
+            'enableCsrfValidation' => false,
+        ]
     ],
 ];

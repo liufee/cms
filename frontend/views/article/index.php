@@ -25,6 +25,7 @@ use frontend\widgets\ScrollPicView;
 use common\widgets\JsBlock;
 use frontend\assets\IndexAsset;
 use yii\data\ArrayDataProvider;
+
 IndexAsset::register($this);
 $this->title = ( !empty($category) ? $category . " - " : "" ) . Yii::$app->feehi->website_title;
 ?>

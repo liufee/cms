@@ -12,7 +12,7 @@ use Yii;
 use yii\web\IdentityInterface;
 use yii\web\UnauthorizedHttpException;
 
-class User extends \frontend\models\User implements IdentityInterface
+class User extends \common\models\User implements IdentityInterface
 {
     public function fields()
     {

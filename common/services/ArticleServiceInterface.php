@@ -14,4 +14,8 @@ interface ArticleServiceInterface extends ServiceInterface
     const ServiceName = 'articleService';
 
     public function getFlagHeadLinesArticles($limit, $sort = SORT_DESC);
+
+    public function getArticleSubTitle($subTitle);
+
+    public function getArticleById($aid);
 }

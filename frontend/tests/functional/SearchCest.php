@@ -11,4 +11,10 @@ class SearchCest
         $I->amOnPage(Url::toRoute(['/search/index', 'q'=>'php']));
         $I->see('10个免费下载PHP脚本的网站');
     }
+
+    public function checkTag(FunctionalTester $I)
+    {
+        $I->amOnPage(Url::toRoute(['/search/tag', 'q'=>'php']));
+        $I->see('Tag');
+    }
 }

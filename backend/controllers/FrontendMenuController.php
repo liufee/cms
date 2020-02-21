@@ -11,7 +11,7 @@ namespace backend\controllers;
 use Yii;
 use backend\actions\ViewAction;
 use common\services\MenuServiceInterface;
-use frontend\models\Menu;
+use common\models\Menu;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
 use backend\actions\IndexAction;

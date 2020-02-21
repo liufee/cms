@@ -71,7 +71,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'SMTP Setting');
                 error: function (jqXHR, textStatus, errorThrown) {
                     layer.msg(jqXHR.responseJSON.message);
                 },
-                compelete: function () {
+                complete: function () {
                     layer.closeAll('loading');
                 }
             });

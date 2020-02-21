@@ -8,7 +8,7 @@
 
 /**
  * @var $this yii\web\View
- * @var $model backend\models\AdminUser
+ * @var $model common\models\AdminUser
  */
 use backend\widgets\ActiveForm;
 $this->title = "Admin";

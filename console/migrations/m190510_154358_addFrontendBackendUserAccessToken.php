@@ -12,7 +12,7 @@ class m190510_154358_addFrontendBackendUserAccessToken extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn(\frontend\models\User::tableName(), "access_token", $this->string(42)->after("avatar")->defaultValue("")->notNull()->comment("登录token"));
+        $this->addColumn(\common\models\User::tableName(), "access_token", $this->string(42)->after("avatar")->defaultValue("")->notNull()->comment("登录token"));
         $this->addColumn(\common\models\AdminUser::tableName(), "access_token", $this->string(42)->after("avatar")->defaultValue("")->notNull()->comment("登录token"));
     }
 
@@ -21,7 +21,7 @@ class m190510_154358_addFrontendBackendUserAccessToken extends Migration
      */
     public function safeDown()
     {
-        $this->dropColumn(\frontend\models\User::tableName(), "access_token");
+        $this->dropColumn(\common\models\User::tableName(), "access_token");
         $this->dropColumn(\common\models\AdminUser::tableName(), "access_token");
         return true;
     }

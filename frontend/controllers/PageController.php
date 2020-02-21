@@ -9,8 +9,8 @@
 namespace frontend\controllers;
 
 use Yii;
+use common\services\ArticleServiceInterface;
 use yii\web\Controller;
-use frontend\models\Article;
 use yii\web\NotFoundHttpException;
 
 class PageController extends Controller
@@ -22,13 +22,17 @@ class PageController extends Controller
      * @param string $name
      * @return string
      * @throws \yii\web\NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionView($name = '')
     {
         if ($name == '') {
             $name = Yii::$app->getRequest()->getPathInfo();
         }
-        $model = Article::findOne(['type' => Article::SINGLE_PAGE, 'sub_title' => $name]);
+
+        /** @var ArticleServiceInterface $service */
+        $service = Yii::$app->get(ArticleServiceInterface::ServiceName);
+        $model = $service->getArticleSubTitle($name);
         if (empty($model)) {
             throw new NotFoundHttpException('None page named ' . $name);
         }

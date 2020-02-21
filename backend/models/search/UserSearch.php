@@ -14,7 +14,7 @@ use backend\components\search\SearchEvent;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class UserSearch extends \frontend\models\User implements SearchInterface
+class UserSearch extends \common\models\User implements SearchInterface
 {
 
     public function behaviors()

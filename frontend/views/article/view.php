@@ -31,22 +31,14 @@ use yii\widgets\ActiveForm;
 
 $this->title = $model->title;
 
-$this->registerMetaTag(['name' => 'keywords', 'content' => $model->seo_keywords], 'keywords');
-$this->registerMetaTag(['name' => 'description', 'content' => $model->seo_description], 'description');
-$this->registerMetaTag(['name' => 'tags', 'content' => call_user_func(function()use($model) {
-    $tags = '';
-    foreach ($model->articleTags as $tag) {
-        $tags .= $tag->value . ',';
-    }
-    return rtrim($tags, ',');
-    }
-)], 'tags');
-$this->registerMetaTag(['property' => 'article:author', 'content' => $model->author_name]);
 $categoryName = $model->category ? $model->category->name : Yii::t('app', 'uncategoried');
 $categoryAlias = $model->category ? $model->category->alias : Yii::t('app', 'uncategoried');
 
 ViewAsset::register($this);
 ?>
+
+<?=$this->render("_register_meta_tags", ['model' => $model])?>
+
 <div class="content-wrap">
     <div class="content">
         <div class="breadcrumbs">

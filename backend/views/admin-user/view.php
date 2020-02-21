@@ -5,11 +5,11 @@
  * Email: job@feehi.com
  * Created at: 2018-02-24 14:26
  */
-use frontend\models\User;
+use common\models\AdminUser;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\AdminUser */
+/* @var $model common\models\AdminUser */
 ?>
 <?= DetailView::widget([
     'model' => $model,
@@ -36,9 +36,9 @@ use yii\widgets\DetailView;
         [
             'attribute' => 'status',
             'value' => function ($model) {
-                if($model->status == User::STATUS_ACTIVE){
+                if($model->status == AdminUser::STATUS_ACTIVE){
                     return Yii::t('app', 'Normal');
-                }else if( $model->status == User::STATUS_DELETED ) {
+                }else if( $model->status == AdminUser::STATUS_DELETED ) {
                     return Yii::t('app', 'Disabled');
                 }
             }

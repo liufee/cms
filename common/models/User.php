@@ -13,7 +13,6 @@ use Exception;
 use common\helpers\Util;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
-use yii\helpers\Html;
 use yii\web\IdentityInterface;
 
 /**
@@ -30,8 +29,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public $password;
 
     public $repassword;
-
-    public $old_password;
 
     public function behaviors()
     {
@@ -90,10 +87,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function beforeSave($insert)
     {
-        if ($insert) {
-            $this->generateAuthKey();
-            $this->setPassword($this->password);
-        }else{
+        if (!$insert) {
             if( !empty($this->password) && empty($this->repassword) ){
                 $this->addError("repassword", Yii::t('yii', '{attribute} must be equal to "{compareValueOrAttribute}".', [
                     'attribute' => yii::t('app', 'Repeat Password'),
@@ -221,7 +215,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
-        return $this->getAuthKey();
+        return $this->auth_key;
     }
 
     /**

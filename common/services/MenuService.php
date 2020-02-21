@@ -161,7 +161,7 @@ class MenuService extends Service  implements MenuServiceInterface
         //echo $cacheKey;exit;
         $cache = Yii::$app->getCache();
         $menus = $cache->get($cacheKey);
-        if( $menus === false ){
+        if( $menus === false || !is_array($menus) ){
             $cacheDependencyObject = Yii::createObject([
                 'class' => FileDependencyHelper::className(),
                 'fileName' => Menu::MENU_CACHE_DEPENDENCY_FILE,
@@ -171,7 +171,7 @@ class MenuService extends Service  implements MenuServiceInterface
                 'fileName' => $cacheDependencyObject->createFileIfNotExists(),
             ];
             $menus = $this->getMenusFromStorage($menuType, $isDisplay);
-            if ( $cache->set($cacheKey, 1, 60*60, Yii::createObject($dependency)) === false ){
+            if ( $cache->set($cacheKey, $menus, 60*60, Yii::createObject($dependency)) === false ){
                 Yii::error(__METHOD__ . " save menu cache error");
             }
         }

@@ -7,8 +7,8 @@
  */
 namespace frontend\models\form;
 
-use common\models\User;
 use Yii;
+use common\models\User;
 use yii\base\Model;
 
 /**

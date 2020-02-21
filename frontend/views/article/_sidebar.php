@@ -15,28 +15,15 @@ use common\models\Article;
 use frontend\widgets\FriendlyLinkView;
 use frontend\widgets\HottestArticleTagView;
 use frontend\widgets\LatestCommentView;
+use frontend\widgets\RecentCommentArticleView;
+use frontend\widgets\SNSView;
 use yii\helpers\Url;
 
 ?>
 <aside class="sidebar">
     <div class="widget widget_text">
         <div class="textwidget">
-            <div class="social">
-                <a href="<?= Yii::$app->feehi->weibo ?>" rel="external nofollow" title="" target="_blank" data-original-title="新浪微博"><i class="sinaweibo fa fa-weibo"></i></a>
-                <a href="<?= Yii::$app->feehi->facebook ?>" rel="external nofollow" title="" target="_blank" data-original-title="Facebook"><i class="facebook fa fa-facebook"></i></a>
-                <a class="weixin" data-original-title="" title=""><i class="weixins fa fa-weixin"></i>
-                    <div class="weixin-popover">
-                        <div class="popover bottom in">
-                            <div class="arrow"></div>
-                            <div class="popover-title"><?=Yii::t('frontend', 'Follow Wechat')?>“<?= Yii::$app->feehi->wechat ?>”</div>
-                            <div class="popover-content"><img src="<?=Yii::$app->getRequest()->getBaseUrl()?>/static/images/weixin.jpg"></div>
-                        </div>
-                    </div>
-                </a>
-                <a href="mailto:<?= Yii::$app->feehi->email ?>" rel="external nofollow" title="" target="_blank" data-original-title="Email"><i class="email fa fa-envelope-o"></i></a>
-                <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=<?= Yii::$app->feehi->qq ?>&amp;site=qq&amp;menu=yes" rel="external nofollow" title="" target="_blank" data-original-title="联系QQ"><i class="qq fa fa-qq"></i></a>
-                <a href="<?= Url::to(['article/rss'])?>" rel="external nofollow" target="_blank" title="" data-original-title="订阅本站"><i class="rss fa fa-rss"></i></a>
-            </div>
+            <?=SNSView::widget()?>
         </div>
     </div>
     <div class="widget d_textbanner">
@@ -74,24 +61,7 @@ use yii\helpers\Url;
                 <sapn class="title_span"><?= Yii::t('frontend', 'Hot Recommends') ?></sapn>
             </h2>
         </div>
-        <ul>
-            <?php
-            $articles = Article::find()->where(['flag_special_recommend' => 1])->limit(8)->orderBy("sort asc")->all();
-            foreach ($articles as $article) {
-                /** @var $article \frontend\models\Article */
-                $url = Url::to(['article/view', 'id' => $article->id]);
-                $imgUrl = $article->getThumbUrlBySize(125, 86);
-                $article->created_at = Yii::$app->formatter->asDate($article->created_at);
-                echo "<li>
-                    <a href=\"{$url}\" title=\"{$article->title}\">
-                        <span class=\"thumbnail\"><img src=\"{$imgUrl}\" alt=\"{$article->title}\"></span>
-                        <span class=\"text\">{$article->title}</span>
-                        <span class=\"muted\">{$article->created_at}</span><span class=\"muted_1\">{$article->comment_count}" . Yii::t('frontend', ' Comments') . "</span>
-                    </a>
-                </li>";
-            }
-            ?>
-        </ul>
+        <?=RecentCommentArticleView::widget()?>
     </div>
 
     <div class="widget d_banner">

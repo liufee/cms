@@ -18,7 +18,7 @@ class FileDependencyHelper extends \yii\base\BaseObject
     /**
      * @var string cache depend file director
      */
-    public $rootDir = '@runtime/cache/file_dependency/';
+    public $rootDir = '@backend/runtime/cache/file_dependency/';
 
     /**
      * @var string cache depend file name

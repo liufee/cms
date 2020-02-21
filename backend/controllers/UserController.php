@@ -57,10 +57,10 @@ class UserController extends \yii\web\Controller
             'create' => [
                 'class' => CreateAction::className(),
                 'create' => function($postData) use($service){
-                    return $service->create($postData);
+                    return $service->create($postData, ['scenario'=>'create']);
                 },
                 'data' => function($createResultModel) use($service){
-                    $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;
+                    $model = $createResultModel === null ? $service->getNewModel(['scenario'=>'create']) : $createResultModel;
                     return [
                         'model' => $model,
                     ];
@@ -69,10 +69,10 @@ class UserController extends \yii\web\Controller
             'update' => [
                 'class' => UpdateAction::className(),
                 'update' => function($id, $postData) use($service){
-                    return $service->update($id, $postData);
+                    return $service->update($id, $postData, ['scenario'=>'update']);
                 },
                 'data' => function($id, $updateResultModel) use($service){
-                    $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
+                    $model = $updateResultModel === null ? $service->getDetail($id, ['scenario'=>'update']) : $updateResultModel;
                     return [
                         'model' => $model,
                     ];

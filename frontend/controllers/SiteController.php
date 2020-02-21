@@ -9,7 +9,7 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\LoginForm;
+use frontend\models\form\LoginForm;
 use frontend\models\form\PasswordResetRequestForm;
 use frontend\models\form\ResetPasswordForm;
 use frontend\models\form\SignupForm;

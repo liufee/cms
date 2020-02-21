@@ -8,12 +8,14 @@
 
 namespace frontend\controllers;
 
+use Yii;
+use frontend\controllers\helpers\Helper;
+use common\services\CommentServiceInterface;
 use common\services\AdServiceInterface;
 use common\services\ArticleServiceInterface;
-use common\services\BannerServiceInterface;
-use Yii;
 use common\libs\Constants;
 use frontend\models\form\ArticlePasswordForm;
+use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use common\models\Article;
@@ -34,6 +36,12 @@ class ArticleController extends Controller
     public function behaviors()
     {
         return [
+            [
+                'class' =>VerbFilter::className(),
+                'actions' => [
+                    'comment'  => ['POST'],
+                ]
+            ],
             [
                 'class' => HttpCache::className(),
                 'only' => ['view'],
@@ -58,12 +66,6 @@ class ArticleController extends Controller
      */
     public function actionIndex($cat = '')
     {
-        /** @var BannerServiceInterface $bannerService */
-        $bannerService = Yii::$app->get(BannerServiceInterface::ServiceName);
-        /** @var AdServiceInterface $adService */
-        $adService = Yii::$app->get(AdServiceInterface::ServiceName);
-        /** @var ArticleServiceInterface $articleService */
-        $articleService = Yii::$app->get(ArticleServiceInterface::ServiceName);
         if ($cat == '') {
             $cat = Yii::$app->getRequest()->getPathInfo();
         }
@@ -98,17 +100,12 @@ class ArticleController extends Controller
         ]);
         $template = "index";
         isset($category) && $category->template != "" && $template = $category->template;
-        $indexBanners = $bannerService->getBannersByAdType("index");
-        $headLineArticles = $articleService->getFlagHeadLinesArticles(4);
-        return $this->render($template, [
+        $data = array_merge([
             'dataProvider' => $dataProvider,
             'type' => ( !empty($cat) ? Yii::t('frontend', 'Category {cat} articles', ['cat'=>$cat]) : Yii::t('frontend', 'Latest Articles') ),
             'category' => isset($category) ? $category->name : "",
-            'headLinesArticles' => $headLineArticles,
-            'indexBanners' => $indexBanners,
-            'rightAd1' => $adService->getAdByName("sidebar_right_1"),
-            'rightAd2' => $adService->getAdByName("sidebar_right_1"),
-        ]);
+        ], Helper::getCommonInfos());
+        return $this->render($template, $data);
     }
 
     /**
@@ -117,11 +114,14 @@ class ArticleController extends Controller
      * @param $id
      * @return string
      * @throws \yii\web\NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionView($id)
     {
+        /** @var ArticleServiceInterface $articleService */
+        $articleService = Yii::$app->get(ArticleServiceInterface::ServiceName);
+        $model = $articleService->getArticleById($id);
         /** @var Article $model */
-        $model = Article::findOne(['id' => $id, 'type' => Article::ARTICLE, 'status' => Article::ARTICLE_PUBLISHED]);
         if( $model === null ) throw new NotFoundHttpException(Yii::t("frontend", "Article id {id} is not exists", ['id' => $id]));
         $prev = Article::find()
             ->where(['cid' => $model->cid, 'type' => Article::ARTICLE, 'status' => Article::ARTICLE_PUBLISHED])
@@ -178,7 +178,7 @@ class ArticleController extends Controller
             'commentModel' => $commentModel,
             'commentList' => $commentList,
             'rightAd1' => $adService->getAdByName("sidebar_right_1"),
-            'rightAd2' => $adService->getAdByName("sidebar_right_1"),
+            'rightAd2' => $adService->getAdByName("sidebar_right_2"),
         ]);
     }
 
@@ -188,10 +188,13 @@ class ArticleController extends Controller
      * @param $id
      * @return array
      * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionViewAjax($id)
     {
-        $model = Article::findOne($id);
+        /** @var ArticleServiceInterface $articleService */
+        $articleService = Yii::$app->get(ArticleServiceInterface::ServiceName);
+        $model = $articleService->getArticleById($id);
         if( $model === null ) throw new NotFoundHttpException("None exists article id");
         return [
             'likeCount' => (int)$model->getArticleLikeCount(),
@@ -206,34 +209,34 @@ class ArticleController extends Controller
      */
     public function actionComment()
     {
-        if (Yii::$app->getRequest()->getIsPost()) {
-            $commentModel = new Comment();
-            if ($commentModel->load(Yii::$app->getRequest()->post()) && $commentModel->save()) {
-                $avatar = 'https://secure.gravatar.com/avatar?s=50';
-                if ($commentModel->email != '') {
-                    $avatar = "https://secure.gravatar.com/avatar/" . md5($commentModel->email) . "?s=50";
-                }
-                $tips = '';
-                if (Yii::$app->feehi->website_comment_need_verify) {
-                    $tips = "<span class='c-approved'>" . Yii::t('frontend', 'Comment waiting for approved.') . "</span><br />";
-                }
-                $commentModel->afterFind();
-                return "
-                <li class='comment even thread-even depth-1' id='comment-{$commentModel->id}'>
-                    <div class='c-avatar'><img src='{$avatar}' class='avatar avatar-108' height='50' width='50'>
-                        <div class='c-main' id='div-comment-{$commentModel->id}'><p>{$commentModel->content}</p>
-                            {$tips}
-                            <div class='c-meta'><span class='c-author'><a href='{$commentModel->website_url}' rel='external nofollow' class='url'>{$commentModel->nickname}</a></span>  (" . Yii::t('frontend', 'a minutes ago') . ")</div>
-                        </div>
-                    </div>";
-            } else {
-                $temp = $commentModel->getErrors();
-                $str = '';
-                foreach ($temp as $v) {
-                    $str .= $v[0] . "<br>";
-                }
-                return "<font color='red'>" . $str . "</font>";
+        /** @var CommentServiceInterface $service */
+        $service = Yii::$app->get(CommentServiceInterface::ServiceName);
+        $commentModel = $service->getNewModel();
+        if ($commentModel->load(Yii::$app->getRequest()->post()) && $commentModel->save()) {
+            $avatar = 'https://secure.gravatar.com/avatar?s=50';
+            if ($commentModel->email != '') {
+                $avatar = "https://secure.gravatar.com/avatar/" . md5($commentModel->email) . "?s=50";
             }
+            $tips = '';
+            if (Yii::$app->feehi->website_comment_need_verify) {
+                $tips = "<span class='c-approved'>" . Yii::t('frontend', 'Comment waiting for approved.') . "</span><br />";
+            }
+            $commentModel->afterFind();
+            return "
+            <li class='comment even thread-even depth-1' id='comment-{$commentModel->id}'>
+                <div class='c-avatar'><img src='{$avatar}' class='avatar avatar-108' height='50' width='50'>
+                    <div class='c-main' id='div-comment-{$commentModel->id}'><p>{$commentModel->content}</p>
+                        {$tips}
+                        <div class='c-meta'><span class='c-author'><a href='{$commentModel->website_url}' rel='external nofollow' class='url'>{$commentModel->nickname}</a></span>  (" . Yii::t('frontend', 'a minutes ago') . ")</div>
+                    </div>
+                </div>";
+        } else {
+            $temp = $commentModel->getErrors();
+            $str = '';
+            foreach ($temp as $v) {
+                $str .= $v[0] . "<br>";
+            }
+            return "<font color='red'>" . $str . "</font>";
         }
     }
 

@@ -12,5 +12,8 @@ return [
             'enableAutoLogin' => true,
             'autoRenewCookie' => false,
         ],
+        'request' => [
+            'enableCsrfValidation' => false,
+        ]
     ],
 ];
