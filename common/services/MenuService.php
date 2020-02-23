@@ -71,23 +71,29 @@ class MenuService extends Service  implements MenuServiceInterface
 
         $tempMenus = [];
         foreach ($menus as $menu) {
-            /** @var self $menu */
+            /** @var Menu $menu */
             $url = $menu->url;
             $temp = @json_decode($menu->url, true);
-            if ($temp !== null) {
+            if ($temp !== null) {//menu url store json format
                 $url = $temp[0];
             }
-            if (strpos($url, '/') !== 0) $url = '/' . $url;
+            if (strpos($url, '/') !== 0) $url = '/' . $url;//ensure url must start with '/'
             $url = $url . ':GET';
             if (in_array($url, $permissions)) {
-                $menu = $this->getAncestorMenusById($menu->id) + [$menu];
+                $menu = $this->getAncestorMenusById($menu->id, Menu::TYPE_BACKEND) + [$menu];
                 $tempMenus = array_merge($tempMenus, $menu);
             }
         }
 
+        $existMenuIds = [];
         $hasPermissionMenus = [];
         foreach ($tempMenus as $v) {
+            /** @var Menu $v */
+            if( in_array($v->id, $existMenuIds) ) {
+                continue;
+            }
             $hasPermissionMenus[] = $v;
+            $existMenuIds[] = $v->id;
         }
         ArrayHelper::multisort($hasPermissionMenus, 'sort', SORT_ASC);
         return $hasPermissionMenus;

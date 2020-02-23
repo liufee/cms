@@ -15,6 +15,7 @@ use console\controllers\helpers\BackendAuth;
 use yii\console\Controller;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
+use yii\web\Request;
 
 class FeehiController extends Controller
 {
@@ -65,6 +66,7 @@ class FeehiController extends Controller
 
     public function actionPermission()
     {
+        Yii::$app->set("request", new Request());
         /** @var BackendAuth $obj */
         $obj = Yii::createObject([
             'class' => BackendAuth::className(),
