@@ -26,7 +26,7 @@ class LogService extends Service implements LogServiceInterface
         return AdminLog::findOne($id);
     }
 
-    public function getNewModel(array $options = [])
+    public function newModel(array $options = [])
     {
         throw new Exception("Not need new model");
     }

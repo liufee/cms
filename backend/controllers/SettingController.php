@@ -64,7 +64,7 @@ class SettingController extends \yii\web\Controller
                     $model = $updateResultModel === null ? $service->getModel("custom") : $updateResultModel;
                     return [
                         'settings' => $model,
-                        'model' => $service->getNewModel(),
+                        'model' => $service->newModel(),
                     ];
                 },
                 'successRedirect' => ["setting/custom"]
@@ -81,7 +81,7 @@ class SettingController extends \yii\web\Controller
                     return $service->create($postData, ['type' => Options::TYPE_CUSTOM]);
                 },
                 "data" => function($createResultModel)use($service){
-                    $model = $createResultModel === null ? $service->getNewModel(['type'=>Options::TYPE_CUSTOM]) : $createResultModel;
+                    $model = $createResultModel === null ? $service->newModel(['type'=>Options::TYPE_CUSTOM]) : $createResultModel;
                     return [
                         'model' => $model,
                     ];

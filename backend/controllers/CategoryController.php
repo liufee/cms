@@ -57,7 +57,7 @@ class CategoryController extends \yii\web\Controller
                     return $service->create($postData);
                 },
                 'data' => function($createResultModel) use($service) {
-                    $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;
+                    $model = $createResultModel === null ? $service->newModel() : $createResultModel;
                     return [
                         'model' => $model,
                     ];

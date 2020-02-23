@@ -27,7 +27,7 @@ class UserService extends Service implements UserServiceInterface
         return $model;
     }
 
-    public function getNewModel(array $options = [])
+    public function newModel(array $options = [])
     {
         $model = new User();
         $model->loadDefaultValues();
@@ -37,7 +37,7 @@ class UserService extends Service implements UserServiceInterface
 
     public function create(array $postData, array $options = [])
     {
-        $model = $this->getNewModel($options);
+        $model = $this->newModel($options);
         if( $model->load($postData) ){
             $model->generateAuthKey();
             $model->setPassword($model->password);

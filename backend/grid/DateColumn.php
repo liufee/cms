@@ -9,6 +9,7 @@
 namespace backend\grid;
 
 use Yii;
+use yii\base\Model;
 use yii\helpers\Html;
 use yii\web\View;
 
@@ -60,13 +61,20 @@ class DateColumn extends DataColumn
 
     protected function renderFilterCellContent()
     {
-
-        if ($this->grid->filterModel->hasErrors($this->attribute)) {
-            Html::addCssClass($this->filterOptions, 'has-error');
-            $error = ' ' . Html::error($this->grid->filterModel, $this->attribute, $this->grid->filterErrorOptions);
-        } else {
-            $error = '';
+        if (is_string($this->filter)) {
+            return $this->filter;
         }
-        return Html::activeTextInput($this->grid->filterModel, $this->attribute, $this->filterInputOptions) . $error;
+
+        $model = $this->grid->filterModel;
+        if ($this->filter !== false && $model instanceof Model && $this->attribute !== null && $model->isAttributeActive($this->attribute)) {
+            if ($this->grid->filterModel->hasErrors($this->attribute)) {
+                Html::addCssClass($this->filterOptions, 'has-error');
+                $error = ' ' . Html::error($this->grid->filterModel, $this->attribute, $this->grid->filterErrorOptions);
+            } else {
+                $error = '';
+            }
+            return Html::activeTextInput($this->grid->filterModel, $this->attribute, $this->filterInputOptions) . $error;
+        }
+        return parent::renderFilterCellContent();
     }
 }

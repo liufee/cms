@@ -9,12 +9,10 @@
 namespace common\models;
 
 use Yii;
-use backend\models\form\AdForm;
 use common\libs\Constants;
 use common\helpers\FileDependencyHelper;
-use yii\helpers\ArrayHelper;
+use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
-use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
 /**
@@ -29,7 +27,7 @@ use yii\web\UploadedFile;
  * @property integer $autoload
  * @property integer $sort
  */
-class Options extends \yii\db\ActiveRecord
+class Options extends ActiveRecord
 {
 
     const TYPE_SYSTEM = 0;

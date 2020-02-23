@@ -8,17 +8,16 @@
 
 namespace common\services;
 
-
 use backend\models\form\AdForm;
+use backend\models\search\OptionsSearch;
 use common\models\Options;
 use yii\base\Exception;
-use yii\data\ActiveDataProvider;
 
 class AdService extends Service implements AdServiceInterface
 {
     public function getSearchModel(array $query, array $options = [])
     {
-        throw new Exception("no need search");
+        return new OptionsSearch(['type'=>Options::TYPE_AD]);
     }
 
     public function getModel($id, array $options = [])
@@ -26,26 +25,17 @@ class AdService extends Service implements AdServiceInterface
         return AdForm::findOne($id);
     }
 
-    public function getNewModel(array $options = [])
+    public function newModel(array $options = [])
     {
         $model = new AdForm();
         $model->loadDefaultValues();
         return $model;
     }
 
-    public function getList(array $query = [], array $options = [])
-    {
-        return [
-            'dataProvider' =>  new ActiveDataProvider([
-                'query' => AdForm::find()->where(['type'=>AdForm::TYPE_AD])->orderBy('sort,id'),
-            ])
-        ];
-    }
-
     public function getAdByName($name)
     {
         $model = AdForm::findOne(["type"=>Options::TYPE_AD, "name"=>$name]);
-        if( $model === null ) throw new Exception("Not exists advertisement name " . $name);
+        if( $model === null ) throw new Exception("Not exists advertisement named " . $name);
         return $model;
     }
 

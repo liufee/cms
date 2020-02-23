@@ -39,7 +39,7 @@ class RBACService extends Service implements RBACServiceInterface
         throw new Exception("Not need");
     }
 
-    public function getNewModel(array $options = [])
+    public function newModel(array $options = [])
     {
         throw new Exception("Not need");
     }

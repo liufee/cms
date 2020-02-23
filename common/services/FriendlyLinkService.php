@@ -24,7 +24,7 @@ class FriendlyLinkService extends Service implements FriendlyLinkServiceInterfac
         return FriendlyLink::findOne($id);
     }
 
-    public function getNewModel(array $options=[]){
+    public function newModel(array $options=[]){
         $model = new FriendlyLink();
         $model->loadDefaultValues();
         return $model;

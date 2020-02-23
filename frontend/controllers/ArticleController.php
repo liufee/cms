@@ -211,7 +211,7 @@ class ArticleController extends Controller
     {
         /** @var CommentServiceInterface $service */
         $service = Yii::$app->get(CommentServiceInterface::ServiceName);
-        $commentModel = $service->getNewModel();
+        $commentModel = $service->newModel();
         if ($commentModel->load(Yii::$app->getRequest()->post()) && $commentModel->save()) {
             $avatar = 'https://secure.gravatar.com/avatar?s=50';
             if ($commentModel->email != '') {

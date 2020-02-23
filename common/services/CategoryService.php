@@ -25,7 +25,7 @@ class CategoryService extends Service implements CategoryServiceInterface
         return Category::findOne($id);
     }
 
-    public function getNewModel(array $options = [])
+    public function newModel(array $options = [])
     {
         return new Category();
     }

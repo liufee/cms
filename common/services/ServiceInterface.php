@@ -13,7 +13,7 @@ interface ServiceInterface
 {
     public function getList(array $query = [], array $options=[]);
     public function getModel($id, array $options=[]);
-    public function getNewModel(array $options=[]);
+    public function newModel(array $options=[]);
     public function create(array $postData, array $options=[]);
     public function update($id, array $postData, array $options=[]);
     public function delete($id, array $options=[]);

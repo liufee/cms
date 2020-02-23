@@ -17,6 +17,15 @@ use backend\actions\DeleteAction;
 use backend\actions\SortAction;
 use common\services\AdServiceInterface;
 
+/**
+ * Advertisement management
+ * - data:
+ *          table options with column `type` equal \common\models\Options::TYPE_AD
+ *          column `value` is a json format, like {"ad":"x.png"}
+ *
+ * Class AdController
+ * @package backend\controllers
+ */
 class AdController extends \yii\web\Controller
 {
     /**
@@ -38,10 +47,12 @@ class AdController extends \yii\web\Controller
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function()use($service){
-                    $result = $service->getList(Yii::$app->getRequest()->getQueryParams());
+                'data' => function($query)use($service){
+                    /** @var array $query $_GET query params */
+                    $result = $service->getList($query);
                     return [
                         'dataProvider' => $result['dataProvider'],
+                        'searchModel' => $result['searchModel'],
                     ];
                 }
             ],
@@ -56,10 +67,19 @@ class AdController extends \yii\web\Controller
             'create' => [
                 'class' => CreateAction::className(),
                 'create' => function($postData) use($service){
+                    /** @var $postData $_POST data */
                     return $service->create($postData);
                 },
                 'data' => function($createResultModel,  CreateAction $createAction)use($service){
-                    $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;//if POST create failed, will use the old model with errors
+                    /**
+                     * same path(`/path/create`) have two HTTP method
+                     *  - GET for display create page
+                     *  - POST do a create operation(write data to database), then redirect to index or show a create error
+                     *
+                     * if $createResultModel equals null means that is a GET request, need to show create page,
+                     * otherwise means POST request, $createResultModel be the model of created(maybe contains data validation error)
+                     */
+                    $model = $createResultModel === null ? $service->newModel() : $createResultModel;
                     return [
                         'model' => $model,
                     ];
@@ -71,6 +91,14 @@ class AdController extends \yii\web\Controller
                     return $service->update($id, $postData);
                 },
                 'data' => function($id, $updateResultModel) use($service){
+                    /**
+                     * same path(`/path/update`) have two HTTP method
+                     *  - GET for display update page
+                     *  - POST do a update operation(write data to database), then redirect to index or show a update error
+                     *
+                     * if $updateResultModel equals null means that is a GET request, need to show update page,
+                     * otherwise means POST request, $updateResultModel be the model of updated(maybe contains data validation error)
+                     */
                     $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
                     return [
                         'model' => $model,

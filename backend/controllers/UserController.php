@@ -60,7 +60,7 @@ class UserController extends \yii\web\Controller
                     return $service->create($postData, ['scenario'=>'create']);
                 },
                 'data' => function($createResultModel) use($service){
-                    $model = $createResultModel === null ? $service->getNewModel(['scenario'=>'create']) : $createResultModel;
+                    $model = $createResultModel === null ? $service->newModel(['scenario'=>'create']) : $createResultModel;
                     return [
                         'model' => $model,
                     ];

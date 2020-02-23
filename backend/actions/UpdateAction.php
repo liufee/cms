@@ -30,28 +30,28 @@ class UpdateAction extends \yii\base\Action
     public $primaryKeyFromMethod = "GET";
 
     /**
-     * @var array|\Closure 分配到模板中去的变量
+     * @var array|\Closure variables will assigned to view
      */
     public $data;
 
     /**
-     * @var  string|array 编辑成功后跳转地址,此参数直接传给yii::$app->controller->redirect(),默认跳转到进入编辑页前的地址
+     * @var  string|array success update redirect to url (this value will pass yii::$app->controller->redirect($this->successRedirect) to generate url), default is (GET request) referer url
      */
     public $successRedirect;
 
     /**
-     * @var Closure 执行修改
+     * @var Closure the real update logic, usually will call service layer update method
      */
     public $update;
 
     /**
-     * @var string 模板路径，默认为action id
+     * @var string view template path，default is action id
      */
     public $viewFile = null;
 
 
     /**
-     * update修改
+     * update
      *
      * @return array|string
      * @throws UnprocessableEntityHttpException
@@ -86,7 +86,7 @@ class UpdateAction extends \yii\base\Action
                     throw new UnprocessableEntityHttpException(Helper::getErrorString($updateResult));
                 }
             }else{
-                if( $updateResult === true ){//create success
+                if( $updateResult === true ){//update success
                     Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
                     if ($this->successRedirect) return $this->controller->redirect($this->successRedirect);
                     $url = Yii::$app->getSession()->get("_update_referer");
@@ -102,15 +102,15 @@ class UpdateAction extends \yii\base\Action
         if (is_array($this->data)) {
             $data = $this->data;
         } elseif ($this->data instanceof Closure) {
-            $getDataParams = [];
+            $params = [];
             if( !empty($primaryKeys) ){
                 foreach ($primaryKeys as $primaryKey) {
-                    array_push($getDataParams, $primaryKey);
+                    array_push($params, $primaryKey);
                 }
             }
             !isset($updateResult) && $updateResult = null;
-            array_push($getDataParams, $updateResult, $this);
-            $data = call_user_func_array($this->data, $getDataParams);
+            array_push($params, $updateResult, $this);
+            $data = call_user_func_array($this->data, $params);
         } else {
             throw new Exception(__CLASS__ . "::data only allows array or closure (with return array)");
         }

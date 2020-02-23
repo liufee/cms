@@ -30,7 +30,7 @@ class ArticleService extends Service implements ArticleServiceInterface
         return $model;
     }
 
-    public function getNewModel(array $options = [])
+    public function newModel(array $options = [])
     {
         $type = Article::ARTICLE;
         isset($options['scenario']) && $type = $options['scenario'];

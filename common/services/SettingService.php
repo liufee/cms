@@ -34,7 +34,7 @@ class SettingService extends Service implements SettingServiceInterface
         }
     }
 
-    public function getNewModel(array $options = [])
+    public function newModel(array $options = [])
     {
         $model = new Options();
         $model->loadDefaultValues();

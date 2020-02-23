@@ -25,17 +25,17 @@ class ViewAction extends \yii\base\Action
      */
     public $primaryKeyFromMethod = "GET";
 
-    /** @var array|Closure 分配到模板中去的变量 */
+    /** @var array|Closure variables will assigned to view */
     public $data;
 
     /**
-     * @var string 模板路径，默认为action id
+     * @var string view template file path, default is action id
      */
     public $viewFile = 'view';
 
 
     /**
-     * view详情页
+     * view detail page
      *
      * @return string
      * @throws Exception
@@ -49,6 +49,9 @@ class ViewAction extends \yii\base\Action
             $getDataParams = $primaryKeys;
             array_push($getDataParams, $this);
             $data = call_user_func_array($this->data, $getDataParams);
+            if( !is_array($data) ){
+                throw new Exception("data closure must return array");
+            }
         }else{
             throw new Exception(__CLASS__ . "::data only allows array or closure (with return array)");
         }

@@ -26,14 +26,14 @@ class AdminUserService extends Service implements AdminUserServiceInterface
         return AdminUser::findOne($id);
     }
 
-    public function getNewModel(array $options = [])
+    public function newModel(array $options = [])
     {
         return new AdminUser();
     }
 
     public function create(array $postData, array $options = [])
     {
-        $model = $this->getNewModel();
+        $model = $this->newModel();
         $model->setScenario('create');
         if ( $model->load($postData) && $model->save() && $model->assignPermission() ) {
           return true;

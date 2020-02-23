@@ -27,23 +27,24 @@ class CreateAction extends \yii\base\Action
     public $primaryKeyFromMethod = "GET";
 
     /**
-     * @var array|\Closure 分配到模板中去的变量
+     * @var array|\Closure variables will assigned to view
      */
     public $data = [];
 
-    /** @var  string|array 创建成功后跳转地址,此参数直接传给yii::$app->controller->redirect(),默认跳转到index */
-    public $successRedirect;
+    /** @var  string|array success create redirect to url (this value will pass yii::$app->controller->redirect($this->successRedirect) to generate url), default is (GET request) referer url
+     */
+    public $successRedirect = null;
 
     /**
-     * @var Closure 创建方法
+     * @var Closure the real create logic, usually will call service layer create method
      */
     public $create;
 
-    /** @var string 模板路径，默认为action id  */
+    /** @var string view template file，default is action id  */
     public $viewFile = null;
 
     /**
-     * create创建页
+     * create
      *
      * @return mixed
      * @throws UnprocessableEntityHttpException
@@ -51,6 +52,9 @@ class CreateAction extends \yii\base\Action
      */
     public function run()
     {
+        /**
+         * get primary keys, often index list page no need primary keys
+         */
         $primaryKeys = Helper::getPrimaryKeys($this->primaryKeyIdentity, $this->primaryKeyFromMethod);
 
         if (Yii::$app->getRequest()->getIsPost()) {//POST request execute create
@@ -70,6 +74,9 @@ class CreateAction extends \yii\base\Action
 
             array_push($createData, $postData, $this);
 
+            /**
+             * do create, function(primaryKey1, primaryKey2 ..., $_POST, CreateAction)
+             */
             $createResult = call_user_func_array($this->create, $createData);//do create
 
             if (Yii::$app->getRequest()->getIsAjax()) { //ajax
@@ -93,16 +100,16 @@ class CreateAction extends \yii\base\Action
 
         if (is_array($this->data)) {
             $data = $this->data;
-        } elseif ($this->data instanceof Closure) {
-            $getDataParams = [];
+        } else if ($this->data instanceof Closure) {
+            $params = [];
             if( !empty($primaryKeys) ){
                 foreach ($primaryKeys as $primaryKey) {
-                    array_push($getDataParams, $primaryKey);
+                    array_push($params, $primaryKey);
                 }
             }
             !isset($createResult) && $createResult = null;
-            array_push($getDataParams, $createResult, $this);
-            $data = call_user_func_array($this->data, $getDataParams);
+            array_push($params, $createResult, $this);
+            $data = call_user_func_array($this->data, $params);
         } else {
             throw new Exception("CreateAction::data only allows array or closure (with return array)");
         }

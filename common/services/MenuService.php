@@ -30,7 +30,7 @@ class MenuService extends Service  implements MenuServiceInterface
         return Menu::findOne($id);
     }
 
-    public function getNewModel(array $options = [])
+    public function newModel(array $options = [])
     {
         $menu = new Menu();
         $menu->type = Menu::TYPE_BACKEND;

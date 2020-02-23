@@ -61,7 +61,7 @@ class PageController extends \yii\web\Controller
                     return $service->create($postData, ['scenario'=>'page']);
                 },
                 'data' => function($createResultModel) use($service){
-                    $model = $createResultModel === null ? $service->getNewModel(['type'=>Article::SINGLE_PAGE, 'scenario'=>'page']) : $createResultModel;
+                    $model = $createResultModel === null ? $service->newModel(['type'=>Article::SINGLE_PAGE, 'scenario'=>'page']) : $createResultModel;
                     return [
                         'model' => $model,
                     ];

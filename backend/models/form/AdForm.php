@@ -9,22 +9,31 @@
 namespace backend\models\form;
 
 use Yii;
+use common\models\Options;
 use common\helpers\Util;
 use common\libs\Constants;
 
-class AdForm extends \common\models\Options
+class AdForm extends Options
 {
+    /** @var string advertisement content. if type is image, this will be the image url. */
     public $ad;
 
+    /** @var string click advertisement redirect url */
     public $link;
 
+    /** @var string advertisement description, oftens be remark info */
     public $desc;
 
+    /** @var string click advertisement open method */
     public $target = Constants::TARGET_BLANK;
 
     public $created_at;
 
     public $updated_at;
+
+
+    /** @var string $advertisement store file path */
+    private $advertisementFilePath = '@uploads/setting/ad/';
 
 
 
@@ -73,13 +82,13 @@ class AdForm extends \common\models\Options
         $this->type = self::TYPE_AD;
         if( $this->input_type == Constants::AD_TEXT ){
             $oldInput = $this->getOldAttribute('input_type');
-            if( $oldInput != Constants::AD_TEXT ){//删除旧广告文件
+            if( $oldInput != Constants::AD_TEXT ){//delete origin advertisement file
                 $text = $this->ad;
-                Util::handleModelSingleFileUploadAbnormal($this, 'ad', '@uploads/setting/ad/', $this->getOldAttribute('ad'), ['deleteOldFile'=>true]);
+                Util::handleModelSingleFileUploadAbnormal($this, 'ad', $this->advertisementFilePath, $this->getOldAttribute('ad'), ['deleteOldFile'=>true]);
                 $this->ad = $text;
             }
         }else {
-            Util::handleModelSingleFileUploadAbnormal($this, 'ad', '@uploads/setting/ad/', $this->getOldAttribute('ad'));
+            Util::handleModelSingleFileUploadAbnormal($this, 'ad', $this->advertisementFilePath, $this->getOldAttribute('ad'));
         }
 
         $value = [
@@ -129,9 +138,9 @@ class AdForm extends \common\models\Options
 
     public function afterDelete()
     {
-        if( $this->input_type != Constants::AD_TEXT ){
+        if ($this->input_type != Constants::AD_TEXT) {
             $file = Yii::getAlias('@frontend/web') . $this->ad;
-            if( file_exists($file) && is_file($file) ) unlink($file);
+            if (file_exists($file) && is_file($file)) unlink($file);
         }
         return parent::beforeDelete();
     }

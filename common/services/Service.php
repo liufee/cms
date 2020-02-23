@@ -14,14 +14,14 @@ abstract class Service extends \yii\base\BaseObject implements ServiceInterface
 {
     abstract public function getSearchModel(array $query, array $options=[]);
     abstract public function getModel($id, array $options=[]);
-    abstract public function getNewModel(array $options=[]);
+    abstract public function newModel(array $options=[]);
 
     public function getList(array $query = [], array $options=[])
     {
         $searchModel = $this->getSearchModel($query, $options);
         if( $searchModel === null ){
             /** @var ActiveRecord $model */
-            $model = $this->getNewModel();
+            $model = $this->newModel();
             $result = [
                 'dataProvider' => new ActiveDataProvider([
                     'query' => $model->find(),
@@ -51,7 +51,7 @@ abstract class Service extends \yii\base\BaseObject implements ServiceInterface
     public function create(array $postData, array $options=[])
     {
         /** @var ActiveRecord $model */
-        $model = $this->getNewModel($options);
+        $model = $this->newModel($options);
         if( $model->load($postData) && $model->save() ){
             return true;
         }

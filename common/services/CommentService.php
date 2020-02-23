@@ -26,7 +26,7 @@ class CommentService extends Service implements CommentServiceInterface
         return Comment::findOne($id);
     }
 
-    public function getNewModel(array $options = [])
+    public function newModel(array $options = [])
     {
         return new Comment();
     }
@@ -37,6 +37,6 @@ class CommentService extends Service implements CommentServiceInterface
      */
     public function getRecentComments($limit = 10)
     {
-        return $this->getNewModel()->find()->orderBy('created_at desc')->with('article')->limit($limit)->all();
+        return $this->newModel()->find()->orderBy('created_at desc')->with('article')->limit($limit)->all();
     }
 }
