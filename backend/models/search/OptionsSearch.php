@@ -12,7 +12,6 @@ use Yii;
 use backend\models\form\AdForm;
 use common\libs\Constants;
 use common\models\Options;
-use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
@@ -28,7 +27,7 @@ use yii\data\ActiveDataProvider;
  * @property integer $autoload
  * @property integer $sort
  */
-class OptionsSearch extends Model implements SearchInterface
+class OptionsSearch extends \yii\base\Model implements SearchInterface
 {
     public $id = null;
 

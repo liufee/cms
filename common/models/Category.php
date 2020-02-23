@@ -114,30 +114,6 @@ class Category extends \yii\db\ActiveRecord
     }
 
     /**
-     * @return array
-     */
-    public static function getCategoriesName()
-    {
-        $categories = self::getCategories();
-        $data = [];
-        foreach ($categories as $k => $category){
-            /** @var Category $category */
-            if( isset($categories[$k+1]['level']) && $categories[$k+1]['level'] == $category['level'] ){
-                $name = ' ├' . $category['name'];
-            }else{
-                $name = ' └' . $category['name'];
-            }
-            if( end($categories)->id == $category->id ){
-                $sign = ' └';
-            }else{
-                $sign = ' │';
-            }
-            $data[$category['id']] = str_repeat($sign, $category['level']-1) . $name;
-        }
-        return $data;
-    }
-
-    /**
      * get article categories urls
      *
      * @param bool $chosen

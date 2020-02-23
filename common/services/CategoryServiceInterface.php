@@ -14,4 +14,6 @@ interface CategoryServiceInterface extends ServiceInterface
     const ServiceName = "categoryService";
 
     public function getCategoryList();
+
+    public function getLevelCategoriesWithPrefixLevelCharacters();
 }

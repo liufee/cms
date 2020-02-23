@@ -8,6 +8,10 @@
 
 use yii\helpers\Url;
 
+/**
+ * @var $categories []
+ */
+
 $this->params['breadcrumbs'] = [
     ['label' => Yii::t('app', 'Category'), 'url' => Url::to(['index'])],
     ['label' => Yii::t('app', 'Update') . Yii::t('app', 'Category')],
@@ -18,4 +22,5 @@ $this->params['breadcrumbs'] = [
 ?>
 <?= $this->render('_form', [
     'model' => $model,
+    'categories' => $categories,
 ]); ?>

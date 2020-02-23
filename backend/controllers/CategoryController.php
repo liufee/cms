@@ -17,6 +17,15 @@ use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
 
+/**
+ * Category management
+ * - data:
+ *          table category
+ *          column `parent_id` is the parent category id, if equals 0 means first level category
+ *
+ * Class AdController
+ * @package backend\controllers
+ */
 class CategoryController extends \yii\web\Controller
 {
     /**
@@ -60,6 +69,7 @@ class CategoryController extends \yii\web\Controller
                     $model = $createResultModel === null ? $service->newModel() : $createResultModel;
                     return [
                         'model' => $model,
+                        'categories' => $service->getLevelCategoriesWithPrefixLevelCharacters(),
                     ];
                 },
             ],
@@ -72,6 +82,7 @@ class CategoryController extends \yii\web\Controller
                     $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
                     return [
                         'model' => $model,
+                        'categories' => $service->getLevelCategoriesWithPrefixLevelCharacters(),
                     ];
                 }
             ],

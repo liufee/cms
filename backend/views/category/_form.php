@@ -17,6 +17,10 @@ use common\models\Category;
 use yii\helpers\ArrayHelper;
 use common\helpers\Util;
 
+/**
+ * @var $categories []
+ */
+
 $this->title = "Category";
 $parent_id = Yii::$app->getRequest()->get('parent_id', '');
 if ($parent_id != '') {
@@ -43,7 +47,7 @@ if ($parent_id != '') {
                 ?>
                 <?= $form->field($model, 'parent_id')
                     ->label(Yii::t('app', 'Parent Id'))
-                    ->dropDownList(Category::getCategoriesName(), ['options' => $disabledOptions]) ?>
+                    ->dropDownList($categories, ['options' => $disabledOptions]) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 64]) ?>
                 <div class="hr-line-dashed"></div>

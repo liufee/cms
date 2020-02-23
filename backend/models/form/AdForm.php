@@ -9,11 +9,10 @@
 namespace backend\models\form;
 
 use Yii;
-use common\models\Options;
 use common\helpers\Util;
 use common\libs\Constants;
 
-class AdForm extends Options
+class AdForm extends \common\models\Options
 {
     /** @var string advertisement content. if type is image, this will be the image url. */
     public $ad;
