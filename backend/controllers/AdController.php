@@ -16,6 +16,7 @@ use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
 use common\services\AdServiceInterface;
+use yii\web\Controller;
 
 /**
  * Advertisement management
@@ -26,7 +27,7 @@ use common\services\AdServiceInterface;
  * Class AdController
  * @package backend\controllers
  */
-class AdController extends \yii\web\Controller
+class AdController extends Controller
 {
     /**
      * @auth

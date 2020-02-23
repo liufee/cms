@@ -17,6 +17,16 @@ use backend\actions\CreateAction;
 use backend\actions\DeleteAction;
 use backend\actions\UpdateAction;
 
+/**
+ * Banner management
+ * - data:
+ *          table options with column `type` equal \common\models\Options::TYPE_Banner
+ *          column `value` is a json format, like [{"sign":"5a251a3013586","img":"\/uploads\/setting\/banner\/5a251a301280d_1.png","target":"_blank","link":"\/view\/11","sort":"3","status":"1","desc":""}]
+ *          a db row, means a group of banners. such as index banners, detail page banners
+ *
+ * Class BannerController
+ * @package backend\controllers
+ */
 class BannerController extends \yii\web\Controller
 {
     /**
@@ -41,20 +51,21 @@ class BannerController extends \yii\web\Controller
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function() use($service){
-                    $result = $service->getBannerTypeList();
+                'data' => function($query) use($service){
+                    $result = $service->getList($query);
                     return [
                         'dataProvider' => $result['dataProvider'],
+                        'searchModel' => $result['searchModel']
                     ];
                 }
             ],
             'create' => [
                 'class' => CreateAction::className(),
                 'create' => function($postData) use($service){
-                    return $service->createBannerType($postData);
+                    return $service->create($postData);
                 },
                 'data' => function($createResultModel) use($service){
-                    $model = $createResultModel === null ? $service->getNewBannerTypeModel() : $createResultModel;
+                    $model = $createResultModel === null ? $service->newModel() : $createResultModel;
                     return [
                         'model' => $model,
                     ];
@@ -63,10 +74,10 @@ class BannerController extends \yii\web\Controller
             'update' => [
                 'class' => UpdateAction::className(),
                 'update' => function($id, $postData) use($service){
-                    return $service->updateBannerType($id, $postData);
+                    return $service->update($id, $postData);
                 },
                 'data' => function($id, $updateResultModel) use($service){
-                    $model = $updateResultModel === null ? $service->getBannerTypeDetail($id) : $updateResultModel;
+                    $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
                     return [
                         'model' => $model,
                     ];
@@ -76,7 +87,7 @@ class BannerController extends \yii\web\Controller
             'delete' => [
                 'class' => DeleteAction::className(),
                 'delete' => function($id) use($service){
-                    return $service->deleteBannerType($id);
+                    return $service->delete($id);
                 },
             ],
 
@@ -87,7 +98,7 @@ class BannerController extends \yii\web\Controller
                     $result = $service->getBannerList($query);
                     return [
                         'dataProvider' => $result['dataProvider'],
-                        'bannerType' => $service->getBannerTypeDetail($id),
+                        'bannerType' => $service->getDetail($id),
                     ];
                 }
             ],
@@ -98,10 +109,9 @@ class BannerController extends \yii\web\Controller
                     return $service->createBanner($id, $postData);
                 },
                 'data' => function($id, $createResultModel) use($service){
-                    $model = $createResultModel === null ? $service->getNewBannerModel() : $createResultModel;
+                    $model = $createResultModel === null ? $service->newBannerModel($id) : $createResultModel;
                     return [
                         'model' => $model,
-                        'bannerType' => $service->getBannerTypeDetail($id),
                     ];
                 },
                 'successRedirect' => ['banner/banners', 'id'=>Yii::$app->getRequest()->get('id'), 'sign'=>Yii::$app->getRequest()->get('sign')]
@@ -126,7 +136,6 @@ class BannerController extends \yii\web\Controller
                     $model = $updateResultModel === null ? $service->getBannerDetail($id, $sign) : $updateResultModel;
                     return [
                         'model' => $model,
-                        'bannerType' => $service->getBannerTypeDetail($id),
                     ];
                 },
                 'successRedirect' => ['banner/banners', 'id'=>Yii::$app->getRequest()->get('id'), 'sign'=>Yii::$app->getRequest()->get('sign')]

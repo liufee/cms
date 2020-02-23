@@ -11,6 +11,8 @@ namespace common\services;
 
 use backend\models\form\BannerForm;
 use backend\models\form\BannerTypeForm;
+use backend\models\search\OptionsSearch;
+use common\helpers\Util;
 use common\libs\Constants;
 use common\models\Options;
 use Yii;
@@ -25,79 +27,24 @@ class BannerService extends Service implements BannerServiceInterface
 
     public function getSearchModel(array $query, array $options = [])
     {
-        throw new Exception("Not need");
+        return new OptionsSearch(['type' => Options::TYPE_BANNER]);
     }
 
     public function getModel($id, array $options = [])
     {
-        throw new Exception("Not need");
+        return BannerTypeForm::find()->where(['id' => $id, 'type' => Options::TYPE_BANNER])->one();
     }
 
     public function newModel(array $options = [])
     {
-        throw new Exception("Not need");
-    }
-
-    public function getBannerTypeModel($id)
-    {
-        return BannerTypeForm::find()->where(['id' => $id, 'type' => Options::TYPE_BANNER])->one();
-    }
-
-    public function getNewBannerTypeModel()
-    {
         return new BannerTypeForm();
     }
 
-    public function getBannerTypeList(array $query = [])
+
+    public function newBannerModel($id)
     {
-        return [
-            'dataProvider' => new ActiveDataProvider([
-                'query' => BannerTypeForm::find()->where(['type' => Options::TYPE_BANNER]),
-            ])
-        ];
-    }
-
-    public function createBannerType(array $postData = [])
-    {
-        $formModel = $this->getNewBannerTypeModel();
-        if ($formModel->load($postData) && $formModel->save()) {
-            return true;
-        }
-        return $formModel->getErrors();
-    }
-
-    public function getBannerTypeDetail($id)
-    {
-        $model = $this->getBannerTypeModel($id);
-        if ($model === null) {
-            throw new NotFoundHttpException("Banner type id " . $id . " not found");
-        }
-        return $model;
-    }
-
-    public function updateBannerType($id, array $postData = [])
-    {
-        $model = $this->getBannerTypeDetail($id);
-        if ($model->load($postData) && $model->save()) {
-            return true;
-        }
-        return $model->getErrors();
-    }
-
-    public function deleteBannerType($id)
-    {
-        $model = $this->getBannerTypeModel($id);
-        if( $model->delete() ){
-            return true;
-        }
-        return $model;
-    }
-
-
-
-    public function getNewBannerModel()
-    {
-        return new BannerForm();
+        $model = $this->getDetail($id);
+        return new BannerForm(['id'=>$model->id, 'tips'=>$model->tips]);
     }
 
     public function getBannerList($id)
@@ -132,6 +79,8 @@ class BannerService extends Service implements BannerServiceInterface
             foreach ($banners as $b){
                 /** @var BannerForm $b */
                 if( $b->sign === $sign ){
+                    Util::handleModelSingleFileUpload($b, 'img', false, '@uploads/setting/banner/');
+                    $banner->img = $b->img;
                     $newBanners[] = $banner->getValue();
                 }else {
                     $newBanners[] = $b->getValue();
@@ -151,10 +100,11 @@ class BannerService extends Service implements BannerServiceInterface
     public function createBanner($id, array $postData = [])
     {
         /** @var BannerForm $banner */
-        $banner = $this->getNewBannerModel();
+        $banner = $this->newBannerModel($id);
         if ($banner->load($postData) && $banner->validate()) {
             $model = Options::findOne($id);
             $banners = $this->getBanners($id);
+            Util::handleModelSingleFileUpload($banner, 'img', true, '@uploads/setting/banner/');
             $banners[] = $banner->getValue();
             $model->value = json_encode($banners);
             if ($model->save()) {
@@ -192,9 +142,12 @@ class BannerService extends Service implements BannerServiceInterface
     {
         $newBanners = [];
         $banners = $this->getBanners($id);
-        foreach ($banners as $key => $banner) {
+        foreach ($banners as $banner) {
             /** @var BannerForm $banner */
             if ($banner->sign === $sign) {
+                if( !empty( $banner->img ) ){
+                    Util::deleteThumbnails(Yii::getAlias('@frontend/web') . $banner->img, [], true);
+                }
                 continue;
             }
             $newBanners[] = $banner->getValue();
@@ -216,11 +169,13 @@ class BannerService extends Service implements BannerServiceInterface
             throw new NotFoundHttpException("Not exists banner " . $id);
         }
         $items = json_decode($model->value, true);
-        $formModel = $this->getNewBannerModel();
+        $formModel = $this->newBannerModel($id);
         $banners = [];
+        ArrayHelper::multisort($items, 'sort');
         foreach ($items as $item){
             $form = clone $formModel;
             $form->setAttributes($item);
+            $form->setOldAttributes($item);
             $banners[] = $form;
         }
         return $banners;
