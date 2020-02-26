@@ -9,6 +9,7 @@
 /**
  * @var $dataProvider yii\data\ActiveDataProvider
  * @var $searchModel backend\models\search\ArticleSearch
+ * @var $categories []string
  */
 
 use backend\grid\DateColumn;
@@ -66,7 +67,7 @@ if( isset( $config['components']['urlManager']['suffix'] ) ){
                             'value' => function ($model) {
                                 return $model->category ? $model->category->name : Yii::t('app', 'uncategoried');
                             },
-                            'filter' => Category::getCategoriesName(),
+                            'filter' => $categories,
                         ],
                         [
                             'attribute' => 'title',

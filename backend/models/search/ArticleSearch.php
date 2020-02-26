@@ -20,6 +20,8 @@ use yii\helpers\ArrayHelper;
 class ArticleSearch extends Article implements SearchInterface
 {
 
+    public $content;
+
     /**
      * @inheritdoc
      */

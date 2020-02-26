@@ -12,9 +12,13 @@ $this->params['breadcrumbs'] = [
     ['label' => Yii::t('app', 'Update') . Yii::t('app', 'Articles')],
 ];
 /**
- * @var $model backend\models\Article
+ * @var $model common\models\Article
+ * @var $contentModel common\models\Article
+ * @var $categories []string
  */
 ?>
 <?= $this->render('_form', [
     'model' => $model,
+    'contentModel' => $contentModel,
+    'categories' => $categories,
 ]);

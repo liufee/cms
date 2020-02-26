@@ -8,7 +8,9 @@
 use yii\helpers\Url;
 
 /**
- * @var $model backend\models\Article
+ * @var $model common\models\Article
+ * @var $contentModel common\models\Article
+ * @var $categories []string
  */
 $this->params['breadcrumbs'] = [
     ['label' => Yii::t('app', 'Articles'), 'url' => Url::to(['index'])],
@@ -17,4 +19,6 @@ $this->params['breadcrumbs'] = [
 ?>
 <?= $this->render('_form', [
     'model' => $model,
+    'contentModel' => $contentModel,
+    'categories' => $categories,
 ]);

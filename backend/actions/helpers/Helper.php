@@ -43,20 +43,30 @@ class Helper
 
     public static function getErrorString($result)
     {
-        $error = "";
-        if ($result instanceof Model) {
-            $items = $result->getErrors();
-            foreach ($items as $item) {
-                foreach ($item as $e) {
-                    $error .= $e . "<br>";
-                }
-            }
-            $error = rtrim($error, "<br>");
-        } else if (is_string($result)) {
-            $error = $result;
-        } else {
-            throw new Exception( "create/update/delete/sort closure must return true, yii\base\Model or string");
+        if( !is_array($result) ){
+            $results = [$result];
+        }else{
+            $results = $result;
         }
+        $error = "";
+        foreach ($results as $result) {
+
+            if ($result instanceof Model) {
+                $items = $result->getErrors();
+                foreach ($items as $item) {
+                    foreach ($item as $e) {
+                        $error .= $e . "<br>";
+                    }
+                }
+                $error = rtrim($error, "<br>");
+            } else if (is_string($result)) {
+                $error = $result;
+            } else {
+                throw new Exception("create/update/delete/sort closure must return true, yii\base\Model or string");
+            }
+
+        }
+
         return $error;
     }
 }

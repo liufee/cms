@@ -9,9 +9,15 @@
 namespace common\services;
 
 
+use common\models\ArticleContent;
+
 interface ArticleServiceInterface extends ServiceInterface
 {
     const ServiceName = 'articleService';
+
+    public function newArticleContentModel(array $options= []);
+
+    public function getArticleContentDetail($id, array $options = []);
 
     public function getFlagHeadLinesArticles($limit, $sort = SORT_DESC);
 

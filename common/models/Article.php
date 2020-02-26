@@ -63,11 +63,6 @@ class Article extends \yii\db\ActiveRecord
     const ARTICLE_DRAFT = 0;
 
     /**
-     * @var null|string
-     */
-    public $content = null;
-
-    /**
      * @var string
      */
     public $tag = '';
@@ -113,7 +108,6 @@ class Article extends \yii\db\ActiveRecord
             [['title', 'status'], 'required'],
             [['can_comment', 'visibility'], 'default', 'value' => Constants::YesNo_Yes],
             [['thumb'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif, webp'],
-            [['content'], 'string'],
             [['images'], 'safe'],
             [['created_at', 'updated_at'], 'safe'],
             [
@@ -166,7 +160,6 @@ class Article extends \yii\db\ActiveRecord
                 'title',
                 'sub_title',
                 'summary',
-                'content',
                 'thumb',
                 'seo_title',
                 'seo_keywords',
@@ -199,7 +192,6 @@ class Article extends \yii\db\ActiveRecord
                 'sub_title',
                 'summary',
                 'seo_title',
-                'content',
                 'seo_keywords',
                 'seo_description',
                 'status',
@@ -225,7 +217,6 @@ class Article extends \yii\db\ActiveRecord
             'title' => Yii::t('app', 'Title'),
             'sub_title' => Yii::t('app', 'Sub Title'),
             'summary' => Yii::t('app', 'Summary'),
-            'content' => Yii::t('app', 'Content'),
             'thumb' => Yii::t('app', 'Thumb'),
             'seo_title' => Yii::t('app', 'Seo Title'),
             'seo_keywords' => Yii::t('app', 'Seo Keyword'),
@@ -334,21 +325,6 @@ class Article extends \yii\db\ActiveRecord
         $articleMetaTag->setArticleTags($this->id, $this->tag);
         $articleMetaTag = new ArticleMetaImages();
         $articleMetaTag->setImages($this->id, $this->images);
-        if ( $insert ) {
-            $contentModel = yii::createObject( ArticleContent::className() );
-            $contentModel->aid = $this->id;
-        } else {
-            if ( $this->content === null ) {
-                return true;
-            }
-            $contentModel = ArticleContent::findOne(['aid' => $this->id]);
-            if ($contentModel == null) {
-                $contentModel = yii::createObject( ArticleContent::className() );
-                $contentModel->aid = $this->id;
-            }
-        }
-        $contentModel->content = $this->content;
-        $contentModel->save();
         parent::afterSave($insert, $changedAttributes);
     }
 
@@ -361,9 +337,6 @@ class Article extends \yii\db\ActiveRecord
             Util::deleteThumbnails(Yii::getAlias('@frontend/web') . $this->thumb, self::$thumbSizes, true);
         }
         Comment::deleteAll(['aid' => $this->id]);
-        if (($articleContentModel = ArticleContent::find()->where(['aid' => $this->id])->one()) != null) {
-            $articleContentModel->delete();
-        }
         return parent::beforeDelete();
     }
 

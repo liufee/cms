@@ -8,6 +8,7 @@
 
 namespace backend\controllers;
 
+use common\services\CategoryServiceInterface;
 use Yii;
 use common\models\Article;
 use common\services\ArticleServiceInterface;
@@ -36,14 +37,17 @@ class ArticleController extends \yii\web\Controller
     {
         /** @var ArticleServiceInterface $service */
         $service = Yii::$app->get(ArticleServiceInterface::ServiceName);
+        /** @var CategoryServiceInterface $categoryService */
+        $categoryService = Yii::$app->get(CategoryServiceInterface::ServiceName);
         return [
             'index' => [
                 'class' => IndexAction::className(),
-                'data' => function($query) use($service){
+                'data' => function($query) use($service, $categoryService){
                     $result = $service->getList($query, ['type'=>Article::ARTICLE]);
                     return [
                         'dataProvider' => $result['dataProvider'],
                         'searchModel' => $result['searchModel'],
+                        'categories' => $categoryService->getLevelCategoriesWithPrefixLevelCharacters(),
                     ];
                 }
             ],
@@ -60,9 +64,11 @@ class ArticleController extends \yii\web\Controller
                 'create' => function($postData) use($service){
                     return $service->create($postData, ['scenario'=>'article']);
                 },
-                'data' => function($createResultModel,  CreateAction $createAction) use($service){
+                'data' => function($createResultModel,  CreateAction $createAction) use($service, $categoryService){
                     return [
-                        'model' => $createResultModel === null ? $service->newModel(['scenario'=>'article']) : $createResultModel,
+                        'model' => $createResultModel === null ? $service->newModel(['scenario'=>'article']) : $createResultModel['articleModel'],
+                        'contentModel' => $createResultModel === null ? $service->newArticleContentModel() : $createResultModel['articleContentModel'] ,
+                        'categories' => $categoryService->getLevelCategoriesWithPrefixLevelCharacters(),
                     ];
                 },
             ],
@@ -71,9 +77,11 @@ class ArticleController extends \yii\web\Controller
                 'update' => function($id, $postData) use($service){
                     return $service->update($id, $postData, ['scenario'=>'article']);
                 },
-                'data' => function($id, $updateResultModel) use($service){
+                'data' => function($id, $updateResultModel) use($service, $categoryService){
                     return [
-                        'model' => $updateResultModel === null ? $service->getDetail($id) : $updateResultModel,
+                        'model' => $updateResultModel === null ? $service->getDetail($id) : $updateResultModel['articleModel'],
+                        'contentModel' => $updateResultModel === null ? $service->getArticleContentDetail($id) : $updateResultModel['articleContentModel'],
+                        'categories' => $categoryService->getLevelCategoriesWithPrefixLevelCharacters(),
                     ];
                 }
             ],
