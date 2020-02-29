@@ -16,6 +16,7 @@ use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
+use yii\helpers\ArrayHelper;
 
 /**
  * Category management
@@ -69,7 +70,7 @@ class CategoryController extends \yii\web\Controller
                     $model = $createResultModel === null ? $service->newModel() : $createResultModel;
                     return [
                         'model' => $model,
-                        'categories' => $service->getLevelCategoriesWithPrefixLevelCharacters(),
+                        'categories' => ArrayHelper::getColumn($service->getLevelCategoriesWithPrefixLevelCharacters(), "prefix_level_name"),
                     ];
                 },
             ],
@@ -82,7 +83,7 @@ class CategoryController extends \yii\web\Controller
                     $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
                     return [
                         'model' => $model,
-                        'categories' => $service->getLevelCategoriesWithPrefixLevelCharacters(),
+                        'categories' => ArrayHelper::getColumn($service->getLevelCategoriesWithPrefixLevelCharacters(), "prefix_level_name"),
                     ];
                 }
             ],

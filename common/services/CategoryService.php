@@ -35,27 +35,18 @@ class CategoryService extends Service implements CategoryServiceInterface
 
     public function getCategoryList()
     {
-        $data = Category::getCategories();
         return new ArrayDataProvider([
-            'allModels' => $data,
+            'allModels' => $this->getLevelCategoriesWithPrefixLevelCharacters(),
             'pagination' => [
                 'pageSize' => -1
             ]
         ]);
     }
 
-    public static function getLevelCategories()
-    {
-        $categories = Category::find()->orderBy(['sort'=>SORT_ASC, 'parent_id'=>SORT_ASC])->all();
-        $familyTree = new FamilyTree($categories);
-        $array = $familyTree->getDescendants(0);
-        return ArrayHelper::index($array, 'id');
-    }
-
     public function getLevelCategoriesWithPrefixLevelCharacters()
     {
         $data = [];
-        $categories = $this->getLevelCategories();
+        $categories = ($this->newModel())->getDescendants(0);
         foreach ($categories as $k => $category){
             /** @var Category $category */
             if( isset($categories[$k+1]['level']) && $categories[$k+1]['level'] == $category['level'] ){
@@ -68,7 +59,44 @@ class CategoryService extends Service implements CategoryServiceInterface
             }else{
                 $sign = ' │';
             }
-            $data[$category['id']] = str_repeat($sign, $category['level']-1) . $name;
+            $category['prefix_level_name'] = str_repeat($sign, $category['level']-1) . $name;
+            $data[$category['id']] =$category;
+        }
+        return $data;
+    }
+
+    /**
+     * get article categories urls
+     *
+     * @param bool $chosen
+     * @return array
+     */
+    public function getCategoriesRelativeUrl()
+    {
+        $categories = ($this->newModel())->getDescendants(0);
+        $data = [];
+        foreach ($categories as $k => $category) {
+            /** @var Category $category */
+            $parents = $this->getAncestors($category['id']);
+            $url = '';
+            if (!empty($parents)) {
+                $parents = array_reverse($parents);
+                foreach ($parents as $parent) {
+                    $url .= '/' . $parent['alias'];
+                }
+            }
+            if (isset($categories[$k + 1]['level']) && $categories[$k + 1]['level'] == $category['level']) {
+                $name = ' ├' . $category['name'];
+            } else {
+                $name = ' └' . $category['name'];
+            }
+            if (end($categories)->id == $category->id) {
+                $sign = ' └';
+            } else {
+                $sign = ' │';
+            }
+            $url = "article/index?cat=" . $category["name"];
+            $data[$url] = str_repeat($sign, $category['level'] - 1) . $name;
         }
         return $data;
     }

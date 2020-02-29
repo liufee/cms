@@ -12,8 +12,6 @@
  */
 
 use backend\widgets\ActiveForm;
-use common\helpers\FamilyTree;
-use common\models\Category;
 use yii\helpers\ArrayHelper;
 use common\helpers\Util;
 
@@ -37,8 +35,7 @@ if ($parent_id != '') {
                 $disabledOptions = [];
                 if(!$model->getIsNewRecord()){
                     $disabledOptions[$model->id] = ['disabled' => true];
-                    $familyTree = new FamilyTree(Category::getCategories());
-                    $descendants = $familyTree->getDescendants($model->id);
+                    $descendants = $model->getDescendants($model->id);
                     $descendants = ArrayHelper::getColumn($descendants, 'id');
                     foreach ($descendants as $descendant){
                         $disabledOptions[$descendant] = ['disabled' => true];
