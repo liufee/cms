@@ -8,8 +8,8 @@
 
 namespace common\models;
 
-use common\helpers\FileDependencyHelper;
 use Yii;
+use common\helpers\FileDependencyHelper;
 use common\helpers\FamilyTree;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;

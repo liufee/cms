@@ -91,9 +91,11 @@ class AdminLog extends \yii\db\ActiveRecord
             Yii::t('app', 'id'),
             Yii::t('app', 'record')
         ], $this->description);
+
         $this->description = preg_replace_callback('/\(created_at\) : (\d{1,10})=>(\d{1,10})/', function ($matches) {
             return str_replace([$matches[1], $matches[2]], [Yii::$app->getFormatter()->asDate((int)$matches[1]), Yii::$app->getFormatter()->asDate((int)$matches[2])], $matches[0]);
         }, $this->description);
+
         $this->description = preg_replace_callback('/\(updated_at\) : (\d{1,10})=>(\d{1,10})/', function ($matches) {
             return str_replace([$matches[1], $matches[2]], [Yii::$app->getFormatter()->asDate((int)$matches[1]), Yii::$app->getFormatter()->asDate((int)$matches[2])], $matches[0]);
         }, $this->description);
@@ -101,7 +103,7 @@ class AdminLog extends \yii\db\ActiveRecord
     }
 
     /**
-     * 删除日志不计入操作日志
+     * delete log not need to trigger after delete that lead to cycle call
      *
      * @return bool
      */

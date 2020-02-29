@@ -15,6 +15,16 @@ use backend\actions\UpdateAction;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 
+/**
+ * Comment management
+ * - data:
+ *          table comment
+ * -description:
+ *         article's comment
+ *
+ * Class CommentController
+ * @package backend\controllers
+ */
 class CommentController extends \yii\web\Controller
 {
     /**

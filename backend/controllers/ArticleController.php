@@ -8,8 +8,8 @@
 
 namespace backend\controllers;
 
-use common\services\CategoryServiceInterface;
 use Yii;
+use common\services\CategoryServiceInterface;
 use common\models\Article;
 use common\services\ArticleServiceInterface;
 use backend\actions\CreateAction;
@@ -19,6 +19,16 @@ use backend\actions\ViewAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
 
+/**
+ * Article management
+ * - data:
+ *          table article article_content
+ * - description:
+ *          article management
+ *
+ * Class ArticleController
+ * @package backend\controllers
+ */
 class ArticleController extends \yii\web\Controller
 {
 

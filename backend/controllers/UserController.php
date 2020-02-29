@@ -17,6 +17,16 @@ use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
 
+/**
+ * User management
+ * - data:
+ *          table user
+ * - description:
+ *          frontend register user management
+ *
+ * Class UserController
+ * @package backend\controllers
+ */
 class UserController extends \yii\web\Controller
 {
 

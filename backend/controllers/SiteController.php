@@ -27,7 +27,18 @@ use yii\web\HttpException;
 use yii\captcha\CaptchaAction;
 
 /**
- * site controller(backend default)
+ * Site default controller
+ *
+ * - description:
+ *          - site/index is index page(framework)
+ *          - site/main is the iframe default page
+ *          - site/login backend login page
+ *          - site/logout backend user logout
+ *          - site/language multi language change
+ *          - site/error backend error unify handler
+ *
+ * Class SiteController
+ * @package backend\controllers
  */
 class SiteController extends \yii\web\Controller
 {
@@ -94,6 +105,7 @@ class SiteController extends \yii\web\Controller
      * backend main info page(default right iframe page)
      *
      * @return string
+     * @throws \yii\base\InvalidConfigException
      */
     public function actionMain()
     {

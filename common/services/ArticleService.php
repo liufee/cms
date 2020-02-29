@@ -60,7 +60,7 @@ class ArticleService extends Service implements ArticleServiceInterface
 
     public function create(array $postData, array $options = [])
     {
-        $articleModel = new Article(['scenario'=>'article']);
+        $articleModel = new Article(['scenario'=>$options['scenario']]);
         $articleContentModel = new ArticleContent();
         if( !$articleModel->load($postData) || !$articleContentModel->load($postData) ){
             return [

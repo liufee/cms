@@ -34,7 +34,7 @@ class Comment extends \yii\db\ActiveRecord
 
     const STATUS_INIT = 0;
     const STATUS_PASSED = 1;
-    const STATUS_UNPASS = 2;
+    const STATUS_NOT_PASS = 2;
 
 
     /**

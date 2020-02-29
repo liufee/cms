@@ -8,7 +8,8 @@
 
 /**
  * @var $this yii\web\View
- * @var $model backend\models\Article
+ * @var $model common\models\Article
+ * @var $contentModel common\models\Article
  */
 
 use backend\widgets\ActiveForm;
@@ -38,7 +39,7 @@ $this->title = "Pages";
                         <?= $form->field($model, 'title')->textInput(); ?>
                         <?= $form->field($model, 'sub_title')->label(Yii::t("app", "Page Sign"))->textInput(); ?>
                         <?= $form->field($model, 'summary')->textArea(); ?>
-                        <?= $form->field($model, 'content')->widget(Ueditor::className()) ?>
+                        <?= $form->field($contentModel, 'content')->widget(Ueditor::className()) ?>
                     </div>
                     <!--left stop -->
 

@@ -15,8 +15,18 @@ use backend\behaviors\TimeSearchBehavior;
 use backend\components\search\SearchEvent;
 use yii\data\ActiveDataProvider;
 
-class FriendlyLinkSearch extends \common\models\FriendlyLink implements SearchInterface
+
+class FriendlyLinkSearch extends \yii\base\Model implements SearchInterface
 {
+    public $name;
+
+    public $url;
+
+    public $status;
+
+    public $image;
+
+
     public function behaviors()
     {
         return [

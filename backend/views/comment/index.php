@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Comments');
                             'attribute' => 'aid',
                         ],
                         [
-                            'attribute' => 'articleTitle',
+                            'attribute' => 'article_title',
                             'label' => Yii::t('app', 'Article Title'),
                             'value' => function ($model) {
                                 return $model->article->title;
@@ -106,7 +106,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Comments');
                                             'data-method' => 'post',
                                             'data-pjax' => '0',
                                             'data-params' => [
-                                                $comment->formName() . '[status]' => Comment::STATUS_UNPASS
+                                                $comment->formName() . '[status]' => Comment::STATUS_NOT_PASS
                                             ]
                                         ]);
                                 },
@@ -120,10 +120,10 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Comments');
                                             'data-method' => 'post',
                                             'data-pjax' => '0',
                                             'data-params' => [
-                                                $comment->formName() . '[status]' => Comment::STATUS_UNPASS
+                                                $comment->formName() . '[status]' => Comment::STATUS_NOT_PASS
                                             ]
                                         ]);
-                                    } else if( $model->status == Comment::STATUS_UNPASS ) {
+                                    } else if( $model->status == Comment::STATUS_NOT_PASS ) {
                                         return Html::a('<i class="fa fa-check"></i> ', ['update', 'id' => $model['id']], [
                                             'class' => 'btn-sm',
                                             'data-confirm' => Yii::t('app', 'Are you sure you want to disable this item?'),

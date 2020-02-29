@@ -18,6 +18,16 @@ use backend\actions\ViewAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
 
+/**
+ * Page management
+ * - data:
+ *          table article article_content
+ * - description:
+ *          frontend single management. please find single page by column `sub_title`
+ *
+ * Class PageController
+ * @package backend\controllers
+ */
 class PageController extends \yii\web\Controller
 {
 
@@ -61,9 +71,9 @@ class PageController extends \yii\web\Controller
                     return $service->create($postData, ['scenario'=>'page']);
                 },
                 'data' => function($createResultModel) use($service){
-                    $model = $createResultModel === null ? $service->newModel(['type'=>Article::SINGLE_PAGE, 'scenario'=>'page']) : $createResultModel;
                     return [
-                        'model' => $model,
+                        'model' => $createResultModel === null ? $service->newModel(['scenario'=>'page']) : $createResultModel['articleModel'],
+                        'contentModel' => $createResultModel === null ? $service->newArticleContentModel() : $createResultModel['articleContentModel'] ,
                     ];
                 },
             ],
@@ -73,9 +83,9 @@ class PageController extends \yii\web\Controller
                     return $service->update($id, $postData, ['scenario'=>'page']);
                 },
                 'data' => function($id, $updateResultModel) use($service){
-                    $model = $updateResultModel === null ? $service->getDetail($id, ['scenario'=>'page']) : $updateResultModel;
                     return [
-                        'model' => $model,
+                        'model' => $updateResultModel === null ? $service->getDetail($id) : $updateResultModel['articleModel'],
+                        'contentModel' => $updateResultModel === null ? $service->getArticleContentDetail($id) : $updateResultModel['articleContentModel'],
                     ];
                 }
             ],

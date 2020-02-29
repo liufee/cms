@@ -23,7 +23,7 @@ use backend\actions\SortAction;
  *          table category
  *          column `parent_id` is the parent category id, if equals 0 means first level category
  *
- * Class AdController
+ * Class CategoryController
  * @package backend\controllers
  */
 class CategoryController extends \yii\web\Controller

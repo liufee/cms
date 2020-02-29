@@ -16,7 +16,7 @@ class ClearController extends \yii\web\Controller
 {
 
     /**
-     * 清除后台缓存
+     * remove all backend cache
      *
      * @auth - item group=其他 category=缓存 description-get=清除后台缓存 sort=720 method=get
      * @return string
@@ -39,7 +39,7 @@ class ClearController extends \yii\web\Controller
     }
 
     /**
-     * 清除前台缓存
+     * remove all frontend cache
      *
      * @auth - item group=其他 category=缓存 description-get=清除前台缓存 sort=721 method=get
      * @return string

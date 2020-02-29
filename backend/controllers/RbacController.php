@@ -8,8 +8,8 @@
 
 namespace backend\controllers;
 
-use common\services\RBACServiceInterface;
 use Yii;
+use common\services\RBACServiceInterface;
 use common\services\RBACService;
 use backend\actions\CreateAction;
 use backend\actions\DeleteAction;
@@ -18,6 +18,16 @@ use backend\actions\SortAction;
 use backend\actions\UpdateAction;
 use backend\actions\ViewAction;
 
+/**
+ * RBAC management
+ * - data:
+ *          table auth_item auth_item_child auth_assignment
+ * - description:
+ *          backend user RBAC management
+ *
+ * Class RbacController
+ * @package backend\controllers
+ */
 class RbacController extends \yii\web\Controller
 {
 

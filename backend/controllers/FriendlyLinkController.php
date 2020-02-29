@@ -18,7 +18,12 @@ use backend\actions\DeleteAction;
 use backend\actions\SortAction;
 
 /**
- * FriendLink controller
+ * friendly link management
+ * - data:
+ *          table friendly_link
+ *
+ * Class FriendLinkController
+ * @package backend\controllers
  */
 class FriendlyLinkController extends \yii\web\Controller
 {

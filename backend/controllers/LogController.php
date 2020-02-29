@@ -14,6 +14,15 @@ use backend\actions\IndexAction;
 use backend\actions\ViewAction;
 use backend\actions\DeleteAction;
 
+/**
+ * Admin operation log management
+ * - data:
+ *          table admin_log
+ *          when backend admin create/update/delete database table record, will be generate a operation log
+ *
+ * Class AdController
+ * @package backend\controllers
+ */
 class LogController extends \yii\web\Controller
 {
 

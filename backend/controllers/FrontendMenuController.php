@@ -20,7 +20,15 @@ use backend\actions\SortAction;
 use yii\helpers\ArrayHelper;
 
 /**
- * FrontendMenu controller
+ * Frontend menu management
+ * - data:
+ *          table menu
+ *          column `type` value is \common\models\Menu::TYPE_FRONTEND records
+ * - description:
+ *          frontend menu management
+ *
+ * Class AdController
+ * @package backend\controllers
  */
 class FrontendMenuController extends \yii\web\Controller
 {
@@ -86,7 +94,7 @@ class FrontendMenuController extends \yii\web\Controller
                     $parentMenuDisabledOptions = [];
                     $parentMenuDisabledOptions[$id] = ['disabled' => true];//cannot be themselves' sub menu
 
-                    $descendants = $service->getDescendantMenusById($id, \common\models\Menu::TYPE_BACKEND);
+                    $descendants = $service->getDescendantMenusById($id, Menu::TYPE_BACKEND);
                     $descendants = ArrayHelper::getColumn($descendants, 'id');
                     foreach ($descendants as $descendant){//cannot be themselves's sub menu's menu
                         $parentMenuDisabledOptions[$descendant] = ['disabled' => true];

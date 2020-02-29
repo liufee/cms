@@ -14,10 +14,18 @@ use backend\components\search\SearchEvent;
 use common\models\AdminLog;
 use yii\data\ActiveDataProvider;
 
-class AdminLogSearch extends \common\models\AdminLog implements SearchInterface
+class AdminLogSearch extends \yii\base\Model implements SearchInterface
 {
 
-    public $adminUsername;
+    public $id;
+
+    public $admin_username;
+
+    public $description;
+
+    public $user_id;
+
+    public $route;
 
 
     /**
@@ -29,7 +37,7 @@ class AdminLogSearch extends \common\models\AdminLog implements SearchInterface
             [['description', 'created_at'], 'string'],
             [['user_id'], 'integer'],
             [['route'], 'string', 'max' => 255],
-            ['adminUsername', 'safe']
+            ['admin_username', 'safe']
         ];
     }
 
@@ -51,7 +59,7 @@ class AdminLogSearch extends \common\models\AdminLog implements SearchInterface
      */
     public function search(array $params = [], array $options = [])
     {
-        $query = self::find()->orderBy("id desc");
+        $query = AdminLog::find();
         $query->joinWith(['user']);
         /** @var ActiveDataProvider $dataProvider */
         $dataProvider = Yii::createObject([
@@ -82,14 +90,16 @@ class AdminLogSearch extends \common\models\AdminLog implements SearchInterface
                 ],
             ]
         ]);
+
         $this->load($params);
         if (! $this->validate()) {
             return $dataProvider;
         }
+
         $query->andFilterWhere(['id' => $this->id])
             ->andFilterWhere(['like', 'route', $this->route])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'username', $this->adminUsername]);
+            ->andFilterWhere(['like', 'username', $this->admin_username]);
         $this->trigger(SearchEvent::BEFORE_SEARCH, Yii::createObject(['class' => SearchEvent::className(), 'query'=>$query]));
         return $dataProvider;
     }

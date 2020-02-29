@@ -20,6 +20,14 @@ use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use backend\actions\ViewAction;
 
+/**
+ * AdminUser management
+ * - data:
+ *          table admin_user
+ *
+ * Class AdminUserController
+ * @package backend\controllers
+ */
 class AdminUserController extends \yii\web\Controller
 {
     /**

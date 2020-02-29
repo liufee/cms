@@ -8,10 +8,10 @@
 
 namespace common\models;
 
+use Yii;
 use common\helpers\Util;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use Yii;
 
 /**
  * This is the model class for table "{{%friend_link}}".
@@ -32,12 +32,6 @@ class FriendlyLink extends ActiveRecord
     const DISPLAY_YES = 1;
     const DISPLAY_NO = 0;
 
-
-    public function init()
-    {
-        parent::init();
-        $this->on(self::EVENT_AFTER_FIND, [$this, 'afterFindEvent']);
-    }
 
     public function behaviors()
     {
@@ -104,10 +98,10 @@ class FriendlyLink extends ActiveRecord
         return parent::beforeDelete();
     }
 
-    public function afterFindEvent($event)
+    public function afterFind()
     {
         /** @var $cdn \feehi\cdn\TargetAbstract $cdn */
         $cdn = Yii::$app->get('cdn');
-        $event->sender->image = $cdn->getCdnUrl($event->sender->image);
+        $this->image = $cdn->getCdnUrl($this->image);
     }
 }

@@ -267,11 +267,9 @@ class AdminUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfa
     }
 
     public function getAvatarUrl(){
-        $avatarUrl = "";
+        $avatarUrl = Yii::$app->getRequest()->getBaseUrl() . '/static/img/profile_small.jpg';
         if ($this->avatar) {
             $avatarUrl = Yii::$app->params['site']['url'] . $this->avatar;
-        } else {
-            $avatarUrl = Yii::$app->getRequest()->getBaseUrl() . '/static/img/profile_small.jpg';
         }
         return $avatarUrl;
     }
@@ -405,6 +403,7 @@ class AdminUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfa
      * Generates password hash from password and sets it to the model
      *
      * @param string $password
+     * @throws \yii\base\Exception
      */
     public function setPassword($password)
     {

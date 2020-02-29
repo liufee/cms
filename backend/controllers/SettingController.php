@@ -18,7 +18,13 @@ use common\models\Options;
 use yii\web\BadRequestHttpException;
 
 /**
- * Setting controller
+ * Setting management
+ * - data:
+ *          table options
+ *          column `type` value is \common\models\Options::TYPE_SYSTEM|TYPE_CUSTOM records
+ *
+ * Class SettingController
+ * @package backend\controllers
  */
 class SettingController extends \yii\web\Controller
 {

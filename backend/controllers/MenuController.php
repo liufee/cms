@@ -20,7 +20,15 @@ use backend\actions\SortAction;
 use yii\helpers\ArrayHelper;
 
 /**
- * Backend Menu controller controls backend menu
+ * Menu management
+ * - data:
+ *          table menu
+ *          column `type` value is \common\models\Menu::TYPE_BACKEND records
+ * - description:
+ *          backend menu management
+ *
+ * Class MenuController
+ * @package backend\controllers
  */
 class MenuController extends \yii\web\Controller
 {

@@ -43,7 +43,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Admin Log');
                         ],
                         [
                             'label' => Yii::t('app', 'Admin'),
-                            'attribute' => 'adminUsername',
+                            'attribute' => 'admin_username',
                             'value' => 'user.username',
                         ],
                         [

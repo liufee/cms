@@ -9,13 +9,19 @@
 namespace backend\models\search;
 
 use Yii;
+use common\models\User;
 use backend\behaviors\TimeSearchBehavior;
 use backend\components\search\SearchEvent;
-use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
-class UserSearch extends \common\models\User implements SearchInterface
+class UserSearch extends \yii\base\Model implements SearchInterface
 {
+    public $username;
+
+    public $email;
+
+    public $status;
+
 
     public function behaviors()
     {
@@ -35,11 +41,6 @@ class UserSearch extends \common\models\User implements SearchInterface
         ];
     }
 
-    public function scenarios()
-    {
-        return Model::scenarios();
-    }
-
     /**
      * @param array $params
      * @param array $options
@@ -48,7 +49,7 @@ class UserSearch extends \common\models\User implements SearchInterface
      */
     public function search(array $params = [], array $options = [])
     {
-        $query = self::find();
+        $query = User::find();
         /** @var ActiveDataProvider $dataProvider */
         $dataProvider = Yii::createObject([
             'class' => ActiveDataProvider::className(),

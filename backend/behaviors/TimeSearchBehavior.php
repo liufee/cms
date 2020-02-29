@@ -11,6 +11,10 @@ use backend\components\search\SearchEvent;
 
 class TimeSearchBehavior extends \yii\base\Behavior
 {
+    public $created_at;
+
+    public $updated_at;
+
     public $createdAtAttribute = 'created_at';
 
     public $updatedAtAttribute = 'updated_at';

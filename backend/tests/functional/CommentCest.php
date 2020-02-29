@@ -59,7 +59,7 @@ class CommentCest
         $I->amOnPage(Url::toRoute('/article/index'));
         $urls = $I->grabMultiple("table a[title=查看]", "url");
         $I->sendAjaxPostRequest($urls[0], [
-            'Comment[status]' => Comment::STATUS_UNPASS,
+            'Comment[status]' => Comment::STATUS_NOT_PASS,
         ]);
         $I->sendAjaxPostRequest($urls[0], [
             'Comment[status]' => Comment::STATUS_PASSED,
