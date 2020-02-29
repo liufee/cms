@@ -10,7 +10,6 @@ namespace common\services;
 
 use Yii;
 use backend\models\search\MenuSearch;
-use common\helpers\FamilyTree;
 use common\helpers\FileDependencyHelper;
 use common\models\Menu;
 use yii\caching\FileDependency;
@@ -45,7 +44,7 @@ class MenuService extends Service  implements MenuServiceInterface
     {
         return [
             'dataProvider' => new ArrayDataProvider([
-                'allModels' => $this->setMenuNameWithPrefixLevelCharacters( $this->getDescendantMenusById(0, $options['type']) ),
+                'allModels' => $this->getLevelMenusWithPrefixLevelCharacters($options['type']),
                 'pagination' => [
                     'pageSize' => -1,
                 ],
@@ -80,7 +79,7 @@ class MenuService extends Service  implements MenuServiceInterface
             if (strpos($url, '/') !== 0) $url = '/' . $url;//ensure url must start with '/'
             $url = $url . ':GET';
             if (in_array($url, $permissions)) {
-                $menu = $this->getAncestorMenusById($menu->id, Menu::TYPE_BACKEND) + [$menu];
+                $menu = $menu->getAncestors($menu->id) + [$menu];
                 $tempMenus = array_merge($tempMenus, $menu);
             }
         }
@@ -102,11 +101,15 @@ class MenuService extends Service  implements MenuServiceInterface
     /**
      * set menu name with prefix level characters
      *
-     * @param $menus
+     * @param $menuType
+     * @param $isDisplay
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
-    public function setMenuNameWithPrefixLevelCharacters($menus)
+    public function getLevelMenusWithPrefixLevelCharacters($menuType = Menu::TYPE_BACKEND)
     {
+        $model = $this->newModel(['type' => $menuType]);
+        $menus = $model->getDescendants(0);
         foreach ($menus as $k => $menu) {
             /** @var Menu $menu */
             if (isset($menus[$k + 1]['level']) && $menus[$k + 1]['level'] == $menu['level']) {
@@ -119,39 +122,9 @@ class MenuService extends Service  implements MenuServiceInterface
             } else {
                 $sign = ' │';
             }
-            $menu->name = str_repeat($sign, $menu['level'] - 1) . $name;
+            $menu->prefix_level_name = str_repeat($sign, $menu['level'] - 1) . $name;
         }
         return ArrayHelper::index($menus, 'id');
-    }
-
-
-    /**
-     * get ancestor menus by menu id
-     *
-     * @param $id
-     * @param $menuType
-     * @return array
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function getAncestorMenusById($id, $menuType)
-    {
-        $menus = $this->getMenus($menuType);
-        $familyTree = new FamilyTree($menus);
-        return $familyTree->getAncectors($id);
-    }
-
-    /**
-     * get descendant menus by menu id
-     *
-     * @param $id
-     * @param $menuType
-     * @return array
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function getDescendantMenusById($id, $menuType)
-    {
-        $familyTree = new FamilyTree($this->getMenus($menuType));
-        return $familyTree->getDescendants($id);
     }
 
     /**
@@ -193,23 +166,5 @@ class MenuService extends Service  implements MenuServiceInterface
      */
     public function getMenusFromStorage($menuType=null, $isDisplay=null){
         return Menu::getMenus($menuType, $isDisplay);
-    }
-
-    /**
-     * get menus name
-     *
-     * @param int $menuType
-     * @return array
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function getMenusNameWithPrefixLevelCharacters($menuType)
-    {
-        $menus = $this->getDescendantMenusById(0, $menuType);
-        $menus = $this->setMenuNameWithPrefixLevelCharacters($menus);
-        $new = [];
-       foreach ($menus as $menu){
-           $new[$menu->id] = $menu->name;
-       }
-       return $new;
     }
 }

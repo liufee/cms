@@ -16,10 +16,12 @@ $this->params['breadcrumbs'] = [
  * @var $model common\models\Menu
  * @var $parentMenuDisabledOptions []
  * @var $menusNameWithPrefixLevelCharacters []
+ * @var $categoryUrls []
  */
 ?>
 <?= $this->render('_form', [
     'model' => $model,
     'menusNameWithPrefixLevelCharacters' => $menusNameWithPrefixLevelCharacters,
     'parentMenuDisabledOptions' => $parentMenuDisabledOptions,
+    'categoryUrls' => $categoryUrls,
 ]) ?>

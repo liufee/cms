@@ -77,7 +77,7 @@ class CategoryService extends Service implements CategoryServiceInterface
         $data = [];
         foreach ($categories as $k => $category) {
             /** @var Category $category */
-            $parents = $this->getAncestors($category['id']);
+            $parents = $category->getAncestors($category['id']);
             $url = '';
             if (!empty($parents)) {
                 $parents = array_reverse($parents);

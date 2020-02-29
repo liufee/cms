@@ -135,6 +135,7 @@ class ArticleSearch extends \yii\base\Model implements SearchInterface
             'comment_count' => Yii::t('app', 'Comment Count'),
             'category' => Yii::t('app', 'Category'),
             'images' => Yii::t('app', 'Article Images'),
+            'content' => Yii::t('app', 'Content'),
         ];
     }
 
@@ -200,7 +201,7 @@ class ArticleSearch extends \yii\base\Model implements SearchInterface
             $query->andWhere(['cid' => 0]);
         } else {
             if (! empty($this->cid)) {
-                $cids = ArrayHelper::getColumn(Category::getDescendants($this->cid), 'id');
+                $cids = ArrayHelper::getColumn((new Category())->getDescendants($this->cid), 'id');
                 if (count($cids) <= 0) {
                     $query->andFilterWhere(['cid' => $this->cid]);
                 } else {

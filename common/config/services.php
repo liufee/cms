@@ -6,7 +6,7 @@
  * Created at: 2020-02-02 21:34
  */
 return [
-    \common\services\MenuServiceInterface::MenuService => [
+    \common\services\MenuServiceInterface::ServiceName => [
         'class' => \common\services\MenuService::className(),
     ],
     \common\services\FriendlyLinkServiceInterface::ServiceName => [

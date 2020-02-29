@@ -9,6 +9,7 @@
 namespace backend\controllers;
 
 use Yii;
+use common\services\CategoryServiceInterface;
 use backend\actions\ViewAction;
 use common\services\MenuServiceInterface;
 use common\models\Menu;
@@ -48,7 +49,9 @@ class FrontendMenuController extends \yii\web\Controller
     public function actions()
     {
         /** @var MenuServiceInterface $service */
-        $service = Yii::$app->get(MenuServiceInterface::MenuService);
+        $service = Yii::$app->get(MenuServiceInterface::ServiceName);
+        /** @var CategoryServiceInterface $categoryService */
+        $categoryService = Yii::$app->get(CategoryServiceInterface::ServiceName);
         return [
             'index' => [
                 'class' => IndexAction::className(),
@@ -74,12 +77,13 @@ class FrontendMenuController extends \yii\web\Controller
                 'create' => function($postData)use($service){
                     return $service->create($postData, ['type'=> Menu::TYPE_FRONTEND]);
                 },
-                'data' => function($createResultModel) use($service){
+                'data' => function($createResultModel) use($service, $categoryService){
                     $model = $createResultModel === null ? $service->newModel(['type'=> Menu::TYPE_FRONTEND]) : $createResultModel;
                     return [
                         'model' => $model,
-                        'menusNameWithPrefixLevelCharacters' => $service->getMenusNameWithPrefixLevelCharacters(\common\models\Menu::TYPE_BACKEND),
+                        'menusNameWithPrefixLevelCharacters' => ArrayHelper::getColumn($service->getLevelMenusWithPrefixLevelCharacters(Menu::TYPE_FRONTEND), "prefix_level_name"),
                         'parentMenuDisabledOptions' => [],
+                        'categoryUrls' => $categoryService->getCategoriesRelativeUrl()
                     ];
                 },
             ],
@@ -88,13 +92,13 @@ class FrontendMenuController extends \yii\web\Controller
                 'update' => function($id, $postData)use($service) {
                     return $service->update($id, $postData);
                 },
-                'data' => function($id, $updateResultModel)use($service){
+                'data' => function($id, $updateResultModel)use($service, $categoryService){
                     $model = $updateResultModel === null ? $service->getDetail($id) : $updateResultModel;
 
                     $parentMenuDisabledOptions = [];
                     $parentMenuDisabledOptions[$id] = ['disabled' => true];//cannot be themselves' sub menu
 
-                    $descendants = $service->getDescendantMenusById($id, Menu::TYPE_BACKEND);
+                    $descendants = $model->getDescendants($id, Menu::TYPE_BACKEND);
                     $descendants = ArrayHelper::getColumn($descendants, 'id');
                     foreach ($descendants as $descendant){//cannot be themselves's sub menu's menu
                         $parentMenuDisabledOptions[$descendant] = ['disabled' => true];
@@ -102,8 +106,9 @@ class FrontendMenuController extends \yii\web\Controller
 
                     return [
                         'model' => $model,
-                        'menusNameWithPrefixLevelCharacters' => $service->getMenusNameWithPrefixLevelCharacters(\common\models\Menu::TYPE_BACKEND),
+                        'menusNameWithPrefixLevelCharacters' => ArrayHelper::getColumn($service->getLevelMenusWithPrefixLevelCharacters(Menu::TYPE_FRONTEND), "prefix_level_name"),
                         'parentMenuDisabledOptions' => $parentMenuDisabledOptions,
+                        'categoryUrls' => $categoryService->getCategoriesRelativeUrl()
                     ];
                 },
             ],

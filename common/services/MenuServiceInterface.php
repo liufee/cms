@@ -9,6 +9,10 @@
 namespace common\services;
 
 
+use common\models\Menu;
+
 interface MenuServiceInterface extends ServiceInterface {
-    const MenuService = 'menuService';
+    const ServiceName = 'menuService';
+
+    public function getLevelMenusWithPrefixLevelCharacters($menuType = Menu::TYPE_BACKEND);
 }

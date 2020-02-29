@@ -46,8 +46,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Backend Menus');
                             'label' => Yii::t('app', 'Name'),
                             'format' => 'html',
                             'value' => function ($model, $key, $index, $column) {
-                                return $model['name'];
-                                //return str_repeat("--", $model['level'] - 1) . $model['name'];
+                                return $model['prefix_level_name'];
                             }
                         ],
                         [

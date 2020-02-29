@@ -11,6 +11,7 @@
  * @var $model common\models\Menu
  * @var $parentMenuDisabledOptions []
  * @var $menusNameWithPrefixLevelCharacters []
+ * @var $categoryUrls []
  */
 
 use backend\widgets\ActiveForm;
@@ -68,7 +69,7 @@ if ($parent_id != '') {
         var urlType = $("input[name=urlType]");
         var categoryUrl =
         <?php
-            $menuCategories = Category::getCategoriesRelativeUrl();
+            $menuCategories = $categoryUrls;
             if($model->id){
                 foreach ($menuCategories as $k => $menuCategory){
                     if($k == $model->url){

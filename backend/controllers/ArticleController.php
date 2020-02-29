@@ -18,6 +18,7 @@ use backend\actions\IndexAction;
 use backend\actions\ViewAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
+use yii\helpers\ArrayHelper;
 
 /**
  * Article management
@@ -57,7 +58,7 @@ class ArticleController extends \yii\web\Controller
                     return [
                         'dataProvider' => $result['dataProvider'],
                         'searchModel' => $result['searchModel'],
-                        'categories' => $categoryService->getLevelCategoriesWithPrefixLevelCharacters(),
+                        'categories' => ArrayHelper::getColumn($categoryService->getLevelCategoriesWithPrefixLevelCharacters(), "prefix_level_name"),
                     ];
                 }
             ],
@@ -78,7 +79,7 @@ class ArticleController extends \yii\web\Controller
                     return [
                         'model' => $createResultModel === null ? $service->newModel(['scenario'=>'article']) : $createResultModel['articleModel'],
                         'contentModel' => $createResultModel === null ? $service->newArticleContentModel() : $createResultModel['articleContentModel'] ,
-                        'categories' => $categoryService->getLevelCategoriesWithPrefixLevelCharacters(),
+                        'categories' => ArrayHelper::getColumn($categoryService->getLevelCategoriesWithPrefixLevelCharacters(), "prefix_level_name"),
                     ];
                 },
             ],
@@ -91,7 +92,7 @@ class ArticleController extends \yii\web\Controller
                     return [
                         'model' => $updateResultModel === null ? $service->getDetail($id) : $updateResultModel['articleModel'],
                         'contentModel' => $updateResultModel === null ? $service->getArticleContentDetail($id) : $updateResultModel['articleContentModel'],
-                        'categories' => $categoryService->getLevelCategoriesWithPrefixLevelCharacters(),
+                        'categories' => ArrayHelper::getColumn($categoryService->getLevelCategoriesWithPrefixLevelCharacters(), "prefix_level_name"),
                     ];
                 }
             ],

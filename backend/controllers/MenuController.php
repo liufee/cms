@@ -48,7 +48,7 @@ class MenuController extends \yii\web\Controller
     public function actions()
     {
         /** @var MenuServiceInterface $service */
-        $service = Yii::$app->get(MenuServiceInterface::MenuService);
+        $service = Yii::$app->get(MenuServiceInterface::ServiceName);
         return [
             'index' => [
                 'class' => IndexAction::className(),
@@ -78,7 +78,7 @@ class MenuController extends \yii\web\Controller
                     $model = $createResultModel === null ? $service->newModel(['type'=> Menu::TYPE_BACKEND]) : $createResultModel;
                     return [
                         'model'=>$model,
-                        'menusNameWithPrefixLevelCharacters' => $service->getMenusNameWithPrefixLevelCharacters(Menu::TYPE_BACKEND),
+                        'menusNameWithPrefixLevelCharacters' => ArrayHelper::getColumn($service->getLevelMenusWithPrefixLevelCharacters(Menu::TYPE_BACKEND), "prefix_level_name"),
                         'parentMenuDisabledOptions' => [],
                     ];
                 },
@@ -94,7 +94,7 @@ class MenuController extends \yii\web\Controller
                     $parentMenuDisabledOptions = [];
                     $parentMenuDisabledOptions[$id] = ['disabled' => true];//cannot be themselves' sub menu
 
-                    $descendants = $service->getDescendantMenusById($id, Menu::TYPE_BACKEND);
+                    $descendants = $model->getDescendants($id, Menu::TYPE_BACKEND);
                     $descendants = ArrayHelper::getColumn($descendants, 'id');
                     foreach ($descendants as $descendant){//cannot be themselves's sub menu's menu
                         $parentMenuDisabledOptions[$descendant] = ['disabled' => true];
@@ -102,7 +102,7 @@ class MenuController extends \yii\web\Controller
 
                     return [
                         'model' => $model,
-                        'menusNameWithPrefixLevelCharacters' => $service->getMenusNameWithPrefixLevelCharacters(Menu::TYPE_BACKEND),
+                        'menusNameWithPrefixLevelCharacters' => ArrayHelper::getColumn($service->getLevelMenusWithPrefixLevelCharacters(Menu::TYPE_BACKEND), "prefix_level_name"),
                         'parentMenuDisabledOptions' => $parentMenuDisabledOptions,
                     ];
                 },

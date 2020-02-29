@@ -9,8 +9,8 @@
 namespace common\models;
 
 use Yii;
+use common\libs\FamilyTree;
 use common\helpers\FileDependencyHelper;
-use common\helpers\FamilyTree;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
@@ -35,8 +35,13 @@ use yii\helpers\Url;
 
 class Menu extends \yii\db\ActiveRecord
 {
+
+    use FamilyTree;
+
+    public $prefix_level_name;
+
     /** @var int $level menu level */
-    private $level = null;
+    public $level = null;
 
     /** @var int backend type menu */
     const TYPE_BACKEND = 0;
@@ -49,13 +54,6 @@ class Menu extends \yii\db\ActiveRecord
 
     /** @var string menu dependency file name */
     CONST MENU_CACHE_DEPENDENCY_FILE = "menu.txt";
-
-    public function init()
-    {
-        parent::init();
-        $this->on(self::EVENT_AFTER_VALIDATE, [$this, 'afterValidateEvent']);
-        $this->on(self::EVENT_BEFORE_DELETE, [$this, 'beforeDeleteEvent']);
-    }
 
     /**
      * get menu table name
@@ -116,6 +114,11 @@ class Menu extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getItems()
+    {
+        return Menu::getMenus($this->type);
+    }
+
     public function beforeSave($insert)
     {
         if (!$this->is_absolute_url) {
@@ -125,14 +128,6 @@ class Menu extends \yii\db\ActiveRecord
             }
         }
         return parent::beforeSave($insert);
-    }
-
-    public function getLevel(){
-        return $this->level;
-    }
-
-    public function setLevel($level){
-        $this->level = $level;
     }
 
     /**
@@ -230,7 +225,7 @@ class Menu extends \yii\db\ActiveRecord
      */
     public static function getMenus($menuType=null, $isDisplay=null)
     {
-        $query = Menu::find()->orderBy("sort asc");
+        $query = Menu::find()->orderBy(["sort"=>SORT_ASC]);
         if( $menuType !== null ){
             $query->andWhere(['type' => $menuType]);
         }
@@ -250,19 +245,17 @@ class Menu extends \yii\db\ActiveRecord
      * @param $event
      * @return bool
      */
-    public function afterValidateEvent($event)
+    public function afterValidate()
     {
-        if (!$event->sender->getIsNewRecord()) {//if not create a new menu
-            if ($event->sender->id == $event->sender->parent_id) {//cannot set menu to its own sub menu
-                $event->sender->addError('parent_id', Yii::t('app', 'Cannot be themselves sub'));
+        if (!$this->getIsNewRecord()) {//if not create a new menu
+            if ($this->id == $this->parent_id) {//cannot set menu to its own sub menu
+                $this->addError('parent_id', Yii::t('app', 'Cannot be themselves sub'));
                 return false;
             }
-            $menus = Menu::getMenus($event->sender->type);
-            $familyTree = new FamilyTree($menus);
-            $descendants = $familyTree->getDescendants($event->sender->id);
+            $descendants = $this->getDescendants($this->id);
             $descendants = ArrayHelper::getColumn($descendants, 'id');
-            if (in_array($event->sender->parent_id, $descendants)) {//cannot set menu to its own descendants sub menu
-                $event->sender->addError('parent_id', Yii::t('app', 'Cannot be themselves descendants sub'));
+            if (in_array($this->parent_id, $descendants)) {//cannot set menu to its own descendants sub menu
+                $this->addError('parent_id', Yii::t('app', 'Cannot be themselves descendants sub'));
                 return false;
             }
         }
@@ -272,16 +265,16 @@ class Menu extends \yii\db\ActiveRecord
      * check menu can be delete
      *
      * @param $event
+     * @return bool
      */
-    public function beforeDeleteEvent($event)
+    public function beforeDelete()
     {
-        $menus = Menu::getMenus($event->sender->type);
-        $familyTree = new FamilyTree($menus);
-        $subs = $familyTree->getDescendants($event->sender->id);
+        $subs = $this->getDescendants($this->id);
         if (!empty($subs)) {
-            $event->sender->addError('id', Yii::t('app', 'Sub Menu exists, cannot be deleted'));
-            $event->isValid = false;
+            $this->addError('id', Yii::t('app', 'Sub Menu exists, cannot be deleted'));
+            return false;
         }
+        return parent::beforeDelete();
     }
 
     public function getParent()

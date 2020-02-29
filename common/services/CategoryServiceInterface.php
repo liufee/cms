@@ -16,4 +16,6 @@ interface CategoryServiceInterface extends ServiceInterface
     public function getCategoryList();
 
     public function getLevelCategoriesWithPrefixLevelCharacters();
+
+    public function getCategoriesRelativeUrl();
 }
