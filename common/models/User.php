@@ -14,11 +14,22 @@ use common\helpers\Util;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
+use yii\web\UploadedFile;
 
 /**
  * User model
  *
- * @property string $access_token
+ * @property integer $id
+ * @property string $username
+ * @property string $password_hash
+ * @property string $password_reset_token
+ * @property string $email
+ * @property string $auth_key
+ * @property string $avatar
+ * @property integer $status
+ * @property integer $created_at
+ * @property integer $updated_at
+ * @property string $password write-only password
  */
 class User extends \yii\db\ActiveRecord implements IdentityInterface
 {
@@ -80,7 +91,13 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         ];
     }
 
-
+    public function beforeValidate()
+    {
+        if($this->avatar !== "0") {//为0表示需要删除图片，Util::handleModelSingleFileUpload()会有判断删除图片
+            $this->avatar = UploadedFile::getInstance($this, "avatar");
+        }
+        return parent::beforeValidate();
+    }
 
     /**
      * @inheritdoc

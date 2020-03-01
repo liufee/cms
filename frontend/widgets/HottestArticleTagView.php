@@ -40,7 +40,7 @@ class HottestArticleTagView extends \yii\base\Widget
     {
         if( $this->data === null ){
             $tagsModel = new ArticleMetaTag();
-            $this->data = $tagsModel->getHotestTags();
+            $this->data = $tagsModel->getHottestTags();
         }
         return $this->data;
     }

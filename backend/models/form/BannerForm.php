@@ -10,6 +10,7 @@ namespace backend\models\form;
 
 use Yii;
 use common\libs\Constants;
+use yii\web\UploadedFile;
 
 class BannerForm extends \common\models\Options
 {
@@ -58,6 +59,14 @@ class BannerForm extends \common\models\Options
             [['sign', 'target', 'link', 'desc'], 'string'],
             [['img'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif, webp'],
         ];
+    }
+
+    public function beforeValidate()
+    {
+        if ($this->img !== "0") {//为0表示需要删除图片，Util::handleModelSingleFileUpload()会有判断删除图片
+            $this->img = UploadedFile::getInstance($this, "img");
+        }
+        return parent::beforeValidate();
     }
 
     public function setAttributes($values, $safeOnly = true)

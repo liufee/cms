@@ -8,9 +8,9 @@
 
 namespace feehi\components;
 
+use Yii;
 use common\models\Category;
 use feehi\cdn\DummyTarget;
-use Yii;
 use common\helpers\FileDependencyHelper;
 use backend\components\CustomLog;
 use yii\base\Component;

@@ -54,7 +54,7 @@ class FriendlyLinkSearch extends \yii\base\Model implements SearchInterface
      */
     public function search(array $params = [], array $options = [])
     {
-        $query = FriendlyLink::find();
+        $query = FriendlyLink::find()->orderBy(['sort'=>SORT_ASC, 'id'=>SORT_DESC]);
         $dataProvider = Yii::createObject([
             'class' => ActiveDataProvider::className(),
             'query' => $query,

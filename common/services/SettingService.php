@@ -8,6 +8,7 @@ use backend\models\form\SettingSMTPForm;
 use backend\models\form\SettingWebsiteForm;
 use common\models\Options;
 use Yii;
+use yii\base\Exception;
 use yii\base\Model;
 use yii\swiftmailer\Mailer;
 use yii\web\BadRequestHttpException;
@@ -18,7 +19,7 @@ class SettingService extends Service implements SettingServiceInterface
 
     public function getSearchModel(array $query, array $options = [])
     {
-        // TODO: Implement getSearchModel() method.
+        throw new Exception("not need implement");
     }
 
     public function getModel($id, array $options = [])
@@ -54,7 +55,7 @@ class SettingService extends Service implements SettingServiceInterface
         if ( $model->load($postData) && $model->setWebsiteConfig() ){
             return true;
         }
-        return $model->getErrors();
+        return $model;
     }
 
     public function updateCustomSetting(array $postData=[]){
@@ -64,7 +65,7 @@ class SettingService extends Service implements SettingServiceInterface
             foreach ($settings as $setting) {
                 $result = $setting->save(false);
                 if (!$result){
-                    $errors[] = $setting->getErrors();
+                    $errors[] = $setting;
                 }
             }
         }
@@ -80,7 +81,7 @@ class SettingService extends Service implements SettingServiceInterface
         if ( $model->load($postData) && $model->setSMTPSettingConfig() ){
             return true;
         }
-        return $model->getErrors();
+        return $model;
     }
 
     public function testSMTPSetting(array $postData = []){
@@ -113,9 +114,9 @@ class SettingService extends Service implements SettingServiceInterface
             if( $result === false ){
                 return $result;
             }
-            return "";
+            return true;
         } else {
-           return $model->getErrors();
+           return $model;
         }
     }
 }

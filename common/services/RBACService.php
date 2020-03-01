@@ -8,17 +8,17 @@
 
 namespace common\services;
 
+use backend\components\CustomLog;
 use Yii;
 use backend\models\form\RBACPermissionForm;
 use backend\models\form\RBACRoleForm;
 use backend\models\search\RBACFormSearch;
+use yii\base\Event;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 
 class RBACService extends Service implements RBACServiceInterface
 {
-
-    const TYPE_PERMISSION = "permission";
 
     /** @var \yii\rbac\ManagerInterface */
     private $authManager;
@@ -76,9 +76,9 @@ class RBACService extends Service implements RBACServiceInterface
         $permission->description = $formModel->description;
         $permission->data = $formModel->getData();
         if( $this->authManager->add($permission) ){
-            /*Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new CustomLog([
-                'sender' => $this,
-            ]));*/
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new CustomLog([
+                'sender' => $formModel,
+            ]));
             return true;
         }
         return false;
@@ -103,9 +103,9 @@ class RBACService extends Service implements RBACServiceInterface
         $permission->description = $formModel->description;
         $permission->data = $formModel->getData();
         if( $this->authManager->update($name, $permission) ){
-            /*Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new CustomLog([
-                'sender' => $this,
-            ]));*/
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new CustomLog([
+                'sender' => $formModel,
+            ]));
             return true;
         }
         return false;
@@ -184,9 +184,9 @@ class RBACService extends Service implements RBACServiceInterface
                 }
             }
 
-           /* Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new CustomLog([
-                'sender' => $this,
-            ]));*/
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new CustomLog([
+                'sender' => $formModel,
+            ]));
             return true;
         }
         return false;
@@ -251,10 +251,10 @@ class RBACService extends Service implements RBACServiceInterface
                 $this->authManager->removeChild($role, $needRemove);
             }
 
-         /*   Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
                 'sender' => $this,
-                'old' => $oldModel,
-            ]));*/
+                'old' => $oldRoles,
+            ]));
             return true;
         }
         return false;
@@ -323,7 +323,12 @@ class RBACService extends Service implements RBACServiceInterface
     public function getPermissionGroups()
     {
         $permissions = $this->getPermissionsGroups();
-        return array_keys($permissions);
+        $groups = array_keys($permissions);
+        $newGroups = [];
+        foreach ($groups as $group){
+            $newGroups[$group] = $group;
+        }
+        return $newGroups;
     }
 
     public function getPermissionCategories()
@@ -333,6 +338,10 @@ class RBACService extends Service implements RBACServiceInterface
         foreach ($permissions as $permission){
             $categories = array_merge($categories, array_keys($permission));
         }
-        return $categories;
+        $newCategories = [];
+        foreach ($categories as $category){
+            $newCategories[$category] = $category;
+        }
+        return $newCategories;
     }
 }

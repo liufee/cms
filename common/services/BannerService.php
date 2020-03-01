@@ -90,10 +90,10 @@ class BannerService extends Service implements BannerServiceInterface
             if( $model->save() ){
                 return true;
             }else{
-                return $model->getErrors();
+                return $model;
             }
         }else{
-            return $banner->getErrors();
+            return $banner;
         }
     }
 
@@ -110,10 +110,10 @@ class BannerService extends Service implements BannerServiceInterface
             if ($model->save()) {
                 return true;
             } else {
-                return $model->getErrors();
+                return $model;
             }
         } else {
-            return $banner->getErrors();
+            return $banner;
         }
     }
 
@@ -134,7 +134,7 @@ class BannerService extends Service implements BannerServiceInterface
         if ($model->save()) {
             return true;
         } else {
-            return $model->getErrors();
+            return $model;
         }
     }
 
@@ -158,7 +158,7 @@ class BannerService extends Service implements BannerServiceInterface
         if ($model->save()) {
             return true;
         } else {
-            return $model->getErrors();
+            return $model;
         }
     }
 

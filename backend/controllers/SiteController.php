@@ -265,7 +265,7 @@ class SiteController extends \yii\web\Controller
         if ($exception instanceof Exception) {
             $name = $exception->getName();
         } else {
-            $name = $this->defaultName ?: Yii::t('yii', 'Error');
+            $name = Yii::t('yii', 'Error');
         }
         if ($code) {
             $name .= " (#$code)";
@@ -274,7 +274,7 @@ class SiteController extends \yii\web\Controller
         if ($exception instanceof UserException) {
             $message = $exception->getMessage();
         } else {
-            $message = $this->defaultMessage ?: Yii::t('yii', 'An internal server error occurred.');
+            $message = Yii::t('yii', 'An internal server error occurred.');
         }
         $statusCode = $exception->statusCode ? $exception->statusCode : 500;
         if (Yii::$app->getRequest()->getIsAjax()) {

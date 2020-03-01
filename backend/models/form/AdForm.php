@@ -11,6 +11,7 @@ namespace backend\models\form;
 use Yii;
 use common\helpers\Util;
 use common\libs\Constants;
+use yii\web\UploadedFile;
 
 class AdForm extends \common\models\Options
 {
@@ -74,6 +75,16 @@ class AdForm extends \common\models\Options
             [[ 'link', 'target', 'desc'], 'string'],
             [['ad'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg, gif, webp'],
         ];
+    }
+
+    public function beforeValidate()
+    {
+        if( $this->type === Constants::AD_IMG ) {;
+            if ($this->ad !== "0") {//为0表示需要删除图片，Util::handleModelSingleFileUpload()会有判断删除图片
+                $this->ad = UploadedFile::getInstance($this, "ad");
+            }
+        }
+        return parent::beforeValidate();
     }
 
     public function beforeSave($insert)

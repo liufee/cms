@@ -264,7 +264,6 @@ class Menu extends \yii\db\ActiveRecord
     /**
      * check menu can be delete
      *
-     * @param $event
      * @return bool
      */
     public function beforeDelete()

@@ -73,7 +73,7 @@ class RbacController extends \yii\web\Controller
                     return $service->createPermission($postData);
                 },
                 'data' => function($createResultModel) use($service){
-                    $model = $createResultModel === null ? $service->getNewPermissionModel(['type'=>RBACService::TYPE_PERMISSION]) : $createResultModel;
+                    $model = $createResultModel === null ? $service->getNewPermissionModel() : $createResultModel;
                     return [
                         'model' => $model,
                         'groups' => $service->getPermissionGroups(),

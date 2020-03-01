@@ -12,6 +12,7 @@ use Yii;
 use common\helpers\Util;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "{{%friend_link}}".
@@ -79,6 +80,14 @@ class FriendlyLink extends ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
         ];
+    }
+
+    public function beforeValidate()
+    {
+        if($this->image !== "0") {//为0表示需要删除图片，Util::handleModelSingleFileUpload()会有判断删除图片
+            $this->image = UploadedFile::getInstance($this, "image");
+        }
+        return parent::beforeValidate();
     }
 
     /**

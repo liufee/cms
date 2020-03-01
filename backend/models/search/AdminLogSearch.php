@@ -59,7 +59,7 @@ class AdminLogSearch extends \yii\base\Model implements SearchInterface
      */
     public function search(array $params = [], array $options = [])
     {
-        $query = AdminLog::find();
+        $query = AdminLog::find()->orderBy(["id"=>SORT_DESC]);
         $query->joinWith(['user']);
         /** @var ActiveDataProvider $dataProvider */
         $dataProvider = Yii::createObject([

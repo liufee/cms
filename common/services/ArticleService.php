@@ -80,7 +80,7 @@ class ArticleService extends Service implements ArticleServiceInterface
                 throw new Exception("save article content error");
             }
             $transaction->commit();
-        }catch (\Exception $exception){
+        }catch (Exception $exception){
             $transaction->rollBack();
             return [
                 'articleModel' => $articleModel,
@@ -132,7 +132,7 @@ class ArticleService extends Service implements ArticleServiceInterface
                 throw new \Exception("delete article failed");
             }
             $transaction->commit();
-        }catch (\Exception $exception){
+        }catch (Exception $exception){
             $transaction->rollBack();
             return [
                 'articleModel' => $articleModel,

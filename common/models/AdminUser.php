@@ -18,7 +18,7 @@ use yii\web\ForbiddenHttpException;
 use yii\web\UploadedFile;
 
 /**
- * User model
+ * AdminUser model
  *
  * @property integer $id
  * @property string $username

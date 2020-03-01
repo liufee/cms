@@ -35,7 +35,7 @@ class DeleteAction extends \yii\base\Action
      * @throws BadRequestHttpException
      * @throws MethodNotAllowedHttpException
      * @throws UnprocessableEntityHttpException
-     * @throws \yii\base\Exception
+     * @throws Exception
      */
     public function run()
     {
