@@ -8,13 +8,13 @@
 
 namespace common\services;
 
-use backend\components\CustomLog;
 use Yii;
+use backend\components\CustomLog;
 use backend\models\form\RBACPermissionForm;
 use backend\models\form\RBACRoleForm;
-use backend\models\search\RBACFormSearch;
 use yii\base\Event;
 use yii\base\Exception;
+use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 
 class RBACService extends Service implements RBACServiceInterface
@@ -49,13 +49,33 @@ class RBACService extends Service implements RBACServiceInterface
         return new RBACPermissionForm();
     }
 
-    public function getPermissionList($query)
+    public function getPermissionList(array $query = [])
     {
-        $searchModel = new RBACFormSearch(['scenario'=>'permission']);
-        $dataProvider = $searchModel->searchPermissions($query);
+        $items = $this->authManager->getPermissions();
+        $permissions = [];
+        foreach ($items as $item){
+            $model = new RBACPermissionForm();
+            $model->setAttributes($item);
+            $permissions[] = $model->getAttributes();
+        }
+        ArrayHelper::multisort($permissions, 'sort');
+        $sortedPermissions = [];
+        foreach ($permissions as $item){
+            $model = new RBACPermissionForm();
+            $model->setAttributes($item);
+            $sortedPermissions[] = $model;
+        }
+        //$searchModel = new RBACFormSearch(['scenario'=>'permission']);
+        //$dataProvider = $searchModel->searchPermissions($query);
+        $dataProvider = new ArrayDataProvider([
+                            'allModels' => $sortedPermissions,
+                            'pagination' => [
+                                'pageSize' => -1,
+                            ]
+                        ]);
         return [
             'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
+            //'searchModel' => $searchModel,
         ];
     }
 
@@ -136,11 +156,31 @@ class RBACService extends Service implements RBACServiceInterface
 
     public function getRoleList(array $query = [])
     {
-        $searchModel = new RBACFormSearch(['scenario' => 'roles']);
-        $dataProvider = $searchModel->searchRoles($query);
+        $items = $this->authManager->getRoles();
+        $roles = [];
+        foreach ($items as $item){
+            $model = new RBACRoleForm();
+            $model->setAttributes($item);
+            $roles[] = $model->getAttributes();
+        }
+        ArrayHelper::multisort($roles, 'sort');
+        $sortedRoles = [];
+        foreach ($roles as $item){
+            $model = new RBACRoleForm();
+            $model->setAttributes($item);
+            $sortedRoles[] = $model;
+        }
+        //$searchModel = new RBACFormSearch(['scenario'=>'permission']);
+        //$dataProvider = $searchModel->searchPermissions($query);
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $sortedRoles,
+            'pagination' => [
+                'pageSize' => -1,
+            ]
+        ]);
         return [
             'dataProvider' => $dataProvider,
-            'searchModel' => $searchModel,
+            //'searchModel' => $searchModel,
         ];
     }
 

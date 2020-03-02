@@ -30,6 +30,7 @@ class RBACRoleForm extends \yii\base\Model
         return [
             [['name', 'description'], 'required'],
             [['roles', 'permissions'], 'default', 'value' => []],
+            [['sort'],'number']
         ];
     }
 

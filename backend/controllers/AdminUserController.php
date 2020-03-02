@@ -8,6 +8,8 @@
 
 namespace backend\controllers;
 
+use common\services\RBACService;
+use common\services\RBACServiceInterface;
 use Yii;
 use common\models\AdminUser;
 use common\services\AdminUserServiceInterface;
@@ -109,6 +111,8 @@ class AdminUserController extends \yii\web\Controller
      */
     public function actionCreate()
     {
+        /** @var RBACServiceInterface $service */
+        $service = Yii::$app->get(RBACService::ServiceName);
         /** @var AdminUser $model */
         $model = Yii::createObject( AdminUser::className() );
         $model->setScenario('create');
@@ -128,6 +132,8 @@ class AdminUserController extends \yii\web\Controller
         $model->loadDefaultValues();
         return $this->render('create', [
             'model' => $model,
+            'permissions' => $service->getPermissionsGroups(),
+            'roles' => $service->getRoles(),
         ]);
     }
 
@@ -141,6 +147,8 @@ class AdminUserController extends \yii\web\Controller
      */
     public function actionUpdate($id)
     {
+        /** @var RBACServiceInterface $service */
+        $service = Yii::$app->get(RBACService::ServiceName);
         $model = AdminUser::findOne($id);
         $model->setScenario('update');
         $model->roles = $model->permissions = call_user_func(function() use($id){
@@ -167,6 +175,8 @@ class AdminUserController extends \yii\web\Controller
 
         return $this->render('update', [
             'model' => $model,
+            'permissions' => $service->getPermissionsGroups(),
+            'roles' => $service->getRoles(),
         ]);
     }
 

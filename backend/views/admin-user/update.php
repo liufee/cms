@@ -13,16 +13,20 @@ $this->params['breadcrumbs'] = [
 ];
 /**
  * @var $model common\models\AdminUser
+ * @var $permissions []
+ * @var $roles []
  */
 ?>
 <?php
 if (Yii::$app->controller->action->id == 'update') {
     echo $this->render('_form', [
         'model' => $model,
+        'permissions' => $permissions,
+        'roles' => $roles,
     ]);
 } else {
     echo $this->render('_form-update-self', [
-        'model' => $model
+        'model' => $model,
     ]);
 }
 ?>

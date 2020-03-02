@@ -57,7 +57,7 @@ class RbacController extends \yii\web\Controller
                     $result = $service->getPermissionList($query);
                     return [
                         'dataProvider' => $result['dataProvider'],
-                        'searchModel' => $result['searchModel'],
+                        //'searchModel' => $result['searchModel'],
                     ];
                 }
             ],
@@ -120,7 +120,7 @@ class RbacController extends \yii\web\Controller
                     $result = $service->getRoleList($query);
                     return [
                         'dataProvider' => $result['dataProvider'],
-                        'searchModel' => $result['searchModel'],
+                        //'searchModel' => $result['searchModel'],
                     ];
                 },
                 'viewFile' => 'roles',

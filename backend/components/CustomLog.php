@@ -8,8 +8,8 @@
  */
 namespace backend\components;
 
-use backend\models\form\RBACForm;
 use yii;
+use backend\models\form\RBACPermissionForm;
 use yii\base\ErrorException;
 
 class CustomLog extends \yii\base\Event
@@ -94,13 +94,9 @@ class CustomLog extends \yii\base\Event
         $class= $this->sender->className();
         $template = '{{%ADMIN_USER%}} [ ' . yii::$app->getUser()->getIdentity()->username . ' ] {{%BY%}} ' . $class;
         switch ($this->sender->className()){
-            case RBACForm::className():
+            case RBACPermissionForm::className():
                 $detail = '<br>';
-                if( $this->sender->getScenario() == 'permission' ) {
-                    $which = "权限 {$this->sender->name} ";
-                }else{
-                    $which = "角色 {$this->sender->name} ";
-                }
+                $which = "角色 {$this->sender->name} ";
                 $oldAttributes = $this->old->getAttributes();
                 foreach ($this->sender->activeAttributes() as $field) {
                     $value = $this->sender->$field;

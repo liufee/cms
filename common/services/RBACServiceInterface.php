@@ -14,6 +14,7 @@ interface RBACServiceInterface extends ServiceInterface
     const ServiceName = "RBACService";
 
     public function getNewPermissionModel();
+    public function getPermissionList(array $query = []);
     public function createPermission(array $postData = []);
     public function getPermissionDetail($name);
     public function updatePermission($name, array $postData = []);

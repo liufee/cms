@@ -8,7 +8,7 @@
 
 /**
  * @var $this yii\web\View
- * @var $model backend\models\form\RBACForm
+ * @var $model backend\models\form\RBACPermissionForm
  * @var $groups []
  * @var $categories []
  */

@@ -8,7 +8,7 @@
 
 use yii\widgets\DetailView;
 
-/** @var $model backend\models\form\RBACForm */
+/** @var $model backend\models\form\RBACRoleForm */
 ?>
 <?=DetailView::widget([
     'model' => $model,

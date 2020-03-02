@@ -8,9 +8,10 @@
 
 namespace console\controllers;
 
-use console\helpers\FileHelper;
 use Yii;
-use backend\models\form\RBACForm;
+use backend\models\form\RBACPermissionForm;
+use common\services\RBACServiceInterface;
+use console\helpers\FileHelper;
 use console\controllers\helpers\BackendAuth;
 use yii\console\Controller;
 use yii\helpers\ArrayHelper;
@@ -72,6 +73,8 @@ class FeehiController extends Controller
             'class' => BackendAuth::className(),
         ]);
 
+        /** @var RBACServiceInterface $service */
+        $service = Yii::$app->get(RBACServiceInterface::ServiceName);
         $authItems = $obj->getAuthItems();
         $dbAuthItems = $obj->getDbAuthItems();
         $needModifies = [];
@@ -106,8 +109,7 @@ class FeehiController extends Controller
                 $this->stdout("已取消增加(been canceled add)" . PHP_EOL, Console::FG_GREEN);
             } else {
                 foreach ($needAdds as $k => $v) {
-                    /** @var RBACForm $model */
-                    $model = Yii::createObject(['class' => RBACForm::className(), 'scenario' => 'permission']);
+                    $model = new RBACPermissionForm();
                     $model->route = $v['route'];
                     $model->method = $v['method'];
                     $model->description = $v['description'];
@@ -116,9 +118,9 @@ class FeehiController extends Controller
                     $model->sort = $v['sort'];
                     $exits = Yii::$app->getAuthManager()->getPermission($model->route . ':' . $model->method);
                     if (!$exits) {
-                        $model->createPermission();
+                        $service->createPermission($model->getAttributes());
                     }
-                    $model->createPermission();
+                    $service->updatePermission($model->getName(), $model->getAttributes());
                 }
             }
         }
@@ -131,16 +133,14 @@ class FeehiController extends Controller
                 $this->stdout("已取消修改(been canceled update)" . PHP_EOL, Console::FG_GREEN);
             } else {
                 foreach ($needModifies as $k => $v) {
-                    /** @var RBACForm $model */
-                    $model = Yii::createObject(['class' => RBACForm::className(), 'scenario' => 'permission']);
-                    $model->fillModel($v['name']);
+                    $model = new RBACPermissionForm();
                     $model->route = $v['route'];
                     $model->method = $v['method'];
                     $model->description = $v['description'];
                     $model->group = $v['group'];
                     $model->category = $v['category'];
                     $model->sort = $v['sort'];
-                    $model->updatePermission($v['name']);
+                    $service->updatePermission($model->getName(), $model->attributes());
                 }
             }
         }
@@ -152,10 +152,10 @@ class FeehiController extends Controller
                 $this->stdout("已取消删除(been canceled delete)" . PHP_EOL, Console::FG_GREEN);
             } else {
                 foreach ($needRemoves as $k => $v) {
-                    /** @var RBACForm $model */
-                    $model = Yii::createObject(['class' => RBACForm::className(), 'scenario' => 'permission']);
-                    $model->fillModel($v);
-                    $model->deletePermission();
+                    $model = new RBACPermissionForm();
+                    $model->route = $v['route'];
+                    $model->method = $v['method'];
+                    $service->deletePermission($model->getName());
                 }
             }
         }

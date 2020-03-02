@@ -9,7 +9,6 @@
 /**
  * @var $this yii\web\View
  * @var $dataProvider yii\data\ArrayDataProvider
- * @var $searchModel backend\models\search\RBACFormSearch
  */
 
 use backend\grid\GridView;
@@ -51,7 +50,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Permissions');
                 ]) ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
-                    'filterModel' => $searchModel,
+                    //'filterModel' => $searchModel,
                     'columns' => [
                         [
                             'class' => CheckboxColumn::className(),

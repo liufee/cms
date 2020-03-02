@@ -13,8 +13,12 @@ $this->params['breadcrumbs'] = [
 ];
 /**
  * @var $model common\models\AdminUser
+ * @var $permissions []
+ * @var $roles []
  */
 ?>
 <?= $this->render('_form', [
     'model' => $model,
+    'permissions' => $permissions,
+    'roles' => $roles,
 ]); ?>
