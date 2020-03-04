@@ -31,11 +31,11 @@ class AdminLog extends \yii\db\ActiveRecord
         return '{{%admin_log}}';
     }
 
-    public function behaviors()
+    public function beforeSave($insert)
     {
-        return [
-            TimestampBehavior::className(),
-        ];
+        if($insert){
+            $this->created_at = time();
+        }
     }
 
     /**

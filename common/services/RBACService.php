@@ -16,6 +16,8 @@ use yii\base\Event;
 use yii\base\Exception;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
+use yii\web\NotFoundHttpException;
 
 class RBACService extends Service implements RBACServiceInterface
 {
@@ -96,8 +98,9 @@ class RBACService extends Service implements RBACServiceInterface
         $permission->description = $formModel->description;
         $permission->data = $formModel->getData();
         if( $this->authManager->add($permission) ){
-            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new CustomLog([
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
                 'sender' => $formModel,
+                'description' => "创建 权限 (" . $formModel->getName() . ") " . print_r($formModel->getAttributes(), true),
             ]));
             return true;
         }
@@ -119,12 +122,14 @@ class RBACService extends Service implements RBACServiceInterface
             return $formModel->getErrors();
         }
 
+        $oldPermission = $this->getPermissionDetail($name);
         $permission = $this->authManager->createPermission($formModel->getName());
         $permission->description = $formModel->description;
         $permission->data = $formModel->getData();
         if( $this->authManager->update($name, $permission) ){
-            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new CustomLog([
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
                 'sender' => $formModel,
+                'description' => "修改 权限(" . $name .  ") 从" . print_r($oldPermission, true) . "变更为" . print_r($formModel->getAttributes(), true),
             ]));
             return true;
         }
@@ -134,7 +139,14 @@ class RBACService extends Service implements RBACServiceInterface
     public function deletePermission($name)
     {
         $permission = $this->authManager->createPermission($name);
-        return $this->authManager->remove($permission);
+        $result = $this->authManager->remove($permission);
+        if( $result ){
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
+                'sender' => $this,
+                'description' => "删除 权限(" . $name . ")",
+            ]));
+        }
+        return $result;
     }
 
     public function sortPermission($name, $sort)
@@ -142,9 +154,17 @@ class RBACService extends Service implements RBACServiceInterface
         $permission = $this->authManager->getPermission($name);
         $formModel = $this->getNewPermissionModel();
         $formModel->setAttributes($permission);
+        $oldSort = $formModel->sort;
         $formModel->sort = $sort;
         $permission->data = $formModel->getData();
-        return $this->authManager->update($name, $permission);
+        $result = $this->authManager->update($name, $permission);
+        if($result){
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
+                'sender' => $this,
+                'description' => "修改 权限(" . $name . ") 排序 " . $oldSort . "为" . $sort,
+            ]));
+        }
+        return $result;
     }
 
 
@@ -224,8 +244,9 @@ class RBACService extends Service implements RBACServiceInterface
                 }
             }
 
-            Event::trigger(CustomLog::className(), CustomLog::EVENT_AFTER_CREATE, new CustomLog([
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
                 'sender' => $formModel,
+                'description' => "创建角色 (" . $formModel->name . ") 权限为 " . print_r($permissions, true) . " 继承角色 " . print_r($childRoles, true) . "的权限"
             ]));
             return true;
         }
@@ -293,7 +314,7 @@ class RBACService extends Service implements RBACServiceInterface
 
             Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
                 'sender' => $this,
-                'old' => $oldRoles,
+                'description' => "修改 角色 (" . $name . ") 把权限从" . print_r($oldPermissions, true) . " 修改为 " . print_r($permissions, true) . " 把子角色从 " . print_r($oldRoles, true) . " 修改为 " . print_r($roles, true),
             ]));
             return true;
         }
@@ -303,16 +324,26 @@ class RBACService extends Service implements RBACServiceInterface
     public function sortRole($name, $sort)
     {
         $role = $this->authManager->getRole($name);
+        if( $role === null ) throw new NotFoundHttpException("Not exits role " . $name);
         $formModel = $this->getNewRoleModel();
         $formModel->setAttributes($role);
+        $oldSort = $formModel->sort;
         $formModel->sort = $sort;
         $role->data = $formModel->getData();
-        return $this->authManager->update($name, $role);
+        $result = $this->authManager->update($name, $role);
+        if($result){
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
+                'sender' => $this,
+                'description' => "修改 角色(" . $name . ")排序 " . $oldSort . "为" . $formModel->sort,
+            ]));
+        }
+        return $result;
     }
 
     public function deleteRole($name)
     {
         $role = $this->authManager->getRole($name);
+        if( $role === null ) throw new NotFoundHttpException("Not exits role " . $name);
         $permissions = $this->authManager->getPermissionsByRole($name);
         foreach ($permissions as $permission){
             $result = $this->authManager->remove($permission);
@@ -320,7 +351,14 @@ class RBACService extends Service implements RBACServiceInterface
                 Yii::error("delete role remove permission " . $permission->name . " error");
             }
         }
-        return $this->authManager->remove($role);
+        $result = $this->authManager->remove($role);
+        if($result){
+            Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
+                'sender' => $this,
+                'description' => "删除 角色(" . $name . ")",
+            ]));
+        }
+        return $result;
     }
 
     public function getRoles()

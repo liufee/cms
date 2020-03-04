@@ -152,10 +152,7 @@ class FeehiController extends Controller
                 $this->stdout("已取消删除(been canceled delete)" . PHP_EOL, Console::FG_GREEN);
             } else {
                 foreach ($needRemoves as $k => $v) {
-                    $model = new RBACPermissionForm();
-                    $model->route = $v['route'];
-                    $model->method = $v['method'];
-                    $service->deletePermission($model->getName());
+                    $service->deletePermission($v);
                 }
             }
         }

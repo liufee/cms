@@ -115,9 +115,17 @@ class m130524_201442_init extends Migration
             'user_id' => $this->integer()->unsigned()->notNull()->comment("管理员用户id"),
             'route' => $this->string()->defaultValue('')->notNull()->comment("操作路由"),
             'description' => $this->text()->comment("操作描述"),
-            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间"),
-            'updated_at' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("最后修改时间"),
+            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间")
         ], $tableOptions);
+        $this->batchInsert("{{%admin_log}}", ["id", "user_id", "route", "description", "created_at"], [
+            [
+                '1',
+                '1',
+                '/feehi/index',
+                'this is a demo',
+                '1468293965'
+            ]
+        ]);
 
 
         //table category

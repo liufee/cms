@@ -12,7 +12,7 @@ namespace backend\models\form;
 use Yii;
 use yii\rbac\Permission;
 
-class RBACPermissionForm extends yii\base\Model
+class RBACPermissionForm extends \yii\base\Model
 {
     public $route;
 

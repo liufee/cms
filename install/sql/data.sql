@@ -25,7 +25,6 @@ CREATE TABLE `%__prefix__%admin_log` (
   `route` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '' COMMENT '操作路由',
   `description` text COLLATE utf8_unicode_ci COMMENT '操作描述',
   `created_at` int(11) unsigned NOT NULL COMMENT '创建时间',
-  `updated_at` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

@@ -64,7 +64,7 @@ class RbacController extends \yii\web\Controller
             'permission-sort' => [
                 'class' => SortAction::className(),
                 'sort' => function($name, $sort) use($service){
-                    return $service->sortPermission($name, $sort);
+                    return $service->sortPermission($name['name'], $sort);
                 },
             ],
             'permission-create' => [
@@ -171,7 +171,7 @@ class RbacController extends \yii\web\Controller
             'role-sort' => [
                 'class' => SortAction::className(),
                 'sort' => function($name, $sort) use($service) {
-                    return $service->sortRole($name, $sort);
+                    return $service->sortRole($name['name'], $sort);
                 },
             ],
             'role-delete' => [
