@@ -60,9 +60,11 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Roles');
                         ],
                         [
                             'attribute' => 'name',
+                            'label' => Yii::t("app", "Name"),
                         ],
                         [
                             'attribute' => 'description',
+                            'label' => Yii::t("app", "Description"),
                         ],
                         [
                             'class' => SortColumn::className(),
@@ -70,6 +72,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Roles');
                                 return ["name" => $model['name']];
                             },
                             'action' => Url::to(['role-sort']),
+                            'label' => Yii::t("app", "Sort"),
                         ],
                         [
                             'class' => ActionColumn::className(),

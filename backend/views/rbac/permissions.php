@@ -60,29 +60,35 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Permissions');
                         ],
                         [
                             'attribute' => 'group',
+                            'label' => Yii::t("app", "Group"),
                         ],
                         [
                             'attribute' => 'category',
+                            'label' => Yii::t("app", "Category"),
                         ],
                         [
                             'attribute' => 'route',
+                            'label' => Yii::t("app", "Route"),
                         ],
                         [
                             'attribute' => 'method',
                             'filter' => [
                                 'GET' => 'GET',
                                 'POST' => 'POST',
-                            ]
+                            ],
+                            'label' => Yii::t("app", "HTTP Method"),
                         ],
                         [
                             'attribute' => 'description',
+                            'label' => Yii::t("app", "Description"),
                         ],
                         [
                             'class' => SortColumn::className(),
                             'primaryKey' => function($model){
                                 return ["name" => $model['name']];
                             },
-                            'action' => Url::to(['permission-sort'])
+                            'action' => Url::to(['permission-sort']),
+                            'label' => Yii::t("app", "Sort"),
                         ],
                         [
                             'class' => ActionColumn::className(),

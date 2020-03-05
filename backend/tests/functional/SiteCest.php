@@ -32,7 +32,7 @@ class SiteCest
     public function checkCaptcha(FunctionalTester $I)
     {
         $I->amOnPage(Url::toRoute('/site/captcha'));
-        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseCodeIs(200);
     }
 
     public function checkLogout(FunctionalTester $I)
