@@ -77,7 +77,7 @@ class ArticleController extends Controller
                 if (! $category = Category::findOne(['alias' => $cat])) {
                     throw new NotFoundHttpException(Yii::t('frontend', 'None category named {name}', ['name' => $cat]));
                 }
-                $descendants = Category::getDescendants($category['id']);
+                $descendants = $category->getDescendants($category['id']);
                 if( empty($descendants) ) {
                     $where['cid'] = $category['id'];
                 }else{

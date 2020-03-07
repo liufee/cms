@@ -38,4 +38,4 @@ before_script:
 - cp -rf api/tests/functional.suite.yml.example api/tests/functional.suite.yml
 - cd frontend/web && php -S 0.0.0.0:8888 &
 script:
-- vendor/bin/codecept run
+- vendor/bin/codecept run --debug --steps

@@ -42,9 +42,10 @@ class BannerTypeForm extends \common\models\Options
 
     public function attributeLabels()
     {
-        $attributeLabels = parent::attributeLabels();
-        $attributeLabels['tips'] = Yii::t('app', 'Description');
-        return $attributeLabels;
+        return [
+            'name' => Yii::t('app', 'Name'),
+            'tips' => Yii::t('app', 'Description'),
+        ];
     }
 
     public function beforeDelete()

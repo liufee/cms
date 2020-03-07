@@ -42,7 +42,6 @@ class LogCest
         $I->amOnPage($urls[0]);
         $I->see('创建时间');
         $I->see('管理员');
-        $I->see("通过");
     }
 
 }

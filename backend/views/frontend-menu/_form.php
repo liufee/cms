@@ -112,7 +112,8 @@ if ($parent_id != '') {
     })
     function changeCategoryMenu()
     {
-        $("input[id=menu-name]").val( $("select[id=menu-url] :selected").html().trim(' │', 'left').trim(' ├', 'left').trim(' └', 'left').trim('-', 'left') );
+        var name = $("select[id=menu-url] :selected").html().trim(' │', 'left').trim(' ├', 'left').trim(' └', 'left').trim('-', 'left').replace(/└/g, "").trim(" ", 'left')
+        $("input[id=menu-name]").val( name );
     }
 </script>
 <?php JsBlock::end() ?>

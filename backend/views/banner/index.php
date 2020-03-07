@@ -37,9 +37,11 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Banner Types');
                         ],
                         [
                             'attribute' => 'name',
+                            'label' => Yii::t("app", 'Name'),
                         ],
                         [
                             'attribute' => 'tips',
+                            'label' => Yii::t("app", "Description")
                         ],
                         [
                             'class' => ActionColumn::className(),
