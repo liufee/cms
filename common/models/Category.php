@@ -166,11 +166,11 @@ class Category extends \yii\db\ActiveRecord
         file_put_contents($path . 'category.txt', $json);
     }
 
-    public static function getUrlRules()
+    public function getUrlRules()
     {
         $file = Yii::getAlias('@frontend/runtime/cache/category.txt');
         if( !file_exists($file) ){
-            self::_generateUrlRules();
+            $this->_generateUrlRules();
         }
         return json_decode(file_get_contents($file), true);
     }

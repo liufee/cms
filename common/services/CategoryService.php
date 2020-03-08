@@ -46,7 +46,8 @@ class CategoryService extends Service implements CategoryServiceInterface
     public function getLevelCategoriesWithPrefixLevelCharacters()
     {
         $data = [];
-        $categories = ($this->newModel())->getDescendants(0);
+        $model = $this->newModel();
+        $categories = $model->getDescendants(0);
         foreach ($categories as $k => $category){
             /** @var Category $category */
             if( isset($categories[$k+1]['level']) && $categories[$k+1]['level'] == $category['level'] ){
@@ -73,7 +74,8 @@ class CategoryService extends Service implements CategoryServiceInterface
      */
     public function getCategoriesRelativeUrl()
     {
-        $categories = ($this->newModel())->getDescendants(0);
+        $model = $this->newModel();
+        $categories = $model->getDescendants(0);
         $data = [];
         foreach ($categories as $k => $category) {
             /** @var Category $category */

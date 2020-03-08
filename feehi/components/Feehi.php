@@ -122,8 +122,9 @@ class Feehi extends Component
         }
         if(isset(Yii::$app->session['view'])) Yii::$app->viewPath = Yii::getAlias('@frontend/view') . Yii::$app->session['view'];
 
+        $category = new Category();
         Yii::configure(Yii::$app->getUrlManager(), [
-            'rules' => array_merge(Yii::$app->getUrlManager()->rules, Category::getUrlRules())
+            'rules' => array_merge(Yii::$app->getUrlManager()->rules, $category->getUrlRules())
         ]);
         Yii::$app->getUrlManager()->init();
 
