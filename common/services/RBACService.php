@@ -85,7 +85,7 @@ class RBACService extends Service implements RBACServiceInterface
     {
         $formModel = $this->getNewPermissionModel();
         if ( !$formModel->load($postData) ){
-            return $formModel->getErrors();
+            return $formModel;
         }
 
         if ($this->authManager->getPermission($formModel->name) !== null) {

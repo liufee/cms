@@ -8,15 +8,19 @@
 
 namespace console\controllers;
 
+use common\models\AdminUser;
 use Yii;
 use backend\models\form\RBACPermissionForm;
 use common\services\RBACServiceInterface;
 use console\helpers\FileHelper;
 use console\controllers\helpers\BackendAuth;
+use yii\base\Exception;
 use yii\console\Controller;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
 use yii\web\Request;
+use yii\web\Session;
+use yii\web\User;
 
 class FeehiController extends Controller
 {
@@ -118,7 +122,11 @@ class FeehiController extends Controller
                     $model->sort = $v['sort'];
                     $exits = Yii::$app->getAuthManager()->getPermission($model->route . ':' . $model->method);
                     if (!$exits) {
-                        $service->createPermission($model->getAttributes());
+                        $postData = ["RBACPermissionForm" => $model->getAttributes()];
+                        $result=$service->createPermission($postData);
+                        if( $result !== true ){
+                            throw new Exception("save permission error" . print_r($result, true));
+                        }
                     }
                     $service->updatePermission($model->getName(), $model->getAttributes());
                 }
@@ -140,8 +148,11 @@ class FeehiController extends Controller
                     $model->group = $v['group'];
                     $model->category = $v['category'];
                     $model->sort = $v['sort'];
-                    $service->updatePermission($model->getName(), $model->attributes());
-                }
+                    $postData = ["RBACPermissionForm" => $model->getAttributes()];
+                    $result = $service->updatePermission($model->getName(), $postData);
+                    if( $result !== true ){
+                        throw new Exception("update permission error " . print_r($result, true));
+                    }                }
             }
         }
 

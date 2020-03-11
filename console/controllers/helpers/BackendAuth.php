@@ -9,6 +9,7 @@ namespace console\controllers\helpers;
 
 use Yii;
 use ReflectionClass;
+use yii\base\Exception;
 use yii\helpers\FileHelper;
 
 class BackendAuth extends \yii\base\BaseObject
@@ -221,17 +222,14 @@ class BackendAuth extends \yii\base\BaseObject
                     $actionNum = 1;
                 }
 
-                if (!is_array($authItems) || count($authItems) !== $actionNum) {
+                if (!is_array($authItems)) {
                     continue;
                 }
 
                 if ( count($authItems) !== $actionNum ) {
                     $this->_unPropertyDocCommentsRoutes[] = $controllerPartialUrl;
                     $error = "$subDirControllerName::actions或actionX 注释和action数量不匹配 注释(doc comment)数量" . count($authItems) . " 方法(action method)数量" . count($actions) . "(actions or actionX doc comment not equal action method quantity)";
-                    $this->setError($error);
-                    Yii::error($error);
-                    Yii::$app->controller->stderr($error . PHP_EOL);
-                    return false;
+                    throw new Exception($error);
                 }
                 $j = 0;
                 foreach ($actions as $action => $none) {

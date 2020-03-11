@@ -29,8 +29,13 @@ class CustomLog extends \yii\base\Event
     {
         parent::init();
         /** @var AdminUser $identity */
-        $identity = yii::$app->getUser()->getIdentity();
-        $this->adminUserName = $identity->username;
+        $components = Yii::$app->coreComponents();
+        if( !isset($components['user']) ){//cli(console)模式
+            $this->adminUserName = "command(console)";
+        }else {
+            $identity = yii::$app->getUser()->getIdentity();
+            $this->adminUserName = $identity->username;
+        }
     }
 
     public function getDescription()
