@@ -36,6 +36,7 @@ class AdminLog extends \yii\db\ActiveRecord
         if($insert){
             $this->created_at = time();
         }
+        return parent::beforeSave($insert);
     }
 
     /**
