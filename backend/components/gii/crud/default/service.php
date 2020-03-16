@@ -34,7 +34,7 @@ class <?=$modelClass?>Service extends Service implements <?=$modelClass?>Service
         return <?=$modelClass?>::findOne($id);
     }
 
-    public function getNewModel(array $options = [])
+    public function newModel(array $options = [])
     {
         $model = new <?=$modelClass?>();
         $model->loadDefaultValues();

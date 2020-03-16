@@ -33,7 +33,6 @@ use <?= ltrim($generator->modelClass, '\\') . (isset($modelAlias) ? " as $modelA
  * <?= $searchModelClass ?> represents the model behind the search form about `<?= $generator->modelClass ?>`.
  */
 class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $modelClass ?> implements \backend\models\search\SearchInterface
-
 {
     /**
      * @inheritdoc

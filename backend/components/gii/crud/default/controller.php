@@ -111,7 +111,7 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
                     return $service->create($postData);
                 },
                 'data' => function($createResultModel, $createAction) use($service){
-                    $model = $createResultModel === null ? $service->getNewModel() : $createResultModel;
+                    $model = $createResultModel === null ? $service->newModel() : $createResultModel;
                     return [
                         'model' => $model,
                     ];

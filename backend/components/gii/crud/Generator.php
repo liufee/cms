@@ -73,8 +73,7 @@ class Generator extends \yii\gii\generators\crud\Generator
         $type = Yii::$app->getRequest()->post("generate");
         if( $type !== null ){
             $services = require Yii::getAlias("@common/config/") . 'services.php';
-            $interfaceName = "\\common\services\\" . $modelClass . "ServiceInterface";
-            $key = $interfaceName::ServiceName;
+            $key = $modelClass . "Service";
             if( !isset($services[$key]) ) {
                 $str = file_get_contents(Yii::getAlias("@common/config/") . 'services.php');
                 $lines = explode("\n", $str);
