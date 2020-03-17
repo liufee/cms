@@ -17,24 +17,8 @@ use backend\components\search\SearchEvent;
 use yii\data\ArrayDataProvider;
 
 
-class MenuSearch extends \yii\base\Model implements SearchInterface
+class MenuSearch extends Menu implements SearchInterface
 {
-
-    public $name;
-
-    public $url;
-
-    public $sort;
-
-    public $target;
-
-    public $is_display;
-
-    public $created_at;
-
-    public $updated_at;
-
-    public $is_absolute_url;
 
     public function attributes()
     {

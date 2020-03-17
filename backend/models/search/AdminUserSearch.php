@@ -14,15 +14,8 @@ use backend\behaviors\TimeSearchBehavior;
 use backend\components\search\SearchEvent;
 use yii\data\ActiveDataProvider;
 
-class AdminUserSearch extends \yii\base\Model implements SearchInterface
+class AdminUserSearch extends AdminUser implements SearchInterface
 {
-
-    public $username;
-
-    public $email;
-
-    public $status;
-
 
     public function behaviors()
     {

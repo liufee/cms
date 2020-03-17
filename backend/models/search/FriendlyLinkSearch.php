@@ -16,16 +16,8 @@ use backend\components\search\SearchEvent;
 use yii\data\ActiveDataProvider;
 
 
-class FriendlyLinkSearch extends \yii\base\Model implements SearchInterface
+class FriendlyLinkSearch extends FriendlyLink implements SearchInterface
 {
-    public $name;
-
-    public $url;
-
-    public $status;
-
-    public $image;
-
 
     public function behaviors()
     {

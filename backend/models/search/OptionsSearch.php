@@ -8,7 +8,6 @@
 
 namespace backend\models\search;
 
-use Yii;
 use backend\models\form\AdForm;
 use common\libs\Constants;
 use common\models\Options;
@@ -67,9 +66,7 @@ class OptionsSearch extends \yii\base\Model implements SearchInterface
                 $query = Options::find()->andFilterWhere(['type' => $this->type]);
         }
         $query = $query->orderBy(['id'=>SORT_DESC]);
-        /** @var ActiveDataProvider $dataProvider */
-        $dataProvider = Yii::createObject([
-            'class' => ActiveDataProvider::className(),
+        $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
 

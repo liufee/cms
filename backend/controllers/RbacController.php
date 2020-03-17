@@ -49,7 +49,7 @@ class RbacController extends \yii\web\Controller
     public function actions()
     {
         /** @var RBACServiceInterface $service */
-        $service = Yii::$app->get(RBACService::ServiceName);
+        $service = Yii::$app->get(RBACServiceInterface::ServiceName);
         return [
             'permissions' => [
                 'class' => IndexAction::className(),
@@ -57,7 +57,7 @@ class RbacController extends \yii\web\Controller
                     $result = $service->getPermissionList($query);
                     return [
                         'dataProvider' => $result['dataProvider'],
-                        //'searchModel' => $result['searchModel'],
+                        'searchModel' => $result['searchModel'],
                     ];
                 }
             ],
@@ -120,7 +120,7 @@ class RbacController extends \yii\web\Controller
                     $result = $service->getRoleList($query);
                     return [
                         'dataProvider' => $result['dataProvider'],
-                        //'searchModel' => $result['searchModel'],
+                        'searchModel' => $result['searchModel'],
                     ];
                 },
                 'viewFile' => 'roles',

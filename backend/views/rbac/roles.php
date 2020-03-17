@@ -9,6 +9,7 @@
 /**
  * @var $this yii\web\View
  * @var $dataProvider yii\data\ArrayDataProvider
+ * @var $searchModel \backend\models\search\RBACRoleSearch
  */
 
 use backend\grid\GridView;
@@ -50,7 +51,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Roles');
                 ]) ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
-                    //'filterModel' => $searchModel,
+                    'filterModel' => $searchModel,
                     'columns' => [
                         [
                             'class' => CheckboxColumn::className(),

@@ -14,18 +14,10 @@ use backend\components\search\SearchEvent;
 use common\models\AdminLog;
 use yii\data\ActiveDataProvider;
 
-class AdminLogSearch extends \yii\base\Model implements SearchInterface
+class AdminLogSearch extends AdminLog implements SearchInterface
 {
 
-    public $id;
-
     public $admin_username;
-
-    public $description;
-
-    public $user_id;
-
-    public $route;
 
 
     /**

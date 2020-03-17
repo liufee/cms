@@ -15,18 +15,11 @@ use backend\components\search\SearchEvent;
 use common\models\Article;
 use yii\data\ActiveDataProvider;
 
-class CommentSearch extends \yii\base\Model implements SearchInterface
+class CommentSearch extends Comment implements SearchInterface
 {
 
-    public $nickname;
-
-    public $status;
-
-    public $aid;
-
-    public $content;
-
     public $article_title;
+    
 
     public function behaviors()
     {
