@@ -92,9 +92,19 @@ class ArticleService extends Service implements ArticleServiceInterface
 
     public function update($id, array $postData, array $options = [])
     {
+        /** @var Article $articleModel */
         $articleModel = $this->getDetail($id, $options);
+        /** @var ArticleContent $articleContentModel */
         $articleContentModel = $this->getArticleContentDetail($id);
-        if (!$articleModel->load($postData) || !$articleContentModel->load($postData)) {
+
+        if ( isset($postData[$articleModel->formName()]) && !$articleModel->load($postData) ) {
+            return [
+                'articleModel' => $articleModel,
+                'articleContentModel' => $articleContentModel,
+            ];
+        }
+
+        if( isset($postData[$articleContentModel->formName()]) && !$articleContentModel->load($postData) ){
             return [
                 'articleModel' => $articleModel,
                 'articleContentModel' => $articleContentModel,
