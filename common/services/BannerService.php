@@ -25,7 +25,7 @@ use yii\web\NotFoundHttpException;
 class BannerService extends Service implements BannerServiceInterface
 {
 
-    public function getSearchModel(array $query, array $options = [])
+    public function getSearchModel(array $options = [])
     {
         return new OptionsSearch(['type' => Options::TYPE_BANNER]);
     }

@@ -16,7 +16,7 @@ use Yii;
 class AdminUserService extends Service implements AdminUserServiceInterface
 {
 
-    public function getSearchModel(array $query, array $options = [])
+    public function getSearchModel(array $options = [])
     {
         return new AdminUserSearch();
     }

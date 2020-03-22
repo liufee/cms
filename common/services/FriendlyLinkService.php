@@ -14,7 +14,7 @@ use common\models\FriendlyLink;
 
 class FriendlyLinkService extends Service implements FriendlyLinkServiceInterface
 {
-    public function getSearchModel(array $query, array $options=[])
+    public function getSearchModel(array $options=[])
     {
         return new FriendlyLinkSearch();
     }

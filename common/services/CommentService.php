@@ -16,7 +16,7 @@ use common\models\Comment;
 class CommentService extends Service implements CommentServiceInterface
 {
 
-    public function getSearchModel(array $query, array $options=[])
+    public function getSearchModel(array $options=[])
     {
         return new CommentSearch();
     }

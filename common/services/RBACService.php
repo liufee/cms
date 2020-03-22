@@ -32,7 +32,7 @@ class RBACService extends Service implements RBACServiceInterface
         $this->authManager = \Yii::$app->getAuthManager();
     }
 
-    public function getSearchModel(array $query, array $options = [])
+    public function getSearchModel(array $options = [])
     {
         throw new Exception("Not need");
     }
@@ -52,7 +52,7 @@ class RBACService extends Service implements RBACServiceInterface
         return new RBACPermissionForm();
     }
 
-    public function getPermissionSearchModel(array $query, array $options = [])
+    public function getPermissionSearchModel(array $options = [])
     {
         return new RBACPermissionSearch();
     }
@@ -68,7 +68,7 @@ class RBACService extends Service implements RBACServiceInterface
         }
         ArrayHelper::multisort($permissions, 'sort');
 
-        $searchModel = $this->getPermissionSearchModel($query);
+        $searchModel = $this->getPermissionSearchModel();
         $dataProvider = $searchModel->search($query, ['permissions' => $permissions]);
 
         return [
@@ -170,7 +170,7 @@ class RBACService extends Service implements RBACServiceInterface
         return new RBACRoleForm();
     }
 
-    public function getRoleSearchModel()
+    public function getRoleSearchModel(array $options=[])
     {
         return new RBACRoleSearch();
     }

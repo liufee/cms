@@ -15,7 +15,7 @@ use common\models\User;
 class UserService extends Service implements UserServiceInterface
 {
 
-    public function getSearchModel(array $query, array $options = [])
+    public function getSearchModel(array $options = [])
     {
         return new UserSearch();
     }

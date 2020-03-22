@@ -16,7 +16,7 @@ use yii\base\Exception;
 class LogService extends Service implements LogServiceInterface
 {
 
-    public function getSearchModel(array $query, array $options=[])
+    public function getSearchModel(array $options=[])
     {
         return new AdminLogSearch();
     }

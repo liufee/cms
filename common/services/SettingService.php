@@ -17,7 +17,7 @@ use yii\web\Response;
 class SettingService extends Service implements SettingServiceInterface
 {
 
-    public function getSearchModel(array $query, array $options = [])
+    public function getSearchModel(array $options = [])
     {
         throw new Exception("not need implement");
     }

@@ -21,7 +21,7 @@ use yii\web\NotFoundHttpException;
 class ArticleService extends Service implements ArticleServiceInterface
 {
 
-    public function getSearchModel(array $query, array $options = [])
+    public function getSearchModel(array $options = [])
     {
         return new ArticleSearch();
     }

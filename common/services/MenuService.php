@@ -19,7 +19,7 @@ use yii\helpers\ArrayHelper;
 class MenuService extends Service  implements MenuServiceInterface
 {
 
-    public function getSearchModel(array $query, array $options=[])
+    public function getSearchModel(array $options=[])
     {
         return new MenuSearch();
     }

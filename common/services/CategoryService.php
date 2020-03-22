@@ -9,16 +9,14 @@
 namespace common\services;
 
 
-use common\helpers\FamilyTree;
 use common\models\Category;
 use yii\base\Exception;
 use yii\data\ArrayDataProvider;
-use yii\helpers\ArrayHelper;
 
 class CategoryService extends Service implements CategoryServiceInterface
 {
 
-    public function getSearchModel(array $query, array $options = [])
+    public function getSearchModel(array $options = [])
     {
         throw new Exception("not need implement");
     }

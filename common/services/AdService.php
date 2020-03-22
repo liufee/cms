@@ -15,7 +15,7 @@ use yii\base\Exception;
 
 class AdService extends Service implements AdServiceInterface
 {
-    public function getSearchModel(array $query, array $options = [])
+    public function getSearchModel(array $options = [])
     {
         return new OptionsSearch(['type'=>Options::TYPE_AD]);
     }
