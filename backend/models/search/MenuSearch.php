@@ -8,12 +8,8 @@
 
 namespace backend\models\search;
 
-use Yii;
 use backend\behaviors\TimeSearchBehavior;
-use yii\base\Exception;
-use yii\base\InvalidConfigException;
 use common\models\Menu;
-use backend\components\search\SearchEvent;
 use yii\data\ArrayDataProvider;
 
 
@@ -35,7 +31,6 @@ class MenuSearch extends Menu implements SearchInterface
         return [
             [['name', 'url', "target"], 'string'],
             [['sort', 'is_display', "is_absolute_url"], 'integer'],
-            [['created_at', 'updated_at'], 'string'],
         ];
     }
 
@@ -46,38 +41,42 @@ class MenuSearch extends Menu implements SearchInterface
         ];
     }
 
-    /**
-     * @param $params
-     * @param $options
-     * @return ArrayDataProvider
-     * @throws InvalidConfigException
-     * @throws Exception
-     */
     public function search(array $params = [], array $options = [])
     {
-        if (!isset($options["type"]) || !in_array($options['type'], [Menu::TYPE_BACKEND, Menu::TYPE_FRONTEND])){
-            throw new Exception("Menu search must set options['type']");
+        $menus = $options['dataSource'];
+        if( !$this->load($params) ) {
+            return new ArrayDataProvider([
+                'allModels' => $menus,
+                'pagination' => [
+                    'pageSize' => -1,
+                ],
+            ]);
         }
-        $menuType = $options['type'];
-        $query = Menu::find();
-        $query->andWhere(["type" => $menuType]);
-        $dataProvider = new ArrayDataProvider([
-            'allModels' => $query->all(),
+        $classNameArray = explode('\\', self::className());
+        $className = end($classNameArray);
+        if (isset($params[$className])) {
+            $searchParams = $params[$className];
+            foreach ($searchParams as $searchParamKey => $searchParamValue) {
+                if ($searchParamValue !== '') {
+                    foreach ($menus as $key => $menu) {
+                        if (in_array($searchParamKey, ['sort'])) {
+                            if ($menu[$searchParamKey] != $searchParamValue) {
+                                unset($menus[$key]);
+                            }
+                        } else {
+                            if (strpos($menu[$searchParamKey], $searchParamValue) === false) {
+                                unset($menus[$key]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return new ArrayDataProvider([
+            'allModels' => $menus,
             'pagination' => [
                 'pageSize' => -1,
             ],
         ]);
-        if( !$this->load($params) ) {
-            return $dataProvider;
-        }
-        $query->andFilterWhere(['like', 'name', $this->name]);
-        $query->andFilterWhere(['like', 'url', $this->url]);
-        $query->andFilterWhere(['target' => $this->target]);
-        $query->andFilterWhere(['sort' => $this->sort]);
-        $query->andFilterWhere(['is_display' => $this->is_display]);
-        $query->andFilterWhere(['is_absolute_url' => $this->is_absolute_url]);
-        $this->trigger(SearchEvent::BEFORE_SEARCH, Yii::createObject(['class' => SearchEvent::className(), 'query' => $query]));
-        $dataProvider->allModels = $query->all();
-        return $dataProvider;
     }
 }

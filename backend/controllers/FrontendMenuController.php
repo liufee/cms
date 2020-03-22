@@ -59,7 +59,7 @@ class FrontendMenuController extends \yii\web\Controller
                     $result = $service->getList($query, ['type'=> Menu::TYPE_FRONTEND]);
                     $data = [
                         'dataProvider' => $result['dataProvider'],
-                        //'searchModel' => $result['searchModel'],
+                        'searchModel' => $result['searchModel'],
                     ];
                     return $data;
                 },

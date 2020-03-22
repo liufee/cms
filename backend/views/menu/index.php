@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Backend Menus');
                 <?= Bar::widget() ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
-                    'filterModel' => null,
+                    'filterModel' => $searchModel,
                     'layout' => '{items}',
                     'columns' => [
                         [

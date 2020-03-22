@@ -56,7 +56,7 @@ class MenuController extends \yii\web\Controller
                     $result = $service->getList($query, ['type'=>Menu::TYPE_BACKEND]);
                     $data = [
                         'dataProvider' => $result['dataProvider'],
-                        //'searchModel' => $result['searchModel'],
+                        'searchModel' => $result['searchModel'],
                     ];
                     return $data;
                 }

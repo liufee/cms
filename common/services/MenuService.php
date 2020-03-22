@@ -12,8 +12,8 @@ use Yii;
 use backend\models\search\MenuSearch;
 use common\helpers\FileDependencyHelper;
 use common\models\Menu;
+use yii\base\Exception;
 use yii\caching\FileDependency;
-use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 
 class MenuService extends Service  implements MenuServiceInterface
@@ -42,13 +42,15 @@ class MenuService extends Service  implements MenuServiceInterface
 
     public function getList(array $query = [], array $options = [])
     {
+        if (!isset($options["type"]) || !in_array($options['type'], [Menu::TYPE_BACKEND, Menu::TYPE_FRONTEND])){
+            throw new Exception("Menu search must set options['type']");
+        }
+        $searchModel = $this->getSearchModel();
+        $options['dataSource'] = $this->getLevelMenusWithPrefixLevelCharacters($options['type']);
+        $dataProvider = $searchModel->search($query, $options);
         return [
-            'dataProvider' => new ArrayDataProvider([
-                'allModels' => $this->getLevelMenusWithPrefixLevelCharacters($options['type']),
-                'pagination' => [
-                    'pageSize' => -1,
-                ],
-            ])
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
         ];
     }
 

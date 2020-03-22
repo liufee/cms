@@ -9,6 +9,7 @@
 /**
  * @var $this yii\web\View
  * @var $dataProvider common\models\Menu
+ * @var $searchModel \backend\models\search\MenuSearch
  */
 
 use backend\grid\DateColumn;
@@ -16,6 +17,7 @@ use backend\grid\GridView;
 use backend\grid\SortColumn;
 use backend\grid\StatusColumn;
 use backend\widgets\Bar;
+use common\libs\Constants;
 use common\models\Menu;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -33,6 +35,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Frontend Menus');
                 <?= Bar::widget() ?>
                 <?= GridView::widget([
                     'dataProvider' => $dataProvider,
+                    'filterModel' => $searchModel,
                     'layout' => '{items}',
                     'columns' => [
                         [
@@ -78,6 +81,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Frontend Menus');
                             'class' => StatusColumn::className(),
                             'label' => Yii::t('app', 'Is Display'),
                             'formName' => (new Menu)->formName() . '[is_display]',
+                            'filter' => Constants::getYesNoItems()
                         ],
                         [
                             'class' => DateColumn::className(),
