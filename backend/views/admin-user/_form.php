@@ -9,6 +9,7 @@
 /**
  * @var $this yii\web\View
  * @var $model common\models\AdminUser
+ * @var $assignModel backend\models\form\AssignPermissionForm
  * @var $permissions []
  * @var $roles []
  */
@@ -47,7 +48,7 @@ $this->title = "Admin";
                         $itemsOptions = ['disabled'=>'true'];
                     }
                 ?>
-                <?= $form->field($model, 'roles', [
+                <?= $form->field($assignModel, 'roles', [
                     'labelOptions' => [
                         'label' => Yii::t('app', 'Roles'),
                     ]
@@ -64,7 +65,7 @@ $this->title = "Admin";
                                 echo "<div class='col-sm-1 text-left'><span class='checkbox checkbox-success checkbox-inline'>" . Html::checkbox("", false, ['id'=>"permission-all-{$k}", 'class'=>'chooseAll']) . "<label for='permission-all-{$k}'><h5>{$k}</h5></label></span></div>";
                                 echo "<div class='col-sm-11'>";
                                 foreach ($val as $v) {
-                                    echo $form->field($model, "permissions[{$v['name']}]", ['options'=>['style'=>'display:inline'], 'labelOptions'=>['class'=>'col-sm-12 control-label']])->checkbox(['value'=>$v['name']])->label($v['description']);
+                                    echo $form->field($assignModel, "permissions[{$v['name']}]", ['options'=>['style'=>'display:inline'], 'labelOptions'=>['class'=>'col-sm-12 control-label']])->checkbox(['value'=>$v['name']])->label($v['description']);
                                 }
                                 echo "</div><div class='col-sm-12' style='height: 20px'></div>";
                             }

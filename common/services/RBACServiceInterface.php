@@ -31,4 +31,8 @@ interface RBACServiceInterface extends ServiceInterface
     public function getPermissionGroups();
     public function getPermissionCategories();
     public function getRoles();
+
+    public function newAssignPermissionModel();
+    public function getAssignPermissionDetail($userId);
+    public function assignPermission($postData, $userId);
 }

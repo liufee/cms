@@ -13,12 +13,14 @@ $this->params['breadcrumbs'] = [
 ];
 /**
  * @var $model common\models\AdminUser
+ * @var $assignModel backend\models\form\AssignPermissionForm
  * @var $permissions []
  * @var $roles []
  */
 ?>
 <?= $this->render('_form', [
     'model' => $model,
+    'assignModel' => $assignModel,
     'permissions' => $permissions,
     'roles' => $roles,
 ]); ?>

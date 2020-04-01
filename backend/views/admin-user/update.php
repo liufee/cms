@@ -13,6 +13,7 @@ $this->params['breadcrumbs'] = [
 ];
 /**
  * @var $model common\models\AdminUser
+ * @var $assignModel backend\models\form\AssignPermissionForm
  * @var $permissions []
  * @var $roles []
  */
@@ -21,6 +22,7 @@ $this->params['breadcrumbs'] = [
 if (Yii::$app->controller->action->id == 'update') {
     echo $this->render('_form', [
         'model' => $model,
+        'assignModel' => $assignModel,
         'permissions' => $permissions,
         'roles' => $roles,
     ]);

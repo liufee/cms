@@ -8,6 +8,7 @@
 
 namespace common\services;
 
+use backend\models\form\AssignPermissionForm;
 use backend\models\search\RBACRoleSearch;
 use Yii;
 use backend\models\search\RBACPermissionSearch;
@@ -411,5 +412,99 @@ class RBACService extends Service implements RBACServiceInterface
             $newCategories[$category] = $category;
         }
         return $newCategories;
+    }
+
+    public function newAssignPermissionModel()
+    {
+        return new AssignPermissionForm();
+    }
+
+    public function getAssignPermissionDetail($userId)
+    {
+        $model = $this->newAssignPermissionModel();
+        $tempPermissions = array_keys($this->authManager->getPermissionsByUser($userId));
+        $permissions = [];
+        foreach ($tempPermissions as $permission){
+            $permissions[$permission] = $permission;
+        }
+        $data = [
+            'roles' => array_keys($this->authManager->getRolesByUser($userId)),
+            'permissions' => $permissions,
+        ];
+        $model->setAttributes($data);
+        return $model;
+    }
+
+    public function assignPermission($postData, $userId)
+    {
+        $model = new AssignPermissionForm();
+        if( !$model->load($postData) ){
+            return $model;
+        }
+        $authManager = $this->authManager;
+        $assignments = $authManager->getAssignments($userId);
+        $roles = $permissions = [];
+        foreach ($assignments as $key => $assignment){
+            if( strpos($assignment->roleName, ':GET') || strpos($assignment->roleName, ':POST') || strpos($assignment->roleName, ':DELETE') ){
+                $permissions[$key] = $assignment;
+            }else{
+                $roles[$key] = $assignment;
+            }
+        }
+        $roles = array_keys($roles);
+        $permissions = array_keys($permissions);
+
+        $str = '';
+
+        //角色roles
+
+        $needAdds = array_diff($model->getRoles(), $roles);
+        $needRemoves = array_diff($roles, $model->getRoles());
+        if( !empty($needAdds) ) {
+            $str .= " 增加了角色: ";
+            foreach ($needAdds as $role) {
+                $roleItem = $authManager->getRole($role);
+                $authManager->assign($roleItem, $userId
+                );
+                $str .= " {$roleItem->name},";
+            }
+        }
+        if( !empty($needRemoves) ) {
+            $str .= ' 删除了角色: ';
+            foreach ($needRemoves as $role) {
+                $roleItem = $authManager->getRole($role);
+                $authManager->revoke($roleItem, $userId);
+                $str .= " {$roleItem->name},";
+            }
+        }
+
+        //权限permission
+
+        $needAdds = array_diff($model->getPermissions(), $permissions);
+        $needRemoves = array_diff($permissions, $model->getPermissions());
+        if( !empty($needAdds) ) {
+            $str .= ' 增加了权限: ';
+            foreach ($needAdds as $permission) {
+                $permissionItem = $authManager->getPermission($permission);
+                $authManager->assign($permissionItem, $userId);
+                $str .= " {$permissionItem->name},";
+            }
+        }
+        if( !empty($needRemoves) ) {
+            $str .= ' 删除了权限: ';
+            foreach ($needRemoves as $permission) {
+                $permissionItem = $authManager->getPermission($permission);
+                $authManager->revoke($permissionItem, $userId);
+                $str .= " {$permissionItem->name},";
+            }
+        }
+
+        Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
+            'sender' => $this,
+            'description' => "修改了 用户(uid {$userId}) 的权限: {$str}",
+        ]));
+
+        return true;
+
     }
 }

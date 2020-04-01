@@ -12,4 +12,6 @@ namespace common\services;
 interface AdminUserServiceInterface extends ServiceInterface
 {
     const ServiceName = 'adminUserService';
+
+    public function updateSelf($id, array $postData, array $options=[]);
 }

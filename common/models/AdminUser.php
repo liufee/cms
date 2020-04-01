@@ -38,10 +38,6 @@ class AdminUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfa
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
-    public $roles;
-
-    public $permissions;
-
     public $password;
 
     public $repassword;
@@ -130,109 +126,29 @@ class AdminUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfa
         if ($insert) {
             $this->generateAuthKey();
             $this->setPassword($this->password);
-        } else {
-            if (isset($this->password) && $this->password != '') {
-                $this->setPassword($this->password);
+        } else {//修改
+            if( $this->getScenario() == "self-update" ){
+                if ($this->password != '') {
+                    if ($this->old_password == '') {
+                        $this->addError('old_password', Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => Yii::t('app', 'Old Password')]));
+                        return false;
+                    }
+                    if (! $this->validatePassword($this->old_password)) {
+                        $this->addError('old_password', Yii::t('app', '{attribute} is incorrect.', ['attribute' => Yii::t('app', 'Old Password')]));
+                        return false;
+                    }
+                    if ($this->repassword != $this->password) {
+                        $this->addError('repassword', Yii::t('app', '{attribute} is incorrect.', ['attribute' => Yii::t('app', 'Repeat Password')]));
+                        return false;
+                    }
+                }
+            }else {
+                if (isset($this->password) && $this->password != '') {
+                    $this->setPassword($this->password);
+                }
             }
         }
         return parent::beforeSave($insert);
-    }
-
-    public function assignPermission()
-    {
-        $authManager = Yii::$app->getAuthManager();
-        if(!$this->getIsNewRecord() && in_array($this->id, Yii::$app->getBehavior('access')->superAdminUserIds)){
-            $this->permissions = $this->roles = [];
-        }
-        $assignments = $authManager->getAssignments($this->id);
-        $roles = $permissions = [];
-        foreach ($assignments as $key => $assignment){
-            if( strpos($assignment->roleName, ':GET') || strpos($assignment->roleName, ':POST') || strpos($assignment->roleName, ':DELETE') ){
-                $permissions[$key] = $assignment;
-            }else{
-                $roles[$key] = $assignment;
-            }
-        }
-        $roles = array_keys($roles);
-        $permissions = array_keys($permissions);
-
-        $str = '';
-
-        //角色roles
-        if( !is_array( $this->roles ) ) $this->roles = [];
-
-        $needAdds = array_diff($this->roles, $roles);
-        $needRemoves = array_diff($roles, $this->roles);
-        if( !empty($needAdds) ) {
-            $str .= " 增加了角色: ";
-            foreach ($needAdds as $role) {
-                $roleItem = $authManager->getRole($role);
-                $authManager->assign($roleItem, $this->id);
-                $str .= " {$roleItem->name},";
-            }
-        }
-        if( !empty($needRemoves) ) {
-            $str .= ' 删除了角色: ';
-            foreach ($needRemoves as $role) {
-                $roleItem = $authManager->getRole($role);
-                $authManager->revoke($roleItem, $this->id);
-                $str .= " {$roleItem->name},";
-            }
-        }
-
-       //权限permission
-        $this->permissions = array_flip($this->permissions);
-        if (isset($this->permissions[0])) unset($this->permissions[0]);
-        $this->permissions = array_flip($this->permissions);
-
-        $needAdds = array_diff($this->permissions, $permissions);
-        $needRemoves = array_diff($permissions, $this->permissions);
-        if( !empty($needAdds) ) {
-            $str .= ' 增加了权限: ';
-            foreach ($needAdds as $permission) {
-                $permissionItem = $authManager->getPermission($permission);
-                $authManager->assign($permissionItem, $this->id);
-                $str .= " {$permissionItem->name},";
-            }
-        }
-        if( !empty($needRemoves) ) {
-            $str .= ' 删除了权限: ';
-            foreach ($needRemoves as $permission) {
-                $permissionItem = $authManager->getPermission($permission);
-                $authManager->revoke($permissionItem, $this->id);
-                $str .= " {$permissionItem->name},";
-            }
-        }
-
-        Event::trigger(CustomLog::className(), CustomLog::EVENT_CUSTOM, new CustomLog([
-            'sender' => $this,
-            'description' => "修改了 用户(uid {$this->id}) {$this->username} 的权限: {$str}",
-        ]));
-
-        return true;
-
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function selfUpdate()
-    {
-        if ($this->password != '') {
-            if ($this->old_password == '') {
-                $this->addError('old_password', Yii::t('yii', '{attribute} cannot be blank.', ['attribute' => Yii::t('app', 'Old Password')]));
-                return false;
-            }
-            if (! $this->validatePassword($this->old_password)) {
-                $this->addError('old_password', Yii::t('app', '{attribute} is incorrect.', ['attribute' => Yii::t('app', 'Old Password')]));
-                return false;
-            }
-            if ($this->repassword != $this->password) {
-                $this->addError('repassword', Yii::t('app', '{attribute} is incorrect.', ['attribute' => Yii::t('app', 'Repeat Password')]));
-                return false;
-            }
-        }
-        return $this->save();
     }
 
     /**

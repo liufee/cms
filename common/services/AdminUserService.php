@@ -28,31 +28,56 @@ class AdminUserService extends Service implements AdminUserServiceInterface
 
     public function newModel(array $options = [])
     {
-        return new AdminUser();
+        $model = new AdminUser();
+        $model->setScenario("create");
+        $model->loadDefaultValues();
+        return $model;
     }
 
     public function create(array $postData, array $options = [])
     {
         $model = $this->newModel();
         $model->setScenario('create');
-        if ( $model->load($postData) && $model->save() && $model->assignPermission() ) {
-          return true;
+        if ( $model->load($postData) && $model->save() ) {
+            /** @var RBACServiceInterface $RBACService */
+            $RBACService = Yii::$app->get(RBACServiceInterface::ServiceName);
+            $result = $RBACService->assignPermission($postData, $model->getId());
+            if( $result !== true ){
+                Yii::error("create admin user success but assign permission failed:" . print_r($result, true));
+            }
+            return true;
         } else {
-            return $model->getErrors();
+            return $model;
         }
     }
 
     public function update($id, array $postData, array $options = [])
     {
         $model = $this->getModel($id);
-        $model->setScenario('update');
-        $model->roles = $model->permissions = call_user_func(function() use($id){
-            $permissions = Yii::$app->getAuthManager()->getAssignments($id);
-            foreach ($permissions as $k => &$v){
-                $v = $k;
+        $scenario = "update";
+        $model->setScenario($scenario);
+        if ( $model->load($postData) && $model->save() ) {
+            /** @var RBACServiceInterface $RBACService */
+            $RBACService = Yii::$app->get(RBACServiceInterface::ServiceName);
+            $result = $RBACService->assignPermission($postData, $model->getId());
+            if( $result !== true ){
+                Yii::error("update admin user success but assign permission failed:" . print_r($result, true));
             }
-            return $permissions;
-        });
-        return $model;
+            return true;
+        } else {
+            return $model;
+        }
+    }
+
+    public function updateSelf($id, array $postData, array $options = [])
+    {
+        $model = $this->getModel($id);
+        $scenario = "self-update";
+        $model->setScenario($scenario);
+        if ( $model->load($postData) && $model->save() ) {
+            return true;
+        } else {
+            return $model;
+        }
     }
 }

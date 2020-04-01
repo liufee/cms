@@ -54,6 +54,9 @@ abstract class Service extends \yii\base\BaseObject implements ServiceInterface
     public function getDetail($id, array $options = [])
     {
         $model = $this->getModel($id, $options);
+        if( isset( $options['scenario'] ) ){
+            $model->setScenario($options['scenario']);
+        }
         if( empty($model) ){
             throw new NotFoundHttpException("Id " . $id . " not exists");
         }
