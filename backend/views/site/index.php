@@ -59,7 +59,7 @@ $this->title = Yii::t('app', 'Backend Manage System');
                             </span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a class="J_menuItem" href="<?= Url::to(['admin-user/update-self']) ?>"><?= Yii::t('app', 'Profile') ?></a></li>
+                            <li><a class="J_menuItem" href="<?= Url::to(['admin-user/self-update']) ?>"><?= Yii::t('app', 'Profile') ?></a></li>
                             <li><a class="J_menuItem" href="<?= Url::to(['article/index']) ?>"><?= Yii::t('app', 'Articles') ?></a></li>
                             <li><a target="_blank" href="<?= Yii::$app->params['site']['url'] ?>"><?= Yii::t('app', 'Frontend') ?></a></li>
                             <li class="divider"></li>

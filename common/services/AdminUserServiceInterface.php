@@ -9,9 +9,24 @@
 namespace common\services;
 
 
+use backend\models\form\PasswordResetRequestForm;
+use backend\models\form\ResetPasswordForm;
+
 interface AdminUserServiceInterface extends ServiceInterface
 {
     const ServiceName = 'adminUserService';
 
-    public function updateSelf($id, array $postData, array $options=[]);
+    const scenarioCreate = "create";
+    const scenarioUpdate = "update";
+    const scenarioSelfUpdate = "self-update";
+
+    public function selfUpdate($id, array $postData, array $options=[]);
+
+    public function newPasswordResetRequestForm();
+
+    public function sendResetPasswordLink($postData);
+
+    public function newResetPasswordForm($token);
+
+    public function resetPassword($token, $postData);
 }

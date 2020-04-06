@@ -61,18 +61,18 @@ class PageController extends \yii\web\Controller
                 'class' => ViewAction::className(),
                 'data' => function($id) use($service){
                     return [
-                        'model' => $service->getDetail($id, ['scenario'=>'page']),
+                        'model' => $service->getDetail($id, ['scenario'=>ArticleServiceInterface::ScenarioPage]),
                     ];
                 },
             ],
             'create' => [
                 'class' => CreateAction::className(),
                 'create' => function($postData) use($service){
-                    return $service->create($postData, ['scenario'=>'page']);
+                    return $service->create($postData, ['scenario'=>ArticleServiceInterface::ScenarioPage]);
                 },
                 'data' => function($createResultModel) use($service){
                     return [
-                        'model' => $createResultModel === null ? $service->newModel(['scenario'=>'page']) : $createResultModel['articleModel'],
+                        'model' => $createResultModel === null ? $service->newModel(['scenario'=>ArticleServiceInterface::ScenarioPage]) : $createResultModel['articleModel'],
                         'contentModel' => $createResultModel === null ? $service->newArticleContentModel() : $createResultModel['articleContentModel'] ,
                     ];
                 },
@@ -80,11 +80,11 @@ class PageController extends \yii\web\Controller
             'update' => [
                 'class' => UpdateAction::className(),
                 'update' => function($id, $postData) use($service){
-                    return $service->update($id, $postData, ['scenario'=>'page']);
+                    return $service->update($id, $postData, ['scenario'=>ArticleServiceInterface::ScenarioPage]);
                 },
                 'data' => function($id, $updateResultModel) use($service){
                     return [
-                        'model' => $updateResultModel === null ? $service->getDetail($id) : $updateResultModel['articleModel'],
+                        'model' => $updateResultModel === null ? $service->getDetail($id, ['scenario'=>ArticleServiceInterface::ScenarioPage]) : $updateResultModel['articleModel'],
                         'contentModel' => $updateResultModel === null ? $service->getArticleContentDetail($id) : $updateResultModel['articleContentModel'],
                     ];
                 }
@@ -98,7 +98,7 @@ class PageController extends \yii\web\Controller
             'sort' => [
                 'class' => SortAction::className(),
                 'sort' => function($id, $sort) use($service){
-                    return $service->sort($id, $sort, ['scenario'=>'page']);
+                    return $service->sort($id, $sort, ['scenario'=>ArticleServiceInterface::ScenarioPage]);
                 }
             ],
         ];

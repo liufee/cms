@@ -15,6 +15,11 @@ interface ArticleServiceInterface extends ServiceInterface
 {
     const ServiceName = 'articleService';
 
+    const ScenarioArticle = "article";
+
+    const ScenarioPage = "page";
+
+
     public function newArticleContentModel(array $options= []);
 
     public function getArticleContentDetail($id, array $options = []);

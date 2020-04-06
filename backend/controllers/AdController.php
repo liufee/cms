@@ -44,11 +44,12 @@ class AdController extends \yii\web\Controller
     {
         /** @var AdServiceInterface $service */
         $service = Yii::$app->get(AdServiceInterface::ServiceName);
+
         return [
             'index' => [
                 'class' => IndexAction::className(),
                 'data' => function($query)use($service){
-                    /** @var array $query $_GET query params */
+                    /** @var array $query query params($_GET) */
                     $result = $service->getList($query);
                     return [
                         'dataProvider' => $result['dataProvider'],
@@ -59,6 +60,7 @@ class AdController extends \yii\web\Controller
             'view-layer' => [
                 'class' => ViewAction::className(),
                 'data' => function($id)use($service){
+                    /** string|int $id primary key value,usually column `id` value  */
                     return [
                         'model' => $service->getDetail($id),
                     ];
@@ -74,7 +76,7 @@ class AdController extends \yii\web\Controller
                     /**
                      * same path(`/path/create`) have two HTTP method
                      *  - GET for display create page
-                     *  - POST do a create operation(write data to database), then redirect to index or show a create error
+                     *  - POST execute a create operation(write data to database), then redirect to index or show a create error
                      *
                      * if $createResultModel equals null means that is a GET request, need to show create page,
                      * otherwise means POST request, $createResultModel be the model of created(maybe contains data validation error)
@@ -94,7 +96,7 @@ class AdController extends \yii\web\Controller
                     /**
                      * same path(`/path/update`) have two HTTP method
                      *  - GET for display update page
-                     *  - POST do a update operation(write data to database), then redirect to index or show a update error
+                     *  - POST execute a update operation(write data to database), then redirect to index or show a update error
                      *
                      * if $updateResultModel equals null means that is a GET request, need to show update page,
                      * otherwise means POST request, $updateResultModel be the model of updated(maybe contains data validation error)
@@ -108,12 +110,15 @@ class AdController extends \yii\web\Controller
             'delete' => [
                 'class' => DeleteAction::className(),
                 'delete' => function($id)use($service){
+                    /** string|int $id primary key value,usually column `id` value  */
                     return $service->delete($id);
                 },
             ],
             'sort' => [
                 'class' => SortAction::className(),
                 'sort' => function($id, $sort)use($service){
+                    /** string|int $id primary key value,usually column `id` value  */
+                    /** int $sort sort value */
                     return $service->sort($id, $sort);
                 },
             ],

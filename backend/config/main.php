@@ -158,7 +158,7 @@ return [
             'site/language',
             'admin-user/request-password-reset',
             'admin-user/reset-password',
-            'admin-user/update-self',
+            'admin-user/self-update',
             'assets/*',
             'debug/*',
             'gii/*',

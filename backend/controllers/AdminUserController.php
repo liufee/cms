@@ -8,15 +8,13 @@
 
 namespace backend\controllers;
 
+use Yii;
 use backend\actions\CreateAction;
 use backend\actions\UpdateAction;
-use common\services\RBACService;
 use common\services\RBACServiceInterface;
-use Yii;
 use common\models\AdminUser;
 use common\services\AdminUserServiceInterface;
 use backend\models\form\PasswordResetRequestForm;
-use backend\models\form\ResetPasswordForm;
 use backend\actions\IndexAction;
 use backend\actions\DeleteAction;
 use backend\actions\SortAction;
@@ -34,6 +32,7 @@ use backend\actions\ViewAction;
  */
 class AdminUserController extends \yii\web\Controller
 {
+
     /**
      * @auth
      * - item group=权限 category=管理员 description-get=列表 sort=520 method=get
@@ -42,6 +41,8 @@ class AdminUserController extends \yii\web\Controller
      * - item group=权限 category=管理员 description-post=排序 sort=523 method=post 
      * - item group=权限 category=管理员 description=创建 sort-get=524 sort-post=525 method=get,post
      * - item group=权限 category=管理员 description=修改 sort-get=526 sort-post=527 method=get,post
+     * - item rbac=false
+     * - item rbac=false
      * - item rbac=false
      *  
      * @return array
@@ -53,6 +54,7 @@ class AdminUserController extends \yii\web\Controller
         $service = Yii::$app->get(AdminUserServiceInterface::ServiceName);
         /** @var RBACServiceInterface $rbacService */
         $rbacService = Yii::$app->get(RBACServiceInterface::ServiceName);
+
         return [
             'index' => [
                 'class' => IndexAction::className(),
@@ -92,7 +94,7 @@ class AdminUserController extends \yii\web\Controller
                 },
                 'data' => function()use($service, $rbacService){
                     return [
-                        'model' => $service->newModel(),
+                        'model' => $service->newModel(['scenario' => AdminUserServiceInterface::scenarioCreate]),
                         'assignModel' => $rbacService->newAssignPermissionModel(),
                         'permissions' => $rbacService->getPermissionsGroups(),
                         'roles' => $rbacService->getRoles(),
@@ -102,84 +104,78 @@ class AdminUserController extends \yii\web\Controller
             'update' => [
                 'class' => UpdateAction::className(),
                 'update' => function($id, $postData) use($service){
-                    return $service->update($id, $postData);
+                    return $service->update($id, $postData, ['scenario' => AdminUserServiceInterface::scenarioUpdate]);
                 },
                 'data' => function($id, $updateResultModel)use($service, $rbacService){
                     return [
-                        'model' => $updateResultModel === null ? $service->getDetail($id, ['scenario'=>"update"]) : $updateResultModel,
+                        'model' => $updateResultModel === null ? $service->getDetail($id, ['scenario' => AdminUserServiceInterface::scenarioUpdate]) : $updateResultModel,
                         'assignModel' => $rbacService->getAssignPermissionDetail($id),
                         'permissions' => $rbacService->getPermissionsGroups(),
                         'roles' => $rbacService->getRoles(),
                     ];
                 }
             ],
-            'update-self' => [
+            'self-update' => [
                 'class' => UpdateAction::className(),
                 'update' => function($id, $postData) use($service){
-                    return $service->updateSelf($id, $postData, ['scenario'=>'self-update']);
+                    return $service->selfUpdate($id, $postData, ['scenario' => AdminUserServiceInterface::scenarioSelfUpdate]);
                 },
                 'data' => function($id, $updateResultModel) use($service){
                     return [
-                        'model' => $updateResultModel === null ? $service->getDetail($id) : $updateResultModel,
+                        'model' => $updateResultModel === null ? $service->getDetail($id, ['scenario' => AdminUserServiceInterface::scenarioSelfUpdate]) : $updateResultModel,
                     ];
                 },
                 'viewFile' => 'update',
+            ],
+            'request-password-reset' => [
+                'class' => UpdateAction::className(),
+                'primaryKeyIdentity' => null,
+                'update' => function($postData) use($service){
+                    $result = $service->sendResetPasswordLink($postData);
+                    if( $result === false ){
+                        return 'Sorry, we are unable to reset password for email provided.';
+                    }
+                    //@todo if success tips 'Check your email for further instructions.'
+                    return $result;
+                },
+                'data' => function($updateResultModel){
+                    return [
+                        "model" => $updateResultModel === null ? new PasswordResetRequestForm() : $updateResultModel,
+                    ];
+                },
+                'viewFile' => 'requestPasswordResetToken',
+            ],
+            'reset-password' => [
+                'class' => UpdateAction::className(),
+                'primaryKeyIdentity' => 'token',
+                'update' => function($token, $postData) use($service) {
+                    return $service->resetPassword($token, $postData);
+                },
+                'data' => function($token, $updateResultModel) use($service) {
+                    if( $updateResultModel === null ){
+                        try {
+                            $model = $service->newResetPasswordForm($token);
+                        }catch (InvalidParamException $e) {
+                                throw new BadRequestHttpException($e->getMessage());
+                        }
+                    }else{
+                        $model = $updateResultModel;
+                    }
+                    return [
+                        'model' => $model,
+                    ];
+                },
+                'successRedirect' => $this->getHomeUrl(),//@todo tips 'New password was saved.'
+                'viewFile' => 'resetPassword'
             ]
         ];
     }
 
-    /**
-     * 找回密码
-     *
-     * @auth - item rbac=false
-     * @return string|\yii\web\Response
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function actionRequestPasswordReset()
+    private function getHomeUrl()
     {
-        $model = Yii::createObject( PasswordResetRequestForm::className() );
-        if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->getSession()
-                    ->setFlash('success', Yii::t('app', 'Check your email for further instructions.'));
-
-                return $this->goHome();
-            } else {
-                Yii::$app->getSession()
-                    ->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
-            }
+        if( Yii::$app->getRequest()->getIsConsoleRequest() ){//when execute ./yii feehi/permission
+            return "/";
         }
-
-        return $this->render('requestPasswordResetToken', [
-            'model' => $model,
-        ]);
+        return Yii::$app->getHomeUrl();
     }
-
-    /**
-     * 管理员重置密码
-     *
-     * @auth - item rbac=false
-     * @param $token
-     * @return string|\yii\web\Response
-     * @throws \yii\web\BadRequestHttpException
-     */
-    public function actionResetPassword($token)
-    {
-        try {
-            $model = new ResetPasswordForm($token);
-        } catch (InvalidParamException $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
-
-        if ($model->load(Yii::$app->getRequest()->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'New password was saved.'));
-
-            return $this->goHome();
-        }
-
-        return $this->render('resetPassword', [
-            'model' => $model,
-        ]);
-    }
-
 }

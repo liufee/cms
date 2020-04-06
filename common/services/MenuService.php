@@ -33,7 +33,7 @@ class MenuService extends Service  implements MenuServiceInterface
     {
         $menu = new Menu();
         $menu->type = Menu::TYPE_BACKEND;
-        if($options['type'] === Menu::TYPE_FRONTEND){
+        if( isset($options['type'] ) &&  $options['type']=== Menu::TYPE_FRONTEND){
             $menu->type = Menu::TYPE_FRONTEND;
         }
         $menu->loadDefaultValues();

@@ -50,6 +50,7 @@ class ArticleController extends \yii\web\Controller
         $service = Yii::$app->get(ArticleServiceInterface::ServiceName);
         /** @var CategoryServiceInterface $categoryService */
         $categoryService = Yii::$app->get(CategoryServiceInterface::ServiceName);
+
         return [
             'index' => [
                 'class' => IndexAction::className(),
@@ -73,11 +74,11 @@ class ArticleController extends \yii\web\Controller
             'create' => [
                 'class' => CreateAction::className(),
                 'create' => function($postData) use($service){
-                    return $service->create($postData, ['scenario'=>'article']);
+                    return $service->create($postData, ['scenario'=>ArticleServiceInterface::ScenarioArticle]);
                 },
                 'data' => function($createResultModel,  CreateAction $createAction) use($service, $categoryService){
                     return [
-                        'model' => $createResultModel === null ? $service->newModel(['scenario'=>'article']) : $createResultModel['articleModel'],
+                        'model' => $createResultModel === null ? $service->newModel(['scenario'=>ArticleServiceInterface::ScenarioArticle]) : $createResultModel['articleModel'],
                         'contentModel' => $createResultModel === null ? $service->newArticleContentModel() : $createResultModel['articleContentModel'] ,
                         'categories' => ArrayHelper::getColumn($categoryService->getLevelCategoriesWithPrefixLevelCharacters(), "prefix_level_name"),
                     ];
@@ -86,11 +87,11 @@ class ArticleController extends \yii\web\Controller
             'update' => [
                 'class' => UpdateAction::className(),
                 'update' => function($id, $postData) use($service){
-                    return $service->update($id, $postData, ['scenario'=>'article']);
+                    return $service->update($id, $postData, ['scenario'=>ArticleServiceInterface::ScenarioArticle]);
                 },
                 'data' => function($id, $updateResultModel) use($service, $categoryService){
                     return [
-                        'model' => $updateResultModel === null ? $service->getDetail($id) : $updateResultModel['articleModel'],
+                        'model' => $updateResultModel === null ? $service->getDetail($id, ['scenario'=>ArticleServiceInterface::ScenarioArticle]) : $updateResultModel['articleModel'],
                         'contentModel' => $updateResultModel === null ? $service->getArticleContentDetail($id) : $updateResultModel['articleContentModel'],
                         'categories' => ArrayHelper::getColumn($categoryService->getLevelCategoriesWithPrefixLevelCharacters(), "prefix_level_name"),
                     ];
@@ -105,7 +106,7 @@ class ArticleController extends \yii\web\Controller
             'sort' => [
                 'class' => SortAction::className(),
                 'sort' => function($id, $sort) use($service){
-                    return $service->sort($id, $sort, ['scenario'=>'article']);
+                    return $service->sort($id, $sort, ['scenario'=>ArticleServiceInterface::ScenarioArticle]);
                 }
             ],
         ];

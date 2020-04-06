@@ -41,9 +41,25 @@ class AdminUserCest
         $I->fillField("AdminUser[username]", 'test_name');
         $I->fillField("AdminUser[password]", 'password');
         $I->fillField("AdminUser[email]", 'test@feehi.com');
-        $I->fillField("AdminUser[roles]", "");
-        $I->submitForm("button[type=submit]", ["AdminUser[permissions][sdfsf:POST]"=>0]);
+        $I->fillField("AssignPermissionForm[roles]", "");
+        $I->submitForm("button[type=submit]", ["AssignPermissionForm[permissions][sdfsf:POST]"=>0]);
         $I->see("test_name");
+    }
+
+    public function checkUpdate(FunctionalTester $I)
+    {
+        $I->amOnPage(Url::toRoute('/admin-user/create'));
+        $I->fillField("AdminUser[username]", 'test_name');
+        $I->fillField("AdminUser[password]", 'password');
+        $I->fillField("AdminUser[email]", 'test@feehi.com');
+        $I->fillField("AssignPermissionForm[roles]", "");
+        $I->submitForm("button[type=submit]", ["AssignPermissionForm[permissions][sdfsf:POST]"=>0]);
+
+        $I->amOnPage(Url::toRoute('/admin-user/index'));
+        $I->click("a[title=编辑]");
+        $I->fillField("AdminUser[email]", 'update@feehi.com');
+        $I->submitForm("button[type=submit]", ["AssignPermissionForm[permissions][sdfsf:POST]"=>0]);
+        $I->see("update@feehi.com");
     }
 
     public function checkDelete(FunctionalTester $I)
@@ -52,8 +68,8 @@ class AdminUserCest
         $I->fillField("AdminUser[username]", 'test_name');
         $I->fillField("AdminUser[password]", 'password');
         $I->fillField("AdminUser[email]", 'test@feehi.com');
-        $I->fillField("AdminUser[roles]", "");
-        $I->submitForm("button[type=submit]", ["AdminUser[permissions][sdfsf:POST]"=>0]);
+        $I->fillField("AssignPermissionForm[roles]", "");
+        $I->submitForm("button[type=submit]", ["AssignPermissionForm[permissions][sdfsf:POST]"=>0]);
 
         $I->amOnPage(Url::toRoute('/admin-user/index'));
         $urls = $I->grabMultiple("table a[title=查看]", "url");
@@ -62,15 +78,6 @@ class AdminUserCest
             'id' => $data['id'],
         ]);
         $I->see("success");
-    }
-
-    public function checkUpdate(FunctionalTester $I)
-    {
-        $I->amOnPage(Url::toRoute('/admin-user/index'));
-        $I->click("a[title=编辑]");
-        $I->fillField("AdminUser[email]", 'update@feehi.com');
-        $I->submitForm("button[type=submit]", ["AdminUser[permissions][sdfsf:POST]"=>0]);
-        $I->seeInField("AdminUser[email]", "update@feehi.com");
     }
 
     public function checkView(FunctionalTester $I)

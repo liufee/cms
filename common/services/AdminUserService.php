@@ -9,6 +9,8 @@
 namespace common\services;
 
 
+use backend\models\form\PasswordResetRequestForm;
+use backend\models\form\ResetPasswordForm;
 use backend\models\search\AdminUserSearch;
 use common\models\AdminUser;
 use Yii;
@@ -23,14 +25,28 @@ class AdminUserService extends Service implements AdminUserServiceInterface
 
     public function getModel($id, array $options = [])
     {
-        return AdminUser::findOne($id);
+        $model = AdminUser::findOne($id);
+
+        if( isset($options['scenario']) && !empty($options['scenario']) ){
+            $model->setScenario($options['scenario']);
+        }
+
+        return $model;
     }
 
     public function newModel(array $options = [])
     {
         $model = new AdminUser();
-        $model->setScenario("create");
-        $model->loadDefaultValues();
+
+        if( isset($options['scenario']) && !empty($options['scenario']) ){
+            $model->setScenario($options['scenario']);
+        }
+
+        $loadDefaultValues = isset($options['loadDefaultValues']) && is_bool($options['loadDefaultValues']) ? $options['loadDefaultValues'] : true;
+        if($loadDefaultValues) {
+            $model->loadDefaultValues();
+        }
+
         return $model;
     }
 
@@ -69,7 +85,7 @@ class AdminUserService extends Service implements AdminUserServiceInterface
         }
     }
 
-    public function updateSelf($id, array $postData, array $options = [])
+    public function selfUpdate($id, array $postData, array $options = [])
     {
         $model = $this->getModel($id);
         $scenario = "self-update";
@@ -79,5 +95,37 @@ class AdminUserService extends Service implements AdminUserServiceInterface
         } else {
             return $model;
         }
+    }
+
+    public function newPasswordResetRequestForm()
+    {
+        return new PasswordResetRequestForm();
+    }
+
+    public function sendResetPasswordLink($postData)
+    {
+        $model = $this->newPasswordResetRequestForm();
+        if ( $model->load($postData) && $model->validate() ) {
+            $result = $model->sendEmail();
+            if( $result === false ){
+                Yii::error("send reset password link error" . print_r($model, true));
+            }
+            return $result;
+        }
+        return $model;
+    }
+
+    public function newResetPasswordForm($token)
+    {
+        return new ResetPasswordForm($token);
+    }
+
+    public function resetPassword($token, $postData)
+    {
+        $model = $this->newResetPasswordForm($token);
+        if ( $model->load($postData) && $model->validate() && $model->resetPassword() ) {
+            return true;
+        }
+        return $model;
     }
 }
