@@ -28,7 +28,9 @@ class AdminUserService extends Service implements AdminUserServiceInterface
         $model = AdminUser::findOne($id);
 
         if( isset($options['scenario']) && !empty($options['scenario']) ){
-            $model->setScenario($options['scenario']);
+            if($model !== null) {
+                $model->setScenario($options['scenario']);
+            }
         }
 
         return $model;

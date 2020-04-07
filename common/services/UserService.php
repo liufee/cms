@@ -23,7 +23,11 @@ class UserService extends Service implements UserServiceInterface
     public function getModel($id, array $options = [])
     {
         $model = User::findOne($id);
-        isset($options['scenario']) && $model->setScenario($options['scenario']);
+        if( isset($options['scenario']) && !empty($options['scenario']) ){
+            if($model !== null) {
+                $model->setScenario($options['scenario']);
+            }
+        }
         return $model;
     }
 

@@ -117,12 +117,13 @@ class AdminUserController extends \yii\web\Controller
             ],
             'self-update' => [
                 'class' => UpdateAction::className(),
-                'update' => function($id, $postData) use($service){
-                    return $service->selfUpdate($id, $postData, ['scenario' => AdminUserServiceInterface::scenarioSelfUpdate]);
+                'primaryKeyIdentity' => null,
+                'update' => function($postData) use($service){
+                    return $service->selfUpdate(Yii::$app->getUser()->getId(), $postData, ['scenario' => AdminUserServiceInterface::scenarioSelfUpdate]);
                 },
-                'data' => function($id, $updateResultModel) use($service){
+                'data' => function($updateResultModel) use($service){
                     return [
-                        'model' => $updateResultModel === null ? $service->getDetail($id, ['scenario' => AdminUserServiceInterface::scenarioSelfUpdate]) : $updateResultModel,
+                        'model' => $updateResultModel === null ? $service->getDetail(Yii::$app->getUser()->getId(), ['scenario' => AdminUserServiceInterface::scenarioSelfUpdate]) : $updateResultModel,
                     ];
                 },
                 'viewFile' => 'update',

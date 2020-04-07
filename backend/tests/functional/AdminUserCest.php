@@ -87,4 +87,13 @@ class AdminUserCest
         $I->amOnPage($urls[0]);
         $I->see("头像");
     }
+
+    public function checkSelfUpdate(FunctionalTester $I)
+    {
+        $I->amOnPage(Url::toRoute('/admin-user/self-update'));
+        $I->see("旧密码");
+        $I->click("button[type=submit]");
+        $I->see('管理员');
+        $I->see("用户名");
+    }
 }

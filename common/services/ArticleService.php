@@ -29,8 +29,10 @@ class ArticleService extends Service implements ArticleServiceInterface
     public function getModel($id, array $options = [])
     {
         $model = Article::findOne($id);
-        if( isset( $options['scenario']) ){
-            $model->setScenario( $options['scenario'] );
+        if( isset($options['scenario']) && !empty($options['scenario']) ){
+            if($model !== null) {
+                $model->setScenario($options['scenario']);
+            }
         }
         return $model;
     }
