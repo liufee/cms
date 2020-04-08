@@ -63,7 +63,7 @@ class CategoryController extends \yii\web\Controller
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'create' => function($postData) use($service){
+                'doCreate' => function($postData) use($service){
                     return $service->create($postData);
                 },
                 'data' => function($createResultModel) use($service) {
@@ -76,7 +76,7 @@ class CategoryController extends \yii\web\Controller
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'update' => function($id, $postData) use($service){
+                'doUpdate' => function($id, $postData) use($service){
                     return $service->update($id, $postData);
                 },
                 'data' => function($id, $updateResultModel) use($service){
@@ -89,13 +89,13 @@ class CategoryController extends \yii\web\Controller
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'delete' => function($id) use($service){
+                'doDelete' => function($id) use($service){
                     return $service->delete($id);
                 }
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'sort' => function($id, $sort) use($service){
+                'doSort' => function($id, $sort) use($service){
                     return $service->sort($id, $sort);
                 },
             ],

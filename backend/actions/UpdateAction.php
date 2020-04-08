@@ -16,6 +16,14 @@ use backend\actions\helpers\Helper;
 use yii\base\Exception;
 use yii\web\UnprocessableEntityHttpException;
 
+/**
+ * backend update
+ * if update occurs error, must return model or error string for display error. return true for successful update.
+ * if GET request, the updateResult be a null, POST request the createResult is the value of doUpdate closure returns.
+ *
+ * Class UpdateAction
+ * @package backend\actions
+ */
 class UpdateAction extends \yii\base\Action
 {
 
@@ -42,7 +50,7 @@ class UpdateAction extends \yii\base\Action
     /**
      * @var Closure the real update logic, usually will call service layer update method
      */
-    public $update;
+    public $doUpdate;
 
     /**
      * @var string view template path，default is action id
@@ -62,7 +70,7 @@ class UpdateAction extends \yii\base\Action
         $primaryKeys = Helper::getPrimaryKeys($this->primaryKeyIdentity, $this->primaryKeyFromMethod);
 
         if (Yii::$app->getRequest()->getIsPost()) {
-            if (!$this->update instanceof Closure) {
+            if (!$this->doUpdate instanceof Closure) {
                 throw new Exception(__CLASS__ . "::update must be closure");
             }
             $postData = Yii::$app->getRequest()->post();
@@ -77,7 +85,7 @@ class UpdateAction extends \yii\base\Action
 
             array_push($updateData, $postData, $this);
 
-            $updateResult = call_user_func_array($this->update, $updateData);
+            $updateResult = call_user_func_array($this->doUpdate, $updateData);
 
             if(  Yii::$app->getRequest()->getIsAjax() ){ //ajax
                 if( $updateResult === true ){
@@ -108,6 +116,7 @@ class UpdateAction extends \yii\base\Action
                     array_push($params, $primaryKey);
                 }
             }
+            //get request just display update page. only post request will get a updateResult(returned by doUpdate)
             !isset($updateResult) && $updateResult = null;
             array_push($params, $updateResult, $this);
             $data = call_user_func_array($this->data, $params);

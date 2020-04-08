@@ -59,7 +59,7 @@ class LogController extends \yii\web\Controller
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'delete' => function($id)use($service){
+                'doDelete' => function($id)use($service){
                     return $service->delete($id);
                 }
             ],

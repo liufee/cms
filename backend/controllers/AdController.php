@@ -68,7 +68,7 @@ class AdController extends \yii\web\Controller
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'create' => function($postData) use($service){
+                'doCreate' => function($postData) use($service){
                     /** @var $postData $_POST data */
                     return $service->create($postData);
                 },
@@ -89,7 +89,7 @@ class AdController extends \yii\web\Controller
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'update' => function($id, $postData, UpdateAction $updateAction) use($service){
+                'doUpdate' => function($id, $postData, UpdateAction $updateAction) use($service){
                     return $service->update($id, $postData);
                 },
                 'data' => function($id, $updateResultModel) use($service){
@@ -109,14 +109,14 @@ class AdController extends \yii\web\Controller
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'delete' => function($id)use($service){
+                'doDelete' => function($id)use($service){
                     /** string|int $id primary key value,usually column `id` value  */
                     return $service->delete($id);
                 },
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'sort' => function($id, $sort)use($service){
+                'doSort' => function($id, $sort)use($service){
                     /** string|int $id primary key value,usually column `id` value  */
                     /** int $sort sort value */
                     return $service->sort($id, $sort);

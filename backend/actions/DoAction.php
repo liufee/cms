@@ -14,6 +14,13 @@ use backend\actions\helpers\Helper;
 use yii\base\Exception;
 use yii\web\UnprocessableEntityHttpException;
 
+/**
+ * backend execute action
+ * Often use to for none page display, and only execute action.
+ *
+ * Class DoAction
+ * @package backend\actions
+ */
 class DoAction extends \yii\base\Action
 {
     /**

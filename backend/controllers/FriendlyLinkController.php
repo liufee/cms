@@ -64,7 +64,7 @@ class FriendlyLinkController extends \yii\web\Controller
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'create' => function(array $postData) use($service){
+                'doCreate' => function(array $postData) use($service){
                     return $service->create($postData);
                 },
                 'data' => function($createResultModel)use($service){
@@ -76,7 +76,7 @@ class FriendlyLinkController extends \yii\web\Controller
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'update' => function($id, array $postData) use($service){
+                'doUpdate' => function($id, array $postData) use($service){
                     return $service->update($id, $postData);
                 },
                 'data' => function($id, $updateResultModel)use($service){
@@ -88,13 +88,13 @@ class FriendlyLinkController extends \yii\web\Controller
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'delete' => function($id)use($service){
+                'doDelete' => function($id)use($service){
                     return $service->delete($id);
                 },
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'sort' => function($id, $sort)use($service){
+                'doSort' => function($id, $sort)use($service){
                     return $service->sort($id, $sort);
                 },
             ],

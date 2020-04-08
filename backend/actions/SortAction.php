@@ -16,22 +16,32 @@ use yii\base\InvalidArgumentException;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\UnprocessableEntityHttpException;
 
+/**
+ * backend sort
+ *
+ * Class SortAction
+ * @package backend\actions
+ */
 class SortAction extends \yii\base\Action
 {
 
     /**
      * @var Closure
      */
-    public $sort = null;
+    public $doSort = null;
 
     /**
-     * @var string 场景
+     * @var string $scenario model scenario
      */
     public $scenario = 'default';
 
     /**
-     * 排序操作
+     * sort
      *
+     * @return array|\yii\web\Response
+     * @throws MethodNotAllowedHttpException
+     * @throws UnprocessableEntityHttpException
+     * @throws \yii\base\Exception
      */
     public function run()
     {
@@ -46,7 +56,7 @@ class SortAction extends \yii\base\Action
             $value = $temp[$condition];
             $condition = json_decode($condition, true);
             if (!is_array($condition)) throw new InvalidArgumentException("SortColumn generate html must post data like xxx[{pk:'unique'}]=number");
-            $result = call_user_func_array($this->sort, [$condition, $value, $this]);
+            $result = call_user_func_array($this->doSort, [$condition, $value, $this]);
 
             if (Yii::$app->getRequest()->getIsAjax()) {
                 if( $result === true ){

@@ -14,6 +14,14 @@ use backend\actions\helpers\Helper;
 use yii\base\Exception;
 use yii\web\UnprocessableEntityHttpException;
 
+/**
+ * backend create
+ * if create occurs error, must return model or error string for display error. return true for successful create.
+ * if GET request, the createResult be a null, POST request the createResult is the value of doCreate closure returns.
+ *
+ * Class CreateAction
+ * @package backend\actions
+ */
 class CreateAction extends \yii\base\Action
 {
     /**
@@ -38,7 +46,7 @@ class CreateAction extends \yii\base\Action
     /**
      * @var Closure the real create logic, usually will call service layer create method
      */
-    public $create;
+    public $doCreate;
 
     /** @var string view template file，default is action id  */
     public $viewFile = null;
@@ -58,7 +66,7 @@ class CreateAction extends \yii\base\Action
         $primaryKeys = Helper::getPrimaryKeys($this->primaryKeyIdentity, $this->primaryKeyFromMethod);
 
         if (Yii::$app->getRequest()->getIsPost()) {//POST request execute create
-            if (!$this->create instanceof Closure) {
+            if (!$this->doCreate instanceof Closure) {
                 throw new Exception(__CLASS__ . "::create must be closure");
             }
 
@@ -77,7 +85,7 @@ class CreateAction extends \yii\base\Action
             /**
              * do create, function(primaryKey1, primaryKey2 ..., $_POST, CreateAction)
              */
-            $createResult = call_user_func_array($this->create, $createData);//do create
+            $createResult = call_user_func_array($this->doCreate, $createData);//do create
 
             if (Yii::$app->getRequest()->getIsAjax()) { //ajax
                 if ($createResult == true) {
@@ -107,6 +115,7 @@ class CreateAction extends \yii\base\Action
                     array_push($params, $primaryKey);
                 }
             }
+            //get request just display create page. only post request will get a createResult(returned by doCreate)
             !isset($createResult) && $createResult = null;
             array_push($params, $createResult, $this);
             $data = call_user_func_array($this->data, $params);

@@ -49,7 +49,7 @@ class SettingController extends \yii\web\Controller
             'website' => [
                 "class" => UpdateAction::className(),
                 'primaryKeyIdentity' => null,
-                'update' => function($postData)use($service){
+                'doUpdate' => function($postData)use($service){
                     return $service->updateWebsiteSetting($postData);
                 },
                 "data" => function($updateResultModel)use($service){
@@ -63,7 +63,7 @@ class SettingController extends \yii\web\Controller
             'custom' => [
                 'class' => UpdateAction::className(),
                 'primaryKeyIdentity' => null,
-                "update" => function($postData)use($service){
+                "doUpdate" => function($postData)use($service){
                     return $service->updateCustomSetting($postData);
                 },
                 "data" => function($updateResultModel) use($service){
@@ -77,13 +77,13 @@ class SettingController extends \yii\web\Controller
             ],
             "custom-delete" => [
                 "class" => DeleteAction::className(),
-                "delete" => function($id)use($service){
+                "doDelete" => function($id)use($service){
                     return $service->delete($id);
                 },
             ],
             'custom-create' => [
                 "class" => CreateAction::className(),
-                'create' => function($postData) use($service) {
+                'doCreate' => function($postData) use($service) {
                     return $service->create($postData, ['type' => Options::TYPE_CUSTOM]);
                 },
                 "data" => function($createResultModel)use($service){
@@ -95,7 +95,7 @@ class SettingController extends \yii\web\Controller
             ],
             'custom-update' => [
                 "class" => UpdateAction::className(),
-                'update' => function($id, $postData)use($service){
+                'doUpdate' => function($id, $postData)use($service){
                     return $service->update($id, $postData);
                 },
                 "data" => function($id, $updateResultModel)use($service){
@@ -109,7 +109,7 @@ class SettingController extends \yii\web\Controller
             "smtp" => [
                 "class" => UpdateAction::className(),
                 'primaryKeyIdentity' => null,
-                "update" => function($postData)use($service){
+                "doUpdate" => function($postData)use($service){
                    return $service->updateSMTPSetting($postData);
                 },
                 "data" => function($updateResultModel) use($service){

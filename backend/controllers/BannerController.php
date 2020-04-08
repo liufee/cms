@@ -61,7 +61,7 @@ class BannerController extends \yii\web\Controller
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'create' => function($postData) use($service){
+                'doCreate' => function($postData) use($service){
                     return $service->create($postData);
                 },
                 'data' => function($createResultModel) use($service){
@@ -73,7 +73,7 @@ class BannerController extends \yii\web\Controller
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'update' => function($id, $postData) use($service){
+                'doUpdate' => function($id, $postData) use($service){
                     return $service->update($id, $postData);
                 },
                 'data' => function($id, $updateResultModel) use($service){
@@ -86,7 +86,7 @@ class BannerController extends \yii\web\Controller
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'delete' => function($id) use($service){
+                'doDelete' => function($id) use($service){
                     return $service->delete($id);
                 },
             ],
@@ -105,7 +105,7 @@ class BannerController extends \yii\web\Controller
             'banner-create' => [
                 'primaryKeyIdentity' => 'id',
                 'class' => CreateAction::className(),
-                'create' => function($id, $postData) use($service){
+                'doCreate' => function($id, $postData) use($service){
                     return $service->createBanner($id, $postData);
                 },
                 'data' => function($id, $createResultModel) use($service){
@@ -129,7 +129,7 @@ class BannerController extends \yii\web\Controller
             'banner-update' => [
                 'primaryKeyIdentity' => ['id', 'sign'],
                 'class' => UpdateAction::className(),
-                'update' => function($id, $sign, $postData) use($service){
+                'doUpdate' => function($id, $sign, $postData) use($service){
                      return $service->updateBanner($id, $sign, $postData);
                 },
                 'data' => function($id, $sign, $updateResultModel) use($service) {
@@ -142,14 +142,14 @@ class BannerController extends \yii\web\Controller
             ],
             'banner-sort' => [
                 'class' => SortAction::className(),
-                'sort' => function($param, $value) use($service){
+                'doSort' => function($param, $value) use($service){
                     return $service->sortBanner($param['id'], $param['sign'], $value);
                 },
             ],
             'banner-delete' => [
                 'primaryKeyIdentity' => "sign",
                 'class' => DeleteAction::className(),
-                'delete' => function($sign) use($service){
+                'doDelete' => function($sign) use($service){
                     $id = Yii::$app->getRequest()->get("id", null);
                     return $service->deleteBanner($id, $sign);
                 },

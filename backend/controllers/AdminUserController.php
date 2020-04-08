@@ -76,19 +76,19 @@ class AdminUserController extends \yii\web\Controller
             ],
             'delete' => [
                 'class' => DeleteAction::className(),
-                'delete' => function($id) use($service){
+                'doDelete' => function($id) use($service){
                     return $service->delete($id);
                 },
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'sort' => function($id, $sort) use($service){
+                'doSort' => function($id, $sort) use($service){
                     return $service->sort($id, $sort);
                 },
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'create' => function($postData) use($service, $rbacService){
+                'doCreate' => function($postData) use($service, $rbacService){
                     /** @var AdminUser $model */
                     return $service->create($postData);
                 },
@@ -103,7 +103,7 @@ class AdminUserController extends \yii\web\Controller
             ],
             'update' => [
                 'class' => UpdateAction::className(),
-                'update' => function($id, $postData) use($service){
+                'doUpdate' => function($id, $postData) use($service){
                     return $service->update($id, $postData, ['scenario' => AdminUserServiceInterface::scenarioUpdate]);
                 },
                 'data' => function($id, $updateResultModel)use($service, $rbacService){
@@ -118,7 +118,7 @@ class AdminUserController extends \yii\web\Controller
             'self-update' => [
                 'class' => UpdateAction::className(),
                 'primaryKeyIdentity' => null,
-                'update' => function($postData) use($service){
+                'doUpdate' => function($postData) use($service){
                     return $service->selfUpdate(Yii::$app->getUser()->getId(), $postData, ['scenario' => AdminUserServiceInterface::scenarioSelfUpdate]);
                 },
                 'data' => function($updateResultModel) use($service){
@@ -131,7 +131,7 @@ class AdminUserController extends \yii\web\Controller
             'request-password-reset' => [
                 'class' => UpdateAction::className(),
                 'primaryKeyIdentity' => null,
-                'update' => function($postData) use($service){
+                'doUpdate' => function($postData) use($service){
                     $result = $service->sendResetPasswordLink($postData);
                     if( $result === false ){
                         return 'Sorry, we are unable to reset password for email provided.';
@@ -149,7 +149,7 @@ class AdminUserController extends \yii\web\Controller
             'reset-password' => [
                 'class' => UpdateAction::className(),
                 'primaryKeyIdentity' => 'token',
-                'update' => function($token, $postData) use($service) {
+                'doUpdate' => function($token, $postData) use($service) {
                     return $service->resetPassword($token, $postData);
                 },
                 'data' => function($token, $updateResultModel) use($service) {

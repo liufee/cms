@@ -40,6 +40,12 @@ class IndexAction extends \yii\base\Action
     public $viewFile = null;
 
 
+    /**
+     * index list
+     *
+     * @return string
+     * @throws Exception
+     */
     public function run()
     {
         /**

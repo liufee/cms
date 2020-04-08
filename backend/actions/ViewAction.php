@@ -12,6 +12,12 @@ use Closure;
 use backend\actions\helpers\Helper;
 use yii\base\Exception;
 
+/**
+ * backend view single record
+ *
+ * Class ViewAction
+ * @package backend\actions
+ */
 class ViewAction extends \yii\base\Action
 {
 

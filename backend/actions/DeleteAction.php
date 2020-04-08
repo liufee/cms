@@ -17,6 +17,13 @@ use yii\web\BadRequestHttpException;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\UnprocessableEntityHttpException;
 
+/**
+ * backend delete
+ * only permit POST request, but can assign value throw query or body for need delete record.
+ *
+ * Class DeleteAction
+ * @package backend\actions
+ */
 class DeleteAction extends \yii\base\Action
 {
     /**
@@ -27,10 +34,10 @@ class DeleteAction extends \yii\base\Action
     /**
      * @var Closure 模型，要么为空使用默认的方式获取模型，要么传入必包，根据必包的参数获取模型后返回
      */
-    public $delete;
+    public $doDelete;
 
     /**
-     * delete删除
+     * delete
      *
      * @throws BadRequestHttpException
      * @throws MethodNotAllowedHttpException
@@ -62,7 +69,7 @@ class DeleteAction extends \yii\base\Action
 
             $errors = [];
             foreach ($data as $id){
-                $deleteResult = call_user_func_array($this->delete, [$id, $this]);
+                $deleteResult = call_user_func_array($this->doDelete, [$id, $this]);
                 if($deleteResult !== true && $deleteResult !== "" && $deleteResult !== null){
                     $errors[]= Helper::getErrorString($deleteResult);
                 }

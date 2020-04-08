@@ -63,13 +63,13 @@ class RbacController extends \yii\web\Controller
             ],
             'permission-sort' => [
                 'class' => SortAction::className(),
-                'sort' => function($name, $sort) use($service){
+                'doSort' => function($name, $sort) use($service){
                     return $service->sortPermission($name['name'], $sort);
                 },
             ],
             'permission-create' => [
                 "class" => CreateAction::className(),
-                'create' => function($postData) use($service){
+                'doCreate' => function($postData) use($service){
                     return $service->createPermission($postData);
                 },
                 'data' => function($createResultModel) use($service){
@@ -85,7 +85,7 @@ class RbacController extends \yii\web\Controller
             'permission-update' => [
                 'primaryKeyIdentity' => 'name',
                 "class" => UpdateAction::className(),
-                "update" => function($name, $postData) use($service){
+                "doUpdate" => function($name, $postData) use($service){
                     return $service->updatePermission($name, $postData);
                 },
                 "data" => function($name, $updateResultModel) use($service){
@@ -110,7 +110,7 @@ class RbacController extends \yii\web\Controller
             'permission-delete' => [
                 'primaryKeyIdentity' => 'name',
                 "class" => DeleteAction::className(),
-                "delete" => function($name) use($service) {
+                "doDelete" => function($name) use($service) {
                     return $service->deletePermission($name);
                 },
             ],
@@ -137,7 +137,7 @@ class RbacController extends \yii\web\Controller
             ],
             'role-create' => [
                 "class" => CreateAction::className(),
-                'create' => function($postData) use($service){
+                'doCreate' => function($postData) use($service){
                     return $service->createRole($postData);
                 },
                 'data' => function($createResultModel) use($service){
@@ -153,7 +153,7 @@ class RbacController extends \yii\web\Controller
             'role-update' => [
                 "class" => UpdateAction::className(),
                 'primaryKeyIdentity' => 'name',
-                "update" => function($name, $postData) use($service){
+                "doUpdate" => function($name, $postData) use($service){
                     return $service->updateRole($name, $postData);
                 },
                 'data' => function($name, $updateResultModel) use($service){
@@ -170,14 +170,14 @@ class RbacController extends \yii\web\Controller
             ],
             'role-sort' => [
                 'class' => SortAction::className(),
-                'sort' => function($name, $sort) use($service) {
+                'doSort' => function($name, $sort) use($service) {
                     return $service->sortRole($name['name'], $sort);
                 },
             ],
             'role-delete' => [
                 "class" => DeleteAction::className(),
                 'primaryKeyIdentity' => 'name',
-                "delete" => function($name) use($service) {
+                "doDelete" => function($name) use($service) {
                     return $service->deleteRole($name);
                 },
             ],
