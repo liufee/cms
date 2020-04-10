@@ -51,7 +51,7 @@ class Helper
         $error = "";
         foreach ($results as $result) {
 
-            if ($result instanceof Model) {
+            if ($result instanceof Model) {//if returns a model, will call getErrors() get the error description string
                 $items = $result->getErrors();
                 foreach ($items as $item) {
                     foreach ($item as $e) {
@@ -59,7 +59,7 @@ class Helper
                     }
                 }
                 $error = rtrim($error, "<br>");
-            } else if (is_string($result)) {
+            } else if (is_string($result)) {//if returns a string, they will be the error description
                 $error = $result;
             } else {
                 throw new Exception("create/update/delete/sort closure must return true, yii\base\Model or string");

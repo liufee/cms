@@ -320,17 +320,17 @@ return [
     /*user*/
     'There is no user with such email.' => '邮箱没有注册过',
     'Please fill out your email. A link to reset password will be sent there.' => '请填写注册账号时的邮箱，重置密码的链接将会发送到此邮箱',
-    'Check your email for further instructions.' => '重置密码链接已发送到您的邮箱',
     'Reset Password' => '重置密码',
     'Request password reset' => '重置密码',
     'Please fill out the following fields to signup' => '填写以下信息',
     'Please choose your new password' => '请输入您的新密码',
-    'New password was saved.' => '密码修改成功',
     /*user*/
 
     /*admin user*/
     "Admin Users" => "管理员",
     "Can not update default super administrator's role" => '不允许修改系统默认的超级管理的角色',
+    'Check your email for further instructions.' => '重置密码链接已发送到您的邮箱',
+    'New password was saved.' => '密码修改成功',
     /*admin user*/
 
     /*file*/

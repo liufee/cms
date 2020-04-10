@@ -12,6 +12,7 @@ use Yii;
 use stdClass;
 use Closure;
 use backend\actions\helpers\Helper;
+use yii\base\Exception;
 use yii\base\InvalidArgumentException;
 use yii\web\MethodNotAllowedHttpException;
 use yii\web\UnprocessableEntityHttpException;
@@ -31,9 +32,18 @@ class SortAction extends \yii\base\Action
     public $doSort = null;
 
     /**
-     * @var string $scenario model scenario
+     * @var string after success doUpdate tips message showed in page top
      */
-    public $scenario = 'default';
+    public $successTipsMessage = "success";
+
+
+    public function init()
+    {
+        parent::init();
+        if( $this->successTipsMessage === "success"){
+            $this->successTipsMessage = Yii::t("app", "success");
+        }
+    }
 
     /**
      * sort
@@ -46,6 +56,9 @@ class SortAction extends \yii\base\Action
     public function run()
     {
         if (Yii::$app->getRequest()->getIsPost()) {
+            if(!$this->doSort instanceof Closure){
+                throw new Exception(__CLASS__ . "::doSort must be closure");
+            }
             $post = Yii::$app->getRequest()->post();
             if (isset($post[Yii::$app->getRequest()->csrfParam])) {
                 unset($post[Yii::$app->getRequest()->csrfParam]);
@@ -66,7 +79,7 @@ class SortAction extends \yii\base\Action
                 }
             }else {
                 if ($result === true) {
-                    Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
+                    Yii::$app->getSession()->setFlash('success', $this->successTipsMessage);
                 } else {
                     Yii::$app->getSession()->setFlash('error', Helper::getErrorString($result));
                 }

@@ -32,7 +32,7 @@ class DeleteAction extends \yii\base\Action
     public $primaryKeyIdentity = "id";
 
     /**
-     * @var Closure 模型，要么为空使用默认的方式获取模型，要么传入必包，根据必包的参数获取模型后返回
+     * @var Closure the real delete logic, usually will call service layer delete method
      */
     public $doDelete;
 
@@ -46,7 +46,7 @@ class DeleteAction extends \yii\base\Action
      */
     public function run()
     {
-        if (Yii::$app->getRequest()->getIsPost()) {//只允许post删除
+        if (Yii::$app->getRequest()->getIsPost()) {//for safety, delete need POST
             if( !is_string($this->primaryKeyIdentity) ){
                 throw new Exception(__CLASS__ . "::primaryKeyIdentity only permit string");
             }

@@ -51,12 +51,13 @@ class ViewAction extends \yii\base\Action
         if( is_array($this->data) ){
             $data = $this->data;
         }else if ($this->data instanceof Closure){
+            //according assigned HTTP Method and param name to get value. will be passed to $this->data closure.Often use for get value of primary key.
             $primaryKeys = Helper::getPrimaryKeys($this->primaryKeyIdentity, $this->primaryKeyFromMethod);
             $getDataParams = $primaryKeys;
             array_push($getDataParams, $this);
             $data = call_user_func_array($this->data, $getDataParams);
             if( !is_array($data) ){
-                throw new Exception("data closure must return array");
+                throw new Exception(__CLASS__ . "::data closure must return array");
             }
         }else{
             throw new Exception(__CLASS__ . "::data only allows array or closure (with return array)");

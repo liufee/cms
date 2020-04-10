@@ -27,6 +27,8 @@ use yii\web\UnprocessableEntityHttpException;
 class UpdateAction extends \yii\base\Action
 {
 
+    const UPDATE_REFERER = "_update_referer";
+
     /**
      * @var string|array primary key(s) name
      */
@@ -53,9 +55,23 @@ class UpdateAction extends \yii\base\Action
     public $doUpdate;
 
     /**
+     * @var string after success doUpdate tips message showed in page top
+     */
+    public $successTipsMessage = "success";
+
+    /**
      * @var string view template path，default is action id
      */
     public $viewFile = null;
+
+
+    public function init()
+    {
+        parent::init();
+        if( $this->successTipsMessage === "success"){
+            $this->successTipsMessage = Yii::t("app", "success");
+        }
+    }
 
 
     /**
@@ -67,15 +83,16 @@ class UpdateAction extends \yii\base\Action
      */
     public function run()
     {
+        //according assigned HTTP Method and param name to get value. will be passed to $this->doUpdate closure and $this->data closure.Often use for get value of primary key.
         $primaryKeys = Helper::getPrimaryKeys($this->primaryKeyIdentity, $this->primaryKeyFromMethod);
 
-        if (Yii::$app->getRequest()->getIsPost()) {
+        if (Yii::$app->getRequest()->getIsPost()) {//if POST request will execute doUpdate.
             if (!$this->doUpdate instanceof Closure) {
-                throw new Exception(__CLASS__ . "::update must be closure");
+                throw new Exception(__CLASS__ . "::doUpdate must be closure");
             }
             $postData = Yii::$app->getRequest()->post();
 
-            $updateData = [];
+            $updateData = [];//doUpdate closure formal parameter(translate: 传递给doUpdate必包的形参)
 
             if( !empty($primaryKeys) ){
                 foreach ($primaryKeys as $primaryKey) {
@@ -85,30 +102,35 @@ class UpdateAction extends \yii\base\Action
 
             array_push($updateData, $postData, $this);
 
-            $updateResult = call_user_func_array($this->doUpdate, $updateData);
+            /**
+             * doUpdate(primaryKey1, primaryKey2 ..., $_POST, UpdateAction)
+             */
+            $updateResult = call_user_func_array($this->doUpdate, $updateData);//call doUpdate closure
 
             if(  Yii::$app->getRequest()->getIsAjax() ){ //ajax
-                if( $updateResult === true ){
+                if( $updateResult === true ){//only $updateResult is true represent update success
                     return ['code'=>0, 'msg'=>'success', 'data'=>new stdClass()];
                 }else{
                     throw new UnprocessableEntityHttpException(Helper::getErrorString($updateResult));
                 }
-            }else{
-                if( $updateResult === true ){//update success
-                    Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Success'));
-                    if ($this->successRedirect) return $this->controller->redirect($this->successRedirect);
-                    $url = Yii::$app->getSession()->get("_update_referer");
-                    if ($url) return $this->controller->redirect($url);
-                    return $this->controller->redirect(["index"]);
-                }else{
-                    Yii::$app->getSession()->setFlash('error', Helper::getErrorString($updateResult));
+            }else{//not ajax
+                if( $updateResult === true ){//only $updateResult is true represent update success
+                    Yii::$app->getSession()->setFlash('success', $this->successTipsMessage);
+                    if ($this->successRedirect) return $this->controller->redirect($this->successRedirect);//if $this->successRedirect not empty will redirect to this url
+                    $url = Yii::$app->getSession()->get(self::UPDATE_REFERER);
+                    if ($url) return $this->controller->redirect($url);//get an not empty referer will redirect to this url(often, before do update page. also to say: update page)
+                    return $this->controller->redirect(["index"]);//default is redirect to current controller index action(attention: if current controller has no index action will get a HTTP 404 error)
+                    //if doUpdate success will terminated here!!!
+                }else{//besides true, all represent update failed.
+                    Yii::$app->getSession()->setFlash('error', Helper::getErrorString($updateResult));//if doUpdate error will set a error description string.and continue the current page.
                 }
             }
 
         }
 
+        //if GET request or doUpdate failed, will display the update page.
         if (is_array($this->data)) {
-            $data = $this->data;
+            $data = $this->data;//this data will assigned to view
         } elseif ($this->data instanceof Closure) {
             $params = [];
             if( !empty($primaryKeys) ){
@@ -116,17 +138,18 @@ class UpdateAction extends \yii\base\Action
                     array_push($params, $primaryKey);
                 }
             }
-            //get request just display update page. only post request will get a updateResult(returned by doUpdate)
+            //GET request just display update page. Only POST request will get a updateResult(returned by doUpdate closure)
             !isset($updateResult) && $updateResult = null;
             array_push($params, $updateResult, $this);
-            $data = call_user_func_array($this->data, $params);
+            $data = call_user_func_array($this->data, $params);//this data will assigned to view
         } else {
             throw new Exception(__CLASS__ . "::data only allows array or closure (with return array)");
         }
 
         $this->viewFile === null && $this->viewFile = $this->id;
 
-        Yii::$app->getRequest()->getIsGet() && Yii::$app->getSession()->set("_update_referer", Yii::$app->getRequest()->getReferrer());
+        Yii::$app->getRequest()->getIsGet() && Yii::$app->getSession()->set(self::UPDATE_REFERER, Yii::$app->getRequest()->getReferrer());//set an referer, when success doUpdate may redirect this url
+
         return $this->controller->render($this->viewFile, $data);
     }
 

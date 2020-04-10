@@ -48,9 +48,7 @@ class IndexAction extends \yii\base\Action
      */
     public function run()
     {
-        /**
-         * get primary keys, often index list page no need primary keys
-         */
+        //according assigned HTTP Method and param name to get value. will be passed to $this->>data closure.Often there is no need to get value on index, so default value is null.
         $primaryKeys = Helper::getPrimaryKeys($this->primaryKeyIdentity, $this->primaryKeyFromMethod);
 
         $data = $this->data;
@@ -69,7 +67,7 @@ class IndexAction extends \yii\base\Action
                 throw new Exception("data closure must return array");
             }
         }else if (!is_array($data) ){
-            throw new Exception("data must be array or closure");
+            throw new Exception(__CLASS__ . "::data must be array or closure");
         }
 
         //default view template is action id

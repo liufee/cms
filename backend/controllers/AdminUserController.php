@@ -131,12 +131,12 @@ class AdminUserController extends \yii\web\Controller
             'request-password-reset' => [
                 'class' => UpdateAction::className(),
                 'primaryKeyIdentity' => null,
+                'successTipsMessage' => Yii::t("app", "Check your email for further instructions."),
                 'doUpdate' => function($postData) use($service){
                     $result = $service->sendResetPasswordLink($postData);
                     if( $result === false ){
                         return 'Sorry, we are unable to reset password for email provided.';
                     }
-                    //@todo if success tips 'Check your email for further instructions.'
                     return $result;
                 },
                 'data' => function($updateResultModel){
@@ -149,6 +149,7 @@ class AdminUserController extends \yii\web\Controller
             'reset-password' => [
                 'class' => UpdateAction::className(),
                 'primaryKeyIdentity' => 'token',
+                'successTipsMessage' => Yii::t("app", 'New password was saved.'),
                 'doUpdate' => function($token, $postData) use($service) {
                     return $service->resetPassword($token, $postData);
                 },
@@ -166,7 +167,7 @@ class AdminUserController extends \yii\web\Controller
                         'model' => $model,
                     ];
                 },
-                'successRedirect' => $this->getHomeUrl(),//@todo tips 'New password was saved.'
+                'successRedirect' => $this->getHomeUrl(),
                 'viewFile' => 'resetPassword'
             ]
         ];
