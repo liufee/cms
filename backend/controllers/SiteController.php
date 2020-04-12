@@ -154,25 +154,25 @@ class SiteController extends \yii\web\Controller
             'ARTICLE' => $articleService->getArticlesCountByPeriod(),
             'COMMENT' => $commentService->getCommentCountByPeriod(),
             'USER' => $userService->getUserCountByPeriod(),
-            'FRIEND_LINK' => $friendlyLinkService->getFriendlyLinkCountByPeriod(),
+            'FRIENDLY_LINK' => $friendlyLinkService->getFriendlyLinkCountByPeriod(),
         ];
         $percent = '0.00';
         $statics = [
             'ARTICLE' => [
                 $temp['ARTICLE'],
-                $temp['ARTICLE'] ? number_format($articleService->getArticlesCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")) / $temp['ARTICLE'] * 100, 2) : $percent
+                $temp['ARTICLE'] ? sprintf("%01.2f",($articleService->getArticlesCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")) / $temp['USER']) * 100) : $percent
             ],
             'COMMENT' => [
                 $temp['COMMENT'],
-                $temp['COMMENT'] ? number_format($commentService->getCommentCountByPeriod(strtotime(date('Y-m-d 00:00:00')), strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")) / $temp['COMMENT'] * 100, 2) : $percent
+                $temp['COMMENT'] ? sprintf("%01.2f",($commentService->getCommentCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59'))) / $temp['USER']) * 100) : $percent
             ],
             'USER' => [
                 $temp['USER'],
-                $temp['USER'] ? number_format($userService->getUserCountByPeriod(strtotime(date('Y-m-01 00:00:00')),  strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")) / $temp['user'] * 100, 2) : $percent
+                $temp['USER'] ? sprintf("%01.2f",($userService->getUserCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")) / $temp['USER']) * 100) : $percent
             ],
-            'FRIEND_LINK' => [
-                $temp['FRIEND_LINK'],
-                $temp['FRIEND_LINK'] ? number_format($friendlyLinkService->getFriendlyLinkCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day") ) / $temp['FRIEND_LINK'] * 100, 2) : $percent
+            'FRIENDLY_LINK' => [
+                $temp['FRIENDLY_LINK'],
+                $temp['FRIENDLY_LINK'] ? sprintf("%01.2f",($friendlyLinkService->getFriendlyLinkCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")) / $temp['USER']) * 100) : $percent
             ],
         ];
         /** @var CommentServiceInterface $commentService */

@@ -12,6 +12,7 @@ use yii\helpers\Url;
 /**
  * @var $statics array
  * @var $this yii\web\View
+ * @var array $comments latest comments
  */
 $this->registerCss("
      .environment .list-group-item > .badge {float: left}
@@ -66,8 +67,8 @@ $this->registerCss("
                 <h5><?= Yii::t('app', 'Friendly Links') ?></h5>
             </div>
             <div class="ibox-content openContab" href="<?=Url::to(['friendly-link/index'])?>" title="<?= Yii::t('app', 'Friendly Links')?>" style="cursor: pointer">
-                <h1 class="no-margins"><?= $statics['FRIEND_LINK'][0] ?></h1>
-                <div class="stat-percent font-bold text-info"><?= $statics['FRIEND_LINK'][1] ?>% <i class="fa fa-level-up"></i></div>
+                <h1 class="no-margins"><?= $statics['FRIENDLY_LINK'][0] ?></h1>
+                <div class="stat-percent font-bold text-info"><?= $statics['FRIENDLY_LINK'][1] ?>% <i class="fa fa-level-up"></i></div>
                 <small><?= Yii::t('app', 'Total') ?></small>
             </div>
         </div>
@@ -251,7 +252,7 @@ $(document).ready(function () {
     var notify = $("#notify");
     $.ajax({
         dataType:"jsonp",
-        url:"//api.feehi.com/cms/notify",
+        url:"//api.feehi.com/cms/notify?ver=<?=Yii::$app->getVersion()?>",
         success:function (dataAll) {
             data = dataAll.rows;
             notify.empty();

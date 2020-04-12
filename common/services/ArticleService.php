@@ -8,13 +8,12 @@
 
 namespace common\services;
 
-
+use Yii;
 use backend\models\search\ArticleSearch;
 use common\libs\Constants;
 use common\models\Article;
 use common\models\ArticleContent;
 use common\models\Comment;
-use Yii;
 use yii\base\Exception;
 use yii\web\NotFoundHttpException;
 
@@ -171,14 +170,15 @@ class ArticleService extends Service implements ArticleServiceInterface
 
     public function getArticlesCountByPeriod($startAt=null, $endAt=null)
     {
-        $where = ['type' => Article::ARTICLE];
+        $model = Article::find();
+        $model->andWhere(["type"=>Article::ARTICLE]);
         if( $startAt != null && $endAt != null ){
-            $where[] = ["between", "created_at", $startAt, $endAt];
+            $model->andWhere(["between", "created_at", $startAt, $endAt]);
         }else if ($startAt != null){
-            $where[] = [">", "created_at", $startAt];
+            $model->andwhere([">", "created_at", $startAt]);
         } else if($endAt != null){
-            $where[] = ["<", "created_at", $endAt];
+            $model->andWhere(["<", "created_at", $endAt]);
         }
-        return Article::find()->where($where)->count('id');
+        return $model->count('id');
     }
 }
