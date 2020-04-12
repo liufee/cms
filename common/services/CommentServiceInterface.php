@@ -14,4 +14,6 @@ interface CommentServiceInterface extends ServiceInterface
     const ServiceName = "commentService";
 
     public function getRecentComments($limit = 10);
+
+    public function getCommentCountByPeriod($startAt=null, $endAt=null);
 }

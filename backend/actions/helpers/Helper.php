@@ -62,7 +62,7 @@ class Helper
             } else if (is_string($result)) {//if returns a string, they will be the error description
                 $error = $result;
             } else {
-                throw new Exception("create/update/delete/sort closure must return true, yii\base\Model or string");
+                throw new Exception("doCreate/doUpdate/doDelete/doSort closure must return boolean, yii\base\Model or string");
             }
 
         }

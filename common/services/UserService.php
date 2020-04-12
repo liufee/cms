@@ -51,4 +51,17 @@ class UserService extends Service implements UserServiceInterface
         }
         return $model;
     }
+
+    public function getUserCountByPeriod($startAt=null, $endAt=null)
+    {
+        $where = [];
+        if( $startAt != null && $endAt != null ){
+            $where[] = ["between", "created_at", $startAt, $endAt];
+        }else if ($startAt != null){
+            $where[] = [">", "created_at", $startAt];
+        } else if($endAt != null){
+            $where[] = ["<", "created_at", $endAt];
+        }
+        return User::find()->where($where)->count('id');
+    }
 }

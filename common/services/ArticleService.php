@@ -168,4 +168,17 @@ class ArticleService extends Service implements ArticleServiceInterface
     {
         return Article::find()->where(['id'=>$aid, "status"=>Constants::YesNo_Yes, 'type'=>Article::ARTICLE])->one();
     }
+
+    public function getArticlesCountByPeriod($startAt=null, $endAt=null)
+    {
+        $where = ['type' => Article::ARTICLE];
+        if( $startAt != null && $endAt != null ){
+            $where[] = ["between", "created_at", $startAt, $endAt];
+        }else if ($startAt != null){
+            $where[] = [">", "created_at", $startAt];
+        } else if($endAt != null){
+            $where[] = ["<", "created_at", $endAt];
+        }
+        return Article::find()->where($where)->count('id');
+    }
 }

@@ -13,4 +13,6 @@ interface FriendlyLinkServiceInterface extends ServiceInterface {
     const ServiceName = "friendlyLinkService";
 
     public function getFriendlyLinks();
+
+    public function getFriendlyLinkCountByPeriod($startAt=null, $endAt=null);
 }

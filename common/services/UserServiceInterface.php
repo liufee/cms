@@ -12,4 +12,6 @@ namespace common\services;
 interface UserServiceInterface extends ServiceInterface
 {
     const ServiceName = "userService";
+
+    public function getUserCountByPeriod($startAt=null, $endAt=null);
 }

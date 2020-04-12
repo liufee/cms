@@ -29,4 +29,6 @@ interface ArticleServiceInterface extends ServiceInterface
     public function getArticleSubTitle($subTitle);
 
     public function getArticleById($aid);
+
+    public function getArticlesCountByPeriod($startAt=null, $endAt=null);
 }

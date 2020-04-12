@@ -32,6 +32,19 @@ class FriendlyLinkService extends Service implements FriendlyLinkServiceInterfac
 
     public function getFriendlyLinks()
     {
-        return FriendlyLink::find()->where(['status' => FriendlyLink::DISPLAY_YES])->orderBy(['sort'=>SORT_ASC, 'id' => SORT_DESC])->all();
+        return FriendlyLink::find()->where(['status' => FriendlyLink::DISPLAY_YES])->orderBy(['sort' => SORT_ASC, 'id' => SORT_DESC])->all();
+    }
+
+    public function getFriendlyLinkCountByPeriod($startAt=null, $endAt=null)
+    {
+        $where = [];
+        if( $startAt != null && $endAt != null ){
+            $where[] = ["between", "created_at", $startAt, $endAt];
+        }else if ($startAt != null){
+            $where[] = [">", "created_at", $startAt];
+        } else if($endAt != null){
+            $where[] = ["<", "created_at", $endAt];
+        }
+        return FriendlyLink::find()->where($where)->count('id');
     }
 }

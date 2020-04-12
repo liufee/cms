@@ -9,15 +9,14 @@
 namespace backend\controllers;
 
 use Yii;
-use common\services\CommentServiceInterface;
 use Exception;
+use common\services\ArticleServiceInterface;
+use common\services\UserServiceInterface;
+use common\services\CommentServiceInterface;
+use common\services\FriendlyLinkServiceInterface;
 use common\services\MenuService;
-use common\models\Comment;
 use backend\models\form\LoginForm;
 use common\libs\ServerInfo;
-use common\models\Article;
-use common\models\FriendlyLink;
-use common\models\User;
 use yii\base\UserException;
 use yii\db\Query;
 use yii\filters\AccessControl;
@@ -109,6 +108,15 @@ class SiteController extends \yii\web\Controller
      */
     public function actionMain()
     {
+        /** @var ArticleServiceInterface $articleService */
+        $articleService = Yii::$app->get(ArticleServiceInterface::ServiceName);
+        /** @var CommentServiceInterface $commentService */
+        $commentService = Yii::$app->get(CommentServiceInterface::ServiceName);
+        /** @var UserServiceInterface $userService */
+        $userService = Yii::$app->get(UserServiceInterface::ServiceName);
+        /** @var FriendlyLinkServiceInterface $friendlyLinkService */
+        $friendlyLinkService = Yii::$app->get(FriendlyLinkServiceInterface::ServiceName);
+
         switch (Yii::$app->getDb()->driverName) {
             case "mysql":
                 $dbInfo = 'MySQL ' . (new Query())->select('version()')->one()['version()'];
@@ -143,48 +151,28 @@ class SiteController extends \yii\web\Controller
             ],
         ];
         $temp = [
-            'ARTICLE' => Article::find()->where(['type' => Article::ARTICLE])->count('id'),
-            'COMMENT' => Comment::find()->count('id'),
-            'USER' => User::find()->count('id'),
-            'FRIEND_LINK' => FriendlyLink::find()->count('id'),
+            'ARTICLE' => $articleService->getArticlesCountByPeriod(),
+            'COMMENT' => $commentService->getCommentCountByPeriod(),
+            'USER' => $userService->getUserCountByPeriod(),
+            'FRIEND_LINK' => $friendlyLinkService->getFriendlyLinkCountByPeriod(),
         ];
         $percent = '0.00';
         $statics = [
             'ARTICLE' => [
                 $temp['ARTICLE'],
-                $temp['ARTICLE'] ? number_format(Article::find()->where([
-                        'between',
-                        'created_at',
-                        strtotime(date('Y-m-01')),
-                        strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")
-                    ])->count('id') / $temp['ARTICLE'] * 100, 2) : $percent
+                $temp['ARTICLE'] ? number_format($articleService->getArticlesCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")) / $temp['ARTICLE'] * 100, 2) : $percent
             ],
             'COMMENT' => [
                 $temp['COMMENT'],
-                $temp['COMMENT'] ? number_format(Comment::find()->where([
-                        'between',
-                        'created_at',
-                        strtotime(date('Y-m-d 00:00:00')),
-                        time()
-                    ])->count('id') / $temp['COMMENT'] * 100, 2) : $percent
+                $temp['COMMENT'] ? number_format($commentService->getCommentCountByPeriod(strtotime(date('Y-m-d 00:00:00')), strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")) / $temp['COMMENT'] * 100, 2) : $percent
             ],
             'USER' => [
                 $temp['USER'],
-                $temp['USER'] ? number_format(User::find()->where([
-                        'between',
-                        'created_at',
-                        strtotime(date('Y-m-01')),
-                        strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")
-                    ])->count('id') / 1 * 100, 2) : $percent
+                $temp['USER'] ? number_format($userService->getUserCountByPeriod(strtotime(date('Y-m-01 00:00:00')),  strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")) / $temp['user'] * 100, 2) : $percent
             ],
             'FRIEND_LINK' => [
                 $temp['FRIEND_LINK'],
-                $temp['FRIEND_LINK'] ? number_format(FriendlyLink::find()->where([
-                        'between',
-                        'created_at',
-                        strtotime(date('Y-m-01')),
-                        strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")
-                    ])->count('id') / $temp['FRIEND_LINK'] * 100, 2) : $percent
+                $temp['FRIEND_LINK'] ? number_format($friendlyLinkService->getFriendlyLinkCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day") ) / $temp['FRIEND_LINK'] * 100, 2) : $percent
             ],
         ];
         /** @var CommentServiceInterface $commentService */

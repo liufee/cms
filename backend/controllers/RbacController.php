@@ -10,7 +10,6 @@ namespace backend\controllers;
 
 use Yii;
 use common\services\RBACServiceInterface;
-use common\services\RBACService;
 use backend\actions\CreateAction;
 use backend\actions\DeleteAction;
 use backend\actions\IndexAction;

@@ -39,4 +39,17 @@ class CommentService extends Service implements CommentServiceInterface
     {
         return $this->newModel()->find()->orderBy('created_at desc')->with('article')->limit($limit)->all();
     }
+
+    public function getCommentCountByPeriod($startAt=null, $endAt=null)
+    {
+        $where = [];
+        if( $startAt != null && $endAt != null ){
+            $where[] = ["between", "created_at", $startAt, $endAt];
+        }else if ($startAt != null){
+            $where[] = [">", "created_at", $startAt];
+        } else if($endAt != null){
+            $where[] = ["<", "created_at", $endAt];
+        }
+        return Comment::find()->where($where)->count('id');
+    }
 }
