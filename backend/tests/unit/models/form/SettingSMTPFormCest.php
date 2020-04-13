@@ -3,7 +3,7 @@ namespace backend\tests\model;
 use backend\models\form\SettingSMTPForm;
 use backend\tests\UnitTester;
 
-class SettingSMTPFormCest1
+class SettingSMTPFormCest
 {
     public function _before(UnitTester $I)
     {
