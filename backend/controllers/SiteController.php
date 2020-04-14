@@ -160,11 +160,11 @@ class SiteController extends \yii\web\Controller
         $statics = [
             'ARTICLE' => [
                 $temp['ARTICLE'],
-                $temp['ARTICLE'] ? sprintf("%01.2f",($articleService->getArticlesCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")) / $temp['USER']) * 100) : $percent
+                $temp['ARTICLE'] ? sprintf("%01.2f",($articleService->getArticlesCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")) / $temp['ARTICLE']) * 100) : $percent
             ],
             'COMMENT' => [
                 $temp['COMMENT'],
-                $temp['COMMENT'] ? sprintf("%01.2f",($commentService->getCommentCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59'))) / $temp['USER']) * 100) : $percent
+                $temp['COMMENT'] ? sprintf("%01.2f",($commentService->getCommentCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59'))) / $temp['COMMENT']) * 100) : $percent
             ],
             'USER' => [
                 $temp['USER'],
@@ -172,7 +172,7 @@ class SiteController extends \yii\web\Controller
             ],
             'FRIENDLY_LINK' => [
                 $temp['FRIENDLY_LINK'],
-                $temp['FRIENDLY_LINK'] ? sprintf("%01.2f",($friendlyLinkService->getFriendlyLinkCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")) / $temp['USER']) * 100) : $percent
+                $temp['FRIENDLY_LINK'] ? sprintf("%01.2f",($friendlyLinkService->getFriendlyLinkCountByPeriod(strtotime(date('Y-m-01 00:00:00')), strtotime(date('Y-m-01 23:59:59') . " +1 month -1 day")) / $temp['FRIENDLY_LINK']) * 100) : $percent
             ],
         ];
         /** @var CommentServiceInterface $commentService */
