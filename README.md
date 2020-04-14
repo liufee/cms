@@ -12,6 +12,8 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 
 更新记录
 -------
+2.1.0-beta2 修复bug
+
 2.1.0-beta 重构版本(增加service层;优化backend crud action...)
 
 2.0.8 增加更多restful示例;后台crud生成适应联合联合主键;优化编辑后页面跳转;优化安装锁定;前台增加葡萄牙语

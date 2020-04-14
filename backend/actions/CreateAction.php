@@ -103,7 +103,7 @@ class CreateAction extends \yii\base\Action
             $createResult = call_user_func_array($this->doCreate, $createData);//call doCreate closure
 
             if (Yii::$app->getRequest()->getIsAjax()) { //ajax
-                if ($createResult == true) {//only $createResult is true represent create success
+                if ($createResult === true) {//only $createResult is true represent create success
                     return ['code' => 0, 'msg' => 'success', 'data' => new stdClass()];
                 } else {
                     throw new UnprocessableEntityHttpException(Helper::getErrorString($createResult));

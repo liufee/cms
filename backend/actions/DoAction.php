@@ -90,7 +90,7 @@ class DoAction extends \yii\base\Action
         $doResult = call_user_func_array($this->do, $doData);//call do closure
 
         if (Yii::$app->getRequest()->getIsAjax()) { //ajax
-            if ($doResult == true) {//only $doResult is true represent create success
+            if ($doResult === true) {//only $doResult is true represent create success
                 return ['code' => 0, 'msg' => 'success', 'data' => new stdClass()];
             } else {//not ajax
                 throw new UnprocessableEntityHttpException(Helper::getErrorString($doResult));

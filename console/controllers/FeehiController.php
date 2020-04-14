@@ -84,8 +84,6 @@ class FeehiController extends Controller
         $needModifies = [];
         $needAdds = [];
         foreach ($authItems as $authItem){
-            //var_dump($dbAuthItems[$authItem['name']]);exit;
-           // var_dump($authItem['name']);exit;
             if( isset( $dbAuthItems[$authItem['name']] ) ){
 
                 $data = json_decode($dbAuthItems[$authItem['name']]->data, true);
