@@ -107,7 +107,7 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
             ],
             'create' => [
                 'class' => CreateAction::className(),
-                'create' => function($postData, $createAction) use($service){
+                'doCreate' => function($postData, $createAction) use($service){
                     return $service->create($postData);
                 },
                 'data' => function($createResultModel, $createAction) use($service){
@@ -120,7 +120,7 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
             'update' => [
                 'class' => UpdateAction::className(),
 <?php if(!empty($idSign)){echo $idSign;} ?>
-                'update' => function(<?php if(!empty($closureIdParam)){echo $closureIdParam;echo ", ";}?>$postData, $updateAction) use($service){
+                'doUpdate' => function(<?php if(!empty($closureIdParam)){echo $closureIdParam;echo ", ";}?>$postData, $updateAction) use($service){
                     return $service->update(<?=$closureIdParam?>, $postData);
                 },
                 'data' => function(<?php if(!empty($closureIdParam)){echo $closureIdParam;echo ", ";}?>$updateResultModel, $updateAction) use($service){
@@ -133,13 +133,13 @@ class <?= $controllerClass ?> extends \yii\web\<?= StringHelper::basename($gener
             'delete' => [
                 'class' => DeleteAction::className(),
 <?php if(!empty($idSign)){echo $idSign;} ?>
-                'delete' => function(<?php if(!empty($closureIdParam)){echo $closureIdParam;echo ", ";}?>$deleteAction) use($service){
+                'doDelete' => function(<?php if(!empty($closureIdParam)){echo $closureIdParam;echo ", ";}?>$deleteAction) use($service){
                     return $service->delete(<?=$closureIdParam?>);
                 },
             ],
             'sort' => [
                 'class' => SortAction::className(),
-                'sort' => function($id, $sort, $sortAction) use($service){
+                'doSort' => function($id, $sort, $sortAction) use($service){
                     return $service->sort($id, $sort);
                 },
             ],

@@ -23,7 +23,7 @@ use <?=$generator->searchModelClass . ";\n"?>
 use <?= $generator->modelClass . ";\n" ?>
 
 class <?=$modelClass?>Service extends Service implements <?=$modelClass?>ServiceInterface{
-    public function getSearchModel(array $query, array $options=[])
+    public function getSearchModel(array $query=[], array $options=[])
     {
         <?php if (!empty($generator->searchModelClass)){ ?> return new  <?=$searchModelClass?>();<?php }else { ?>return null;<?php } ?>
 

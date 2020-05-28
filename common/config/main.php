@@ -1,7 +1,7 @@
 <?php
 return [
     'name' => 'Feehi CMS',
-    'version' => '2.1.0',
+    'version' => '2.1.0.1',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
