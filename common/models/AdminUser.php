@@ -142,10 +142,10 @@ class AdminUser extends \yii\db\ActiveRecord implements \yii\web\IdentityInterfa
                         return false;
                     }
                 }
-            }else {
-                if (isset($this->password) && $this->password != '') {
-                    $this->setPassword($this->password);
-                }
+            }
+
+            if (isset($this->password) && $this->password != '') {
+                $this->setPassword($this->password);
             }
         }
         return parent::beforeSave($insert);
