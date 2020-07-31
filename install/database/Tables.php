@@ -79,7 +79,7 @@ class Tables extends BaseObject
             "{{%admin_user}}" => $this->tableAdminUser(),
             "{{%admin_log}}" => $this->tableAdminLog(),
             "{{%category}}" => $this->tableCategory(),
-            "{{%content}}" => $this->tableArticleContent(),
+            "{{%article_content}}" => $this->tableArticleContent(),
             "{{%article_meta}}" => $this->tableArticleMeta(),
             "{{%comment}}" => $this->tableComment(),
             "{{%friendly_link}}" => $this->tableFriendlyLink(),
