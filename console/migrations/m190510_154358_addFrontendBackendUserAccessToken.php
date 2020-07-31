@@ -1,5 +1,7 @@
 <?php
 
+use common\models\AdminUser;
+use common\models\User;
 use yii\db\Migration;
 
 /**
@@ -12,8 +14,16 @@ class m190510_154358_addFrontendBackendUserAccessToken extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn(\common\models\User::tableName(), "access_token", $this->string(42)->after("avatar")->defaultValue("")->notNull()->comment("登录token"));
-        $this->addColumn(\common\models\AdminUser::tableName(), "access_token", $this->string(42)->after("avatar")->defaultValue("")->notNull()->comment("登录token"));
+        $userAccessToken = $this->string(42)->after("avatar")->defaultValue("")->notNull();
+        $adminUserAccessToken = $this->string(42)->after("avatar")->defaultValue("")->notNull();
+
+        if ($this->db->driverName === 'mysql') {
+            $userAccessToken->comment("token");
+            $adminUserAccessToken->comment("token");
+        }
+
+        $this->addColumn(User::tableName(), "access_token", $userAccessToken);
+        $this->addColumn(AdminUser::tableName(), "access_token", $adminUserAccessToken);
     }
 
     /**

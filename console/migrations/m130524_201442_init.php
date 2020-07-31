@@ -2,6 +2,13 @@
 
 use yii\db\Migration;
 
+/**
+ * migrate database tables execute command:
+ *   windows: /path/to/php /path/to/feehiproject/yii.bat migrate --frontendUri //your-frontend-domain.com
+ *   unix-like: /path/to/php /path/to/feehiproject/yii migrate --frontendUri //your-frontend-domain.com
+ *
+ * Class m130524_201442_init
+ */
 class m130524_201442_init extends Migration
 {
     public function up()
@@ -11,7 +18,7 @@ class m130524_201442_init extends Migration
         isset($params['frontendUri']) && $frontendUri = $params['frontendUri'];
         while( strpos($frontendUri, 'http://') !== 0 && strpos($frontendUri, 'https://') !== 0 && strpos($frontendUri, '//') !== 0 ){
             if( $frontendUri == "" ){
-                yii::$app->controller->stdout("Input your frontend web url(like http://www.xxx.com) :");
+                yii::$app->controller->stdout("Input your frontend web url(like //www.xxx.com) :");
             }else {
                 yii::$app->controller->stdout("Must begin with 'http', 'https' or '//' :");
             }
@@ -26,17 +33,41 @@ class m130524_201442_init extends Migration
 
 
         //table user
+        $userId = $this->primaryKey();
+        $userUsername = $this->string()->notNull()->unique();
+        $userAuthKey = $this->string(32)->notNull();
+        $userPasswordHash =  $this->string()->notNull();
+        $userPasswordResetToken = $this->string()->unique();
+        $userEmail = $this->string()->notNull()->unique();
+        $userAvatar = $this->string()->defaultValue('');
+        $userStatus = $this->smallInteger()->notNull()->defaultValue(10);
+        $userCreatedAt = $this->integer()->notNull();
+        $userUpdatedAt = $this->integer()->notNull();
+
+        if ($this->db->driverName === 'mysql') {
+            $userId->unsigned()->comment("user id(auto increment)");
+            $userUsername->comment("username");
+            $userAuthKey->comment("auth key for generate logged in cookie");
+            $userPasswordHash->comment("crypt password");
+            $userPasswordResetToken->comment("reset password temp token");
+            $userEmail->comment("user email");
+            $userAvatar->comment("avatar url");
+            $userStatus->comment("user status, (normal:10)");
+            $userCreatedAt->comment("created at");
+            $userUpdatedAt->comment("updated at");
+        }
+
         $this->createTable('{{%user}}', [
-            'id' => $this->primaryKey()->comment("自增用户id"),
-            'username' => $this->string()->notNull()->unique()->comment("用户名"),
-            'auth_key' => $this->string(32)->notNull()->comment("cookie验证auth_key"),
-            'password_hash' => $this->string()->notNull()->comment("加密后密码"),
-            'password_reset_token' => $this->string()->unique()->comment("找回密码token"),
-            'email' => $this->string()->notNull()->unique()->comment("用户邮箱"),
-            'avatar' => $this->string()->defaultValue('')->comment("用户头像url"),
-            'status' => $this->smallInteger()->notNull()->defaultValue(10)->comment("用户状态,10为正常"),
-            'created_at' => $this->integer()->notNull()->comment("创建时间"),
-            'updated_at' => $this->integer()->notNull()->comment("最后修改时间"),
+            'id' => $userId,
+            'username' => $userUsername,
+            'auth_key' => $userAuthKey,
+            'password_hash' => $userPasswordHash,
+            'password_reset_token' => $userPasswordResetToken,
+            'email' => $userEmail,
+            'avatar' => $userAvatar,
+            'status' => $userStatus,
+            'created_at' => $userCreatedAt,
+            'updated_at' => $userUpdatedAt,
         ], $tableOptions);
 
         $this->batchInsert("{{%user}}", ['id','username','auth_key','password_hash','email','status','created_at','updated_at',],
@@ -66,17 +97,41 @@ class m130524_201442_init extends Migration
 
 
         //table admin_user
+        $adminUserId = $this->primaryKey();
+        $adminUsername = $this->string()->notNull()->unique();
+        $adminUserAuthKey = $this->string(32)->notNull();
+        $adminUserPasswordHash =  $this->string()->notNull();
+        $adminUserPasswordResetToken = $this->string()->unique();
+        $adminUserEmail = $this->string()->notNull()->unique();
+        $adminUserAvatar = $this->string()->defaultValue('');
+        $adminUserStatus = $this->smallInteger()->notNull()->defaultValue(10);
+        $adminUserCreatedAt = $this->integer()->notNull();
+        $adminUserUpdatedAt = $this->integer()->notNull();
+
+        if ($this->db->driverName === 'mysql') {
+            $adminUserId->unsigned()->comment("admin user id(auto increment)");
+            $adminUsername->comment("admin username");
+            $adminUserAuthKey->comment("admin user auth key for generate logged in cookie");
+            $adminUserPasswordHash->comment("admin user crypt password");
+            $adminUserPasswordResetToken->comment("admin user reset password temp token");
+            $adminUserEmail->comment("admin user email");
+            $adminUserAvatar->comment("admin user avatar url");
+            $adminUserStatus->comment("admin user status, (normal:10)");
+            $adminUserCreatedAt->comment("created at");
+            $adminUserUpdatedAt->comment("updated at");
+        }
+
         $this->createTable('{{%admin_user}}', [
-            'id' => $this->primaryKey()->unsigned()->comment("自增管理员用户id"),
-            'username' => $this->string()->notNull()->unique()->comment("管理员用户名"),
-            'auth_key' => $this->string(32)->notNull()->comment("管理员cookie验证auth_key"),
-            'password_hash' => $this->string()->notNull()->comment("管理员加密密码"),
-            'password_reset_token' => $this->string()->unique()->comment("管理员找回密码token"),
-            'email' => $this->string()->notNull()->unique()->comment("管理员邮箱"),
-            'avatar' => $this->string()->defaultValue('')->comment("管理员头像url"),
-            'status' => $this->smallInteger()->notNull()->defaultValue(10)->comment("管理员状态,10正常"),
-            'created_at' => $this->integer()->notNull()->comment("创建时间"),
-            'updated_at' => $this->integer()->defaultValue(0)->notNull()->comment("最后修改时间"),
+            'id' => $adminUserId,
+            'username' => $adminUsername,
+            'auth_key' => $adminUserAuthKey,
+            'password_hash' => $adminUserPasswordHash,
+            'password_reset_token' => $adminUserPasswordResetToken,
+            'email' => $adminUserEmail,
+            'avatar' => $adminUserAvatar,
+            'status' => $adminUserStatus,
+            'created_at' => $adminUserCreatedAt,
+            'updated_at' => $adminUserUpdatedAt,
         ], $tableOptions);
 
         $this->batchInsert("{{%admin_user}}", ['id','username','auth_key','password_hash','email','avatar','status','created_at','updated_at'],
@@ -110,12 +165,26 @@ class m130524_201442_init extends Migration
 
 
         //table admin_log
+        $adminLogId = $this->primaryKey();
+        $adminLogUserId = $this->integer()->unsigned()->notNull();
+        $adminLogRoute = $this->string()->defaultValue('')->notNull();
+        $adminLogDescription = $this->text();
+        $adminLogCreatedAt = $this->integer()->unsigned()->notNull();
+
+        if ($this->db->driverName === 'mysql') {
+            $adminLogId->unsigned()->comment("admin log id(auto increment)");
+            $adminLogUserId->comment("admin user id");
+            $adminLogRoute->comment("admin user operate route, like article/create");
+            $adminLogDescription->comment("admin user operate description");
+            $adminLogCreatedAt->comment("created at");
+        }
+
         $this->createTable('{{%admin_log}}', [
-            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
-            'user_id' => $this->integer()->unsigned()->notNull()->comment("管理员用户id"),
-            'route' => $this->string()->defaultValue('')->notNull()->comment("操作路由"),
-            'description' => $this->text()->comment("操作描述"),
-            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间")
+            'id' => $adminLogId,
+            'user_id' => $adminLogUserId,
+            'route' => $adminLogRoute,
+            'description' => $adminLogDescription,
+            'created_at' => $adminLogCreatedAt
         ], $tableOptions);
         $this->batchInsert("{{%admin_log}}", ["id", "user_id", "route", "description", "created_at"], [
             [
@@ -129,15 +198,36 @@ class m130524_201442_init extends Migration
 
 
         //table category
+        $categoryId = $this->primaryKey();
+        $categoryParentId = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $categoryName = $this->string()->notNull();
+        $categoryAlias = $this->string()->notNull();
+        $categorySort = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $categoryRemark = $this->string()->defaultValue('')->notNull();
+        $categoryCreatedAt = $this->integer()->unsigned()->notNull();
+        $categoryUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
+
+        if ($this->db->driverName === 'mysql') {
+            $categoryId->unsigned()->comment("category id(auto increment)");
+            $categoryParentId->comment("category parent id(an exist category id)");
+            $categoryName->comment("category name");
+            $categoryAlias->comment("category alias");
+            $categorySort->comment("category order");
+            $categoryRemark->comment("category remark info");
+            $categoryCreatedAt->comment("created at");
+            $categoryUpdatedAt->comment("updated at");
+        }
+
+
         $this->createTable('{{%category}}', [
-            'id' => $this->primaryKey()->unsigned(),
-            'parent_id' => $this->integer()->unsigned()->defaultValue(0)->notNull(),
-            'name' => $this->string()->notNull(),
-            'alias' => $this->string()->notNull(),
-            'sort' => $this->integer()->unsigned()->defaultValue(0)->notNull(),
-            'remark' => $this->string()->defaultValue('')->notNull(),
-            'created_at' => $this->integer()->unsigned()->notNull(),
-            'updated_at' => $this->integer()->unsigned()->defaultValue(0)->notNull(),
+            'id' => $categoryId,
+            'parent_id' => $categoryParentId,
+            'name' => $categoryName,
+            'alias' => $categoryAlias,
+            'sort' => $categorySort,
+            'remark' => $categoryRemark,
+            'created_at' => $categoryCreatedAt,
+            'updated_at' => $categoryUpdatedAt,
         ], $tableOptions);
 
         $this->batchInsert("{{%category}}", ['id','parent_id','name','alias','sort','created_at','updated_at','remark'],
@@ -177,823 +267,177 @@ class m130524_201442_init extends Migration
 
 
         //table article
+        $articleId = $this->primaryKey();
+        $articleCategoryId = $this->integer()->defaultValue(0)->notNull();
+        $articleType = $this->integer()->defaultValue(0)->notNull();
+        $articleTitle = $this->string()->notNull();
+        $articleSubTitle = $this->string()->defaultValue('')->notNull();
+        $articleSummary = $this->string()->defaultValue('')->notNull();
+        $articleThumb = $this->string()->defaultValue('')->notNull();
+        $articleSeoTitle = $this->string()->defaultValue('')->notNull();
+        $articleSeoKeywords = $this->string()->defaultValue('')->notNull();
+        $articleSeoDescription = $this->string()->defaultValue('')->notNull();
+        $articleStatus = $this->smallInteger()->unsigned()->defaultValue(1)->notNull();
+        $articleSort = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $articleAuthorId = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $articleAuthorName = $this->string()->defaultValue('')->notNull();
+        $articleScanCount = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $articleCommentCount = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $articleCanComment = $this->smallInteger()->unsigned()->defaultValue(1)->notNull();
+        $articleVisibility = $this->smallInteger()->unsigned()->defaultValue(1)->notNull();
+        $articlePassword = $this->string()->defaultValue('')->notNull();
+        $articleFlagHeadLine = $this->smallInteger()->unsigned()->defaultValue(0)->notNull();
+        $articleFlagRecommend = $this->smallInteger()->unsigned()->defaultValue(0)->notNull();
+        $articleFlagSlideShow = $this->smallInteger()->unsigned()->defaultValue(0)->notNull();
+        $articleFlagSpecialRecommend = $this->smallInteger()->unsigned()->defaultValue(0)->notNull();
+        $articleFlagRoll = $this->smallInteger()->unsigned()->defaultValue(0)->notNull();
+        $articleFlagBold = $this->smallInteger()->unsigned()->defaultValue(0)->notNull();
+        $articleFlagPicture = $this->smallInteger()->unsigned()->defaultValue(0)->notNull();
+        $articleCreatedAt = $this->integer()->unsigned()->notNull();
+        $articleUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
+
+        if ($this->db->driverName === 'mysql') {
+            $articleId->unsigned()->comment("article id(auto increment)");
+            $articleCategoryId->unsigned()->comment("article category id");
+            $articleType->unsigned()->comment("type(0 article, 1 page)");
+            $articleTitle->comment("article title");
+            $articleSubTitle->comment("article sub title");
+            $articleSummary->comment("article summary");
+            $articleThumb->comment("thumb");
+            $articleSeoTitle->comment("seo title");
+            $articleSeoKeywords->comment("seo keywords");
+            $articleSeoDescription->comment("seo description");
+            $articleStatus->comment("article status(0 draft,1 published)");
+            $articleSort->comment("article order");
+            $articleAuthorId->comment("article published by admin user id");
+            $articleAuthorName->comment("article published by admin username");
+            $articleScanCount->comment("article visited count");
+            $articleCommentCount->comment("article comment count");
+            $articleCanComment->comment("article can be comment. (0 no, 1 yes)");
+            $articleVisibility->comment("article visibility(1.public,2.after commented,3.password,4.after logged in)");
+            $articlePassword->comment("article password(plain text)");
+            $articleFlagHeadLine->comment("is head line(0 no, 1 yes");
+            $articleFlagRecommend->comment("is recommend(0 no, 1 yes");
+            $articleFlagSlideShow->comment("is slide show(0 no, 1 yes");
+            $articleFlagSpecialRecommend->comment("is special recommend(0 no, 1 yes");
+            $articleFlagRoll->comment("is roll(0 no, 1 yes");
+            $articleFlagBold->comment("is bold(0 no, 1 yes");
+            $articleFlagPicture->comment("is picture(0 no, 1 yes");
+            $articleCreatedAt->comment("created at");
+            $articleUpdatedAt->comment("updated at");
+        }
+
         $this->createTable('{{%article}}', [
-            'id' => $this->primaryKey()->unsigned()->comment("文章自增id"),
-            'cid' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("文章分类id"),
-            'type' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("类型.0文章,1单页"),
-            'title' => $this->string()->notNull()->comment("文章标题"),
-            'sub_title' => $this->string()->defaultValue('')->notNull()->comment("用户名"),
-            'summary' => $this->string()->defaultValue('')->notNull()->comment("文章概要"),
-            'thumb' => $this->string()->defaultValue('')->notNull()->comment("缩略图"),
-            'seo_title' => $this->string()->defaultValue('')->notNull()->comment("seo标题"),
-            'seo_keywords' => $this->string()->defaultValue('')->notNull()->comment("seo关键字"),
-            'seo_description' => $this->string()->defaultValue('')->notNull()->comment("seo描述"),
-            'status' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("状态.0草稿,1发布"),
-            'sort' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("排序"),
-            'author_id' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("发布文章管理员id"),
-            'author_name' => $this->string()->defaultValue('')->notNull()->comment("发布文章管理员用户名"),
-            'scan_count' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("浏览次数"),
-            'comment_count' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("浏览次数"),
-            'can_comment' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("是否可评论.0否,1是"),
-            'visibility' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("文章可见性.1.公开,2.评论可见,3.加密文章,4.登录可见"),
-            'password' => $this->string()->defaultValue('')->notNull()->comment("文章明文密码"),
-            'flag_headline' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("头条.0否,1.是"),
-            'flag_recommend' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("推荐.0否,1.是"),
-            'flag_slide_show' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("幻灯.0否,1.是"),
-            'flag_special_recommend' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("特别推荐.0否,1.是"),
-            'flag_roll' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("滚动.0否,1.是"),
-            'flag_bold' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("加粗.0否,1.是"),
-            'flag_picture' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("图片.0否,1.是"),
-            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间"),
-            'updated_at' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("最后修改时间"),
+            'id' => $articleId,
+            'cid' => $articleCategoryId,
+            'type' => $articleType,
+            'title' => $articleTitle,
+            'sub_title' => $articleSubTitle,
+            'summary' => $articleSummary,
+            'thumb' => $articleThumb,
+            'seo_title' => $articleSeoTitle,
+            'seo_keywords' => $articleSeoKeywords,
+            'seo_description' => $articleSeoDescription,
+            'status' => $articleStatus,
+            'sort' => $articleSort,
+            'author_id' => $articleAuthorId,
+            'author_name' => $articleAuthorName,
+            'scan_count' => $articleScanCount,
+            'comment_count' => $articleCommentCount,
+            'can_comment' => $articleCanComment,
+            'visibility' => $articleVisibility,
+            'password' => $articlePassword,
+            'flag_headline' => $articleFlagHeadLine,
+            'flag_recommend' => $articleFlagRecommend,
+            'flag_slide_show' => $articleFlagSlideShow,
+            'flag_special_recommend' => $articleFlagSpecialRecommend,
+            'flag_roll' => $articleFlagRoll,
+            'flag_bold' => $articleFlagBold,
+            'flag_picture' => $articleFlagPicture,
+            'created_at' => $articleCreatedAt,
+            'updated_at' => $articleUpdatedAt,
         ], $tableOptions);
 
-        $this->createIndex("index_title", "{{%article}}", "title");
-
-        $this->batchInsert("{{%article}}", ['id','cid','type','title','sub_title','summary','thumb','seo_title','seo_keywords','seo_description','status','sort','author_id','author_name','scan_count','comment_count','can_comment','visibility','flag_headline','flag_recommend','flag_slide_show','flag_special_recommend','flag_roll','flag_bold','flag_picture','created_at','updated_at'],
-            [
-                [
-                    "1",
-                    "3",
-                    "0",
-                    "高效快速地加载 AngularJS 视图",
-                    "",
-                    "当AngularJS应用程序变大时，很多问题就开始显现出来了，比如多层级视图的加载问题，如果在子视图显示之前没有预加载，则可能在需要展示时，发生视觉闪烁的情况。这种问题在网络缓慢，或者服务器使用较慢的https连接时更容易出现。",
-                    "/uploads/article/thumb/2016071211354628.jpg",
-                    "高效快速地加载 AngularJS 视图",
-                    "JavaScript, AngularJS",
-                    "当AngularJS应用程序变大时，很多问题就开始显现出来了，比如多层级视图的加载问题，如果在子视图显示之前没有预加载，则可能在需要展示时，发生视觉闪烁的情况。这种问题在网络缓慢，或者服务器使用较慢的https连接时更容易出现。",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468294546",
-                    "1476717356",
-
-                ],
-                [
-                    "2",
-                    "3",
-                    "0",
-                    "如何定位 Node.js 的内存泄漏",
-                    "",
-                    "在 《一次 Node.js 应用内存暴涨分析》中，我们处理了一个 Node.js vm 引发的内存泄漏问题，处理过程也是比较艰辛。而在我们实际开发中，可能经常会碰到内存泄漏的问题，但很多情况下，我们对于这种问题的处理是有些迷茫的，没有一定的操作流程，效率比较低。虽然这种问题对于经验的要求比较高，但如果有一个简单的排查流程，还是会有一定帮助的。",
-                    "/uploads/article/thumb/201607121141407.png",
-                    "",
-                    "",
-                    "在 《一次 Node.js 应用内存暴涨分析》中，我们处理了一个 Node.js vm 引发的内存泄漏问题，处理过程也是比较艰辛。而在我们实际开发中，可能经常会碰到内存泄漏的问题，但很多情况下，我们对于这种问题的处理是有些迷茫的，没有一定的操作流程，效率比较低。虽然这种问题对于经验的要求比较高，但如果有一个简单的排查流程，还是会有一定帮助的。",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "3",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "1468294900",
-                    "1476717356",
-
-                ],
-                [
-                    "3",
-                    "1",
-                    "0",
-                    "Hack：用于HHVM的一种新编程语言",
-                    "",
-                    "",
-                    "/uploads/article/thumb/2016071212382956.jpg",
-                    "",
-                    "Facebook, hack, php",
-                    "",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "0",
-                    "1",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "1468298309",
-                    "1476717356",
-
-                ],
-                [
-                    "4",
-                    "3",
-                    "0",
-                    "抛弃jQuery，拥抱原生JavaScript",
-                    "",
-                    "原生javascript",
-                    "/uploads/article/thumb/2016071212414099.png",
-                    "抛弃jQuery，拥抱原生JavaScript",
-                    "jquery,javascript,web",
-                    "",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468298500",
-                    "1476717356",
-
-                ],
-                [
-                    "5",
-                    "2",
-                    "0",
-                    "[JAVA · 初级]：GC-垃圾回收机制",
-                    "",
-                    "在C++中，对象所占的内存在程序结束运行之前一直被占用，在明确释放之前不能分配给其它对象；而在Java中，当没有对象引用指向原先分配给某个对象的内存时，该内存便成为垃圾。",
-                    "/uploads/article/thumb/2016071212441669.jpg",
-                    "[JAVA · 初级]：GC-垃圾回收机制",
-                    "gc,垃圾回收,java",
-                    "在C++中，对象所占的内存在程序结束运行之前一直被占用，在明确释放之前不能分配给其它对象；而在Java中，当没有对象引用指向原先分配给某个对象的内存时，该内存便成为垃圾。",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468298628",
-                    "1476717356",
-
-                ],
-                [
-                    "6",
-                    "1",
-                    "0",
-                    "PHP 7.0.2正式版发布：WordPress速度提升3倍！",
-                    "",
-                    "提到PHP，肯定会有人说这是世界上最好的编程语言。",
-                    "/uploads/article/thumb/2016071212472374.jpeg",
-                    "PHP 7.0.2正式版发布：WordPress速度提升3倍！",
-                    "php7,php,wordpress",
-                    "提到PHP，肯定会有人说这是世界上最好的编程语言。",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "1",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468298843",
-                    "1476717356",
-
-                ],
-                [
-                    "7",
-                    "3",
-                    "0",
-                    "为何要学HTML5开发?HTML5发展前景如何？",
-                    "",
-                    "",
-                    "",
-                    "为何要学HTML5开发?HTML5发展前景如何？",
-                    "html,html5",
-                    "",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "1",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468298894",
-                    "1476717356",
-
-                ],
-                [
-                    "8",
-                    "2",
-                    "0",
-                    "Spring知识点提炼",
-                    "",
-                    "spring框架",
-                    "/uploads/article/thumb/2016071212525610.jpg",
-                    "Spring知识点提炼",
-                    "spring,java",
-                    "spring框架",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "1468299176",
-                    "1476717356",
-
-                ],
-                [
-                    "9",
-                    "3",
-                    "0",
-                    "CSS代码重构与优化之路",
-                    "",
-                    "着项目规模的增加，项目中的CSS代码也会越来越多，如果没有及时对CSS代码进行维护，CSS代码不断会越来越多。",
-                    "/uploads/article/thumb/2016071212553820.jpeg",
-                    "CSS代码重构与优化之路",
-                    "css,重构",
-                    "着项目规模的增加，项目中的CSS代码也会越来越多，如果没有及时对CSS代码进行维护，CSS代码不断会越来越多。",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468299338",
-                    "1476717356",
-
-                ],
-                [
-                    "10",
-                    "1",
-                    "0",
-                    "PHP分页技术的代码和示例",
-                    "",
-                    "分页是目前在显示大量结果时所采用的最好的方式。",
-                    "/uploads/article/thumb/2016071212580919.png",
-                    "PHP分页技术的代码和示例",
-                    "php,分页,php分页",
-                    "分页是目前在显示大量结果时所采用的最好的方式。",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "1",
-                    "0",
-                    "1",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468299489",
-                    "1476717356",
-
-                ],
-                [
-                    "11",
-                    "1",
-                    "0",
-                    "10个免费下载PHP脚本的网站",
-                    "",
-                    "免费的PHP脚本下载",
-                    "/uploads/article/thumb/2016071213000120.png",
-                    "10个免费下载PHP脚本的网站",
-                    "php脚本,下载,代码下载",
-                    "免费的PHP脚本下载",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "4",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468299601",
-                    "1476717356",
-
-                ],
-                [
-                    "12",
-                    "1",
-                    "0",
-                    "趣文：如果编程语言是女人（新编版）",
-                    "",
-                    "语言趣文",
-                    "/uploads/article/thumb/2016071213020658.png",
-                    "趣文：如果编程语言是女人（新编版）",
-                    "java, Javascript, Lisp, php, Python, Ruby, 编程语言, 趣文",
-                    "语言趣文",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "3",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "1468299726",
-                    "1476717891",
-
-                ],
-                [
-                    "13",
-                    "3",
-                    "0",
-                    "浏览器缓存机制",
-                    "",
-                    "浏览器缓存机制，其实主要就是HTTP协议定义的缓存机制（如： Expires； Cache-control等）。",
-                    "/uploads/article/thumb/2016071213054793.jpg",
-                    "浏览器缓存机制",
-                    "缓存,浏览器缓存,http协议",
-                    "浏览器缓存机制，其实主要就是HTTP协议定义的缓存机制（如： Expires； Cache-control等）。",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "1",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468299947",
-                    "1476717356",
-
-                ],
-                [
-                    "14",
-                    "3",
-                    "0",
-                    "JavaScript 统治的世界，烤面包机将能运行 JS 了",
-                    "",
-                    "从浏览器到手机，从平板电脑到桌面电脑，从工业自动化到最小的微控制器——最近JavaScript 似乎蔓延到了最意想不到的地方，不远的将来，你的烤面包机也将会运行 JavaScript ……。但是为什么？",
-                    "",
-                    "JavaScript 统治的世界，烤面包机将能运行 JS 了",
-                    "javascript,流行",
-                    "从浏览器到手机，从平板电脑到桌面电脑，从工业自动化到最小的微控制器——最近JavaScript 似乎蔓延到了最意想不到的地方，不远的将来，你的烤面包机也将会运行 JavaScript ……。但是为什么？",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "1",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468300042",
-                    "1476717356",
-
-                ],
-                [
-                    "15",
-                    "2",
-                    "0",
-                    "给Java说句公道话",
-                    "",
-                    "有些人问我，在现有的语言里面，有什么好的推荐？我说：“Java。” 他们很惊讶：“什么？Java！” 所以我现在来解释一下。",
-                    "/uploads/article/thumb/2016071213095350.jpg",
-                    "给Java说句公道话",
-                    "java",
-                    "有些人问我，在现有的语言里面，有什么好的推荐？我说：“Java。” 他们很惊讶：“什么？Java！” 所以我现在来解释一下。",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468300193",
-                    "1476717356",
-
-                ],
-                [
-                    "16",
-                    "2",
-                    "0",
-                    "Java编程入门（1.6）：现代用户界面",
-                    "",
-                    "算机刚问世时，普通人——包括大多数程序员——都不允许靠近计算机。",
-                    "/uploads/article/thumb/2016071214100948.jpg",
-                    "Java编程入门（1.6）：现代用户界面",
-                    "java,用户界面",
-                    "算机刚问世时，普通人——包括大多数程序员——都不允许靠近计算机。",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "1",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468300356",
-                    "1476717356",
-
-                ],
-                [
-                    "17",
-                    "3",
-                    "0",
-                    "精简页面的样式文件，去掉不用的样式",
-                    "",
-                    "精简css样式",
-                    "",
-                    "精简页面的样式文件，去掉不用的样式",
-                    "css,样式",
-                    "精简css样式",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "6",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468300509",
-                    "1476717356",
-
-                ],
-                [
-                    "18",
-                    "2",
-                    "0",
-                    "Java编程入门：前言",
-                    "",
-                    "Java编程入门》是一本使用Java作为入门语言的免费计算机编程课本",
-                    "/uploads/article/thumb/2016071213165538.jpg",
-                    "Java编程入门：前言",
-                    "java,入门,编程书籍",
-                    "Java编程入门》是一本使用Java作为入门语言的免费计算机编程课本",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "0",
-                    "1",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468300615",
-                    "1476717915",
-
-                ],
-                [
-                    "19",
-                    "2",
-                    "0",
-                    "Java 8最快的垃圾搜集器是什么？",
-                    "",
-                    "OpenJDK 8 有多种 GC（Garbage Collector）算法，如 Parallel GC、CMS 和 G1。哪一个才是最快的呢？如果在 Java 9 中将 Java 8 默认的 GC 从 Parallel GC 改为 G1 （目前只是建议）将会怎么样呢？让我们对此进行基准测试。",
-                    "/uploads/article/thumb/2016071213182356.jpg",
-                    "Java 8最快的垃圾搜集器是什么？",
-                    "java,java8,垃圾收集",
-                    "OpenJDK 8 有多种 GC（Garbage Collector）算法，如 Parallel GC、CMS 和 G1。哪一个才是最快的呢？如果在 Java 9 中将 Java 8 默认的 GC 从 Parallel GC 改为 G1 （目前只是建议）将会怎么样呢？让我们对此进行基准测试。",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "33",
-                    "0",
-                    "1",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "1468300703",
-                    "1476717356",
-
-                ],
-                [
-                    "20",
-                    "2",
-                    "0",
-                    "使用Memcached改进Java企业级应用性能（1）：架构和设置",
-                    "",
-                    "Memcached由Danga Interactive开发，用来提升LiveJournal.com网站性能。Memcached分布式架构支持众多的社交网络应用，Twitter、Facebook还有Wikipedia。在接下来的两部分教程中，Sunil Patil介绍了Memcached分布式哈希表架构，以及利用它帮助你为数据驱动Java企业应用做数据缓存。",
-                    "/uploads/article/thumb/201607121325288.png",
-                    "使用Memcached改进Java企业级应用性能（1）：架构和设置",
-                    "java,memcached",
-                    "Memcached由Danga Interactive开发，用来提升LiveJournal.com网站性能。Memcached分布式架构支持众多的社交网络应用，Twitter、Facebook还有Wikipedia。在接下来的两部分教程中，Sunil Patil介绍了Memcached分布式哈希表架构，以及利用它帮助你为数据驱动Java企业应用做数据缓存。",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "1",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468300831",
-                    "1476717356",
-
-                ],
-                [
-                    "21",
-                    "2",
-                    "0",
-                    "JVM的相关知识整理和学习",
-                    "",
-                    "诺依曼体系结构中，指出计算机处理的数据和指令都是二进制数，采用存储程序方式不加区分的存储在同一个存储器里，并且顺序执行，指令由操作码和地址码组成，操作码决定了操作类型和所操作的数的数字类型，地址码则指出地址码和操作数。",
-                    "/uploads/article/thumb/2016071213203123.jpg",
-                    "JVM的相关知识整理和学习",
-                    "jvm,java",
-                    "诺依曼体系结构中，指出计算机处理的数据和指令都是二进制数，采用存储程序方式不加区分的存储在同一个存储器里，并且顺序执行，指令由操作码和地址码组成，操作码决定了操作类型和所操作的数的数字类型，地址码则指出地址码和操作数。",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "1",
-                    "1",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468300831",
-                    "1476717356",
-
-                ],
-                [
-                    "22",
-                    "2",
-                    "0",
-                    "关于Java集合的小抄",
-                    "",
-                    "在尽可能短的篇幅里，将所有集合与并发集合的特征，实现方式，性能捋一遍。适合所有”精通Java”其实还不那么自信的人阅读。",
-                    "/uploads/article/thumb/2016071213224495.jpg",
-                    "关于Java集合的小抄",
-                    "java,java集合",
-                    "在尽可能短的篇幅里，将所有集合与并发集合的特征，实现方式，性能捋一遍。适合所有”精通Java”其实还不那么自信的人阅读。",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "2",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468300964",
-                    "1476717385",
-
-                ],
-                [
-                    "23",
-                    "0",
-                    "2",
-                    "关于我们",
-                    "about",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468309252",
-                    "1476717356",
-
-                ],
-                [
-                    "24",
-                    "0",
-                    "2",
-                    "联系方式",
-                    "contact",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "1",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468309318",
-                    "1476717356",
-
-                ],
-                [
-                    "25",
-                    "0",
-                    "0",
-                    "dfdf",
-                    "dfd",
-                    "fsafsdfsdf",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "0",
-                    "0",
-                    "1",
-                    "admin",
-                    "0",
-                    "0",
-                    "1",
-                    "1",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "0",
-                    "1468898361",
-                    "1476717356",
-
-                ],
-            ]
-        );
-
+        $articles = require(__DIR__.'/article.php');
+        foreach ($articles['article'] as $item){
+            $this->insert("{{%article}}", [
+                'id' => $item[0],
+                'cid' => $item[1],
+                'type' => $item[2],
+                'title' => $item[3],
+                'sub_title' => $item[4],
+                'summary' => $item[5],
+                'thumb' => $item[6],
+                'seo_title' => $item[7],
+                'seo_keywords' => $item[8],
+                'seo_description' => $item[9],
+                'status' => $item[10],
+                'sort' => $item[11],
+                'author_id' => $item[12],
+                'author_name' => $item[13],
+                'scan_count' => $item[14],
+                'comment_count' => $item[15],
+                'can_comment' => $item[16],
+                'visibility' => $item[17],
+                'flag_headline' => $item[18],
+                'flag_recommend' => $item[19],
+                'flag_slide_show' => $item[20],
+                'flag_special_recommend' => $item[21],
+                'flag_roll' => $item[22],
+                'flag_bold' => $item[23],
+                'flag_picture' => $item[24],
+                'created_at' => $item[25],
+                'updated_at' => $item[26],
+            ]);
+        }
 
         //table article_content
+        $articleContentId = $this->primaryKey();
+        $articleContentArticleId = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $articleContentContent = $this->text()->notNull();
+
+        if ($this->db->driverName === 'mysql') {
+            $articleContentId->unsigned()->comment("article content id(auto increment)");
+            $articleContentArticleId->comment("article id");
+            $articleContentContent->comment("article content");
+        }
+
         $this->createTable('{{%article_content}}', [
-            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
-            'aid' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("文章id"),
-            'content' => $this->text()->notNull()->comment("文章详细内容"),
+            'id' => $articleContentId,
+            'aid' => $articleContentArticleId,
+            'content' => $articleContentContent,
         ], $tableOptions);
 
-        $this->addForeignKey('fk_aid', "{{%article_content}}", "aid", "{{%article}}", "id", "CASCADE", "CASCADE");
-        //$this->batchInsert("{{%article_content}}", ['id','aid','content'], require(__DIR__.'/article.php'));
-        $contents = require(__DIR__.'/article.php');
-        foreach($contents as $v){
-            $this->insert("{{%article_content}}", ['aid'=>$v[1], 'content'=>$v[2]]);
+        foreach($articles['article_content'] as $item){
+            $this->insert("{{%article_content}}", ['aid'=>$item[1], 'content'=>$item[2]]);
         }
 
 
         //table article_meta
+        $articleMetaId = $this->primaryKey();
+        $articleMetaAid = $this->integer()->unsigned()->notNull();
+        $articleMetaKey = $this->string()->defaultValue('')->notNull();
+        $articleMetaValue = $this->text()->notNull();
+        $articleMetaCratedAt = $this->integer()->unsigned()->notNull();
+
+        if ($this->db->driverName === 'mysql') {
+            $articleMetaId->unsigned()->comment("article meta id(auto increment)");
+            $articleMetaAid->comment("article id");
+            $articleMetaKey->comment("key");
+            $articleMetaValue->comment("value");
+            $articleMetaCratedAt->comment("article meta created at");
+        }
+
         $this->createTable('{{%article_meta}}', [
-            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
-            'aid' => $this->integer()->unsigned()->notNull()->comment("文章id"),
-            'key' => $this->string()->defaultValue('')->notNull()->comment("tag名"),
-            'value' => $this->text()->notNull()->comment("tag值"),
-            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间"),
+            'id' => $articleMetaId,
+            'aid' => $articleMetaAid,
+            'key' => $articleMetaKey,
+            'value' => $articleMetaValue,
+            'created_at' => $articleMetaCratedAt,
         ], $tableOptions);
 
-        $this->createIndex("index_aid", "{{%article_meta}}", 'aid');
-        $this->createIndex("index_key", "{{%article_meta}}", 'key');
-
-        $this->addForeignKey('fk_article_meta_aid', "{{%article_meta}}", "aid", "{{%article}}", "id", "CASCADE", "CASCADE");
+        $this->createIndex("article_meta_index_aid", "{{%article_meta}}", 'aid');
+        $this->createIndex("article_meta_index_key", "{{%article_meta}}", 'key');
 
         $this->batchInsert("{{%article_meta}}", ['aid','key','value','created_at'],
             [
@@ -1049,26 +493,54 @@ class m130524_201442_init extends Migration
             ]
         );
 
-        //table content
+        //table comment
+        $commentId = $this->primaryKey();
+        $commentArticleId = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $commentUserId = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $commentAdminUserId = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $commentReplyTo = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $commentNickname = $this->string()->defaultValue('游客')->notNull();
+        $commentEmail = $this->string()->defaultValue('')->notNull();
+        $commentWebsiteUrl = $this->string()->defaultValue('')->notNull();
+        $commentContent  = $this->string()->notNull();
+        $commentIp = $this->string()->defaultValue('')->notNull();
+        $commentStatus = $this->smallInteger()->unsigned()->defaultValue(0)->notNull();
+        $commentCreatedAt = $this->integer()->unsigned()->notNull();
+        $commentUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
+
+        if ($this->db->driverName === 'mysql') {
+            $commentId->unsigned()->comment("comment id(auto increment)");
+            $commentArticleId->comment("article id");
+            $commentUserId->comment("user id(0 for guest)");
+            $commentAdminUserId->comment("admin user id(other user reply 0)");
+            $commentReplyTo->comment("reply to comment id");
+            $commentNickname->comment("user nickname");
+            $commentEmail->comment("email");
+            $commentWebsiteUrl->comment("user website");
+            $commentContent->comment("comment content");
+            $commentIp->comment("user ip");
+            $commentStatus->comment("comment status(0 to be audit, 1 approved, 2 reject");
+            $commentCreatedAt->comment("created at");
+            $commentUpdatedAt->comment("updated at");
+        }
+
         $this->createTable('{{%comment}}', [
-            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
-            'aid' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("文章id"),
-            'uid' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("用户id,游客为0"),
-            'admin_id' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("管理员id,其他人员对其回复为0"),
-            'reply_to' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("回复的评论id"),
-            'nickname' => $this->string()->defaultValue('游客')->notNull()->comment("昵称"),
-            'email' => $this->string()->defaultValue('')->notNull()->comment("邮箱"),
-            'website_url' => $this->string()->defaultValue('')->notNull()->comment("个人网址"),
-            'content' => $this->string()->notNull()->comment("回复内容"),
-            'ip' => $this->string()->defaultValue('')->notNull()->comment("回复ip"),
-            'status' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("状态,0.未审核,1.已通过"),
-            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间"),
-            'updated_at' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("最后修改时间"),
+            'id' => $commentId,
+            'aid' => $commentArticleId,
+            'uid' => $commentUserId,
+            'admin_id' => $commentAdminUserId,
+            'reply_to' => $commentReplyTo,
+            'nickname' => $commentNickname,
+            'email' => $commentEmail,
+            'website_url' => $commentWebsiteUrl,
+            'content' => $commentContent,
+            'ip' => $commentIp,
+            'status' => $commentStatus,
+            'created_at' => $commentCreatedAt,
+            'updated_at' => $commentUpdatedAt,
         ], $tableOptions);
 
-        $this->addForeignKey('fk_comment_aid', "{{%comment}}", "aid", "{{%article}}", "id", "CASCADE", "CASCADE");
-
-        $this->createIndex("index_aid", "{{%comment}}", "aid");
+        $this->createIndex("comment_index_aid", "{{%comment}}", "aid");
 
         $this->batchInsert("{{%comment}}", ['id','aid','uid','reply_to','nickname','email','website_url','content','ip','status','created_at','updated_at'],
             [
@@ -1167,16 +639,38 @@ class m130524_201442_init extends Migration
 
 
         //table friendly_link
+        $friendlyLinkId = $this->primaryKey();
+        $friendlyLinkName = $this->string()->notNull();
+        $friendlyLinkImage = $this->string()->defaultValue('')->notNull();
+        $friendlyLinkURL = $this->string()->defaultValue('')->notNull();
+        $friendlyLinkTarget = $this->string()->defaultValue('_blank')->notNull();
+        $friendlyLinkSort = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $friendlyLinkStatus = $this->smallInteger()->unsigned()->defaultValue(0)->notNull();
+        $friendlyLinkCreatedAt = $this->integer()->unsigned()->notNull();
+        $friendlyLinkIdUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
+
+        if ($this->db->driverName === 'mysql') {
+            $friendlyLinkId->unsigned()->comment("friendly link id(auto increment)");
+            $friendlyLinkName->comment("website name");
+            $friendlyLinkImage->comment("website icon url");
+            $friendlyLinkURL->comment("website url");
+            $friendlyLinkTarget->comment("open method(_blank, _self)");
+            $friendlyLinkSort->comment("order");
+            $friendlyLinkStatus->comment("status(0 hide, 1 display");
+            $friendlyLinkCreatedAt->comment("created at");
+            $friendlyLinkIdUpdatedAt->comment("updated at");
+        }
+
         $this->createTable('{{%friendly_link}}', [
-            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
-            'name' => $this->string()->notNull()->comment("网站名称"),
-            'image' => $this->string()->defaultValue('')->notNull()->comment("图片url"),
-            'url' => $this->string()->defaultValue('')->notNull()->comment("链接地址"),
-            'target' => $this->string()->defaultValue('_blank')->notNull()->comment("打开方式._blank新窗口,_self本窗口"),
-            'sort' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("排序"),
-            'status' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("状态.0禁用,1启用"),
-            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间"),
-            'updated_at' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("最后修改时间"),
+            'id' => $friendlyLinkId,
+            'name' => $friendlyLinkName,
+            'image' => $friendlyLinkImage,
+            'url' => $friendlyLinkURL,
+            'target' => $friendlyLinkTarget,
+            'sort' => $friendlyLinkSort,
+            'status' => $friendlyLinkStatus,
+            'created_at' => $friendlyLinkCreatedAt,
+            'updated_at' => $friendlyLinkIdUpdatedAt,
         ], $tableOptions);
 
         $this->batchInsert("{{%friendly_link}}", ['id','name','image','url','target','sort','status','created_at','updated_at'],
@@ -1241,19 +735,47 @@ class m130524_201442_init extends Migration
 
 
         //table menu
+        $menuId = $this->primaryKey();
+        $menuType = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $menuParentId = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $menuName = $this->string()->notNull();
+        $menuURL = $this->string()->notNull();
+        $menuIcon = $this->string()->defaultValue('')->notNull();
+        $menuSort = $this->float()->unsigned()->defaultValue(0)->notNull();
+        $menuTarget = $this->string()->defaultValue('_blank')->notNull();
+        $menuIsAbsoluteURL = $this->smallInteger()->unsigned()->defaultValue(0)->notNull();
+        $menuIsDisplay = $this->smallInteger()->unsigned()->defaultValue(1)->notNull();
+        $menuCreatedAt = $this->integer()->unsigned()->notNull();
+        $menuUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
+
+        if ($this->db->driverName === 'mysql') {
+            $menuId->unsigned()->comment("menu id(auto increment)");
+            $menuType->comment("menu type(0 backend, 1 frontend");
+            $menuParentId->comment("parent menu id");
+            $menuName->comment("menu name");
+            $menuURL->comment("menu url");
+            $menuIcon->comment("menu icon");
+            $menuSort->comment("menu order");
+            $menuTarget->comment("open method(_blank, _self");
+            $menuIsAbsoluteURL->comment("is absolute url");
+            $menuIsDisplay->comment("is display(0 no, 1 yes");
+            $menuCreatedAt->comment("created at");
+            $menuUpdatedAt->comment("updated at");
+        }
+
         $this->createTable('{{%menu}}', [
-            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
-            'type' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("菜单类型.0后台,1前台"),
-            'parent_id' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("上级菜单id"),
-            'name' => $this->string()->notNull()->comment("名称"),
-            'url' => $this->string()->notNull()->comment("url地址"),
-            'icon' => $this->string()->defaultValue('')->notNull()->comment("图标"),
-            'sort' => $this->float()->unsigned()->defaultValue(0)->notNull()->comment("排序"),
-            'target' => $this->string()->defaultValue('_blank')->notNull()->comment("打开方式._blank新窗口,_self本窗口"),
-            'is_absolute_url' => $this->smallInteger()->unsigned()->defaultValue(0)->notNull()->comment("是否绝对地址"),
-            'is_display' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("是否显示.0否,1是"),
-            'created_at' => $this->integer()->unsigned()->notNull()->comment("创建时间"),
-            'updated_at' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("最后修改时间"),
+            'id' => $menuId,
+            'type' => $menuType,
+            'parent_id' => $menuParentId,
+            'name' => $menuName,
+            'url' => $menuURL,
+            'icon' => $menuIcon,
+            'sort' => $menuSort,
+            'target' => $menuTarget,
+            'is_absolute_url' => $menuIsAbsoluteURL,
+            'is_display' => $menuIsDisplay,
+            'created_at' => $menuCreatedAt,
+            'updated_at' => $menuUpdatedAt,
         ], $tableOptions);
 
         $this->batchInsert("{{%menu}}", ['id','type','parent_id','name','url','icon','sort','target','is_absolute_url','is_display','created_at','updated_at'
@@ -1293,15 +815,35 @@ class m130524_201442_init extends Migration
 
 
         //table options
+        $optionsId = $this->primaryKey();
+        $optionsType = $this->integer()->unsigned()->defaultValue(0)->notNull();
+        $optionsName = $this->string()->notNull();
+        $optionsValue = $this->text()->notNull();
+        $optionsInputType = $this->smallInteger()->unsigned()->defaultValue(1)->notNull();
+        $optionsAutoload = $this->smallInteger()->unsigned()->defaultValue(1)->notNull();
+        $optionTips = $this->string()->defaultValue('')->notNull();
+        $optionsSort = $this->integer()->unsigned()->defaultValue(0)->notNull();
+
+        if ($this->db->driverName === 'mysql') {
+            $optionsId->unsigned()->comment("options id(auto increment)");
+            $optionsType->comment("type (0 system, 1 custom, 2 banner, 3 advertisement");
+            $optionsName->comment("identifier");
+            $optionsValue->comment("value");
+            $optionsInputType->comment("input box type");
+            $optionsAutoload->comment("is autoload(0 no, 1 yes");
+            $optionTips->comment("tips");
+            $optionsSort->comment("order");
+        }
+
         $this->createTable('{{%options}}', [
-            'id' => $this->primaryKey()->unsigned()->comment("自增id"),
-            'type' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("类型.0系统,1自定义,2banner,3广告"),
-            'name' => $this->string()->notNull()->comment("标识符"),
-            'value' => $this->text()->notNull()->comment("值"),
-            'input_type' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("输入框类型"),
-            'autoload' => $this->smallInteger()->unsigned()->defaultValue(1)->notNull()->comment("自动加载.0否,1是"),
-            'tips' => $this->string()->defaultValue('')->notNull()->comment("提示备注信息"),
-            'sort' => $this->integer()->unsigned()->defaultValue(0)->notNull()->comment("排序"),
+            'id' => $optionsId,
+            'type' => $optionsType,
+            'name' => $optionsName,
+            'value' => $optionsValue,
+            'input_type' => $optionsInputType,
+            'autoload' => $optionsAutoload,
+            'tips' => $optionTips,
+            'sort' => $optionsSort,
         ], $tableOptions);
 
         $this->batchInsert("{{%options}}", ['type','name','value','input_type','tips','autoload','sort'],

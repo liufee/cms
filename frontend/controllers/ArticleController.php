@@ -140,7 +140,7 @@ class ArticleController extends Controller
         $recommends = Article::find()
             ->where(['type' => Article::ARTICLE, 'status' => Article::ARTICLE_PUBLISHED])
             ->andWhere(['<>', 'thumb', ''])
-            ->orderBy("rand()")
+            ->orderBy("scan_count")
             ->limit(8)
             ->with('category')
             ->all();

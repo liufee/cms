@@ -18,7 +18,6 @@ class m181204_142105_rbac_rules_reinit extends Migration
         $this->delete( $authManager->assignmentTable );
         $this->delete( $authManager->itemChildTable );
         $this->delete( $authManager->itemTable );
-        $this->alterColumn($authManager->itemTable, 'data', 'text');
         $this->batchInsert( $authManager->itemTable, ['name', 'type', 'description', 'rule_name', 'data', 'created_at', 'updated_at'],
         [
             ['/ad/create:GET', 2, '创建(查看)', NULL, 's:75:"{"group":"\u8fd0\u8425\u7ba1\u7406","sort":"622","category":"\u5e7f\u544a"}";', 1543937188, 1543937188],

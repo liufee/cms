@@ -12,9 +12,19 @@ class m190130_070831_add_article_teamplate extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn("{{%category}}","template", $this->string()->after("sort")->defaultValue("")->notNull()->comment("分类模板"));
-        $this->addColumn("{{%category}}","article_template", $this->string()->after("template")->defaultValue("")->notNull()->comment("文章模板"));
-        $this->addColumn("{{%article}}", "template", $this->string()->after("flag_picture")->defaultValue("")->notNull()->comment("文章模板"));
+        $categoryTemplate = $this->string()->after("sort")->defaultValue("")->notNull();
+        $categoryArticleTemplate = $this->string()->after("template")->defaultValue("")->notNull();
+        $articleTemplate =   $this->string()->after("flag_picture")->defaultValue("")->notNull();
+
+        if ($this->db->driverName === 'mysql') {
+            $categoryTemplate->comment("category page template path");
+            $categoryArticleTemplate->comment("article detail page template path");
+            $articleTemplate->comment("article detail page template path");
+        }
+
+        $this->addColumn("{{%category}}","template", $categoryTemplate);
+        $this->addColumn("{{%category}}","article_template", $categoryArticleTemplate);
+        $this->addColumn("{{%article}}", "template", $articleTemplate);
     }
 
     /**
