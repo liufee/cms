@@ -8,9 +8,11 @@
 
 namespace install\controllers;
 
+use install\database\Tables;
 use Yii;
 use Exception;
 use yii\db\Connection;
+use yii\helpers\FileHelper;
 use yii\helpers\Url;
 use common\models\AdminUser;
 use common\models\Options;
@@ -223,8 +225,8 @@ class SiteController extends \yii\web\Controller
                     'charset' => 'utf8',
                     'tablePrefix' => $tablePrefix,
                 ]);
-                Yii::$app->set('db', $db);
-                $this->importDb(Yii::$app->db, $tablePrefix);
+                $tables = new Tables(['db' => $db]);
+                $tables->importDatabase();
 
                 //更新配置信息
                 $data = [
@@ -306,6 +308,15 @@ class SiteController extends \yii\web\Controller
             'charset' => 'utf8',
         ]);
 
+        if($dbtype == "sqlite"){
+            clearstatcache();
+            $path = str_replace("sqlite:/", "", $dsn);
+            if( !is_writable($path) ){
+                throw new Exception($path . " is not writable");
+            }
+            return ['message' => ''];
+        }
+
         try {
             $db->createCommand("use $dbname")->execute();//判断用户名密码是否正确
             $this->checkAccountPermission($db, $dbname);
@@ -337,7 +348,7 @@ class SiteController extends \yii\web\Controller
                 break;
 
             case "sqlite":
-                $path = Yii::getAlias("@common/config/conf/") . $dbname;
+                $path = Yii::getAlias("@common/config/") . $dbname;
                 $dsn = "sqlite:/$path.sq3";
                 break;
         }
