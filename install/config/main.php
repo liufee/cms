@@ -21,6 +21,9 @@ $config = [
             'cookieValidationKey' => 'qxOH-LMMrJJ_unqJzWsPO1eL39JF0cnK',
             'csrfParam' =>'_csrf_install',
         ],
+        'log' => [//此项具体详细配置，请访问http://wiki.feehi.com/index.php?title=Yii2_log
+            'traceLevel' => 3,
+        ],
         'i18n' => [
             'translations' => [
                 'install*' => [

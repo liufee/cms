@@ -265,7 +265,7 @@ $this->title = Yii::t('install', 'Create Data');
                     }
                 },
                 submitHandler: function (form) {
-                    layer.msg('<?=Yii::t('install', 'Verifing, no refresh this window.')?>', {icon: 16, time: 0});
+                    layer.msg('<?=Yii::t('install', 'Verifying, do no refresh this window.')?>', {icon: 16, time: 0});
                     $(form).ajaxSubmit({
                         type: 'post',               //数据发送方式
                         dataType: 'json',           //接受数据格式

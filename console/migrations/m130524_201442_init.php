@@ -4,8 +4,8 @@ use yii\db\Migration;
 
 /**
  * migrate database tables execute command:
- *   windows: /path/to/php /path/to/feehiproject/yii.bat migrate --frontendUri //your-frontend-domain.com
- *   unix-like: /path/to/php /path/to/feehiproject/yii migrate --frontendUri //your-frontend-domain.com
+ *   windows: /path/to/php /path/to/feehiproject/yii.bat migrate frontendUri //your-frontend-domain.com
+ *   unix-like: /path/to/php /path/to/feehiproject/yii migrate frontendUri //your-frontend-domain.com
  *
  * Class m130524_201442_init
  */
