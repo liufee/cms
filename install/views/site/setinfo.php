@@ -44,7 +44,7 @@ $this->title = Yii::t('install', 'Create Data');
                         <td><input type="text" name="dbhost" id="dbhost" value="localhost" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbhost">
-                                <span class="gray"><?= Yii::t('install', 'Database host, localhost is the common') ?></span>
+                                <span class="gray"><?= Yii::t('install', 'Database host, SQLite like `/path/to/feehi.db`, other database often is localhost') ?></span>
                             </div>
                         </td>
                     </tr>
@@ -53,7 +53,7 @@ $this->title = Yii::t('install', 'Create Data');
                         <td><input type="text" name="dbport" id="dbport" value="3306" class="input"></td>
                         <td>
                             <div id="js-install-tip-dbport">
-                                <span class="gray"><?= Yii::t('install', 'Default mysql 3306, PostgreSQL 5432') ?></span>
+                                <span class="gray"><?= Yii::t('install', 'Default MySQL 3306, PostgreSQL 5432') ?></span>
                             </div>
                         </td>
                     </tr>
@@ -173,15 +173,45 @@ $this->title = Yii::t('install', 'Create Data');
     </section>
 <?php JsBlock::begin() ?>
     <script>
+        function sqliteInput(){
+            $("input[name=dbname]").eq(0).parents("tr").eq(0).hide();
+            $("input[name=dbport]").eq(0).parents("tr").eq(0).hide();
+            $("input[name=dbuser]").eq(0).parents("tr").eq(0).hide();
+            $("input[name=dbpw]").eq(0).parents("tr").eq(0).hide();
+            $("#dbname").rules("remove");
+            $("#dbport").rules("remove");
+            $("#dbuser").rules("remove");
+            $("#dbpw").rules("remove");
+        }
+
+        function notSqliteInput() {
+            $("input[name=dbname]").eq(0).parents("tr").eq(0).show();
+            $("input[name=dbport]").eq(0).parents("tr").eq(0).show();
+            $("input[name=dbuser]").eq(0).parents("tr").eq(0).show();
+            $("input[name=dbpw]").eq(0).parents("tr").eq(0).show();
+            $("#dbname").rules("add", {required:true});
+            $("#dbport").rules("add", {required:true});
+            $("#dbuser").rules("add", {required:true});
+            $("#dbpw").rules("add", {required:true});
+        }
+
         $(function () {
+            $("select[name=dbtype]").change(function (e) {
+                dbType = $(this).val();
+                if(dbType === "sqlite"){
+                    sqliteInput();
+                }else{
+                    notSqliteInput();
+                }
+            });
             //聚焦时默认提示
             var focus_tips = {
-                dbhost: '<?=Yii::t('install', 'Database host, localhost is the common')?>',
-                dbport: '<?=Yii::t('install', 'Default mysql 3306, PostgreSQL 5432')?>',
+                dbhost: '<?=Yii::t('install', 'Database host, SQLite like `/path/to/feehi.db`, other database often is localhost')?>',
+                dbport: '<?=Yii::t('install', 'Default MySQL 3306, PostgreSQL 5432')?>',
                 dbuser: '<?=Yii::t('install', 'Database Username')?>',
                 dbpw: '<?=Yii::t('install', 'Database Password')?>',
                 dbname: '<?=Yii::t('install', 'Database Name')?>',
-                dbprefix: '<?=Yii::t('install', 'Only in one database install various cms should update')?>',
+                dbprefix: '<?=Yii::t('install', 'Database table prefix')?>',
                 manager: '<?=Yii::t('install', 'Super administrator, own the whole permission')?>',
                 manager_pwd: '',
                 manager_ckpwd: '',
@@ -286,6 +316,11 @@ $this->title = Yii::t('install', 'Create Data');
                     });
                 }
             });
+            if( $("select[name=dbtype]:selected").val() === "sqlite" ){
+                sqliteInput();
+            }else{
+                notSqliteInput();
+            }
         });
     </script>
 <?php JsBlock::end() ?>

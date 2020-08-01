@@ -23,6 +23,13 @@ $config = [
         ],
         'log' => [//此项具体详细配置，请访问http://wiki.feehi.com/index.php?title=Yii2_log
             'traceLevel' => 3,
+            'targets' => [
+                [
+                    'class' => yii\log\FileTarget::className(),//当触发levels配置的错误级别时，保存到日志文件
+                    'levels' => ['error', 'warning'],
+                    'logFile' => '@runtime/logs/app.log',
+                ]
+            ],
         ],
         'i18n' => [
             'translations' => [

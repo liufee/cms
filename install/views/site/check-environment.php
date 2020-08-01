@@ -141,7 +141,7 @@ $this->title = Yii::t('install', 'Environment');
         <table width="100%">
             <tr>
                 <td class="td1"><?= Yii::t('install', 'Directory File Permission') ?></td>
-                <td class="td1" width="25%"><?= Yii::t('install', 'Writtable') ?></td>
+                <td class="td1" width="25%"><?= Yii::t('install', 'Writable') ?></td>
                 <td class="td1" width="25%"><?= Yii::t('install', 'Readable') ?></td>
             </tr>
             <?php

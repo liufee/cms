@@ -15,7 +15,7 @@ $this->title = Yii::t('install', 'Congratulations! Success installed');
             <br>
             <br>
             <div class="alert alert-danger" style="width: 350px;display: inline-block;">
-                <?= Yii::t('install', 'For your site security, please remove the directory install! and, backup common/config/conf/db.php') ?>
+                <?= Yii::t('install', 'For your site security, please remove the directory install! and, backup common/config/main-local.php') ?>
             </div>
             <br>
             <a target="_blank" class="btn btn-success"

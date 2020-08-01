@@ -317,8 +317,8 @@ class SiteController extends \yii\web\Controller
                 break;
 
             case "sqlite":
-                $path = Yii::getAlias($dbname);
-                $dsn = "sqlite:/$path";
+                $path = Yii::getAlias($dbhost);
+                $dsn = "sqlite:$path";
                 break;
         }
         $db = new Connection([
@@ -362,7 +362,7 @@ class SiteController extends \yii\web\Controller
     {
         if($dbtype == "sqlite") {
             clearstatcache();
-            $path = str_replace("sqlite:/", "", $db->dsn);
+            $path = str_replace("sqlite:", "", $db->dsn);
             if (!is_really_writable($path)) {
                 throw new Exception($path . " is not writable");
             }

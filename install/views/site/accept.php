@@ -8,7 +8,7 @@
 
 use yii\helpers\Url;
 
-$this->title = 'Feehi CMS' . Yii::t('install', 'license agreement');
+$this->title = Yii::t('install', 'FeehiCMS license agreement');
 ?>
 <div class="section">
     <div class="main">
