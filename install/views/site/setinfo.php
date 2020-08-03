@@ -30,7 +30,7 @@ $this->title = Yii::t('install', 'Create Data');
                             <select name="dbtype">
                                 <option selected value="mysql">MySQL</option>
                                 <option value="sqlite">SQLite</option>
-                                <option value="postgresql">PostgreSQL</option>
+                                <option value="pgsql">PostgreSQL</option>
                             </select>
                         </td>
                         <td>
@@ -181,7 +181,6 @@ $this->title = Yii::t('install', 'Create Data');
             $("#dbname").rules("remove");
             $("#dbport").rules("remove");
             $("#dbuser").rules("remove");
-            $("#dbpw").rules("remove");
         }
 
         function notSqliteInput() {
@@ -192,7 +191,6 @@ $this->title = Yii::t('install', 'Create Data');
             $("#dbname").rules("add", {required:true});
             $("#dbport").rules("add", {required:true});
             $("#dbuser").rules("add", {required:true});
-            $("#dbpw").rules("add", {required:true});
         }
 
         $(function () {

@@ -122,7 +122,7 @@ class SiteController extends \yii\web\Controller
                 $dbInfo = 'MySQL ' . (new Query())->select('version()')->one()['version()'];
                 break;
             case "pgsql":
-                $dbInfo = (new Query())->select('version() version')->one()['version'];
+                $dbInfo = (new Query())->select('version() as version')->one()['version'];
                 break;
             case "sqlite":
                 $dbInfo = "sqlite " . (new Query())->select('sqlite_version() version')->one()['version'];

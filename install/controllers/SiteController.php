@@ -104,7 +104,9 @@ class SiteController extends \yii\web\Controller
 
         if (empty($tmp['GD Version'])) {
             $gd = '<font color=red>[×]Off</font>';
-            $err++;
+            if (!extension_loaded('imagick')){
+                $err++;
+            }
         } else {
             $gd = '<font color=green>[√]On</font> ' . $tmp['GD Version'];
         }
@@ -116,12 +118,12 @@ class SiteController extends \yii\web\Controller
             $err++;
         }
 
-        if (extension_loaded('pdo_mysql')) {
+        /*if (extension_loaded('pdo_mysql')) {
             $data['pdo_mysql'] = '<i class="fa fa-check correct"></i> ' . Yii::t('install', 'Yes');
         } else {
             $data['pdo_mysql'] = '<i class="fa fa-remove error"></i> ' . Yii::t('install', 'No');
             $err++;
-        }
+        }*/
 
         if (extension_loaded('curl')) {
             $data['curl'] = '<i class="fa fa-check correct"></i> ' . Yii::t('install', 'Yes');
@@ -310,7 +312,7 @@ class SiteController extends \yii\web\Controller
         $tablePrefix = $request->post("dbprefix", '');
         $dsn = '';
         switch ($dbtype) {
-            case "postgresql":
+            case "pgsql":
             case "mysql":
                 $dsn = $dbtype . ":host=" . $dbhost . ';port=' . $dbport;
                 if( !empty($dbname) ) $dsn .= ";dbname=" . $dbname;
@@ -362,7 +364,10 @@ class SiteController extends \yii\web\Controller
     {
         if($dbtype != "sqlite") {
             try {
-                $db->createCommand("use $dbname")->execute();
+                if($dbtype === "pgsql"){
+                }else {
+                    $db->createCommand("use $dbname")->execute();
+                }
             }catch (\yii\db\Exception $e){
                 if( $e->getCode() == 1049 ) {
                     $result = $db->createCommand("CREATE DATABASE IF NOT EXISTS `{$dbname}` DEFAULT CHARACTER SET utf8")->execute();
@@ -377,7 +382,7 @@ class SiteController extends \yii\web\Controller
                 }
             }
             $db->createCommand("create table test(id integer)")->execute();
-            $db->createCommand("insert test values(1)")->execute();
+            $db->createCommand("insert into test values(1)")->execute();
             $result = $db->createCommand("select * from test where id=1")->queryOne();
             if ($result === false) {
                 throw new Exception(Yii::t('install', 'Access to database `{database}` error. Maybe permission denied', ['database' => $dbname]));
@@ -386,8 +391,7 @@ class SiteController extends \yii\web\Controller
                 $db->createCommand("use $dbname")->execute();
                 $db->createCommand("drop table test")->execute();
             } catch (Exception $exception) {
-                Yii:
-                error("after install feehicms delete test database table `test` error");
+                Yii::error("after install feehicms delete test database table `test` error");
             }
         }
 

@@ -5,7 +5,7 @@
  *
  * In order to run in non-interactive mode:
  *
- * init --env=Development --overwrite=n
+ * init --env=Development --overwrite=All
  *
  * @author Alexander Makarov <sam@rmcreative.ru>
  *
@@ -70,7 +70,12 @@ if (isset($env['skipFiles'])) {
     array_walk($skipFiles, function(&$value) use($env, $root) { $value = "$root/$value"; });
     $files = array_diff($files, array_intersect_key($env['skipFiles'], array_filter($skipFiles, 'file_exists')));
 }
+
 $all = false;
+if( isset($params['overwrite']) && strtolower($params['overwrite'])==="all" ){
+    $all = true;
+}
+
 foreach ($files as $file) {
     if (!copyFile($root, "environments/{$env['path']}/$file", $file, $all, $params)) {
         break;
