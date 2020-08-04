@@ -10,6 +10,14 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 [![Build Status](https://www.travis-ci.org/liufee/cms.svg?branch=master)](https://www.travis-ci.org/liufee/cms)
 
 
+演示站点
+-------
+演示站点后台   **用户名:feehicms 密码123456**
+* 后台 [http://demo.cms.feehi.com/admin](http://demo.cms.feehi.com/admin)
+* 前台 [http://demo.cms.feehi.com](http://demo.cms.feehi.com/)
+* api [http://demo.cms.feehi.com/api/articles](http://demo.cms.feehi.com/api/articles)
+
+
 更新记录
 -------
 2.1.0 正式版
@@ -83,29 +91,48 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
  FeehiCMS提供完备的web系统基础通用功能，包括前后台菜单管理,文章标签,广告,banner,缓存,网站设置,seo设置,邮件设置,分类管理,单页...
  
  
-快速体验
-----------------
-1. 使用演示站点
-演示站点后台   **用户名:feehicms 密码123456**
-      * php7.0.0
-        * 后台 [http://demo.cms.feehi.com/admin](http://demo.cms.feehi.com/admin)
-        * 前台 [http://demo.cms.feehi.com](http://demo.cms.feehi.com/)
-        * api [http://demo.cms.feehi.com/api/articles](http://demo.cms.feehi.com/api/articles)
-      * swoole (docker)
-        * swoole演示前台 [http://swoole.demo.cms.qq.feehi.com](http://swoole.demo.cms.qq.feehi.com)
-        * swoole演示后台 [http://swoole-admin.demo.cms.qq.feehi.com](http://swoole-admin.demo.cms.qq.feehi.com)
-      * php7.1.8 (docker)
-        * 备用演示前台1 [http://demo.cms.qq.feehi.com](http://demo.cms.qq.feehi.com)
-        * 备用演示后台1 [http://demo.cms.qq.feehi.com/admin](http://demo.cms.qq.feehi.com/admin)
-        * 备用演示api1 [http://demo.cms.qq.feehi.com/api](http://demo.cms.qq.feehi.com/api/articles)
+使用Docker
+-------
+1.下载镜像
+```bash
+    $ docker pull registry.cn-hangzhou.aliyuncs.com/feehi/cms #FQ后建议直接使用docker pull feehi/cms
+```
+    
+2.创建容器
+```bash
+    $ docker run --name feehicms -h feehicms -itd -v /path/to/data:/data -e DbDSN=sqlite:/data/feehi.db -p 8080:80 feehi/cms
+```
+以上命令将会自动初始化FeehiCMS，并导入数据库(默认数据库为sqlite)  
+如果需要更使用其他数据库，比如mysql，执行:  
+```bash
+    $ docker run --name feehicms -h feehicms -itd -e DbDSN=mysql:host=mysql-ip;dbname=feehi -e DbUser=dbuser -e DbPassword=dbpassword -p 8080:80 feehi/cms
+```
+如果需要使用postgresql则将DbDSN改为pgsql:host=pgsql-ip  
+以上方式初始化后，后台用户名均为admin,密码均为123456
+  
+也可以仅初始化FeehiCMS，然后通过web在线安装 
+```bash
+    $ docker run --name feehicms -h feehicms -itd -p 8080:80 feehi/cms -o start
+```
+然后访问http://ip:port/install.php，根据提示选择数据库类型，填写数据库用户名、数据库密码、后台管理员用户名、密码完成安装。  
+  
+  
+以上方式启动的容器只能用作开发环境，容器启动命令最终调用为php -S 0.0.0.0:80,如果用作production，可以执行
+```bash
+    $ docker run --name feehicms -h feehicms -itd -p 8080:80 feehi/cms -m start
+```
+容器将启动php-fpm，并监听9000端口，配合nginx使用。nginx配置大致为
+```bash
+    location ~ \.php$ {
+        ...
+        fastcgi_pass fpm-ip:9000;
+        fastcgi_param  SCRIPT_FILENAME  /usr/local/feehicms/frontend/web$fastcgi_script_name;
+        ...
+    }
+```
+**因为yii2会生成js/css，以及新上传的文件（图片）需要nginx webroot使用php fpm容器同一个文件夹:/usr/local/feehicms/frontend/web**
 
-2. 使用Docker容器
-    ```bash
-    $ docker pull registry.cn-hangzhou.aliyuncs.com/liufee/cms
-    $ docker run --name feehicms -h feehicms -itd -p 80:80 liufee/cms
-    ```
- 
- 
+
 安装
 ---------------
 前置条件: 如未特别说明，本文档已默认您把php命令加入了环境变量，如果您未把php加入环境变量，请把以下命令中的php替换成/path/to/php
@@ -124,7 +151,7 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
      
      >以下命令默认您已全局安装composer，如果您是局部安装的composer:请使用php /path/to/composer.phar来替换以下命令中的composer
      
-     1. 使用composer下创建FeehiCMS项目
+     1. 使用composer创建FeehiCMS项目
         
         ```bash
             $ composer create-project feehi/cms webApp //此命令创建的FeehiCMS项目不能平滑升级新版本(目录结构简单,目前主力维护版本)
