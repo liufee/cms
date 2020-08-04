@@ -1,5 +1,6 @@
 <?php
 
+use common\helpers\DbDriverHelper;
 use yii\db\Migration;
 
 /**
@@ -16,7 +17,7 @@ class m190130_070831_add_article_teamplate extends Migration
         $categoryArticleTemplate = $this->string()->after("template")->defaultValue("")->notNull();
         $articleTemplate =   $this->string()->after("flag_picture")->defaultValue("")->notNull();
 
-        if ($this->db->driverName === 'mysql') {
+        if (!DbDriverHelper::isSqlite()) {
             $categoryTemplate->comment("category page template path");
             $categoryArticleTemplate->comment("article detail page template path");
             $articleTemplate->comment("article detail page template path");

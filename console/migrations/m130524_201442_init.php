@@ -1,5 +1,7 @@
 <?php
 
+use common\helpers\DbDriverHelper;
+use common\helpers\StringHelper;
 use yii\db\Migration;
 
 /**
@@ -26,9 +28,15 @@ class m130524_201442_init extends Migration
         }
 
         $tableOptions = null;
-        if ($this->db->driverName === 'mysql') {
+        if (DbDriverHelper::isMySQL()) {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+        }
+
+        $rawSQLs = [];
+
+        if (DbDriverHelper::isPgSQL()){
+            $rawSQLs[] = ["ALTER SEQUENCE ###TABLE_NAME###_id_seq RESTART WITH 100;"];
         }
 
 
@@ -44,7 +52,7 @@ class m130524_201442_init extends Migration
         $userCreatedAt = $this->integer()->notNull();
         $userUpdatedAt = $this->integer()->notNull();
 
-        if ($this->db->driverName === 'mysql') {
+        if (!DbDriverHelper::isSqlite()) {
             $userId->unsigned()->comment("user id(auto increment)");
             $userUsername->comment("username");
             $userAuthKey->comment("auth key for generate logged in cookie");
@@ -95,6 +103,11 @@ class m130524_201442_init extends Migration
             ]
         );
 
+        foreach ($rawSQLs as $sql){
+            $sql = SQLHelper::getRealSQL($sql, ['table'=>"{{%user}}"]);
+            $this->db->createCommand($sql)->execute();
+        }
+
 
         //table admin_user
         $adminUserId = $this->primaryKey();
@@ -108,7 +121,7 @@ class m130524_201442_init extends Migration
         $adminUserCreatedAt = $this->integer()->notNull();
         $adminUserUpdatedAt = $this->integer()->notNull();
 
-        if ($this->db->driverName === 'mysql') {
+        if (!DbDriverHelper::isSqlite()) {
             $adminUserId->unsigned()->comment("admin user id(auto increment)");
             $adminUsername->comment("admin username");
             $adminUserAuthKey->comment("admin user auth key for generate logged in cookie");
@@ -163,6 +176,11 @@ class m130524_201442_init extends Migration
             ]
         );
 
+        foreach ($rawSQLs as $sql){
+            $sql = SQLHelper::getRealSQL($sql, ['table'=>"{{%admin_user}}"]);
+            $this->db->createCommand($sql)->execute();
+        }
+
 
         //table admin_log
         $adminLogId = $this->primaryKey();
@@ -171,7 +189,7 @@ class m130524_201442_init extends Migration
         $adminLogDescription = $this->text();
         $adminLogCreatedAt = $this->integer()->unsigned()->notNull();
 
-        if ($this->db->driverName === 'mysql') {
+        if (!DbDriverHelper::isSqlite()) {
             $adminLogId->unsigned()->comment("admin log id(auto increment)");
             $adminLogUserId->comment("admin user id");
             $adminLogRoute->comment("admin user operate route, like article/create");
@@ -196,6 +214,11 @@ class m130524_201442_init extends Migration
             ]
         ]);
 
+        foreach ($rawSQLs as $sql){
+            $sql = SQLHelper::getRealSQL($sql, ['table'=>"{{%admin_log}}"]);
+            $this->db->createCommand($sql)->execute();
+        }
+
 
         //table category
         $categoryId = $this->primaryKey();
@@ -207,7 +230,7 @@ class m130524_201442_init extends Migration
         $categoryCreatedAt = $this->integer()->unsigned()->notNull();
         $categoryUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
 
-        if ($this->db->driverName === 'mysql') {
+        if (!DbDriverHelper::isSqlite()) {
             $categoryId->unsigned()->comment("category id(auto increment)");
             $categoryParentId->comment("category parent id(an exist category id)");
             $categoryName->comment("category name");
@@ -217,7 +240,6 @@ class m130524_201442_init extends Migration
             $categoryCreatedAt->comment("created at");
             $categoryUpdatedAt->comment("updated at");
         }
-
 
         $this->createTable('{{%category}}', [
             'id' => $categoryId,
@@ -265,6 +287,11 @@ class m130524_201442_init extends Migration
             ]
         );
 
+        foreach ($rawSQLs as $sql){
+            $sql = SQLHelper::getRealSQL($sql, ['table'=>"{{%category}}"]);
+            $this->db->createCommand($sql)->execute();
+        }
+
 
         //table article
         $articleId = $this->primaryKey();
@@ -296,7 +323,7 @@ class m130524_201442_init extends Migration
         $articleCreatedAt = $this->integer()->unsigned()->notNull();
         $articleUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
 
-        if ($this->db->driverName === 'mysql') {
+        if (!DbDriverHelper::isSqlite()) {
             $articleId->unsigned()->comment("article id(auto increment)");
             $articleCategoryId->unsigned()->comment("article category id");
             $articleType->unsigned()->comment("type(0 article, 1 page)");
@@ -391,12 +418,18 @@ class m130524_201442_init extends Migration
             ]);
         }
 
+        foreach ($rawSQLs as $sql){
+            $sql = SQLHelper::getRealSQL($sql, ['table'=>"{{%article}}"]);
+            $this->db->createCommand($sql)->execute();
+        }
+
+
         //table article_content
         $articleContentId = $this->primaryKey();
         $articleContentArticleId = $this->integer()->unsigned()->defaultValue(0)->notNull();
         $articleContentContent = $this->text()->notNull();
 
-        if ($this->db->driverName === 'mysql') {
+        if (!DbDriverHelper::isSqlite()) {
             $articleContentId->unsigned()->comment("article content id(auto increment)");
             $articleContentArticleId->comment("article id");
             $articleContentContent->comment("article content");
@@ -412,6 +445,11 @@ class m130524_201442_init extends Migration
             $this->insert("{{%article_content}}", ['aid'=>$item[1], 'content'=>$item[2]]);
         }
 
+        foreach ($rawSQLs as $sql){
+            $sql = SQLHelper::getRealSQL($sql, ['table'=>"{{%article_content}}"]);
+            $this->db->createCommand($sql)->execute();
+        }
+
 
         //table article_meta
         $articleMetaId = $this->primaryKey();
@@ -420,7 +458,7 @@ class m130524_201442_init extends Migration
         $articleMetaValue = $this->text()->notNull();
         $articleMetaCratedAt = $this->integer()->unsigned()->notNull();
 
-        if ($this->db->driverName === 'mysql') {
+        if (!DbDriverHelper::isSqlite()) {
             $articleMetaId->unsigned()->comment("article meta id(auto increment)");
             $articleMetaAid->comment("article id");
             $articleMetaKey->comment("key");
@@ -493,6 +531,12 @@ class m130524_201442_init extends Migration
             ]
         );
 
+        foreach ($rawSQLs as $sql){
+            $sql = SQLHelper::getRealSQL($sql, ['table'=>"{{%article_meta}}"]);
+            $this->db->createCommand($sql)->execute();
+        }
+
+
         //table comment
         $commentId = $this->primaryKey();
         $commentArticleId = $this->integer()->unsigned()->defaultValue(0)->notNull();
@@ -508,7 +552,7 @@ class m130524_201442_init extends Migration
         $commentCreatedAt = $this->integer()->unsigned()->notNull();
         $commentUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
 
-        if ($this->db->driverName === 'mysql') {
+        if (!DbDriverHelper::isSqlite()) {
             $commentId->unsigned()->comment("comment id(auto increment)");
             $commentArticleId->comment("article id");
             $commentUserId->comment("user id(0 for guest)");
@@ -637,6 +681,11 @@ class m130524_201442_init extends Migration
             ]
         );
 
+        foreach ($rawSQLs as $sql){
+            $sql = SQLHelper::getRealSQL($sql, ['table'=>"{{%comment}}"]);
+            $this->db->createCommand($sql)->execute();
+        }
+
 
         //table friendly_link
         $friendlyLinkId = $this->primaryKey();
@@ -649,7 +698,7 @@ class m130524_201442_init extends Migration
         $friendlyLinkCreatedAt = $this->integer()->unsigned()->notNull();
         $friendlyLinkIdUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
 
-        if ($this->db->driverName === 'mysql') {
+        if (!DbDriverHelper::isSqlite()) {
             $friendlyLinkId->unsigned()->comment("friendly link id(auto increment)");
             $friendlyLinkName->comment("website name");
             $friendlyLinkImage->comment("website icon url");
@@ -733,6 +782,11 @@ class m130524_201442_init extends Migration
             ]
         );
 
+        foreach ($rawSQLs as $sql){
+            $sql = SQLHelper::getRealSQL($sql, ['table'=>"{{%friendly_link}}"]);
+            $this->db->createCommand($sql)->execute();
+        }
+
 
         //table menu
         $menuId = $this->primaryKey();
@@ -748,7 +802,7 @@ class m130524_201442_init extends Migration
         $menuCreatedAt = $this->integer()->unsigned()->notNull();
         $menuUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
 
-        if ($this->db->driverName === 'mysql') {
+        if (!DbDriverHelper::isSqlite()) {
             $menuId->unsigned()->comment("menu id(auto increment)");
             $menuType->comment("menu type(0 backend, 1 frontend");
             $menuParentId->comment("parent menu id");
@@ -813,6 +867,11 @@ class m130524_201442_init extends Migration
             ]
         );
 
+        foreach ($rawSQLs as $sql){
+            $sql = SQLHelper::getRealSQL($sql, ['table'=>"{{%menu}}"]);
+            $this->db->createCommand($sql)->execute();
+        }
+
 
         //table options
         $optionsId = $this->primaryKey();
@@ -824,7 +883,7 @@ class m130524_201442_init extends Migration
         $optionTips = $this->string()->defaultValue('')->notNull();
         $optionsSort = $this->integer()->unsigned()->defaultValue(0)->notNull();
 
-        if ($this->db->driverName === 'mysql') {
+        if (!DbDriverHelper::isSqlite()) {
             $optionsId->unsigned()->comment("options id(auto increment)");
             $optionsType->comment("type (0 system, 1 custom, 2 banner, 3 advertisement");
             $optionsName->comment("identifier");
@@ -1070,6 +1129,11 @@ class m130524_201442_init extends Migration
 
             ]
         );
+
+        foreach ($rawSQLs as $sql){
+            $sql = SQLHelper::getRealSQL($sql, ['table'=>"{{%options}}"]);
+            $this->db->createCommand($sql)->execute();
+        }
 
     }
 

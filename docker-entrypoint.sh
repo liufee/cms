@@ -55,13 +55,18 @@ fi
 }
 
 start(){
-		$yiiCmd serve "${Listening}"
+		if [ "$fpmMode" -eq 1 ];then
+        php-fpm
+    else
+        $yiiCmd serve "${Listening}"
+    fi
 }
 
 onlineInstall=1
 downloadUploadFiles=0
 forceInstall=0
-while getopts "odf" OPT; do
+fpmMode=0
+while getopts "odfm" OPT; do
   case ${OPT} in
     o)
        onlineInstall=0 #${OPTARG}
@@ -71,6 +76,9 @@ while getopts "odf" OPT; do
       ;;
     f)
       forceInstall=1 #will force to install no matter whether installed
+      ;;
+    m)
+      fpmMode=1 #run fpm
       ;;
     ?)
       echo "Invalid option: -$OPTARG"
@@ -110,6 +118,7 @@ case ${!#} in
             -f will force to install FeehiCMS, no matter whether installed
             -o will not auto import database. you need visit host:port/install.php for online install
             -d download init FeehiCMS existed articles uplaoded files(pictures)
+            -m run fpm(port 9000 cannot be modified)
 
         examples:
             docker run -it -name feehi -p 80:80 -v /data:/data -e Listening=0.0.0.0:80 -e FrontendUri=//your-server-ip -e DbDSN=sqlite:/data/feehi.db feehi/cms #auto import database sqlite

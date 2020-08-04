@@ -77,6 +77,20 @@ class Tables extends BaseObject
                     $this->db->createCommand($rawSQL)->execute();
                 }
             }
+
+            if( $this->isPgSQL() ){
+                $rawSQL = "ALTER SEQUENCE ###TABLE_NAME###_id_seq RESTART WITH ###VALUE###;";
+                $value = null;
+                if( isset($table['fields']) && isset($table['rows']) && count($table['rows']) > 0 ){//批量
+                    $value = $table['rows'][count($table['rows'])-1][0];
+                }else if( isset($table['rows']) && count($table['rows']) > 0 ){//逐个
+                    $value = $table['rows'][count($table['rows'])-1]['id'];
+                }
+                if($value !== null && $value > 0){
+                    $rawSQL = str_replace(["###TABLE_NAME###", "###VALUE###"], [$displayTableName, 100], $rawSQL);
+                    $this->db->createCommand($rawSQL)->execute();
+                }
+            }
         }
     }
 
@@ -125,7 +139,7 @@ class Tables extends BaseObject
         $userCreatedAt = $this->integer()->notNull();
         $userUpdatedAt = $this->integer()->notNull();
 
-        if ($this->isMySQL()) {
+        if (!$this->isSqlite()) {
             $userId->unsigned()->comment("user id(auto increment)");
             $userUsername->comment("username");
             $userAuthKey->comment("auth key for generate logged in cookie");
@@ -173,7 +187,7 @@ class Tables extends BaseObject
         $adminUserCreatedAt = $this->integer()->notNull();
         $adminUserUpdatedAt = $this->integer()->notNull();
 
-        if ($this->isMySQL()) {
+        if (!$this->isSqlite()) {
             $adminUserId->unsigned()->comment("admin user id(auto increment)");
             $adminUsername->comment("admin username");
             $adminUserAuthKey->comment("admin user auth key for generate logged in cookie");
@@ -228,7 +242,7 @@ class Tables extends BaseObject
         $adminLogDescription = $this->text();
         $adminLogCreatedAt = $this->integer()->unsigned()->notNull();
 
-        if ($this->isMySQL()) {
+        if (!$this->isSqlite()) {
             $adminLogId->unsigned()->comment("admin log id(auto increment)");
             $adminLogUserId->comment("admin user id");
             $adminLogRoute->comment("admin user operate route, like article/create");
@@ -270,7 +284,7 @@ class Tables extends BaseObject
         $categoryCreatedAt = $this->integer()->unsigned()->notNull();
         $categoryUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
 
-        if ($this->isMySQL()) {
+        if (!$this->isSqlite()) {
             $categoryId->unsigned()->comment("category id(auto increment)");
             $categoryParentId->comment("category parent id(an exist category id)");
             $categoryName->comment("category name");
@@ -366,7 +380,7 @@ class Tables extends BaseObject
         $articleCreatedAt = $this->integer()->unsigned()->notNull();
         $articleUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
 
-        if ($this->isMySQL()) {
+        if (!$this->isSqlite()) {
             $articleId->unsigned()->comment("article id(auto increment)");
             $articleCategoryId->unsigned()->comment("article category id");
             $articleType->unsigned()->comment("type(0 article, 1 page)");
@@ -475,7 +489,7 @@ class Tables extends BaseObject
         $articleContentArticleId = $this->integer()->unsigned()->defaultValue(0)->notNull();
         $articleContentContent = $this->text()->notNull();
 
-        if ($this->isMySQL()) {
+        if (!$this->isSqlite()) {
             $articleContentId->unsigned()->comment("article content id(auto increment)");
             $articleContentArticleId->comment("article id");
             $articleContentContent->comment("article content");
@@ -506,7 +520,7 @@ class Tables extends BaseObject
         $articleMetaValue = $this->text()->notNull();
         $articleMetaCratedAt = $this->integer()->unsigned()->notNull();
 
-        if ($this->isMySQL()) {
+        if (!$this->isSqlite()) {
             $articleMetaId->unsigned()->comment("article meta id(auto increment)");
             $articleMetaAid->comment("article id");
             $articleMetaKey->comment("key");
@@ -599,7 +613,7 @@ class Tables extends BaseObject
         $commentCreatedAt = $this->integer()->unsigned()->notNull();
         $commentUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
 
-        if ($this->isMySQL()) {
+        if (!$this->isSqlite()) {
             $commentId->unsigned()->comment("comment id(auto increment)");
             $commentArticleId->comment("article id");
             $commentUserId->comment("user id(0 for guest)");
@@ -742,7 +756,7 @@ class Tables extends BaseObject
         $friendlyLinkCreatedAt = $this->integer()->unsigned()->notNull();
         $friendlyLinkIdUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
 
-        if ($this->isMySQL()) {
+        if (!$this->isSqlite()) {
             $friendlyLinkId->unsigned()->comment("friendly link id(auto increment)");
             $friendlyLinkName->comment("website name");
             $friendlyLinkImage->comment("website icon url");
@@ -843,7 +857,7 @@ class Tables extends BaseObject
         $menuCreatedAt = $this->integer()->unsigned()->notNull();
         $menuUpdatedAt = $this->integer()->unsigned()->defaultValue(0)->notNull();
 
-        if ($this->isMySQL()) {
+        if (!$this->isSqlite()) {
             $menuId->unsigned()->comment("menu id(auto increment)");
             $menuType->comment("menu type(0 backend, 1 frontend");
             $menuParentId->comment("parent menu id");
@@ -920,7 +934,7 @@ class Tables extends BaseObject
         $optionTips = $this->string()->defaultValue('')->notNull();
         $optionsSort = $this->integer()->unsigned()->defaultValue(0)->notNull();
 
-        if ($this->isMySQL()) {
+        if (!$this->isSqlite()) {
             $optionsId->unsigned()->comment("options id(auto increment)");
             $optionsType->comment("type (0 system, 1 custom, 2 banner, 3 advertisement");
             $optionsName->comment("identifier");
@@ -1430,6 +1444,16 @@ class Tables extends BaseObject
     protected function isOracle()
     {
         return $this->db->driverName === 'oci';
+    }
+
+    protected function isPgSQL()
+    {
+        return $this->db->driverName === 'pgsql';
+    }
+
+    protected function isSqlite()
+    {
+        return $this->db->driverName === 'sqlite';
     }
 
 }

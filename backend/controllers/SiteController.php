@@ -117,23 +117,10 @@ class SiteController extends \yii\web\Controller
         /** @var FriendlyLinkServiceInterface $friendlyLinkService */
         $friendlyLinkService = Yii::$app->get(FriendlyLinkServiceInterface::ServiceName);
 
-        switch (Yii::$app->getDb()->driverName) {
-            case "mysql":
-                $dbInfo = 'MySQL ' . (new Query())->select('version()')->one()['version()'];
-                break;
-            case "pgsql":
-                $dbInfo = (new Query())->select('version() as version')->one()['version'];
-                break;
-            case "sqlite":
-                $dbInfo = "sqlite " . (new Query())->select('sqlite_version() version')->one()['version'];
-                break;
-            default:
-                $dbInfo = "Unknown";
-        }
         $info = [
             'OPERATING_ENVIRONMENT' => PHP_OS . ' ' . $_SERVER['SERVER_SOFTWARE'],
             'PHP_RUN_MODE' => php_sapi_name(),
-            'DB_INFO' => $dbInfo,
+            'DB_INFO' => Yii::$app->getDb()->getDriverName() . " " . Yii::$app->getDb()->getServerVersion(),
             'UPLOAD_MAX_FILE_SIZE' => ini_get('upload_max_filesize'),
             'MAX_EXECUTION_TIME' => ini_get('max_execution_time') . "s"
         ];

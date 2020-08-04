@@ -1,5 +1,6 @@
 <?php
 
+use common\helpers\DbDriverHelper;
 use common\models\AdminUser;
 use common\models\User;
 use yii\db\Migration;
@@ -17,7 +18,7 @@ class m190510_154358_addFrontendBackendUserAccessToken extends Migration
         $userAccessToken = $this->string(42)->after("avatar")->defaultValue("")->notNull();
         $adminUserAccessToken = $this->string(42)->after("avatar")->defaultValue("")->notNull();
 
-        if ($this->db->driverName === 'mysql') {
+        if (!DbDriverHelper::isSqlite()) {
             $userAccessToken->comment("token");
             $adminUserAccessToken->comment("token");
         }

@@ -82,6 +82,7 @@ class ArticleService extends Service implements ArticleServiceInterface
             }
             $transaction->commit();
         }catch (Exception $exception){
+            Yii::error("create article failed:" . $exception->getFile() . "(" . $exception->getLine() . ")" . $exception->getMessage() );
             $transaction->rollBack();
             return [
                 'articleModel' => $articleModel,

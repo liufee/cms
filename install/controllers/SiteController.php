@@ -388,10 +388,9 @@ class SiteController extends \yii\web\Controller
                 throw new Exception(Yii::t('install', 'Access to database `{database}` error. Maybe permission denied', ['database' => $dbname]));
             }
             try {
-                $db->createCommand("use $dbname")->execute();
                 $db->createCommand("drop table test")->execute();
             } catch (Exception $exception) {
-                Yii::error("after install feehicms delete test database table `test` error");
+                Yii::error("after install feehicms delete test database table `test` error:" . $exception->getFile() . "(" . $exception->getLine() . ")" . $exception->getMessage());
             }
         }
 
