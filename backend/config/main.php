@@ -145,7 +145,7 @@ return [
             ]
         ],
     ],
-    'on beforeRequest' => [feehi\components\Feehi::className(), 'backendInit'],
+    'on beforeRequest' => [common\components\Feehi::className(), 'backendInit'],
     'as access' => [
         'class' => backend\components\AccessControl::className(),
         'allowActions' => [

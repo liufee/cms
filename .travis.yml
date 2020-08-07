@@ -7,6 +7,8 @@ php:
 #- 7.0
 - 7.1
 - 7.2
+- 7.3
+- 7.4
 #  - hhvm
 
 # faster builds on new travis setup not using sudo
@@ -30,6 +32,7 @@ install:
   sed -i "s/'cookieValidationKey' => ''/'cookieValidationKey' => 'testkey'/" frontend/config/main.php
   sed -i "s/'cookieValidationKey' => ''/'cookieValidationKey' => 'testkey'/" backend/config/main.php
 before_script:
+- sudo service mysql start
 - mysql -e 'CREATE DATABASE cms_test;'
 - echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 - printf "\n" | pecl install -f imagick

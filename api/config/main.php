@@ -83,8 +83,9 @@ return [
         ],
         'response' => [
             'as format' => [
-                'class' => api\behaviors\ResponseFormatBehavior::className(),
-                'defaultResponseFormat' => yii\web\Response::FORMAT_JSON
+                'class' => common\behaviors\ResponseFormatBehavior::className(),
+                'isApi' => true,//this options makes application/html and text/html return defaultResponseFormat
+                'defaultResponseFormat' => yii\web\Response::FORMAT_JSON,
             ]
         ],
     ],

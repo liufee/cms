@@ -18,7 +18,6 @@ use common\services\MenuService;
 use backend\models\form\LoginForm;
 use common\libs\ServerInfo;
 use yii\base\UserException;
-use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\Html;

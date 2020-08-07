@@ -84,6 +84,7 @@ return [
     'IP Address' => 'IP地址',
     'User Id' => '用户Id',
     'None' => '无',
+    'Default' => "默认",
     /*Public*/
 
     /*Login*/

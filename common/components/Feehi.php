@@ -6,7 +6,7 @@
  * Created at: 2017-03-15 21:16
  */
 
-namespace feehi\components;
+namespace common\components;
 
 use Yii;
 use common\models\Category;
@@ -19,7 +19,6 @@ use common\models\Options;
 use yii\caching\FileDependency;
 use yii\base\Event;
 use yii\db\BaseActiveRecord;
-use yii\web\Response;
 
 class Feehi extends Component
 {
@@ -62,25 +61,11 @@ class Feehi extends Component
     }
 
 
-    private static function configInit()
+    private static function mergeAdminUserSettingConfig()
     {
+        //merge backend admin user setting config options
         if (! empty(Yii::$app->feehi->website_url)) {
             Yii::$app->params['site']['url'] = Yii::$app->feehi->website_url;
-        }
-        if (substr(Yii::$app->params['site']['url'], -1, 1) != '/') {
-            Yii::$app->params['site']['url'] .= '/';
-        }
-        if (stripos(Yii::$app->params['site']['url'], 'http://') !== 0 && stripos(Yii::$app->params['site']['url'], 'https://') !== 0 && stripos(yii::$app->params['site']['url'], '//')) {
-            Yii::$app->params['site']['url'] = ( Yii::$app->getRequest()->getIsSecureConnection() ? "https://" : "http://" ) . yii::$app->params['site']['url'];
-        }
-
-        if (isset(Yii::$app->session['language'])) {
-            Yii::$app->language = Yii::$app->session['language'];
-        }
-        if (Yii::$app->getRequest()->getIsAjax()) {
-            Yii::$app->getResponse()->format = Response::FORMAT_JSON;
-        } else {
-            Yii::$app->getResponse()->format = Response::FORMAT_HTML;
         }
 
         if (! empty(Yii::$app->feehi->smtp_host) && ! empty(Yii::$app->feehi->smtp_username)) {
@@ -102,6 +87,14 @@ class Feehi extends Component
             ]);
         }
 
+        //format config options
+        if (substr(Yii::$app->params['site']['url'], -1, 1) != '/') {
+            Yii::$app->params['site']['url'] .= '/';
+        }
+        if (stripos(Yii::$app->params['site']['url'], 'http://') !== 0 && stripos(Yii::$app->params['site']['url'], 'https://') !== 0 && stripos(yii::$app->params['site']['url'], '//')) {
+            Yii::$app->params['site']['url'] = (Yii::$app->getRequest()->getIsSecureConnection() ? "https://" : "http://") . yii::$app->params['site']['url'];
+        }
+
         $cdn = Yii::$app->get('cdn');
         if( $cdn instanceof DummyTarget){
             Yii::configure(Yii::$app->cdn, [
@@ -112,10 +105,15 @@ class Feehi extends Component
 
     public static function frontendInit()
     {
+        self::mergeAdminUserSettingConfig();
+
         if (! Yii::$app->feehi->website_status) {
             Yii::$app->catchAll = ['site/offline'];
         }
+
         Yii::$app->language = Yii::$app->feehi->website_language;
+        self::determineLanguage();
+
         Yii::$app->timeZone = Yii::$app->feehi->website_timezone;
         if (! isset(Yii::$app->params['site']['url']) || empty(Yii::$app->params['site']['url'])) {
             Yii::$app->params['site']['url'] = Yii::$app->request->getHostInfo();
@@ -127,12 +125,11 @@ class Feehi extends Component
             'rules' => array_merge(Yii::$app->getUrlManager()->rules, $category->getUrlRules())
         ]);
         Yii::$app->getUrlManager()->init();
-
-        self::configInit();
     }
 
     public static function backendInit()
     {
+        self::mergeAdminUserSettingConfig();
         Event::on(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_INSERT, [
             AdminLog::className(),
             'create'
@@ -162,7 +159,56 @@ class Feehi extends Component
                 $event->sender->updated_at = null;
             }
         });
-        self::configInit();
+        self::determineLanguage();
+    }
+
+    public  static function determineLanguage()
+    {
+        if (isset(Yii::$app->session['language'])) {//user selected language already
+            Yii::$app->language = Yii::$app->session['language'];
+        }else {
+            $supportLanguages = array_flip(Yii::$app->params['supportLanguages']);
+            $supportLanguagesWithoutArea = [];
+            foreach ($supportLanguages as $supportLanguage) {
+                $arr = explode("-", $supportLanguage);
+                if (is_array($arr) && count($arr) == 2) {
+                    $supportLanguagesWithoutArea[ $arr[0]] = $supportLanguage;
+                }
+            }
+
+            $determinedLanguage = false;
+            $acceptLanguages = Yii::$app->getRequest()->getAcceptableLanguages();
+            foreach ($acceptLanguages as $k=> $acceptLanguage) {//match like en-US
+                if (in_array($acceptLanguage, $supportLanguages)) {
+                    Yii::$app->language = $acceptLanguage;
+                    $determinedLanguage = true;
+                    break;
+                }
+                if( strpos($acceptLanguage, "-") !== false ) {
+                    $temp = explode("-", $acceptLanguage);
+                    $shortLanguage = $temp[0];
+                }else{
+                    $shortLanguage = $acceptLanguage;
+                }
+                if (isset($supportLanguagesWithoutArea[$shortLanguage])) {//match like en
+                    Yii::$app->language = $supportLanguagesWithoutArea[$shortLanguage];
+                    $determinedLanguage = true;
+                    break;
+
+                }
+            }
+
+            if ($determinedLanguage){
+                return;
+            }
+
+            foreach ($acceptLanguages as $acceptLanguage){
+                if( isset($supportLanguagesWithoutArea[$acceptLanguage]) ) {//match like en
+                    Yii::$app->language = $supportLanguagesWithoutArea[$acceptLanguage];
+                    break;
+                }
+            }
+        }
     }
 
 }

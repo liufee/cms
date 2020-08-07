@@ -117,18 +117,7 @@ $this->title = Yii::t('app', 'Backend Manage System');
                         <a class="right-sidebar-toggle" aria-expanded="false"><i class="fa fa-tasks"></i> <?= Yii::t('app', 'Theme') ?></a>
                     </li>
                     <li class="hidden-xs">
-                        <select onchange="location.href=this.options[this.selectedIndex].value;">
-                            <option
-                                <?php if (Yii::$app->language == 'zh-CN') {
-                                echo 'selected';
-                                } ?> value="<?= Url::to(['site/language', 'lang' => 'zh-CN']) ?>">简体中文
-                            </option>
-                            <option
-                                <?php if (Yii::$app->language == 'en-US') {
-                                    echo "selected";
-                                } ?> value="<?= Url::to(['site/language', 'lang' => 'en-US']) ?>">English
-                            </option>
-                        </select>
+                        <?= $this->render("/widgets/_language-select") ?>
                     </li>
                 </ul>
             </nav>

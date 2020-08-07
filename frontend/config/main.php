@@ -144,5 +144,5 @@ return [
         ]
     ],
     'params' => $params,
-    'on beforeRequest' => [feehi\components\Feehi::className(), 'frontendInit'],
+    'on beforeRequest' => [common\components\Feehi::className(), 'frontendInit'],
 ];
