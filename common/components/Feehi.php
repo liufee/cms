@@ -60,61 +60,19 @@ class Feehi extends Component
         }
     }
 
-
-    private static function mergeAdminUserSettingConfig()
-    {
-        //merge backend admin user setting config options
-        if (! empty(Yii::$app->feehi->website_url)) {
-            Yii::$app->params['site']['url'] = Yii::$app->feehi->website_url;
-        }
-
-        if (! empty(Yii::$app->feehi->smtp_host) && ! empty(Yii::$app->feehi->smtp_username)) {
-            Yii::configure(Yii::$app->mailer, [
-                'useFileTransport' => false,
-                'transport' => [
-                    'class' => 'Swift_SmtpTransport',
-                    'host' => Yii::$app->feehi->smtp_host,  //每种邮箱的host配置不一样
-                    'username' => Yii::$app->feehi->smtp_username,
-                    'password' => Yii::$app->feehi->smtp_password,
-                    'port' => Yii::$app->feehi->smtp_port,
-                    'encryption' => Yii::$app->feehi->smtp_encryption,
-
-                ],
-                'messageConfig' => [
-                    'charset' => 'UTF-8',
-                    'from' => [Yii::$app->feehi->smtp_username => Yii::$app->feehi->smtp_nickname]
-                ],
-            ]);
-        }
-
-        //format config options
-        if (substr(Yii::$app->params['site']['url'], -1, 1) != '/') {
-            Yii::$app->params['site']['url'] .= '/';
-        }
-        if (stripos(Yii::$app->params['site']['url'], 'http://') !== 0 && stripos(Yii::$app->params['site']['url'], 'https://') !== 0 && stripos(yii::$app->params['site']['url'], '//')) {
-            Yii::$app->params['site']['url'] = (Yii::$app->getRequest()->getIsSecureConnection() ? "https://" : "http://") . yii::$app->params['site']['url'];
-        }
-
-        $cdn = Yii::$app->get('cdn');
-        if( $cdn instanceof DummyTarget){
-            Yii::configure(Yii::$app->cdn, [
-                'host' => Yii::$app->params['site']['url']
-            ]);
-        }
-    }
-
     public static function frontendInit()
     {
-        self::mergeAdminUserSettingConfig();
+        self::configInit();
 
         if (! Yii::$app->feehi->website_status) {
             Yii::$app->catchAll = ['site/offline'];
         }
 
+        Yii::$app->timeZone = Yii::$app->feehi->website_timezone;
         Yii::$app->language = Yii::$app->feehi->website_language;
+
         self::determineLanguage();
 
-        Yii::$app->timeZone = Yii::$app->feehi->website_timezone;
         if (! isset(Yii::$app->params['site']['url']) || empty(Yii::$app->params['site']['url'])) {
             Yii::$app->params['site']['url'] = Yii::$app->request->getHostInfo();
         }
@@ -129,7 +87,10 @@ class Feehi extends Component
 
     public static function backendInit()
     {
-        self::mergeAdminUserSettingConfig();
+        self::configInit();
+
+        self::determineLanguage();
+
         Event::on(BaseActiveRecord::className(), BaseActiveRecord::EVENT_AFTER_INSERT, [
             AdminLog::className(),
             'create'
@@ -159,7 +120,57 @@ class Feehi extends Component
                 $event->sender->updated_at = null;
             }
         });
-        self::determineLanguage();
+    }
+
+    public static function configInit()
+    {
+        self::mergeAdminUserSettingConfig();
+        self::formatConfig();
+    }
+
+    private static function mergeAdminUserSettingConfig()
+    {
+        //merge backend admin user setting config options
+        if (! empty(Yii::$app->feehi->website_url)) {
+            Yii::$app->params['site']['url'] = Yii::$app->feehi->website_url;
+        }
+
+        if (! empty(Yii::$app->feehi->smtp_host) && ! empty(Yii::$app->feehi->smtp_username)) {
+            Yii::configure(Yii::$app->mailer, [
+                'useFileTransport' => false,
+                'transport' => [
+                    'class' => 'Swift_SmtpTransport',
+                    'host' => Yii::$app->feehi->smtp_host,  //每种邮箱的host配置不一样
+                    'username' => Yii::$app->feehi->smtp_username,
+                    'password' => Yii::$app->feehi->smtp_password,
+                    'port' => Yii::$app->feehi->smtp_port,
+                    'encryption' => Yii::$app->feehi->smtp_encryption,
+
+                ],
+                'messageConfig' => [
+                    'charset' => 'UTF-8',
+                    'from' => [Yii::$app->feehi->smtp_username => Yii::$app->feehi->smtp_nickname]
+                ],
+            ]);
+        }
+    }
+
+    public static function formatConfig()
+    {
+        //format config options
+        if (substr(Yii::$app->params['site']['url'], -1, 1) != '/') {
+            Yii::$app->params['site']['url'] .= '/';
+        }
+        if (stripos(Yii::$app->params['site']['url'], 'http://') !== 0 && stripos(Yii::$app->params['site']['url'], 'https://') !== 0 && stripos(yii::$app->params['site']['url'], '//')) {
+            Yii::$app->params['site']['url'] = (Yii::$app->getRequest()->getIsSecureConnection() ? "https://" : "http://") . yii::$app->params['site']['url'];
+        }
+
+        $cdn = Yii::$app->get('cdn');
+        if( $cdn instanceof DummyTarget){
+            Yii::configure(Yii::$app->cdn, [
+                'host' => Yii::$app->params['site']['url']
+            ]);
+        }
     }
 
     public  static function determineLanguage()

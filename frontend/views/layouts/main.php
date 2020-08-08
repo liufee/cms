@@ -138,7 +138,7 @@ AppAsset::register($this);
                         $selected = "selected";
                     }
                     $url = Url::to(['site/language', 'lang' => $language]);
-                    echo "<option $selected 'value'='{$url}'>{$languageDescription}</option>";
+                    echo "<option $selected value='{$url}'>{$languageDescription}</option>";
                 }
                 ?>
             </select>
