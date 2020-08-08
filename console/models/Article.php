@@ -9,11 +9,11 @@
 namespace console\models;
 
 use Yii;
-use backend\models\ArticleContent;
+use common\models\ArticleContent;
 use yii\helpers\FileHelper;
 
 
-class Article extends \backend\models\Article
+class Article extends \common\models\Article
 {
 
     public $articleOriginUrl = '';//article origin url

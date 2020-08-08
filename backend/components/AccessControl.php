@@ -8,9 +8,9 @@
 
 namespace backend\components;
 
+use Yii;
 use yii\web\ForbiddenHttpException;
 use yii\base\Module;
-use Yii;
 use yii\web\User;
 use yii\di\Instance;
 
@@ -26,6 +26,7 @@ class AccessControl extends \yii\base\ActionFilter
     /**
      * Get user
      * @return User
+     * @throws \yii\base\InvalidConfigException
      */
     public function getUser()
     {

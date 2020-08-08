@@ -57,9 +57,9 @@ class ArticleController extends Controller
     }
 
     /**
-     * 分类列表页
+     * article list page
      *
-     * @param string $cat 分类名称
+     * @param string $cat category name
      * @return string
      * @throws NotFoundHttpException
      * @throws \yii\base\InvalidConfigException
@@ -109,7 +109,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * 文章详情
+     * article detail page
      *
      * @param $id
      * @return string
@@ -183,7 +183,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * 获取文章的点赞数和浏览数
+     * article likes, scan, comment count
      *
      * @param $id
      * @return array
@@ -204,7 +204,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * 评论
+     * comment
      *
      */
     public function actionComment()
@@ -259,7 +259,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * 点赞
+     * like
      *
      * @return int|string
      */
@@ -273,7 +273,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * rss订阅
+     * rss
      *
      * @return mixed
      * @throws \yii\base\InvalidConfigException

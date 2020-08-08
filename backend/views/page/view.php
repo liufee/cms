@@ -5,6 +5,7 @@
  * Email: job@feehi.com
  * Created at: 2016-04-14 12:09
  */
+
 use common\libs\Constants;
 use yii\widgets\DetailView;
 
@@ -56,7 +57,7 @@ use yii\widgets\DetailView;
             'format' => 'raw',
             'attribute' => 'content',
             'value' => function($model){
-                /** @var \common\models\Article $model */
+                /** @var common\models\Article $model */
                 return $model->articleContent->content;
             }
         ],

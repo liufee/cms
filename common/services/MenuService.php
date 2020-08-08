@@ -103,10 +103,8 @@ class MenuService extends Service  implements MenuServiceInterface
     /**
      * set menu name with prefix level characters
      *
-     * @param $menuType
-     * @param $isDisplay
+     * @param int $menuType
      * @return array
-     * @throws \yii\base\InvalidConfigException
      */
     public function getLevelMenusWithPrefixLevelCharacters($menuType = Menu::TYPE_BACKEND)
     {

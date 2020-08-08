@@ -9,7 +9,7 @@
 use common\libs\Constants;
 use yii\widgets\DetailView;
 
-/** @var $model backend\models\Comment */
+/** @var $model common\models\Comment */
 ?>
 <?=DetailView::widget([
     'model' => $model,

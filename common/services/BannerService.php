@@ -9,15 +9,13 @@
 namespace common\services;
 
 
+use Yii;
 use backend\models\form\BannerForm;
 use backend\models\form\BannerTypeForm;
 use backend\models\search\OptionsSearch;
 use common\helpers\Util;
 use common\libs\Constants;
 use common\models\Options;
-use Yii;
-use yii\base\Exception;
-use yii\data\ActiveDataProvider;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;

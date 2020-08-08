@@ -10,7 +10,7 @@ use common\libs\Constants;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\FriendlyLink */
+/* @var $model common\models\FriendlyLink */
 ?>
 <?= DetailView::widget([
     'model' => $model,

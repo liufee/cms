@@ -8,8 +8,8 @@
 
 namespace backend\controllers;
 
-use backend\widgets\ueditor\UeditorAction;
 use Yii;
+use backend\widgets\ueditor\UeditorAction;
 use yii\helpers\FileHelper;
 use yii\web\Response;
 use yii\web\UploadedFile;
@@ -66,7 +66,6 @@ class AssetsController extends \yii\web\Controller
             "code"=>1,
             "msg" => Yii::t("app", 'File cannot be empty'),
         ];
-
 
     }
 

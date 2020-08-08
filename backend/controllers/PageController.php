@@ -54,6 +54,7 @@ class PageController extends \yii\web\Controller
                     return [
                         'dataProvider' => $result['dataProvider'],
                         'searchModel' => $result['searchModel'],
+                        'frontendURLManager' => $service->getFrontendURLManager(),
                     ];
                 }
             ],

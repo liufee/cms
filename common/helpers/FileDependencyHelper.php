@@ -28,7 +28,7 @@ class FileDependencyHelper extends \yii\base\BaseObject
 
     /**
      * @return bool|string
-     * @throws \yii\base\Exception
+     * @throws yii\base\Exception
      */
     public function createFileIfNotExists()
     {

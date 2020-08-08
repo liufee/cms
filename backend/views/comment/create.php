@@ -13,7 +13,7 @@ $this->params['breadcrumbs'] = [
     ['label' => Yii::t('app', 'Create') . Yii::t('app', 'Comments')],
 ];
 /**
- * @var $model backend\models\Comment
+ * @var $model common\models\Comment
  */
 ?>
 <?= $this->render('_form', [

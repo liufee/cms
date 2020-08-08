@@ -8,6 +8,8 @@
 
 namespace console\helpers;
 
+use Exception;
+
 class FileHelper extends \yii\helpers\FileHelper
 {
     public static function unzip($zipFile, $path)

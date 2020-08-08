@@ -15,7 +15,7 @@ class AdminLog extends \yii\base\Event
 {
 
     /**
-     * 数据库新增保存日志
+     * when create a record save to database, auto generate a log
      *
      * @param $event
      * @throws \Throwable
@@ -43,7 +43,7 @@ class AdminLog extends \yii\base\Event
     }
 
     /**
-     * 数据库修改保存日志
+     * when delete a record from database, auto generate a log
      *
      * @param $event
      * @throws \Throwable
@@ -73,7 +73,7 @@ class AdminLog extends \yii\base\Event
     }
 
     /**
-     * 数据库删除保存日志
+     * when delete a record from database, auto generate a log
      *
      * @param $event
      * @throws \Throwable
@@ -98,6 +98,12 @@ class AdminLog extends \yii\base\Event
         $model->save();
     }
 
+    /**
+     * custom log info
+     *
+     * @param CustomLog $event
+     * @throws yii\base\ErrorException
+     */
     public static function custom(CustomLog $event)
     {
         $model = new AdminLogModel();

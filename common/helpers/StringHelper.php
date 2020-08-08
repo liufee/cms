@@ -13,7 +13,7 @@ class StringHelper extends \yii\helpers\StringHelper
 {
 
     /**
-     * 返回utf8编码的字符串
+     * encode string with UTF-8
      *
      * @param $str
      * @return string

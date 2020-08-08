@@ -8,10 +8,6 @@
 
 namespace common\services;
 
-
-use backend\models\form\PasswordResetRequestForm;
-use backend\models\form\ResetPasswordForm;
-
 interface AdminUserServiceInterface extends ServiceInterface
 {
     const ServiceName = 'adminUserService';

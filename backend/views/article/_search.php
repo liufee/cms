@@ -11,7 +11,7 @@ use yii\helpers\Url;
 use common\libs\Constants;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\search\TestSearch */
+/* @var $model backend\models\search\ArticleSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -24,7 +24,7 @@ use common\libs\Constants;
 
     <?= $form->field($model, 'title', ['labelOptions'=>['class'=>'col-sm-4 control-label'], 'size'=>8, 'options'=>['class'=>'col-sm-3']]) ?>
 
-    <?= $form->field($model, 'content', ['labelOptions'=>['class'=>'col-sm-4 control-label'], 'size'=>8, 'options'=>['class'=>'col-sm-3']]) ?>
+    <?= $form->field($model, 'content', ['labelOptions'=>['class'=>'col-sm-4 control-label'], 'size'=>8, 'options'=>['class'=>'col-sm-3']])->label(Yii::t("app", "Content")) ?>
 
     <?= $form->field($model, 'sub_title', ['labelOptions'=>['class'=>'col-sm-4 control-label'], 'size'=>8, 'options'=>['class'=>'col-sm-3']]) ?>
 

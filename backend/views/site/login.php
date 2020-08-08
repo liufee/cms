@@ -8,7 +8,7 @@
 
 /**
  * @var $this yii\web\View
- * @var $model \common\models\LoginForm
+ * @var $model backend\models\form\LoginForm
  */
 
 use backend\assets\AppAsset;

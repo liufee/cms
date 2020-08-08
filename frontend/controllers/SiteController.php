@@ -204,7 +204,7 @@ class SiteController extends Controller
     }
 
     /**
-     * http异常捕捉后处理
+     * exception handler
      *
      * @return string
      */

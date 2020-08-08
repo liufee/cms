@@ -9,11 +9,11 @@
 namespace common\services;
 
 
+use Yii;
 use backend\models\form\PasswordResetRequestForm;
 use backend\models\form\ResetPasswordForm;
 use backend\models\search\AdminUserSearch;
 use common\models\AdminUser;
-use Yii;
 
 class AdminUserService extends Service implements AdminUserServiceInterface
 {

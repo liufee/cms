@@ -8,7 +8,7 @@
 
 /**
  * @var $this yii\web\View
- * @var $model backend\models\Comment
+ * @var $model common\models\Comment
  */
 
 use backend\widgets\ActiveForm;

@@ -6,9 +6,9 @@
  * Created at: 2017-03-15 21:16
  */
 
-/* @var $this \yii\web\View */
+/* @var $this yii\web\View */
 /* @var $content string */
-/* @var $identity \common\models\AdminUser */
+/* @var $identity common\models\AdminUser */
 
 use common\helpers\FileDependencyHelper;
 use yii\caching\FileDependency;

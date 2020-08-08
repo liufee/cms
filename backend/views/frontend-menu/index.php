@@ -9,7 +9,7 @@
 /**
  * @var $this yii\web\View
  * @var $dataProvider common\models\Menu
- * @var $searchModel \backend\models\search\MenuSearch
+ * @var $searchModel backend\models\search\MenuSearch
  */
 
 use backend\grid\DateColumn;

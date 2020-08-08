@@ -6,6 +6,10 @@
  * Created at: 2016-04-14 15:44
  */
 
+/**
+ * @var $message string
+ */
+
 $this->title = $name;
 ?>
 <div class="middle-box text-center animated fadeInDown">

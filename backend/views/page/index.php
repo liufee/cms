@@ -10,6 +10,7 @@
  * @var $this yii\web\View
  * @var $dataProvider yii\data\ActiveDataProvider
  * @var $searchModel backend\models\search\ArticleSearch
+ * @var $frontendURLManager yii\web\UrlManager
  */
 
 use backend\grid\DateColumn;
@@ -24,18 +25,6 @@ use backend\grid\ActionColumn;
 
 $this->title = 'Pages';
 $this->params['breadcrumbs'][] = Yii::t('app', 'Pages');
-$config = yii\helpers\ArrayHelper::merge(
-    require Yii::getAlias("@frontend/config/main.php"),
-    require Yii::getAlias("@frontend/config/main-local.php")
-);
-$prettyUrl = false;
-if( isset( $config['components']['urlManager']['enablePrettyUrl'] ) ){
-    $prettyUrl = $config['components']['urlManager']['enablePrettyUrl'];
-}
-$suffix = "";
-if( isset( $config['components']['urlManager']['suffix'] ) ){
-    $suffix = $config['components']['urlManager']['suffix'];
-}
 ?>
 <div class="row">
     <div class="col-sm-12">
@@ -63,9 +52,13 @@ if( isset( $config['components']['urlManager']['suffix'] ) ){
                             'attribute' => 'sub_title',
                             'label' => Yii::t("app", "Page Sign"),
                             'format' => 'raw',
-                            'value' => function($model)use($prettyUrl, $suffix){
-                                /** @var \common\models\Article $model */
-                                $url = $prettyUrl ? Yii::$app->params['site']['url'] . 'page/' . $model->sub_title . $suffix : Yii::$app->params['site']['url'] . 'index.php?r=page/' . $model->sub_title . $suffix;
+                            'value' => function($model)use($frontendURLManager){
+                                /** @var common\models\Article $model */
+                                $scriptName = "";
+                                if( $frontendURLManager->showScriptName ){
+                                    $scriptName = "index.php/";
+                                }
+                                $url = $frontendURLManager->enablePrettyUrl ? Yii::$app->params['site']['url'] . $scriptName .  'page/' . $model->sub_title . $frontendURLManager->suffix : Yii::$app->params['site']['url'] . 'index.php?r=page/' . $model->sub_title . $frontendURLManager->suffix;
                                 return Html::a($model->sub_title, $url, ["target" => "_blank"]);
                             },
                         ],
@@ -76,7 +69,7 @@ if( isset( $config['components']['urlManager']['suffix'] ) ){
                             'attribute' => 'status',
                             'format' => 'raw',
                             'value' => function ($model, $key, $index, $column) {
-                                /** @var $model backend\models\Article */
+                                /** @var $model common\models\Article */
                                 return Html::a(Constants::getArticleStatus($model['status']), ['update', 'id' => $model['id']], [
                                     'class' => 'btn btn-xs btn-rounded ' . ( $model['status'] == Constants::YesNo_Yes ? 'btn-info' : 'btn-default' ),
                                     'data-confirm' => $model['status'] == Constants::YesNo_Yes ? Yii::t('app', 'Are you sure you want to cancel release?') : Yii::t('app', 'Are you sure you want to publish?'),

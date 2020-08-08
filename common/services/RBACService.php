@@ -8,23 +8,22 @@
 
 namespace common\services;
 
+use Yii;
 use backend\models\form\AssignPermissionForm;
 use backend\models\search\RBACRoleSearch;
-use Yii;
 use backend\models\search\RBACPermissionSearch;
 use backend\components\CustomLog;
 use backend\models\form\RBACPermissionForm;
 use backend\models\form\RBACRoleForm;
 use yii\base\Event;
 use yii\base\Exception;
-use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
 class RBACService extends Service implements RBACServiceInterface
 {
 
-    /** @var \yii\rbac\ManagerInterface */
+    /** @var yii\rbac\ManagerInterface */
     private $authManager;
 
     public function init()

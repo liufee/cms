@@ -20,10 +20,9 @@ class SearchController extends Controller
 {
 
     /**
-     * 搜索
+     * search
      *
      * @return string
-     * @throws \yii\base\InvalidConfigException
      */
     public function actionIndex()
     {

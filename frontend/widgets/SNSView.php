@@ -10,7 +10,7 @@ namespace frontend\widgets;
 
 
 use Yii;
-use feehi\components\Feehi;
+use common\components\Feehi;
 use yii\helpers\Url;
 
 class SNSView extends \yii\base\Widget

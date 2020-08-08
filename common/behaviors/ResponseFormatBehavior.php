@@ -8,7 +8,6 @@
 namespace common\behaviors;
 
 use Yii;
-use yii\gii\Module;
 use yii\web\Response;
 
 class ResponseFormatBehavior extends \yii\base\Behavior

@@ -1,7 +1,6 @@
 <?php
 
 use common\helpers\DbDriverHelper;
-use common\helpers\StringHelper;
 use yii\db\Migration;
 
 /**

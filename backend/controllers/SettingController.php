@@ -9,12 +9,14 @@
 namespace backend\controllers;
 
 use Yii;
+use DateTimeZone;
 use backend\actions\DoAction;
 use backend\actions\CreateAction;
 use common\services\SettingServiceInterface;
 use backend\actions\UpdateAction;
 use backend\actions\DeleteAction;
 use common\models\Options;
+use yii\helpers\ArrayHelper;
 
 /**
  * Setting management
@@ -45,6 +47,17 @@ class SettingController extends \yii\web\Controller
     {
         /** @var SettingServiceInterface $service */
         $service = Yii::$app->get(SettingServiceInterface::ServiceName);
+        $localFrontendParams = [];
+        if (file_exists(Yii::getAlias("@frontend/config/params-local.php"))){
+            $localFrontendParams = require Yii::getAlias("@frontend/config/params-local.php");
+        }
+        $params = ArrayHelper::merge( require Yii::getAlias("@frontend/config/params.php"), $localFrontendParams);
+        $frontendSupportLanguages = $params['supportLanguages'];
+        $timezones = [];
+        foreach (DateTimeZone::listIdentifiers() as $identifier) {
+            $timezones[$identifier] = $identifier;
+        }
+
         return [
             'website' => [
                 "class" => UpdateAction::className(),
@@ -52,10 +65,12 @@ class SettingController extends \yii\web\Controller
                 'doUpdate' => function($postData)use($service){
                     return $service->updateWebsiteSetting($postData);
                 },
-                "data" => function($updateResultModel)use($service){
+                "data" => function($updateResultModel)use($service, $frontendSupportLanguages, $timezones){
                     $model = $updateResultModel === null ? $service->getModel("website") : $updateResultModel;
                     return [
                         "model" => $model,
+                        'frontendSupportLanguages' => $frontendSupportLanguages,
+                        'timezones' => $timezones,
                     ];
                 },
                 'successRedirect' => ["setting/website"]

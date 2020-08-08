@@ -7,8 +7,10 @@
  */
 
 /**
- * @var $this \yii\web\View
+ * @var $this yii\web\View
  * @var $model common\models\Options
+ * @var $timezones array
+ * @var $frontendSupportLanguages array
  */
 
 use backend\widgets\ActiveForm;
@@ -34,24 +36,13 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Website Setting');
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'seo_description', ['template' => str_replace("{{%TIPS%}}", "", $template)])->textarea() ?>
                 <div class="hr-line-dashed"></div>
-                <?= $form->field($model, 'website_language', ['template' => str_replace("{{%TIPS%}}", "<i class='fa fa-info-circle'></i> " . yii::t('app', 'Frontend display laguage'), $template)])->dropDownList([
-                    'zh-CN' => '简体中文',
-                    'zh-TW' => '繁体中文',
-                    'en-US' => 'English'
-                ]) ?>
+                <?= $form->field($model, 'website_language', ['template' => str_replace("{{%TIPS%}}", "<i class='fa fa-info-circle'></i> " . yii::t('app', 'Frontend default language'), $template)])->dropDownList($frontendSupportLanguages) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'website_comment', ['template' => str_replace("{{%TIPS%}}", "", $template)])->radioList(Constants::getYesNoItems()) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'website_comment_need_verify', ['template' => str_replace("{{%TIPS%}}", "", $template)])->radioList(Constants::getYesNoItems()) ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'website_email', ['template' => str_replace("{{%TIPS%}}", "", $template)]) ?>
-                <?php
-                $temp = \DateTimeZone::listIdentifiers();
-                $timezones = [];
-                foreach ($temp as $v) {
-                    $timezones[$v] = $v;
-                }
-                ?>
                 <div class="hr-line-dashed"></div>
                 <?= $form->field($model, 'website_timezone', ['template' => str_replace("{{%TIPS%}}", "<i class='fa fa-info-circle'></i> " . yii::t('app', 'Frontend timezone'), $template)])->chosenSelect($timezones) ?>
                 <div class="hr-line-dashed"></div>

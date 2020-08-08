@@ -10,7 +10,7 @@ use common\libs\Constants;
 
 /**
  * @var $formType string
- * @var $model \common\models\Options
+ * @var $model common\models\Options
  */
 ?>
 <div class="ibox-content">

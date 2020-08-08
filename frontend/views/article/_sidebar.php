@@ -11,13 +11,11 @@
  * @var $rightAd2 \backend\models\form\AdForm
  */
 
-use common\models\Article;
 use frontend\widgets\FriendlyLinkView;
 use frontend\widgets\HottestArticleTagView;
 use frontend\widgets\LatestCommentView;
 use frontend\widgets\RecentCommentArticleView;
 use frontend\widgets\SNSView;
-use yii\helpers\Url;
 
 ?>
 <aside class="sidebar">

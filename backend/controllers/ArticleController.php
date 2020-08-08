@@ -60,6 +60,7 @@ class ArticleController extends \yii\web\Controller
                         'dataProvider' => $result['dataProvider'],
                         'searchModel' => $result['searchModel'],
                         'categories' => ArrayHelper::getColumn($categoryService->getLevelCategoriesWithPrefixLevelCharacters(), "prefix_level_name"),
+                        'frontendURLManager' => $service->getFrontendURLManager()
                     ];
                 }
             ],

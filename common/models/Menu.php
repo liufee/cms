@@ -11,7 +11,6 @@ namespace common\models;
 use Yii;
 use common\libs\FamilyTree;
 use common\helpers\FileDependencyHelper;
-use yii\base\Exception;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\Url;
@@ -134,7 +133,6 @@ class Menu extends \yii\db\ActiveRecord
      * get menu url
      *
      * @return string
-     * @throws Exception
      */
     public function getMenuUrl()
     {
@@ -242,7 +240,6 @@ class Menu extends \yii\db\ActiveRecord
     /**
      * validate
      *
-     * @param $event
      * @return bool
      */
     public function afterValidate()

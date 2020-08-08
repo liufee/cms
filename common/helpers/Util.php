@@ -8,9 +8,9 @@
 
 namespace common\helpers;
 
+use Yii;
 use yii\base\Exception;
 use yii\imagine\Image;
-use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
@@ -82,7 +82,7 @@ class Util
      * @param $oldFullName
      * @param array $options
      * @return bool
-     * @throws \yii\base\Exception
+     * @throws yii\base\Exception
      */
     public static function handleModelSingleFileUploadAbnormal(ActiveRecord &$model, $field, $uploadPath, $oldFullName, $options=[])
     {
@@ -136,7 +136,7 @@ class Util
      *
      * @param $fullName string 原图路径
      * @param array $thumbSizes 二维数组 如 [["w"=>110,"height"=>"20"],["w"=>200,"h"=>"30"]]则生成两张缩量图，分别为宽110高20和宽200高30
-     * @throws \yii\base\InvalidConfigException
+     * @throws yii\base\InvalidConfigException
      */
     public static function thumbnails($fullName, array $thumbSizes)
     {
@@ -155,7 +155,7 @@ class Util
      * @param $fullName string 原图图片路径
      * @param $thumbSizes array 二维数组 如 [["w"=>110,"height"=>"20"],["w"=>200,"h"=>"30"]]则生成两张缩量图，分别为宽110高20和宽200高30
      * @param $deleteOrigin bool 是否删除原图
-     * @throws \yii\base\InvalidConfigException
+     * @throws yii\base\InvalidConfigException
      */
     public static function deleteThumbnails($fullName, array $thumbSizes, $deleteOrigin=false)
     {

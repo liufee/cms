@@ -8,8 +8,8 @@
 
 namespace console\controllers;
 
-use common\helpers\Util;
 use Yii;
+use common\helpers\Util;
 use common\models\ArticleContent;
 use common\models\FriendlyLink;
 use common\models\Article;

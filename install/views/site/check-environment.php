@@ -6,6 +6,20 @@
  * Created at: 2016-10-19 12:29
  */
 
+/**
+ * @var $os string
+ * @var $phpversion string
+ * @var $session string
+ * @var $pdo string
+ * @var $pdo_mysql string
+ * @var $curl string
+ * @var $gd string
+ * @var $json string
+ * @var $mbstring string
+ * @var $upload_size string
+ * @var $folders []
+ */
+
 use yii\helpers\Url;
 
 $this->title = Yii::t('install', 'Environment');

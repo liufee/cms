@@ -17,7 +17,7 @@ class PageController extends Controller
 {
 
     /**
-     * 单页
+     * single page
      *
      * @param string $name
      * @return string

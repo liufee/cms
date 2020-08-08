@@ -16,7 +16,6 @@
 
 use backend\widgets\ActiveForm;
 use common\libs\Constants;
-use common\models\Category;
 use common\widgets\JsBlock;
 
 $this->title = "Frontend Menus";

@@ -14,7 +14,6 @@
  */
 
 use backend\widgets\ActiveForm;
-use common\models\Category;
 use common\libs\Constants;
 use common\widgets\JsBlock;
 use backend\widgets\Ueditor;

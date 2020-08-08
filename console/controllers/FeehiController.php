@@ -8,7 +8,6 @@
 
 namespace console\controllers;
 
-use common\models\AdminUser;
 use Yii;
 use backend\models\form\RBACPermissionForm;
 use common\services\RBACServiceInterface;
@@ -19,8 +18,6 @@ use yii\console\Controller;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Console;
 use yii\web\Request;
-use yii\web\Session;
-use yii\web\User;
 
 class FeehiController extends Controller
 {

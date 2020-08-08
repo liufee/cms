@@ -86,7 +86,7 @@ class SiteController extends \yii\web\Controller
      * backend index page(backend default action)
      *
      * @return string
-     * @throws \yii\base\InvalidConfigException
+     * @throws yii\base\InvalidConfigException
      * @throws \Throwable
      */
     public function actionIndex()
@@ -103,7 +103,7 @@ class SiteController extends \yii\web\Controller
      * backend main info page(default right iframe page)
      *
      * @return string
-     * @throws \yii\base\InvalidConfigException
+     * @throws yii\base\InvalidConfigException
      */
     public function actionMain()
     {
@@ -178,7 +178,7 @@ class SiteController extends \yii\web\Controller
     /**
      * admin login
      *
-     * @return string|\yii\web\Response
+     * @return string|yii\web\Response
      */
     public function actionLogin()
     {
@@ -199,7 +199,7 @@ class SiteController extends \yii\web\Controller
     /**
      * admin logout
      *
-     * @return \yii\web\Response
+     * @return yii\web\Response
      */
     public function actionLogout()
     {
@@ -209,8 +209,8 @@ class SiteController extends \yii\web\Controller
     }
 
     /**
+     *language change
      *
-     * language change
      */
     public function actionLanguage()
     {

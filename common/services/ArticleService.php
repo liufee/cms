@@ -15,6 +15,7 @@ use common\models\Article;
 use common\models\ArticleContent;
 use common\models\Comment;
 use yii\base\Exception;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
 class ArticleService extends Service implements ArticleServiceInterface
@@ -181,5 +182,27 @@ class ArticleService extends Service implements ArticleServiceInterface
             $model->andWhere(["<", "created_at", $endAt]);
         }
         return $model->count('id');
+    }
+
+    public  function getFrontendURLManager()
+    {
+        $localConfig = [];
+        if (file_exists(Yii::getAlias("@frontend/config/main-local.php"))) {
+            $localConfig = require Yii::getAlias("@frontend/config/main-local.php");
+        }
+        $config = ArrayHelper::merge(
+            require Yii::getAlias("@frontend/config/main.php"),
+            $localConfig
+        );
+
+        $properties = [];
+        if( isset( $config['components']['urlManager']) ){
+            $properties = $config['components']['urlManager'];
+        }
+
+        $urlManager = Yii::$app->getUrlManager();
+        $frontendURLManager = clone $urlManager;
+        Yii::configure($frontendURLManager, $properties);
+        return $frontendURLManager;
     }
 }

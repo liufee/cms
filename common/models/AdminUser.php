@@ -9,9 +9,7 @@
 namespace common\models;
 
 use Yii;
-use backend\components\CustomLog;
 use common\helpers\Util;
-use yii\base\Event;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\web\ForbiddenHttpException;

@@ -67,7 +67,6 @@ class CategoryService extends Service implements CategoryServiceInterface
     /**
      * get article categories urls
      *
-     * @param bool $chosen
      * @return array
      */
     public function getCategoriesRelativeUrl()
