@@ -78,6 +78,12 @@ return [
                 'list/<page:\d+>' => 'site/index',
             ],
         ],
+        'response' => [
+            'as format' => [
+                'class' => common\behaviors\ResponseFormatBehavior::className(),
+                'defaultAjaxResponseFormat' => yii\web\Response::FORMAT_JSON,//if http Accept header is "application/html"
+            ]
+        ],
         'i18n' => [
             'translations' => [
                 'app*' => [

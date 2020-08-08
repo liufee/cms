@@ -135,7 +135,9 @@ class ArticleService extends Service implements ArticleServiceInterface
 
     public function delete($id, array $options = [])
     {
+        /** @var Article $articleModel */
         $articleModel = $this->getDetail($id, $options);
+        /** @var ArticleContent $articleContentModel */
         $articleContentModel = $this->getArticleContentDetail($id);
         $db = Yii::$app->getDb();
         $transaction = $db->beginTransaction();
@@ -146,10 +148,8 @@ class ArticleService extends Service implements ArticleServiceInterface
             $transaction->commit();
         }catch (Exception $exception){
             $transaction->rollBack();
-            return [
-                'articleModel' => $articleModel,
-                'articleContentModel' => $articleContentModel,
-            ];
+            $articleModel->addError("id", $exception->getMessage());
+            return $articleModel;
         };
         return true;
     }

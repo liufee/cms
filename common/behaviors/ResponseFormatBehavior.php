@@ -77,6 +77,8 @@ class ResponseFormatBehavior extends \yii\base\Behavior
                     case "text/html":
                         if( $this->isApi ){
                             $response->format = $this->defaultResponseFormat;
+                        }else if( Yii::$app->getRequest()->getIsAjax() ){
+                            $response->format = $this->defaultAjaxResponseFormat;
                         }else{
                             $response->format = Response::FORMAT_HTML;
                         }

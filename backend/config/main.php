@@ -70,6 +70,12 @@ return [
             'showScriptName' => true,//隐藏index.php
             'enableStrictParsing' => false,
         ],
+        'response' => [
+            'as format' => [
+                'class' => common\behaviors\ResponseFormatBehavior::className(),
+                'defaultAjaxResponseFormat' => yii\web\Response::FORMAT_JSON,//if http Accept header is "application/html"
+            ]
+        ],
         'i18n' => [
             'translations' => [//多语言包设置
                 'app*' => [
