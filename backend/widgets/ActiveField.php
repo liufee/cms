@@ -105,7 +105,7 @@ class ActiveField extends \yii\widgets\ActiveField
     public function dropDownList($items, $options = [], $generateDefault = true)
     {
         if ($generateDefault === true && ! isset($options['prompt'])) {
-            $options['prompt'] = Yii::t('app', 'Please select');
+            $options['prompt'] = Yii::t('app', 'Please chose');
         }
         return parent::dropDownList($items, $options);
     }
@@ -143,8 +143,8 @@ class ActiveField extends \yii\widgets\ActiveField
         $options['inherit_select_classes'] === false && $options['inherit_select_classes'] = 'false';
         !isset($options['max_selected_options']) && $options['max_selected_options'] = 'Infinity';
         !isset($options['no_results_text']) && $options['no_results_text'] = Yii::t('app', 'None');
-        !isset($options['placeholder_text_multiple']) && $options['placeholder_text_multiple'] = Yii::t('app', 'Please select some');;
-        !isset($options['placeholder_text_single']) && $options['placeholder_text_single'] = Yii::t('app', 'Please select');
+        !isset($options['placeholder_text_multiple']) && $options['placeholder_text_multiple'] = Yii::t('app', 'Please chose some');;
+        !isset($options['placeholder_text_single']) && $options['placeholder_text_single'] = Yii::t('app', 'Please chose');
         !isset($options['search_contains']) && $options['search_contains'] = true;
         $options['search_contains'] === true && $options['search_contains'] = 'true';
         $options['search_contains'] === false && $options['search_contains'] = 'false';

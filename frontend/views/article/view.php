@@ -31,8 +31,8 @@ use yii\widgets\ActiveForm;
 
 $this->title = $model->title;
 
-$categoryName = $model->category ? $model->category->name : Yii::t('app', 'uncategoried');
-$categoryAlias = $model->category ? $model->category->alias : Yii::t('app', 'uncategoried');
+$categoryName = $model->category ? $model->category->name : Yii::t('app', 'UnClassified');
+$categoryAlias = $model->category ? $model->category->alias : Yii::t('app', 'UnClassified');
 
 ViewAsset::register($this);
 ?>

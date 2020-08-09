@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Articles');
                             'attribute' => 'cid',
                             'label' => Yii::t('app', 'Category'),
                             'value' => function ($model) {
-                                return $model->category ? $model->category->name : Yii::t('app', 'uncategoried');
+                                return $model->category ? $model->category->name : Yii::t('app', 'UnClassified');
                             },
                             'filter' => $categories,
                         ],

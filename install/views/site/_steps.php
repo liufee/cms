@@ -22,7 +22,7 @@ switch (Yii::$app->controller->action->id) {
 <div class="step">
     <ul class="unstyled">
         <li class="<?= $current1 ?>"><em>1</em><?= Yii::t('install', 'Check Environment') ?></li>
-        <li class="<?= $current2 ?>"><em>2</em><?= Yii::t('install', 'Create Data') ?></li>
+        <li class="<?= $current2 ?>"><em>2</em><?= Yii::t('install', 'Fill Info') ?></li>
         <li class="<?= $current3 ?>"><em>3</em><?= Yii::t('install', 'Success') ?></li>
     </ul>
 </div>

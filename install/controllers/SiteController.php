@@ -33,7 +33,7 @@ class SiteController extends \yii\web\Controller
         parent::init();
         if (self::getIsInstalled()) {
             $response =  Yii::$app->getResponse();
-            $response->content = Yii::t('install', "Has been installed, if you want to reinstall please remove ") . Yii::getAlias(self::$installLockFile) . yii::t('install', ' and try it again');
+            $response->content = Yii::t('install', "Has been installed, if you want to reinstall please remove {lock_file} and try it again", ['lock_file'=>self::$installLockFile]);
             $response->send();
             exit(0);
         }
@@ -340,7 +340,7 @@ class SiteController extends \yii\web\Controller
     {
         if (isset($_SESSION["_install_setinfo"]) && $_SESSION["_install_setinfo"] == 1) {
             if( !touch(Yii::getAlias(self::$installLockFile)) ){
-                $message = Yii::t("install", "Touch install lock file " . self::$installLockFile . " failed,please touch file handled" );
+                $message = Yii::t("install", "Touch install lock file {lock_file} failed,please touch file handled", ['lock_file'=>self::$installLockFile]);
                 echo "<script>alert('{$message}')</script>";
             }
             session_destroy();

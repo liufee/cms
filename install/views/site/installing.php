@@ -10,7 +10,7 @@
     <div class="step">
         <ul class="unstyled">
             <li class="on"><em>1</em><?= Yii::t('install', 'Check Environment') ?></li>
-            <li class="on"><em>2</em><?= Yii::t('install', 'Create Data') ?></li>
+            <li class="on"><em>2</em><?= Yii::t('install', 'Fill Info') ?></li>
             <li class="current"><em>3</em><?= Yii::t('install', 'Finish Install') ?></li>
         </ul>
     </div>

@@ -19,9 +19,13 @@ $this->title = "选择语言 Please choose language";
 <div class="section">
     <div class="main">
         <select style="width: 350px" onchange="location.href=this.options[this.selectedIndex].value;">
-            <option>请选择语言(Please choose language)</option>
-            <option value="<?= Url::to(['site/language', 'lang' => 'zh-CN']) ?>">简体中文</option>
-            <option value="<?= Url::to(['site/language', 'lang' => 'en-US']) ?>">English</option>
+        <option value="<?=Yii::$app->getRequest()->getHostInfo() . Yii::$app->getRequest()->getUrl()?>">请选择语言(Please choose language)</option>
+        <?php
+        foreach (Yii::$app->params['supportLanguages'] as $language => $languageDescription) {
+            $url = Url::to(['site/language', 'lang' => $language]);
+            echo "<option value='{$url}'>{$languageDescription}</option>";
+        }
+        ?>
         </select>
     </div>
 </div>

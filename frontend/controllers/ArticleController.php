@@ -71,7 +71,7 @@ class ArticleController extends Controller
         }
         $where = ['type' => Article::ARTICLE, 'status' => Article::ARTICLE_PUBLISHED];
         if ($cat != '' && $cat != 'index') {
-            if ($cat == Yii::t('app', 'uncategoried')) {
+            if ($cat == Yii::t('app', 'UnClassified')) {
                 $where['cid'] = 0;
             } else {
                 if (! $category = Category::findOne(['alias' => $cat])) {

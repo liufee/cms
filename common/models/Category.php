@@ -108,7 +108,7 @@ class Category extends \yii\db\ActiveRecord
     {
         $subs = $this->getDescendants($this->id);
         if (! empty($subs)) {
-            $this->addError('id', Yii::t('app', 'Allowed not to be deleted, sub level exsited.'));
+            $this->addError('id', Yii::t('app', 'Allowed not to be deleted, sub level existed.'));
             return false;
         }
         if (Article::findOne(['cid' => $this->id]) != null) {

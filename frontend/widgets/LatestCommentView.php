@@ -41,7 +41,7 @@ class LatestCommentView extends \yii\base\Widget
             $item = str_replace("{%NICKNAME%}", $model->nickname, $item);
             $item = str_replace("{%RELATIVE_TIME%}", Yii::$app->getFormatter()->asRelativeTime($model->created_at), $item);
             $item = str_replace("{%CREATED_AT%}", Yii::$app->getFormatter()->asTime($model->created_at), $item);
-            $item = str_replace("{%SAID%}", Yii::t('frontend', ' said'), $item);
+            $item = str_replace("{%SAID%}", " " . Yii::t('frontend', 'said'), $item);
             $item = str_replace("{%CONTENT%}", $model->content, $item);
             $items .= $item;
         }

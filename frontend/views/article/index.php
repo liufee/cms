@@ -42,7 +42,7 @@ $this->title = ( !empty($category) ? $category . " - " : "" ) . Yii::$app->feehi
                 'dataProvider' => new ArrayDataProvider([
                     'allModels' => $headLinesArticles,
                 ]),
-                'layout' => "<div class='tip'><h4>" . Yii::t('frontend', 'Well-choosen') . "</h4></div>
+                'layout' => "<div class='tip'><h4>" . Yii::t('frontend', 'Well-chosen') . "</h4></div>
                                 <ul class=\"dd-list\">
                                     {items}
                                 </ul>

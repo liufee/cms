@@ -29,7 +29,7 @@ class HottestArticleTagView extends \yii\base\Widget
             /** @var ArticleMetaTag $model */
             $item = str_replace("{%HREF%}", Url::to(['search/tag', 'tag' => $tagName]), $this->itemTemplate);
             $item = str_replace("{%TAG_NUM%}", $num, $item);
-            $item = str_replace("{%TOPICS%}", Yii::t('frontend', ' Topics'), $item);
+            $item = str_replace("{%TOPICS%}", " " . Yii::t('frontend', 'Topics'), $item);
             $item = str_replace("{%TAG_NAME%}", $tagName, $item);
             $items .= $item;
         }

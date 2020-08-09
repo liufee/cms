@@ -44,7 +44,7 @@ class Constants
         $items = [
             self::COMMENT_INITIAL => Yii::t('app', 'Not Audited'),
             self::COMMENT_PUBLISH => Yii::t('app', 'Passed'),
-            self::COMMENT_RUBISSH => Yii::t('app', 'Unpassed'),
+            self::COMMENT_RUBISSH => Yii::t('app', 'Not pass'),
         ];
         return self::getItems($items, $key);
     }

@@ -31,7 +31,7 @@ class FeehiController extends Controller
         $runtime = Yii::getAlias("@frontend/runtime/");
         $this->stdout("downloading uploads.zip hold on please..." . PHP_EOL);
         $uploadsZip = $runtime . "uploads.zip";
-        list($bin, $err) = FileHelper::download($uploadsZipUrl);
+        list($bin, $err) = FileHelper::request($uploadsZipUrl);
         if($err !== ""){
             $this->stdout("download uploads.zip failed " . $err . " please download yourself " . $uploadsZipUrl . PHP_EOL, Console::BG_RED);
             return 1;

@@ -72,7 +72,7 @@ use frontend\widgets\SNSView;
     <div class="widget d_tag">
         <div class="title">
             <h2>
-                <sapn class="title_span"><?= Yii::t('frontend', 'Clound Tags') ?></sapn>
+                <sapn class="title_span"><?= Yii::t('frontend', 'Cloud Tags') ?></sapn>
             </h2>
         </div>
         <div class="d_tags">

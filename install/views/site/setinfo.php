@@ -11,7 +11,7 @@ use yii\helpers\Url;
 use install\assets\LayerAsset;
 
 LayerAsset::register($this);
-$this->title = Yii::t('install', 'Create Data');
+$this->title = Yii::t('install', 'Fill Info');
 ?>
     <section class="section">
         <?= $this->render('_steps') ?>
