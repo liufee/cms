@@ -9,6 +9,7 @@
 namespace install\controllers;
 
 use Yii;
+use common\components\Feehi;
 use install\database\Tables;
 use Exception;
 use yii\db\Connection;
@@ -30,6 +31,8 @@ class SiteController extends \yii\web\Controller
 
     public function init()
     {
+        self::$installLockFile = Yii::getAlias(self::$installLockFile);
+        Feehi::determineLanguage();
         parent::init();
         if (self::getIsInstalled()) {
             $response =  Yii::$app->getResponse();
@@ -41,7 +44,7 @@ class SiteController extends \yii\web\Controller
 
     public static function getIsInstalled()
     {
-        return file_exists(Yii::getAlias(self::$installLockFile));
+        return file_exists(self::$installLockFile);
     }
 
     public function actions()
@@ -353,7 +356,7 @@ class SiteController extends \yii\web\Controller
 
     public function actionLanguage()
     {
-        $language = Yii::$app->getRequest()->get('lang');//echo $language;die;
+        $language = Yii::$app->getRequest()->get('lang');
         if (isset($language)) {
             Yii::$app->session['language'] = $language;
         }
@@ -370,6 +373,13 @@ class SiteController extends \yii\web\Controller
                 }
             }catch (\yii\db\Exception $e){
                 if( $e->getCode() == 1049 ) {
+                    $request = Yii::$app->getRequest();
+                    $dbhost = $request->post('dbhost', 'dbhost');
+                    $dbport = $request->post('dbport', '3306');
+                    $dsn = $dbtype . ":host=" . $dbhost . ';port=' . $dbport;
+                    $db->dsn = $dsn;
+                    $db->pdo = null;
+                    $db->open();
                     $result = $db->createCommand("CREATE DATABASE IF NOT EXISTS `{$dbname}` DEFAULT CHARACTER SET utf8")->execute();
                     if ($result == 1) {
                         $this->checkAccountPermission($db, $dbtype, $dbname);

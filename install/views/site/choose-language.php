@@ -6,9 +6,10 @@
  * Created at: 2017-03-15 21:16
  */
 
+use common\widgets\JsBlock;
 use yii\helpers\Url;
 
-$this->title = "选择语言 Please choose language";
+$this->title = Yii::t("install", "Please chose language");
 ?>
 <style>
     .main {
@@ -18,14 +19,28 @@ $this->title = "选择语言 Please choose language";
 </style>
 <div class="section">
     <div class="main">
-        <select style="width: 350px" onchange="location.href=this.options[this.selectedIndex].value;">
-        <option value="<?=Yii::$app->getRequest()->getHostInfo() . Yii::$app->getRequest()->getUrl()?>">请选择语言(Please choose language)</option>
+        <select id="language" style="width: 350px">
+        <option value="<?=Yii::$app->getRequest()->getHostInfo() . Yii::$app->getRequest()->getUrl()?>"><?=$this->title?></option>
         <?php
         foreach (Yii::$app->params['supportLanguages'] as $language => $languageDescription) {
+            $selected = "";
+            if (Yii::$app->language == $language) {
+                $selected = "selected";
+            }
             $url = Url::to(['site/language', 'lang' => $language]);
-            echo "<option value='{$url}'>{$languageDescription}</option>";
+            echo "<option $selected value='{$url}'>{$languageDescription}</option>";
         }
         ?>
         </select>
+        <div>
+        <button id="next" class="btn btn-primary"><?= Yii::t('install', 'Next') ?></button>
+        </div>
     </div>
 </div>
+<?php JsBlock::begin();?>
+<script>
+    $("#next").click(function () {
+        location.href = $("#language").find("option:selected").val()
+    })
+</script>
+<?php JsBlock::end();?>

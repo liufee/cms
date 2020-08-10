@@ -8,6 +8,7 @@
 
 return [
     'Install guide' => '安装向导',
+    'Please chose language' => '请选择语言',
     'FeehiCMS license agreement' => 'FeehiCMS许可协议',
     'Accept' => '接受',
     'Decline' => '拒绝',
@@ -82,7 +83,7 @@ return [
     'error' => '失败',
     'go Frontend' => '进入前台',
     'go Backend' => '进入后台',
-    'Has been installed, if you want to reinstall please remove {lock_file} and try it again"' => '已经安装过了，如果想要重新安装请删除{lock_file}再试',
+    'Has been installed, if you want to reinstall please remove {lock_file} and try it again' => '已经安装过了，如果想要重新安装请删除{lock_file}再试',
     'Finish Install' => '完成安装',
     'Installing' => '正在安装',
     'Installed success;but update write config file error.please update common/config/main-local.php components db section.' => "安装成功，修改配置文件common/config/main-local.php失败,请手动修改components db数据库配置",

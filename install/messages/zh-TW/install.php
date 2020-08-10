@@ -1,6 +1,7 @@
 <?php
 return array (
   'Install guide' => '安裝嚮導',
+  'Please chose language' => '請選擇語言',
   'FeehiCMS license agreement' => 'FeehiCMS許可協議',
   'Accept' => '接受',
   'Decline' => '拒絕',
@@ -75,7 +76,7 @@ return array (
   'error' => '失敗',
   'go Frontend' => '進入前台',
   'go Backend' => '進入後台',
-  'Has been installed, if you want to reinstall please remove {lock_file} and try it again"' => '已經安裝過了，如果想要重新安裝請刪除{lock_file}再試',
+  'Has been installed, if you want to reinstall please remove {lock_file} and try it again' => '已經安裝過了，如果想要重新安裝請刪除{lock_file}再試',
   'Finish Install' => '完成安裝',
   'Installing' => '正在安裝',
   'Installed success;but update write config file error.please update common/config/main-local.php components db section.' => '安裝成功，修改配置文件common/config/main-local.php失敗,請手動修改components db數據庫配置',

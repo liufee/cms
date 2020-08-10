@@ -73,19 +73,19 @@ $this->title = Yii::t('install', 'Environment');
                 </td>
                 <td><?= Yii::t('install', 'Required') ?></td>
             </tr>
-            <tr>
+            <!--<tr>
                 <td>
                     PDO_MySQL
                     <a href="https://www.baidu.com/s?wd=开启PDO,PDO_MYSQL扩展" target="_blank">
                         <i class="fa fa-question-circle question"></i>
                     </a>
                 </td>
-                <td><?= Yii::t('install', 'Required') ?></td>
+                <td><?/*= Yii::t('install', 'Required') */?></td>
                 <td>
-                    <?= $pdo_mysql ?>
+                    <?/*= $pdo_mysql */?>
                 </td>
-                <td><?= Yii::t('install', 'Required') ?></td>
-            </tr>
+                <td><?/*= Yii::t('install', 'Required') */?></td>
+            </tr>-->
             <tr>
                 <td>
                     CURL

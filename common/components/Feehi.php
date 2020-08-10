@@ -173,7 +173,7 @@ class Feehi extends Component
         }
     }
 
-    public  static function determineLanguage()
+    public static function determineLanguage()
     {
         if (isset(Yii::$app->session['language'])) {//user selected language already
             Yii::$app->language = Yii::$app->session['language'];
