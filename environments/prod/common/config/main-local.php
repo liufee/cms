@@ -12,6 +12,7 @@ return [
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',
+            'tablePrefix' => "",
         ],
         'mailer' => [
             'class' => yii\swiftmailer\Mailer::className(),

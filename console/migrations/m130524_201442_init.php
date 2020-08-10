@@ -12,11 +12,16 @@ use yii\db\Migration;
  */
 class m130524_201442_init extends Migration
 {
+
     public function up()
     {
         $params = $this->getParams();
         $frontendUri = "";
+        $adminUsernameVal = "";
+        $adminPasswordVal = "";
         isset($params['frontendUri']) && $frontendUri = $params['frontendUri'];
+        isset($params['adminUsername']) && $adminUsernameVal = $params['adminUsername'];
+        isset($params['adminPassword']) && $adminPasswordVal = $params['adminPassword'];
         while( strpos($frontendUri, 'http://') !== 0 && strpos($frontendUri, 'https://') !== 0 && strpos($frontendUri, '//') !== 0 ){
             if( $frontendUri == "" ){
                 yii::$app->controller->stdout("Input your frontend web url(like //www.xxx.com) :");
@@ -24,6 +29,27 @@ class m130524_201442_init extends Migration
                 yii::$app->controller->stdout("Must begin with 'http', 'https' or '//' :");
             }
             $frontendUri = trim(fgets(STDIN));
+        }
+
+        while ($adminUsernameVal === "" || $adminUsernameVal === false){
+            if( $adminUsernameVal === "" ){
+                yii::$app->controller->stdout("Input your backend admin username :");
+            }else{
+                yii::$app->controller->stdout("only alphabet,number,_ and - permitted (/^[a-zA-Z0-9_\-]+$/) :");
+            }
+            $adminUsernameVal = trim(fgets(STDIN));
+            if(!preg_match("/^[a-zA-Z0-9_\-]+$/", $adminUsernameVal)){
+                $adminUsernameVal = false;
+            }
+        }
+
+        while ($adminPasswordVal === ""){
+            if( $adminPasswordVal === "" ){
+                yii::$app->controller->stdout("Input your backend admin password :");
+            }else{
+                yii::$app->controller->stdout("password cannot be blank :");
+            }
+            $adminPasswordVal = trim(fgets(STDIN));
         }
 
         $tableOptions = null;
@@ -150,9 +176,9 @@ class m130524_201442_init extends Migration
             [
                 [
                     "1",
-                    "admin",
+                    $adminUsernameVal,
                     "zr9mY7lt23oAhj_ZYjydbLJKcbE3FJ19",
-                    "$2y$13$8aF72c/7Nqq/atyMivhVTej0bIXS1t8daPJXKtVjFzJUsG68eGgaG",
+                    Yii::$app->getSecurity()->generatePasswordHash($adminPasswordVal),
                     "admin@feehi.com",
                     "",
                     "10",

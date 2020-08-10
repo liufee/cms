@@ -59,15 +59,14 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
     
 2.创建容器
 ```bash
-    $ docker run --name feehicms -h feehicms -itd -v /path/to/data:/data -e DbDSN=sqlite:/data/feehi.db -p 8080:80 feehi/cms
+    $ docker run --name feehicms -h feehicms -itd -v /path/to/data:/data -e DBDSN=sqlite:/data/feehi.db -e TablePrefix=feehi_ -e AdminUsername=admin -e AdminPassword=123456 -p 8080:80 feehi/cms
 ```
 以上命令将会自动初始化FeehiCMS，并导入数据库(默认数据库为sqlite)  
 如果需要更使用其他数据库，比如mysql，执行:  
 ```bash
-    $ docker run --name feehicms -h feehicms -itd -e DbDSN=mysql:host=mysql-ip;dbname=feehi -e DbUser=dbuser -e DbPassword=dbpassword -p 8080:80 feehi/cms
+    $ docker run --name feehicms -h feehicms -itd -e DBDSN=mysql:host=mysql-ip;dbname=feehi -e DBUser=dbuser -e DBPassword=dbpassword -e TablePrefix=feehi_ -e AdminUsername=admin -e AdminPassword=123456 -p 8080:80 feehi/cms
 ```
-如果需要使用postgresql则将DbDSN改为pgsql:host=pgsql-ip  
-以上方式初始化后，后台用户名均为admin,密码均为123456
+如果需要使用postgresql则将DBDSN改为pgsql:host=pgsql-ip  
   
 也可以仅初始化FeehiCMS，然后通过web在线安装 
 ```bash
@@ -95,17 +94,15 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 安装
 ---------------
 前置条件: 如未特别说明，本文档已默认您把php命令加入了环境变量，如果您未把php加入环境变量，请把以下命令中的php替换成/path/to/php
+> 无论是使用归档文件还是composer，都有相应阶段让您填入后台管理用户名、密码
 1. 使用归档文件(简单，适合没有yii2经验者)
-    >使用此方式安装，后台超管用户名和密码会在安装过程中让您填入
     1. 下载FeehiCMS源码 [点击此处下载最新版](http://resource-1251086492.cossh.myqcloud.com/Feehi_CMS.zip)
     2. 解压到目录 
     3. 配置web服务器[web服务器配置](docs/WEBSERVER_CONFIG.md)
     4. 浏览器打开 http://localhost/install.php 按照提示完成安装(若使用php内置web服务a器则地址为 http://localhost:8080/install.php )
     5. 完成
     
-2. 使用composer (`推荐使用此方式安装`)
-    >使用此方式安装，默认的后台超级管理员用户名admin密码123456
-    
+2. 使用composer (`推荐使用此方式安装`) 
      >composer的安装以及国内镜像设置请点击 [此处](https://developer.aliyun.com/composer)
      
      >以下命令默认您已全局安装composer，如果您是局部安装的composer:请使用php /path/to/composer.phar来替换以下命令中的composer

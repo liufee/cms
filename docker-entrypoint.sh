@@ -20,37 +20,38 @@ function initConfig(){
     "${FeehiCMSPath}/init" --env="${Env}" --overwrite=All
 }
 
-function importDb(){
-    dbType=(${DbDSN//:/ })
+function importDB(){
+    dbType=(${DBDSN//:/ })
     if ! inArray "$dbType"; then
     echo "DBHost error, only support ${supportDatabases[*]}"
     exit 1
 fi
 
     if [ "${dbType}" == sqlite ];then
-        temp=${DbDSN%/*}
+        temp=${DBDSN%/*}
         sqliteDataPath=${temp/sqlite:/}
     if [ ! -d "${sqliteDataPath}" ]; then
     mkdir -p "$sqliteDataPath"
         fi
     else
-        if [ "${dbUser}" == "" ];then
+        if [ "${DBUser}" == "" ];then
             echo "${dbType} must set env DBUser"
         fi
     fi
 
-    sed -i "s#'dsn' => 'sqlite:/feehi.db'#'dsn' => '${DbDSN}'#g" "${FeehiCMSPath}/common/config/main-local.php"
-    sed -i "s#'charset' => 'utf8'#'charset' => '${DbCharset}'#g" "${FeehiCMSPath}/common/config/main-local.php"
+    sed -i "s#.*'dsn'.*#            'dsn' => '${DBDSN}',#g" "${FeehiCMSPath}/common/config/main-local.php"
+    sed -i "s#.*'charset'.*#            'charset' => '${DBCharset}',#g" "${FeehiCMSPath}/common/config/main-local.php"
+    sed -i "s#.*'tablePrefix'.*#            'tablePrefix' => '${TablePrefix}',#g" "${FeehiCMSPath}/common/config/main-local.php"
     if [ "${dbType}" != sqlite ];then
-        sed -i "s#'username' => 'root'#'username' => '${DbUser}'#g" "${FeehiCMSPath}/common/config/main-local.php"
-        sed -i "s#'password' => ''#'${DbPassword}'#g" "${FeehiCMSPath}/common/config/main-local.php"
+        sed -i "s#.*'username'.*#            'username' => '${DBUser}',#g" "${FeehiCMSPath}/common/config/main-local.php"
+        sed -i "s#.*'password'.*#            'password' => '${DBPassword}',#g" "${FeehiCMSPath}/common/config/main-local.php"
     fi
-    $yiiCmd migrate/up --interactive=0 frontendUri="${FrontendUri}"
+    $yiiCmd migrate/up --interactive=0 frontendUri="${FrontendUri}" adminUsername="${AdminUsername}" adminPassword="${AdminPassword}"
 
     echo "Import database success; Configured Database info:"
-    echo -e "DbDSN ${DbDSN}"
+    echo -e "DBDSN ${DBDSN}"
     if [ "$dbType" != sqlite ];then
-        echo -e "DBUser ${DBUser} \nDbPassword ${DbPassword}"
+        echo -e "DBUser ${DBUser} \nDBPassword ${DBPassword}"
     fi
 }
 
@@ -95,7 +96,7 @@ case ${!#} in
         if [ ! -f "$installLockFile" ];then #need to install
             initConfig
             if [ $onlineInstall -eq 1 ];then #auto install
-                importDb
+                importDB
             else
                 rm -rf "$installLockFile" #need visis http://your-server-ip:port/install.php and then fill info for install FeehiCMS
             fi
@@ -106,7 +107,7 @@ case ${!#} in
         fi
         start
         ;;
-    sh)
+    sh|bash|/bin/bash|/bin/sh)
         /bin/bash -C
         ;;
     *)
@@ -121,9 +122,9 @@ case ${!#} in
             -m run fpm(port 9000 cannot be modified)
 
         examples:
-            docker run -it -name feehi -p 80:80 -v /data:/data -e Listening=0.0.0.0:80 -e FrontendUri=//your-server-ip -e DbDSN=sqlite:/data/feehi.db feehi/cms #auto import database sqlite
-            docker run -it -name feehi -p 80:80 -v /data:/data -e Listening=0.0.0.0:80 -e FrontendUri=//your-server-ip -e DbDSN=sqlite:/data/feehi.db feehi/cms -o start #start server then visit http://your-server-ip/install.php
-            docker run -it -name feehi -p 80:80 -v /data:/data -e Listening=0.0.0.0:80 -e FrontendUri=//your-server-ip -e DbDSN=mysql:host=x.x.x.x;dbname=feehi -e DbUser=xxx -e DbPassword=xxxxxx feehi/cms #auto import database mysql
+            docker run -it -name feehi -p 80:80 -v /data:/data -e Listening=0.0.0.0:80 -e feehi/cms -o start #start server then visit http://your-server-ip/install.php
+            docker run -it -name feehi -p 80:80 -v /data:/data -e Listening=0.0.0.0:80 -e FrontendUri=//your-server-ip -e DBDSN=sqlite:/data/feehi.db -e TablePrefix=feehi_ -e AdminUsername=admin -e AdminPassword=123456 feehi/cms #auto import database sqlite
+            docker run -it -name feehi -p 80:80 -v /data:/data -e Listening=0.0.0.0:80 -e FrontendUri=//your-server-ip -e DBDSN=mysql:host=x.x.x.x;dbname=feehi -e DBUser=xxx -e DBPassword=xxxxxx -e TablePrefix=feehi_ -e AdminUsername=admin -e AdminPassword=123456 feehi/cms #auto import database mysql
         "
     exit 1
 esac
