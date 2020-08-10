@@ -63,7 +63,7 @@ class SearchController extends Controller
         ]);
         $data = array_merge([
             'dataProvider' => $dataProvider,
-            'type' => Yii::t('frontend', 'Tag {tag} related articles', ['tag'=>$tag]),
+            'type' => Yii::t('frontend', 'Tag {tag} related articles', ['tag'=>Html::encode($tag)]),
 
         ], Helper::getCommonInfos());
         return $this->render('/article/index', $data);
