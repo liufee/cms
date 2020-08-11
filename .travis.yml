@@ -36,7 +36,7 @@ before_script:
 - mysql -e 'CREATE DATABASE cms_test;'
 - echo "extension = imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 - printf "\n" | pecl install -f imagick
-- php yii_test migrate --interactive=0 frontendUri=//localhost
+- php yii_test migrate --interactive=0 frontendUri=//localhost adminUsername=admin adminPassword=123456
 - cp -rf api/tests/acceptance.suite.yml.example api/tests/acceptance.suite.yml
 - cp -rf api/tests/functional.suite.yml.example api/tests/functional.suite.yml
 - cd frontend/web && php -S 0.0.0.0:8888 &
