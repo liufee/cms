@@ -289,6 +289,94 @@ class FeehiController extends Controller
     }
 
     /**
+     * Multi-language translate
+     *
+     * Use google translate auto generate multi-language
+     * You should pass your own google API Key
+     * Execute like `/path/to/yii feehi/translate apiKeyContent`
+     *
+     * @param string $apiKey
+     * @throws \Exception
+     */
+    public function actionTranslate($apiKey="")
+    {
+        while( $apiKey == "" ){
+            yii::$app->controller->stdout("Input your Google API Key :");
+            $apiKey = trim(fgets(STDIN));
+        }
+
+        $url = "https://translation.googleapis.com/language/translate/v2?key=" . $apiKey;
+
+        $dstLanguages = ["zh-TW", "fr", "ru", "es", "de", "it", "ja", "pt", "ko", "nl"];//繁体中文，法语，俄罗斯语，西班牙语，德语，意大利语，日语，葡萄牙，韩语，荷兰
+
+        $translateItems = [
+            [
+                "messages" => array_flip(require Yii::getAlias("@yii/../../../backend/messages/en/menu.php")),
+                "saveFile" =>  Yii::getAlias("@yii/../../../backend/messages/{language}/menu.php"),
+            ],
+            [
+                "messages" => require Yii::getAlias("@yii/../../../backend/messages/zh/app.php"),
+                "saveFile" => Yii::getAlias("@yii/../../../backend/messages/{language}/app.php"),
+            ],
+            [
+                "messages" => require Yii::getAlias("@yii/../../../frontend/messages/zh/frontend.php"),
+                "saveFile" => Yii::getAlias("@yii/../../../frontend/messages/{language}/frontend.php"),
+            ],
+            [
+                "messages" => require Yii::getAlias("@yii/../../../install/messages/zh/install.php"),
+                "saveFile" => Yii::getAlias("@yii/../../../install/messages/{language}/install.php"),
+            ]
+        ];
+
+        foreach ($dstLanguages as $dstLanguage) {
+            foreach ($translateItems as $item) {
+                $fileName = str_replace("{language}", $dstLanguage, $item['saveFile']);
+                $temp = pathinfo($fileName);
+                if( !file_exists( $temp['dirname'] ) ){
+                    mkdir($temp['dirname']);
+                }
+
+                $fileResult = [];
+                foreach ($item['messages'] as $english => $chinese) {
+                    $sourceLanguage = "en";
+                    $message = $english;
+                    if( $dstLanguage == "zh-TW" ){//to traditional chinese use simple chinese as source language
+                        $sourceLanguage = "zh";
+                        $message = $chinese;
+                    }
+                    $data = [
+                        'q' => $message,
+                        'source' => $sourceLanguage,
+                        'target' => $dstLanguage,
+                        'format' => 'text'
+                    ];
+                    $key = $english;
+                    if( $temp['basename'] == "menu.php" ) {//menu translate source language is simple chinese
+                        $key = $chinese;
+                    }
+                    $query = http_build_query($data);
+                    $res = FileHelper::request($url . "&" . $query);
+                    if (!isset($res[0])) {
+                        $this->stderr(print_r($res, true) . print_r($data, true));
+                        exit;
+                    }
+                    $response = json_decode($res[0], true);
+                    if (!isset($response['data']['translations'][0]['translatedText'])) {
+                        $this->stderr(print_r($response, true) . print_r($data, true));
+                        exit;
+                    }
+                    $dstMessage = $response['data']['translations'][0]['translatedText'];
+                    $fileResult[$key] = $dstMessage;
+                    $this->stdout(sprintf("%s(%s) to %s(%s)\n", $message, $sourceLanguage, $dstMessage, $dstLanguage));
+                }
+
+                $this->stdout("write translate file " . $fileName . PHP_EOL, Console::FG_YELLOW);
+                file_put_contents($fileName, "<?php \nreturn " . var_export($fileResult, true) . ";");
+            }
+        }
+    }
+
+    /**
      * Publish FeehiCMS
      */
     public function actionPublish()

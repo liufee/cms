@@ -1,4 +1,4 @@
-<?php
+<?php 
 return array (
   'Install guide' => '安裝嚮導',
   'Please chose language' => '請選擇語言',
