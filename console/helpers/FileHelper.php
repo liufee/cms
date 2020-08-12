@@ -14,9 +14,14 @@ class FileHelper extends \yii\helpers\FileHelper
 {
     public static function unzip($zipFile, $path)
     {
+        if( !extension_loaded("zip") ){
+            throw new Exception("zip extension not loaded");
+        }
+
         if (!file_exists($zipFile)) {
             throw new Exception("File not exists " . $zipFile);
         }
+
         $resource = zip_open($zipFile);
 
         while ($dirResource = zip_read($resource)) {
@@ -40,6 +45,9 @@ class FileHelper extends \yii\helpers\FileHelper
 
     public static function request($url, $headers=[], $data=null)
     {
+        if( !extension_loaded("curl") ){
+            throw new Exception("curl extension not loaded");
+        }
         $ch = curl_init();
         curl_setopt($ch,CURLOPT_URL, $url);
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);

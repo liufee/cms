@@ -14,15 +14,20 @@ use yii\helpers\FileHelper;
 
 class BackendAuth extends \yii\base\BaseObject
 {
-
-    /** @var string 后台控制器目录 */
+    /**
+     * @var string Directory where you want to generate RBAC Permission rules, often is backend/controllers
+     */
     private $_controllerPath = "@backend/controllers";
 
-    /** @var array 不需要rbac的控制器 */
-    public $_noNeedRbacControllers = ['AssetsController', 'SiteController'];
+    /**
+     * @var array a list of $generateRBACControllerPath directory that to need generate controllers
+     */
+    private $_noNeedRBACControllers = ['AssetsController', 'SiteController'];
 
-    /** @var array 不需要rbac的路由 */
-    private $_noNeedRbacRoutes = [];
+    /**
+     * @var array a list of none generate RBAc items(execute result, collected the annotations of controller::actions() or controller::actionX())
+     */
+    private $_noNeedRBACRoutes = [];
 
     private $_unPropertyDocCommentsRoutes = [];
 
@@ -49,24 +54,24 @@ class BackendAuth extends \yii\base\BaseObject
         return Yii::getAlias($this->_controllerPath);
     }
 
-    public function setNoNeedRbacControllers(array $noNeedRbacControllers)
+    public function setNoNeedRBACControllers(array $noNeedRbacControllers)
     {
-        $this->_noNeedRbacControllers = $noNeedRbacControllers;
+        $this->_noNeedRBACControllers = $noNeedRbacControllers;
     }
 
-    public function getNoNeedRbacControllers()
+    public function getNoNeedRBACControllers()
     {
-        return $this->_noNeedRbacControllers;
+        return $this->_noNeedRBACControllers;
     }
 
-    public function setNoNeedRbacRoutes($routes)
+    public function setNoNeedRBACRoutes($routes)
     {
-        $this->_noNeedRbacRoutes = $routes;
+        $this->_noNeedRBACRoutes = $routes;
     }
 
-    public function getNoNeedRbacRoutes()
+    public function getNoNeedRBACRoutes()
     {
-        return $this->_noNeedRbacRoutes;
+        return $this->_noNeedRBACRoutes;
     }
 
     public function getAuthItems()
@@ -198,7 +203,7 @@ class BackendAuth extends \yii\base\BaseObject
         foreach($files as $file ) {
             if( !strpos($file, "Controller") ) continue;
             $subDirControllerName = str_replace('.php', '', $file);
-            if (in_array($subDirControllerName, $this->getNoNeedRbacControllers())) {
+            if (in_array($subDirControllerName, $this->getNoNeedRBACControllers())) {
                 Yii::info($subDirControllerName . "不受权限控制,跳过");
                 continue;
             }
@@ -236,7 +241,7 @@ class BackendAuth extends \yii\base\BaseObject
                     $actionPartialUrl = $this->parseActionPartialUrl($action);
                     $url = '/' . $controllerPartialUrl . '/' . $actionPartialUrl;
                     if( isset( $authItems[$j]['rbac'] ) && ( in_array($authItems[$j]['rbac'], ['false', 'no']) ) ){
-                        $this->_noNeedRbacRoutes[] = $url;
+                        $this->_noNeedRBACRoutes[] = $url;
                         continue;
                     }
 

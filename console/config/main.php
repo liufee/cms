@@ -32,6 +32,11 @@ return [
             'class' => yii\console\controllers\ServeController::className(),
             'docroot' => '@frontend/web',
         ],
+        'feehi' => [
+            'class' => console\controllers\FeehiController::className(),
+            'generateRBACControllerPath' => "@backend/controllers",
+            'noNeedRBACControllers' => ['AssetsController', 'SiteController'],
+        ]
     ],
     'params' => $params,
 ];
