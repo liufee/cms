@@ -8,24 +8,24 @@
 ?>
 <script>
     var common = {
-        deleteText: "<?=Yii::t('app', 'Delete')?>"
+        deleteText: '<?=addcslashes(Yii::t('app', 'Delete'), "'")?>'
     }
     var tips = {
-        confirmTitle: "<?=Yii::t('app', 'Confirm')?>",
-        ok: "<?=Yii::t('app', 'ok')?>",
-        cancel: "<?=Yii::t('app', 'cancel')?>",
-        noItemSelected: "<?=Yii::t('app', 'None item selected!')?>",
-        onlyPictureCanBeSelected: "<?=Yii::t('app', 'Only picture file be permitted.')?>",
-        success: "<?=Yii::t('app', 'Success')?>",
-        error: "<?=Yii::t('app', 'Error')?>",
+        confirmTitle: '<?=addcslashes(Yii::t('app', 'Confirm'), "'")?>',
+        ok: '<?=addcslashes(Yii::t('app', 'ok'), "'")?>',
+        cancel: '<?=addcslashes(Yii::t('app', 'cancel'), "'")?>',
+        noItemSelected: '<?=addcslashes(Yii::t('app', 'None item selected!'), "'")?>',
+        onlyPictureCanBeSelected: '<?=addcslashes(Yii::t('app', 'Only picture file be permitted.'), "'")?>',
+        success: '<?=addcslashes(Yii::t('app', 'Success'), "'")?>',
+        error: '<?=addcslashes(Yii::t('app', 'Error'), "'")?>',
         webuploader: {
-            uploadImage: "<?=Yii::t('app', 'Upload Image')?>",
-            clickSelectImage: "<?=Yii::t('app', 'Click select image')?>",
-            dragHere: "<?=Yii::t('app', 'or dragged picture here')?>",
-            confirmUse: "<?=Yii::t('app', 'Confirm use')?>",
-            pauseUploading: "<?=Yii::t('app', 'Pause uploading')?>",
-            continueUploading: "<?=Yii::t('app', 'Continue uploading')?>",
-            startUploading: "<?=Yii::t('app', 'Start uploading')?>",
+            uploadImage: '<?=addcslashes(Yii::t('app', 'Upload Image'), "'")?>',
+            clickSelectImage: '<?=addcslashes(Yii::t('app', 'Click select image'), "'")?>',
+            dragHere: '<?=addcslashes(Yii::t('app', 'or dragged picture here'), "'")?>',
+            confirmUse: '<?=addcslashes(Yii::t('app', 'Confirm use'), "'")?>',
+            pauseUploading: '<?=addcslashes(Yii::t('app', 'Pause uploading'), "'")?>',
+            continueUploading: '<?=addcslashes(Yii::t('app', 'Continue uploading'), "'")?>',
+            startUploading: '<?=addcslashes(Yii::t('app', 'Start uploading'), "'")?>',
         }
     };
 </script>

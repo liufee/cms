@@ -31,13 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-lg-5">
                 <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
-                <?= $form->field($model, 'username', ['template' => "<div style='position:relative'>{label}{input}\n{error}\n{hint}</div>"])->textInput(['autofocus' => true]) ?>
+                <?= $form->field($model, 'username', ['template' => "{label}{input}\n{error}\n{hint}", 'options' => ['class'=>'row'], 'labelOptions'=>['class'=>'col-sm-4'], 'inputOptions'=>['class'=>'col-sm-8']])->textInput(['autofocus' => true]) ?>
 
-                <?= $form->field($model, 'email', ['template' => "<div style='position:relative'>{label}{input}\n{error}\n{hint}</div>"])->textInput() ?>
+                <?= $form->field($model, 'email', ['template' => "{label}{input}\n{error}\n{hint}"])->textInput() ?>
 
-                <?= $form->field($model, 'password', ['template' => "<div style='position:relative'>{label}{input}\n{error}\n{hint}</div>"])->passwordInput() ?>
+                <?= $form->field($model, 'password', ['template' => "{label}{input}\n{error}\n{hint}"])->passwordInput() ?>
 
-                <div class="form-group" style="margin-left: 180px">
+                <div class="form-group" style="text-align: center">
                     <?= Html::submitButton(Yii::t('frontend', 'Signup'), ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 </div>
 

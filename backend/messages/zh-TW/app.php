@@ -278,7 +278,7 @@ return array (
   'Preview' => '預覽',
   'Count' => '次數',
   'Use ID' => '使用ID',
-  'Delete file {name} failed' => '刪除文件{file}失敗',
+  'Delete file {name} failed' => '刪除文件{name}失敗',
   'This file is in use,cannot be deleted' => '有地方還在使用，不能被刪除',
   'Follow the link below to reset your password' => '點擊以下鏈接重置密碼',
   'Sign' => '標識',

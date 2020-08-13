@@ -204,17 +204,17 @@ $this->title = Yii::t('install', 'Fill Info');
             });
             //聚焦时默认提示
             var focus_tips = {
-                dbhost: '<?=Yii::t('install', 'Database host, SQLite like `/path/to/feehi.db`, other database often is localhost')?>',
-                dbport: '<?=Yii::t('install', 'Default MySQL 3306, PostgreSQL 5432')?>',
-                dbuser: '<?=Yii::t('install', 'Database Username')?>',
-                dbpw: '<?=Yii::t('install', 'Database Password')?>',
-                dbname: '<?=Yii::t('install', 'Database Name')?>',
-                dbprefix: '<?=Yii::t('install', 'Database table prefix')?>',
-                manager: '<?=Yii::t('install', 'Super administrator, own the whole permission')?>',
+                dbhost: '<?=addcslashes(Yii::t('install', 'Database host, SQLite like `/path/to/feehi.db`, other database often is localhost'), "'")?>',
+                dbport: '<?=addcslashes(Yii::t('install', 'Default MySQL 3306, PostgreSQL 5432'), "'")?>',
+                dbuser: '<?=addcslashes(Yii::t('install', 'Database Username'), "'")?>',
+                dbpw: '<?=addcslashes(Yii::t('install', 'Database Password'), "'")?>',
+                dbname: '<?=addcslashes(Yii::t('install', 'Database Name'), "'")?>',
+                dbprefix: '<?=addcslashes(Yii::t('install', 'Database table prefix'), "'")?>',
+                manager: '<?=addcslashes(Yii::t('install', 'Super administrator, own the whole permission'), "'")?>',
                 manager_pwd: '',
                 manager_ckpwd: '',
                 sitename: '',
-                siteurl: '<?=Yii::t('install', 'Please end at "/"')?>',
+                siteurl: '<?=addcslashes(Yii::t('install', 'Please end at "/"'), "'")?>',
                 sitekeywords: '',
                 siteinfo: '',
                 manager_email: ''
@@ -275,25 +275,25 @@ $this->title = Yii::t('install', 'Fill Info');
 
                 },
                 messages: {
-                    dbhost: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Host')])?>'},
-                    dbport: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Port')])?>'},
-                    dbuser: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Username')])?>'},
-                    dbpw: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Password')])?>'},
-                    dbname: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Name')])?>'},
-                    dbprefix: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Table Prefix')])?>'},
-                    manager: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Admin Username')])?>'},
-                    manager_pwd: {required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Admin Password')])?>'},
+                    dbhost: {required: '<?=addcslashes(Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Host')]), "'")?>'},
+                    dbport: {required: '<?=addcslashes(Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Port')]), "'")?>'},
+                    dbuser: {required: '<?=addcslashes(Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Username')]), "'")?>'},
+                    dbpw: {required: '<?=addcslashes(Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Password')]), "'")?>'},
+                    dbname: {required: '<?=addcslashes(Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'DB Name')]), "'")?>'},
+                    dbprefix: {required: '<?=addcslashes(Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Table Prefix')]), "'")?>'},
+                    manager: {required: '<?=addcslashes(Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Admin Username')]), "'")?>'},
+                    manager_pwd: {required: '<?=addcslashes(Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Admin Password')]), "'")?>'},
                     manager_ckpwd: {
-                        required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Repeat Password')])?>',
-                        equalTo: '<?=Yii::t('install', 'Repeat password is not equal password')?>.'
+                        required: '<?=addcslashes(Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Repeat Password')]), "'")?>',
+                        equalTo: '<?=addcslashes(Yii::t('install', 'Repeat password is not equal password'), "'")?>.'
                     },
                     manager_email: {
-                        required: '<?=Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Email')])?>',
-                        email: '<?=Yii::t('install', 'Please input the correct email')?>'
+                        required: '<?=addcslashes(Yii::t('install', '{attribute} cannot be empty', ['attribute' => Yii::t('install', 'Email')]), "'")?>',
+                        email: '<?=addcslashes(Yii::t('install', 'Please input the correct email'), "'")?>'
                     }
                 },
                 submitHandler: function (form) {
-                    layer.msg('<?=Yii::t('install', 'Verifying, do no refresh this window.')?>', {icon: 16, time: 0});
+                    layer.msg('<?=addcslashes(Yii::t('install', 'Verifying, do no refresh this window.'), "'")?>', {icon: 16, time: 0});
                     $(form).ajaxSubmit({
                         type: 'post',               //数据发送方式
                         dataType: 'json',           //接受数据格式

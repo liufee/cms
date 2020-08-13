@@ -63,7 +63,7 @@ return array (
   'Follow Wechat' => 'フォローする',
   'Join group' => 'グループに参加',
   'Official QQ group - main' => '公式QQグループ-メイン',
-  'FeehiCMS official QQ group number: {number}' => 'FeehiCMS公式QQグループ番号：{番号}',
+  'FeehiCMS official QQ group number: {number}' => 'FeehiCMS公式QQグループ番号：{number}',
   'New generation CMS FeehiCMS' => '新世代CMS FeehiCMS',
   'Highly recommend' => '強くお勧めします',
   'FeehiCMS based on yii2, support php7, makes website more excellent...' => 'yii2に基づくFeehiCMS、php7をサポート、ウェブサイトをより優れたものにします...',

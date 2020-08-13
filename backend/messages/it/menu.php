@@ -25,7 +25,7 @@ return array (
   '权限' => 'permessi',
   '超级管理员' => 'Super amministratori',
   '编辑' => 'Editors',
-  '测试组' => 'Demo Group',
+  '测试组' => 'Gruppo Demo',
   '评论' => 'Commenti',
   '附件管理' => 'attaccamento',
   '运营管理' => 'operazione',

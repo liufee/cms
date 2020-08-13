@@ -31,7 +31,7 @@ return array (
   'Please contact us if you think this is a server error. Thank you.' => 'Veuillez nous contacter si vous pensez qu\'il s\'agit d\'une erreur de serveur. Je vous remercie.',
   'Guest' => 'Client',
   'Hot Recommends' => 'Recommande chaud',
-  'Cloud Tags' => 'Tags de nuage',
+  'Cloud Tags' => 'Tags cloud',
   'Email Subscribe' => 'Email S\'abonner',
   'Friendly Links' => 'Liens amicaux',
   'Latest Comments' => 'Derniers Commentaires',

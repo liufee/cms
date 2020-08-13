@@ -366,6 +366,13 @@ class FeehiController extends Controller
                         exit;
                     }
                     $dstMessage = $response['data']['translations'][0]['translatedText'];
+                    preg_match_all("/{.+}/isU", $key, $originMessageMatches);
+                    preg_match_all("/{.+}/isU", $dstMessage, $dstMessageMatches);
+                    if( count($originMessageMatches) != count($dstMessageMatches) ){
+                        $this->stderr("match {attribute} failed" . print_r($originMessageMatches, true) . print_r($dstMessageMatches, true));
+                        exit;
+                    }
+                    $dstMessage = str_replace($dstMessageMatches[0], $originMessageMatches[0], $dstMessage);
                     $fileResult[$key] = $dstMessage;
                     $this->stdout(sprintf("%s(%s) to %s(%s)\n", $message, $sourceLanguage, $dstMessage, $dstLanguage));
                 }

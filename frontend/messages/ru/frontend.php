@@ -56,7 +56,7 @@ return array (
   'Please input the password of article id {id} : {article}' => 'Введите пароль идентификатора статьи {id}: {article}',
   'Password error' => 'Ошибка пароля',
   'Go' => 'Идти',
-  'Only login user can visit this article' => 'Только авторизованный пользователь может просматривать эту статью',
+  'Only login user can visit this article' => 'Только авторизованный пользователь может посетить эту статью',
   'Search keyword {keyword} results' => 'Результаты поиска по ключевому слову {keyword}',
   'Tag {tag} related articles' => 'Отметьте {tag} похожие статьи',
   'Category {cat} articles' => 'Категория {cat} статей',

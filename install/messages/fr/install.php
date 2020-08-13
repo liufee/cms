@@ -48,7 +48,7 @@ return array (
   'Email' => 'Email',
   'Prev' => 'Précédente',
   'Install' => 'Installer',
-  '{attribute} cannot be empty' => '{attribut} ne peut pas être vide',
+  '{attribute} cannot be empty' => '{attribute} ne peut pas être vide',
   'Database Username' => 'Nom d\'utilisateur de la base de données',
   'Database Password' => 'Mot de passe de la base de données',
   'Database Name' => 'Nom de la base de données',

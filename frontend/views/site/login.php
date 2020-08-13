@@ -34,17 +34,16 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-lg-5">
                 <?php $form = ActiveForm::begin(['id' => 'form-login']); ?>
 
-                <?= $form->field($model, 'username', ['template' => "<div style='position:relative'>{label}{input}\n{error}\n{hint}</div>"])->textInput(['autofocus' => true]) ?>
+                <?= $form->field($model, 'username', ['template' => "{label}{input}\n{error}\n{hint}", 'labelOptions'=>['class'=>'col-sm-4 control-label'], 'options'=>['class'=>'row'], 'inputOptions'=>['class'=>'col-sm-8']])->textInput(['autofocus' => true]) ?>
 
-                <?= $form->field($model, 'password', ['template' => "<div style='position:relative'>{label}{input}\n{error}\n{hint}</div>"])->passwordInput() ?>
+                <?= $form->field($model, 'password', ['template' => "{label}{input}\n{error}\n{hint}", 'labelOptions'=>['class'=>'col-sm-4 control-label'], 'options'=>['class'=>'row'], 'inputOptions'=>['class'=>'col-sm-8']])->passwordInput() ?>
 
-                <?= $form->field($model, 'rememberMe', ['labelOptions'=>['style'=>'width:117px;margin-left:79px;position:relative;left:34px;top:3px']])->checkbox(['style'=>'margin-right:0px;position:relative;top:-2px'])?>
-
-                <div class="form-group" style="color:#999;margin-right: 120px;">
+                <div class="form-group">
+                    <?= $form->field($model, 'rememberMe')->checkbox()?>
                     <?= Yii::t('frontend', 'If you forgot your password you can') ?> <?= Html::a(Yii::t('frontend', 'reset it'), ['site/request-password-reset']) ?>
                 </div>
 
-                <div class="form-group" style="margin-right: 50px">
+                <div class="form-group">
                     <?= Html::submitButton(Yii::t('frontend', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                 </div>
 

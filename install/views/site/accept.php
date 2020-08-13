@@ -53,7 +53,7 @@ Feehi CMS免责声明
   2、您一旦安装使用Feehi CMS，即被视为完全理解并接受本协议的各项条款，在享有上述条款授予的权力的同时，受到相关的约束和限制。</pre>
     </div>
     <div class="bottom text-center">
-        <a href="<?= Url::to(['check-environment']) ?>" class="btn btn-primary"><?= Yii::t('install', 'Accept') ?></a>
         <a href="<?= Url::to(['accept']) ?>" class="btn btn-primary"><?= Yii::t('install', 'Decline') ?></a>
+        <a href="<?= Url::to(['check-environment']) ?>" class="btn btn-primary"><?= Yii::t('install', 'Accept') ?></a>
     </div>
 </div>
