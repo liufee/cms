@@ -9,6 +9,7 @@
 namespace frontend\models\form;
 
 use Yii;
+use common\models\Article;
 
 class ArticlePasswordForm extends \yii\base\Model
 {

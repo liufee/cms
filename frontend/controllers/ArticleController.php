@@ -62,7 +62,7 @@ class ArticleController extends Controller
      * @param string $cat category name
      * @return string
      * @throws NotFoundHttpException
-     * @throws \yii\base\InvalidConfigException
+     * @throws yii\base\InvalidConfigException
      */
     public function actionIndex($cat = '')
     {

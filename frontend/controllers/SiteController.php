@@ -12,7 +12,6 @@ use Yii;
 use frontend\models\form\LoginForm;
 use frontend\models\form\PasswordResetRequestForm;
 use frontend\models\form\ResetPasswordForm;
-use frontend\models\form\SignupForm;
 use yii\base\InvalidParamException;
 use yii\helpers\Html;
 use yii\web\BadRequestHttpException;
@@ -89,27 +88,6 @@ class SiteController extends Controller
         Yii::$app->getUser()->logout(false);
 
         return $this->goHome();
-    }
-
-    /**
-     * Signs user up.
-     *
-     * @return mixed
-     */
-    public function actionSignup()
-    {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->getRequest()->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
-            }
-        }
-
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
     }
 
     /**
