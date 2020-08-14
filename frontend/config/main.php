@@ -81,7 +81,7 @@ return [
         'response' => [
             'as format' => [
                 'class' => common\behaviors\ResponseFormatBehavior::className(),
-                'defaultAjaxResponseFormat' => yii\web\Response::FORMAT_JSON,//if http Accept header is "application/html"
+                'defaultAjaxResponseFormat' => yii\web\Response::FORMAT_HTML,//if http Accept header is "application/html"
             ]
         ],
         'i18n' => [
