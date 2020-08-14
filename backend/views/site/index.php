@@ -9,11 +9,13 @@
 /* @var $this yii\web\View */
 /* @var $content string */
 /* @var $identity common\models\AdminUser */
+/* @var $menus []common\models\Menu */
 
 use common\helpers\FileDependencyHelper;
+use common\models\Menu;
 use yii\caching\FileDependency;
 use yii\helpers\Html;
-use backend\widgets\Menu;
+use backend\widgets\Menu as MenuWidget;
 use yii\helpers\Url;
 use backend\assets\IndexAsset;
 
@@ -72,7 +74,7 @@ $this->title = Yii::t('app', 'Backend Manage System');
                 /** @var FileDependencyHelper $cacheDependencyObject */
                 $cacheDependencyObject = Yii::createObject([
                     'class' => FileDependencyHelper::className(),
-                    'fileName' => \common\models\Menu::MENU_CACHE_DEPENDENCY_FILE,
+                    'fileName' => Menu::MENU_CACHE_DEPENDENCY_FILE,
                 ]);
                 $dependency = [
                     'class' => FileDependency::className(),
@@ -87,7 +89,7 @@ $this->title = Yii::t('app', 'Backend Manage System');
                 ])
                 )
                 {?>
-                    <?= Menu::widget([
+                    <?= MenuWidget::widget([
                             'menus' => $menus,
                 ]) ?>
                     <?php $this->endCache();

@@ -137,7 +137,6 @@ class MenuService extends Service  implements MenuServiceInterface
      */
     public function getMenus($menuType=null, $isDisplay=null){
         $cacheKey = "menu_" . (string)$menuType . "_" . (string)$isDisplay;
-        //echo $cacheKey;exit;
         $cache = Yii::$app->getCache();
         $menus = $cache->get($cacheKey);
         if( $menus === false || !is_array($menus) ){

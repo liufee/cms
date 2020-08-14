@@ -48,7 +48,7 @@ COPY . ${FeehiCMSPath}
 RUN cd ${FeehiCMSPath} \
     #&& cp -rf /usr/src/vendor ${FeehiCMSPath} && rm -rf /usr/src/vendor \
     #&& cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
-    && composer update -vvv \
+    && composer update -vvv && composer dump-autoload -o \
     && cp ${FeehiCMSPath}/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh \
     && chmod +x /usr/local/bin/docker-entrypoint.sh \
     && rm -rf ${FeehiCMSPath}/install/install.lock \

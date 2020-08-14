@@ -40,6 +40,9 @@ class ActiveForm extends \yii\widgets\ActiveForm
 
     /**
      * Generates a form field.
+     * @param $model
+     * @param $attribute
+     * @param array $options
      * @return ActiveField the created ActiveField object.
      * @see fieldConfig
      */

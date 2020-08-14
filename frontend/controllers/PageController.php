@@ -10,10 +10,9 @@ namespace frontend\controllers;
 
 use Yii;
 use common\services\ArticleServiceInterface;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class PageController extends Controller
+class PageController extends \yii\web\Controller
 {
 
     /**
@@ -21,8 +20,8 @@ class PageController extends Controller
      *
      * @param string $name
      * @return string
-     * @throws \yii\web\NotFoundHttpException
-     * @throws \yii\base\InvalidConfigException
+     * @throws yii\web\NotFoundHttpException
+     * @throws yii\base\InvalidConfigException
      */
     public function actionView($name = '')
     {
@@ -41,6 +40,7 @@ class PageController extends Controller
         $model->template != "" && $template = $model->template;
         return $this->render($template, [
             'model' => $model,
+            'singlePages' => $service->getSinglePages(),
         ]);
     }
 

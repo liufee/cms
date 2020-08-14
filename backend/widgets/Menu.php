@@ -42,7 +42,7 @@ class Menu extends \yii\base\Widget
         $menus = $this->menus;
         $lis = "";
         foreach ($menus as $menu){
-            /** @var $menu \backend\models\Menu */
+            /** @var $menu \common\models\Menu */
             if( intval($menu->parent_id) !== 0 ) continue;//parent_id equal 0 means first level menu
             $url = $menu->getMenuUrl();
             $arrow = '';
@@ -63,7 +63,7 @@ class Menu extends \yii\base\Widget
      * @param $menuId
      * @param int $level
      * @return mixed|string
-     * @throws \yii\base\Exception
+     * @throws yii\base\Exception
      */
     private function getSubMenu($menuId, $level=2)
     {
@@ -78,7 +78,7 @@ class Menu extends \yii\base\Widget
         $lis = "";
         $menus = $this->menus;
         foreach ($menus as $menu) {
-            /** @var \backend\models\Menu $menu */
+            /** @var \common\models\Menu $menu */
             if ($menu->parent_id != $menuId) {//find menu id sub menus(parent id equal menu id)
                 continue;//not the given menu's sub menu
             }

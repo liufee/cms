@@ -56,47 +56,48 @@ class ResponseFormatBehavior extends \yii\base\Behavior
         /** @var Response $response */
         $response = $this->owner;
 
-        if (Yii::$app->getRequest()->getIsAjax()) {
-            $response->format = $this->defaultAjaxResponseFormat;
-        }else{
-            $response->format = $this->defaultResponseFormat;
+        $acceptTypes = Yii::$app->getRequest()->getAcceptableContentTypes();
+        $acceptTypes = array_keys($acceptTypes);
+        $found = false;
+        foreach ($acceptTypes as $acceptType){
+            switch ($acceptType) {
+                case "text/plain":
+                    $response->format = Response::FORMAT_RAW;
+                    $found = true;
+                    break;
+                case "application/html":
+                case "text/html":
+                    if( $this->isApi ){//api default response format(makes web browsers request api get a correct response format)
+                        $response->format = $this->defaultResponseFormat;
+                    }else if( Yii::$app->getRequest()->getIsAjax() && is_array(Yii::$app->getResponse()->content) && Yii::$app->getResponse()->format === $this->defaultResponseFormat ){
+                        //(backend,frontend) ajax if returns an array and not set response format, will use the defaultAjaxResponseFormat
+                        $response->format = $this->defaultAjaxResponseFormat;
+                    }else{
+                        $response->format = Response::FORMAT_HTML;
+                    }
+                    $found = true;
+                    break;
+                case "application/json":
+                case "text/json":
+                    $response->format = Response::FORMAT_JSON;
+                    $found = true;
+                    break;
+                case "application/xml":
+                case "text/xml":
+                    $response->format = Response::FORMAT_XML;
+                    $found = true;
+                    break;
+            }
+            if( $found ){
+                break;
+            }
         }
 
-        $acceptTypes = Yii::$app->getRequest()->getAcceptableContentTypes();
-        $types = array_keys($acceptTypes);
-        if (isset($types[0])) {
-            foreach ($types as $type) {
-                $found = false;
-                switch ($type) {
-                    case "text/plain":
-                        $response->format = Response::FORMAT_RAW;
-                        $found = true;
-                        break;
-                    case "application/html":
-                    case "text/html":
-                        if( $this->isApi ){
-                            $response->format = $this->defaultResponseFormat;
-                        }else if( Yii::$app->getRequest()->getIsAjax() ){
-                            $response->format = $this->defaultAjaxResponseFormat;
-                        }else{
-                            $response->format = Response::FORMAT_HTML;
-                        }
-                        $found = true;
-                        break;
-                    case "application/json":
-                    case "text/json":
-                        $response->format = Response::FORMAT_JSON;
-                        $found = true;
-                        break;
-                    case "application/xml":
-                    case "text/xml":
-                        $response->format = Response::FORMAT_XML;
-                        $found = true;
-                        break;
-                }
-                if( $found ){
-                    break;
-                }
+        if( $found === false ){
+            if (Yii::$app->getRequest()->getIsAjax()) {
+                $response->format = $this->defaultAjaxResponseFormat;
+            }else{
+                $response->format = $this->defaultResponseFormat;
             }
         }
 

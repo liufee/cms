@@ -231,9 +231,6 @@ class Menu extends \yii\db\ActiveRecord
             $query->andWhere(['is_display' => $isDisplay]);
         }
         $menus = $query->all();
-        foreach ($menus as &$menu) {
-            $menu['name'] = Yii::t('menu', $menu['name']);
-        }
         return $menus;
     }
 

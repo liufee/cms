@@ -187,7 +187,7 @@ class Comment extends \yii\db\ActiveRecord
         $this->content = str_replace([
             '{%URL%}',
             '{%EXT%}'
-        ], [Yii::$app->params['site']['url'] . '/static/images/smilies/icon_', '.gif'], $this->content);
+        ], [Yii::$app->params['site']['url'] . 'static/images/smilies/icon_', '.gif'], $this->content);
         parent::afterFind();
 
     }

@@ -97,18 +97,18 @@ AppAsset::register($this);
 </header>
 
 <div id="search-main">
-    <div id="searchbar">
-        <form id="searchform" action="<?= Url::toRoute('search/index') ?>" method="get">
+    <div class="searchbar">
+        <form class="searchform" action="<?= Url::toRoute('search/index') ?>" method="get">
             <?= Yii::$app->getUrlManager()->enablePrettyUrl ? "" : "<input type='hidden' name='" . Yii::$app->getUrlManager()->routeParam . "' value='search/index'>" ?>
-            <input id="s" type="text" name="q" value="<?= Html::encode(Yii::$app->getRequest()->get('q')) ?>" required="" placeholder="<?= Yii::t('frontend', 'Please input keywords') ?>" name="s" value="">
-            <button id="searchsubmit" type="submit"><?= Yii::t('frontend', 'Search') ?></button>
+            <input type="text" name="q" value="<?= Html::encode(Yii::$app->getRequest()->get('q')) ?>" required="" placeholder="<?= Yii::t('frontend', 'Please input keywords') ?>">
+            <button class="searchsubmit" type="submit"><?= Yii::t('frontend', 'Search') ?></button>
         </form>
     </div>
-    <div id="searchbar">
-        <form id="searchform" target="_blank" action="https://www.baidu.com/s" method="get">
+    <div class="searchbar">
+        <form class="searchform" target="_blank" action="https://www.baidu.com/s" method="get">
             <input type="hidden" name="entry" value="1">
             <input class="swap_value" name="w" placeholder="<?= Yii::t('frontend', 'Please input keywords') ?>">
-            <button id="searchsubmit" type="submit"><?= Yii::t('frontend', 'Baidu') ?></button>
+            <button class="searchsubmit" type="submit"><?= Yii::t('frontend', 'Baidu') ?></button>
         </form>
     </div>
     <div class="clear"></div>

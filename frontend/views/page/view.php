@@ -8,10 +8,9 @@
 
 /**
  * @var $this yii\web\View
- * @var $model common\models\Article
+ * @var $singlePages []common\models\Article
  */
 
-use common\models\Article;
 use yii\helpers\Url;
 
 $this->title = $model->title . '-' . Yii::$app->feehi->website_title;
@@ -23,14 +22,14 @@ $this->title = $model->title . '-' . Yii::$app->feehi->website_title;
     <aside class="pagesidebar">
         <ul class="pagesider-menu">
             <?php
-            $menus = Article::find()->where(['type' => Article::SINGLE_PAGE])->all();
-            foreach ($menus as $menu) {
-                $url = Url::to(['page/view', 'name'=>$menu['sub_title']]);
+
+            foreach ($singlePages as $singlePage) {
+                $url = Url::to(['page/view', 'name'=>$singlePage['sub_title']]);
                 $current = '';
-                if (Yii::$app->request->get('id', '') == $menu->id) {
+                if (Yii::$app->request->get('id', '') == $singlePage->id) {
                     $current = " current-menu-item current-page-item ";
                 }
-                echo "<li class='menu-item menu-item-type-post_type menu-item-object-page {$current} page_item page-item-{$menu->id} menu-item-{$menu->id}'><a href='{$url}'>{$menu->title}</a></li>";
+                echo "<li class='menu-item menu-item-type-post_type menu-item-object-page {$current} page_item page-item-{$singlePage->id} menu-item-{$singlePage->id}'><a href='{$url}'>{$singlePage->title}</a></li>";
             }
             ?>
         </ul>

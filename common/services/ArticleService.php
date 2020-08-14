@@ -205,4 +205,9 @@ class ArticleService extends Service implements ArticleServiceInterface
         Yii::configure($frontendURLManager, $properties);
         return $frontendURLManager;
     }
+
+    public function getSinglePages()
+    {
+        return  Article::find()->where(['type' => Article::SINGLE_PAGE])->all();
+    }
 }
