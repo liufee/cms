@@ -30,6 +30,7 @@ return array (
   'The above error occurred while the Web server was processing your request.' => 'L\'errore precedente si è verificato mentre il server Web stava elaborando la tua richiesta.',
   'Please contact us if you think this is a server error. Thank you.' => 'Contattaci se pensi che si tratti di un errore del server. Grazie.',
   'Guest' => 'ospite',
+  'Welcome' => 'benvenuto',
   'Hot Recommends' => 'Hot consiglia',
   'Cloud Tags' => 'Tag cloud',
   'Email Subscribe' => 'Iscriviti tramite e-mail',
@@ -69,7 +70,7 @@ return array (
   'FeehiCMS based on yii2, support php7, makes website more excellent...' => 'FeehiCMS basato su yii2, supporta php7, rende il sito Web più eccellente ...',
   'Send email at someone replied' => 'Invia e-mail a qualcuno ha risposto',
   'This article is not allowed to comment' => 'Questo articolo non è autorizzato a commentare',
-  'Website closed comment' => 'Sito chiuso commento',
+  'Website closed comment' => 'Commento sito chiuso',
   'Comment waiting for approved.' => 'Commento in attesa di approvazione.',
   'a minutes ago' => 'pochi minuti fa',
 );

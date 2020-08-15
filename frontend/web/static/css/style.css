@@ -111,7 +111,57 @@ input,textarea,.uneditable-input{width:206px}textarea{height:auto}textarea,input
     .excerpt p.auth-span{ float:right;}
 }
 
-.site-login .help-block, .site-signup .help-block{
+.fill{
+    font-size: 15px;
+    line-height: 26px;
+    text-indent: 30px;
+    word-break: break-all;
+    word-wrap: break-word;
+    position: relative;
+    padding: 10px 20px 20px 20px;
+    background-color: #fff;
+    width: 40%;
+    margin: 0 auto;
+}
+
+.fill .marginTop{
+    margin-top: 10px;
+}
+
+.fill ul.formInput li.item label{
+    display: block;
+    float: left;
+    width: 30%;
+    height:36px;
+    line-height:36px;
+    vertical-align: middle;
+    text-align: right;
+    text-align-last: right;
+    margin-right: 10px;
+}
+
+.fill ul.formInput li.item input{
+    height: 26px;
+    width: 65%;
+    float: left;
+}
+
+　　.fill ul.formInput li.item label::after{
+    content:" ";
+    display:inline-block;
+    width:100%
+}
+
+.fill .field-loginform-rememberme div{
+    float: right;
+}
+
+.fill p.help-block{
     color: red;
+    text-align: right;
+}
+
+.fill .submitButton{
+    clear: both;
     text-align: right;
 }

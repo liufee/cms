@@ -81,7 +81,7 @@ return [
         'response' => [
             'as format' => [
                 'class' => common\behaviors\ResponseFormatBehavior::className(),
-                'defaultAjaxResponseFormat' => yii\web\Response::FORMAT_HTML,//if http Accept header is "application/html"
+                'defaultAjaxResponseFormat' => yii\web\Response::FORMAT_JSON,//if http Accept header is "application/html"
             ]
         ],
         'i18n' => [
@@ -121,15 +121,15 @@ return [
                         'b' => 'plugins/toastr/toastr.min.css',
                     ],
                     'js' => [
-                        'a' => 'js/jquery.min.js',
-                        'b' => 'js/index.js',
-                        'c' => 'plugins/toastr/toastr.min.js',
+                        'a' => 'js/index.js',
+                        'b' => 'plugins/toastr/toastr.min.js',
                     ],
                 ],
                 frontend\assets\IndexAsset::className() => [
                     'sourcePath' => '@frontend/web/static',
                     'js' => [
-                        'a' => 'js/responsiveslides.min.js',
+                        'a' => 'js/jquery.min.js',
+                        'b' => 'js/responsiveslides.min.js',
                     ]
                 ],
                 frontend\assets\ViewAsset::className() => [

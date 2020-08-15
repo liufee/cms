@@ -9,6 +9,7 @@
 namespace frontend\controllers;
 
 use Yii;
+use frontend\models\form\SignupForm;
 use frontend\models\form\LoginForm;
 use frontend\models\form\PasswordResetRequestForm;
 use frontend\models\form\ResetPasswordForm;
@@ -91,6 +92,28 @@ class SiteController extends Controller
     }
 
     /**
+     * Signs user up.
+     *
+     * @return mixed
+     * @throws yii\base\Exception
+     */
+    public function actionSignup()
+    {
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->getRequest()->post())) {
+            if ($user = $model->signup()) {
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }
+            }
+        }
+
+        return $this->render('signup', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
      * Requests password reset.
      *
      * @return mixed
@@ -142,9 +165,8 @@ class SiteController extends Controller
     }
 
     /**
-     * 网站进入维护模式时
-     * 即在后台网站设置中关闭了网站执行此操作
-     *
+     * website maintain shows page
+     * when at "/admin/index.php?r=site/website" change website status to closed every request will execute this action
      */
     public function actionOffline()
     {
@@ -154,9 +176,8 @@ class SiteController extends Controller
 
 
     /**
-     * 切换网站视图
-     * 请开发其他网站视图模版，并参照yii2文档配置
-     *
+     * change view template
+     * development website template first，then config according to yii2 document
      */
     public function actionView()
     {
@@ -168,8 +189,7 @@ class SiteController extends Controller
     }
 
     /**
-     * 切换语言版本
-     *
+     * change language
      */
     public function actionLanguage()
     {

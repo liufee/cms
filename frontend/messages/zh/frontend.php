@@ -38,6 +38,7 @@ return [
     'The above error occurred while the Web server was processing your request.' => '服务器在处理您的请求中发生了以上错误',
     'Please contact us if you think this is a server error. Thank you.' => '如果您认为是我们的服务器错误，请告知我们，谢谢!',
     'Guest' => '游客',
+    'Welcome' => '欢迎',
     /*public*/
 
     /*site*/

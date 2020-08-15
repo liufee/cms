@@ -16,39 +16,29 @@ use yii\bootstrap\ActiveForm;
 $this->title = Yii::t('app', 'Login') . '-' . Yii::$app->feehi->website_title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="content-wrap">
-    <div class="site-login article-content" style="width:500px;margin: 0 auto;text-align: center">
+    <div class="fill">
         <h1><?= Html::encode($this->title) ?></h1>
-        <style>
-            label {
-                float: left;
-                width: 103px
-            }
+        <div class="marginTop">
+            <?php $form = ActiveForm::begin(['id' => 'form-login']); ?>
+            <ul class="formInput">
+                <?= $form->field($model, 'username', ['template' => "<li class='item'>{label}{input}\n{error}\n{hint}</li>", 'labelOptions'=>['class'=>'col-sm-4 control-label'], 'options'=>['class'=>'row'], 'inputOptions'=>['class'=>'col-sm-8']])->textInput(['autofocus' => true]) ?>
 
-            div.row input{
-                margin-right: 110px;
-            }
-        </style>
+                <?= $form->field($model, 'password', ['template' => "<li class='item'>{label}{input}\n{error}\n{hint}</li>", 'labelOptions'=>['class'=>'col-sm-4 control-label'], 'options'=>['class'=>'row'], 'inputOptions'=>['class'=>'col-sm-8']])->passwordInput() ?>
+            </ul>
+            <div style="clear:both;"></div>
+            <div class="form-group" style="text-align: center">
+                <?= $form->field($model, 'rememberMe', ['template'=>'{label}{input}'])->error(false)->checkbox()?>
+                <span style="display: block;text-align: right"><?= Yii::t('frontend', 'If you forgot your password you can') ?> <?= Html::a(Yii::t('frontend', 'reset it'), ['site/request-password-reset']) ?></span>
 
-        <div class="row">
-            <div class="col-lg-5">
-                <?php $form = ActiveForm::begin(['id' => 'form-login']); ?>
-
-                <?= $form->field($model, 'username', ['template' => "{label}{input}\n{error}\n{hint}", 'labelOptions'=>['class'=>'col-sm-4 control-label'], 'options'=>['class'=>'row'], 'inputOptions'=>['class'=>'col-sm-8']])->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'password', ['template' => "{label}{input}\n{error}\n{hint}", 'labelOptions'=>['class'=>'col-sm-4 control-label'], 'options'=>['class'=>'row'], 'inputOptions'=>['class'=>'col-sm-8']])->passwordInput() ?>
-
-                <div class="form-group">
-                    <?= $form->field($model, 'rememberMe')->checkbox()?>
-                    <?= Yii::t('frontend', 'If you forgot your password you can') ?> <?= Html::a(Yii::t('frontend', 'reset it'), ['site/request-password-reset']) ?>
-                </div>
-
-                <div class="form-group">
-                    <?= Html::submitButton(Yii::t('frontend', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-                <?php ActiveForm::end(); ?>
             </div>
+
+            <div class="submitButton">
+                <?= Html::submitButton(Yii::t('frontend', 'Login'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+            </div>
+
+            <?php ActiveForm::end(); ?>
         </div>
     </div>
 </div>

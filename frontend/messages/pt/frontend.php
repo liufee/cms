@@ -1,6 +1,6 @@
 <?php 
 return array (
-  'Hi, Log in' => 'Olá, faça login',
+  'Hi, Log in' => 'Olá, faça o login',
   'Log out' => 'Sair',
   'Sign up' => 'inscrever-se',
   'About us' => 'Sobre nós',
@@ -28,8 +28,9 @@ return array (
   'required' => 'requeridos',
   'Website' => 'Local na rede Internet',
   'The above error occurred while the Web server was processing your request.' => 'O erro acima ocorreu enquanto o servidor da Web estava processando sua solicitação.',
-  'Please contact us if you think this is a server error. Thank you.' => 'Entre em contato conosco se achar que isso é um erro do servidor. Obrigado.',
+  'Please contact us if you think this is a server error. Thank you.' => 'Entre em contato conosco se você acha que isso é um erro do servidor. Obrigado.',
   'Guest' => 'Convidado',
+  'Welcome' => 'Bem-vinda',
   'Hot Recommends' => 'Boas Recomendações',
   'Cloud Tags' => 'Tags de nuvem',
   'Email Subscribe' => 'Email Assine',
@@ -64,12 +65,12 @@ return array (
   'Join group' => 'Juntar-se ao grupo',
   'Official QQ group - main' => 'Grupo oficial QQ - principal',
   'FeehiCMS official QQ group number: {number}' => 'Número oficial do grupo QQ FeehiCMS: {number}',
-  'New generation CMS FeehiCMS' => 'Nova geração CMS FeehiCMS',
+  'New generation CMS FeehiCMS' => 'CMS FeehiCMS de nova geração',
   'Highly recommend' => 'Altamente recomendado',
   'FeehiCMS based on yii2, support php7, makes website more excellent...' => 'FeehiCMS baseado em yii2, suporte php7, torna o site mais excelente ...',
   'Send email at someone replied' => 'Envie e-mail para alguém que respondeu',
   'This article is not allowed to comment' => 'Este artigo não tem permissão para comentar',
   'Website closed comment' => 'Comentário de site fechado',
   'Comment waiting for approved.' => 'Comentário aguardando aprovação.',
-  'a minutes ago' => 'a minutos atrás',
+  'a minutes ago' => 'um minuto atrás',
 );

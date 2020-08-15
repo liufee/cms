@@ -55,7 +55,7 @@ AppAsset::register($this);
                             <a href="<?= Url::to(['site/login']) ?>" class="signin-loader"><?= Yii::t('frontend', 'Hi, Log in') ?></a>&nbsp; &nbsp;
                             <a href="<?= Url::to(['site/signup']) ?>" class="signup-loader"><?= Yii::t('frontend', 'Sign up') ?></a>
                         <?php } else { ?>
-                            Welcome, <?= Html::encode(Yii::$app->user->identity->username) ?>
+                            <?=Yii::t("frontend", "Welcome")?>, <?= Html::encode(Yii::$app->user->identity->username) ?>
                             <a href="<?= Url::to(['site/logout']) ?>" class="signup-loader"><?= Yii::t('frontend', 'Log out') ?></a>
                         <?php } ?>
                     </span>

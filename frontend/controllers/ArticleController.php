@@ -209,6 +209,7 @@ class ArticleController extends Controller
      */
     public function actionComment()
     {
+        Yii::$app->getResponse()->format = Response::FORMAT_HTML;
         /** @var CommentServiceInterface $service */
         $service = Yii::$app->get(CommentServiceInterface::ServiceName);
         $commentModel = $service->newModel();
@@ -222,14 +223,14 @@ class ArticleController extends Controller
                 $tips = "<span class='c-approved'>" . Yii::t('frontend', 'Comment waiting for approved.') . "</span><br />";
             }
             $commentModel->afterFind();
-            return "
-            <li class='comment even thread-even depth-1' id='comment-{$commentModel->id}'>
-                <div class='c-avatar'><img src='{$avatar}' class='avatar avatar-108' height='50' width='50'>
-                    <div class='c-main' id='div-comment-{$commentModel->id}'><p>{$commentModel->content}</p>
-                        {$tips}
-                        <div class='c-meta'><span class='c-author'><a href='{$commentModel->website_url}' rel='external nofollow' class='url'>{$commentModel->nickname}</a></span>  (" . Yii::t('frontend', 'a minutes ago') . ")</div>
-                    </div>
-                </div>";
+            return "<li class='comment even thread-even depth-1' id='comment-{$commentModel->id}'>
+                        <div class='c-avatar'><img src='{$avatar}' class='avatar avatar-108' height='50' width='50'>
+                            <div class='c-main' id='div-comment-{$commentModel->id}'><p>{$commentModel->content}</p>
+                                {$tips}
+                                <div class='c-meta'><span class='c-author'><a href='{$commentModel->website_url}' rel='external nofollow' class='url'>{$commentModel->nickname}</a></span>  (" . Yii::t('frontend', 'a minutes ago') . ")</div>
+                            </div>
+                        </div>
+                    </li>";
         } else {
             $temp = $commentModel->getErrors();
             $str = '';
@@ -265,6 +266,7 @@ class ArticleController extends Controller
      */
     public function actionLike()
     {
+        Yii::$app->getResponse()->format = Response::FORMAT_HTML;
         $aid = Yii::$app->getRequest()->post("aid");
         $model = new ArticleMetaLike();
         $model->setLike($aid);

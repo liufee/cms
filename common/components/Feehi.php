@@ -161,9 +161,6 @@ class Feehi extends Component
         if (substr(Yii::$app->params['site']['url'], -1, 1) != '/') {
             Yii::$app->params['site']['url'] .= '/';
         }
-        if (stripos(Yii::$app->params['site']['url'], 'http://') !== 0 && stripos(Yii::$app->params['site']['url'], 'https://') !== 0 && stripos(yii::$app->params['site']['url'], '//')) {
-            Yii::$app->params['site']['url'] = (Yii::$app->getRequest()->getIsSecureConnection() ? "https://" : "http://") . yii::$app->params['site']['url'];
-        }
 
         $cdn = Yii::$app->get('cdn');
         if( $cdn instanceof DummyTarget){

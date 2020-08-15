@@ -30,6 +30,7 @@ return array (
   'The above error occurred while the Web server was processing your request.' => '服務器在處理您的請求中發生了以上錯誤',
   'Please contact us if you think this is a server error. Thank you.' => '如果您認為是我們的服務器錯誤，請告知我們，謝謝!',
   'Guest' => '遊客',
+  'Welcome' => '歡迎',
   'Hot Recommends' => '熱門推薦',
   'Cloud Tags' => '雲標籤',
   'Email Subscribe' => '郵件訂閱',
