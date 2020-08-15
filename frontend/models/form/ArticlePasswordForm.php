@@ -18,6 +18,7 @@ class ArticlePasswordForm extends \yii\base\Model
     public function rules()
     {
         return [
+            ['password', 'required'],
             ['password', 'string', 'max'=>20]
         ];
     }

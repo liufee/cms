@@ -18,40 +18,21 @@ $this->title = Yii::t('app', $article->title);
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="content-wrap">
-    <div class="site-login article-content" style="width:500px;margin: 0 auto;text-align: center">
+    <div class="fill">
         <h5><?= Yii::t('frontend', 'Please input the password of article id {id} : {article}', ['article'=>$article->title, 'id'=>$article->id]) ?></h5>
-        <style>
-            label {
-                float: left;
-                width: 100px
-            }
 
-            div.row input{
-                margin-right: 110px;
-                width: 220px;
-            }
-            .help-block-error{
-                position: absolute;
-                top: 0px;
-                right: 0px;
-            }
-            div.field-loginform-rememberme{
-                margin-left: 110px;
-            }
-        </style>
-
-        <div class="row">
-            <div class="col-lg-5">
+        <div class="marginTop">
+            <ul class="formInput">
                 <?php $form = ActiveForm::begin(['id' => 'form-login']); ?>
 
-                <?= $form->field($model, 'password', ['template' => "<div style='position:relative'>{label}{input}\n{error}\n{hint}</div>"])->textInput(['autofocus' => true]) ?>
+                <?= $form->field($model, 'password', ['template' => "<li class='item'>{label}{input}\n{error}\n{hint}</li>"])->textInput(['autofocus' => true]) ?>
 
-                <div class="form-group" style="margin-right: 50px">
+                <div class="submitButton">
                     <?= Html::submitButton(Yii::t('frontend', 'Go'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
                 </div>
 
                 <?php ActiveForm::end(); ?>
-            </div>
+            </ul>
         </div>
     </div>
 </div>
