@@ -12,6 +12,7 @@ use Closure;
 use stdClass;
 use backend\actions\helpers\Helper;
 use yii\base\Exception;
+use yii\web\Response;
 use yii\web\UnprocessableEntityHttpException;
 
 /**
@@ -103,6 +104,7 @@ class CreateAction extends \yii\base\Action
             $createResult = call_user_func_array($this->doCreate, $createData);//call doCreate closure
 
             if (Yii::$app->getRequest()->getIsAjax()) { //ajax
+                Yii::$app->getResponse()->format = Response::FORMAT_JSON;
                 if ($createResult === true) {//only $createResult is true represent create success
                     return ['code' => 0, 'msg' => 'success', 'data' => new stdClass()];
                 } else {

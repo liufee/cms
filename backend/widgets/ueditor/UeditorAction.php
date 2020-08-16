@@ -454,12 +454,16 @@ class UeditorAction extends yii\base\Action
         /* 获取文件列表 */
         $path = Yii::getAlias('@ueditor') . (substr($path, 0, 1) == '/' ? '' : '/') . $path;
         $files = $this->getFiles($path, $allowFiles);
-        if (! count($files)) {
+        $len = 0;
+        if( $files !== null ){
+            $len = count($files);
+        }
+        if ( $len == 0 ) {
             $result = [
                 'state' => 'no match file',
                 'list' => [],
                 'start' => $start,
-                'total' => count($files),
+                'total' => $len,
             ];
             return $result;
         }
@@ -473,7 +477,7 @@ class UeditorAction extends yii\base\Action
             'state' => 'SUCCESS',
             'list' => $list,
             'start' => $start,
-            'total' => count($files),
+            'total' => $len,
         ];
         return $result;
     }

@@ -15,6 +15,7 @@ use backend\actions\helpers\Helper;
 use yii\base\Exception;
 use yii\base\InvalidArgumentException;
 use yii\web\MethodNotAllowedHttpException;
+use yii\web\Response;
 use yii\web\UnprocessableEntityHttpException;
 
 /**
@@ -72,6 +73,7 @@ class SortAction extends \yii\base\Action
             $result = call_user_func_array($this->doSort, [$condition, $value, $this]);
 
             if (Yii::$app->getRequest()->getIsAjax()) {
+                Yii::$app->getResponse()->format = Response::FORMAT_JSON;
                 if( $result === true ){
                     return ['code'=>0, 'msg'=>'success', 'data'=>new stdClass()];
                 }else{

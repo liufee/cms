@@ -14,6 +14,7 @@ use stdClass;
 use Closure;
 use backend\actions\helpers\Helper;
 use yii\base\Exception;
+use yii\web\Response;
 use yii\web\UnprocessableEntityHttpException;
 
 /**
@@ -108,6 +109,7 @@ class UpdateAction extends \yii\base\Action
             $updateResult = call_user_func_array($this->doUpdate, $updateData);//call doUpdate closure
 
             if(  Yii::$app->getRequest()->getIsAjax() ){ //ajax
+                Yii::$app->getResponse()->format = Response::FORMAT_JSON;
                 if( $updateResult === true ){//only $updateResult is true represent update success
                     return ['code'=>0, 'msg'=>'success', 'data'=>new stdClass()];
                 }else{

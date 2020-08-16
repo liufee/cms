@@ -15,6 +15,7 @@ use backend\actions\helpers\Helper;
 use yii\base\Exception;
 use yii\web\BadRequestHttpException;
 use yii\web\MethodNotAllowedHttpException;
+use yii\web\Response;
 use yii\web\UnprocessableEntityHttpException;
 
 /**
@@ -77,12 +78,14 @@ class DeleteAction extends \yii\base\Action
 
             if (count($errors) == 0) {
                 if( Yii::$app->getRequest()->getIsAjax() ) {
+                    Yii::$app->getResponse()->format = Response::FORMAT_JSON;
                     return ['code'=>0, 'msg'=>'success', 'data'=>new stdClass()];
                 }else {
                     return $this->controller->redirect(Yii::$app->getRequest()->getReferrer());
                 }
             } else {
                 if( Yii::$app->getRequest()->getIsAjax() ){
+                    Yii::$app->getResponse()->format = Response::FORMAT_JSON;
                     throw new UnprocessableEntityHttpException(implode("<br>", $errors));
                 }else {
                     Yii::$app->getSession()->setFlash('error', implode("<br>", $errors));
