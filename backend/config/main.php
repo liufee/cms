@@ -70,12 +70,6 @@ return [
             'showScriptName' => true,//隐藏index.php
             'enableStrictParsing' => false,
         ],
-        'response' => [
-            'as format' => [
-                'class' => common\behaviors\ResponseFormatBehavior::className(),
-                'defaultAjaxResponseFormat' => yii\web\Response::FORMAT_JSON,//if http Accept header is "application/html"
-            ]
-        ],
         'i18n' => [
             'translations' => [//多语言包设置
                 'app*' => [
@@ -101,6 +95,30 @@ return [
         'assetManager' => [
             'linkAssets' => false,//若为unix like系统这里可以修改成true则创建css js文件软链接到assets而不是拷贝css js到assets目录
             'bundles' => [
+                yii\widgets\ActiveFormAsset::className() => [
+                    'js' => [
+                    ]
+                ],
+                yii\web\JqueryAsset::className() => [
+                    'js' => [
+                    ],
+                ],
+                yii\web\YiiAsset::className() => [
+                    'js' => [
+                    ],
+                ],
+                yii\validators\ValidationAsset::className() => [
+                    'js' => [
+                    ]
+                ],
+                yii\grid\GridViewAsset::className() => [
+                    'js' => [
+                    ]
+                ],
+                yii\widgets\PjaxAsset::className() => [
+                    'js' => [
+                    ]
+                ],
                 backend\assets\AppAsset::className() => [
                     'sourcePath' => '@backend/web/static',
                     'css' => [

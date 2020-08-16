@@ -82,10 +82,9 @@ return [
             'enableCookieValidation' => false,
         ],
         'response' => [
+            'format' => null,
             'as format' => [
-                'class' => common\behaviors\ResponseFormatBehavior::className(),
-                'isApi' => true,//this options makes application/html and text/html return defaultResponseFormat
-                'defaultResponseFormat' => yii\web\Response::FORMAT_JSON,
+                'class' => api\behaviors\ResponseFormatBehavior::className(),
             ]
         ],
     ],

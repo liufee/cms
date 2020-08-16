@@ -192,6 +192,7 @@ class ArticleController extends Controller
      */
     public function actionViewAjax($id)
     {
+        Yii::$app->getResponse()->format = Response::FORMAT_JSON;
         /** @var ArticleServiceInterface $articleService */
         $articleService = Yii::$app->get(ArticleServiceInterface::ServiceName);
         $model = $articleService->getArticleById($id);
@@ -244,9 +245,20 @@ class ArticleController extends Controller
     /**
      * @param $id
      * @return string|\yii\web\Response
+     * @throws \yii\base\InvalidConfigException
+     * @throws NotFoundHttpException
      */
     public function actionPassword($id)
     {
+        /** @var ArticleServiceInterface $articleService */
+        $articleService = Yii::$app->get(ArticleServiceInterface::ServiceName);
+        $article = $articleService->getArticleById($id);
+        if( $article === null ) {
+            throw new NotFoundHttpException(Yii::t("frontend", "Article id {id} is not exists", ['id' => $id]));
+        }
+        if( $article->visibility !== Constants::ARTICLE_VISIBILITY_SECRET ){
+            return $this->redirect(Url::to(['article/view', 'id'=>$id]));
+        }
         $model = new ArticlePasswordForm();
 
         if ($model->load(Yii::$app->getRequest()->post()) && $model->checkPassword($id)) {

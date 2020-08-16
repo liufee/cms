@@ -34,6 +34,7 @@ return [
         ],
         'formatter' => [//global display format configuration
             'dateFormat' => 'php:Y-m-d H:i',
+            'datetimeFormat' => 'php:Y-m-d H:i:s',
             'decimalSeparator' => ',',
             'thousandSeparator' => ' ',
             'currencyCode' => 'CHY',

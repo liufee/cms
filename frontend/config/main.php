@@ -78,12 +78,6 @@ return [
                 'list/<page:\d+>' => 'site/index',
             ],
         ],
-        'response' => [
-            'as format' => [
-                'class' => common\behaviors\ResponseFormatBehavior::className(),
-                'defaultAjaxResponseFormat' => yii\web\Response::FORMAT_JSON,//if http Accept header is "application/html"
-            ]
-        ],
         'i18n' => [
             'translations' => [
                 'app*' => [
@@ -111,8 +105,22 @@ return [
         'assetManager' => [
             'linkAssets' => false,
             'bundles' => [
+                yii\widgets\ActiveFormAsset::className() => [
+                    'js' => [
+                    ]
+                ],
                 yii\web\JqueryAsset::className() => [
-                    'js' => [],
+                    'js' => [
+                    ],
+                ],
+                yii\web\YiiAsset::className() => [
+                    'js' => [
+
+                    ],
+                ],
+                yii\validators\ValidationAsset::className() => [
+                    'js' => [
+                    ]
                 ],
                 frontend\assets\AppAsset::className() => [
                     'sourcePath' => '@frontend/web/static',
