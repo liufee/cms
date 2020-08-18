@@ -12,19 +12,24 @@ return [
         5. main.php
     */
     'name' => 'Feehi CMS',
-    'version' => '2.1.0.2',
+    'version' => '2.1.1',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => array_merge([
+        /**
+         * dsn:
+         *  - mysql mysql:host=localhost;dbname=feehi
+         *  - sqlite sqlite:/feehi.db
+         */
         'db' => [//database config, will be covered by backend|frontend|api]/main-[local].php
             'class' => yii\db\Connection::className(),
-            'dsn' => 'mysql:host=localhost;dbname=feehi',
-            'username' => 'root',
+            'dsn' => 'sqlite:/feehi.db',
+            'username' => '',
             'password' => '',
-            'charset' => 'utf8mb4',
+            'charset' => '',
         ],
         'cdn' => [//support Qiniu(七牛) TencentCloud(腾讯云) Aliyun(阿里云) Netease(网易云) more detail for visit http://doc.feehi.com/cdn.html
             'class' => feehi\cdn\DummyTarget::className(),//不使用cdn
