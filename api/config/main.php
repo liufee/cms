@@ -16,28 +16,28 @@ return [
             'identityClass' => api\models\User::className(),
             'enableSession' => false,
         ],
-        'log' => [//此项具体详细配置，请访问http://wiki.feehi.com/index.php?title=Yii2_log
+        'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
             'targets' => [
                 [
-                    'class' => yii\log\FileTarget::className(),//当触发levels配置的错误级别时，保存到日志文件
+                    'class' => yii\log\FileTarget::className(),
                     'levels' => ['error', 'warning'],
                     'logFile' => '@runtime/logs/'.date('Y/m/d') . '.log',
                 ],
                 [
-                    'class' => yii\log\EmailTarget::className(),//当触发levels配置的错误级别时，发送到此些邮箱（请改成自己的邮箱）
+                    'class' => yii\log\EmailTarget::className(),
                     'levels' => ['error', 'warning'],
-                    /*'categories' => [//默认匹配所有分类。启用此项后，仅匹配数组中的分类信息会触发邮件提醒（白名单）
+                    /*'categories' => [
                         'yii\db\*',
                         'yii\web\HttpException:*',
                     ],*/
-                    'except' => [//以下配置，除了匹配数组中的分类信息都会触发邮件提醒（黑名单）
+                    'except' => [
                         'yii\web\HttpException:404',
                         'yii\web\HttpException:403',
                         'yii\debug\Module::checkAccess',
                     ],
                     'message' => [
-                        'to' => ['admin@feehi.com', 'liufee@126.com'],
+                        'to' => ['alert1@xxx.com', 'alert2@xxx.com'],
                         'subject' => '来自 Feehi CMS api的新日志消息',
                     ],
                 ],
@@ -45,7 +45,7 @@ return [
         ],
         'cache' => [
             'class' => yii\caching\DummyCache::className(),
-            'keyPrefix' => 'api',       // 唯一键前缀
+            'keyPrefix' => 'api',
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -60,13 +60,23 @@ return [
                 'v1' => 'v1/site/index',
                 [
                     'class' => yii\rest\UrlRule::className(),
-                    'controller' => ['user', 'article', 'paid'],//通过/users,/user/1,/paid/info访问
+                    /*
+                        request url like /users,/user/1,/paid/info
+
+                        通过/users,/user/1,/paid/info访问
+                     */
+                    'controller' => ['user', 'article', 'paid'],
                     /*'extraPatterns' => [
                         'GET search' => 'search',
                     ],*/
                 ],
                 [
-                    'class' => yii\rest\UrlRule::className(),//v1版本路由，通过/v1/users,/v1/user/1,/v1/paid/info...访问
+                    'class' => yii\rest\UrlRule::className(),
+                    /*
+                        API version 1, request url like /v1/users,/v1/user/1 ...
+
+                        v1版本路由，通过/v1/users,/v1/user/1 ...访问
+                     */
                     'controller' => ['v1/site', 'v1/user', 'v1/article', 'v1/paid'],
                 ],
                 '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',

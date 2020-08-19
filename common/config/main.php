@@ -32,7 +32,7 @@ return [
             'charset' => '',
         ],
         'cdn' => [//support Qiniu(七牛) TencentCloud(腾讯云) Aliyun(阿里云) Netease(网易云) more detail for visit http://doc.feehi.com/cdn.html
-            'class' => feehi\cdn\DummyTarget::className(),//不使用cdn
+            'class' => feehi\cdn\DummyTarget::className(),//DummyTarget will not use and cdn
         ],
         'cache' => [//cache component more detail for visit http://doc.feehi.com/configs.html
             'class' => yii\caching\FileCache::className(),//use file cache, also can replace with redis or other
@@ -46,32 +46,36 @@ return [
             'nullDisplay' => '-',
         ],
         'mailer' => [
-            /* Attention(特别注意):
+            /*
+                Attention(特别注意):
+
                 email sender, will be covered by backend|frontend|api|console]/main-[local].php, and backend admin user filled in "/admin/index.php?setting/website". backend admin user filled in own most priority.
 
                 邮件发送者配置，将会被backend|frontend|api|console]/main-[local].php和后台管理页面"/admin/index.php?setting/website"填入的覆盖。管理页面填入的拥有最高的优先级。
             */
             'class' => yii\swiftmailer\Mailer::className(),
             'viewPath' => '@common/mail',
-            /* Attention(特别注意):
-                        if useFileTransport was true, they will not send email, just write to directory runtime. they may cause takes up a lot of disk space.
-                        if was false, when you configured a none exists SMTP server ip or other error occurs, html page will be block until connect to SMTP timeout.
+            /*
+                Attention(特别注意):
 
-                        如果useFileTransport为true，并不会真发邮件，只会把邮件写入runtime目录，很有可能造成您的磁盘使用飙升。
-                        如果为false，当您配置的STMP地址不存在或错误，页面会一直等到连接邮件服务器超时才会输出页面。
+                if useFileTransport was true, they will not send email, just write to directory runtime. they may cause takes up a lot of disk space.
+                if was false, when you configured a none exists SMTP server ip or other error occurs, html page will be block until connect to SMTP timeout.
+
+                如果useFileTransport为true，并不会真发邮件，只会把邮件写入runtime目录，很有可能造成您的磁盘使用飙升。
+                如果为false，当您配置的STMP地址不存在或错误，页面会一直等到连接邮件服务器超时才会输出页面。
             */
             'useFileTransport' => true,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.feehi.com',
-                'username' => 'admin@feehi.com',
+                'host' => 'smtp.xxx.com',
+                'username' => 'admin@xxx.com',
                 'password' => 'password',
                 'port' => '586',
                 'encryption' => 'tls',
             ],
             'messageConfig' => [
                 'charset' => 'UTF-8',
-                'from' => ['admin@feehi.com' => 'Feehi CMS robot ']
+                'from' => ['admin@xxx.com' => 'Feehi CMS robot ']
             ],
         ],
         'feehi' => [
