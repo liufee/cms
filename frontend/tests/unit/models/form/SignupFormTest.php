@@ -52,8 +52,8 @@ class SignupFormTest extends \Codeception\Test\Unit
         expect_that($model->getErrors('email'));
 
         expect($model->getFirstError('username'))
-            ->equals('This username has already been taken');
+            ->equals('用户名已经被使用了');
         expect($model->getFirstError('email'))
-            ->equals('This email address has already been taken');
+            ->equals('邮箱已经被使用了');
     }
 }
