@@ -1,0 +1,17 @@
+name: Sync Repository To Gitee
+on:
+  push:
+  schedule:
+    - cron:  '0 16 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync to Gitee
+        uses: x-dr/sync-repo-to-gitee@master
+        env:
+          SSH_KEY: ${{ secrets.GITEE_KEY }}
+        with:
+          github-repo: "git@github.com:liufee/cms.git"
+          gitee-repo: "git@gitee.com:liufee/cms.git"
