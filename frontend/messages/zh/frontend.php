@@ -53,6 +53,7 @@ return [
     'said' => '说',
     'Comments' => '评论',
     'This username has already been taken' => '用户名已经被使用了',
+    'Username only includes alphabet,number,_ and -' => '用户名只允许包含字母、数字、-和_',
     'This email address has already been taken' => '邮箱已经被使用了',
     'Please fill out the following fields to signup' => '请填写下面信息完成注册',
     'SignUp' => '注册',

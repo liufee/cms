@@ -42,6 +42,7 @@ return array (
   'said' => '說',
   'Comments' => '評論',
   'This username has already been taken' => '用戶名已經被使用了',
+  'Username only includes alphabet,number,_ and -' => '用戶名只允許包含字母、數字、-和_',
   'This email address has already been taken' => '郵箱已經被使用了',
   'Please fill out the following fields to signup' => '請填寫下面信息完成註冊',
   'SignUp' => '註冊',

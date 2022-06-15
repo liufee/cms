@@ -70,7 +70,7 @@ return array (
   'Please check your environment to suite the cms' => '最低要求環境不滿足',
   ' If environment have been suit to the cms please check php session can set correctly' => '如果環境已滿足仍提示此錯誤，請檢查是否php的session是否能夠正確設置',
   'Create table {table} finished' => '創建表{table}完成',
-  'Create table {table} index {index} finished' => '創建表{table}索引{index}完成',
+  'Create table {table} index {index} finished' => '創建表{table}索引{index}完成 ',
   'Insert table {table} data finished' => '導入表{table}數據完成',
   'finished' => '完成',
   'error' => '失敗',
