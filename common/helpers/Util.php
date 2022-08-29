@@ -10,6 +10,7 @@ namespace common\helpers;
 
 use Yii;
 use yii\base\Exception;
+use yii\helpers\Url;
 use yii\imagine\Image;
 use yii\db\ActiveRecord;
 use yii\helpers\FileHelper;
@@ -210,5 +211,24 @@ class Util
             }
         }
         return $templates;
+    }
+
+    public static function assembleAbsoluteURL($params = [], $scheme = null){
+        $params = (array) $params;
+        $url = Yii::$app->getUrlManager()->createUrl($params);
+        if (strpos($url, '://') === false) {
+            $hostInfo = Yii::$app->feehi->website_url;
+            if (strncmp($url, '//', 2) === 0) {
+                $url = substr($hostInfo, 0, strpos($hostInfo, '://')) . ':' . $url;
+            } else {
+                $url = $hostInfo . $url;
+            }
+        }
+
+        $url = Url::ensureScheme($url, $scheme);
+        if( strpos($url, "//") === 0 ){
+            $url = "http:" . $url;
+        }
+        return $url;
     }
 }
