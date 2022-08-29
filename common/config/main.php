@@ -31,6 +31,9 @@ return [
             'password' => '',
             'charset' => '',
         ],
+        'response' => [
+            'class' => common\components\Response::className(),
+        ],
         'cdn' => [//support Qiniu(七牛) TencentCloud(腾讯云) Aliyun(阿里云) Netease(网易云) more detail for visit http://doc.feehi.com/cdn.html
             'class' => feehi\cdn\DummyTarget::className(),//DummyTarget will not use and cdn
         ],
