@@ -183,7 +183,7 @@ class SiteController extends Controller
     {
         $view = Yii::$app->getRequest()->get('type', null);
         if (isset($view) && !empty($view)) {
-            Yii::$app->session['view'] = $view;
+            Yii::$app->getSession()->set('view', $view);
         }
         $this->goBack( Yii::$app->getRequest()->getReferrer() );
     }
