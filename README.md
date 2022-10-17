@@ -28,7 +28,7 @@ FeehiCMS没有对yii2做任何的修改、封装，但是把yii2的一些优秀�
 
 2. QQ群 936448696
 
-3. 微信 <br> ![微信](http://img-1251086492.cosgz.myqcloud.com/github/wechat.png)
+3. 微信 <br> ![微信](http://img-1251086492.cosgz.myqcloud.com/github/wechat-wfeeliu.png)
 
 4. Email job@feehi.com
 
